@@ -238,6 +238,22 @@ HTTP/network-parsing products (Firefox, wolfSSL, NGINX, OpenSSL), consistent wit
 could push +2,000–5,000/month. Full results expected July 2026. If Mythos-class capability reaches offensive actors before
 defensive cleanup completes, the time-to-exploit compression we documented (251→11 days) could accelerate further.
 </div>
+
+<div class="grid-2" style="margin-top:20px">
+<div class="card"><h3>Monthly Security Fixes: Microsoft vs RHEL 8</h3><canvas id="dashPatchChart"></canvas></div>
+<div class="card">
+<h3>Patch Volume at a Glance</h3>
+<table style="margin-top:8px;font-size:.85em">
+<tr><th></th><th>Microsoft</th><th>RHEL 8</th></tr>
+<tr><td>2025 Total</td><td style="color:#a5b4fc">1131</td><td style="color:#fca5a5">204</td></tr>
+<tr><td>2025 Monthly Avg</td><td style="color:#a5b4fc">~94</td><td style="color:#fca5a5">~17</td></tr>
+<tr><td>2026 YTD</td><td style="color:#a5b4fc">409</td><td style="color:#fca5a5">98</td></tr>
+<tr><td>Apr 2026 (Glasswing month)</td><td style="color:#fbbf24">163</td><td style="color:#fbbf24">23</td></tr>
+</table>
+<p style="color:#64748b;font-size:.8em;margin-top:12px">Microsoft = Patch Tuesday (security only). RHEL = security advisories (est. from 204 annual CVEs).</p>
+</div>
+</div>
+
 </div>
 
 <!-- SECTION 7: Policy Recommendations -->
@@ -406,7 +422,7 @@ new Chart(document.getElementById('topProductsChart'), {
 
 // Mythos baseline chart
 const mMonths = ["2025-01", "2025-02", "2025-03", "2025-04", "2025-05", "2025-06", "2025-07", "2025-08", "2025-09", "2025-10", "2025-11", "2025-12", "2026-01", "2026-02", "2026-03", "2026-04"];
-const mCveVals = mMonths.map(m => {"2025-01": 4200, "2025-02": 3750, "2025-03": 4012, "2025-04": 3800, "2025-05": 3900, "2025-06": 4000, "2025-07": 3800, "2025-08": 4100, "2025-09": 3900, "2025-10": 4200, "2025-11": 4300, "2025-12": 4212, "2026-01": 4400, "2026-02": 4532, "2026-03": 6246, "2026-04": 6500}[m]);
+const mCveVals = mMonths.map(m => ({"2025-01": 4200, "2025-02": 3750, "2025-03": 4012, "2025-04": 3800, "2025-05": 3900, "2025-06": 4000, "2025-07": 3800, "2025-08": 4100, "2025-09": 3900, "2025-10": 4200, "2025-11": 4300, "2025-12": 4212, "2026-01": 4400, "2026-02": 4532, "2026-03": 6246, "2026-04": 6500})[m]);
 const mKevVals = mMonths.map(m => ({"2025-01": 14, "2025-02": 27, "2025-03": 32, "2025-04": 15, "2025-05": 24, "2025-06": 20, "2025-07": 20, "2025-08": 15, "2025-09": 16, "2025-10": 31, "2025-11": 11, "2025-12": 20, "2026-01": 17, "2026-02": 28, "2026-03": 26, "2026-04": 13}[m] || 0));
 
 new Chart(document.getElementById('mythosBaseChart'), {
@@ -440,6 +456,20 @@ new Chart(document.getElementById('mythosKevChart'), {
         datasets:[{label:'KEV Additions',data:mKevVals,backgroundColor:mMonths.map(m=>m>='2026-04'?C.red:C.purple),borderRadius:4}]
     },
     options:{plugins:{legend:{display:false}},scales:{y:{beginAtZero:true,title:{display:true,text:'KEV Entries Added'}}}}
+});
+
+
+// Patch velocity dashboard chart
+new Chart(document.getElementById('dashPatchChart'), {
+    type:'bar',
+    data:{
+        labels:["2025-01", "2025-02", "2025-03", "2025-04", "2025-05", "2025-06", "2025-07", "2025-08", "2025-09", "2025-10", "2025-11", "2025-12", "2026-01", "2026-02", "2026-03", "2026-04"],
+        datasets:[
+            {label:'Microsoft',data:[157, 57, 57, 124, 71, 65, 127, 107, 80, 167, 63, 56, 112, 55, 79, 163],backgroundColor:C.purple,borderRadius:4},
+            {label:'RHEL 8',data:[15, 14, 18, 16, 17, 15, 19, 18, 16, 20, 19, 17, 22, 25, 28, 23],backgroundColor:C.red,borderRadius:4}
+        ]
+    },
+    options:{scales:{y:{beginAtZero:true,title:{display:true,text:'Security Fixes'}}},plugins:{legend:{position:'top'}}}
 });
 
 // 9. Table

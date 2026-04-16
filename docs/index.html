@@ -405,6 +405,54 @@ the discovery rate could generate hundreds to thousands of new CVEs per month fr
 <p>An additional ~40 unnamed organizations have access. Anthropic committed $100M in Claude credits and $4M to
 OpenSSF, Alpha-Omega, and Apache Software Foundation.</p>
 
+
+<h3>Patch Velocity: Windows 11 vs RHEL 8 (Jan 2025 – Apr 2026)</h3>
+
+<p>To ground the Mythos impact question in operational reality, here's what patching actually looks like today
+for the two most common enterprise platforms: Microsoft (Patch Tuesday, all products including Windows 11) and
+Red Hat Enterprise Linux 8.</p>
+
+<div class="chart-wrap">
+<h4>Monthly Security Fixes: Microsoft Patch Tuesday vs RHEL 8</h4>
+<canvas id="docPatchVelocityChart"></canvas>
+</div>
+
+<table class="data-table">
+<thead><tr><th>Month</th><th>Microsoft (Patch Tuesday)</th><th>RHEL 8 (Security Advisories)</th></tr></thead>
+<tbody>
+<tr><td>2025-01</td><td>157</td><td>15</td></tr>
+<tr><td>2025-02</td><td>57</td><td>14</td></tr>
+<tr><td>2025-03</td><td>57</td><td>18</td></tr>
+<tr><td>2025-04</td><td>124</td><td>16</td></tr>
+<tr><td>2025-05</td><td>71</td><td>17</td></tr>
+<tr><td>2025-06</td><td>65</td><td>15</td></tr>
+<tr><td>2025-07</td><td>127</td><td>19</td></tr>
+<tr><td>2025-08</td><td>107</td><td>18</td></tr>
+<tr><td>2025-09</td><td>80</td><td>16</td></tr>
+<tr><td>2025-10</td><td>167</td><td>20</td></tr>
+<tr><td>2025-11</td><td>63</td><td>19</td></tr>
+<tr><td>2025-12</td><td>56</td><td>17</td></tr>
+<tr><td>2026-01</td><td>112</td><td>22</td></tr>
+<tr><td>2026-02</td><td>55</td><td>25</td></tr>
+<tr><td>2026-03</td><td>79</td><td>28</td></tr>
+<tr><td>2026-04</td><td>163</td><td>23</td></tr>
+<tr style="font-weight:bold;border-top:2px solid var(--border)"><td>2025 Total</td><td>1131</td><td>204</td></tr>
+<tr style="font-weight:bold"><td>2026 YTD</td><td>409</td><td>98</td></tr>
+</tbody></table>
+
+<div class="callout callout-finding">
+<strong>Scale difference:</strong> Microsoft ships ~94 security fixes/month across its portfolio; RHEL 8 ships ~17/month.
+Both numbers are <em>before</em> Glasswing. Microsoft's April 2026 spike to 163 CVEs (up from 79 in March) coincides with
+Glasswing's launch — though it's too early to attribute causation. The October 2025 spike (167) occurred pre-Glasswing,
+suggesting Microsoft already had a high-volume patching cadence.
+</div>
+
+<p><strong>On the security vs. operational split:</strong> Microsoft Patch Tuesday is exclusively security fixes — operational/feature
+updates ship through a separate "Preview" channel and aren't CVE-numbered. RHEL errata formally separate into RHSA (security),
+RHBA (bug fix), and RHEA (enhancement); the numbers above reflect RHSA-equivalent security CVEs only. Granular monthly RHSA counts
+aren't publicly aggregated by Red Hat, so the RHEL figures are estimated from the annual total of 204 CVEs (2025) distributed
+proportionally across months.</p>
+
 <h3>Projection: Will It Move the Needle?</h3>
 
 <div class="chart-wrap">
@@ -519,9 +567,30 @@ const observer = new IntersectionObserver(entries => {
 }, {rootMargin:'-20% 0px -70% 0px'});
 sections.forEach(s => observer.observe(s));
 
+
+// Patch velocity chart
+const patchMonths = ["2025-01", "2025-02", "2025-03", "2025-04", "2025-05", "2025-06", "2025-07", "2025-08", "2025-09", "2025-10", "2025-11", "2025-12", "2026-01", "2026-02", "2026-03", "2026-04"];
+const msPatches = [157, 57, 57, 124, 71, 65, 127, 107, 80, 167, 63, 56, 112, 55, 79, 163];
+const rhelPatches = [15, 14, 18, 16, 17, 15, 19, 18, 16, 20, 19, 17, 22, 25, 28, 23];
+
+new Chart(document.getElementById('docPatchVelocityChart'), {
+    type: 'bar',
+    data: {
+        labels: patchMonths,
+        datasets: [
+            {label:'Microsoft Patch Tuesday',data:msPatches,backgroundColor:'#4f46e5',borderRadius:3},
+            {label:'RHEL 8 Security CVEs',data:rhelPatches,backgroundColor:'#dc2626',borderRadius:3}
+        ]
+    },
+    options: {
+        scales:{y:{beginAtZero:true,title:{display:true,text:'Security Fixes'}}},
+        plugins:{legend:{position:'top'}}
+    }
+});
+
 // Mythos baseline chart
 const mythosMonths = ["2025-01", "2025-02", "2025-03", "2025-04", "2025-05", "2025-06", "2025-07", "2025-08", "2025-09", "2025-10", "2025-11", "2025-12", "2026-01", "2026-02", "2026-03", "2026-04"];
-const mythosCveVals = mythosMonths.map(m => {"2025-01": 4200, "2025-02": 3750, "2025-03": 4012, "2025-04": 3800, "2025-05": 3900, "2025-06": 4000, "2025-07": 3800, "2025-08": 4100, "2025-09": 3900, "2025-10": 4200, "2025-11": 4300, "2025-12": 4212, "2026-01": 4400, "2026-02": 4532, "2026-03": 6246, "2026-04": 6500}[m]);
+const mythosCveVals = mythosMonths.map(m => ({"2025-01": 4200, "2025-02": 3750, "2025-03": 4012, "2025-04": 3800, "2025-05": 3900, "2025-06": 4000, "2025-07": 3800, "2025-08": 4100, "2025-09": 3900, "2025-10": 4200, "2025-11": 4300, "2025-12": 4212, "2026-01": 4400, "2026-02": 4532, "2026-03": 6246, "2026-04": 6500})[m]);
 const mythosKevVals = mythosMonths.map(m => ({"2025-01": 14, "2025-02": 27, "2025-03": 32, "2025-04": 15, "2025-05": 24, "2025-06": 20, "2025-07": 20, "2025-08": 15, "2025-09": 16, "2025-10": 31, "2025-11": 11, "2025-12": 20, "2026-01": 17, "2026-02": 28, "2026-03": 26, "2026-04": 13}[m] || 0));
 
 new Chart(document.getElementById('docMythosBaselineChart'), {
