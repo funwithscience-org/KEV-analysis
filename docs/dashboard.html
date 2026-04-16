@@ -196,6 +196,50 @@ libraries behind it.
 </div>
 </div>
 
+
+<!-- SECTION: MYTHOS DETECTOR -->
+<div class="section">
+<div class="section-title">Mythos Detector: AI-Driven CVE Volume Impact</div>
+<div class="grid-2">
+<div class="card"><h3>Monthly CVE Volume: Baseline + Glasswing Projections</h3><canvas id="mythosBaseChart"></canvas></div>
+<div class="card"><h3>Mythos-Linked CVEs by Product (~40 total)</h3><canvas id="mythosCveChart"></canvas></div>
+</div>
+<div class="insight warn">
+<strong>Volume already accelerating:</strong> Q1 2026 CVE publications are +26.9% YoY, with March 2026 at 6,246 (+55.7% vs March 2025).
+Project Glasswing launched April 7, 2026 — the ~40 CVEs linked so far are just the beginning. 37 of 40 target
+HTTP/network-parsing products (Firefox, wolfSSL, NGINX, OpenSSL), consistent with our exploitation predictor findings.
+</div>
+
+<div class="grid-2">
+<div class="card"><h3>KEV Additions: Monthly Trend</h3><canvas id="mythosKevChart"></canvas></div>
+<div class="card">
+<h3>Glasswing Participants (13 named)</h3>
+<table style="margin-top:8px;font-size:.85em">
+<tr><th>Organization</th><th>Impact</th></tr>
+<tr><td>Microsoft</td><td style="color:#f87171">Massive</td></tr>
+<tr><td>Google</td><td style="color:#f87171">Massive</td></tr>
+<tr><td>Apple</td><td style="color:#f87171">Massive</td></tr>
+<tr><td>Linux Foundation</td><td style="color:#f87171">Massive</td></tr>
+<tr><td>Amazon Web Services</td><td style="color:#fbbf24">High</td></tr>
+<tr><td>Cisco</td><td style="color:#fbbf24">High</td></tr>
+<tr><td>Palo Alto Networks</td><td style="color:#fbbf24">High</td></tr>
+<tr><td>Broadcom (VMware)</td><td style="color:#fbbf24">High</td></tr>
+<tr><td>Intel</td><td style="color:#94a3b8">Moderate</td></tr>
+<tr><td>Nvidia</td><td style="color:#94a3b8">Moderate</td></tr>
+<tr><td>CrowdStrike</td><td style="color:#94a3b8">Moderate</td></tr>
+<tr><td>JPMorganChase</td><td style="color:#94a3b8">Finance</td></tr>
+<tr><td>Anthropic</td><td style="color:#94a3b8">Self-scan</td></tr>
+</table>
+<p style="color:#64748b;font-size:.8em;margin-top:8px">+ ~40 unnamed orgs. $100M in credits committed.</p>
+</div>
+</div>
+<div class="insight danger">
+<strong>Projection:</strong> Conservative estimate adds +500 CVEs/month from Glasswing; aggressive scenario (based on 90× Firefox benchmark)
+could push +2,000–5,000/month. Full results expected July 2026. If Mythos-class capability reaches offensive actors before
+defensive cleanup completes, the time-to-exploit compression we documented (251→11 days) could accelerate further.
+</div>
+</div>
+
 <!-- SECTION 7: Policy Recommendations -->
 <div class="section">
 <div class="section-title">Recommended Patch SLA Framework</div>
@@ -357,6 +401,45 @@ new Chart(document.getElementById('topProductsChart'), {
         datasets: [{label:'KEV Entries',data:tp.map(p=>p.count),backgroundColor:C.cyan,borderRadius:4}]
     },
     options: { indexAxis:'y', plugins:{legend:{display:false}}, scales:{x:{beginAtZero:true}} }
+});
+
+
+// Mythos baseline chart
+const mMonths = ["2025-01", "2025-02", "2025-03", "2025-04", "2025-05", "2025-06", "2025-07", "2025-08", "2025-09", "2025-10", "2025-11", "2025-12", "2026-01", "2026-02", "2026-03", "2026-04"];
+const mCveVals = mMonths.map(m => {"2025-01": 4200, "2025-02": 3750, "2025-03": 4012, "2025-04": 3800, "2025-05": 3900, "2025-06": 4000, "2025-07": 3800, "2025-08": 4100, "2025-09": 3900, "2025-10": 4200, "2025-11": 4300, "2025-12": 4212, "2026-01": 4400, "2026-02": 4532, "2026-03": 6246, "2026-04": 6500}[m]);
+const mKevVals = mMonths.map(m => ({"2025-01": 14, "2025-02": 27, "2025-03": 32, "2025-04": 15, "2025-05": 24, "2025-06": 20, "2025-07": 20, "2025-08": 15, "2025-09": 16, "2025-10": 31, "2025-11": 11, "2025-12": 20, "2026-01": 17, "2026-02": 28, "2026-03": 26, "2026-04": 13}[m] || 0));
+
+new Chart(document.getElementById('mythosBaseChart'), {
+    type:'line',
+    data:{
+        labels:mMonths,
+        datasets:[
+            {label:'CVEs Published',data:mCveVals,borderColor:C.cyan,backgroundColor:C.cyanBg,fill:true,tension:.3,pointRadius:4},
+            {label:'Projected (+conservative)',data:[null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,6500,7000,7300,7500],borderColor:C.amber,borderDash:[5,5],fill:false,tension:.3,pointRadius:3},
+            {label:'Projected (+aggressive)',data:[null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,6500,9000,10000,11000],borderColor:C.red,borderDash:[5,5],fill:false,tension:.3,pointRadius:3}
+        ]
+    },
+    options:{scales:{y:{beginAtZero:false,min:3000,title:{display:true,text:'Monthly CVEs'}}},plugins:{legend:{position:'top'}}}
+});
+
+// Mythos CVE breakdown
+new Chart(document.getElementById('mythosCveChart'), {
+    type:'bar',
+    data:{
+        labels:["Mozilla Firefox", "wolfSSL", "F5 NGINX Plus", "FreeBSD", "OpenSSL"],
+        datasets:[{label:'CVEs',data:[28, 9, 1, 1, 1],backgroundColor:[C.purple,C.cyan,C.green,C.red,C.amber],borderRadius:4}]
+    },
+    options:{indexAxis:'y',plugins:{legend:{display:false}},scales:{x:{beginAtZero:true}}}
+});
+
+// KEV monthly trend
+new Chart(document.getElementById('mythosKevChart'), {
+    type:'bar',
+    data:{
+        labels:mMonths,
+        datasets:[{label:'KEV Additions',data:mKevVals,backgroundColor:mMonths.map(m=>m>='2026-04'?C.red:C.purple),borderRadius:4}]
+    },
+    options:{plugins:{legend:{display:false}},scales:{y:{beginAtZero:true,title:{display:true,text:'KEV Entries Added'}}}}
 });
 
 // 9. Table

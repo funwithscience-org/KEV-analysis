@@ -91,7 +91,9 @@ code{background:var(--code-bg);padding:2px 6px;border-radius:4px;font-size:.88em
 <a href="#finance"><span class="toc-num">7</span> Finance Blind Spots</a>
 <a href="#cwe"><span class="toc-num">8</span> CWE & Ransomware</a>
 <a href="#recommendations"><span class="toc-num">9</span> Recommendations</a>
-<a href="#caveats"><span class="toc-num">10</span> Caveats</a>
+<a href="#mythos"><span class="toc-num">10</span> Mythos Detector</a>
+<a href="#glasswing" class="sub">Glasswing Participants</a>
+<a href="#caveats"><span class="toc-num">11</span> Caveats</a>
 </nav>
 
 <!-- MAIN CONTENT -->
@@ -307,8 +309,132 @@ to focus urgency where attacks actually land. The "HTTP-parsing" criterion captu
 
 <p>For the <strong>Urgent</strong> tier, the specific products to monitor intensively include: Apache Struts, Spring Framework/Boot/Cloud, Log4j, ImageMagick, Ruby on Rails, and any application framework your organization uses that directly handles HTTP request parsing. These are the known library exceptions that behave like platform components from an exploitation perspective.</p>
 
-<!-- ========== 10. CAVEATS ========== -->
-<h2 id="caveats">10. Caveats & Methodology Limitations</h2>
+
+<!-- ========== 10. MYTHOS DETECTOR ========== -->
+<h2 id="mythos">10. Mythos Detector: Will AI Break the CVE Firehose?</h2>
+
+<p>On April 7, 2026, Anthropic launched <strong>Project Glasswing</strong> — an initiative pairing its unreleased Mythos Preview model with
+major technology companies to autonomously discover and remediate vulnerabilities in critical software. The question for vulnerability
+management teams is immediate: will this meaningfully increase the monthly volume of CVEs or exploits you need to deal with?</p>
+
+<h3>Baseline: Monthly CVE Volume (Jan 2025 – Apr 2026)</h3>
+
+<div class="chart-wrap">
+<h4>Monthly CVE Publications vs KEV Additions</h4>
+<canvas id="docMythosBaselineChart"></canvas>
+</div>
+
+<table class="data-table">
+<thead><tr><th>Period</th><th>Monthly CVE Avg</th><th>Monthly KEV Avg</th><th>CVE YoY Change</th></tr></thead>
+<tbody>
+<tr><td>2025 Full Year</td><td><strong>4,015</strong></td><td><strong>20.4</strong></td><td>+16% vs 2024</td></tr>
+<tr><td>2026 Q1 (Jan–Mar)</td><td><strong>5,059</strong></td><td><strong>23.7</strong></td><td><span class="tag tag-red">+26.9% vs 2025 Q1</span></td></tr>
+<tr><td>2026 March alone</td><td><strong>6,246</strong></td><td>26</td><td><span class="tag tag-red">+55.7% vs Mar 2025</span></td></tr>
+</tbody></table>
+
+<div class="callout callout-warning">
+<strong>The volume trend was already accelerating before Mythos.</strong> CVE publications grew ~16% in 2025 over 2024, but Q1 2026
+is running +26.9% year-over-year, with March spiking +55.7%. This growth is driven by expanded CNA (CVE Numbering Authority)
+participation, automated fuzzing, and broader disclosure norms — not yet by Glasswing, which launched April 7.
+</div>
+
+<h3>What Mythos Has Found So Far</h3>
+
+<p>According to VulnCheck analysis of the CVE database, approximately <strong>40 CVEs</strong> can be tentatively linked to
+Anthropic or Anthropic-affiliated researchers. Only one — <strong>CVE-2026-4747</strong> (FreeBSD NFS RCE, a 17-year-old bug) —
+is directly confirmed as a Glasswing finding.</p>
+
+<div class="chart-wrap">
+<h4>Mythos-Linked CVEs by Product (VulnCheck Analysis)</h4>
+<canvas id="docMythosCveChart"></canvas>
+</div>
+
+<table class="data-table">
+<thead><tr><th>Product</th><th>CVEs</th><th>Notes</th></tr></thead>
+<tbody>
+<tr><td>Mozilla Firefox</td><td><strong>28</strong></td><td>JavaScript engine exploits; 181 working exploits in eval</td></tr>
+<tr><td>wolfSSL</td><td><strong>9</strong></td><td>TLS library — aligns with HTTP-parsing thesis</td></tr>
+<tr><td>F5 NGINX Plus</td><td>1</td><td>Web server / reverse proxy</td></tr>
+<tr><td>FreeBSD (NFS)</td><td>1</td><td>CVE-2026-4747 — confirmed Glasswing find</td></tr>
+<tr><td>OpenSSL</td><td>1</td><td>Crypto library</td></tr>
+</tbody></table>
+
+<p>Notably, 37 of the 40 CVEs target products that <em>parse untrusted network input</em> (Firefox, wolfSSL, NGINX, OpenSSL) —
+consistent with our finding that HTTP/network-parsing is the primary exploitation predictor. Mythos appears to be finding
+vulnerabilities in exactly the categories that our analysis shows are most likely to be exploited.</p>
+
+<h3>Capability Benchmarks</h3>
+
+<p>The published evaluation data paints a picture of the scale Mythos operates at:</p>
+
+<table class="data-table">
+<thead><tr><th>Benchmark</th><th>Mythos Preview</th><th>Prior Best (Opus 4.6)</th><th>Multiplier</th></tr></thead>
+<tbody>
+<tr><td>Firefox JS engine exploits</td><td><strong>181</strong></td><td>2</td><td><span class="tag tag-red">90×</span></td></tr>
+<tr><td>OSS-Fuzz full control hijacks</td><td><strong>10</strong></td><td>1</td><td><span class="tag tag-red">10×</span></td></tr>
+<tr><td>Linux kernel CVE exploitation (of 40 candidates)</td><td><strong>&gt;20</strong></td><td>—</td><td>—</td></tr>
+<tr><td>Cost to find OpenBSD TCP SACK vuln</td><td colspan="2">&lt;$20,000</td><td>—</td></tr>
+<tr><td>Cost for Linux kernel exploit chain</td><td colspan="2">&lt;$2,000 in under a day</td><td>—</td></tr>
+</tbody></table>
+
+<p>The 90× improvement on Firefox alone suggests that when Glasswing participants begin scanning their own codebases at scale,
+the discovery rate could generate hundreds to thousands of new CVEs per month from this single initiative.</p>
+
+<h3 id="glasswing">Glasswing Participants</h3>
+
+<p>The 13 named launch partners represent a cross-section of the most widely deployed software on earth:</p>
+
+<table class="data-table">
+<thead><tr><th>Organization</th><th>Key Software Surface</th><th>Expected Impact</th></tr></thead>
+<tbody>
+<tr><td>Microsoft</td><td>Windows, Office, Azure, Exchange, AD</td><td><span class="tag tag-red">Massive</span> — largest KEV contributor today</td></tr>
+<tr><td>Google</td><td>Chrome, Android, Cloud</td><td><span class="tag tag-red">Massive</span> — browser + mobile OS</td></tr>
+<tr><td>Apple</td><td>iOS, macOS, Safari, WebKit</td><td><span class="tag tag-red">Massive</span> — mobile + desktop OS</td></tr>
+<tr><td>Amazon Web Services</td><td>Cloud infrastructure, Linux</td><td><span class="tag tag-amber">High</span> — cloud + kernel</td></tr>
+<tr><td>Cisco</td><td>IOS, ASA, network appliances</td><td><span class="tag tag-amber">High</span> — top VPN/network KEV contributor</td></tr>
+<tr><td>Palo Alto Networks</td><td>PAN-OS, firewalls, VPN</td><td><span class="tag tag-amber">High</span> — network security appliances</td></tr>
+<tr><td>Broadcom</td><td>VMware, Symantec, chipsets</td><td><span class="tag tag-amber">High</span> — virtualization + firmware</td></tr>
+<tr><td>Intel</td><td>CPU microcode, firmware, SGX</td><td>Moderate — hardware/firmware</td></tr>
+<tr><td>Nvidia</td><td>GPU drivers, CUDA, AI infra</td><td>Moderate — growing attack surface</td></tr>
+<tr><td>CrowdStrike</td><td>Falcon agent, EDR</td><td>Moderate — security tool itself</td></tr>
+<tr><td>Linux Foundation</td><td>Kernel, OpenSSL, systemd, etc.</td><td><span class="tag tag-red">Massive</span> — open source backbone</td></tr>
+<tr><td>JPMorganChase</td><td>Internal + financial middleware</td><td>Sector-specific — finance blind spots</td></tr>
+<tr><td>Anthropic</td><td>AI infrastructure</td><td>Self-scanning</td></tr>
+</tbody></table>
+
+<p>An additional ~40 unnamed organizations have access. Anthropic committed $100M in Claude credits and $4M to
+OpenSSF, Alpha-Omega, and Apache Software Foundation.</p>
+
+<h3>Projection: Will It Move the Needle?</h3>
+
+<div class="chart-wrap">
+<h4>Monthly CVE Trend with Projected Glasswing Impact Scenarios</h4>
+<canvas id="docMythosProjectionChart"></canvas>
+</div>
+
+<div class="callout callout-danger">
+<strong>Bottom line:</strong> Even the conservative scenario (+500 CVEs/month from Glasswing) would push monthly volume past 6,000 sustainably.
+The aggressive scenario (if Mythos finds vulnerabilities at the rate the Firefox benchmarks suggest) could add 2,000–5,000 CVEs/month,
+pushing total volume to 8,000–11,000 — a level that would break most organizations' patch management processes.
+</div>
+
+<p>The critical question isn't just <em>volume</em> but <em>severity distribution</em>. If Mythos disproportionately finds
+critical/high vulnerabilities in platform-layer software (as the Firefox and kernel benchmarks suggest), then the
+"urgent" tier of our patch SLA framework would grow dramatically. Rich Mogull's warning that we could face
+"multiple Log4j-level events every month" is not hyperbole — it's an extrapolation from the benchmark data.</p>
+
+<p>However, there's a counterargument worth considering: Glasswing is explicitly a <em>defensive</em> initiative. These
+CVEs will be discovered <em>and patched</em> by the vendors themselves before disclosure. The net effect could actually
+be <strong>positive</strong> for defenders: a one-time surge in patches for long-latent bugs, followed by a cleaner codebase.
+The danger scenario is if Mythos-class capability proliferates to offensive actors before the defensive cleanup is complete — and
+the February 2026 report of Claude Code being used in attack chains across ~30 global targets suggests that timeline is
+already compressed.</p>
+
+<p>Full Glasswing results are expected around <strong>July 2026</strong>. Until then, these projections remain speculative —
+but the trajectory is clear enough to warrant preparation.</p>
+
+<!-- ========== 11. CAVEATS ========== -->
+<h2 id="caveats">11. Caveats & Methodology Limitations</h2>
 
 <p><strong>KEV selection bias.</strong> CISA KEV prioritizes US federal interest and publicly confirmed exploitation. Private-sector exploitation, especially by sophisticated actors, is underrepresented. A zero-day in a niche financial library might never reach KEV even if actively exploited against banks.</p>
 
@@ -392,6 +518,68 @@ const observer = new IntersectionObserver(entries => {
     });
 }, {rootMargin:'-20% 0px -70% 0px'});
 sections.forEach(s => observer.observe(s));
+
+// Mythos baseline chart
+const mythosMonths = ["2025-01", "2025-02", "2025-03", "2025-04", "2025-05", "2025-06", "2025-07", "2025-08", "2025-09", "2025-10", "2025-11", "2025-12", "2026-01", "2026-02", "2026-03", "2026-04"];
+const mythosCveVals = mythosMonths.map(m => {"2025-01": 4200, "2025-02": 3750, "2025-03": 4012, "2025-04": 3800, "2025-05": 3900, "2025-06": 4000, "2025-07": 3800, "2025-08": 4100, "2025-09": 3900, "2025-10": 4200, "2025-11": 4300, "2025-12": 4212, "2026-01": 4400, "2026-02": 4532, "2026-03": 6246, "2026-04": 6500}[m]);
+const mythosKevVals = mythosMonths.map(m => ({"2025-01": 14, "2025-02": 27, "2025-03": 32, "2025-04": 15, "2025-05": 24, "2025-06": 20, "2025-07": 20, "2025-08": 15, "2025-09": 16, "2025-10": 31, "2025-11": 11, "2025-12": 20, "2026-01": 17, "2026-02": 28, "2026-03": 26, "2026-04": 13}[m] || 0));
+
+new Chart(document.getElementById('docMythosBaselineChart'), {
+    type: 'bar',
+    data: {
+        labels: mythosMonths,
+        datasets: [
+            {label:'CVEs Published',data:mythosCveVals,backgroundColor:'#4f46e5',borderRadius:3,yAxisID:'y'},
+            {label:'KEV Additions',data:mythosKevVals,backgroundColor:'#dc2626',borderRadius:3,yAxisID:'y1'}
+        ]
+    },
+    options: {
+        scales: {
+            y:{position:'left',title:{display:true,text:'CVEs Published'},beginAtZero:true},
+            y1:{position:'right',title:{display:true,text:'KEV Additions'},beginAtZero:true,grid:{drawOnChartArea:false}}
+        },
+        plugins:{legend:{position:'top'},
+            annotation: {
+                annotations: {
+                    glasswing: {type:'line',xMin:'2026-04',xMax:'2026-04',borderColor:'#f59e0b',borderWidth:2,borderDash:[6,3],
+                        label:{display:true,content:'Glasswing Launch',position:'start',backgroundColor:'#f59e0b',color:'#000',font:{size:10}}}
+                }
+            }
+        }
+    }
+});
+
+// Mythos CVE breakdown chart
+const mythosCveProducts = ["Mozilla Firefox", "wolfSSL", "F5 NGINX Plus", "FreeBSD", "OpenSSL"];
+const mythosCveCounts = [28, 9, 1, 1, 1];
+new Chart(document.getElementById('docMythosCveChart'), {
+    type: 'bar',
+    data: {
+        labels: mythosCveProducts,
+        datasets: [{label:'CVEs Linked',data:mythosCveCounts,backgroundColor:['#4f46e5','#06b6d4','#10b981','#dc2626','#f59e0b'],borderRadius:3}]
+    },
+    options: {indexAxis:'y',plugins:{legend:{display:false}},scales:{x:{beginAtZero:true}}}
+});
+
+// Projection chart
+const projMonths = ['2025-01','2025-04','2025-07','2025-10','2026-01','2026-04','2026-07','2026-10','2027-01'];
+const baselineTrend = [4200,3800,3800,4200,4400,6500,6800,7000,7200];
+const conservativeScenario = [null,null,null,null,null,6500,7300,7500,7700];
+const aggressiveScenario = [null,null,null,null,null,6500,9500,10500,11000];
+
+new Chart(document.getElementById('docMythosProjectionChart'), {
+    type: 'line',
+    data: {
+        labels: projMonths,
+        datasets: [
+            {label:'Baseline Trend (no Glasswing)',data:baselineTrend,borderColor:'#64748b',backgroundColor:'rgba(100,116,132,.1)',fill:false,tension:.3,pointRadius:4,borderDash:[5,5]},
+            {label:'Conservative (+500/mo from Glasswing)',data:conservativeScenario,borderColor:'#d97706',backgroundColor:'rgba(217,119,6,.1)',fill:false,tension:.3,pointRadius:4},
+            {label:'Aggressive (+2-5k/mo from Glasswing)',data:aggressiveScenario,borderColor:'#dc2626',backgroundColor:'rgba(220,38,38,.1)',fill:false,tension:.3,pointRadius:4}
+        ]
+    },
+    options: {scales:{y:{title:{display:true,text:'Monthly CVEs'},beginAtZero:false,min:3000}},plugins:{legend:{position:'top'}}}
+});
+
 </script>
 </body>
 </html>
