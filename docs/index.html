@@ -216,9 +216,7 @@ An HTTP-parsing HIGH (7.0–7.9) at 1.52% beats a non-HTTP CRITICAL (9.0–9.9) 
 
 <p><strong>Header stripping and normalization.</strong> Remove or rewrite headers your application doesn't need. If your backend doesn't use <code>X-Forwarded-For</code> for anything, strip it at the proxy — this would have neutered one of Log4Shell's common injection vectors. Strip <code>Transfer-Encoding: chunked</code> if your app doesn't need it (HTTP request smuggling mitigation). Normalize <code>Content-Type</code> to prevent deserialization attacks that rely on unexpected media types.</p>
 
-<p><strong>TLS termination with certificate pinning.</strong> Terminates the encrypted channel at the proxy and re-encrypts to the backend on a controlled channel. This prevents MITM attacks and ensures the proxy can actually inspect traffic. Without TLS termination, the proxy is just a TCP forwarder and can't apply any of the above controls.</p>
-
-<p><strong>Rate limiting and connection throttling.</strong> Won't stop a targeted exploit, but limits automated scanning and brute-force exploitation attempts. More importantly, it buys time — if an attacker needs 1,000 requests to fingerprint your stack before exploiting it, rate limiting at 10 req/s gives you 100 seconds of detection opportunity.</p>
+<p><strong>TLS termination.</strong> Terminates the encrypted channel at the proxy and re-encrypts to the backend on a controlled channel. This ensures the proxy can actually inspect traffic. Without TLS termination, the proxy is just a TCP forwarder and can't apply any of the above controls.</p>
 
 <p><strong>Response header hardening.</strong> Remove server version banners (<code>Server: Apache/2.4.52</code>), framework identifiers (<code>X-Powered-By: Express</code>), and stack traces from error responses. This doesn't prevent exploitation of known CVEs, but it forces attackers to probe blindly rather than selecting exploits based on your advertised versions.</p>
 
@@ -351,9 +349,8 @@ management teams is immediate: will this meaningfully increase the monthly volum
 <thead><tr><th>Period</th><th>Monthly CVE Avg</th><th>Monthly KEV Avg</th><th>CVE YoY Change</th></tr></thead>
 <tbody>
 <tr><td>2025 Full Year</td><td><strong>4,015</strong></td><td><strong>20.4</strong></td><td>+16% vs 2024</td></tr>
-<tr><td>2026 Q1 (Jan–Mar)</td><td><strong>5,418</strong></td><td><strong>23.7</strong></td><td><span class="tag tag-red">+35.9% vs 2025 Q1</span></td></tr>
-<tr><td>2026 March alone</td><td><strong>6,304</strong></td><td>26</td><td><span class="tag tag-red">+57.1% vs Mar 2025</span></td></tr>
-<tr><td>2026 April (MTD, Apr 1–17)</td><td><strong>3,537</strong> (extrap. ~6,242)</td><td>14</td><td><span class="tag tag-red">+64.3% vs Apr 2025 (extrap.)</span></td></tr>
+<tr><td>2026 Q1 (Jan–Mar)</td><td><strong>5,059</strong></td><td><strong>23.7</strong></td><td><span class="tag tag-red">+26.9% vs 2025 Q1</span></td></tr>
+<tr><td>2026 March alone</td><td><strong>6,246</strong></td><td>26</td><td><span class="tag tag-red">+55.7% vs Mar 2025</span></td></tr>
 </tbody></table>
 
 <div class="callout callout-warning">
@@ -614,8 +611,8 @@ new Chart(document.getElementById('docPatchVelocityChart'), {
 
 // Mythos baseline chart
 const mythosMonths = ["2025-01", "2025-02", "2025-03", "2025-04", "2025-05", "2025-06", "2025-07", "2025-08", "2025-09", "2025-10", "2025-11", "2025-12", "2026-01", "2026-02", "2026-03", "2026-04"];
-const mythosCveVals = mythosMonths.map(m => ({"2025-01": 4200, "2025-02": 3750, "2025-03": 4012, "2025-04": 3800, "2025-05": 3900, "2025-06": 4000, "2025-07": 3800, "2025-08": 4100, "2025-09": 3900, "2025-10": 4200, "2025-11": 4300, "2025-12": 4212, "2026-01": 5143, "2026-02": 4808, "2026-03": 6304, "2026-04": 6242})[m]);
-const mythosKevVals = mythosMonths.map(m => ({"2025-01": 14, "2025-02": 27, "2025-03": 32, "2025-04": 15, "2025-05": 24, "2025-06": 20, "2025-07": 20, "2025-08": 15, "2025-09": 16, "2025-10": 31, "2025-11": 11, "2025-12": 20, "2026-01": 17, "2026-02": 28, "2026-03": 26, "2026-04": 14}[m] || 0));
+const mythosCveVals = mythosMonths.map(m => ({"2025-01": 4200, "2025-02": 3750, "2025-03": 4012, "2025-04": 3800, "2025-05": 3900, "2025-06": 4000, "2025-07": 3800, "2025-08": 4100, "2025-09": 3900, "2025-10": 4200, "2025-11": 4300, "2025-12": 4212, "2026-01": 4400, "2026-02": 4532, "2026-03": 6246, "2026-04": 6500})[m]);
+const mythosKevVals = mythosMonths.map(m => ({"2025-01": 14, "2025-02": 27, "2025-03": 32, "2025-04": 15, "2025-05": 24, "2025-06": 20, "2025-07": 20, "2025-08": 15, "2025-09": 16, "2025-10": 31, "2025-11": 11, "2025-12": 20, "2026-01": 17, "2026-02": 28, "2026-03": 26, "2026-04": 13}[m] || 0));
 
 new Chart(document.getElementById('docMythosBaselineChart'), {
     type: 'bar',
@@ -656,9 +653,9 @@ new Chart(document.getElementById('docMythosCveChart'), {
 
 // Projection chart
 const projMonths = ['2025-01','2025-04','2025-07','2025-10','2026-01','2026-04','2026-07','2026-10','2027-01'];
-const baselineTrend = [4200,3800,3800,4200,5143,6242,6742,7242,7742];
-const conservativeScenario = [null,null,null,null,null,6242,7242,8242,9242];
-const aggressiveScenario = [null,null,null,null,null,6242,9242,10742,11742];
+const baselineTrend = [4200,3800,3800,4200,4400,6500,6800,7000,7200];
+const conservativeScenario = [null,null,null,null,null,6500,7300,7500,7700];
+const aggressiveScenario = [null,null,null,null,null,6500,9500,10500,11000];
 
 new Chart(document.getElementById('docMythosProjectionChart'), {
     type: 'line',
