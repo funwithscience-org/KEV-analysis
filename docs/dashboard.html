@@ -181,17 +181,20 @@ Attackers favor high-impact, easy-to-trigger vulnerabilities. 313 KEVs (20%) are
 </table>
 </div>
 <div class="card">
-<h3>Reverse Proxy ≠ Protection</h3>
-<p style="color:#94a3b8;font-size:.9em;line-height:1.6;margin-top:8px">
-A common assumption: "our apps sit behind Apache/nginx reverse proxy, so library vulns are mitigated."
-<br><br>
-<strong style="color:#f87171">Reality:</strong> Spring4Shell and Log4Shell payloads pass through mod_proxy untouched. The reverse proxy
-forwards the malicious HTTP headers and request bodies without inspection. WAF rules can help, but only
-if signatures exist — zero-days bypass WAFs by definition.
-<br><br>
-The reverse proxy protects against <em>network-layer</em> attacks, not <em>application-layer</em> exploits targeting
-libraries behind it.
+<h3>Reverse Proxy: What Doesn't Work</h3>
+<p style="color:#94a3b8;font-size:.9em;line-height:1.5;margin-top:8px">
+Spring4Shell and Log4Shell payloads pass through mod_proxy untouched. The proxy forwards malicious headers and parameters
+without inspection. WAF signatures help for <em>known</em> exploits only.
 </p>
+<h3 style="margin-top:16px">What <span style="color:#34d399">Does</span> Work</h3>
+<table style="margin-top:8px;font-size:.82em">
+<tr><td style="color:#34d399;font-weight:600;width:140px">Path allowlisting</td><td style="color:#94a3b8">Default-deny; only forward routes your app exposes. Blocks class-loader paths (Spring4Shell) without knowing the CVE.</td></tr>
+<tr><td style="color:#34d399;font-weight:600">Header stripping</td><td style="color:#94a3b8">Remove headers your app doesn't need (X-Forwarded-For, Transfer-Encoding). Neutered one Log4Shell vector.</td></tr>
+<tr><td style="color:#34d399;font-weight:600">Request size limits</td><td style="color:#94a3b8">Cap body (16KB), headers (8KB), URL depth. Blocks many deserialization and upload exploits.</td></tr>
+<tr><td style="color:#34d399;font-weight:600">Rate limiting</td><td style="color:#94a3b8">Won't stop targeted exploits, but limits automated scanning and buys detection time.</td></tr>
+<tr><td style="color:#34d399;font-weight:600">Response hardening</td><td style="color:#94a3b8">Strip Server/X-Powered-By banners. Forces blind probing vs. version-targeted exploits.</td></tr>
+</table>
+<p style="color:#64748b;font-size:.8em;margin-top:10px">Think "seatbelt, not airbag" — constrain the attack surface, don't rely on it to understand the vulnerability.</p>
 </div>
 </div>
 </div>
@@ -420,22 +423,33 @@ new Chart(document.getElementById('topProductsChart'), {
 });
 
 
-// Mythos baseline chart
-const mMonths = ["2025-01", "2025-02", "2025-03", "2025-04", "2025-05", "2025-06", "2025-07", "2025-08", "2025-09", "2025-10", "2025-11", "2025-12", "2026-01", "2026-02", "2026-03", "2026-04"];
-const mCveVals = mMonths.map(m => ({"2025-01": 4200, "2025-02": 3750, "2025-03": 4012, "2025-04": 3800, "2025-05": 3900, "2025-06": 4000, "2025-07": 3800, "2025-08": 4100, "2025-09": 3900, "2025-10": 4200, "2025-11": 4300, "2025-12": 4212, "2026-01": 4400, "2026-02": 4532, "2026-03": 6246, "2026-04": 6500})[m]);
-const mKevVals = mMonths.map(m => ({"2025-01": 14, "2025-02": 27, "2025-03": 32, "2025-04": 15, "2025-05": 24, "2025-06": 20, "2025-07": 20, "2025-08": 15, "2025-09": 16, "2025-10": 31, "2025-11": 11, "2025-12": 20, "2026-01": 17, "2026-02": 28, "2026-03": 26, "2026-04": 13}[m] || 0));
+// Mythos baseline chart — extended timeline with projections
+const mMonthsAll = ["2025-01","2025-02","2025-03","2025-04","2025-05","2025-06","2025-07","2025-08","2025-09","2025-10","2025-11","2025-12","2026-01","2026-02","2026-03","2026-04","2026-05","2026-06","2026-07","2026-08","2026-09","2026-10"];
+const mActualCve = {"2025-01":4200,"2025-02":3750,"2025-03":4012,"2025-04":3800,"2025-05":3900,"2025-06":4000,"2025-07":3800,"2025-08":4100,"2025-09":3900,"2025-10":4200,"2025-11":4300,"2025-12":4212,"2026-01":4400,"2026-02":4532,"2026-03":6246,"2026-04":6500};
+const mCveVals = mMonthsAll.map(m => mActualCve[m] || null);
+const mKevLookup = {"2025-01":14,"2025-02":27,"2025-03":32,"2025-04":15,"2025-05":24,"2025-06":20,"2025-07":20,"2025-08":15,"2025-09":16,"2025-10":31,"2025-11":11,"2025-12":20,"2026-01":17,"2026-02":28,"2026-03":26,"2026-04":13};
+const mKevVals = mMonthsAll.map(m => mKevLookup[m] || null);
+// Projection lines: start from last actual (2026-04) and extend forward
+const mConservative = mMonthsAll.map((m,i) => {const proj={"2026-04":6500,"2026-05":6800,"2026-06":7000,"2026-07":7200,"2026-08":7300,"2026-09":7400,"2026-10":7500}; return proj[m]||null;});
+const mAggressive = mMonthsAll.map((m,i) => {const proj={"2026-04":6500,"2026-05":8500,"2026-06":9500,"2026-07":10500,"2026-08":11000,"2026-09":11500,"2026-10":12000}; return proj[m]||null;});
 
 new Chart(document.getElementById('mythosBaseChart'), {
     type:'line',
     data:{
-        labels:mMonths,
+        labels:mMonthsAll,
         datasets:[
-            {label:'CVEs Published',data:mCveVals,borderColor:C.cyan,backgroundColor:C.cyanBg,fill:true,tension:.3,pointRadius:4},
-            {label:'Projected (+conservative)',data:[null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,6500,7000,7300,7500],borderColor:C.amber,borderDash:[5,5],fill:false,tension:.3,pointRadius:3},
-            {label:'Projected (+aggressive)',data:[null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,6500,9000,10000,11000],borderColor:C.red,borderDash:[5,5],fill:false,tension:.3,pointRadius:3}
+            {label:'Actual CVEs',data:mCveVals,borderColor:C.cyan,backgroundColor:C.cyanBg,fill:true,tension:.3,pointRadius:4,spanGaps:false},
+            {label:'Conservative (+500/mo)',data:mConservative,borderColor:C.amber,borderDash:[5,5],fill:false,tension:.3,pointRadius:4,pointStyle:'triangle'},
+            {label:'Aggressive (+2-5k/mo)',data:mAggressive,borderColor:C.red,borderDash:[5,5],fill:false,tension:.3,pointRadius:4,pointStyle:'triangle'}
         ]
     },
-    options:{scales:{y:{beginAtZero:false,min:3000,title:{display:true,text:'Monthly CVEs'}}},plugins:{legend:{position:'top'}}}
+    options:{
+        scales:{y:{beginAtZero:false,min:3000,title:{display:true,text:'Monthly CVEs'}},
+                x:{ticks:{callback:function(v,i){const m=mMonthsAll[i];return m>='2026-05'?m+' ⟶':m;}}}},
+        plugins:{legend:{position:'top'},
+            annotation:{annotations:{glasswing:{type:'line',xMin:15,xMax:15,borderColor:'rgba(245,158,11,.5)',borderWidth:2,borderDash:[6,3],
+                label:{display:true,content:'Glasswing',position:'start',backgroundColor:'rgba(245,158,11,.8)',color:'#000',font:{size:10}}}}}}
+    }
 });
 
 // Mythos CVE breakdown

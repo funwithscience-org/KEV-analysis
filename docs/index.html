@@ -206,6 +206,29 @@ An HTTP-parsing HIGH (7.0–7.9) at 1.52% beats a non-HTTP CRITICAL (9.0–9.9) 
 
 <p>A Web Application Firewall (WAF) with signatures can help — but only for <em>known</em> exploits. Zero-days bypass WAFs by definition. And signature updates lag behind exploit publication by hours to days, which — as we'll see in the time-to-exploit section — is now the entire exploitation window.</p>
 
+<h3>What the Reverse Proxy <em>Can</em> Do</h3>
+
+<p>The above isn't an argument against reverse proxies — it's an argument against relying on them as your library vulnerability mitigation. A properly configured reverse proxy still provides real defense-in-depth, just not the kind most people assume. Here's what actually works:</p>
+
+<p><strong>Path constraint / URI allowlisting.</strong> The single most effective reverse proxy control. If your app only serves <code>/api/v1/*</code> and <code>/static/*</code>, configure the proxy to reject everything else at the edge. Spring4Shell's exploitation relied on accessing <code>/...</code> class-loader paths — a path allowlist blocks this even without knowing the CVE exists. This is the closest thing to a "free" mitigation because it constrains the attack surface to only the routes your app explicitly exposes. The key is to default-deny and allowlist, not default-allow and blocklist.</p>
+
+<p><strong>Request size and depth limits.</strong> Cap request body size, header count, header size, query string length, and URL depth. Many exploitation payloads (especially deserialization attacks) require oversized or deeply nested request structures. A 16KB body limit and 8KB header limit won't stop Log4Shell's short JNDI string, but they will stop many deserialization and file upload exploits. The protection is probabilistic, not absolute — but it raises the bar.</p>
+
+<p><strong>Header stripping and normalization.</strong> Remove or rewrite headers your application doesn't need. If your backend doesn't use <code>X-Forwarded-For</code> for anything, strip it at the proxy — this would have neutered one of Log4Shell's common injection vectors. Strip <code>Transfer-Encoding: chunked</code> if your app doesn't need it (HTTP request smuggling mitigation). Normalize <code>Content-Type</code> to prevent deserialization attacks that rely on unexpected media types.</p>
+
+<p><strong>TLS termination with certificate pinning.</strong> Terminates the encrypted channel at the proxy and re-encrypts to the backend on a controlled channel. This prevents MITM attacks and ensures the proxy can actually inspect traffic. Without TLS termination, the proxy is just a TCP forwarder and can't apply any of the above controls.</p>
+
+<p><strong>Rate limiting and connection throttling.</strong> Won't stop a targeted exploit, but limits automated scanning and brute-force exploitation attempts. More importantly, it buys time — if an attacker needs 1,000 requests to fingerprint your stack before exploiting it, rate limiting at 10 req/s gives you 100 seconds of detection opportunity.</p>
+
+<p><strong>Response header hardening.</strong> Remove server version banners (<code>Server: Apache/2.4.52</code>), framework identifiers (<code>X-Powered-By: Express</code>), and stack traces from error responses. This doesn't prevent exploitation of known CVEs, but it forces attackers to probe blindly rather than selecting exploits based on your advertised versions.</p>
+
+<div class="callout callout-success">
+<strong>The practical takeaway:</strong> A reverse proxy configured with <em>path allowlisting + header stripping + request size limits</em> provides
+meaningful defense-in-depth against library exploits — not by understanding the vulnerability, but by constraining what the attacker can
+send to a surface small enough that many exploit payloads simply can't reach the vulnerable code path. The key word is "constrain," not "prevent."
+It's a seatbelt, not an airbag.
+</div>
+
 <!-- ========== 5. SURVIVORSHIP ========== -->
 <h2 id="survivorship">5. Why Most Criticals Don't Get Exploited</h2>
 
