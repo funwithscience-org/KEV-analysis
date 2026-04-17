@@ -59,6 +59,7 @@ tr:hover td{background:#334155}
 <div class="container">
 <h1>CISA KEV Exploitation Analysis</h1>
 <p class="subtitle">Platform/Runtime vs Library â€” Where Active Exploitation Concentrates</p>
+<p style="text-align:center;margin-bottom:24px"><a href="index.html" style="color:#6366f1;text-decoration:none;font-size:.92em;border:1px solid #6366f1;border-radius:6px;padding:6px 16px;display:inline-block;transition:all .15s" onmouseover="this.style.background='#6366f1';this.style.color='#fff'" onmouseout="this.style.background='transparent';this.style.color='#6366f1'">Read the Full Analysis Document &rarr;</a></p>
 
 <!-- KPI ROW -->
 <div class="kpi-row">
@@ -285,7 +286,7 @@ defensive cleanup completes, the time-to-exploit compression we documented (251â
 
 <!-- SECTION 9: Searchable Table -->
 <div class="section">
-<div class="section-title">Full KEV Catalog (Searchable)</div>
+<div class="section-title" style="display:flex;justify-content:space-between;align-items:center">Full KEV Catalog (Searchable) <button id="csvBtn" style="font-size:.65em;padding:6px 14px;background:#6366f1;color:#fff;border:none;border-radius:6px;cursor:pointer;font-weight:600;letter-spacing:.02em" onmouseover="this.style.background='#4f46e5'" onmouseout="this.style.background='#6366f1'">Download CSV</button></div>
 <div class="search-box"><input type="text" id="search" placeholder="Search by CVE ID, vendor, product, or stack layer..."></div>
 <div class="tab-bar" id="layerTabs"></div>
 <div class="table-wrap">
@@ -520,6 +521,23 @@ tabBar.addEventListener('click', e => {
 });
 document.getElementById('search').addEventListener('input', filterTable);
 renderTable(DATA.table_data);
+
+// CSV Download
+document.getElementById('csvBtn').addEventListener('click', function() {
+    const csvHeaders = ['CVE ID','Vendor','Product','Stack Layer','CWE Family','Ransomware','Date Added'];
+    const fields = ['cveID','vendor','product','layer','cwe','ransomware','date_added'];
+    const rows = DATA.table_data.map(r => fields.map(f => {
+        let v = String(r[f] || '').replace(/"/g, '""');
+        return v.includes(',') || v.includes('"') || v.includes('\n') ? '"'+v+'"' : v;
+    }));
+    const csv = [csvHeaders.join(','), ...rows.map(r => r.join(','))].join('\n');
+    const blob = new Blob([csv], {type: 'text/csv;charset=utf-8;'});
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = 'kev_exploitation_analysis.csv';
+    a.click();
+    URL.revokeObjectURL(a.href);
+});
 </script>
 </body>
 </html>
