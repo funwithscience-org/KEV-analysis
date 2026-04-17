@@ -1,0 +1,55 @@
+{
+  "github": {
+    "org": "funwithscience-org",
+    "repo": "KEV-analysis",
+    "branch": "main",
+    "pages_base": "https://funwithscience-org.github.io/KEV-analysis",
+    "user_email": "russelst@melrosecastle.com",
+    "user_name": "steve"
+  },
+  "data_sources": {
+    "cisa_kev": "https://www.cisa.gov/sites/default/files/feeds/known_exploited_vulnerabilities.json",
+    "nvd_api": "https://services.nvd.nist.gov/rest/json/cves/2.0",
+    "msrc_api": "https://api.msrc.microsoft.com/cvrf/v3.0/updates",
+    "rhel_errata": "https://access.redhat.com/labs/securitydataapi/cve.json",
+    "stack_watch_rhel": "https://stack.watch/product/redhat/enterprise-linux/8.0",
+    "jgamblin_monthly": "https://raw.githubusercontent.com/jgamblin/monthlyCVEStats/main/data/monthly.json"
+  },
+  "glasswing_targets": {
+    "known_products": ["Mozilla Firefox", "wolfSSL", "F5 NGINX Plus", "FreeBSD", "OpenSSL"],
+    "known_count": 40,
+    "participants": [
+      "AWS", "Anthropic", "Apple", "Broadcom", "Cisco", "CrowdStrike",
+      "Google", "Intel", "JPMorganChase", "Linux Foundation", "Microsoft",
+      "Nvidia", "Palo Alto Networks"
+    ],
+    "launch_date": "2026-04-07"
+  },
+  "projections": {
+    "conservative_monthly_increase": 500,
+    "aggressive_monthly_increase_range": [2000, 5000],
+    "projection_months": ["2026-05", "2026-06", "2026-07", "2026-08", "2026-09", "2026-10"]
+  },
+  "baseline_data": {
+    "monthly_cve_2025": {
+      "2025-01": 4200, "2025-02": 3800, "2025-03": 4012, "2025-04": 3950,
+      "2025-05": 3900, "2025-06": 3850, "2025-07": 4100, "2025-08": 4050,
+      "2025-09": 3950, "2025-10": 4150, "2025-11": 4000, "2025-12": 4212
+    },
+    "monthly_cve_2026": {
+      "2026-01": 5528, "2026-02": 5210, "2026-03": 6304, "2026-04": null
+    },
+    "ms_patch_tuesday": {
+      "2025-01": 157, "2025-02": 57, "2025-03": 57, "2025-04": 124,
+      "2025-05": 71, "2025-06": 65, "2025-07": 127, "2025-08": 107,
+      "2025-09": 80, "2025-10": 167, "2025-11": 63, "2025-12": 56,
+      "2026-01": 112, "2026-02": 55, "2026-03": 79, "2026-04": 163
+    },
+    "rhel8_security": {
+      "2025_annual": 204,
+      "2025_monthly_avg": 17,
+      "2026_q1_total": 98,
+      "2026_monthly_avg": 25
+    }
+  }
+}
