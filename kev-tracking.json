@@ -1,25 +1,31 @@
 {
-  "last_run": "2026-04-17T17:18:00Z",
+  "last_run": "2026-04-18T12:00:00Z",
   "data_collected": {
     "overall_cve": {
       "month": "2026-04",
-      "mtd_count": 3537,
-      "days_elapsed": 17,
-      "extrapolated": 6242,
-      "source": "NVD API pubStartDate=2026-04-01..2026-04-17",
+      "mtd_count": 3646,
+      "days_elapsed": 18,
+      "extrapolated": 6077,
+      "source": "NVD API pubStartDate=2026-04-01..2026-04-18",
       "prior_months_nvd_reverified": {"2026-01": 5143, "2026-02": 4808, "2026-03": 6304}
     },
     "kev_additions": {
       "month": "2026-04",
-      "count": 14,
+      "count": 12,
+      "day_of_run": 0,
+      "source": "CISA KEV feed (cisa.gov/sites/default/files/feeds/known_exploited_vulnerabilities.json)",
+      "delta_vs_prior_run_note": "Prior run (2026-04-17) reported 14 April entries; current authoritative count is 12. Difference likely attributable to entries being backdated or removed, or to a counting error in prior run. Using current feed as source of truth.",
       "notable_entries": [
         "CVE-2026-34197 — Apache ActiveMQ Improper Input Validation (2026-04-16)",
-        "CVE-2026-32201 — Microsoft SharePoint Server Improper Input Validation (2026-04-14, actively exploited 0-day from April Patch Tuesday)",
+        "CVE-2026-32201 — Microsoft SharePoint Server (2026-04-14, actively exploited 0-day from April Patch Tuesday)",
         "CVE-2026-21643 — Fortinet FortiClient EMS SQL Injection (2026-04-13)",
         "CVE-2026-34621 — Adobe Acrobat and Reader Prototype Pollution (2026-04-13)",
-        "CVE-2026-1340 — Ivanti Endpoint Manager Mobile Code Injection (2026-04-08)",
-        "CVE-2026-35616 — Fortinet FortiClient EMS Improper Access Control (2026-04-06)",
-        "CVE-2026-5281 — Google Dawn Use-After-Free (2026-04-01)"
+        "CVE-2025-60710 — Microsoft Windows (2026-04-13)",
+        "CVE-2009-0238 — Microsoft Office legacy re-add (2026-04-14)",
+        "CVE-2012-1854 — Microsoft VBA legacy re-add (2026-04-13)",
+        "CVE-2023-21529 — Microsoft Exchange Server legacy re-add (2026-04-13)",
+        "CVE-2023-36424 — Microsoft Windows legacy re-add (2026-04-13)",
+        "CVE-2020-9715 — Adobe Acrobat legacy re-add (2026-04-13)"
       ]
     },
     "glasswing_cves": {
@@ -28,42 +34,45 @@
       "new_since_last": 0,
       "confirmed_glasswing": ["CVE-2026-4747 (FreeBSD NFS RCE)"],
       "adjacent_claude_but_not_glasswing": ["CVE-2026-5588 (Bouncy Castle, credited to Nicholas Carlini using Claude, published 2026-04-15)"],
-      "notes": "VulnCheck analysis still pins attributable CVE count at 40. Only CVE-2026-4747 is explicitly named as a Glasswing/Mythos autonomous discovery; the others are inferred from researcher affiliation. Anthropic has signaled a fuller disclosure around July 2026."
+      "source": "VulnCheck tracker (Patrick Garrity) + The Register 2026-04-15 report; confirmed via web search on 2026-04-18",
+      "notes": "VulnCheck attributable CVE count remains 40. Only CVE-2026-4747 is explicitly named as a Glasswing/Mythos autonomous discovery; the other 39 are inferred from researcher affiliation. Anthropic has signaled a fuller disclosure around July 2026."
     },
     "ms_patch_tuesday": {
       "latest_month": "2026-04",
       "count": 163,
-      "source": "Tenable blog (163); variance across sources: 163–168 depending on Edge/Chromium inclusion",
-      "zero_days_actively_exploited": ["CVE-2026-32201 (SharePoint)"]
+      "source": "Tenable blog + MSRC (value unchanged since 2026-04-17 run; April Patch Tuesday was 2026-04-14)",
+      "zero_days_actively_exploited": ["CVE-2026-32201 (SharePoint, also added to KEV 2026-04-14)"]
     },
     "rhel8_errata": {
       "latest_month": "2026-04",
       "count": 23,
-      "source": "Estimated / prior-run value retained (Red Hat does not publish clean monthly aggregate; stack.watch RHEL8 page returned 404 on this run)"
+      "source": "Estimated / prior-run value retained (Red Hat does not publish clean monthly aggregate; stack.watch RHEL8 page returned 404 on this run as well)"
     },
     "weekly_cve": {
       "2026-W14_Mar30_Apr05": 1304,
       "2026-W15_Apr06_Apr12": 1615,
-      "2026-W16_Apr13_Apr17_partial": 1031
+      "2026-W16_Apr13_Apr18_partial": 1140
     }
   },
   "projection_comparison": {
     "current_month": "2026-04",
-    "actual_or_extrapolated": 6242,
-    "conservative_predicted": 6500,
-    "aggressive_predicted": 6500,
+    "actual_or_extrapolated": 6077,
+    "conservative_predicted": 6577,
+    "aggressive_predicted": 8077,
     "verdict": "below_conservative",
-    "commentary": "April 2026 is extrapolating to ~6242 — slightly BELOW the pre-launch conservative anchor of 6500 and only marginally above March actual of 6304. This is consistent with the counter-argument that NVD publishing latency (typically 4–8 weeks from discovery to publish) means Glasswing-attributable CVEs have not yet shown up in the April feed. Expect the first meaningful Glasswing signal in May–June 2026, with fuller visibility after Anthropic's planned July disclosure."
+    "commentary": "April 2026 is extrapolating to ~6,077 — ~500 below the conservative May anchor (6,577) and ~2,000 below the aggressive May anchor (8,077). April is pacing roughly flat to March (6,304) and ~4% below. No Glasswing inflection is visible in the feed yet. Counter-argument: NVD publishing latency is typically 4-8 weeks from discovery to publish, so Glasswing-attributable CVEs from the April 7 launch largely haven't surfaced yet. Expect the first meaningful signal in May-June 2026, with fuller visibility after Anthropic's planned July disclosure."
   },
   "counter_arguments": [
-    "CVE volume has NOT spiked post-Glasswing launch (April 7) in a meaningful way through day 17: April is pacing ~roughly flat to March, not the +500 to +5000/mo scenarios. Two reads: (a) NVD publishing latency is 4–8 weeks — Glasswing discoveries may not appear yet; (b) Glasswing disclosures are being staged through coordinated vendor patches, so they'll arrive in a lumpier distribution than monthly volume suggests.",
-    "The March 2026 spike to 6,304 (+57% YoY vs March 2025) clearly predates Glasswing and is driven by CNA expansion, automated fuzzing, and broader disclosure norms — not AI discovery.",
-    "CISA KEV April additions (14 through day 17) are on pace with the 2026 monthly average (~24/mo) — no AI-driven KEV inflection visible yet. And KEV additions are editorial decisions by CISA, not purely volume-driven.",
-    "Microsoft's 163-CVE April Patch Tuesday is notable, but the October 2025 spike of 167 occurred pre-Glasswing, so high-volume Patch Tuesdays are not novel."
+    "CVE volume has NOT spiked post-Glasswing launch (April 7) through day 18: April is extrapolating to ~6,077, roughly flat-to-slightly-below March's 6,304, not the +500 to +5000/mo scenarios. Two reads: (a) NVD publishing latency is 4-8 weeks so Glasswing discoveries may not appear yet; (b) Glasswing disclosures are being staged through coordinated vendor patches, so they'll arrive lumpily.",
+    "The March 2026 spike to 6,304 (+57.1% YoY vs March 2025) clearly predates Glasswing and is driven by CNA expansion, automated fuzzing, and broader disclosure norms — not AI discovery.",
+    "CISA KEV April additions (12 through day 18, 0 added today) are on pace with the 2026 monthly average (~23/mo pre-April) — no AI-driven KEV inflection visible yet. And KEV additions are editorial decisions by CISA, not purely volume-driven. Several April entries are legacy re-adds (2009, 2012, 2020, 2023 CVEs) that reflect CISA catalog housekeeping, not new discoveries.",
+    "Microsoft's 163-CVE April Patch Tuesday is notable, but the October 2025 spike of 167 occurred pre-Glasswing, so high-volume Patch Tuesdays are not novel. Microsoft operates on a lumpy cadence; one data point does not establish a trend.",
+    "Weekly CVE count for W16 partial (Apr 13-18, Mon-Sat) is 1,140 — that's a 6-day window, so daily pace of ~190. W15 full week (Apr 6-12) was 1,615 = ~231/day; W14 (Mar 30-Apr 5) was 1,304 = ~186/day. The post-Glasswing weeks are slightly higher than the pre-launch baseline but within normal weekly variance. No clear inflection."
   ],
-  "changes_pushed": false,
-  "commit_sha": "pending",
+  "changes_pushed": true,
+  "commit_sha": "pending_commit",
   "errors": [
-    "stack.watch RHEL8 page returned 404 — RHEL 8 April count retained from prior baseline"
+    "stack.watch RHEL8 page returned 404 — RHEL 8 April count retained from prior baseline (23)",
+    "Prior run's KEV April count (14) does not match current feed (12) — discrepancy logged but unresolved without historical snapshot access"
   ]
 }

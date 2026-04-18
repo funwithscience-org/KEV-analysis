@@ -350,14 +350,17 @@ management teams is immediate: will this meaningfully increase the monthly volum
 <thead><tr><th>Period</th><th>Monthly CVE Avg</th><th>Monthly KEV Avg</th><th>CVE YoY Change</th></tr></thead>
 <tbody>
 <tr><td>2025 Full Year</td><td><strong>4,015</strong></td><td><strong>20.4</strong></td><td>+16% vs 2024</td></tr>
-<tr><td>2026 Q1 (Jan–Mar)</td><td><strong>5,059</strong></td><td><strong>23.7</strong></td><td><span class="tag tag-red">+26.9% vs 2025 Q1</span></td></tr>
-<tr><td>2026 March alone</td><td><strong>6,246</strong></td><td>26</td><td><span class="tag tag-red">+55.7% vs Mar 2025</span></td></tr>
+<tr><td>2026 Q1 (Jan–Mar)</td><td><strong>5,418</strong></td><td><strong>23.7</strong></td><td><span class="tag tag-red">+28.3% vs 2025 Q1</span></td></tr>
+<tr><td>2026 March alone</td><td><strong>6,304</strong></td><td>26</td><td><span class="tag tag-red">+57.1% vs Mar 2025</span></td></tr>
+<tr><td>2026 April MTD (thru 04-18)</td><td><strong>3,646</strong> (extrap. ~6,077)</td><td>12</td><td><span class="tag tag-amber">flat vs March</span></td></tr>
 </tbody></table>
 
 <div class="callout callout-warning">
 <strong>The volume trend was already accelerating before Mythos.</strong> CVE publications grew ~16% in 2025 over 2024, but Q1 2026
-is running +26.9% year-over-year, with March spiking +55.7%. This growth is driven by expanded CNA (CVE Numbering Authority)
-participation, automated fuzzing, and broader disclosure norms — not yet by Glasswing, which launched April 7.
+came in +28.3% year-over-year, with March spiking +57.1%. This growth is driven by expanded CNA (CVE Numbering Authority)
+participation, automated fuzzing, and broader disclosure norms — not yet by Glasswing, which launched April 7. Early April
+(through day 18) is actually pacing <em>flat to slightly below</em> March — no Glasswing-driven inflection is visible yet,
+which is consistent with NVD's typical 4–8 week publish latency.
 </div>
 
 <h3>What Mythos Has Found So Far</h3>
@@ -463,10 +466,11 @@ Red Hat Enterprise Linux 8.</p>
 </tbody></table>
 
 <div class="callout callout-finding">
-<strong>Scale difference:</strong> Microsoft ships ~94 security fixes/month across its portfolio; RHEL 8 ships ~17/month.
-Both numbers are <em>before</em> Glasswing. Microsoft's April 2026 spike to 163 CVEs (up from 79 in March) coincides with
-Glasswing's launch — though it's too early to attribute causation. The October 2025 spike (167) occurred pre-Glasswing,
-suggesting Microsoft already had a high-volume patching cadence.
+<strong>Scale difference:</strong> Microsoft ships ~94 security fixes/month across its portfolio; RHEL 8 ships ~17–25/month.
+Both numbers are <em>before</em> Glasswing materially shows up in either feed. Microsoft's April 2026 Patch Tuesday landed
+at 163 CVEs (up from 79 in March) and includes one actively exploited zero-day (CVE-2026-32201, SharePoint). It's tempting to
+link that spike to Glasswing's launch, but the October 2025 spike of 167 occurred entirely pre-Glasswing — Microsoft simply
+runs lumpy, with high-volume Patch Tuesdays a normal occurrence. Counter-argument: a single Patch Tuesday spike is not signal.
 </div>
 
 <p><strong>On the security vs. operational split:</strong> Microsoft Patch Tuesday is exclusively security fixes — operational/feature
@@ -483,9 +487,13 @@ proportionally across months.</p>
 </div>
 
 <div class="callout callout-danger">
-<strong>Bottom line:</strong> Even the conservative scenario (+500 CVEs/month from Glasswing) would push monthly volume past 6,000 sustainably.
-The aggressive scenario (if Mythos finds vulnerabilities at the rate the Firefox benchmarks suggest) could add 2,000–5,000 CVEs/month,
-pushing total volume to 8,000–11,000 — a level that would break most organizations' patch management processes.
+<strong>Bottom line (as of 2026-04-18, day 11 post-launch):</strong> Actual April volume is extrapolating to ~6,077 —
+below the conservative anchor and well below the aggressive scenario. That's the signal the feed is showing <em>right now</em>.
+The counter-argument matters: NVD takes 4–8 weeks to publish a typical CVE, so Glasswing-discovered vulnerabilities
+disclosed on/after April 7 largely haven't surfaced yet. The conservative scenario (+500 CVEs/month from Glasswing) would
+still push monthly volume past 7,000 by June. The aggressive scenario (if Mythos finds vulnerabilities at the rate the
+Firefox benchmarks suggest) could add 2,000–5,000 CVEs/month, pushing total volume to 10,000–12,000 — a level that would
+break most organizations' patch management processes. We'll know far more by the July Glasswing disclosure.
 </div>
 
 <p>The critical question isn't just <em>volume</em> but <em>severity distribution</em>. If Mythos disproportionately finds
@@ -612,8 +620,8 @@ new Chart(document.getElementById('docPatchVelocityChart'), {
 
 // Mythos baseline chart
 const mythosMonths = ["2025-01", "2025-02", "2025-03", "2025-04", "2025-05", "2025-06", "2025-07", "2025-08", "2025-09", "2025-10", "2025-11", "2025-12", "2026-01", "2026-02", "2026-03", "2026-04"];
-const mythosCveVals = mythosMonths.map(m => ({"2025-01": 4200, "2025-02": 3750, "2025-03": 4012, "2025-04": 3800, "2025-05": 3900, "2025-06": 4000, "2025-07": 3800, "2025-08": 4100, "2025-09": 3900, "2025-10": 4200, "2025-11": 4300, "2025-12": 4212, "2026-01": 4400, "2026-02": 4532, "2026-03": 6246, "2026-04": 6500})[m]);
-const mythosKevVals = mythosMonths.map(m => ({"2025-01": 14, "2025-02": 27, "2025-03": 32, "2025-04": 15, "2025-05": 24, "2025-06": 20, "2025-07": 20, "2025-08": 15, "2025-09": 16, "2025-10": 31, "2025-11": 11, "2025-12": 20, "2026-01": 17, "2026-02": 28, "2026-03": 26, "2026-04": 13}[m] || 0));
+const mythosCveVals = mythosMonths.map(m => ({"2025-01": 4200, "2025-02": 3800, "2025-03": 4012, "2025-04": 3950, "2025-05": 3900, "2025-06": 3850, "2025-07": 4100, "2025-08": 4050, "2025-09": 3950, "2025-10": 4150, "2025-11": 4000, "2025-12": 4212, "2026-01": 5143, "2026-02": 4808, "2026-03": 6304, "2026-04": 6077})[m]);
+const mythosKevVals = mythosMonths.map(m => ({"2025-01": 14, "2025-02": 27, "2025-03": 32, "2025-04": 15, "2025-05": 24, "2025-06": 20, "2025-07": 20, "2025-08": 15, "2025-09": 16, "2025-10": 31, "2025-11": 11, "2025-12": 20, "2026-01": 17, "2026-02": 28, "2026-03": 26, "2026-04": 12}[m] || 0));
 
 new Chart(document.getElementById('docMythosBaselineChart'), {
     type: 'bar',
@@ -654,9 +662,9 @@ new Chart(document.getElementById('docMythosCveChart'), {
 
 // Projection chart
 const projMonths = ['2025-01','2025-04','2025-07','2025-10','2026-01','2026-04','2026-07','2026-10','2027-01'];
-const baselineTrend = [4200,3800,3800,4200,4400,6500,6800,7000,7200];
-const conservativeScenario = [null,null,null,null,null,6500,7300,7500,7700];
-const aggressiveScenario = [null,null,null,null,null,6500,9500,10500,11000];
+const baselineTrend = [4200,3950,4100,4150,5143,6077,6300,6500,6700];
+const conservativeScenario = [null,null,null,null,null,6077,7077,8077,9077];
+const aggressiveScenario = [null,null,null,null,null,6077,10077,11077,12077];
 
 new Chart(document.getElementById('docMythosProjectionChart'), {
     type: 'line',

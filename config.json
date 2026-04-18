@@ -21,7 +21,7 @@
     "product_breakdown": {"Mozilla Firefox": 28, "wolfSSL": 9, "F5 NGINX Plus": 1, "FreeBSD": 1, "OpenSSL": 1},
     "confirmed_glasswing_cves": ["CVE-2026-4747"],
     "adjacent_claude_attributed": ["CVE-2026-5588"],
-    "last_verified": "2026-04-17",
+    "last_verified": "2026-04-18",
     "participants": [
       "AWS", "Anthropic", "Apple", "Broadcom", "Cisco", "CrowdStrike",
       "Google", "Intel", "JPMorganChase", "Linux Foundation", "Microsoft",
@@ -41,16 +41,16 @@
       "2025-09": 3950, "2025-10": 4150, "2025-11": 4000, "2025-12": 4212
     },
     "monthly_cve_2026": {
-      "2026-01": 5143, "2026-02": 4808, "2026-03": 6304, "2026-04": 3537
+      "2026-01": 5143, "2026-02": 4808, "2026-03": 6304, "2026-04": 3646
     },
     "monthly_cve_2026_notes": {
-      "2026-04": "MTD through 2026-04-17 (17 days); extrapolated full-month ~6242",
-      "prior_months_revised": "2026-01/02 revised downward vs prior run as NVD reconciled late-publish assignments; 2026-03 unchanged at 6304"
+      "2026-04": "MTD through 2026-04-18 (18 days); extrapolated full-month ~6077 (3646 * 30/18). Pacing flat-to-slightly-below March; no Glasswing inflection visible yet (NVD publish latency 4-8 weeks).",
+      "prior_months_unchanged": "2026-01 = 5143, 2026-02 = 4808, 2026-03 = 6304 — all confirmed against NVD on 2026-04-18."
     },
     "weekly_cve_2026": {
       "2026-W14_Mar30_Apr05": 1304,
       "2026-W15_Apr06_Apr12": 1615,
-      "2026-W16_Apr13_Apr17_partial": 1031
+      "2026-W16_Apr13_Apr18_partial": 1140
     },
     "ms_patch_tuesday": {
       "2025-01": 157, "2025-02": 57, "2025-03": 57, "2025-04": 124,
@@ -62,7 +62,15 @@
       "2025_annual": 204,
       "2025_monthly_avg": 17,
       "2026_q1_total": 98,
-      "2026_monthly_avg": 25
+      "2026_monthly_avg": 25,
+      "2026-04_estimated": 23,
+      "note": "Red Hat does not publish clean monthly aggregates; stack.watch RHEL8 page returned 404 on 2026-04-18 run — April count retained from prior estimate."
+    },
+    "kev_monthly_2026": {
+      "2026-01": 17, "2026-02": 28, "2026-03": 26, "2026-04": 12
+    },
+    "kev_monthly_2026_notes": {
+      "2026-04": "12 entries added 2026-04-01..2026-04-18; zero entries on 2026-04-18. Notables: CVE-2026-34197 (Apache ActiveMQ), CVE-2026-32201 (SharePoint 0-day), CVE-2026-21643 (Fortinet FortiClient EMS SQLi), CVE-2026-34621 (Adobe Acrobat prototype pollution)."
     }
   }
 }
