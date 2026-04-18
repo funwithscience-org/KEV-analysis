@@ -80,6 +80,16 @@ The project maintains an "Exploit Watch List" of HTTP-parsing-adjacent CVEs pred
 
 **The hit rate of this watch list is a testable metric for the HTTP-parsing thesis.** Track it explicitly — how many predictions confirmed vs. how many aged out without exploitation.
 
+### 7. Thesis Challenge — Non-HTTP Library Exploits (check every run)
+Actively search for **disconfirming evidence**. Look for library or framework CVEs that reach confirmed exploitation (KEV) through purely non-HTTP vectors. Exclude OS/kernel CVEs (near-100% exploitation rate regardless) and commercial product CVEs (different layer). We're looking for things like: a serialization library exploited over a non-HTTP protocol, a data-processing library exploited via file ingestion, a crypto library attacked through a non-TLS channel.
+
+If you find one:
+1. Add it to `config.json` under a new `thesis_challenges` array
+2. Add a row to the "Thesis Challenge" table in `docs/dashboard.html` (tbody id="thesisChallengeBody") and `docs/index.html` (section 11, id="thesis-challenge")
+3. Report it prominently — this is important data
+
+If you don't find any, note that in your daily report. The absence is itself evidence (though it may partly reflect detection bias — non-HTTP library exploitation is harder to observe).
+
 ## COUNTER-ARGUMENTS
 For every strong claim you make, state the counter-argument. This is not optional. We're doing science, not advocacy. If the data supports our thesis, say so — but also say what would falsify it. If the data undermines our thesis, say that too.
 

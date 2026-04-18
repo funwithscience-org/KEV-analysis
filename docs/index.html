@@ -563,6 +563,37 @@ but the trajectory is clear enough to warrant preparation.</p>
 <strong>Tracking methodology:</strong> The analyst agent reviews new NVD and KEV entries daily, evaluates them against the five criteria above, and adds qualifying CVEs to this list. When a watched CVE appears in CISA KEV, it is marked as CONFIRMED — validating (or failing to validate) the HTTP-parsing exploitation predictor. The hit rate of this watch list is itself a testable metric for the thesis.
 </div>
 
+<h3 id="thesis-challenge">Thesis Challenge: Non-HTTP Library Exploits</h3>
+
+<p>Good analysis requires actively searching for disconfirming evidence. The HTTP-parsing thesis predicts that
+library-layer and framework-layer CVEs reaching confirmed exploitation (KEV) will overwhelmingly involve HTTP-adjacent
+attack surface — parsing untrusted network input, handling HTTP requests, terminating TLS, rendering templates, or
+processing browser-delivered payloads. If the thesis is correct, we should rarely see library/framework CVEs
+exploited in the wild via purely non-HTTP vectors.</p>
+
+<p>This section tracks the counter-examples: <strong>library or framework CVEs that reach confirmed exploitation
+through attack vectors that have nothing to do with HTTP parsing.</strong> We exclude OS-level and kernel CVEs
+(which have near-100% exploitation rates regardless of vector) and commercial product CVEs (which are outside
+the library/framework layer). We're specifically looking for things like: a math library exploited via local file processing,
+a serialization framework exploited via non-HTTP protocols, or a crypto library attacked through a non-TLS channel.</p>
+
+<p>Every entry here weakens the thesis. An empty list strengthens it — but may also reflect detection bias, since
+non-HTTP exploitation in libraries is harder to observe than internet-facing attacks.</p>
+
+<table class="data-table">
+<thead><tr><th>CVE</th><th>Library / Framework</th><th>Non-HTTP Vector</th><th>KEV Date</th><th>Notes</th></tr></thead>
+<tbody>
+<tr><td colspan="5" style="text-align:center;color:#64748b;font-style:italic;padding:1.5em">No counter-examples identified as of April 2026. The analyst agent checks daily.</td></tr>
+</tbody>
+</table>
+
+<div class="callout callout-info">
+<strong>What would falsify the thesis?</strong> A sustained pattern of library/framework CVEs reaching KEV via non-HTTP vectors —
+e.g., a message queue library exploited over AMQP, a data-processing library exploited via file ingestion, or a
+serialization framework exploited over a custom binary protocol. A single counter-example is a data point; a cluster
+would be a genuine challenge.
+</div>
+
 <!-- ========== 12. CAVEATS ========== -->
 <h2 id="caveats">12. Caveats & Methodology Limitations</h2>
 
