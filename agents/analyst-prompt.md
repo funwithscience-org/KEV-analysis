@@ -69,10 +69,12 @@ The project maintains an "Exploit Watch List" of HTTP-parsing-adjacent CVEs pred
 **Each run you must:**
 1. **Check for new candidates.** Review today's CVE disclosures for HTTP-parsing-adjacent vulnerabilities that meet 3+ of these criteria: (a) HTTP-parsing adjacent, (b) low/no auth required, (c) high exploitability (public PoC, low attack complexity), (d) broad deployment footprint, (e) CWE family match (injection, memory corruption, auth bypass, deserialization).
 2. **Check for confirmations.** Cross-check all "watching" entries against the current CISA KEV feed. If a watched CVE appears in KEV, update its status to "confirmed" and record the kevDate.
-3. **Update config.json.** Add new entries to `exploit_watch_list.server` or `exploit_watch_list.desktop` in `kev-repo/config.json`. Update status of confirmed entries.
-4. **Update the dashboard.** Edit the `WATCH_LIST` JavaScript object in `docs/dashboard.html` to match config.json. The object is near the end of the script, look for `const WATCH_LIST = {`.
-5. **Update the walkthrough.** Edit the watch list tables in `docs/index.html` (section 11, id="watchlist") — add new table rows for new candidates, update status text for confirmations.
-6. **Report in your daily analysis.** Include a "Watch List Update" section in your report noting any additions, status changes, or near-misses.
+3. **Pull before editing.** Run `git pull --rebase origin main` before touching any HTML or config files — the refresh agent or manual edits may have pushed since you cloned.
+4. **Update config.json.** Add new entries to `exploit_watch_list.server` or `exploit_watch_list.desktop` in `kev-repo/config.json`. Update status of confirmed entries.
+5. **Update the dashboard.** Edit the `WATCH_LIST` JavaScript object in `docs/dashboard.html` to match config.json. The object is near the end of the script, look for `const WATCH_LIST = {`. Use **targeted edits only** — do NOT overwrite other data values (chart data, counts, etc.) that the refresh agent maintains.
+6. **Update the walkthrough.** Edit the watch list tables in `docs/index.html` (section 11, id="watchlist") — add new table rows for new candidates, update status text for confirmations. Again, **targeted edits only** — don't replace large blocks that might contain refresh-agent data.
+7. **Pull again before pushing.** `git pull --rebase origin main` to catch any commits that landed while you were editing. Resolve conflicts by keeping your structural additions while preserving the refresh agent's data values.
+8. **Report in your daily analysis.** Include a "Watch List Update" section in your report noting any additions, status changes, or near-misses.
 
 **Categories:** Server-side (things you patch on your servers) vs Desktop/Client-side (things delivered via HTTP to end-user machines). When in doubt, classify by where the vulnerability is exploited, not where the software runs.
 

@@ -59,13 +59,21 @@ You must refresh every data point in the Mythos Detector section of both HTML fi
 
 You already cloned the repo in the SETUP step. Steps:
 1. Configure git user from config.json (`git config user.email` / `user.name`)
-2. Edit `kev-repo/docs/dashboard.html` — find and replace the specific JavaScript data lines using sed or python
-3. Edit `kev-repo/docs/index.html` (walkthrough) — update corresponding data in the Mythos section prose and any inline data
-4. Update `kev-repo/config.json` baseline_data section with new values (so the next run has accurate priors)
-5. Commit with a descriptive message including the date and what changed
-6. Push to main branch
+2. **Pull before editing:** `git pull origin main` to ensure you have the absolute latest version — other agents or manual edits may have pushed since you cloned.
+3. Edit `kev-repo/docs/dashboard.html` — find and replace the specific JavaScript data lines using sed or python
+4. Edit `kev-repo/docs/index.html` (walkthrough) — update corresponding data in the Mythos section prose and any inline data
+5. Update `kev-repo/config.json` baseline_data section with new values (so the next run has accurate priors)
+6. Commit with a descriptive message including the date and what changed
+7. **Pull again before pushing:** `git pull --rebase origin main` to catch any commits that landed while you were working. If there's a merge conflict, resolve it by keeping YOUR new data values (you just fetched them fresh) while preserving any structural changes (new HTML sections, new JS objects) from the other commit.
+8. Push to main branch
 
-IMPORTANT: The HTML files are ~300KB each with inline JSON DATA blobs. Do NOT try to rewrite the whole file. Use targeted sed/python replacements on the specific data lines. The key variables to target:
+IMPORTANT: The HTML files are ~300KB each with inline JSON DATA blobs. Do NOT try to rewrite the whole file. Use targeted sed/python replacements on the specific data lines.
+
+### Avoiding Data Regression
+Other agents (analyst) and manual edits sometimes add new sections to the HTML files (e.g., watch list tables, new chart sections). These commits may inadvertently revert YOUR data values if they were based on a stale copy of the file. Conversely, YOUR edits must not revert THEIR structural additions. The rule is:
+- **Your job is data values** — update numbers, counts, dates, and chart data arrays
+- **Preserve structure** — don't delete or overwrite sections you didn't create
+- **Use targeted replacements** (sed/python on specific lines), never whole-file overwrites The key variables to target:
 - `const mActualCve = {...}`
 - `const mKevLookup = {...}`
 - `const mConservative = ...`
