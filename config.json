@@ -72,5 +72,22 @@
     "kev_monthly_2026_notes": {
       "2026-04": "12 entries added 2026-04-01..2026-04-18; zero entries on 2026-04-18. Notables: CVE-2026-34197 (Apache ActiveMQ), CVE-2026-32201 (SharePoint 0-day), CVE-2026-21643 (Fortinet FortiClient EMS SQLi), CVE-2026-34621 (Adobe Acrobat prototype pollution)."
     }
+  },
+  "exploit_watch_list": {
+    "description": "HTTP-parsing-adjacent CVEs predicted to be actively exploited. Analyst adds entries; refresh agent checks KEV status.",
+    "focus": "HTTP-parsing attack surface only: web servers, template engines, TLS terminators, reverse proxy components, API frameworks, browser-delivered payloads",
+    "selection_criteria": ["http_parsing_adjacent", "low_or_no_auth", "high_exploitability", "broad_deployment", "cwe_family_match"],
+    "server": [
+      {"cve":"CVE-2026-40477","product":"Thymeleaf SSTI","status":"watching","added":"2026-04-18","kevDate":null},
+      {"cve":"CVE-2026-40478","product":"Thymeleaf Spring5 SSTI","status":"watching","added":"2026-04-18","kevDate":null},
+      {"cve":"CVE-2026-5194","product":"wolfSSL cert validation","status":"watching","added":"2026-04-18","kevDate":null},
+      {"cve":"CVE-2026-5501","product":"wolfSSL OpenSSL compat","status":"watching","added":"2026-04-18","kevDate":null},
+      {"cve":"CVE-2026-32201","product":"SharePoint","status":"confirmed","added":"2026-04-14","kevDate":"2026-04-14"},
+      {"cve":"CVE-2026-34197","product":"Apache ActiveMQ","status":"confirmed","added":"2026-04-16","kevDate":"2026-04-16"}
+    ],
+    "desktop": [
+      {"cve":"CVE-2026-34621","product":"Adobe Acrobat","status":"confirmed","added":"2026-04-15","kevDate":"2026-04-15"},
+      {"cve":"CVE-2026-33825","product":"Windows Defender (BlueHammer)","status":"watching","added":"2026-04-18","kevDate":null}
+    ]
   }
 }

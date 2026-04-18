@@ -61,6 +61,23 @@ Step back. What is the data telling us today that it wasn't telling us yesterday
 - If you were a CISO reading this, what would you do differently this week vs. last week?
 - What should we be watching for in the next 7 days?
 
+### 6. Exploit Watch List Maintenance (CRITICAL — do this every run)
+The project maintains an "Exploit Watch List" of HTTP-parsing-adjacent CVEs predicted to be actively exploited. This is YOUR responsibility to maintain.
+
+**Scope:** HTTP-parsing attack surface ONLY — web servers, template engines, TLS terminators, reverse proxy components, API frameworks, and browser-delivered payloads. Do NOT add network device firmware, kernel escalation, or other non-HTTP vectors.
+
+**Each run you must:**
+1. **Check for new candidates.** Review today's CVE disclosures for HTTP-parsing-adjacent vulnerabilities that meet 3+ of these criteria: (a) HTTP-parsing adjacent, (b) low/no auth required, (c) high exploitability (public PoC, low attack complexity), (d) broad deployment footprint, (e) CWE family match (injection, memory corruption, auth bypass, deserialization).
+2. **Check for confirmations.** Cross-check all "watching" entries against the current CISA KEV feed. If a watched CVE appears in KEV, update its status to "confirmed" and record the kevDate.
+3. **Update config.json.** Add new entries to `exploit_watch_list.server` or `exploit_watch_list.desktop` in `kev-repo/config.json`. Update status of confirmed entries.
+4. **Update the dashboard.** Edit the `WATCH_LIST` JavaScript object in `docs/dashboard.html` to match config.json. The object is near the end of the script, look for `const WATCH_LIST = {`.
+5. **Update the walkthrough.** Edit the watch list tables in `docs/index.html` (section 11, id="watchlist") — add new table rows for new candidates, update status text for confirmations.
+6. **Report in your daily analysis.** Include a "Watch List Update" section in your report noting any additions, status changes, or near-misses.
+
+**Categories:** Server-side (things you patch on your servers) vs Desktop/Client-side (things delivered via HTTP to end-user machines). When in doubt, classify by where the vulnerability is exploited, not where the software runs.
+
+**The hit rate of this watch list is a testable metric for the HTTP-parsing thesis.** Track it explicitly — how many predictions confirmed vs. how many aged out without exploitation.
+
 ## COUNTER-ARGUMENTS
 For every strong claim you make, state the counter-argument. This is not optional. We're doing science, not advocacy. If the data supports our thesis, say so — but also say what would falsify it. If the data undermines our thesis, say that too.
 
@@ -93,6 +110,13 @@ Format:
 | Library survivorship bias | ... | ... |
 | CVSS ≠ exploitation | ... | ... |
 | Finance blind spots | ... | ... |
+
+## Watch List Update
+| Action | CVE | Product | Detail |
+|--------|-----|---------|--------|
+| ADDED / CONFIRMED / NO CHANGE | ... | ... | ... |
+
+**Watch list hit rate:** X of Y predictions confirmed. [Running commentary on what this means for the thesis.]
 
 ## Big Picture
 [Your deep thoughts — what's actually happening and what it means]

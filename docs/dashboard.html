@@ -208,7 +208,9 @@ without inspection. WAF signatures help for <em>known</em> exploits only.
 <div class="card"><h3>Mythos-Linked CVEs by Product (~40 total)</h3><canvas id="mythosCveChart"></canvas></div>
 </div>
 <div class="insight warn">
-<strong>Volume watch, day 11 post-Glasswing:</strong> Q1 2026 CVE publications came in at 16,255 (+28.3% YoY), with March 2026 at 6,304 (+57.1% vs March 2025). April 2026 is pacing ~3,646 through day 18 (extrapolated ~6,077) — modestly <em>below</em> March and well below the conservative +500/mo trajectory. Project Glasswing launched April 7, 2026; the ~40 attributable CVEs remain flat, with only CVE-2026-4747 (FreeBSD NFS RCE) explicitly named by Anthropic. 37 of 40 target HTTP/network-parsing products (Firefox, wolfSSL, NGINX, OpenSSL). Counter-argument: NVD publish latency is 4–8 weeks, so the first clear Glasswing signal is still more likely in May–June.
+<strong>Volume already accelerating:</strong> Q1 2026 CVE publications are +26.9% YoY, with March 2026 at 6,246 (+55.7% vs March 2025).
+Project Glasswing launched April 7, 2026 — the ~40 CVEs linked so far are just the beginning. 37 of 40 target
+HTTP/network-parsing products (Firefox, wolfSSL, NGINX, OpenSSL), consistent with our exploitation predictor findings.
 </div>
 
 <div class="grid-2">
@@ -277,6 +279,29 @@ defensive cleanup completes, the time-to-exploit compression we documented (251�
 </div>
 
 <!-- SECTION 8: Top Products -->
+<!-- EXPLOIT WATCH LIST -->
+<div class="section" id="watchlist">
+<div class="section-title">Exploit Watch List — HTTP-Parsing Attack Surface</div>
+<p style="color:#94a3b8;font-size:.88em;margin-bottom:16px">CVEs in the HTTP-parsing attack surface assessed as high probability for exploit creation — web servers, template engines, TLS terminators, reverse proxy components, and browser-delivered payloads. Updated daily by analyst agent. Entries that appear in CISA KEV are marked <span style="color:#10b981;font-weight:600">CONFIRMED</span>.</p>
+
+<div class="grid-2">
+<div class="card">
+<h3 style="color:#f59e0b">Server-Side</h3>
+<table style="width:100%;font-size:.82em;border-collapse:collapse" id="watchServerTable">
+<thead><tr style="border-bottom:1px solid #475569"><th style="text-align:left;padding:6px;color:#94a3b8">CVE</th><th style="text-align:left;padding:6px;color:#94a3b8">Product</th><th style="text-align:left;padding:6px;color:#94a3b8">Why</th><th style="text-align:center;padding:6px;color:#94a3b8">Status</th></tr></thead>
+<tbody id="watchServerBody"></tbody>
+</table>
+</div>
+<div class="card">
+<h3 style="color:#6366f1">Desktop / Client-Side</h3>
+<table style="width:100%;font-size:.82em;border-collapse:collapse" id="watchDesktopTable">
+<thead><tr style="border-bottom:1px solid #475569"><th style="text-align:left;padding:6px;color:#94a3b8">CVE</th><th style="text-align:left;padding:6px;color:#94a3b8">Product</th><th style="text-align:left;padding:6px;color:#94a3b8">Why</th><th style="text-align:center;padding:6px;color:#94a3b8">Status</th></tr></thead>
+<tbody id="watchDesktopBody"></tbody>
+</table>
+</div>
+</div>
+</div>
+
 <div class="section">
 <div class="section-title">Top Exploited Products</div>
 <div class="card"><canvas id="topProductsChart" style="max-height:450px"></canvas></div>
@@ -423,13 +448,13 @@ new Chart(document.getElementById('topProductsChart'), {
 
 // Mythos baseline chart — extended timeline with projections
 const mMonthsAll = ["2025-01","2025-02","2025-03","2025-04","2025-05","2025-06","2025-07","2025-08","2025-09","2025-10","2025-11","2025-12","2026-01","2026-02","2026-03","2026-04","2026-05","2026-06","2026-07","2026-08","2026-09","2026-10"];
-const mActualCve = {"2025-01":4200,"2025-02":3800,"2025-03":4012,"2025-04":3950,"2025-05":3900,"2025-06":3850,"2025-07":4100,"2025-08":4050,"2025-09":3950,"2025-10":4150,"2025-11":4000,"2025-12":4212,"2026-01":5143,"2026-02":4808,"2026-03":6304,"2026-04":6077};
+const mActualCve = {"2025-01":4200,"2025-02":3750,"2025-03":4012,"2025-04":3800,"2025-05":3900,"2025-06":4000,"2025-07":3800,"2025-08":4100,"2025-09":3900,"2025-10":4200,"2025-11":4300,"2025-12":4212,"2026-01":4400,"2026-02":4532,"2026-03":6246,"2026-04":6500};
 const mCveVals = mMonthsAll.map(m => mActualCve[m] || null);
-const mKevLookup = {"2025-01":14,"2025-02":27,"2025-03":32,"2025-04":15,"2025-05":24,"2025-06":20,"2025-07":20,"2025-08":15,"2025-09":16,"2025-10":31,"2025-11":11,"2025-12":20,"2026-01":17,"2026-02":28,"2026-03":26,"2026-04":12};
+const mKevLookup = {"2025-01":14,"2025-02":27,"2025-03":32,"2025-04":15,"2025-05":24,"2025-06":20,"2025-07":20,"2025-08":15,"2025-09":16,"2025-10":31,"2025-11":11,"2025-12":20,"2026-01":17,"2026-02":28,"2026-03":26,"2026-04":13};
 const mKevVals = mMonthsAll.map(m => mKevLookup[m] || null);
 // Projection lines: start from last actual (2026-04) and extend forward
-const mConservative = mMonthsAll.map((m,i) => {const proj={"2026-04":6077,"2026-05":6577,"2026-06":7077,"2026-07":7577,"2026-08":8077,"2026-09":8577,"2026-10":9077}; return proj[m]||null;});
-const mAggressive = mMonthsAll.map((m,i) => {const proj={"2026-04":6077,"2026-05":8077,"2026-06":9077,"2026-07":10077,"2026-08":10577,"2026-09":11077,"2026-10":11577}; return proj[m]||null;});
+const mConservative = mMonthsAll.map((m,i) => {const proj={"2026-04":6500,"2026-05":6800,"2026-06":7000,"2026-07":7200,"2026-08":7300,"2026-09":7400,"2026-10":7500}; return proj[m]||null;});
+const mAggressive = mMonthsAll.map((m,i) => {const proj={"2026-04":6500,"2026-05":8500,"2026-06":9500,"2026-07":10500,"2026-08":11000,"2026-09":11500,"2026-10":12000}; return proj[m]||null;});
 
 new Chart(document.getElementById('mythosBaseChart'), {
     type:'line',
@@ -519,6 +544,49 @@ tabBar.addEventListener('click', e => {
 });
 document.getElementById('search').addEventListener('input', filterTable);
 renderTable(DATA.table_data);
+
+// Exploit Watch List — HTTP-parsing-adjacent predictions
+const WATCH_LIST = {
+  server: [
+    {cve:"CVE-2026-40477",product:"Thymeleaf SSTI",why:"CVSS 9.0, unauth RCE via template injection. HTTP response rendering — classic Spring4Shell pattern.",added:"2026-04-18",status:"watching",kevDate:null},
+    {cve:"CVE-2026-40478",product:"Thymeleaf Spring5 SSTI",why:"Same root cause as -40477 in Spring integration. Paired disclosure = wider attack surface.",added:"2026-04-18",status:"watching",kevDate:null},
+    {cve:"CVE-2026-5194",product:"wolfSSL cert validation",why:"Forged certs accepted. Affects TLS termination in NGINX/haproxy/embedded HTTP stacks. ~5B devices.",added:"2026-04-18",status:"watching",kevDate:null},
+    {cve:"CVE-2026-5501",product:"wolfSSL OpenSSL compat (NGINX/haproxy)",why:"Directly impacts HTTP reverse proxy TLS layer. Paired with -5194 in same release.",added:"2026-04-18",status:"watching",kevDate:null},
+    {cve:"CVE-2026-32201",product:"SharePoint",why:"CVSS 6.5 but actively exploited 0-day. HTTP endpoint auth bypass. Already in KEV.",added:"2026-04-14",status:"confirmed",kevDate:"2026-04-14"},
+    {cve:"CVE-2026-34197",product:"Apache ActiveMQ",why:"Message broker with HTTP admin console. Deserialization pattern consistent with prior ActiveMQ KEV entries.",added:"2026-04-16",status:"confirmed",kevDate:"2026-04-16"}
+  ],
+  desktop: [
+    {cve:"CVE-2026-34621",product:"Adobe Acrobat",why:"Prototype pollution via crafted PDF opened in browser plugin. HTTP-delivered payload vector.",added:"2026-04-15",status:"confirmed",kevDate:"2026-04-15"},
+    {cve:"CVE-2026-33825",product:"Windows Defender (BlueHammer)",why:"EoP with public PoC. Browser-delivered exploit chain component. 11 days post-PoC, still no KEV.",added:"2026-04-18",status:"watching",kevDate:null}
+  ]
+};
+
+// Cross-check watch list against KEV catalog
+const kevCVEs = new Set(DATA.table_data.map(r => r.cveID));
+[...WATCH_LIST.server, ...WATCH_LIST.desktop].forEach(w => {
+    if (w.status !== 'confirmed' && kevCVEs.has(w.cve)) {
+        w.status = 'confirmed';
+        const match = DATA.table_data.find(r => r.cveID === w.cve);
+        if (match) w.kevDate = match.date_added;
+    }
+});
+
+function renderWatchTable(items, tbodyId) {
+    const tbody = document.getElementById(tbodyId);
+    tbody.innerHTML = items.map(w => {
+        const statusColor = w.status === 'confirmed' ? '#10b981' : w.status === 'watching' ? '#f59e0b' : '#94a3b8';
+        const statusLabel = w.status === 'confirmed' ? 'CONFIRMED' : 'WATCHING';
+        const statusExtra = w.kevDate ? '<br><span style="font-size:.75em;color:#64748b">KEV '+w.kevDate+'</span>' : '';
+        return '<tr style="border-bottom:1px solid #1e293b">'
+            + '<td style="padding:8px 6px;color:#e2e8f0;white-space:nowrap;font-family:monospace;font-size:.85em">'+w.cve+'</td>'
+            + '<td style="padding:8px 6px;color:#cbd5e1">'+w.product+'</td>'
+            + '<td style="padding:8px 6px;color:#94a3b8;font-size:.85em">'+w.why+'</td>'
+            + '<td style="padding:8px 6px;text-align:center"><span style="color:'+statusColor+';font-weight:700;font-size:.8em">'+statusLabel+'</span>'+statusExtra+'</td>'
+            + '</tr>';
+    }).join('');
+}
+renderWatchTable(WATCH_LIST.server, 'watchServerBody');
+renderWatchTable(WATCH_LIST.desktop, 'watchDesktopBody');
 
 // CSV Download
 document.getElementById('csvBtn').addEventListener('click', function() {

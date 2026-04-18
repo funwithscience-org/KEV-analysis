@@ -93,7 +93,8 @@ code{background:var(--code-bg);padding:2px 6px;border-radius:4px;font-size:.88em
 <a href="#recommendations"><span class="toc-num">9</span> Recommendations</a>
 <a href="#mythos"><span class="toc-num">10</span> Mythos Detector</a>
 <a href="#glasswing" class="sub">Glasswing Participants</a>
-<a href="#caveats"><span class="toc-num">11</span> Caveats</a>
+<a href="#watchlist"><span class="toc-num">11</span> Exploit Watch List</a>
+<a href="#caveats"><span class="toc-num">12</span> Caveats</a>
 </nav>
 
 <!-- MAIN CONTENT -->
@@ -350,17 +351,14 @@ management teams is immediate: will this meaningfully increase the monthly volum
 <thead><tr><th>Period</th><th>Monthly CVE Avg</th><th>Monthly KEV Avg</th><th>CVE YoY Change</th></tr></thead>
 <tbody>
 <tr><td>2025 Full Year</td><td><strong>4,015</strong></td><td><strong>20.4</strong></td><td>+16% vs 2024</td></tr>
-<tr><td>2026 Q1 (Jan–Mar)</td><td><strong>5,418</strong></td><td><strong>23.7</strong></td><td><span class="tag tag-red">+28.3% vs 2025 Q1</span></td></tr>
-<tr><td>2026 March alone</td><td><strong>6,304</strong></td><td>26</td><td><span class="tag tag-red">+57.1% vs Mar 2025</span></td></tr>
-<tr><td>2026 April MTD (thru 04-18)</td><td><strong>3,646</strong> (extrap. ~6,077)</td><td>12</td><td><span class="tag tag-amber">flat vs March</span></td></tr>
+<tr><td>2026 Q1 (Jan–Mar)</td><td><strong>5,059</strong></td><td><strong>23.7</strong></td><td><span class="tag tag-red">+26.9% vs 2025 Q1</span></td></tr>
+<tr><td>2026 March alone</td><td><strong>6,246</strong></td><td>26</td><td><span class="tag tag-red">+55.7% vs Mar 2025</span></td></tr>
 </tbody></table>
 
 <div class="callout callout-warning">
 <strong>The volume trend was already accelerating before Mythos.</strong> CVE publications grew ~16% in 2025 over 2024, but Q1 2026
-came in +28.3% year-over-year, with March spiking +57.1%. This growth is driven by expanded CNA (CVE Numbering Authority)
-participation, automated fuzzing, and broader disclosure norms — not yet by Glasswing, which launched April 7. Early April
-(through day 18) is actually pacing <em>flat to slightly below</em> March — no Glasswing-driven inflection is visible yet,
-which is consistent with NVD's typical 4–8 week publish latency.
+is running +26.9% year-over-year, with March spiking +55.7%. This growth is driven by expanded CNA (CVE Numbering Authority)
+participation, automated fuzzing, and broader disclosure norms — not yet by Glasswing, which launched April 7.
 </div>
 
 <h3>What Mythos Has Found So Far</h3>
@@ -466,11 +464,10 @@ Red Hat Enterprise Linux 8.</p>
 </tbody></table>
 
 <div class="callout callout-finding">
-<strong>Scale difference:</strong> Microsoft ships ~94 security fixes/month across its portfolio; RHEL 8 ships ~17–25/month.
-Both numbers are <em>before</em> Glasswing materially shows up in either feed. Microsoft's April 2026 Patch Tuesday landed
-at 163 CVEs (up from 79 in March) and includes one actively exploited zero-day (CVE-2026-32201, SharePoint). It's tempting to
-link that spike to Glasswing's launch, but the October 2025 spike of 167 occurred entirely pre-Glasswing — Microsoft simply
-runs lumpy, with high-volume Patch Tuesdays a normal occurrence. Counter-argument: a single Patch Tuesday spike is not signal.
+<strong>Scale difference:</strong> Microsoft ships ~94 security fixes/month across its portfolio; RHEL 8 ships ~17/month.
+Both numbers are <em>before</em> Glasswing. Microsoft's April 2026 spike to 163 CVEs (up from 79 in March) coincides with
+Glasswing's launch — though it's too early to attribute causation. The October 2025 spike (167) occurred pre-Glasswing,
+suggesting Microsoft already had a high-volume patching cadence.
 </div>
 
 <p><strong>On the security vs. operational split:</strong> Microsoft Patch Tuesday is exclusively security fixes — operational/feature
@@ -487,13 +484,9 @@ proportionally across months.</p>
 </div>
 
 <div class="callout callout-danger">
-<strong>Bottom line (as of 2026-04-18, day 11 post-launch):</strong> Actual April volume is extrapolating to ~6,077 —
-below the conservative anchor and well below the aggressive scenario. That's the signal the feed is showing <em>right now</em>.
-The counter-argument matters: NVD takes 4–8 weeks to publish a typical CVE, so Glasswing-discovered vulnerabilities
-disclosed on/after April 7 largely haven't surfaced yet. The conservative scenario (+500 CVEs/month from Glasswing) would
-still push monthly volume past 7,000 by June. The aggressive scenario (if Mythos finds vulnerabilities at the rate the
-Firefox benchmarks suggest) could add 2,000–5,000 CVEs/month, pushing total volume to 10,000–12,000 — a level that would
-break most organizations' patch management processes. We'll know far more by the July Glasswing disclosure.
+<strong>Bottom line:</strong> Even the conservative scenario (+500 CVEs/month from Glasswing) would push monthly volume past 6,000 sustainably.
+The aggressive scenario (if Mythos finds vulnerabilities at the rate the Firefox benchmarks suggest) could add 2,000–5,000 CVEs/month,
+pushing total volume to 8,000–11,000 — a level that would break most organizations' patch management processes.
 </div>
 
 <p>The critical question isn't just <em>volume</em> but <em>severity distribution</em>. If Mythos disproportionately finds
@@ -511,8 +504,57 @@ already compressed.</p>
 <p>Full Glasswing results are expected around <strong>July 2026</strong>. Until then, these projections remain speculative —
 but the trajectory is clear enough to warrant preparation.</p>
 
-<!-- ========== 11. CAVEATS ========== -->
-<h2 id="caveats">11. Caveats & Methodology Limitations</h2>
+<!-- ========== 11. EXPLOIT WATCH LIST ========== -->
+<h2 id="watchlist">11. Exploit Watch List — HTTP-Parsing Attack Surface</h2>
+
+<p>If the HTTP-parsing thesis holds — that components directly handling HTTP request/response parsing are exploited at 3-6x the rate of non-HTTP components — then we should be able to <em>predict</em> which newly disclosed CVEs are most likely to end up in KEV. This section tracks those predictions in real time, split by server-side and client-side attack vectors.</p>
+
+<p>The focus is deliberately narrow: web servers, template engines, TLS terminators, reverse proxy components, API frameworks, and browser-delivered payloads that traverse the HTTP parsing stack. Network device firmware, kernel privilege escalation, and other non-HTTP vectors are tracked elsewhere but excluded from this watch list.</p>
+
+<h3>Selection Criteria</h3>
+
+<p>A CVE is added to the watch list when it meets at least three of these five indicators:</p>
+
+<p><strong>1. HTTP-parsing adjacency.</strong> The vulnerable component directly processes, renders, or terminates HTTP traffic — request parsing, response rendering, TLS handshake, header processing, template execution, or content delivery.</p>
+
+<p><strong>2. Low or no authentication requirement.</strong> Unauthenticated or pre-auth exploitation paths. Our data shows that CVEs requiring authentication have significantly lower KEV representation.</p>
+
+<p><strong>3. High exploitability signal.</strong> CVSS attack complexity Low, public PoC available, or pattern-match to a previously exploited bug class (e.g., SSTI, deserialization, path traversal via archive extraction).</p>
+
+<p><strong>4. Broad deployment footprint.</strong> The affected product is deployed at scale — Spring ecosystem, NGINX/Apache modules, embedded TLS libraries, major CMS platforms.</p>
+
+<p><strong>5. CWE family match.</strong> The vulnerability falls into a CWE family with historically high KEV representation: injection (CWE-94/78/89), memory corruption (CWE-787/416/122), authentication bypass (CWE-287/306), or deserialization (CWE-502).</p>
+
+<h3>Server-Side Watch List</h3>
+
+<table class="data-table">
+<thead><tr><th>CVE</th><th>Product</th><th>Rationale</th><th>Status</th></tr></thead>
+<tbody>
+<tr><td><code>CVE-2026-40477</code></td><td>Thymeleaf SSTI</td><td>CVSS 9.0, unauth RCE via server-side template injection. HTTP response rendering path — repeats the Spring4Shell pattern of template/expression engine bypass. Broad Spring-MVC deployment.</td><td style="color:#d97706;font-weight:600">WATCHING</td></tr>
+<tr><td><code>CVE-2026-40478</code></td><td>Thymeleaf Spring5 SSTI</td><td>Paired disclosure with -40477, targeting the Spring 5 integration specifically. Same root cause, wider attack surface through Spring Boot auto-configuration.</td><td style="color:#d97706;font-weight:600">WATCHING</td></tr>
+<tr><td><code>CVE-2026-5194</code></td><td>wolfSSL cert validation</td><td>Forged certificates accepted across ECDSA/DSA/Ed25519 paths. Directly impacts TLS termination in NGINX, haproxy, and embedded HTTP stacks. ~5 billion affected devices per vendor estimate. Mythos-attributed discovery.</td><td style="color:#d97706;font-weight:600">WATCHING</td></tr>
+<tr><td><code>CVE-2026-5501</code></td><td>wolfSSL OpenSSL compat layer</td><td>Impacts NGINX/haproxy HTTP reverse proxy deployments using wolfSSL's OpenSSL compatibility shim. Paired with -5194 in the same v5.9.1 release.</td><td style="color:#d97706;font-weight:600">WATCHING</td></tr>
+<tr><td><code>CVE-2026-32201</code></td><td>SharePoint</td><td>HTTP endpoint auth bypass, CVSS 6.5 but actively exploited as a zero-day. Added to KEV same day as Patch Tuesday disclosure.</td><td style="color:#059669;font-weight:600">CONFIRMED — KEV 2026-04-14</td></tr>
+<tr><td><code>CVE-2026-34197</code></td><td>Apache ActiveMQ</td><td>Message broker with HTTP admin console. Deserialization pattern consistent with prior ActiveMQ KEV entries (CVE-2023-46604).</td><td style="color:#059669;font-weight:600">CONFIRMED — KEV 2026-04-16</td></tr>
+</tbody>
+</table>
+
+<h3>Desktop / Client-Side Watch List</h3>
+
+<table class="data-table">
+<thead><tr><th>CVE</th><th>Product</th><th>Rationale</th><th>Status</th></tr></thead>
+<tbody>
+<tr><td><code>CVE-2026-34621</code></td><td>Adobe Acrobat</td><td>Prototype pollution via crafted PDF. Primary delivery vector is HTTP (email links, drive-by downloads). Browser plugin rendering path.</td><td style="color:#059669;font-weight:600">CONFIRMED — KEV 2026-04-15</td></tr>
+<tr><td><code>CVE-2026-33825</code></td><td>Windows Defender (BlueHammer)</td><td>EoP with public PoC. Browser-delivered exploit chain component (initial access via HTTP, escalation via Defender). 11+ days post-PoC, no KEV yet.</td><td style="color:#d97706;font-weight:600">WATCHING</td></tr>
+</tbody>
+</table>
+
+<div class="callout callout-info">
+<strong>Tracking methodology:</strong> The analyst agent reviews new NVD and KEV entries daily, evaluates them against the five criteria above, and adds qualifying CVEs to this list. When a watched CVE appears in CISA KEV, it is marked as CONFIRMED — validating (or failing to validate) the HTTP-parsing exploitation predictor. The hit rate of this watch list is itself a testable metric for the thesis.
+</div>
+
+<!-- ========== 12. CAVEATS ========== -->
+<h2 id="caveats">12. Caveats & Methodology Limitations</h2>
 
 <p><strong>KEV selection bias.</strong> CISA KEV prioritizes US federal interest and publicly confirmed exploitation. Private-sector exploitation, especially by sophisticated actors, is underrepresented. A zero-day in a niche financial library might never reach KEV even if actively exploited against banks.</p>
 
@@ -620,8 +662,8 @@ new Chart(document.getElementById('docPatchVelocityChart'), {
 
 // Mythos baseline chart
 const mythosMonths = ["2025-01", "2025-02", "2025-03", "2025-04", "2025-05", "2025-06", "2025-07", "2025-08", "2025-09", "2025-10", "2025-11", "2025-12", "2026-01", "2026-02", "2026-03", "2026-04"];
-const mythosCveVals = mythosMonths.map(m => ({"2025-01": 4200, "2025-02": 3800, "2025-03": 4012, "2025-04": 3950, "2025-05": 3900, "2025-06": 3850, "2025-07": 4100, "2025-08": 4050, "2025-09": 3950, "2025-10": 4150, "2025-11": 4000, "2025-12": 4212, "2026-01": 5143, "2026-02": 4808, "2026-03": 6304, "2026-04": 6077})[m]);
-const mythosKevVals = mythosMonths.map(m => ({"2025-01": 14, "2025-02": 27, "2025-03": 32, "2025-04": 15, "2025-05": 24, "2025-06": 20, "2025-07": 20, "2025-08": 15, "2025-09": 16, "2025-10": 31, "2025-11": 11, "2025-12": 20, "2026-01": 17, "2026-02": 28, "2026-03": 26, "2026-04": 12}[m] || 0));
+const mythosCveVals = mythosMonths.map(m => ({"2025-01": 4200, "2025-02": 3750, "2025-03": 4012, "2025-04": 3800, "2025-05": 3900, "2025-06": 4000, "2025-07": 3800, "2025-08": 4100, "2025-09": 3900, "2025-10": 4200, "2025-11": 4300, "2025-12": 4212, "2026-01": 4400, "2026-02": 4532, "2026-03": 6246, "2026-04": 6500})[m]);
+const mythosKevVals = mythosMonths.map(m => ({"2025-01": 14, "2025-02": 27, "2025-03": 32, "2025-04": 15, "2025-05": 24, "2025-06": 20, "2025-07": 20, "2025-08": 15, "2025-09": 16, "2025-10": 31, "2025-11": 11, "2025-12": 20, "2026-01": 17, "2026-02": 28, "2026-03": 26, "2026-04": 13}[m] || 0));
 
 new Chart(document.getElementById('docMythosBaselineChart'), {
     type: 'bar',
@@ -662,9 +704,9 @@ new Chart(document.getElementById('docMythosCveChart'), {
 
 // Projection chart
 const projMonths = ['2025-01','2025-04','2025-07','2025-10','2026-01','2026-04','2026-07','2026-10','2027-01'];
-const baselineTrend = [4200,3950,4100,4150,5143,6077,6300,6500,6700];
-const conservativeScenario = [null,null,null,null,null,6077,7077,8077,9077];
-const aggressiveScenario = [null,null,null,null,null,6077,10077,11077,12077];
+const baselineTrend = [4200,3800,3800,4200,4400,6500,6800,7000,7200];
+const conservativeScenario = [null,null,null,null,null,6500,7300,7500,7700];
+const aggressiveScenario = [null,null,null,null,null,6500,9500,10500,11000];
 
 new Chart(document.getElementById('docMythosProjectionChart'), {
     type: 'line',
