@@ -351,14 +351,19 @@ management teams is immediate: will this meaningfully increase the monthly volum
 <thead><tr><th>Period</th><th>Monthly CVE Avg</th><th>Monthly KEV Avg</th><th>CVE YoY Change</th></tr></thead>
 <tbody>
 <tr><td>2025 Full Year</td><td><strong>4,015</strong></td><td><strong>20.4</strong></td><td>+16% vs 2024</td></tr>
-<tr><td>2026 Q1 (Jan–Mar)</td><td><strong>5,059</strong></td><td><strong>23.7</strong></td><td><span class="tag tag-red">+26.9% vs 2025 Q1</span></td></tr>
-<tr><td>2026 March alone</td><td><strong>6,246</strong></td><td>26</td><td><span class="tag tag-red">+55.7% vs Mar 2025</span></td></tr>
+<tr><td>2026 Q1 (Jan–Mar)</td><td><strong>5,418</strong></td><td><strong>23.7</strong></td><td><span class="tag tag-red">+35.3% vs 2025 Q1</span></td></tr>
+<tr><td>2026 March alone</td><td><strong>6,304</strong></td><td>26</td><td><span class="tag tag-red">+57.1% vs Mar 2025</span></td></tr>
+<tr><td>2026 April MTD (day 18)</td><td><strong>3,649</strong> (ex. ~6,082)</td><td>14</td><td><span class="tag">Pacing flat-to-below March</span></td></tr>
 </tbody></table>
 
 <div class="callout callout-warning">
 <strong>The volume trend was already accelerating before Mythos.</strong> CVE publications grew ~16% in 2025 over 2024, but Q1 2026
-is running +26.9% year-over-year, with March spiking +55.7%. This growth is driven by expanded CNA (CVE Numbering Authority)
+is running +35.3% year-over-year, with March spiking +57.1%. This growth is driven by expanded CNA (CVE Numbering Authority)
 participation, automated fuzzing, and broader disclosure norms — not yet by Glasswing, which launched April 7.
+April 2026 is pacing ~3,649 through day 18 (extrapolated ~6,082) — modestly <em>below</em> March and well below
+the conservative +500/mo Glasswing trajectory. Counter-argument: NVD publish latency is typically 4–8 weeks, so
+Glasswing discoveries from the April 7 launch largely haven't surfaced yet. Expect the first meaningful signal in
+May–June 2026, with fuller visibility after Anthropic's planned July disclosure.
 </div>
 
 <h3>What Mythos Has Found So Far</h3>
@@ -662,8 +667,8 @@ new Chart(document.getElementById('docPatchVelocityChart'), {
 
 // Mythos baseline chart
 const mythosMonths = ["2025-01", "2025-02", "2025-03", "2025-04", "2025-05", "2025-06", "2025-07", "2025-08", "2025-09", "2025-10", "2025-11", "2025-12", "2026-01", "2026-02", "2026-03", "2026-04"];
-const mythosCveVals = mythosMonths.map(m => ({"2025-01": 4200, "2025-02": 3750, "2025-03": 4012, "2025-04": 3800, "2025-05": 3900, "2025-06": 4000, "2025-07": 3800, "2025-08": 4100, "2025-09": 3900, "2025-10": 4200, "2025-11": 4300, "2025-12": 4212, "2026-01": 4400, "2026-02": 4532, "2026-03": 6246, "2026-04": 6500})[m]);
-const mythosKevVals = mythosMonths.map(m => ({"2025-01": 14, "2025-02": 27, "2025-03": 32, "2025-04": 15, "2025-05": 24, "2025-06": 20, "2025-07": 20, "2025-08": 15, "2025-09": 16, "2025-10": 31, "2025-11": 11, "2025-12": 20, "2026-01": 17, "2026-02": 28, "2026-03": 26, "2026-04": 13}[m] || 0));
+const mythosCveVals = mythosMonths.map(m => ({"2025-01": 4200, "2025-02": 3800, "2025-03": 4012, "2025-04": 3950, "2025-05": 3900, "2025-06": 3850, "2025-07": 4100, "2025-08": 4050, "2025-09": 3950, "2025-10": 4150, "2025-11": 4000, "2025-12": 4212, "2026-01": 5143, "2026-02": 4808, "2026-03": 6304, "2026-04": 6082})[m]);
+const mythosKevVals = mythosMonths.map(m => ({"2025-01": 14, "2025-02": 27, "2025-03": 32, "2025-04": 15, "2025-05": 24, "2025-06": 20, "2025-07": 20, "2025-08": 15, "2025-09": 16, "2025-10": 31, "2025-11": 11, "2025-12": 20, "2026-01": 17, "2026-02": 28, "2026-03": 26, "2026-04": 14}[m] || 0));
 
 new Chart(document.getElementById('docMythosBaselineChart'), {
     type: 'bar',
@@ -704,9 +709,9 @@ new Chart(document.getElementById('docMythosCveChart'), {
 
 // Projection chart
 const projMonths = ['2025-01','2025-04','2025-07','2025-10','2026-01','2026-04','2026-07','2026-10','2027-01'];
-const baselineTrend = [4200,3800,3800,4200,4400,6500,6800,7000,7200];
-const conservativeScenario = [null,null,null,null,null,6500,7300,7500,7700];
-const aggressiveScenario = [null,null,null,null,null,6500,9500,10500,11000];
+const baselineTrend = [4200,3950,4100,4150,5143,6082,6200,6300,6400];
+const conservativeScenario = [null,null,null,null,null,6082,7582,9082,10582];
+const aggressiveScenario = [null,null,null,null,null,6082,10082,11582,13082];
 
 new Chart(document.getElementById('docMythosProjectionChart'), {
     type: 'line',
