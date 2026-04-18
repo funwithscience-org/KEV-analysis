@@ -20,7 +20,12 @@
     "known_count": 40,
     "product_breakdown": {"Mozilla Firefox": 28, "wolfSSL": 9, "F5 NGINX Plus": 1, "FreeBSD": 1, "OpenSSL": 1},
     "confirmed_glasswing_cves": ["CVE-2026-4747"],
-    "adjacent_claude_attributed": ["CVE-2026-5588"],
+    "claude_credited_cves": ["CVE-2026-4747", "CVE-2026-5194", "CVE-2026-5588"],
+    "claude_credited_notes": {
+      "CVE-2026-4747": "FreeBSD NFS RCE — confirmed Glasswing autonomous find",
+      "CVE-2026-5194": "wolfSSL cert validation bypass — press-confirmed Mythos Preview-assisted, Carlini @ Anthropic",
+      "CVE-2026-5588": "Bouncy Castle — credited to Carlini + Claude"
+    },
     "last_verified": "2026-04-18T05:41Z",
     "participants": [
       "AWS", "Anthropic", "Apple", "Broadcom", "Cisco", "CrowdStrike",

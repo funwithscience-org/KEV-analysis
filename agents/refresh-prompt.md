@@ -31,8 +31,9 @@ You must refresh every data point in the Mythos Detector section of both HTML fi
   - Web search: "Glasswing CVE", "Mythos Preview vulnerability", "AI-discovered CVE 2026"
   - Check if any new products have been added to the Glasswing scope
 - Update the product labels and counts array in mythosCveChart (line ~460): `labels:[...], data:[28, 9, 1, 1, 1]`
-- Update the `known_count` in kev-config.json if the total has changed from 40
+- Update the `known_count` in config.json if the total has changed from 40
 - Also update the chart title if count changes: `Mythos-Linked CVEs by Product (~XX total)`
+- Check for new Claude-credited CVEs (search: "Carlini Claude CVE", "Mythos Preview credited"). As of 2026-04-18, three have explicit credit: CVE-2026-4747 (FreeBSD, autonomous), CVE-2026-5194 (wolfSSL, Mythos-assisted), CVE-2026-5588 (Bouncy Castle, Carlini + Claude). If you find new ones, add them to the `claude_credited_cves` array and `claude_credited_notes` in config.json, and update the narrative in both HTML files.
 
 ### 4. Microsoft Patch Tuesday (dashPatchChart - MS dataset)
 - Check for new Patch Tuesday release (typically 2nd Tuesday of each month)

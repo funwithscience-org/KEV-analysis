@@ -369,8 +369,13 @@ May–June 2026, with fuller visibility after Anthropic's planned July disclosur
 <h3>What Mythos Has Found So Far</h3>
 
 <p>According to VulnCheck analysis of the CVE database, approximately <strong>40 CVEs</strong> can be tentatively linked to
-Anthropic or Anthropic-affiliated researchers. Only one — <strong>CVE-2026-4747</strong> (FreeBSD NFS RCE, a 17-year-old bug) —
-is directly confirmed as a Glasswing finding.</p>
+Anthropic or Anthropic-affiliated researchers. Three now carry explicit Claude/Mythos credit lines:</p>
+<ul style="margin:.8em 0;padding-left:1.5em;color:#cbd5e1">
+<li><strong>CVE-2026-4747</strong> — FreeBSD NFS RCE (17-year-old bug). Confirmed autonomous Glasswing find.</li>
+<li><strong>CVE-2026-5194</strong> — wolfSSL certificate-validation bypass (~5B affected devices). Press-confirmed as Mythos Preview–assisted discovery, credited to Nicholas Carlini at Anthropic.</li>
+<li><strong>CVE-2026-5588</strong> — Bouncy Castle cryptographic library. Credited to Carlini + Claude.</li>
+</ul>
+<p>The pattern has moved beyond a single data point: three Claude-credited disclosures in two weeks, spanning two TLS/crypto libraries and one OS kernel, suggests a real — if still early — signal rather than noise.</p>
 
 <div class="chart-wrap">
 <h4>Mythos-Linked CVEs by Product (VulnCheck Analysis)</h4>
@@ -381,9 +386,9 @@ is directly confirmed as a Glasswing finding.</p>
 <thead><tr><th>Product</th><th>CVEs</th><th>Notes</th></tr></thead>
 <tbody>
 <tr><td>Mozilla Firefox</td><td><strong>28</strong></td><td>JavaScript engine exploits; 181 working exploits in eval</td></tr>
-<tr><td>wolfSSL</td><td><strong>9</strong></td><td>TLS library — aligns with HTTP-parsing thesis</td></tr>
+<tr><td>wolfSSL</td><td><strong>9</strong></td><td>TLS library — includes CVE-2026-5194 (Mythos-assisted, press-confirmed)</td></tr>
 <tr><td>F5 NGINX Plus</td><td>1</td><td>Web server / reverse proxy</td></tr>
-<tr><td>FreeBSD (NFS)</td><td>1</td><td>CVE-2026-4747 — confirmed Glasswing find</td></tr>
+<tr><td>FreeBSD (NFS)</td><td>1</td><td>CVE-2026-4747 — confirmed autonomous Glasswing find</td></tr>
 <tr><td>OpenSSL</td><td>1</td><td>Crypto library</td></tr>
 </tbody></table>
 
