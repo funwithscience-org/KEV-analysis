@@ -12,7 +12,7 @@
     "nvd_api": "https://services.nvd.nist.gov/rest/json/cves/2.0",
     "msrc_api": "https://api.msrc.microsoft.com/cvrf/v3.0/updates",
     "rhel_errata": "https://access.redhat.com/labs/securitydataapi/cve.json",
-    "stack_watch_rhel": "https://stack.watch/product/redhat/enterprise-linux/8.0",
+    "stack_watch_rhel": "https://stack.watch/product/redhat/enterprise-linux/",
     "jgamblin_monthly": "https://raw.githubusercontent.com/jgamblin/monthlyCVEStats/main/data/monthly.json"
   },
   "glasswing_targets": {
@@ -64,7 +64,7 @@
       "2026_q1_total": 98,
       "2026_monthly_avg": 25,
       "2026-04_estimated": 23,
-      "note": "Red Hat does not publish clean monthly aggregates; stack.watch RHEL8 page returned 404 on 2026-04-18 run — April count retained from prior estimate."
+      "note": "stack.watch dropped the /8.0 version-specific path; use parent URL (covers all RHEL versions). 2026 YTD: 99 per stack.watch as of 2026-04-18. Red Hat security data API also 404s — stack.watch is the best available source."
     },
     "kev_monthly_2026": {
       "2026-01": 17, "2026-02": 28, "2026-03": 26, "2026-04": 12
