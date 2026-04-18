@@ -81,7 +81,7 @@
     "Weekly CVE count for W16 partial (Apr 13–18, 6 days) is 1,143 — a daily pace of ~190. W15 full week (Apr 6–12) was 1,615 = ~231/day; W14 (Mar 30–Apr 5) was 1,304 = ~186/day. The post-Glasswing weeks are within normal weekly variance. No clear inflection."
   ],
   "changes_pushed": true,
-  "commit_sha": "pending_commit",
+  "commit_sha": "a202703ce85503855de2deeacce2847fbb0fbe4a",
   "errors": [
     "stack.watch RHEL8 version-specific /8.0 path returned 404 — RHEL 8 April count retained from prior baseline (23). Parent path at /redhat/enterprise-linux still works for YTD but does not split by version.",
     "Prior run committed dashboard updates in commit 0e8b6a2, but subsequent commits c7572b1 (Exploit Watch List) and b3cbc30 (CVSS column) inadvertently reverted the Mythos data in docs/dashboard.html and docs/index.html to pre-refresh values. This run re-applies the refresh on top of the latest commits."
