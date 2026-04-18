@@ -288,14 +288,14 @@ defensive cleanup completes, the time-to-exploit compression we documented (251�
 <div class="card">
 <h3 style="color:#f59e0b">Server-Side</h3>
 <table style="width:100%;font-size:.82em;border-collapse:collapse" id="watchServerTable">
-<thead><tr style="border-bottom:1px solid #475569"><th style="text-align:left;padding:6px;color:#94a3b8">CVE</th><th style="text-align:left;padding:6px;color:#94a3b8">Product</th><th style="text-align:left;padding:6px;color:#94a3b8">Why</th><th style="text-align:center;padding:6px;color:#94a3b8">Status</th></tr></thead>
+<thead><tr style="border-bottom:1px solid #475569"><th style="text-align:left;padding:6px;color:#94a3b8">CVE</th><th style="text-align:left;padding:6px;color:#94a3b8">Product</th><th style="text-align:center;padding:6px;color:#94a3b8">CVSS</th><th style="text-align:left;padding:6px;color:#94a3b8">Why</th><th style="text-align:center;padding:6px;color:#94a3b8">Status</th></tr></thead>
 <tbody id="watchServerBody"></tbody>
 </table>
 </div>
 <div class="card">
 <h3 style="color:#6366f1">Desktop / Client-Side</h3>
 <table style="width:100%;font-size:.82em;border-collapse:collapse" id="watchDesktopTable">
-<thead><tr style="border-bottom:1px solid #475569"><th style="text-align:left;padding:6px;color:#94a3b8">CVE</th><th style="text-align:left;padding:6px;color:#94a3b8">Product</th><th style="text-align:left;padding:6px;color:#94a3b8">Why</th><th style="text-align:center;padding:6px;color:#94a3b8">Status</th></tr></thead>
+<thead><tr style="border-bottom:1px solid #475569"><th style="text-align:left;padding:6px;color:#94a3b8">CVE</th><th style="text-align:left;padding:6px;color:#94a3b8">Product</th><th style="text-align:center;padding:6px;color:#94a3b8">CVSS</th><th style="text-align:left;padding:6px;color:#94a3b8">Why</th><th style="text-align:center;padding:6px;color:#94a3b8">Status</th></tr></thead>
 <tbody id="watchDesktopBody"></tbody>
 </table>
 </div>
@@ -548,16 +548,16 @@ renderTable(DATA.table_data);
 // Exploit Watch List — HTTP-parsing-adjacent predictions
 const WATCH_LIST = {
   server: [
-    {cve:"CVE-2026-40477",product:"Thymeleaf SSTI",why:"CVSS 9.0, unauth RCE via template injection. HTTP response rendering — classic Spring4Shell pattern.",added:"2026-04-18",status:"watching",kevDate:null},
-    {cve:"CVE-2026-40478",product:"Thymeleaf Spring5 SSTI",why:"Same root cause as -40477 in Spring integration. Paired disclosure = wider attack surface.",added:"2026-04-18",status:"watching",kevDate:null},
-    {cve:"CVE-2026-5194",product:"wolfSSL cert validation",why:"Forged certs accepted. Affects TLS termination in NGINX/haproxy/embedded HTTP stacks. ~5B devices.",added:"2026-04-18",status:"watching",kevDate:null},
-    {cve:"CVE-2026-5501",product:"wolfSSL OpenSSL compat (NGINX/haproxy)",why:"Directly impacts HTTP reverse proxy TLS layer. Paired with -5194 in same release.",added:"2026-04-18",status:"watching",kevDate:null},
-    {cve:"CVE-2026-32201",product:"SharePoint",why:"CVSS 6.5 but actively exploited 0-day. HTTP endpoint auth bypass. Already in KEV.",added:"2026-04-14",status:"confirmed",kevDate:"2026-04-14"},
-    {cve:"CVE-2026-34197",product:"Apache ActiveMQ",why:"Message broker with HTTP admin console. Deserialization pattern consistent with prior ActiveMQ KEV entries.",added:"2026-04-16",status:"confirmed",kevDate:"2026-04-16"}
+    {cve:"CVE-2026-40477",product:"Thymeleaf SSTI",cvss:9.0,why:"Unauth RCE via template injection. HTTP response rendering — classic Spring4Shell pattern.",added:"2026-04-18",status:"watching",kevDate:null},
+    {cve:"CVE-2026-40478",product:"Thymeleaf Spring5 SSTI",cvss:9.0,why:"Same root cause as -40477 in Spring integration. Paired disclosure = wider attack surface.",added:"2026-04-18",status:"watching",kevDate:null},
+    {cve:"CVE-2026-5194",product:"wolfSSL cert validation",cvss:9.1,why:"Forged certs accepted. Affects TLS termination in NGINX/haproxy/embedded HTTP stacks. ~5B devices.",added:"2026-04-18",status:"watching",kevDate:null},
+    {cve:"CVE-2026-5501",product:"wolfSSL OpenSSL compat (NGINX/haproxy)",cvss:8.1,why:"Directly impacts HTTP reverse proxy TLS layer. Paired with -5194 in same release.",added:"2026-04-18",status:"watching",kevDate:null},
+    {cve:"CVE-2026-32201",product:"SharePoint",cvss:6.5,why:"Actively exploited 0-day. HTTP endpoint auth bypass. Already in KEV.",added:"2026-04-14",status:"confirmed",kevDate:"2026-04-14"},
+    {cve:"CVE-2026-34197",product:"Apache ActiveMQ",cvss:9.8,why:"HTTP admin console deserialization. Pattern consistent with prior ActiveMQ KEV entries.",added:"2026-04-16",status:"confirmed",kevDate:"2026-04-16"}
   ],
   desktop: [
-    {cve:"CVE-2026-34621",product:"Adobe Acrobat",why:"Prototype pollution via crafted PDF opened in browser plugin. HTTP-delivered payload vector.",added:"2026-04-15",status:"confirmed",kevDate:"2026-04-15"},
-    {cve:"CVE-2026-33825",product:"Windows Defender (BlueHammer)",why:"EoP with public PoC. Browser-delivered exploit chain component. 11 days post-PoC, still no KEV.",added:"2026-04-18",status:"watching",kevDate:null}
+    {cve:"CVE-2026-34621",product:"Adobe Acrobat",cvss:7.8,why:"Prototype pollution via crafted PDF opened in browser plugin. HTTP-delivered payload vector.",added:"2026-04-15",status:"confirmed",kevDate:"2026-04-15"},
+    {cve:"CVE-2026-33825",product:"Windows Defender (BlueHammer)",cvss:7.8,why:"EoP with public PoC. Browser-delivered exploit chain component. 11+ days post-PoC, still no KEV.",added:"2026-04-18",status:"watching",kevDate:null}
   ]
 };
 
@@ -577,9 +577,11 @@ function renderWatchTable(items, tbodyId) {
         const statusColor = w.status === 'confirmed' ? '#10b981' : w.status === 'watching' ? '#f59e0b' : '#94a3b8';
         const statusLabel = w.status === 'confirmed' ? 'CONFIRMED' : 'WATCHING';
         const statusExtra = w.kevDate ? '<br><span style="font-size:.75em;color:#64748b">KEV '+w.kevDate+'</span>' : '';
+        const cvssColor = w.cvss >= 9.0 ? '#ef4444' : w.cvss >= 7.0 ? '#f59e0b' : '#94a3b8';
         return '<tr style="border-bottom:1px solid #1e293b">'
             + '<td style="padding:8px 6px;color:#e2e8f0;white-space:nowrap;font-family:monospace;font-size:.85em">'+w.cve+'</td>'
             + '<td style="padding:8px 6px;color:#cbd5e1">'+w.product+'</td>'
+            + '<td style="padding:8px 6px;text-align:center;font-weight:700;color:'+cvssColor+'">'+w.cvss+'</td>'
             + '<td style="padding:8px 6px;color:#94a3b8;font-size:.85em">'+w.why+'</td>'
             + '<td style="padding:8px 6px;text-align:center"><span style="color:'+statusColor+';font-weight:700;font-size:.8em">'+statusLabel+'</span>'+statusExtra+'</td>'
             + '</tr>';

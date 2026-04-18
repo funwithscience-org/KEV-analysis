@@ -528,24 +528,24 @@ but the trajectory is clear enough to warrant preparation.</p>
 <h3>Server-Side Watch List</h3>
 
 <table class="data-table">
-<thead><tr><th>CVE</th><th>Product</th><th>Rationale</th><th>Status</th></tr></thead>
+<thead><tr><th>CVE</th><th>Product</th><th>CVSS</th><th>Rationale</th><th>Status</th></tr></thead>
 <tbody>
-<tr><td><code>CVE-2026-40477</code></td><td>Thymeleaf SSTI</td><td>CVSS 9.0, unauth RCE via server-side template injection. HTTP response rendering path — repeats the Spring4Shell pattern of template/expression engine bypass. Broad Spring-MVC deployment.</td><td style="color:#d97706;font-weight:600">WATCHING</td></tr>
-<tr><td><code>CVE-2026-40478</code></td><td>Thymeleaf Spring5 SSTI</td><td>Paired disclosure with -40477, targeting the Spring 5 integration specifically. Same root cause, wider attack surface through Spring Boot auto-configuration.</td><td style="color:#d97706;font-weight:600">WATCHING</td></tr>
-<tr><td><code>CVE-2026-5194</code></td><td>wolfSSL cert validation</td><td>Forged certificates accepted across ECDSA/DSA/Ed25519 paths. Directly impacts TLS termination in NGINX, haproxy, and embedded HTTP stacks. ~5 billion affected devices per vendor estimate. Mythos-attributed discovery.</td><td style="color:#d97706;font-weight:600">WATCHING</td></tr>
-<tr><td><code>CVE-2026-5501</code></td><td>wolfSSL OpenSSL compat layer</td><td>Impacts NGINX/haproxy HTTP reverse proxy deployments using wolfSSL's OpenSSL compatibility shim. Paired with -5194 in the same v5.9.1 release.</td><td style="color:#d97706;font-weight:600">WATCHING</td></tr>
-<tr><td><code>CVE-2026-32201</code></td><td>SharePoint</td><td>HTTP endpoint auth bypass, CVSS 6.5 but actively exploited as a zero-day. Added to KEV same day as Patch Tuesday disclosure.</td><td style="color:#059669;font-weight:600">CONFIRMED — KEV 2026-04-14</td></tr>
-<tr><td><code>CVE-2026-34197</code></td><td>Apache ActiveMQ</td><td>Message broker with HTTP admin console. Deserialization pattern consistent with prior ActiveMQ KEV entries (CVE-2023-46604).</td><td style="color:#059669;font-weight:600">CONFIRMED — KEV 2026-04-16</td></tr>
+<tr><td><code>CVE-2026-40477</code></td><td>Thymeleaf SSTI</td><td><strong style="color:#dc2626">9.0</strong></td><td>Unauth RCE via server-side template injection. HTTP response rendering path — repeats the Spring4Shell pattern. Broad Spring-MVC deployment.</td><td style="color:#d97706;font-weight:600">WATCHING</td></tr>
+<tr><td><code>CVE-2026-40478</code></td><td>Thymeleaf Spring5 SSTI</td><td><strong style="color:#dc2626">9.0</strong></td><td>Paired disclosure with -40477, targeting Spring 5 integration. Same root cause, wider attack surface through Spring Boot auto-configuration.</td><td style="color:#d97706;font-weight:600">WATCHING</td></tr>
+<tr><td><code>CVE-2026-5194</code></td><td>wolfSSL cert validation</td><td><strong style="color:#dc2626">9.1</strong></td><td>Forged certificates accepted across ECDSA/DSA/Ed25519 paths. Directly impacts TLS termination in NGINX, haproxy, and embedded HTTP stacks. ~5B affected devices. Mythos-attributed discovery.</td><td style="color:#d97706;font-weight:600">WATCHING</td></tr>
+<tr><td><code>CVE-2026-5501</code></td><td>wolfSSL OpenSSL compat layer</td><td><strong style="color:#d97706">8.1</strong></td><td>Impacts NGINX/haproxy HTTP reverse proxy deployments via wolfSSL's OpenSSL compat shim. Paired with -5194 in v5.9.1 release.</td><td style="color:#d97706;font-weight:600">WATCHING</td></tr>
+<tr><td><code>CVE-2026-32201</code></td><td>SharePoint</td><td><strong style="color:#d97706">6.5</strong></td><td>HTTP endpoint auth bypass, actively exploited as a zero-day. Added to KEV same day as Patch Tuesday.</td><td style="color:#059669;font-weight:600">CONFIRMED — KEV 2026-04-14</td></tr>
+<tr><td><code>CVE-2026-34197</code></td><td>Apache ActiveMQ</td><td><strong style="color:#dc2626">9.8</strong></td><td>HTTP admin console deserialization. Pattern consistent with prior ActiveMQ KEV entries (CVE-2023-46604).</td><td style="color:#059669;font-weight:600">CONFIRMED — KEV 2026-04-16</td></tr>
 </tbody>
 </table>
 
 <h3>Desktop / Client-Side Watch List</h3>
 
 <table class="data-table">
-<thead><tr><th>CVE</th><th>Product</th><th>Rationale</th><th>Status</th></tr></thead>
+<thead><tr><th>CVE</th><th>Product</th><th>CVSS</th><th>Rationale</th><th>Status</th></tr></thead>
 <tbody>
-<tr><td><code>CVE-2026-34621</code></td><td>Adobe Acrobat</td><td>Prototype pollution via crafted PDF. Primary delivery vector is HTTP (email links, drive-by downloads). Browser plugin rendering path.</td><td style="color:#059669;font-weight:600">CONFIRMED — KEV 2026-04-15</td></tr>
-<tr><td><code>CVE-2026-33825</code></td><td>Windows Defender (BlueHammer)</td><td>EoP with public PoC. Browser-delivered exploit chain component (initial access via HTTP, escalation via Defender). 11+ days post-PoC, no KEV yet.</td><td style="color:#d97706;font-weight:600">WATCHING</td></tr>
+<tr><td><code>CVE-2026-34621</code></td><td>Adobe Acrobat</td><td><strong style="color:#d97706">7.8</strong></td><td>Prototype pollution via crafted PDF. Primary delivery vector is HTTP (email links, drive-by downloads). Browser plugin rendering path.</td><td style="color:#059669;font-weight:600">CONFIRMED — KEV 2026-04-15</td></tr>
+<tr><td><code>CVE-2026-33825</code></td><td>Windows Defender (BlueHammer)</td><td><strong style="color:#d97706">7.8</strong></td><td>EoP with public PoC. Browser-delivered exploit chain component (initial access via HTTP, escalation via Defender). 11+ days post-PoC, no KEV yet.</td><td style="color:#d97706;font-weight:600">WATCHING</td></tr>
 </tbody>
 </table>
 
