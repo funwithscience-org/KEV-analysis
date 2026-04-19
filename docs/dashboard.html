@@ -563,6 +563,8 @@ const WATCH_LIST = {
     {cve:"CVE-2026-40478",product:"Thymeleaf Spring5 SSTI",cvss:9.0,why:"Same root cause as -40477 in Spring integration. Paired disclosure = wider attack surface.",added:"2026-04-18",status:"watching",kevDate:null},
     {cve:"CVE-2026-5194",product:"wolfSSL cert validation",cvss:9.1,why:"Forged certs accepted. Affects TLS termination in NGINX/haproxy/embedded HTTP stacks. ~5B devices.",added:"2026-04-18",status:"watching",kevDate:null},
     {cve:"CVE-2026-5501",product:"wolfSSL OpenSSL compat (NGINX/haproxy)",cvss:8.1,why:"Directly impacts HTTP reverse proxy TLS layer. Paired with -5194 in same release.",added:"2026-04-18",status:"watching",kevDate:null},
+    {cve:"CVE-2026-21858",product:"n8n Ni8mare",cvss:10.0,why:"Content-Type confusion in webhook HTTP handler → unauth RCE. Public PoC; ~100k exposed instances.",added:"2026-04-19",status:"watching",kevDate:null},
+    {cve:"CVE-2026-39987",product:"Marimo terminal WebSocket",cvss:9.3,why:"Unauth RCE via /terminal/ws; 662 in-the-wild exploit events Apr 11-14 (Sysdig). 9h41m disclosure→exploit.",added:"2026-04-19",status:"watching",kevDate:null},
     {cve:"CVE-2026-32201",product:"SharePoint",cvss:6.5,why:"Actively exploited 0-day. HTTP endpoint auth bypass. Already in KEV.",added:"2026-04-14",status:"confirmed",kevDate:"2026-04-14"},
     {cve:"CVE-2026-34197",product:"Apache ActiveMQ",cvss:9.8,why:"HTTP admin console deserialization. Pattern consistent with prior ActiveMQ KEV entries.",added:"2026-04-16",status:"confirmed",kevDate:"2026-04-16"}
   ],

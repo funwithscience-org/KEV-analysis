@@ -87,6 +87,8 @@
       {"cve":"CVE-2026-40478","product":"Thymeleaf Spring5 SSTI","status":"watching","added":"2026-04-18","kevDate":null},
       {"cve":"CVE-2026-5194","product":"wolfSSL cert validation","status":"watching","added":"2026-04-18","kevDate":null},
       {"cve":"CVE-2026-5501","product":"wolfSSL OpenSSL compat","status":"watching","added":"2026-04-18","kevDate":null},
+      {"cve":"CVE-2026-21858","product":"n8n Ni8mare (webhook Content-Type confusion)","status":"watching","added":"2026-04-19","kevDate":null},
+      {"cve":"CVE-2026-39987","product":"Marimo terminal WebSocket","status":"watching","added":"2026-04-19","kevDate":null},
       {"cve":"CVE-2026-32201","product":"SharePoint","status":"confirmed","added":"2026-04-14","kevDate":"2026-04-14"},
       {"cve":"CVE-2026-34197","product":"Apache ActiveMQ","status":"confirmed","added":"2026-04-16","kevDate":"2026-04-16"}
     ],
