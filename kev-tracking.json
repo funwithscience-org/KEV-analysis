@@ -94,7 +94,7 @@
     "Other side of the argument: CVE-2026-34197 (Apache ActiveMQ, KEV-confirmed and actively exploited) was disclosed 2026-04-07 and confirmed by Horizon3.ai using Claude — that's Claude finding a high-impact, actively-exploited vuln in ~10 minutes, independently of Anthropic's own Glasswing research. If we count 'Claude-assisted vulns that end up on KEV' rather than 'CVEs directly credited to Anthropic', the population is already larger than 40 and will likely grow faster than the headline Glasswing count."
   ],
   "changes_pushed": true,
-  "commit_sha": "PENDING",
+  "commit_sha": "6bce208",
   "errors": [
     "stack.watch RHEL 8 version-specific path still 404s. Parent path returns YTD aggregate but does not split by month or by RHEL version. April RHEL 8 count retained at 23 from prior run.",
     "Red Hat security data API (access.redhat.com/labs/securitydataapi/cve.json) remains 404 — excluded from the data path until a working replacement is found."
