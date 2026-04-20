@@ -208,7 +208,7 @@ without inspection. WAF signatures help for <em>known</em> exploits only.
 <div class="card"><h3>Mythos-Linked CVEs by Product (~40 total)</h3><canvas id="mythosCveChart"></canvas></div>
 </div>
 <div class="insight warn">
-<strong>Volume watch, day 12 post-Glasswing:</strong> Q1 2026 CVE publications came in at 16,255 (+35.3% YoY), with March 2026 at 6,304 (+57.1% vs March 2025). April 2026 is pacing ~3,668 through day 19 (extrapolated ~5,793) — modestly <em>below</em> March and well below the conservative +500/mo trajectory. Project Glasswing launched April 7, 2026; the ~40 attributable CVEs remain flat, but three now carry explicit Claude/Mythos credit: CVE-2026-4747 (FreeBSD NFS, autonomous find), CVE-2026-5194 (wolfSSL cert validation, press-confirmed Mythos-assisted), and CVE-2026-5588 (Bouncy Castle, Carlini + Claude). 37 of 40 target HTTP/network-parsing products (Firefox, wolfSSL, NGINX, OpenSSL). Counter-argument: NVD publish latency is 4–8 weeks, so the first clear volume signal is still more likely in May–June, but the attribution signal is strengthening.
+<strong>Volume watch, day 13 post-Glasswing:</strong> Q1 2026 CVE publications came in at 16,255 (+35.3% YoY), with March 2026 at 6,304 (+57.1% vs March 2025). April 2026 is pacing ~3,698 through day 20 (extrapolated ~5,547) — modestly <em>below</em> March and well below the conservative +500/mo trajectory, with daily publication rate continuing to soften (~185/day vs ~203/day in early April). Project Glasswing launched April 7, 2026; the ~40 attributable CVEs remain flat, but three now carry explicit Claude/Mythos credit: CVE-2026-4747 (FreeBSD NFS, autonomous find), CVE-2026-5194 (wolfSSL cert validation, press-confirmed Mythos-assisted), and CVE-2026-5588 (Bouncy Castle, Carlini + Claude). 37 of 40 target HTTP/network-parsing products (Firefox, wolfSSL, NGINX, OpenSSL). Counter-argument: NVD publish latency is 4–8 weeks, so the first clear volume signal is still more likely in May–June, but the attribution signal is strengthening, and third-party Claude-assisted discoveries (e.g., CVE-2026-34197 ActiveMQ by Horizon3.ai) are appearing on KEV independently of Anthropic's own disclosures.
 </div>
 
 <div class="grid-2">
@@ -459,13 +459,13 @@ new Chart(document.getElementById('topProductsChart'), {
 
 // Mythos baseline chart — extended timeline with projections
 const mMonthsAll = ["2025-01","2025-02","2025-03","2025-04","2025-05","2025-06","2025-07","2025-08","2025-09","2025-10","2025-11","2025-12","2026-01","2026-02","2026-03","2026-04","2026-05","2026-06","2026-07","2026-08","2026-09","2026-10"];
-const mActualCve = {"2025-01":4200,"2025-02":3800,"2025-03":4012,"2025-04":3950,"2025-05":3900,"2025-06":3850,"2025-07":4100,"2025-08":4050,"2025-09":3950,"2025-10":4150,"2025-11":4000,"2025-12":4212,"2026-01":5143,"2026-02":4808,"2026-03":6304,"2026-04":5793};
+const mActualCve = {"2025-01":4200,"2025-02":3800,"2025-03":4012,"2025-04":3950,"2025-05":3900,"2025-06":3850,"2025-07":4100,"2025-08":4050,"2025-09":3950,"2025-10":4150,"2025-11":4000,"2025-12":4212,"2026-01":5143,"2026-02":4808,"2026-03":6304,"2026-04":5547};
 const mCveVals = mMonthsAll.map(m => mActualCve[m] || null);
 const mKevLookup = {"2025-01":14,"2025-02":27,"2025-03":32,"2025-04":15,"2025-05":24,"2025-06":20,"2025-07":20,"2025-08":15,"2025-09":16,"2025-10":31,"2025-11":11,"2025-12":20,"2026-01":17,"2026-02":28,"2026-03":26,"2026-04":14};
 const mKevVals = mMonthsAll.map(m => mKevLookup[m] || null);
 // Projection lines: start from last actual (2026-04) and extend forward
-const mConservative = mMonthsAll.map((m,i) => {const proj={"2026-04":5793,"2026-05":6293,"2026-06":6793,"2026-07":7293,"2026-08":7793,"2026-09":8293,"2026-10":8793}; return proj[m]||null;});
-const mAggressive = mMonthsAll.map((m,i) => {const proj={"2026-04":5793,"2026-05":7793,"2026-06":8793,"2026-07":9793,"2026-08":10293,"2026-09":10793,"2026-10":11293}; return proj[m]||null;});
+const mConservative = mMonthsAll.map((m,i) => {const proj={"2026-04":5547,"2026-05":6047,"2026-06":6547,"2026-07":7047,"2026-08":7547,"2026-09":8047,"2026-10":8547}; return proj[m]||null;});
+const mAggressive = mMonthsAll.map((m,i) => {const proj={"2026-04":5547,"2026-05":7547,"2026-06":8547,"2026-07":9547,"2026-08":10047,"2026-09":10547,"2026-10":11047}; return proj[m]||null;});
 
 new Chart(document.getElementById('mythosBaseChart'), {
     type:'line',

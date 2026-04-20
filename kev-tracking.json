@@ -1,14 +1,14 @@
 {
-  "last_run": "2026-04-19T10:51:00Z",
+  "last_run": "2026-04-20T04:12:00Z",
   "data_collected": {
     "overall_cve": {
       "month": "2026-04",
-      "mtd_count": 3668,
-      "days_elapsed": 19,
-      "extrapolated": 5793,
-      "source": "NVD API pubStartDate=2026-04-01..2026-04-19 (totalResults=3668)",
+      "mtd_count": 3698,
+      "days_elapsed": 20,
+      "extrapolated": 5547,
+      "source": "NVD API pubStartDate=2026-04-01..2026-04-20 (totalResults=3698)",
       "prior_months_nvd_reverified": {"2026-01": 5143, "2026-02": 4808, "2026-03": 6304},
-      "delta_vs_prior_run": "April MTD moved 3649 (day 18) → 3668 (day 19): only +19 CVEs published in the 24-hour window, substantially below the ~203/day pace from days 1-18. Daily rate now ~193/day. Full-month extrapolation drops 6082 → 5793 (-289). W16 filled out from partial 1143 to full week 1164 (+21 in 24h)."
+      "delta_vs_prior_run": "April MTD moved 3668 (day 19) → 3698 (day 20): +30 CVEs net over 24h, of which 14 carry an actual 2026-04-20 publication date and 16 were back-populated to earlier April dates. Daily rate slipping further: ~203/day days 1-18 → ~193/day day 19 → ~185/day day 20. Full-month extrapolation drops 5793 → 5547 (-246). W16 finalized at 1178 (prior partial was 1164)."
     },
     "kev_additions": {
       "month": "2026-04",
@@ -16,7 +16,7 @@
       "catalog_version": "2026.04.16",
       "date_released": "2026-04-16T17:01:07Z",
       "source": "CISA KEV feed (https://www.cisa.gov/sites/default/files/feeds/known_exploited_vulnerabilities.json)",
-      "reconciliation_note": "Catalog version unchanged since 2026-04-16. Zero new KEV additions on 2026-04-17, -18, or -19. April total holds at 14.",
+      "reconciliation_note": "Catalog version unchanged since 2026-04-16. Zero new KEV additions on 2026-04-17, -18, -19, or -20 — 4-day dry spell now. April total holds at 14.",
       "notable_entries": [
         "CVE-2026-34197 — Apache ActiveMQ (2026-04-16) — per Horizon3.ai disclosure, found by Naveen Sunkavally using Claude (~10 min attack-chain trace). Claude-assisted but NOT directly credited to Anthropic/Carlini.",
         "CVE-2026-32201 — Microsoft SharePoint Server 0-day (2026-04-14)",
@@ -46,9 +46,8 @@
       "claude_assisted_non_anthropic": [
         "CVE-2026-34197 (Apache ActiveMQ — Horizon3.ai / Naveen Sunkavally using Claude as tool; NOT direct Anthropic credit)"
       ],
-      "notable_research_claims": "Search surfaced a Carlini talk claim of 'five Linux kernel vulnerabilities identified so far' via Claude Code. Only CVE-2026-4747 has a public advisory among those; the other four are not yet enumerated with CVE IDs. Holding the official count at 40 until additional CVE IDs are published.",
-      "source": "VulnCheck tracker + The Register 2026-04-15; Calif.io MADBugs program; Tenable/InfoQ coverage.",
-      "notes": "No new CVEs with direct Anthropic/Carlini attribution since 2026-04-15. Claude-as-tool discoveries by third parties (Horizon3.ai, Calif.io) are expanding, suggesting the credit-attribution model is fragmenting: Anthropic direct credit (3 CVEs), third-party-using-Claude credit (growing category)."
+      "source": "VulnCheck tracker + The Register 2026-04-15; Calif.io MADBugs program; Tenable/InfoQ coverage. No new direct-attribution CVEs detected in this run.",
+      "notes": "Holding official count at 40 pending additional direct-attribution CVE IDs. Carlini-claimed 'five Linux kernel vulnerabilities' via Claude Code remain unenumerated in public advisories beyond CVE-2026-4747."
     },
     "ms_patch_tuesday": {
       "latest_month": "2026-04",
@@ -60,42 +59,44 @@
     "rhel8_errata": {
       "latest_month": "2026-04",
       "count": 23,
-      "source": "Estimate retained from prior run. stack.watch parent page shows YTD 99 RHEL CVEs (likely still counting through ~Apr 17); no clean monthly split available. Red Hat security data API still 404s.",
+      "source": "Estimate retained from prior run. stack.watch parent page continues to return only YTD aggregate. Red Hat security data API still 404s.",
       "confidence": "low — placeholder; true April count likely 20-30 but not precisely determinable from available sources"
     },
     "weekly_cve": {
       "2026-W14_Mar30_Apr05": 1304,
       "2026-W15_Apr06_Apr12": 1615,
-      "2026-W16_Apr13_Apr19": 1164,
+      "2026-W16_Apr13_Apr19": 1178,
+      "2026-W17_Apr20_Apr26_partial": 14,
       "per_day_pace": {
         "W14": 186,
         "W15": 231,
-        "W16_full_week": 166
+        "W16_full_week": 168,
+        "W17_so_far": 14
       },
-      "observation": "W16 (full week, 7 days) came in at 166/day — the slowest weekly pace of the three weeks measured, and ~28% below W15. Most likely explained by a post-Patch-Tuesday lull (heavy batch on W15 Apr 6-12 includes April 14 disclosures pulled forward). Still no evidence of a Glasswing-driven volume surge."
+      "observation": "W16 finalized at 1178 (up 14 from the partial 1164 reported yesterday as NVD back-populated late-week publications). At 168/day it's still the slowest of the three measured weeks and ~27% below W15. W17 opened with 14 CVEs on day 1 (April 20), broadly consistent with the ~185/day April-average. No Glasswing-driven volume surge visible yet."
     }
   },
   "projection_comparison": {
     "current_month": "2026-04",
-    "actual_or_extrapolated": 5793,
-    "conservative_predicted": 6293,
-    "aggressive_predicted": 7793,
+    "actual_or_extrapolated": 5547,
+    "conservative_predicted": 6047,
+    "aggressive_predicted": 7547,
     "verdict": "below_conservative",
-    "commentary": "April 2026 is now extrapolating to ~5,793 — roughly 500 below the conservative May anchor (6,293) and ~2,000 below the aggressive May anchor (7,793). The extrapolation has moved DOWNWARD since yesterday's 6,082 as daily publication rate softened. April is pacing ~8% below March 2026 (6,304). Still no Glasswing inflection visible. Counter-argument: NVD publishing latency (4–8 weeks) means Glasswing-era CVEs from the April 7 launch largely haven't surfaced yet; also, reduced weekend publishing could account for the short-term daily-rate slowdown. Expect the first meaningful volume signal in May–June 2026, with fuller visibility after Anthropic's planned July disclosure."
+    "commentary": "April 2026 now extrapolates to ~5,547 — ~500 below the conservative May anchor (6,047) and ~2,000 below the aggressive May anchor (7,547). Extrapolation has moved DOWNWARD again today (5,793 → 5,547). April now pacing ~12% below March 2026 (6,304). Still no Glasswing inflection visible. Counter-argument: NVD publishing latency (4–8 weeks) means Glasswing-era CVEs from the April 7 launch largely haven't surfaced yet; reduced weekend/back-half-of-month publishing is a known NVD cadence artifact. Expect the first meaningful volume signal in May–June 2026, with fuller visibility after Anthropic's planned July disclosure."
   },
   "counter_arguments": [
-    "CVE volume has NOT spiked post-Glasswing launch (April 7) through day 19: April is now extrapolating to ~5,793, ~8% BELOW March's 6,304 and well below all +500 to +5,000/mo projections. Two reads: (a) NVD publishing latency is 4–8 weeks so Glasswing discoveries may not appear yet; (b) Glasswing disclosures are being staged through coordinated vendor patches, so they'll arrive lumpily rather than as a smooth monthly trend.",
-    "Daily publication rate has declined from ~203/day (days 1-18) to ~193/day (day 19); only +19 CVEs published in the 24 hours from 2026-04-18 to 2026-04-19. One low day does not establish a trend, but it weakens the 'AI is flooding CVE database' thesis at the current moment.",
+    "CVE volume has NOT spiked post-Glasswing launch (April 7) through day 20: April is now extrapolating to ~5,547, ~12% BELOW March's 6,304 and well below all +500 to +5,000/mo projections. Two reads: (a) NVD publishing latency is 4–8 weeks so Glasswing discoveries may not appear yet; (b) Glasswing disclosures are being staged through coordinated vendor patches, so they'll arrive lumpily rather than as a smooth monthly trend.",
+    "Daily publication rate has continued to decline: ~203/day (days 1-18) → ~193/day (day 19) → ~185/day (day 20). Two consecutive down-days softens the extrapolation further. Not yet a trend, but it continues to weaken the 'AI is flooding CVE database' thesis at the current moment.",
     "The March 2026 spike to 6,304 (+57.1% YoY vs March 2025) clearly predates Glasswing and is driven by CNA expansion, automated fuzzing, and broader disclosure norms — not AI discovery. This is the right baseline for measuring Glasswing's volume impact.",
-    "CISA KEV April additions (14 through day 19, zero additions on 2026-04-17/-18/-19 — a 3-day dry spell) are pacing below Q1 average (~24/mo). No AI-driven KEV inflection visible yet. And KEV additions are editorial decisions by CISA, not purely volume-driven. Five of fourteen April entries are legacy re-adds (2009, 2012, 2020, 2023 CVEs) that reflect CISA catalog housekeeping, not new exploitation.",
-    "Microsoft's 163-CVE April Patch Tuesday is notable but one data point; October 2025 already hit 167 pre-Glasswing, so high-volume Patch Tuesdays aren't novel.",
-    "Weekly CVE data: W14 186/day, W15 231/day, W16 166/day — W16 is the slowest week of the three and the first FULL week post-Glasswing (since W15's Patch Tuesday is plausibly a batch effect). If Glasswing were already inflating publication volume, we'd expect W16 to be higher, not lower, than W14.",
-    "Other side of the argument: CVE-2026-34197 (Apache ActiveMQ, KEV-confirmed and actively exploited) was disclosed 2026-04-07 by Horizon3.ai using Claude — that's Claude finding a high-impact, actively-exploited vuln in ~10 minutes, independently of Anthropic's own Glasswing research. If we count 'Claude-assisted vulns that end up on KEV' rather than 'CVEs directly credited to Anthropic', the population is already larger than 40 and could grow quickly."
+    "CISA KEV April additions (14 through day 20, four-day dry spell with no adds since 2026-04-16) are pacing below Q1 average (~24/mo). No AI-driven KEV inflection visible yet. KEV additions are editorial decisions by CISA, not purely volume-driven. Five of fourteen April entries are legacy re-adds (2009, 2012, 2020, 2023 CVEs) reflecting CISA catalog housekeeping, not new exploitation.",
+    "Microsoft's 163-CVE April Patch Tuesday is notable but a single data point; October 2025 already hit 167 pre-Glasswing, so high-volume Patch Tuesdays aren't novel.",
+    "Weekly CVE data: W14 186/day, W15 231/day, W16 168/day (final), W17 opens at 14/day (1 day). W16 — the first FULL week post-Glasswing — came in as the slowest of the three measured weeks. If Glasswing were already inflating publication volume, we'd expect W16 to be higher, not lower, than W14.",
+    "Other side of the argument: CVE-2026-34197 (Apache ActiveMQ, KEV-confirmed and actively exploited) was disclosed 2026-04-07 and confirmed by Horizon3.ai using Claude — that's Claude finding a high-impact, actively-exploited vuln in ~10 minutes, independently of Anthropic's own Glasswing research. If we count 'Claude-assisted vulns that end up on KEV' rather than 'CVEs directly credited to Anthropic', the population is already larger than 40 and will likely grow faster than the headline Glasswing count."
   ],
   "changes_pushed": true,
-  "commit_sha": "a2ef45d",
+  "commit_sha": "PENDING",
   "errors": [
-    "stack.watch RHEL 8 version-specific path still 404s. Parent path returns YTD 99 but does not split by month or by RHEL version. April RHEL 8 count retained at 23 from prior run.",
+    "stack.watch RHEL 8 version-specific path still 404s. Parent path returns YTD aggregate but does not split by month or by RHEL version. April RHEL 8 count retained at 23 from prior run.",
     "Red Hat security data API (access.redhat.com/labs/securitydataapi/cve.json) remains 404 — excluded from the data path until a working replacement is found."
   ]
 }

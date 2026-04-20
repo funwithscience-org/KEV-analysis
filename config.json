@@ -26,7 +26,7 @@
       "CVE-2026-5194": "wolfSSL cert validation bypass — press-confirmed Mythos Preview-assisted, Carlini @ Anthropic",
       "CVE-2026-5588": "Bouncy Castle — credited to Carlini + Claude"
     },
-    "last_verified": "2026-04-19T10:51Z",
+    "last_verified": "2026-04-20T04:11Z",
     "participants": [
       "AWS", "Anthropic", "Apple", "Broadcom", "Cisco", "CrowdStrike",
       "Google", "Intel", "JPMorganChase", "Linux Foundation", "Microsoft",
@@ -46,16 +46,17 @@
       "2025-09": 3950, "2025-10": 4150, "2025-11": 4000, "2025-12": 4212
     },
     "monthly_cve_2026": {
-      "2026-01": 5143, "2026-02": 4808, "2026-03": 6304, "2026-04": 3668
+      "2026-01": 5143, "2026-02": 4808, "2026-03": 6304, "2026-04": 3698
     },
     "monthly_cve_2026_notes": {
-      "2026-04": "MTD through 2026-04-19 (19 days); extrapolated full-month ~5793 (3668 * 30/19). Pacing slowed: daily rate dropped from ~203/day (day 18) to ~193/day (day 19); only +19 published in the last 24 hours. Still well below March and below conservative Glasswing trajectory.",
-      "prior_months_unchanged": "2026-01 = 5143, 2026-02 = 4808, 2026-03 = 6304 — re-confirmed on 2026-04-18."
+      "2026-04": "MTD through 2026-04-20 (20 days); extrapolated full-month ~5547 (3698 * 30/20). Pacing continues to slow: +30 net CVEs between day 19 and day 20 (of which 14 bore a 2026-04-20 publication date; the remaining 16 were back-populated to earlier April dates). Daily rate now ~185/day. Tracking well below March (6304) and below the +500/mo conservative Glasswing anchor.",
+      "prior_months_unchanged": "2026-01 = 5143, 2026-02 = 4808, 2026-03 = 6304 — re-confirmed on 2026-04-20."
     },
     "weekly_cve_2026": {
       "2026-W14_Mar30_Apr05": 1304,
       "2026-W15_Apr06_Apr12": 1615,
-      "2026-W16_Apr13_Apr19": 1164
+      "2026-W16_Apr13_Apr19": 1178,
+      "2026-W17_Apr20_Apr26_partial": 14
     },
     "ms_patch_tuesday": {
       "2025-01": 157, "2025-02": 57, "2025-03": 57, "2025-04": 124,
