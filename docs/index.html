@@ -403,17 +403,34 @@ Anthropic or Anthropic-affiliated researchers. Three now carry explicit Claude/M
 </ul>
 <p>The pattern has moved beyond a single data point: three Claude-credited disclosures in two weeks, spanning two TLS/crypto libraries and one OS kernel, suggests a real — if still early — signal rather than noise.</p>
 
-<p>Beyond the explicitly credited CVEs, we're also tracking <strong>probable Glasswing self-scan findings</strong> —
-vulnerabilities in products made by named Glasswing participants where the bug pattern is consistent with AI-driven
-code scanning. The strongest candidate so far:</p>
-<ul style="margin:.8em 0;padding-left:1.5em;color:#cbd5e1">
-<li><strong>CVE-2026-20180</strong> — Cisco ISE authenticated RCE via crafted HTTP request (CVSS 9.9). Cisco is a
-named Glasswing participant. ISE is a flagship network security product — exactly the kind of critical infrastructure
-Cisco would point Mythos at during a self-scan. The bug is textbook HTTP-parsing-adjacent (input validation on HTTP
-requests), consistent with what an AI code scanner excels at finding. No attribution yet, but the circumstantial
-case is strong. Counter-argument: Cisco ISE has a long CVE history and this could be a conventional security audit
-finding — Cisco's internal teams were already active before Glasswing.</li>
-</ul>
+<p>Beyond the explicitly credited CVEs, we're also tracking <strong>probable Glasswing participant self-scan findings</strong> —
+CVEs from named Glasswing participants that meet all of the following criteria: the vendor is a participant, the bug
+is HTTP-parsing-adjacent, there was no attacker exploitation before disclosure, no third-party researcher credit in
+the advisory, and the bug pattern is consistent with automated AI code scanning (input validation, logic flaws,
+certificate handling — the kinds of things AI excels at finding systematically across large codebases).</p>
+
+<p>The strongest signal so far is a <strong>Cisco cluster</strong> — four critical vulnerabilities disclosed in a single
+batch on April 15, 2026. Three ISE RCEs via crafted HTTP requests hitting the same input-validation bug class across
+different code paths, plus a Webex SSO certificate-validation bypass. Cisco is a named Glasswing participant.
+The cluster pattern — multiple related bugs in the same component found simultaneously — is a hallmark of systematic
+automated scanning rather than ad hoc human auditing.</p>
+
+<table class="data-table">
+<thead><tr><th>CVE</th><th>Participant</th><th>Product</th><th>CVSS</th><th>HTTP-Adjacent Vector</th><th>Why Probable</th></tr></thead>
+<tbody>
+<tr><td><code>CVE-2026-20180</code></td><td><strong>Cisco</strong></td><td>ISE</td><td><strong style="color:#dc2626">9.9</strong></td><td>Crafted HTTP request → RCE (read-only admin)</td><td>Cluster: 3 ISE RCEs in one batch. Systematic input-validation findings across code paths.</td></tr>
+<tr><td><code>CVE-2026-20186</code></td><td><strong>Cisco</strong></td><td>ISE</td><td><strong style="color:#dc2626">9.9</strong></td><td>Crafted HTTP request → RCE (read-only admin)</td><td>Same batch, different code path. Identical pattern to -20180.</td></tr>
+<tr><td><code>CVE-2026-20147</code></td><td><strong>Cisco</strong></td><td>ISE</td><td><strong style="color:#dc2626">9.9</strong></td><td>Crafted HTTP request → RCE (admin creds)</td><td>Third ISE RCE in same batch. Slightly higher auth bar (full admin vs read-only).</td></tr>
+<tr><td><code>CVE-2026-20184</code></td><td><strong>Cisco</strong></td><td>Webex</td><td><strong style="color:#dc2626">9.8</strong></td><td>SSO certificate validation bypass → user impersonation</td><td>Same disclosure batch. Cert-handling flaw consistent with TLS/HTTP review sweep.</td></tr>
+</tbody></table>
+
+<div class="callout callout-info">
+<strong>Qualification criteria:</strong> Glasswing participant vendor + HTTP-parsing-adjacent + no attacker exploitation
+before disclosure + no third-party researcher credit + bug pattern consistent with automated scanning + disclosed
+during Glasswing era. Counter-argument: Cisco has a steady CVE cadence and internal security teams that predate
+Glasswing — these could be conventional audit findings. But four critical HTTP-adjacent bugs found across multiple
+code paths in a single batch is more consistent with a systematic scan than with organic human auditing.
+</div>
 
 <div class="chart-wrap">
 <h4>Mythos-Linked CVEs by Product (VulnCheck Analysis)</h4>

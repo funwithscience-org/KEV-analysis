@@ -32,7 +32,24 @@
       "Google", "Intel", "JPMorganChase", "Linux Foundation", "Microsoft",
       "Nvidia", "Palo Alto Networks"
     ],
-    "launch_date": "2026-04-07"
+    "launch_date": "2026-04-07",
+    "probable_participant_cves": {
+      "description": "CVEs from Glasswing participant companies that meet probable self-scan criteria: participant vendor + HTTP-parsing-adjacent + no prior attacker exploitation + no obvious third-party researcher credit + bug pattern consistent with automated scanning (input validation, logic, cert handling). Separate from confirmed/attributed Glasswing count.",
+      "qualification_criteria": [
+        "vendor_is_glasswing_participant",
+        "http_parsing_adjacent",
+        "no_known_attacker_exploitation_before_disclosure",
+        "no_third_party_researcher_credit",
+        "bug_pattern_consistent_with_automated_scanning",
+        "disclosed_during_or_after_glasswing_era"
+      ],
+      "entries": [
+        {"cve":"CVE-2026-20180","vendor":"Cisco","product":"ISE","cvss":9.9,"cwe":"Input Validation","vector":"Crafted HTTP request → RCE (read-only admin)","disclosed":"2026-04-15","cluster":"cisco-ise-apr2026","notes":"Batch of 3 ISE RCEs disclosed simultaneously — cluster pattern consistent with systematic AI audit"},
+        {"cve":"CVE-2026-20186","vendor":"Cisco","product":"ISE","cvss":9.9,"cwe":"Input Validation","vector":"Crafted HTTP request → RCE (read-only admin)","disclosed":"2026-04-15","cluster":"cisco-ise-apr2026","notes":"Same batch as -20180; identical attack pattern, different code path"},
+        {"cve":"CVE-2026-20147","vendor":"Cisco","product":"ISE","cvss":9.9,"cwe":"Input Validation","vector":"Crafted HTTP request → RCE (admin creds)","disclosed":"2026-04-15","cluster":"cisco-ise-apr2026","notes":"Third ISE RCE in same batch; requires full admin creds vs read-only for -20180/-20186"},
+        {"cve":"CVE-2026-20184","vendor":"Cisco","product":"Webex","cvss":9.8,"cwe":"Improper Certificate Validation","vector":"SSO certificate bypass → user impersonation","disclosed":"2026-04-15","cluster":"cisco-webex-apr2026","notes":"Certificate validation flaw in SSO integration. Same disclosure batch as ISE bugs. Pattern consistent with TLS/cert-handling audit sweep"}
+      ]
+    }
   },
   "projections": {
     "conservative_monthly_increase": 500,
@@ -91,6 +108,9 @@
       {"cve":"CVE-2026-21858","product":"n8n Ni8mare (webhook Content-Type confusion)","status":"watching","added":"2026-04-19","kevDate":null},
       {"cve":"CVE-2026-39987","product":"Marimo terminal WebSocket","status":"watching","added":"2026-04-19","kevDate":null},
       {"cve":"CVE-2026-20180","product":"Cisco ISE (crafted HTTP → RCE)","status":"watching","added":"2026-04-20","kevDate":null},
+      {"cve":"CVE-2026-20186","product":"Cisco ISE (crafted HTTP → RCE, read-only admin)","status":"watching","added":"2026-04-20","kevDate":null},
+      {"cve":"CVE-2026-20147","product":"Cisco ISE (crafted HTTP → RCE, admin)","status":"watching","added":"2026-04-20","kevDate":null},
+      {"cve":"CVE-2026-20184","product":"Cisco Webex (SSO cert bypass → impersonation)","status":"watching","added":"2026-04-20","kevDate":null},
       {"cve":"CVE-2026-32201","product":"SharePoint","status":"confirmed","added":"2026-04-14","kevDate":"2026-04-14"},
       {"cve":"CVE-2026-34197","product":"Apache ActiveMQ","status":"confirmed","added":"2026-04-16","kevDate":"2026-04-16"}
     ],

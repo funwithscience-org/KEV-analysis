@@ -207,8 +207,59 @@ without inspection. WAF signatures help for <em>known</em> exploits only.
 <div class="card"><h3>Monthly CVE Volume: Baseline + Glasswing Projections</h3><canvas id="mythosBaseChart"></canvas></div>
 <div class="card"><h3>Mythos-Linked CVEs by Product (~40 total)</h3><canvas id="mythosCveChart"></canvas></div>
 </div>
+
+<div class="card" style="margin-top:20px">
+<h3>Probable Glasswing Participant Self-Scan Findings</h3>
+<p style="color:#94a3b8;font-size:.82em;margin-bottom:12px">CVEs from named Glasswing participants where: vendor is a participant, bug is HTTP-parsing-adjacent, no prior attacker exploitation or third-party researcher credit, and bug pattern is consistent with automated AI scanning. <strong>Separate from the ~40 confirmed/attributed Glasswing CVEs above.</strong></p>
+<table style="width:100%;font-size:.82em;border-collapse:collapse">
+<thead><tr style="border-bottom:1px solid #475569">
+<th style="text-align:left;padding:6px;color:#94a3b8">CVE</th>
+<th style="text-align:left;padding:6px;color:#94a3b8">Participant</th>
+<th style="text-align:left;padding:6px;color:#94a3b8">Product</th>
+<th style="text-align:center;padding:6px;color:#94a3b8">CVSS</th>
+<th style="text-align:left;padding:6px;color:#94a3b8">HTTP-Adjacent Vector</th>
+<th style="text-align:left;padding:6px;color:#94a3b8">Why Probable</th>
+</tr></thead>
+<tbody>
+<tr style="border-bottom:1px solid #1e293b">
+<td style="padding:6px;color:#e2e8f0;font-family:monospace;font-size:.95em">CVE-2026-20180</td>
+<td style="padding:6px;color:#f59e0b;font-weight:600">Cisco</td>
+<td style="padding:6px;color:#cbd5e1">ISE</td>
+<td style="padding:6px;text-align:center;color:#ef4444;font-weight:700">9.9</td>
+<td style="padding:6px;color:#94a3b8">Crafted HTTP request → RCE (read-only admin)</td>
+<td style="padding:6px;color:#94a3b8">Cluster: 3 ISE RCEs in one batch. Input validation bugs found across multiple code paths — consistent with systematic automated scan.</td>
+</tr>
+<tr style="border-bottom:1px solid #1e293b">
+<td style="padding:6px;color:#e2e8f0;font-family:monospace;font-size:.95em">CVE-2026-20186</td>
+<td style="padding:6px;color:#f59e0b;font-weight:600">Cisco</td>
+<td style="padding:6px;color:#cbd5e1">ISE</td>
+<td style="padding:6px;text-align:center;color:#ef4444;font-weight:700">9.9</td>
+<td style="padding:6px;color:#94a3b8">Crafted HTTP request → RCE (read-only admin)</td>
+<td style="padding:6px;color:#94a3b8">Same batch, different code path. Identical pattern to -20180.</td>
+</tr>
+<tr style="border-bottom:1px solid #1e293b">
+<td style="padding:6px;color:#e2e8f0;font-family:monospace;font-size:.95em">CVE-2026-20147</td>
+<td style="padding:6px;color:#f59e0b;font-weight:600">Cisco</td>
+<td style="padding:6px;color:#cbd5e1">ISE</td>
+<td style="padding:6px;text-align:center;color:#ef4444;font-weight:700">9.9</td>
+<td style="padding:6px;color:#94a3b8">Crafted HTTP request → RCE (admin creds)</td>
+<td style="padding:6px;color:#94a3b8">Third ISE RCE in same batch. Slightly higher auth bar (full admin vs read-only).</td>
+</tr>
+<tr style="border-bottom:1px solid #1e293b">
+<td style="padding:6px;color:#e2e8f0;font-family:monospace;font-size:.95em">CVE-2026-20184</td>
+<td style="padding:6px;color:#f59e0b;font-weight:600">Cisco</td>
+<td style="padding:6px;color:#cbd5e1">Webex</td>
+<td style="padding:6px;text-align:center;color:#ef4444;font-weight:700">9.8</td>
+<td style="padding:6px;color:#94a3b8">SSO certificate validation bypass → user impersonation</td>
+<td style="padding:6px;color:#94a3b8">Same disclosure batch as ISE bugs. Cert-handling audit pattern consistent with TLS/HTTP review sweep.</td>
+</tr>
+</tbody>
+</table>
+<p style="color:#64748b;font-size:.78em;margin-top:10px"><strong>Qualification criteria:</strong> Glasswing participant vendor + HTTP-parsing-adjacent + no attacker exploitation before disclosure + no third-party researcher credit + bug pattern consistent with automated scanning + disclosed during Glasswing era. Counter-argument: Cisco has a steady CVE cadence and internal security teams that predate Glasswing; these could be conventional audit findings.</p>
+</div>
+
 <div class="insight warn">
-<strong>Volume watch, day 13 post-Glasswing:</strong> Q1 2026 CVE publications came in at 16,255 (+35.3% YoY), with March 2026 at 6,304 (+57.1% vs March 2025). April 2026 is pacing ~3,698 through day 20 (extrapolated ~5,547) — modestly <em>below</em> March and well below the conservative +500/mo trajectory, with daily publication rate continuing to soften (~185/day vs ~203/day in early April). Project Glasswing launched April 7, 2026; the ~40 attributable CVEs remain flat, but three now carry explicit Claude/Mythos credit: CVE-2026-4747 (FreeBSD NFS, autonomous find), CVE-2026-5194 (wolfSSL cert validation, press-confirmed Mythos-assisted), and CVE-2026-5588 (Bouncy Castle, Carlini + Claude). 37 of 40 target HTTP/network-parsing products (Firefox, wolfSSL, NGINX, OpenSSL). Additionally, CVE-2026-20180 (Cisco ISE, CVSS 9.9, crafted-HTTP RCE) is a probable Glasswing self-scan finding — Cisco is a named participant, ISE is a flagship product, and the bug pattern is textbook AI-scanner output. Counter-argument: NVD publish latency is 4–8 weeks, so the first clear volume signal is still more likely in May, but the attribution signal is strengthening across both Anthropic-credited and participant-product channels.
+<strong>Volume watch, day 13 post-Glasswing:</strong> Q1 2026 CVE publications came in at 16,255 (+35.3% YoY), with March 2026 at 6,304 (+57.1% vs March 2025). April 2026 is pacing ~3,698 through day 20 (extrapolated ~5,547) — modestly <em>below</em> March and well below the conservative +500/mo trajectory, with daily publication rate continuing to soften (~185/day vs ~203/day in early April). Project Glasswing launched April 7, 2026; the ~40 attributable CVEs remain flat, but three now carry explicit Claude/Mythos credit: CVE-2026-4747 (FreeBSD NFS, autonomous find), CVE-2026-5194 (wolfSSL cert validation, press-confirmed Mythos-assisted), and CVE-2026-5588 (Bouncy Castle, Carlini + Claude). 37 of 40 target HTTP/network-parsing products (Firefox, wolfSSL, NGINX, OpenSSL). Additionally, a Cisco cluster of 4 critical HTTP-adjacent CVEs (3× ISE RCE + 1× Webex SSO bypass, all CVSS 9.8–9.9, disclosed in a single batch) qualifies as probable Glasswing self-scan output — Cisco is a named participant, the cluster pattern suggests systematic automated scanning, and all four are HTTP-parsing-adjacent. See the participant self-scan table below. Counter-argument: NVD publish latency is 4–8 weeks, so the first clear volume signal is still more likely in May, but the attribution signal is strengthening across both Anthropic-credited and participant-product channels.
 </div>
 
 <div class="insight">

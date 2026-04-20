@@ -37,6 +37,14 @@ This is the big question we're tracking. Be honest and skeptical.
   - Attribution in advisories mentioning automated/AI/fuzzing tools
   - **CVEs in Glasswing participant products — THIS IS CRITICAL.** The participants list is: AWS, Anthropic, Apple, Broadcom, Cisco, CrowdStrike, Google, Intel, JPMorganChase, Linux Foundation, Microsoft, Nvidia, Palo Alto Networks. When a CVE appears in a product made by one of these companies, and the bug pattern is HTTP-parsing-adjacent or would be found by automated code scanning, flag it explicitly as a probable Glasswing self-scan finding. These companies are actively running Mythos against their own code. Example: CVE-2026-20180 (Cisco ISE) is a crafted-HTTP-request RCE in a product made by a named Glasswing participant — that should be flagged as a probable Glasswing finding, not just a watch list entry.
 - **Cross-check every new CVE against the participants list.** Don't just check target products — check the *vendor*. If the vendor is a Glasswing participant and the bug is the kind an AI scanner would find, say so.
+- **Maintain the "probable participant self-scan" table.** When a CVE qualifies (all criteria below), add it to `config.json` under `glasswing_targets.probable_participant_cves.entries`, add a row to the table in `docs/dashboard.html` (look for "Probable Glasswing Participant Self-Scan Findings"), and add a row in `docs/index.html` (same section, after "What Mythos Has Found So Far"). Qualification requires ALL of:
+  1. Vendor is a Glasswing participant
+  2. Bug is HTTP-parsing-adjacent (HTTP request handling, TLS/cert validation, SSO, API endpoints, template rendering)
+  3. No attacker exploitation reported before disclosure (i.e., not a zero-day found by attackers first)
+  4. No third-party researcher credit in the advisory (internal or anonymous finding)
+  5. Bug pattern consistent with automated code scanning (input validation, logic flaws, cert handling — not complex race conditions or hardware bugs)
+  6. Disclosed during Glasswing era (roughly March 2026 onward, to capture pre-launch flush)
+  Note the `cluster` field — if multiple bugs in the same product appear in the same advisory batch, use a shared cluster ID and note the cluster pattern explicitly. Clusters are the strongest circumstantial signal.
 - What's the cumulative signal? Across the days you've been running, is a pattern forming or is it still noise?
 - Play devil's advocate: what non-AI explanations exist for anything you're flagging?
 
