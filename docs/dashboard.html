@@ -211,6 +211,10 @@ without inspection. WAF signatures help for <em>known</em> exploits only.
 <strong>Volume watch, day 13 post-Glasswing:</strong> Q1 2026 CVE publications came in at 16,255 (+35.3% YoY), with March 2026 at 6,304 (+57.1% vs March 2025). April 2026 is pacing ~3,698 through day 20 (extrapolated ~5,547) — modestly <em>below</em> March and well below the conservative +500/mo trajectory, with daily publication rate continuing to soften (~185/day vs ~203/day in early April). Project Glasswing launched April 7, 2026; the ~40 attributable CVEs remain flat, but three now carry explicit Claude/Mythos credit: CVE-2026-4747 (FreeBSD NFS, autonomous find), CVE-2026-5194 (wolfSSL cert validation, press-confirmed Mythos-assisted), and CVE-2026-5588 (Bouncy Castle, Carlini + Claude). 37 of 40 target HTTP/network-parsing products (Firefox, wolfSSL, NGINX, OpenSSL). Counter-argument: NVD publish latency is 4–8 weeks, so the first clear volume signal is still more likely in May–June, but the attribution signal is strengthening, and third-party Claude-assisted discoveries (e.g., CVE-2026-34197 ActiveMQ by Horizon3.ai) are appearing on KEV independently of Anthropic's own disclosures.
 </div>
 
+<div class="insight">
+<strong>Projection methodology update (2026-04-20):</strong> Revised the count projection curves after reconsidering CVE disclosure timing. Our original model implicitly anchored the Glasswing volume impact at the April 7 launch date, but that's backwards. Anthropic's strong incentive pre-launch was to <em>flush</em> Glasswing-discovered vulnerabilities through coordinated disclosure <em>ahead</em> of the public announcement — getting silently scooped by opportunistic attackers who independently rediscovered a bug Anthropic already knew would be the worst possible optics for a launch positioned on responsible AI security research. That means March 2026's +57.1% YoY spike to 6,304 is probably not purely CNA expansion and automated fuzzing; some fraction is likely Anthropic plus Mythos Preview partners (AWS, Apple, Cisco, Google, Microsoft, Linux Foundation, etc.) racing to ship pre-launch disclosures. After April 7, Glasswing-era findings enter a normal 30–90 day coordinated disclosure cycle with no active-exploitation pressure to accelerate — the bad guys don't have Glasswing yet, so vendors have no reason to compress their testing windows. The updated curves hold May essentially flat (embargoes still running), begin conservative Glasswing layering in June (first clean post-launch Patch Tuesday is June 9), and reserve the aggressive scenario's inflection for June–July. Counter-argument: attributing a specific share of the March spike to Anthropic's pre-launch flush is speculative — CNA growth and fuzzing maturity are well-documented drivers, and we only have explicit credit lines on three of ~40 attributable CVEs. Treat this as a plausible reframe, not a proven one.
+</div>
+
 <div class="grid-2">
 <div class="card"><h3>KEV Additions: Monthly Trend</h3><canvas id="mythosKevChart"></canvas></div>
 <div class="card">
@@ -464,8 +468,8 @@ const mCveVals = mMonthsAll.map(m => mActualCve[m] || null);
 const mKevLookup = {"2025-01":14,"2025-02":27,"2025-03":32,"2025-04":15,"2025-05":24,"2025-06":20,"2025-07":20,"2025-08":15,"2025-09":16,"2025-10":31,"2025-11":11,"2025-12":20,"2026-01":17,"2026-02":28,"2026-03":26,"2026-04":14};
 const mKevVals = mMonthsAll.map(m => mKevLookup[m] || null);
 // Projection lines: start from last actual (2026-04) and extend forward
-const mConservative = mMonthsAll.map((m,i) => {const proj={"2026-04":5547,"2026-05":6047,"2026-06":6547,"2026-07":7047,"2026-08":7547,"2026-09":8047,"2026-10":8547}; return proj[m]||null;});
-const mAggressive = mMonthsAll.map((m,i) => {const proj={"2026-04":5547,"2026-05":7547,"2026-06":8547,"2026-07":9547,"2026-08":10047,"2026-09":10547,"2026-10":11047}; return proj[m]||null;});
+const mConservative = mMonthsAll.map((m,i) => {const proj={"2026-04":5547,"2026-05":5547,"2026-06":6047,"2026-07":6547,"2026-08":7047,"2026-09":7547,"2026-10":8047}; return proj[m]||null;});
+const mAggressive = mMonthsAll.map((m,i) => {const proj={"2026-04":5547,"2026-05":5947,"2026-06":7547,"2026-07":8547,"2026-08":9547,"2026-09":10047,"2026-10":10547}; return proj[m]||null;});
 
 new Chart(document.getElementById('mythosBaseChart'), {
     type:'line',

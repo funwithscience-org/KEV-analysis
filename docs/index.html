@@ -367,6 +367,26 @@ April 7 launch largely haven't surfaced yet. Expect the first meaningful signal 
 visibility after Anthropic's planned July disclosure.
 </div>
 
+<div class="callout callout-finding">
+<strong>Projection methodology update (2026-04-20).</strong> We revised the count projection curves after reconsidering
+CVE disclosure timing. Our original model implicitly anchored the Glasswing volume impact at the April 7 launch, but
+that's backwards. Anthropic's strong incentive pre-launch was to <em>flush</em> Glasswing-discovered vulnerabilities
+through coordinated disclosure <em>ahead</em> of the public announcement — getting silently scooped by opportunistic
+attackers who independently rediscovered a bug Anthropic already knew about would be the worst possible optics for a
+launch positioned on responsible AI security research. That means March 2026's +57.1% YoY spike to 6,304 is probably
+not purely CNA expansion and automated fuzzing; some fraction is likely Anthropic plus Mythos Preview partners (AWS,
+Apple, Cisco, Google, Microsoft, Linux Foundation, etc.) racing to ship pre-launch disclosures. Meaningful Glasswing
+contribution likely began <em>before</em> April 7, not after. Post-launch, Glasswing-era findings enter a normal
+30–90 day coordinated disclosure cycle with no active-exploitation pressure to accelerate — the bad guys don't have
+Glasswing yet, so vendors can run their full testing windows. The updated projection curves therefore hold May
+essentially flat (embargoes still running), begin conservative Glasswing layering in June (first clean post-launch
+Patch Tuesday is June 9), and reserve the aggressive scenario's inflection for June–July. The "no-Glasswing baseline"
+line in the projection chart has been dialed back for Q2 2026 onward to reflect what we'd expect <em>without</em>
+the pre-launch flush contribution. Counter-argument: attributing a specific share of March's spike to the Glasswing
+flush is speculative — CNA growth and fuzzing maturity are well-documented drivers, and we only have explicit credit
+lines on three of ~40 attributable CVEs. Treat the reframe as plausible, not proven.
+</div>
+
 <h3>What Mythos Has Found So Far</h3>
 
 <p>According to VulnCheck analysis of the CVE database, approximately <strong>40 CVEs</strong> can be tentatively linked to
@@ -748,9 +768,12 @@ new Chart(document.getElementById('docMythosCveChart'), {
 
 // Projection chart
 const projMonths = ['2025-01','2025-04','2025-07','2025-10','2026-01','2026-04','2026-07','2026-10','2027-01'];
-const baselineTrend = [4200,3950,4100,4150,5143,5547,6000,6150,6300];
-const conservativeScenario = [null,null,null,null,null,5547,7047,8547,10047];
-const aggressiveScenario = [null,null,null,null,null,5547,9547,11047,12547];
+// Note: baselineTrend for 2026-Q2+ is the *counterfactual* (what volumes would be
+// without Glasswing). Dialed down from actuals to reflect that March's spike likely
+// includes pre-launch disclosure flush — see "Projection methodology update" callout.
+const baselineTrend = [4200,3950,4100,4150,5143,5000,5200,5400,5600];
+const conservativeScenario = [null,null,null,null,null,5547,6547,8047,9547];
+const aggressiveScenario = [null,null,null,null,null,5547,8547,10547,12047];
 
 new Chart(document.getElementById('docMythosProjectionChart'), {
     type: 'line',
