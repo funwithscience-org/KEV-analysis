@@ -35,7 +35,8 @@ This is the big question we're tracking. Be honest and skeptical.
   - Cluster patterns (multiple related CVEs in the same component disclosed together)
   - Products on the Glasswing target list (Firefox, wolfSSL, NGINX, FreeBSD, OpenSSL)
   - Attribution in advisories mentioning automated/AI/fuzzing tools
-  - CVEs in Glasswing participant products (Microsoft, Google, Cisco, etc.) that look like internal AI auditing
+  - **CVEs in Glasswing participant products — THIS IS CRITICAL.** The participants list is: AWS, Anthropic, Apple, Broadcom, Cisco, CrowdStrike, Google, Intel, JPMorganChase, Linux Foundation, Microsoft, Nvidia, Palo Alto Networks. When a CVE appears in a product made by one of these companies, and the bug pattern is HTTP-parsing-adjacent or would be found by automated code scanning, flag it explicitly as a probable Glasswing self-scan finding. These companies are actively running Mythos against their own code. Example: CVE-2026-20180 (Cisco ISE) is a crafted-HTTP-request RCE in a product made by a named Glasswing participant — that should be flagged as a probable Glasswing finding, not just a watch list entry.
+- **Cross-check every new CVE against the participants list.** Don't just check target products — check the *vendor*. If the vendor is a Glasswing participant and the bug is the kind an AI scanner would find, say so.
 - What's the cumulative signal? Across the days you've been running, is a pattern forming or is it still noise?
 - Play devil's advocate: what non-AI explanations exist for anything you're flagging?
 

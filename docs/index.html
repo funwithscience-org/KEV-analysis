@@ -403,6 +403,18 @@ Anthropic or Anthropic-affiliated researchers. Three now carry explicit Claude/M
 </ul>
 <p>The pattern has moved beyond a single data point: three Claude-credited disclosures in two weeks, spanning two TLS/crypto libraries and one OS kernel, suggests a real — if still early — signal rather than noise.</p>
 
+<p>Beyond the explicitly credited CVEs, we're also tracking <strong>probable Glasswing self-scan findings</strong> —
+vulnerabilities in products made by named Glasswing participants where the bug pattern is consistent with AI-driven
+code scanning. The strongest candidate so far:</p>
+<ul style="margin:.8em 0;padding-left:1.5em;color:#cbd5e1">
+<li><strong>CVE-2026-20180</strong> — Cisco ISE authenticated RCE via crafted HTTP request (CVSS 9.9). Cisco is a
+named Glasswing participant. ISE is a flagship network security product — exactly the kind of critical infrastructure
+Cisco would point Mythos at during a self-scan. The bug is textbook HTTP-parsing-adjacent (input validation on HTTP
+requests), consistent with what an AI code scanner excels at finding. No attribution yet, but the circumstantial
+case is strong. Counter-argument: Cisco ISE has a long CVE history and this could be a conventional security audit
+finding — Cisco's internal teams were already active before Glasswing.</li>
+</ul>
+
 <div class="chart-wrap">
 <h4>Mythos-Linked CVEs by Product (VulnCheck Analysis)</h4>
 <canvas id="docMythosCveChart"></canvas>
