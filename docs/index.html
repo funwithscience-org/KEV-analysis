@@ -363,28 +363,33 @@ participation, automated fuzzing, and broader disclosure norms — not yet by Gl
 April 2026 is pacing ~3,698 through day 20 (extrapolated ~5,547) — modestly <em>below</em> March and well below
 the conservative +500/mo Glasswing trajectory. Daily publication rate has continued to ease from ~203/day in early
 April to ~185/day. Counter-argument: NVD publish latency is typically 4–8 weeks, so Glasswing discoveries from the
-April 7 launch largely haven't surfaced yet. Expect the first meaningful signal in May–June 2026, with fuller
-visibility after Anthropic's planned July disclosure.
+April 7 launch largely haven't surfaced yet — but human dynamics may compress the timeline (see below).
 </div>
 
 <div class="callout callout-finding">
-<strong>Projection methodology update (2026-04-20).</strong> We revised the count projection curves after reconsidering
-CVE disclosure timing. Our original model implicitly anchored the Glasswing volume impact at the April 7 launch, but
-that's backwards. Anthropic's strong incentive pre-launch was to <em>flush</em> Glasswing-discovered vulnerabilities
-through coordinated disclosure <em>ahead</em> of the public announcement — getting silently scooped by opportunistic
-attackers who independently rediscovered a bug Anthropic already knew about would be the worst possible optics for a
-launch positioned on responsible AI security research. That means March 2026's +57.1% YoY spike to 6,304 is probably
-not purely CNA expansion and automated fuzzing; some fraction is likely Anthropic plus Mythos Preview partners (AWS,
-Apple, Cisco, Google, Microsoft, Linux Foundation, etc.) racing to ship pre-launch disclosures. Meaningful Glasswing
-contribution likely began <em>before</em> April 7, not after. Post-launch, Glasswing-era findings enter a normal
-30–90 day coordinated disclosure cycle with no active-exploitation pressure to accelerate — the bad guys don't have
-Glasswing yet, so vendors can run their full testing windows. The updated projection curves therefore hold May
-essentially flat (embargoes still running), begin conservative Glasswing layering in June (first clean post-launch
-Patch Tuesday is June 9), and reserve the aggressive scenario's inflection for June–July. The "no-Glasswing baseline"
-line in the projection chart has been dialed back for Q2 2026 onward to reflect what we'd expect <em>without</em>
-the pre-launch flush contribution. Counter-argument: attributing a specific share of March's spike to the Glasswing
-flush is speculative — CNA growth and fuzzing maturity are well-documented drivers, and we only have explicit credit
-lines on three of ~40 attributable CVEs. Treat the reframe as plausible, not proven.
+<strong>Projection methodology update (2026-04-20).</strong> We revised the projection curves to reflect two human
+dynamics that should pull the CVE spike forward into late April/May rather than June–July.
+
+<strong>First, the pre-launch flush.</strong> Anthropic had a strong incentive to push Glasswing-discovered
+vulnerabilities through coordinated disclosure <em>before</em> the April 7 announcement — getting scooped by
+attackers who independently rediscovered a known bug would have been devastating optics. That means some fraction of
+March 2026's +57.1% YoY spike to 6,304 is likely Anthropic plus Mythos Preview partners (AWS, Apple, Cisco, Google,
+Microsoft, Linux Foundation, etc.) racing to ship pre-launch fixes. The early Glasswing findings could be hidden
+because nobody knew to look.
+
+<strong>Second, the post-launch pressure.</strong> Now that Glasswing is public and everyone knows AI is scanning
+their code, vendors and open-source maintainers are incentivized to find and fix their own bugs <em>before</em>
+Glasswing reports them — nobody wants the headline "AI found what your security team missed." This creates a race
+to get patches and disclosures out, compressing what would normally be 60–90 day embargo windows. Embargoes still
+apply technically, but social pressure accelerates everything: internal security teams are being asked "are we ready
+for Glasswing?" and the answer drives faster audits, faster patches, faster disclosures. The updated curves begin
+the conservative increase in May (+500/mo) and the aggressive scenario ramps steeply through May–June, reflecting
+both Glasswing's own discovery output and the broader industry's race to get ahead of it.
+
+Counter-argument: this "disclosure acceleration" effect is speculative and hard to measure. Vendors may stick to
+standard embargo timelines regardless of public pressure, and March's spike has well-documented alternative
+explanations (CNA growth, fuzzing maturity). But the social dynamics are real: when the industry knows AI is
+looking, behavior changes.
 </div>
 
 <h3>What Mythos Has Found So Far</h3>
@@ -532,8 +537,10 @@ The danger scenario is if Mythos-class capability proliferates to offensive acto
 the February 2026 report of Claude Code being used in attack chains across ~30 global targets suggests that timeline is
 already compressed.</p>
 
-<p>Full Glasswing results are expected around <strong>July 2026</strong>. Until then, these projections remain speculative —
-but the trajectory is clear enough to warrant preparation.</p>
+<p>Full Glasswing results are expected around <strong>July 2026</strong>, but the volume spike is likely to arrive earlier.
+Now that Glasswing is public knowledge, the industry's race to find-and-fix before AI reports land is compressing
+disclosure timelines. Expect the conservative scenario to begin materializing in <strong>May 2026</strong>, with the
+aggressive scenario's inflection as early as May–June rather than the original July estimate.</p>
 
 <!-- ========== 11. EXPLOIT WATCH LIST ========== -->
 <h2 id="watchlist">11. Exploit Watch List — HTTP-Parsing Attack Surface</h2>
@@ -773,8 +780,8 @@ const projMonths = ['2025-01','2025-04','2025-07','2025-10','2026-01','2026-04',
 // without Glasswing). Dialed down from actuals to reflect that March's spike likely
 // includes pre-launch disclosure flush — see "Projection methodology update" callout.
 const baselineTrend = [4200,3950,4100,4150,5143,5000,5200,5400,5600];
-const conservativeScenario = [null,null,null,null,null,5547,6547,8047,9547];
-const aggressiveScenario = [null,null,null,null,null,5547,8547,10547,12047];
+const conservativeScenario = [null,null,null,null,null,5547,7047,8547,10047];
+const aggressiveScenario = [null,null,null,null,null,5547,11547,13547,14547];
 
 new Chart(document.getElementById('docMythosProjectionChart'), {
     type: 'line',
