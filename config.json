@@ -13,7 +13,10 @@
     "msrc_api": "https://api.msrc.microsoft.com/cvrf/v3.0/updates",
     "rhel_errata": "https://access.redhat.com/labs/securitydataapi/cve.json",
     "stack_watch_rhel": "https://stack.watch/product/redhat/enterprise-linux/",
-    "jgamblin_monthly": "https://raw.githubusercontent.com/jgamblin/monthlyCVEStats/main/data/monthly.json"
+    "jgamblin_monthly": "https://raw.githubusercontent.com/jgamblin/monthlyCVEStats/main/data/monthly.json",
+    "exploitdb_search": "https://www.exploit-db.com/search?cve=",
+    "github_poc_index": "https://github.com/nomi-sec/PoC-in-GitHub",
+    "metasploit_modules": "https://github.com/rapid7/metasploit-framework"
   },
   "glasswing_targets": {
     "known_products": ["Mozilla Firefox", "wolfSSL", "F5 NGINX Plus", "FreeBSD", "OpenSSL"],
@@ -118,5 +121,11 @@
       {"cve":"CVE-2026-34621","product":"Adobe Acrobat","status":"confirmed","added":"2026-04-15","kevDate":"2026-04-15"},
       {"cve":"CVE-2026-33825","product":"Windows Defender (BlueHammer)","status":"watching","added":"2026-04-18","kevDate":null}
     ]
+  },
+  "exploit_intelligence": {
+    "description": "Tracks public exploit availability for watch list CVEs across ExploitDB, Metasploit, and GitHub PoC repos. Updated daily by refresh agent.",
+    "maturity_levels": ["none", "poc", "functional", "weaponized"],
+    "last_full_scan": null,
+    "cve_status": {}
   }
 }

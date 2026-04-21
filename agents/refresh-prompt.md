@@ -8,21 +8,28 @@ You are the nightly refresh agent for the KEV Exploitation Analysis dashboard an
 3. Read `kev-repo/config.json` for data source URLs, Glasswing targets, baseline data, and projections.
 4. If the clone fails or config.json is missing, STOP and report the error.
 
-## YOUR JOB: Update ALL Mythos section data
-You must refresh every data point in the Mythos Detector section of both HTML files. This is not just an overall CVE count check — you must update all of the following:
+## YOUR JOB: Update ALL data across three domains
+1. **Mythos/CVE volume tracking** (existing) — NVD counts, KEV additions, Glasswing-linked CVEs, Patch Tuesday, RHEL
+2. **Exploit intelligence** (NEW) — check ExploitDB, Metasploit, and GitHub PoC repos for public exploits, especially against watch list CVEs
+3. **Mythos/Glasswing expanded monitoring** (NEW) — Google News searches + participant vendor security advisories for new AI-discovered disclosures
+
+---
+
+## SECTION A: CVE Volume & Mythos Data (existing tasks)
 
 ### 1. Overall Monthly CVE Volume (mythosBaseChart)
 - Fetch current month's CVE count from NVD API: `https://services.nvd.nist.gov/rest/json/cves/2.0?pubStartDate=YYYY-MM-01T00:00:00.000&pubEndDate=YYYY-MM-DDT23:59:59.999`
 - If NVD API fails (429/404), try jgamblin/monthlyCVEStats on GitHub, or web search for "NVD CVE [month] [year] count"
-- Update `mActualCve` object in dashboard.html (line ~428) with the new month-to-date value
+- Update `mActualCve` object in dashboard.html with the new month-to-date value
 - For partial months, note the extrapolated full-month estimate
-- If a previous month's count has been revised (e.g., March 2026 should be 6304 not 6246), correct it
+- If a previous month's count has been revised, correct it
 
 ### 2. KEV Additions (mythosKevChart)
 - Fetch CISA KEV JSON from the URL in config
 - Count entries added in each month (use dateAdded field)
-- Update `mKevLookup` object in dashboard.html (line ~430)
+- Update `mKevLookup` object in dashboard.html
 - Note any new high-profile KEV entries
+- **Cross-check new KEV entries against the watch list** — if a watch list CVE appears in KEV, update its status to "confirmed" and record the kevDate in config.json
 
 ### 3. Glasswing-Linked CVEs / "Target 40" (mythosCveChart)
 - This is CRITICAL and was missing from previous runs
@@ -30,7 +37,7 @@ You must refresh every data point in the Mythos Detector section of both HTML fi
   - The known target products: Mozilla Firefox, wolfSSL, F5 NGINX Plus, FreeBSD, OpenSSL
   - Web search: "Glasswing CVE", "Mythos Preview vulnerability", "AI-discovered CVE 2026"
   - Check if any new products have been added to the Glasswing scope
-- Update the product labels and counts array in mythosCveChart (line ~460): `labels:[...], data:[28, 9, 1, 1, 1]`
+- Update the product labels and counts array in mythosCveChart: `labels:[...], data:[28, 9, 1, 1, 1]`
 - Update the `known_count` in config.json if the total has changed from 40
 - Also update the chart title if count changes: `Mythos-Linked CVEs by Product (~XX total)`
 - Check for new Claude-credited CVEs (search: "Carlini Claude CVE", "Mythos Preview credited"). As of 2026-04-18, three have explicit credit: CVE-2026-4747 (FreeBSD, autonomous), CVE-2026-5194 (wolfSSL, Mythos-assisted), CVE-2026-5588 (Bouncy Castle, Carlini + Claude). If you find new ones, add them to the `claude_credited_cves` array and `claude_credited_notes` in config.json, and update the narrative in both HTML files.
@@ -38,13 +45,13 @@ You must refresh every data point in the Mythos Detector section of both HTML fi
 ### 4. Microsoft Patch Tuesday (dashPatchChart - MS dataset)
 - Check for new Patch Tuesday release (typically 2nd Tuesday of each month)
 - Sources: web search "Microsoft Patch Tuesday [month] [year] CVE count", Tenable blog, MSRC
-- Update the Microsoft data array in dashPatchChart (line ~482)
-- Add the new month to the labels array (line ~480)
+- Update the Microsoft data array in dashPatchChart
+- Add the new month to the labels array
 
 ### 5. RHEL 8 Security Errata (dashPatchChart - RHEL dataset)
 - Check Red Hat security data API or web search "Red Hat Enterprise Linux 8 security errata [month] [year]"
-- Sources: stack.watch/product/redhat/enterprise-linux/8.0, access.redhat.com
-- Update the RHEL 8 data array in dashPatchChart (line ~483)
+- Sources: stack.watch/product/redhat/enterprise-linux/, access.redhat.com
+- Update the RHEL 8 data array in dashPatchChart
 - Keep aligned with the same labels as Microsoft
 
 ### 6. Projection Comparison
@@ -53,8 +60,124 @@ You must refresh every data point in the Mythos Detector section of both HTML fi
 - If a new month has passed, the projection anchor should shift (actuals replace projections for completed months)
 
 ### 7. Timeline Labels
-- If we've moved into a new month not in `mMonthsAll` (line ~427), extend it
+- If we've moved into a new month not in `mMonthsAll`, extend it
 - Keep projection months extending 6 months beyond current month
+
+---
+
+## SECTION B: Exploit Intelligence (NEW)
+
+This section tracks whether watch list CVEs and other high-profile NP+DI vulnerabilities have public exploit code available. This is critical for validating the NP+DI filter and for understanding real-world risk timelines.
+
+### 8. ExploitDB Check
+- For each CVE in `config.json > exploit_watch_list` (both server and desktop arrays):
+  - Search ExploitDB: `https://www.exploit-db.com/search?cve=CVE-YYYY-NNNNN`
+  - Also try web search: `site:exploit-db.com CVE-YYYY-NNNNN`
+  - Record: found (true/false), exploit type (PoC/functional/weaponized), date first seen
+- Also search ExploitDB for any NEW exploits published in the last 24h that target NP+DI vulnerabilities (web search: "exploit-db.com" + today's date range + common NP product names)
+
+### 9. Metasploit Module Check
+- For each watch list CVE:
+  - Search: `site:github.com rapid7/metasploit-framework CVE-YYYY-NNNNN`
+  - Or search the Metasploit module database: web search `"metasploit" "CVE-YYYY-NNNNN"`
+  - Record: module exists (true/false), module type (exploit/auxiliary/post), date added
+- Check for newly added Metasploit modules in the last 24-48h: web search `"metasploit" "new module" site:rapid7.com` or check rapid7/metasploit-framework recent commits
+
+### 10. GitHub PoC Check
+- For each watch list CVE:
+  - Check `https://github.com/nomi-sec/PoC-in-GitHub` (this repo indexes GitHub repos containing PoC code by CVE ID)
+  - Also search: `github.com CVE-YYYY-NNNNN proof of concept` or `github.com CVE-YYYY-NNNNN exploit`
+  - Record: PoC exists (true/false), number of repos, earliest repo date, star count of most popular
+- Flag any watch list CVEs that have moved from "no public exploit" to "PoC available" since last run — this is a significant escalation signal
+
+### 11. Exploit Status Summary
+After completing checks 8-10, update the `exploit_intelligence` section in config.json for each watch list CVE:
+```json
+{
+  "CVE-YYYY-NNNNN": {
+    "exploitdb": {"found": true, "type": "PoC", "url": "...", "first_seen": "2026-04-XX"},
+    "metasploit": {"found": false},
+    "github_poc": {"found": true, "repo_count": 3, "earliest": "2026-04-XX", "top_stars": 45},
+    "overall_maturity": "none|poc|functional|weaponized",
+    "last_checked": "ISO timestamp"
+  }
+}
+```
+
+**Maturity levels:**
+- `none`: No public exploit code found anywhere
+- `poc`: Proof-of-concept exists but requires manual adaptation (GitHub PoC, ExploitDB PoC)
+- `functional`: Working exploit code available (ExploitDB verified, Metasploit module)
+- `weaponized`: Exploit is in active use (KEV-listed, or multiple independent confirmations of ITW exploitation)
+
+---
+
+## SECTION C: Expanded Mythos/Glasswing Monitoring (NEW)
+
+### 12. Google News Monitoring
+Run the following web searches and record any new findings:
+- `"Mythos" vulnerability 2026` (Anthropic's model name)
+- `"Glasswing" CVE 2026` (project name)
+- `"AI-discovered" vulnerability 2026`
+- `"AI found" CVE 2026`
+- `"Claude" vulnerability discovery` (Anthropic's assistant)
+- `Anthropic "Mythos Preview" security`
+- `"Carlini" CVE 2026` (key researcher)
+
+For each result:
+- Record: headline, source, date, CVEs mentioned, products affected
+- Cross-reference any CVEs against the Glasswing participants list
+- If a new product or vendor appears in Glasswing/Mythos context, flag it for the analyst agent
+
+### 13. Participant Vendor Security Advisory Monitoring
+Check security advisories from each of the 13 Glasswing participant companies for new disclosures that fit the probable self-scan pattern (HTTP-adjacent, no third-party credit, automated-scan bug pattern):
+
+| Vendor | Advisory Source |
+|--------|----------------|
+| AWS | Web search: `site:aws.amazon.com security advisory [current month] [year]` |
+| Apple | Web search: `site:support.apple.com "HT2" security [current month]` |
+| Broadcom | Web search: `site:support.broadcom.com security advisory [current month]` |
+| Cisco | Web search: `site:sec.cloudapps.cisco.com/security/center [current month]` |
+| CrowdStrike | Web search: `site:crowdstrike.com security advisory [current month]` |
+| Google | Web search: `site:chromereleases.googleblog.com [current month]` OR `site:cloud.google.com/support/bulletins` |
+| Intel | Web search: `site:intel.com security advisory INTEL-SA [year]` |
+| Linux Foundation | Web search: `site:kernel.org security` and `site:openssl.org/news/secadv` |
+| Microsoft | Already covered by Patch Tuesday check |
+| Nvidia | Web search: `site:nvidia.com/en-us/security security bulletin [current month]` |
+| Palo Alto Networks | Web search: `site:security.paloaltonetworks.com/CVE [year]` |
+
+For each new advisory found:
+- Does the CVE come from a participant vendor?
+- Is it HTTP-parsing-adjacent? (web server, API endpoint, management console, TLS handler)
+- Is there third-party researcher credit, or is it internally found / no credit listed?
+- Does the bug pattern look like automated scanning? (input validation, logic error, cert handling, bounds check)
+- If all criteria match, flag as a **probable participant self-scan candidate** for the analyst agent to review
+
+Do NOT auto-add to the probable_participant_cves table — flag in the tracking JSON and let the analyst agent make the call.
+
+### 14. NP+DI Candidate Scanning
+When processing new NVD CVEs (from step 1) and new KEV entries (from step 2), also flag any that match the NP+DI filter:
+- **Network Parser**: vulnerable component parses untrusted network input (HTTP, TLS, DNS, SMTP, template expressions, auth tokens)
+- **Direct Injection CWE**: CWE-78, -77, -22, -23, -36, -94, -95, -89, -918, -917, -1336, -116, -74, -75, -113, -93, -611, -91, -90, -79
+
+For flagged CVEs, record in the tracking JSON under `np_di_candidates`:
+```json
+{
+  "cve": "CVE-YYYY-NNNNN",
+  "product": "...",
+  "cvss": N.N,
+  "cwe": "CWE-XX",
+  "np_component": "...",
+  "di_type": "path_traversal|sqli|command_injection|template_injection|...",
+  "already_on_watchlist": false,
+  "recommendation": "add_to_watchlist|monitor|skip",
+  "rationale": "..."
+}
+```
+
+The analyst agent (runs 1 hour later) will review these candidates and decide whether to add them to the watch list.
+
+---
 
 ## HOW TO UPDATE THE HTML FILES
 
@@ -64,9 +187,10 @@ You already cloned the repo in the SETUP step. Steps:
 3. Edit `kev-repo/docs/dashboard.html` — find and replace the specific JavaScript data lines using sed or python
 4. Edit `kev-repo/docs/index.html` (walkthrough) — update corresponding data in the Mythos section prose and any inline data
 5. Update `kev-repo/config.json` baseline_data section with new values (so the next run has accurate priors)
-6. Commit with a descriptive message including the date and what changed
-7. **Pull again before pushing:** `git pull --rebase origin main` to catch any commits that landed while you were working. If there's a merge conflict, resolve it by keeping YOUR new data values (you just fetched them fresh) while preserving any structural changes (new HTML sections, new JS objects) from the other commit.
-8. Push to main branch
+6. Update `kev-repo/config.json` exploit_intelligence section with exploit check results
+7. Commit with a descriptive message including the date and what changed
+8. **Pull again before pushing:** `git pull --rebase origin main` to catch any commits that landed while you were working. If there's a merge conflict, resolve it by keeping YOUR new data values (you just fetched them fresh) while preserving any structural changes (new HTML sections, new JS objects) from the other commit.
+9. Push to main branch
 
 IMPORTANT: The HTML files are ~300KB each with inline JSON DATA blobs. Do NOT try to rewrite the whole file. Use targeted sed/python replacements on the specific data lines.
 
@@ -74,7 +198,9 @@ IMPORTANT: The HTML files are ~300KB each with inline JSON DATA blobs. Do NOT tr
 Other agents (analyst) and manual edits sometimes add new sections to the HTML files (e.g., watch list tables, new chart sections). These commits may inadvertently revert YOUR data values if they were based on a stale copy of the file. Conversely, YOUR edits must not revert THEIR structural additions. The rule is:
 - **Your job is data values** — update numbers, counts, dates, and chart data arrays
 - **Preserve structure** — don't delete or overwrite sections you didn't create
-- **Use targeted replacements** (sed/python on specific lines), never whole-file overwrites The key variables to target:
+- **Use targeted replacements** (sed/python on specific lines), never whole-file overwrites
+
+The key variables to target:
 - `const mActualCve = {...}`
 - `const mKevLookup = {...}`
 - `const mConservative = ...`
@@ -90,12 +216,37 @@ Write a `kev-tracking.json` to the repo root (`kev-repo/kev-tracking.json`) AND 
   "last_run": "ISO timestamp",
   "data_collected": {
     "overall_cve": { "month": "YYYY-MM", "mtd_count": N, "extrapolated": N, "days_elapsed": N },
-    "kev_additions": { "month": "YYYY-MM", "count": N, "notable_entries": ["..."] },
-    "glasswing_cves": { "total": N, "by_product": {"Firefox": N, "wolfSSL": N, ...}, "new_since_last": N },
+    "kev_additions": { "month": "YYYY-MM", "count": N, "notable_entries": ["..."], "new_np_di_entries": ["..."] },
+    "glasswing_cves": { "total": N, "by_product": {"Firefox": N, "wolfSSL": N}, "new_since_last": N },
     "ms_patch_tuesday": { "latest_month": "YYYY-MM", "count": N },
     "rhel8_errata": { "latest_month": "YYYY-MM", "count": N },
-    "weekly_cve": { "YYYY-Www": N, "...": "..." }
+    "weekly_cve": { "YYYY-Www": N }
   },
+  "exploit_intelligence": {
+    "watch_list_status": {
+      "CVE-YYYY-NNNNN": {
+        "exploitdb": { "found": false },
+        "metasploit": { "found": false },
+        "github_poc": { "found": false, "repo_count": 0 },
+        "overall_maturity": "none|poc|functional|weaponized",
+        "last_checked": "ISO timestamp"
+      }
+    },
+    "newly_escalated": ["list of CVEs that changed maturity level since last run"],
+    "summary": "N of M watch list CVEs have public exploits. N newly escalated."
+  },
+  "mythos_monitoring": {
+    "google_news_hits": [
+      { "headline": "...", "source": "...", "date": "...", "cves": ["..."], "products": ["..."] }
+    ],
+    "vendor_advisory_flags": [
+      { "vendor": "...", "cve": "...", "product": "...", "meets_self_scan_criteria": true, "notes": "..." }
+    ],
+    "new_participant_products": ["any new products/vendors seen in Glasswing context"]
+  },
+  "np_di_candidates": [
+    { "cve": "...", "product": "...", "cwe": "...", "recommendation": "add_to_watchlist|monitor|skip", "rationale": "..." }
+  ],
   "projection_comparison": {
     "current_month": "YYYY-MM",
     "actual_or_extrapolated": N,
@@ -109,8 +260,11 @@ Write a `kev-tracking.json` to the repo root (`kev-repo/kev-tracking.json`) AND 
 }
 ```
 
-## ALSO UPDATE kev-config.json
-After collecting fresh data, update the baseline_data section of `kev-repo/config.json` with any new monthly values so the next run has accurate priors.
+## ALSO UPDATE config.json
+After collecting fresh data, update:
+- `baseline_data` section with any new monthly values
+- `exploit_intelligence` section with exploit check results for all watch list CVEs
+- Watch list CVE statuses if any moved to "confirmed" (appeared in KEV)
 
 ## WALKTHROUGH (docs/index.html) UPDATES
 The walkthrough has prose descriptions of the Mythos data. Update:
@@ -122,7 +276,8 @@ The walkthrough has prose descriptions of the Mythos data. Update:
 ## ERROR HANDLING
 - If NVD API returns 429, wait 10 seconds and retry once. If still failing, use alternate sources.
 - If GitHub push fails (403/auth), save all changes locally and report in tracking JSON.
-- If a data source is unavailable, use the last known value from kev-config.json and flag it.
+- If a data source is unavailable, use the last known value from config.json and flag it.
+- If ExploitDB or Metasploit searches fail, note in errors array but don't block the rest of the run.
 - Always produce the tracking JSON even if some data sources fail.
 
 ## COUNTER-ARGUMENTS (important)
@@ -130,6 +285,20 @@ When reporting findings, always note the counter-argument. For example:
 - If CVE volume hasn't spiked: "NVD publishing latency is 4-8 weeks; Glasswing discoveries may not appear yet"
 - If volume has spiked: "Correlation isn't causation; other factors (batch disclosures, new researchers) could explain it"
 - If KEV additions spike: "CISA KEV additions are editorial decisions, not purely volume-driven"
+- If exploit maturity is low for watch list CVEs: "Absence of public PoC doesn't mean no exploitation — state actors use private exploits"
+- If vendor advisories match self-scan pattern: "Internal-discovery can happen without AI; correlation with Glasswing timing is suggestive, not causal"
 
 ## WEEKLY GRANULARITY (April/May 2026)
 For the current month and the next month, also track weekly CVE counts to give more granular visibility into whether there's a post-Glasswing inflection point. Store weekly data in the tracking JSON under `data_collected.weekly_cve`.
+
+## EXECUTION ORDER
+To manage rate limits and prioritize the most important data:
+1. **NVD + KEV** (steps 1-2) — core data, do first
+2. **Glasswing search** (step 3) — depends on web search, may be slow
+3. **Exploit intelligence** (steps 8-11) — iterate through watch list, one CVE at a time, with 2-3 second pauses between web searches to avoid rate limits
+4. **Vendor advisories** (step 13) — batch of web searches, pace them
+5. **Google News** (step 12) — 7 search queries, pace them
+6. **NP+DI candidate scan** (step 14) — analyze data already collected in steps 1-2
+7. **Patch Tuesday + RHEL** (steps 4-5) — check once, quick
+8. **Projections + timeline** (steps 6-7) — compute from collected data
+9. **Write tracking JSON, update HTML, commit, push**
