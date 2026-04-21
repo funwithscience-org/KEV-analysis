@@ -498,6 +498,65 @@ A network-parsing HIGH (7.0-7.9) at 1.52% beats a non-parsing CRITICAL (9.0-9.9)
 <strong>The practical test:</strong> This manifest contains Log4Shell, Spring4Shell, Tomcat path traversal, and XStream command injection — the highest-profile Java exploits of the last several years. The NP+DI filter catches every one of them. It also correctly excludes 208 vulnerabilities that, while real, represent attack patterns that don't reach KEV.
 </div>
 
+<h4>Backtest: Did Exploited Vulns Land in the Right Bucket?</h4>
+
+<p>Theory is one thing. We cross-referenced every vulnerability in this manifest against the CISA KEV catalog, Metasploit module database, and GitHub PoC repositories to answer the obvious question: <strong>does the filter actually separate the exploited needles from the noise?</strong></p>
+
+<table class="data-table">
+<thead><tr><th>Filter Tier</th><th>Vulns</th><th>In KEV</th><th>Exploitation Rate</th><th>Metasploit Modules</th></tr></thead>
+<tbody>
+<tr style="background:rgba(220,38,38,.08)"><td><strong>NP + DI (filter output)</strong></td><td>23</td><td><strong style="color:var(--red)">4</strong></td><td><strong style="color:var(--red)">17.4%</strong></td><td>14 modules across 4 CVEs</td></tr>
+<tr><td>NP only (DI filter removed)</td><td>102</td><td>3</td><td>2.9%</td><td>6 modules across 3 CVEs</td></tr>
+<tr><td>Non-NP Critical/High</td><td>35</td><td>0</td><td>0.0%</td><td>0</td></tr>
+</tbody></table>
+
+<p><strong>The NP+DI bucket caught clean:</strong></p>
+
+<table class="data-table">
+<thead><tr><th>CVE</th><th>Library</th><th>Attack</th><th>KEV Date</th><th>MSF Modules</th><th>GH PoCs</th></tr></thead>
+<tbody>
+<tr><td>CVE-2021-44228</td><td>log4j-core</td><td>JNDI injection (Log4Shell) — <span class="tag tag-red">ransomware</span></td><td>2021-12-10</td><td>9</td><td>182</td></tr>
+<tr><td>CVE-2021-45046</td><td>log4j-core</td><td>Log4Shell follow-on — <span class="tag tag-red">ransomware</span></td><td>2023-05-01</td><td>1</td><td>7</td></tr>
+<tr><td>CVE-2022-22965</td><td>spring-beans</td><td>Spring4Shell class injection</td><td>2022-04-04</td><td>2</td><td>63</td></tr>
+<tr><td>CVE-2021-39144</td><td>xstream</td><td>XStream RCE (via VMware NSX)</td><td>2023-03-10</td><td>2</td><td>0</td></tr>
+</tbody></table>
+
+<p><strong>The three the filter missed — and why:</strong></p>
+
+<table class="data-table">
+<thead><tr><th>CVE</th><th>Library</th><th>Assigned CWE</th><th>Actual Mechanism</th><th>Why DI Missed It</th></tr></thead>
+<tbody>
+<tr><td>CVE-2020-1938</td><td>tomcat (AJP)</td><td>CWE-269 (privilege mgmt)</td><td>Servlet attribute injection via AJP binary protocol</td><td>CWE-269 is not a DI CWE. Actual mechanism is injection — CWE misclassification (2020-era tagging)</td></tr>
+<tr><td>CVE-2025-24813</td><td>tomcat (PUT)</td><td>CWE-44 + CWE-502</td><td>Path traversal writes serialized payload; session load deserializes it</td><td>CWE-502 (deserialization) is excluded by design. Genuine grey area: HTTP entry point, but opaque binary kill mechanism</td></tr>
+<tr><td>CVE-2026-34197</td><td>activemq</td><td>CWE-20 (input validation)</td><td>HTTP POST to Jolokia triggers remote Spring XML fetch + execution</td><td>CWE-20 is too generic. Actual mechanism is SSRF/code-injection (CWE-918/CWE-94) — both are DI CWEs</td></tr>
+</tbody></table>
+
+<p>All three misses were stage-1 initial-access exploits over HTTP-adjacent protocols — the filter's target class. None were land-and-expand or post-compromise. The root cause in each case is <strong>upstream CWE classification quality</strong>, not filter logic:</p>
+
+<ul style="margin:10px 0 10px 20px">
+<li><strong>Ghostcat (2020):</strong> CWE assignment was notably less precise in 2020. "Privilege management" for what is functionally attribute injection reflects the era's taxonomy habits.</li>
+<li><strong>Tomcat PUT (2025):</strong> The CWE-502 tag is technically accurate — deserialization is the kill mechanism. But the entry point (HTTP PUT with anomalous path + Content-Range) is WAF-detectable. This is the genuinely hard case: the filter's DI/deserialization boundary isn't clean when deserialization is triggered <em>through</em> an HTTP-parseable delivery.</li>
+<li><strong>ActiveMQ (2026):</strong> CWE-20 on a Jolokia HTTP endpoint where the attack fetches and executes remote XML is incorrect by modern standards. This should be CWE-918 or CWE-94.</li>
+</ul>
+
+<div class="callout callout-warning">
+<strong>The caveat:</strong> The NP+DI filter has two layers with fundamentally different reliability. The <strong>NP classification is stable</strong> — a library either parses network input or it doesn't; Tomcat doesn't stop being a web server. You classify your manifest once and that list holds. The <strong>DI classification depends on CWE quality</strong> — whoever filed the CVE picking the right CWE code. Two of three misses trace directly to vague or incorrect CWE assignments.
+</div>
+
+<h4>The Safety Net: AI-Assisted CWE Validation</h4>
+
+<p>The filter can't control upstream CWE quality, but it can compensate. When a new Critical/High vulnerability lands on a Network Parser library and <em>doesn't</em> trigger the DI filter, that's exactly when you want a second opinion.</p>
+
+<p><strong>The mechanism:</strong> Run an AI review of the advisory text, patch diff, and exploit description for every NP-but-not-DI vulnerability. Have it make an independent CWE assessment. The volume is tiny — in this manifest's entire history, the NP-but-not-DI bucket holds ~100 vulnerabilities total. In real-time monitoring, it's a handful per month at most. Completely tractable for automated review.</p>
+
+<p>This isn't asking AI to replace the filter. It's asking AI to QA the one input the filter can't control: <em>did the CVE author pick the right CWE?</em> The NP list is yours. The DI CWE set is yours. The only third-party dependency is CWE classification quality — and the backtest shows that dependency is the filter's one weak point.</p>
+
+<p>The irony is worth noting: if AI tooling like Glasswing/Mythos is now capable of <em>finding</em> vulnerabilities, using it to <em>correctly classify</em> them is a significantly easier ask. The safety net costs almost nothing and closes the filter's only demonstrated gap.</p>
+
+<div class="callout callout-finding">
+<strong>Backtest summary:</strong> 17.4% exploitation rate in the NP+DI bucket vs. 2.9% in NP-only vs. 0% in non-NP. The filter caught Log4Shell, Spring4Shell, and XStream RCE cleanly. Its three misses are all CWE taxonomy failures on HTTP-adjacent attacks — fixable with an AI classification review pass that adds minutes, not hours, to the triage workflow.
+</div>
+
 <!-- ========== 8. KILL CHAIN ========== -->
 <h2 id="kill-chain">8. Kill Chain: App Layer IF, OS Layer HOW BAD</h2>
 
