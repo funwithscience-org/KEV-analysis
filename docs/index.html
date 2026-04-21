@@ -146,7 +146,7 @@ details.expandable .detail-content{padding:16px 20px}
 
 <p>Now look at where those exploited vulnerabilities land. Platform and infrastructure components — operating systems, VPN appliances, web servers, TLS stacks — account for roughly 35% of all confirmed exploits, with exploitation rates between 19% and 95%. OS bugs alone get weaponized 95% of the time. These are important, but for most organizations they're a solved problem: you pull the updated image, roll it out, and move on.</p>
 
-<p>Libraries and frameworks tell a different story — and a much noisier one than NVD suggests. NVD tracks roughly 345 critical/high library CVEs for our period using its <span class="glossary" data-tip="Common Platform Enumeration — NVD's naming scheme for matching CVEs to products. Library coverage is poor because most open-source projects never register a CPE">CPE</span>-based categorization, but that's a massive undercount. <strong><a href="https://osv.dev" target="_blank">OSV</a></strong> (Google's open-source vulnerability database, which aggregates NVD, GitHub Security Advisories, and ecosystem-specific sources) tracks <strong>463 critical/high vulnerabilities across just 79 popular packages</strong> — already exceeding NVD's total for all libraries. Across the five major ecosystems (npm, PyPI, Maven, Go, RubyGems), OSV lists roughly 247,000 advisories total, with an estimated 93,000+ at critical/high severity. Only <strong>21 library entries appear in KEV</strong> — that's 1.3% of confirmed exploits, and an exploitation rate well below 0.1% against the true vulnerability population. Most library CVEs are noise. But within that noise, a specific pattern emerges: <strong>the libraries that do get exploited are overwhelmingly the ones that parse untrusted network traffic.</strong> Apache Struts (6 KEV entries), Spring ecosystem (4), ImageMagick (3), Log4j (2), Ruby on Rails (3) — every one of them is a network parser.</p>
+<p>Libraries and frameworks tell a different story — and a much noisier one than NVD suggests. NVD tracks roughly 345 critical/high library CVEs for our period using its <span class="glossary" data-tip="Common Platform Enumeration — NVD's naming scheme for matching CVEs to products. Library coverage is poor because most open-source projects never register a CPE">CPE</span>-based categorization, but that's a massive undercount. <strong><a href="https://osv.dev" target="_blank">OSV</a></strong> (Google's open-source vulnerability database, which aggregates NVD, GitHub Security Advisories, and ecosystem-specific sources) tracks <strong>770 critical/high vulnerabilities across just 177 popular packages</strong> — more than double NVD's total for all libraries. Across the five major ecosystems (npm, PyPI, Maven, Go, RubyGems), OSV lists roughly 247,000 advisories total, with an estimated 93,000+ at critical/high severity. Only <strong>21 library entries appear in KEV</strong> — that's 1.3% of confirmed exploits, and an exploitation rate well below 0.1% against the true vulnerability population. Most library CVEs are noise. But within that noise, a specific pattern emerges: <strong>the libraries that do get exploited are overwhelmingly the ones that parse untrusted network traffic.</strong> Apache Struts (6 KEV entries), Spring ecosystem (4), ImageMagick (3), Log4j (2), Ruby on Rails (3) — every one of them is a network parser.</p>
 
 <p>That's the hypothesis: <strong>the real predictor isn't severity or even component type — it's "does this code parse untrusted network traffic?"</strong> We call these <em>network parsers</em>: any code that ingests and interprets data arriving over the network — HTTP requests, TLS handshakes, DNS responses, SMTP headers, authentication tokens. The protocol doesn't matter; what matters is that a parser is touching untrusted input. HTTP is the dominant case because it's the most exposed protocol in most environments, but the principle extends to any network-facing parser. A VPN concentrator decrypting traffic has a massive parsing surface. A load balancer rewriting headers is transforming untrusted input. Even firewalls running IPS or SSL decryption are parsing and join the higher-risk category. By contrast, a basic L2 switch forwarding frames has no parser to exploit.</p>
 
@@ -207,9 +207,26 @@ OS/kernel alone has a 95% rate — nearly every critical OS CVE gets weaponized.
 
 <p>The initial categorization found only 80 library CVEs in NVD and 21 in KEV, producing a misleading 26.3% exploitation rate. After expanding with comprehensive product matching (~200 known library product names), we identified 345 library CVEs in NVD with 8 in KEV. But even 345 is a dramatic undercount.</p>
 
-<p><strong>NVD's <span class="glossary" data-tip="Common Platform Enumeration — NVD's naming scheme for matching CVEs to products. Most open-source libraries never register a CPE, so their vulnerabilities are invisible to CPE-based analysis">CPE</span>-based categorization misses most library vulnerabilities.</strong> Google's <a href="https://osv.dev" target="_blank">OSV database</a> — which aggregates NVD, GitHub Security Advisories, and ecosystem-specific sources — paints a very different picture. We queried 79 popular open-source packages across six ecosystems (npm, PyPI, Maven, Go, RubyGems, crates.io) and found <strong>1,228 total vulnerabilities, with 463 at critical/high severity</strong> — from just 79 packages. That already exceeds NVD's expanded count of 345 for <em>all</em> libraries. Across the five major ecosystems, OSV lists roughly 247,000 advisories total, with an estimated 93,000+ at critical/high severity based on our sample's 37.7% critical/high rate.</p>
+<p><strong>NVD's <span class="glossary" data-tip="Common Platform Enumeration — NVD's naming scheme for matching CVEs to products. Most open-source libraries never register a CPE, so their vulnerabilities are invisible to CPE-based analysis">CPE</span>-based categorization misses most library vulnerabilities.</strong> Google's <a href="https://osv.dev" target="_blank">OSV database</a> — which aggregates NVD, GitHub Security Advisories, and ecosystem-specific sources — paints a very different picture. We queried 177 popular open-source packages across six ecosystems (npm, PyPI, Maven, Go, RubyGems, crates.io) and found <strong>770 critical/high vulnerabilities</strong> in those packages alone — more than double NVD's expanded count of 345 for <em>all</em> libraries. Across the five major ecosystems, OSV lists roughly 247,000 advisories total. The true library vulnerability population is orders of magnitude larger than NVD suggests.</p>
 
-<p>The picture sharpens when you split the sample. Of our 79 packages, 42 are network-parser libraries (web frameworks, HTTP clients, template engines, serialization/deserialization). They account for <strong>339 of the 463 critical/high vulnerabilities</strong> (73%). The remaining 37 packages — UI libraries, build tools, utilities, ORMs, testing frameworks — account for 124 (27%). But in the KEV catalog, the exploitation split is even more dramatic: of the 21 library KEV entries, roughly 18 are network parsers. The signal isn't "libraries are dangerous" — it's "network-parser libraries are dangerous, and everything else is noise."</p>
+<p>The distribution tells the real story. Of those 177 popular packages, <strong>81 (46%) have zero critical/high vulnerabilities.</strong> Most of those — 70 out of 81 — are non-network-parser libraries: your build tools, utility libraries, testing frameworks, date formatters, CLI parsers. They simply don't accumulate serious vulnerabilities. Meanwhile, only 17% of network-parser packages have zero critical/high vulns. The median network-parser library has 3 critical/high advisories; the median non-network-parser has <strong>zero</strong>.</p>
+
+<div class="chart-wrap">
+<h4>Critical/High Vulnerabilities per Package: Network-Parser vs Non-Parser Libraries</h4>
+<p style="font-size:.85em;color:#64748b;margin-bottom:8px">177 popular open-source packages sampled from OSV.dev across 6 ecosystems. Most non-parser libraries cluster at zero. Network parsers spread across the range.</p>
+<canvas id="docLibDistChart" height="100"></canvas>
+</div>
+
+<p>The top of the distribution is even more telling. The 10 most-vulnerable packages hold <strong>62% of all critical/high advisories</strong> across the entire sample — and 6 of those 10 are network parsers (Django, jackson-databind, Struts, Tomcat, Rack, Next.js). The remaining 4 are TensorFlow (128 — a massive project with its own security team), Pillow (image processing), Nokogiri (XML parsing, arguably a parser itself), and ActiveRecord. Of those outliers, <strong>none appear in CISA KEV</strong>. High vulnerability count without network-parser status doesn't translate to real-world exploitation.</p>
+
+<div class="chart-wrap">
+<h4>Top 25 Packages by Critical/High Vulnerabilities (OSV)</h4>
+<p style="font-size:.85em;color:#64748b;margin-bottom:8px">Network-parser libraries (blue) dominate both volume and KEV exploitation. Non-parser outliers like TensorFlow have high vuln counts but zero confirmed exploitation.</p>
+<canvas id="docLibTopChart" height="200"></canvas>
+<p style="font-size:.82em;color:#64748b;margin-top:4px"><span style="display:inline-block;width:12px;height:12px;background:#6366f1;border-radius:2px;vertical-align:middle;margin-right:4px"></span>Network parser &nbsp; <span style="display:inline-block;width:12px;height:12px;background:#94a3b8;border-radius:2px;vertical-align:middle;margin-right:4px"></span>Non-parser &nbsp; Data: <a href="https://osv.dev" target="_blank" style="color:#6366f1">OSV.dev</a>, 177 packages across npm, PyPI, Maven, Go, RubyGems, crates.io</p>
+</div>
+
+<p>In the KEV catalog, the exploitation split is even more dramatic: of the 21 library KEV entries, roughly 18 are network parsers. The signal isn't "libraries are dangerous" — it's "network-parser libraries are dangerous, and everything else is noise."</p>
 
 <p>There's also an important class of library vulnerabilities that KEV never captures: supply-chain fixes. A critical vulnerability in a library like axios (100M+ downloads) that gets patched within hours of disclosure may never appear in KEV because it's never "actively exploited" per CISA's criteria — yet it still forces every application that depends on it to rebuild and redeploy. These invisible library updates are the daily operational burden this analysis aims to help prioritize.</p>
 
@@ -723,7 +740,7 @@ would be a genuine challenge.
 
 <p><strong>NVD denominator quality.</strong> CPE mapping is imperfect — products like "Microsoft" appear without precise product boundaries. Approximately 17,000 CVEs fell into "other" due to sparse metadata. Severity and CVSS fields were sometimes missing and required re-extraction from raw JSON.</p>
 
-<p><strong>Library detection limits.</strong> NVD's CPE-based categorization dramatically undercounts library vulnerabilities. Our expanded NVD search found 345 library CVEs; OSV.dev tracks 463 critical/high vulnerabilities across just 79 popular packages and an estimated 93,000+ critical/high across major ecosystems. We use NVD as the primary denominator for cross-layer comparisons (it's consistent across all categories), and supplement with OSV for the library-specific analysis in §3. The high-impact libraries that actually get exploited (Struts, Spring, Log4j, ImageMagick, Rails) appear in both databases.</p>
+<p><strong>Library detection limits.</strong> NVD's CPE-based categorization dramatically undercounts library vulnerabilities. Our expanded NVD search found 345 library CVEs; OSV.dev tracks 770 critical/high vulnerabilities across just 177 popular packages and an estimated 93,000+ critical/high across major ecosystems. We use NVD as the primary denominator for cross-layer comparisons (it's consistent across all categories), and supplement with OSV for the library-specific analysis in §3. The high-impact libraries that actually get exploited (Struts, Spring, Log4j, ImageMagick, Rails) appear in both databases.</p>
 
 <p><strong>Time-to-exploit right-censoring.</strong> Recent years (2024–2026) show artificially higher medians because many CVEs haven't been added to KEV yet. The true time-to-exploit for recent years will settle lower over time.</p>
 
@@ -770,6 +787,80 @@ new Chart(document.getElementById('docHttpChart'),{
     ]},
     options:{scales:{y:{beginAtZero:true,ticks:{callback:v=>v+'%'}}},plugins:{legend:{position:'top'}}}
 });
+
+// Library distribution chart (OSV data, 177 packages)
+(function(){
+  const bins = ['0','1','2','3–4','5–9','10–19','20–49','50–99','100+'];
+  const npCounts =    [11,10, 9,11,12, 6, 2, 2, 0];
+  const otherCounts = [70,17, 7, 8, 7, 1, 2, 0, 1];
+  const ctx = document.getElementById('docLibDistChart');
+  if(ctx) new Chart(ctx,{
+    type:'bar',
+    data:{
+      labels:bins,
+      datasets:[
+        {label:'Network-parser (63 packages)',data:npCounts,backgroundColor:'#6366f1',borderRadius:3},
+        {label:'Non-parser (113 packages)',data:otherCounts,backgroundColor:'#94a3b8',borderRadius:3}
+      ]
+    },
+    options:{
+      scales:{
+        x:{title:{display:true,text:'Critical/High vulnerabilities per package'},stacked:false},
+        y:{title:{display:true,text:'Number of packages'},beginAtZero:true}
+      },
+      plugins:{
+        legend:{position:'top'},
+        tooltip:{callbacks:{afterBody:function(ctx){
+          if(ctx[0].dataIndex===0) return '62% of non-parser libraries have zero C/H vulns';
+          return '';
+        }}}
+      }
+    }
+  });
+})();
+
+// Top 25 library packages by critical/high (OSV)
+(function(){
+  const top25 = [
+    {pkg:'TensorFlow',ch:128,np:false},{pkg:'Django',ch:80,np:true},
+    {pkg:'jackson-databind',ch:67,np:true},{pkg:'Pillow',ch:49,np:false},
+    {pkg:'Struts',ch:39,np:true},{pkg:'Tomcat (embed)',ch:35,np:true},
+    {pkg:'Nokogiri',ch:30,np:false},{pkg:'Rack',ch:18,np:true},
+    {pkg:'Next.js',ch:17,np:true},{pkg:'ActiveRecord',ch:15,np:false},
+    {pkg:'Handlebars',ch:14,np:true},{pkg:'Jetty',ch:13,np:true},
+    {pkg:'golang.org/x/net',ch:13,np:true},{pkg:'actionpack',ch:12,np:true},
+    {pkg:'cryptography',ch:9,np:false},{pkg:'Twisted',ch:8,np:true},
+    {pkg:'Spring WebMVC',ch:8,np:true},{pkg:'urllib3',ch:8,np:true},
+    {pkg:'golang.org/x/crypto',ch:8,np:true},{pkg:'Fiber',ch:7,np:true},
+    {pkg:'Authlib',ch:7,np:true},{pkg:'Tornado',ch:6,np:true},
+    {pkg:'axios',ch:6,np:true},{pkg:'PostgreSQL JDBC',ch:6,np:false},
+    {pkg:'Fastify',ch:5,np:true}
+  ];
+  const ctx = document.getElementById('docLibTopChart');
+  if(ctx) new Chart(ctx,{
+    type:'bar',
+    data:{
+      labels:top25.map(p=>p.pkg),
+      datasets:[{
+        label:'Critical/High vulnerabilities',
+        data:top25.map(p=>p.ch),
+        backgroundColor:top25.map(p=>p.np?'#6366f1':'#94a3b8'),
+        borderRadius:3
+      }]
+    },
+    options:{
+      indexAxis:'y',
+      scales:{x:{beginAtZero:true,title:{display:true,text:'Critical/High vulnerabilities (OSV)'}}},
+      plugins:{
+        legend:{display:false},
+        tooltip:{callbacks:{afterLabel:function(ctx){
+          const d = top25[ctx.dataIndex];
+          return d.np ? '⬤ Network parser' : '○ Non-parser (0 KEV entries)';
+        }}}
+      }
+    }
+  });
+})();
 
 // TTE chart
 new Chart(document.getElementById('docTteChart'),{

@@ -129,7 +129,24 @@ details.dash-expand .detail-content{padding:16px;background:#0f172a}
 <div class="insight">
 <strong>Key finding:</strong> OS/kernel CVEs have a 95% exploitation rate — nearly every critical OS CVE gets weaponized.
 Platform layers (OS, VPN, JVM, web servers) account for 34.6% of all KEV entries with a 34.8% exploitation rate,
-while libraries/frameworks represent just 1.3% of KEV (21 entries). NVD undercounts library vulnerabilities by orders of magnitude — OSV tracks 93,000+ critical/high across major ecosystems. The 21 KEV entries are almost all network parsers.
+while libraries/frameworks represent just 1.3% of KEV (21 entries). NVD undercounts library vulnerabilities by orders of magnitude — OSV tracks 770 critical/high across just 177 popular packages, with an estimated 93,000+ ecosystem-wide. The 21 KEV entries are almost all network parsers.
+</div>
+</div>
+
+<!-- SECTION 1b: OSV Library Distribution -->
+<div class="section">
+<div class="section-title">Open-Source Library Vulnerability Distribution (OSV)</div>
+<div class="grid-2">
+<div class="card"><h3>Critical/High Vulns per Package: Parser vs Non-Parser</h3><canvas id="dashLibDistChart"></canvas></div>
+<div class="card"><h3>Top 20 Libraries by Critical/High (OSV)</h3><canvas id="dashLibTopChart"></canvas></div>
+</div>
+<div class="insight">
+<strong>The fat tail:</strong> We queried 177 popular open-source packages across 6 ecosystems via <a href="https://osv.dev" target="_blank" style="color:#6366f1">OSV.dev</a>.
+<strong>62% of non-parser libraries have zero critical/high vulnerabilities.</strong> Network parsers are 2.5× more likely to accumulate C/H vulns (median 3 vs median 0).
+The top 10 packages hold 62% of all C/H advisories — 6 of 10 are network parsers. Outliers like TensorFlow (128 C/H) and Pillow (49 C/H) have high vuln counts but <strong>zero KEV entries</strong>.
+High vulnerability count alone doesn't predict exploitation; the network-parser signal does.
+<span style="display:inline-block;width:10px;height:10px;background:#6366f1;border-radius:2px;vertical-align:middle;margin:0 3px"></span>Network parser
+<span style="display:inline-block;width:10px;height:10px;background:#475569;border-radius:2px;vertical-align:middle;margin:0 3px"></span>Non-parser
 </div>
 </div>
 
@@ -504,6 +521,74 @@ new Chart(document.getElementById('layerDistChart'), {
     },
     options: { plugins:{legend:{position:'right',labels:{boxWidth:12,font:{size:11}}}} }
 });
+
+// 2b. OSV Library Distribution (177 packages)
+(function(){
+  const bins = ['0','1','2','3–4','5–9','10–19','20–49','50–99','100+'];
+  const npCounts =    [11,10, 9,11,12, 6, 2, 2, 0];
+  const otherCounts = [70,17, 7, 8, 7, 1, 2, 0, 1];
+  const ctx = document.getElementById('dashLibDistChart');
+  if(ctx) new Chart(ctx,{
+    type:'bar',
+    data:{
+      labels:bins,
+      datasets:[
+        {label:'Network-parser (63)',data:npCounts,backgroundColor:'#6366f1',borderRadius:3},
+        {label:'Non-parser (113)',data:otherCounts,backgroundColor:'#475569',borderRadius:3}
+      ]
+    },
+    options:{
+      scales:{
+        x:{title:{display:true,text:'Critical/High vulns per package',color:'#94a3b8'},grid:{color:'rgba(51,65,85,.3)'},ticks:{color:'#94a3b8'}},
+        y:{title:{display:true,text:'Packages',color:'#94a3b8'},beginAtZero:true,grid:{color:'rgba(51,65,85,.3)'},ticks:{color:'#94a3b8'}}
+      },
+      plugins:{legend:{position:'top',labels:{color:'#e2e8f0',boxWidth:12}}}
+    }
+  });
+})();
+
+// 2c. Top 20 library packages by C/H (OSV)
+(function(){
+  const top20 = [
+    {pkg:'TensorFlow',ch:128,np:false},{pkg:'Django',ch:80,np:true},
+    {pkg:'jackson-databind',ch:67,np:true},{pkg:'Pillow',ch:49,np:false},
+    {pkg:'Struts',ch:39,np:true},{pkg:'Tomcat',ch:35,np:true},
+    {pkg:'Nokogiri',ch:30,np:false},{pkg:'Rack',ch:18,np:true},
+    {pkg:'Next.js',ch:17,np:true},{pkg:'ActiveRecord',ch:15,np:false},
+    {pkg:'Handlebars',ch:14,np:true},{pkg:'Jetty',ch:13,np:true},
+    {pkg:'x/net (Go)',ch:13,np:true},{pkg:'actionpack',ch:12,np:true},
+    {pkg:'cryptography',ch:9,np:false},{pkg:'Twisted',ch:8,np:true},
+    {pkg:'Spring WebMVC',ch:8,np:true},{pkg:'urllib3',ch:8,np:true},
+    {pkg:'x/crypto (Go)',ch:8,np:true},{pkg:'Fiber',ch:7,np:true}
+  ];
+  const ctx = document.getElementById('dashLibTopChart');
+  if(ctx) new Chart(ctx,{
+    type:'bar',
+    data:{
+      labels:top20.map(p=>p.pkg),
+      datasets:[{
+        label:'Critical/High',
+        data:top20.map(p=>p.ch),
+        backgroundColor:top20.map(p=>p.np?'#6366f1':'#475569'),
+        borderRadius:3
+      }]
+    },
+    options:{
+      indexAxis:'y',
+      scales:{
+        x:{beginAtZero:true,title:{display:true,text:'Critical/High (OSV)',color:'#94a3b8'},grid:{color:'rgba(51,65,85,.3)'},ticks:{color:'#94a3b8'}},
+        y:{grid:{display:false},ticks:{color:'#e2e8f0',font:{size:11}}}
+      },
+      plugins:{
+        legend:{display:false},
+        tooltip:{callbacks:{afterLabel:function(ctx){
+          const d = top20[ctx.dataIndex];
+          return d.np ? 'Network parser' : 'Non-parser · 0 KEV entries';
+        }}}
+      }
+    }
+  });
+})();
 
 // 3. HTTP chart
 new Chart(document.getElementById('httpChart'), {
