@@ -90,10 +90,27 @@ details.dash-expand .detail-content{padding:16px;background:#0f172a}
 .cve-card .cve-product{color:#e2e8f0;margin:4px 0}
 .cve-card .cve-detail{color:#64748b;font-size:.9em}
 @media(max-width:900px){.cve-cards{grid-template-columns:1fr}}
+.page-nav{display:flex;gap:8px;justify-content:center;padding:12px 20px;background:#1e293b;border-bottom:1px solid #334155}
+.page-nav a{padding:6px 16px;border-radius:20px;font-size:.85em;font-weight:600;text-decoration:none;color:#94a3b8;border:1px solid #475569;transition:all .15s}
+.page-nav a:hover{color:#6366f1;border-color:#6366f1}
+.page-nav a.current{background:#6366f1;color:#fff;border-color:#6366f1}
+/* NP+DI Section */
+.npdi-hero-stats{display:flex;gap:16px;justify-content:center;align-items:center;flex-wrap:wrap;margin:16px 0;font-size:.95em;color:#e2e8f0}
+.npdi-hero-stats span{background:#1e293b;padding:8px 16px;border-radius:8px;border:1px solid #334155}
+.npdi-hero-stats .highlight{color:#f59e0b;font-weight:700;font-size:1.1em}
+.tier-card{background:#1e293b;border-radius:12px;padding:20px;border:2px solid #334155}
+.tier-card h3{margin-bottom:8px}
+.tier-card p{color:#94a3b8;font-size:.9em;line-height:1.5}
 </style>
 </head>
 <body>
 <div class="container">
+<nav class="page-nav">
+<a href="index.html">Walkthrough</a>
+<a href="dashboard.html" class="current">Dashboard</a>
+<a href="periodicity.html">Periodicity Analysis</a>
+<a href="cve-reference.html">CVE Reference</a>
+</nav>
 <h1>KEV Exploitation Dashboard</h1>
 <p class="subtitle">Explore 1,568 exploited vulnerabilities against 23,501 critical <span class="glossary" data-tip="Common Vulnerabilities and Exposures — unique IDs assigned to each reported software vulnerability">CVEs</span>. <span style="color:#64748b">Updated <span id="lastUpdated"></span></span></p>
 <p style="text-align:center;margin-bottom:24px"><a href="index.html" style="color:#6366f1;text-decoration:none;font-size:.92em;border:1px solid #6366f1;border-radius:6px;padding:6px 16px;display:inline-block;transition:all .15s" onmouseover="this.style.background='#6366f1';this.style.color='#fff'" onmouseout="this.style.background='transparent';this.style.color='#6366f1'">Read the Full Analysis &rarr;</a></p>
@@ -117,6 +134,37 @@ details.dash-expand .detail-content{padding:16px;background:#0f172a}
 <div class="kpi-sm"><div class="kpi-val">3–6×</div><div class="kpi-label">Network-Parser<br>Exploitation Lift</div></div>
 <div class="kpi-sm"><div class="kpi-val">34.8%</div><div class="kpi-label">Platform/Runtime<br>Exploitation Rate</div></div>
 <div class="kpi-sm"><div class="kpi-val">~6.7%</div><div class="kpi-label">Critical/High CVEs<br>Ever Exploited</div></div>
+</div>
+
+
+<!-- SECTION: NP+DI Filter Results -->
+<div class="section">
+<div class="section-title">The NP+DI Filter &mdash; Cross-Framework Validation</div>
+
+<div class="npdi-hero-stats">
+<span><span class="highlight">14</span> all-C/H dates &rarr; <span class="highlight">2&ndash;4</span> NP+DI dates</span>
+<span><span class="highlight">71&ndash;86%</span> reduction</span>
+<span><span class="highlight">0</span> misses in 12&nbsp;months</span>
+<span><a href="cve-reference.html" style="color:#6366f1;text-decoration:none;font-weight:600">CVE Reference &rarr;</a></span>
+</div>
+
+<div class="grid-2">
+<div class="card"><h3>Cross-Framework: All C/H Dates vs NP+DI Dates</h3><canvas id="crossFrameworkChart"></canvas></div>
+<div class="card"><h3>OS Container Privesc Accumulation</h3><canvas id="chainingChart"></canvas></div>
+</div>
+
+<div class="grid-2" style="margin-top:20px">
+<div class="card"><h3>EPSS Exploitation Probability</h3><canvas id="epssChart"></canvas></div>
+<div class="card" style="display:flex;flex-direction:column;justify-content:center">
+<div class="insight">
+<strong>What the NP+DI filter does:</strong> Instead of rebuilding your container on every Critical/High CVE disclosure date, filter to only those that are <strong>Network-Parseable</strong> (reachable without local access) <strong>AND</strong> have <strong>Dangerous Impact</strong> (RCE, auth bypass, or data exfil). Across Spring Boot, Node.js/Express, and Django/Python stacks over 12 months, this reduces rebuild-trigger dates by 71&ndash;86% with zero misses &mdash; no filtered-out CVE has appeared in CISA KEV.
+</div>
+<p style="margin-top:12px;text-align:center">
+<a href="periodicity.html" style="color:#6366f1;text-decoration:none;font-size:.9em;border:1px solid #6366f1;border-radius:6px;padding:6px 16px;display:inline-block;transition:all .15s;margin:4px" onmouseover="this.style.background='#6366f1';this.style.color='#fff'" onmouseout="this.style.background='transparent';this.style.color='#6366f1'">Periodicity Analysis &rarr;</a>
+<a href="cve-reference.html" style="color:#6366f1;text-decoration:none;font-size:.9em;border:1px solid #6366f1;border-radius:6px;padding:6px 16px;display:inline-block;transition:all .15s;margin:4px" onmouseover="this.style.background='#6366f1';this.style.color='#fff'" onmouseout="this.style.background='transparent';this.style.color='#6366f1'">CVE Reference &rarr;</a>
+</p>
+</div>
+</div>
 </div>
 
 <!-- SECTION 1: Stack Layer Exploitation -->
@@ -394,21 +442,21 @@ defensive cleanup completes, the time-to-exploit compression we documented (251�
 
 </div>
 
-<!-- SECTION 7: Policy Recommendations -->
+<!-- SECTION 7: Three-Tier Patching Model -->
 <div class="section">
-<div class="section-title">Recommended Patch SLA Framework</div>
+<div class="section-title">Three-Tier Patching Model</div>
 <div class="grid-3">
-<div class="card" style="border-color:#ef4444">
-<h3 style="color:#f87171">EMERGENCY — 72 Hours</h3>
-<p style="color:#94a3b8;font-size:.9em">Any CVE entering CISA KEV. Active exploitation confirmed. No exceptions. This is your rebuild-and-release trigger.</p>
+<div class="tier-card" style="border-color:#ef4444">
+<h3 style="color:#f87171">Tier 1 &mdash; Emergency</h3>
+<p>NP+DI in app layer. <strong style="color:#fca5a5">14 events/year &rarr; 2&ndash;4 after filter.</strong> Rebuild app + container base image.</p>
 </div>
-<div class="card" style="border-color:#f59e0b">
-<h3 style="color:#fbbf24">URGENT — 7 Days</h3>
-<p style="color:#94a3b8;font-size:.9em">Network-parsing Critical/High not yet in KEV. Web servers, VPN, TLS libraries, app frameworks parsing untrusted network input. Prioritize these library updates for your next rebuild.</p>
+<div class="tier-card" style="border-color:#f59e0b">
+<h3 style="color:#fbbf24">Tier 2 &mdash; Regular Cadence</h3>
+<p>Monthly container refresh. <strong style="color:#fde68a">Caps blast radius at 5 privesc CVEs vs 21.</strong> Not responding to specific CVEs &mdash; reducing attack surface.</p>
 </div>
-<div class="card" style="border-color:#3b82f6">
-<h3 style="color:#60a5fa">STANDARD — 30 Days</h3>
-<p style="color:#94a3b8;font-size:.9em">All other Critical/High CVEs. Normal release cycle. Deprioritize firmware, consumer IoT, non-network-parsing libraries.</p>
+<div class="tier-card" style="border-color:#10b981">
+<h3 style="color:#34d399">Tier 3 &mdash; Ride the Release Cycle</h3>
+<p>Everything else. <strong style="color:#86efac">0 of 113 non-triggers in KEV.</strong> Swept up in next scheduled release.</p>
 </div>
 </div>
 </div>
@@ -726,6 +774,78 @@ new Chart(document.getElementById('dashPatchChart'), {
         ]
     },
     options:{scales:{y:{beginAtZero:true,title:{display:true,text:'Security Fixes'}}},plugins:{legend:{position:'top'}}}
+});
+
+
+// NP+DI Cross-Framework bar chart
+new Chart(document.getElementById('crossFrameworkChart'), {
+    type: 'bar',
+    data: {
+        labels: ['Spring Boot','Node.js/Express','Django/Python'],
+        datasets: [
+            {label:'All C/H trigger dates',data:[14,14,14],backgroundColor:'rgba(239,68,68,.3)',borderColor:'#ef4444',borderWidth:1,borderRadius:4},
+            {label:'NP+DI trigger dates',data:[2,2,4],backgroundColor:['#f59e0b','#10b981','#06b6d4'],borderRadius:4},
+        ]
+    },
+    options: {
+        scales: {
+            y:{beginAtZero:true,title:{display:true,text:'Distinct rebuild trigger dates (12mo)',color:'#94a3b8'},grid:{color:'rgba(51,65,85,.3)'}},
+            x:{grid:{display:false}}
+        },
+        plugins:{legend:{position:'top',labels:{color:'#e2e8f0',boxWidth:12}}}
+    }
+});
+
+// Privesc accumulation chart
+new Chart(document.getElementById('chainingChart'), {
+    type: 'line',
+    data: {
+        labels: ['Apr 25','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec','Jan 26','Feb','Mar','Apr 26'],
+        datasets: [
+            {label:'All OS C/H (cumulative)',data:[1,6,11,15,19,28,31,31,36,39,44,66,69],
+             borderColor:'#475569',backgroundColor:'rgba(71,85,105,.1)',fill:true,tension:.3,pointRadius:3,borderWidth:2},
+            {label:'LOCAL privesc (cumulative)',data:[0,3,4,4,4,9,12,12,14,15,17,21,21],
+             borderColor:'#ef4444',backgroundColor:'rgba(239,68,68,.1)',fill:true,tension:.3,pointRadius:4,borderWidth:2},
+            {label:'Spring NP+DI triggers',data:[null,null,null,null,null,null,11,null,null,null,null,null,21],
+             borderColor:'#f59e0b',backgroundColor:'#f59e0b',pointRadius:8,pointStyle:'triangle',showLine:false,
+             pointBorderWidth:2,pointBorderColor:'#fff'}
+        ]
+    },
+    options: {
+        scales: {
+            y:{beginAtZero:true,title:{display:true,text:'Cumulative CVEs',color:'#94a3b8'},grid:{color:'rgba(51,65,85,.3)'}},
+            x:{grid:{display:false}}
+        },
+        plugins:{
+            legend:{position:'top',labels:{color:'#e2e8f0',boxWidth:12}},
+            title:{display:true,text:'OS Container Privesc Accumulation vs. Spring App Triggers',color:'#e2e8f0'}
+        }
+    }
+});
+
+// EPSS validation chart
+new Chart(document.getElementById('epssChart'), {
+    type: 'bar',
+    data: {
+        labels: ['Spring\nTriggers','Spring\nNon-trig','Node.js\nTriggers','Node.js\nNon-trig','Django\nTriggers','Django\nNon-trig','OS Container\nNon-trig'],
+        datasets: [{
+            label: 'Mean EPSS score',
+            data: [0.00128, 0.00211, 0.00147, 0.00083, 0.00945, 0.00043, 0.01312],
+            backgroundColor: ['#f59e0b','#475569','#10b981','#475569','#06b6d4','#475569','#475569'],
+            borderRadius: 4,
+        }]
+    },
+    options: {
+        scales: {
+            y:{beginAtZero:true,title:{display:true,text:'Mean EPSS Score',color:'#94a3b8'},grid:{color:'rgba(51,65,85,.3)'},
+              ticks:{callback:function(v){return v.toFixed(4)}}},
+            x:{grid:{display:false},ticks:{font:{size:9}}}
+        },
+        plugins:{
+            legend:{display:false},
+            title:{display:true,text:'EPSS Exploitation Probability — Triggers vs Non-Triggers',color:'#e2e8f0'}
+        }
+    }
 });
 
 // 9. Table

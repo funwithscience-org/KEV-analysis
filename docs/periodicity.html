@@ -6,18 +6,18 @@
 <title>Cross-Framework Patch Periodicity Analysis</title>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
 <style>
-:root{--bg:#0f172a;--surface:#1e293b;--border:#334155;--text:#e2e8f0;--muted:#94a3b8;
---accent:#6366f1;--red:#ef4444;--amber:#f59e0b;--green:#10b981;--cyan:#06b6d4;
---spring:#f59e0b;--node:#10b981;--django:#06b6d4}
+:root{--bg:#fff;--surface:#f8fafc;--border:#e2e8f0;--text:#334155;--muted:#64748b;
+--accent:#4f46e5;--red:#dc2626;--amber:#d97706;--green:#059669;--cyan:#0891b2;
+--spring:#d97706;--node:#059669;--django:#0891b2}
 *{box-sizing:border-box;margin:0;padding:0}
 body{background:var(--bg);color:var(--text);font-family:Inter,-apple-system,BlinkMacSystemFont,Segoe UI,sans-serif;line-height:1.6;padding:24px;max-width:1200px;margin:0 auto}
-h1{font-size:1.8em;margin-bottom:8px;color:#fff}
+h1{font-size:1.8em;margin-bottom:8px;color:#0f172a}
 h2{font-size:1.3em;margin:32px 0 12px;color:var(--accent);border-bottom:1px solid var(--border);padding-bottom:6px}
 h3{font-size:1.1em;margin:20px 0 8px;color:var(--cyan)}
-p{margin:8px 0;color:var(--muted)}
-strong{color:var(--text)}
+p{margin:8px 0;color:var(--text)}
+strong{color:#0f172a}
 .subtitle{color:var(--muted);font-size:.95em;margin-bottom:24px}
-.card{background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:16px;margin:12px 0}
+.card{background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:16px;margin:12px 0;color:var(--text)}
 .grid-2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
 .grid-3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px}
 @media(max-width:900px){.grid-3{grid-template-columns:1fr}}
@@ -41,29 +41,29 @@ strong{color:var(--text)}
 table{width:100%;border-collapse:collapse;font-size:.85em;margin:12px 0}
 th{background:var(--surface);color:var(--accent);text-align:left;padding:8px 10px;border-bottom:2px solid var(--border)}
 td{padding:6px 10px;border-bottom:1px solid var(--border)}
-tr:hover{background:rgba(99,102,241,.05)}
+tr:hover td{background:#f8fafc}
 .np{color:var(--accent);font-weight:600}
 .tag{display:inline-block;padding:2px 8px;border-radius:4px;font-size:.75em;font-weight:600}
-.tag-red{background:rgba(239,68,68,.15);color:var(--red)}
-.tag-green{background:rgba(16,185,129,.15);color:var(--green)}
-.tag-amber{background:rgba(245,158,11,.15);color:var(--amber)}
-.tag-accent{background:rgba(99,102,241,.15);color:var(--accent)}
+.tag-red{background:#fef2f2;color:var(--red)}
+.tag-green{background:#ecfdf5;color:var(--green)}
+.tag-amber{background:#fffbeb;color:var(--amber)}
+.tag-accent{background:#eef2ff;color:var(--accent)}
 .callout{border-left:4px solid;border-radius:0 8px 8px 0;padding:14px 20px;margin:16px 0}
-.callout-finding{border-color:var(--accent);background:rgba(99,102,241,.08)}
-.callout-warning{border-color:var(--amber);background:rgba(245,158,11,.08)}
-.callout-danger{border-color:var(--red);background:rgba(239,68,68,.08)}
-.callout-good{border-color:var(--green);background:rgba(16,185,129,.08)}
+.callout-finding{border-color:var(--accent);background:#eef2ff;color:#312e81}
+.callout-warning{border-color:var(--amber);background:#fffbeb;color:#78350f}
+.callout-danger{border-color:var(--red);background:#fef2f2;color:#7f1d1d}
+.callout-good{border-color:var(--green);background:#ecfdf5;color:#064e3b}
 .chart-wrap{margin:16px 0}
 canvas{max-height:350px}
 details{margin:8px 0}
 details summary{cursor:pointer;color:var(--accent);font-weight:600;padding:6px 0}
 details summary:hover{color:var(--cyan)}
 .fw-badge{display:inline-block;padding:3px 10px;border-radius:12px;font-size:.75em;font-weight:700;margin-right:6px}
-.fw-spring{background:rgba(245,158,11,.15);color:var(--spring)}
-.fw-node{background:rgba(16,185,129,.15);color:var(--node)}
-.fw-django{background:rgba(6,182,212,.15);color:var(--django)}
+.fw-spring{background:#fffbeb;color:var(--spring)}
+.fw-node{background:#ecfdf5;color:var(--node)}
+.fw-django{background:#ecfeff;color:var(--django)}
 .footer{margin-top:40px;padding-top:16px;border-top:1px solid var(--border);color:var(--muted);font-size:.8em}
-.page-nav{display:flex;gap:8px;justify-content:center;padding:12px 20px;background:#1e293b;border-bottom:1px solid var(--border);margin-bottom:16px;border-radius:8px}
+.page-nav{display:flex;gap:8px;justify-content:center;padding:12px 20px;background:var(--surface);border-bottom:1px solid var(--border);margin-bottom:16px;border-radius:8px}
 .page-nav a{padding:6px 16px;border-radius:20px;font-size:.85em;font-weight:600;text-decoration:none;color:var(--muted);border:1px solid var(--border);transition:all .15s}
 .page-nav a:hover{color:var(--accent);border-color:var(--accent)}
 .page-nav a.current{background:var(--accent);color:#fff;border-color:var(--accent)}
@@ -72,8 +72,8 @@ details summary:hover{color:var(--cyan)}
 <body>
 
 <nav class="page-nav">
-<a href="index-v2.html">Walkthrough</a>
-<a href="dashboard-v2.html">Dashboard</a>
+<a href="index.html">Walkthrough</a>
+<a href="dashboard.html">Dashboard</a>
 <a href="periodicity.html" class="current">Periodicity Analysis</a>
 <a href="cve-reference.html">CVE Reference</a>
 </nav>
@@ -556,10 +556,10 @@ Working document for KEV exploitation analysis &bull; Data: OSV.dev + NVD API 2.
 
 <!-- ═══════════════════════════════════════════════════════════ -->
 <script>
-const C = {accent:'#6366f1',red:'#ef4444',amber:'#f59e0b',green:'#10b981',cyan:'#06b6d4',muted:'#94a3b8',surface:'#1e293b',
-  spring:'#f59e0b',node:'#10b981',django:'#06b6d4'};
-Chart.defaults.color = '#94a3b8';
-Chart.defaults.borderColor = 'rgba(51,65,85,.5)';
+const C = {accent:'#4f46e5',red:'#dc2626',amber:'#d97706',green:'#059669',cyan:'#0891b2',muted:'#64748b',surface:'#f8fafc',
+  spring:'#d97706',node:'#059669',django:'#0891b2'};
+Chart.defaults.color = '#64748b';
+Chart.defaults.borderColor = 'rgba(226,232,240,.8)';
 Chart.defaults.font.family = 'Inter,-apple-system,BlinkMacSystemFont,Segoe UI,sans-serif';
 
 // Cross-framework comparison — bar + line
@@ -574,10 +574,10 @@ new Chart(document.getElementById('crossFrameworkChart'), {
     },
     options: {
         scales: {
-            y:{beginAtZero:true,title:{display:true,text:'Distinct rebuild trigger dates (12mo)',color:'#94a3b8'},grid:{color:'rgba(51,65,85,.3)'}},
+            y:{beginAtZero:true,title:{display:true,text:'Distinct rebuild trigger dates (12mo)',color:'#64748b'},grid:{color:'rgba(226,232,240,.6)'}},
             x:{grid:{display:false}}
         },
-        plugins:{legend:{position:'top',labels:{color:'#e2e8f0',boxWidth:12}}}
+        plugins:{legend:{position:'top',labels:{color:'#334155',boxWidth:12}}}
     }
 });
 
@@ -596,11 +596,11 @@ new Chart(document.getElementById('periodicityChart'), {
     },
     options: {
         scales: {
-            y:{beginAtZero:true,title:{display:true,text:'Rebuild events',color:'#94a3b8'},grid:{color:'rgba(51,65,85,.3)'}},
+            y:{beginAtZero:true,title:{display:true,text:'Rebuild events',color:'#64748b'},grid:{color:'rgba(226,232,240,.6)'}},
             y2:{position:'right',beginAtZero:true,title:{display:true,text:'Longest silence (days)',color:C.green},grid:{display:false},ticks:{color:C.green}},
-            x:{grid:{display:false},ticks:{color:'#e2e8f0',font:{size:10}}}
+            x:{grid:{display:false},ticks:{color:'#334155',font:{size:10}}}
         },
-        plugins:{legend:{position:'top',labels:{color:'#e2e8f0',boxWidth:12}}}
+        plugins:{legend:{position:'top',labels:{color:'#334155',boxWidth:12}}}
     }
 });
 
@@ -618,8 +618,8 @@ new Chart(document.getElementById('monthlySpring'), {
         ]
     },
     options: {
-        scales:{x:{stacked:true,grid:{display:false}},y:{stacked:true,beginAtZero:true,grid:{color:'rgba(51,65,85,.3)'}}},
-        plugins:{legend:{position:'top',labels:{color:'#e2e8f0',boxWidth:12}},title:{display:true,text:'Spring Boot — Monthly C/H Events',color:C.spring}}
+        scales:{x:{stacked:true,grid:{display:false}},y:{stacked:true,beginAtZero:true,grid:{color:'rgba(226,232,240,.6)'}}},
+        plugins:{legend:{position:'top',labels:{color:'#334155',boxWidth:12}},title:{display:true,text:'Spring Boot — Monthly C/H Events',color:C.spring}}
     }
 });
 
@@ -634,8 +634,8 @@ new Chart(document.getElementById('monthlyNode'), {
         ]
     },
     options: {
-        scales:{x:{stacked:true,grid:{display:false}},y:{stacked:true,beginAtZero:true,grid:{color:'rgba(51,65,85,.3)'}}},
-        plugins:{legend:{position:'top',labels:{color:'#e2e8f0',boxWidth:12}},title:{display:true,text:'Node.js/Express — Monthly C/H Events',color:C.node}}
+        scales:{x:{stacked:true,grid:{display:false}},y:{stacked:true,beginAtZero:true,grid:{color:'rgba(226,232,240,.6)'}}},
+        plugins:{legend:{position:'top',labels:{color:'#334155',boxWidth:12}},title:{display:true,text:'Node.js/Express — Monthly C/H Events',color:C.node}}
     }
 });
 
@@ -650,8 +650,8 @@ new Chart(document.getElementById('monthlyDjango'), {
         ]
     },
     options: {
-        scales:{x:{stacked:true,grid:{display:false}},y:{stacked:true,beginAtZero:true,grid:{color:'rgba(51,65,85,.3)'}}},
-        plugins:{legend:{position:'top',labels:{color:'#e2e8f0',boxWidth:12}},title:{display:true,text:'Django/Python — Monthly C/H Events',color:C.django}}
+        scales:{x:{stacked:true,grid:{display:false}},y:{stacked:true,beginAtZero:true,grid:{color:'rgba(226,232,240,.6)'}}},
+        plugins:{legend:{position:'top',labels:{color:'#334155',boxWidth:12}},title:{display:true,text:'Django/Python — Monthly C/H Events',color:C.django}}
     }
 });
 
@@ -669,13 +669,13 @@ new Chart(document.getElementById('epssChart'), {
     },
     options: {
         scales: {
-            y:{beginAtZero:true,title:{display:true,text:'Mean EPSS Score',color:'#94a3b8'},grid:{color:'rgba(51,65,85,.3)'},
+            y:{beginAtZero:true,title:{display:true,text:'Mean EPSS Score',color:'#64748b'},grid:{color:'rgba(226,232,240,.6)'},
               ticks:{callback:function(v){return v.toFixed(4)}}},
             x:{grid:{display:false},ticks:{font:{size:9}}}
         },
         plugins:{
             legend:{display:false},
-            title:{display:true,text:'EPSS Exploitation Probability — Triggers vs Non-Triggers by Ecosystem',color:'#e2e8f0'},
+            title:{display:true,text:'EPSS Exploitation Probability — Triggers vs Non-Triggers by Ecosystem',color:'#334155'},
             tooltip:{callbacks:{label:function(ctx){return 'EPSS: '+ctx.raw.toFixed(5)}}}
         }
     }
@@ -698,12 +698,12 @@ new Chart(document.getElementById('chainingChart'), {
     },
     options: {
         scales: {
-            y:{beginAtZero:true,title:{display:true,text:'Cumulative CVEs',color:'#94a3b8'},grid:{color:'rgba(51,65,85,.3)'}},
+            y:{beginAtZero:true,title:{display:true,text:'Cumulative CVEs',color:'#64748b'},grid:{color:'rgba(226,232,240,.6)'}},
             x:{grid:{display:false}}
         },
         plugins:{
-            legend:{position:'top',labels:{color:'#e2e8f0',boxWidth:12}},
-            title:{display:true,text:'OS Container Privesc Accumulation vs. Spring App Triggers',color:'#e2e8f0'},
+            legend:{position:'top',labels:{color:'#334155',boxWidth:12}},
+            title:{display:true,text:'OS Container Privesc Accumulation vs. Spring App Triggers',color:'#334155'},
             tooltip:{callbacks:{label:function(ctx){
                 if(ctx.datasetIndex===2 && ctx.raw!==null){
                     return ctx.raw+' local privesc CVEs available at Spring trigger';
