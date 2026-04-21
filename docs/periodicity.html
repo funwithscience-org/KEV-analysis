@@ -96,6 +96,10 @@ details summary:hover{color:var(--cyan)}
 <div class="number">0</div>
 <div class="label">Skipped events that<br>later appeared in KEV</div>
 </div>
+<div class="stat" style="border-color:var(--cyan)">
+<div class="number" style="color:var(--cyan)"><a href="cve-reference.html" style="color:var(--cyan);text-decoration:none">129</a></div>
+<div class="label"><a href="cve-reference.html" style="color:var(--muted);text-decoration:none">CVEs individually classified<br>→ full reference list</a></div>
+</div>
 </div>
 
 <div class="callout callout-finding">
@@ -227,7 +231,7 @@ details summary:hover{color:var(--cyan)}
 </tbody>
 </table>
 
-<p style="margin-top:12px"><strong>Zero of the 34 skipped events appeared in CISA KEV.</strong> The filter correctly deprioritized all of them.</p>
+<p style="margin-top:12px"><strong>Zero of the 34 skipped events appeared in CISA KEV.</strong> The filter correctly deprioritized all of them. <a href="cve-reference.html" style="color:var(--cyan)">See every CVE with its classification →</a></p>
 </div>
 
 <div class="callout callout-finding">
@@ -515,7 +519,7 @@ details summary:hover{color:var(--cyan)}
 <div class="callout callout-good">
 <strong>Zero misses is the metric that matters.</strong>
 <p style="margin-top:8px">Across every validation source, the same pattern holds: <strong>nothing the filter deprioritized accumulated meaningful exploitation evidence.</strong> The 113 non-trigger CVEs have zero KEV entries, zero Metasploit modules, and one ExploitDB entry (a sqlite heap overflow requiring local access — exactly the deployment context the filter correctly deprioritizes). The filter isn't just reducing noise, it's reducing noise without ever being wrong.</p>
-<p style="margin-top:8px">Meanwhile, the triggers are starting to light up. CVE-2026-1207 (Django SQLi) has converged across three independent sources: EPSS top trigger score (89th percentile), ExploitDB exploit code, and active Nuclei scanning template. The Tomcat and Thymeleaf triggers match the exact vulnerability classes (path traversal, SSTI) that dominate KEV's historical library-level entries. The exploitation ecosystem is catching up to what the filter already flagged.</p>
+<p style="margin-top:8px">Meanwhile, the triggers are starting to light up. CVE-2026-1207 (Django SQLi) has converged across three independent sources: EPSS top trigger score (89th percentile), ExploitDB exploit code, and active Nuclei scanning template. The Tomcat and Thymeleaf triggers match the exact vulnerability classes (path traversal, SSTI) that dominate KEV's historical library-level entries. The exploitation ecosystem is catching up to what the filter already flagged. <a href="cve-reference.html" style="color:var(--cyan)">Every CVE's classification and reasoning is auditable →</a></p>
 <p style="margin-top:8px">The one CVE that lit up every exploitation source (CVE-2025-14847, zlib — KEV, Metasploit, EPSS 0.77) is a non-trigger, but it's exploited through MongoDB's wire protocol, not through the Spring/Node/Django apps running on our container. <strong>Deployment context matters:</strong> the filter correctly treats it as non-triggering for these applications even though it's genuinely dangerous elsewhere. That's not a miss — that's the filter working as designed.</p>
 <p style="margin-top:8px"><strong>The remaining question is time.</strong> Twelve months of "zero misses" is strong but not conclusive. Some of the 113 skipped CVEs might still get exploited. A 24-month retest with a wider manifest set would either strengthen the case or surface the first miss — and either outcome would be useful. The goal isn't to be exactly right; it's to be slightly conservative and never wrong. So far, so good.</p>
 </div>
