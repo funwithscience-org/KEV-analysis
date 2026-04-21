@@ -53,22 +53,70 @@ tr:hover td{background:#334155}
 .lift-med{background:#713f12;color:#fbbf24}
 @media(max-width:900px){.grid-2,.grid-3{grid-template-columns:1fr}}
 .footer{text-align:center;color:#64748b;font-size:.8em;margin-top:40px;padding-top:20px;border-top:1px solid #334155}
+/* ===== GLOSSARY TOOLTIPS ===== */
+.glossary{border-bottom:1.5px dotted #64748b;cursor:help;position:relative;white-space:nowrap}
+.glossary:hover::after{content:attr(data-tip);position:absolute;bottom:calc(100% + 6px);left:50%;transform:translateX(-50%);background:#f8fafc;color:#1e293b;padding:6px 12px;border-radius:6px;font-size:.82em;white-space:normal;width:max-content;max-width:300px;line-height:1.4;z-index:50;box-shadow:0 4px 12px rgba(0,0,0,.4);pointer-events:none}
+.glossary:hover::before{content:'';position:absolute;bottom:calc(100% + 2px);left:50%;transform:translateX(-50%);border:5px solid transparent;border-top-color:#f8fafc;z-index:51}
+/* ===== HERO KPI ===== */
+.kpi-hero{background:linear-gradient(135deg,#1e293b 0%,#0f172a 100%);border-radius:12px;padding:28px 32px;text-align:center;border:2px solid #6366f1;position:relative;overflow:hidden}
+.kpi-hero::before{content:'';position:absolute;top:0;left:0;right:0;height:4px;background:linear-gradient(90deg,#6366f1,#ec4899)}
+.kpi-hero .kpi-val{font-size:2.8em;font-weight:800;color:#f8fafc;margin-bottom:4px}
+.kpi-hero .kpi-sub{font-size:.88em;color:#a5b4fc;margin-top:4px;line-height:1.4}
+.kpi-support{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+.kpi-sm{background:#1e293b;border-radius:10px;padding:14px;text-align:center;border:1px solid #334155}
+.kpi-sm .kpi-val{font-size:1.5em;font-weight:700;color:#e2e8f0}
+.kpi-sm .kpi-label{font-size:.78em;color:#94a3b8;line-height:1.3;margin-top:2px}
+@media(max-width:900px){.kpi-support{grid-template-columns:1fr 1fr}}
+/* ===== LIVE FEED CARD ===== */
+.live-feed{background:#1e293b;border:1px solid #334155;border-radius:10px;padding:24px;text-align:center;position:relative}
+.live-feed .live-dot{display:inline-block;width:8px;height:8px;background:#10b981;border-radius:50%;margin-right:6px;animation:pulse-dot 2s infinite}
+@keyframes pulse-dot{0%,100%{opacity:1}50%{opacity:.4}}
+.live-feed .live-status{color:#94a3b8;font-size:.92em;line-height:1.5}
+.live-feed .live-counter{color:#64748b;font-size:.8em;margin-top:8px}
+/* ===== DETAILS DRAWERS (dark theme) ===== */
+details.dash-expand{margin:16px 0;border:1px solid #334155;border-radius:8px;overflow:hidden}
+details.dash-expand summary{padding:12px 16px;background:#1e293b;cursor:pointer;font-weight:600;color:#a5b4fc;font-size:.9em;list-style:none}
+details.dash-expand summary::-webkit-details-marker{display:none}
+details.dash-expand summary::before{content:'▸ ';color:#6366f1}
+details.dash-expand[open] summary::before{content:'▾ '}
+details.dash-expand .detail-content{padding:16px;background:#0f172a}
+/* ===== DAYS COUNTER ===== */
+.days-counter{display:inline-flex;align-items:center;gap:8px;background:#1e293b;border:1px solid #6366f1;border-radius:8px;padding:8px 16px;font-size:.9em;color:#a5b4fc;margin-bottom:16px}
+.days-counter strong{font-size:1.3em;color:#f8fafc}
+/* ===== CVE CARDS ===== */
+.cve-cards{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:16px 0}
+.cve-card{background:#1e293b;border:1px solid #334155;border-radius:8px;padding:14px;font-size:.82em}
+.cve-card .cve-id{font-family:monospace;color:#a5b4fc;font-weight:700;font-size:1.05em}
+.cve-card .cve-product{color:#e2e8f0;margin:4px 0}
+.cve-card .cve-detail{color:#64748b;font-size:.9em}
+@media(max-width:900px){.cve-cards{grid-template-columns:1fr}}
 </style>
 </head>
 <body>
 <div class="container">
-<h1>CISA KEV Exploitation Analysis</h1>
-<p class="subtitle">Platform/Runtime vs Library — Where Active Exploitation Concentrates</p>
-<p style="text-align:center;margin-bottom:24px"><a href="index.html" style="color:#6366f1;text-decoration:none;font-size:.92em;border:1px solid #6366f1;border-radius:6px;padding:6px 16px;display:inline-block;transition:all .15s" onmouseover="this.style.background='#6366f1';this.style.color='#fff'" onmouseout="this.style.background='transparent';this.style.color='#6366f1'">Read the Full Analysis Document &rarr;</a></p>
+<h1>KEV Exploitation Dashboard</h1>
+<p class="subtitle">Explore 1,568 exploited vulnerabilities against 23,501 critical <span class="glossary" data-tip="Common Vulnerabilities and Exposures — unique IDs assigned to each reported software vulnerability">CVEs</span>. <span style="color:#64748b">Updated <span id="lastUpdated"></span></span></p>
+<p style="text-align:center;margin-bottom:24px"><a href="index.html" style="color:#6366f1;text-decoration:none;font-size:.92em;border:1px solid #6366f1;border-radius:6px;padding:6px 16px;display:inline-block;transition:all .15s" onmouseover="this.style.background='#6366f1';this.style.color='#fff'" onmouseout="this.style.background='transparent';this.style.color='#6366f1'">Read the Full Analysis &rarr;</a></p>
 
-<!-- KPI ROW -->
-<div class="kpi-row">
-<div class="kpi"><div class="kpi-val">1,568</div><div class="kpi-label">KEV Entries<br>(Actively Exploited)</div></div>
-<div class="kpi"><div class="kpi-val">23,501</div><div class="kpi-label">Critical+High NVD CVEs<br>(2021–2026)</div></div>
-<div class="kpi"><div class="kpi-val">34.8%</div><div class="kpi-label">Platform/Runtime<br>Exploitation Rate</div></div>
-<div class="kpi"><div class="kpi-val">1.3%</div><div class="kpi-label">Library/Framework<br>Share of KEV</div></div>
-<div class="kpi"><div class="kpi-val">3–6×</div><div class="kpi-label">HTTP-Parsing<br>Exploitation Lift</div></div>
-<div class="kpi"><div class="kpi-val">251→11d</div><div class="kpi-label">Median Time-to-Exploit<br>(2021→2023)</div></div>
+<!-- HERO KPIs -->
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px">
+<div class="kpi-hero">
+<div class="kpi-val">251 days → 11 days</div>
+<div class="kpi-label" style="color:#94a3b8">Median Time-to-Exploit (2021 → 2023)</div>
+<div class="kpi-sub">A 30-day patch SLA is now a 30-day exposure window.</div>
+</div>
+<div class="kpi-hero" style="border-color:#f59e0b">
+<div class="kpi-val" style="color:#fbbf24">+35.3% YoY</div>
+<div class="kpi-label" style="color:#94a3b8">Q1 2026 <span class="glossary" data-tip="Common Vulnerabilities and Exposures — unique IDs for reported software vulnerabilities">CVE</span> Publications vs Q1 2025</div>
+<div class="kpi-sub" style="color:#fde68a">March 2026 alone: +57.1% — and Glasswing launched April 7.</div>
+</div>
+</div>
+<!-- SUPPORTING STATS -->
+<div class="kpi-support" style="margin-bottom:32px">
+<div class="kpi-sm"><div class="kpi-val">1,568</div><div class="kpi-label"><span class="glossary" data-tip="CISA's Known Exploited Vulnerabilities list — the catalog of bugs attackers have actually used">KEV</span> Entries<br>(Exploited)</div></div>
+<div class="kpi-sm"><div class="kpi-val">3–6×</div><div class="kpi-label">Network-Parser<br>Exploitation Lift</div></div>
+<div class="kpi-sm"><div class="kpi-val">34.8%</div><div class="kpi-label">Platform/Runtime<br>Exploitation Rate</div></div>
+<div class="kpi-sm"><div class="kpi-val">~6.7%</div><div class="kpi-label">Critical/High CVEs<br>Ever Exploited</div></div>
 </div>
 
 <!-- SECTION 1: Stack Layer Exploitation -->
@@ -87,16 +135,16 @@ while libraries/frameworks represent just 1.3% of KEV (21 entries) with a 26.3% 
 
 <!-- SECTION 2: HTTP-Parsing Analysis -->
 <div class="section">
-<div class="section-title">HTTP-Parsing as Exploitation Predictor</div>
+<div class="section-title">Network Parsers as Exploitation Predictor</div>
 <div class="grid-2">
-<div class="card"><h3>HTTP-Parsing vs Non-HTTP Exploitation Rate by CVSS</h3><canvas id="httpChart"></canvas></div>
-<div class="card"><h3>Exploitation Lift: HTTP-Parsing / Non-HTTP</h3><canvas id="liftChart"></canvas></div>
+<div class="card"><h3>Network-Parsing vs Non-Parsing Exploitation Rate by <span class="glossary" data-tip="Common Vulnerability Scoring System — a 0–10 severity score assigned when a vulnerability is disclosed">CVSS</span></h3><canvas id="httpChart"></canvas></div>
+<div class="card"><h3>Exploitation Lift: Network-Parsing / Non-Parsing</h3><canvas id="liftChart"></canvas></div>
 </div>
 <div class="insight warn">
-<strong>Critical insight:</strong> Products that parse HTTP/untrusted network input are exploited at 3–6× the rate of
-non-HTTP products <em>at every CVSS severity level</em>. An HTTP-parsing HIGH (7.0–7.9) CVE has a higher exploitation
-rate than a non-HTTP CRITICAL (9.0–9.9). This suggests "does it parse untrusted input?" is a better triage signal
-than CVSS score alone.
+<strong>Critical insight:</strong> Components that parse untrusted network traffic (HTTP requests, TLS handshakes, DNS responses, authentication tokens) are exploited at 3–6× the rate of
+non-parsing components <em>at every CVSS severity level</em>. A network-parsing HIGH (7.0–7.9) CVE has a higher exploitation
+rate than a non-parsing CRITICAL (9.0–9.9). "Does it parse untrusted network input?" is a better triage signal
+than CVSS score alone — especially for prioritizing library rebuilds.
 </div>
 </div>
 
@@ -127,27 +175,27 @@ publication. Traditional 30-day patch cycles are now structurally insufficient f
 <div class="section-title">Why Most Criticals Don't Get Exploited</div>
 <div class="grid-3">
 <div class="card">
-<h3>🔧 Firmware/Hardware</h3>
+<h3>Firmware/Hardware</h3>
 <p style="color:#94a3b8;font-size:.9em">3,739 NVD entries, only 5 KEV (0.13%). Chipset BIOS, printer firmware — high barriers to weaponization, airgapped, update friction.</p>
 </div>
 <div class="card">
-<h3>🐧 Linux Kernel Local</h3>
+<h3>Linux Kernel Local</h3>
 <p style="color:#94a3b8;font-size:.9em">Many criticals require local access. Attackers prefer remote-first vectors — local privesc is a second stage, not a first.</p>
 </div>
 <div class="card">
-<h3>📱 Consumer IoT</h3>
+<h3>Consumer IoT</h3>
 <p style="color:#94a3b8;font-size:.9em">Smart home, IP cameras, consumer routers — high CVSS but low strategic value for nation-state/criminal targeting.</p>
 </div>
 <div class="card">
-<h3>🌏 Non-Western Ecosystems</h3>
+<h3>Non-Western Ecosystems</h3>
 <p style="color:#94a3b8;font-size:.9em">Products popular in specific regional markets (e.g., Huawei, Tenda) get NVD criticals but limited Western exploitation tracking.</p>
 </div>
 <div class="card">
-<h3>💾 Memory Corruption Complexity</h3>
-<p style="color:#94a3b8;font-size:.9em">Many memory corruption CVEs require precise heap grooming or specific versions — high skill barrier despite high CVSS.</p>
+<h3>Memory Corruption</h3>
+<p style="color:#94a3b8;font-size:.9em"><em>Developing</em> a heap overflow exploit is hard, but once a PoC drops, weaponization follows in hours. The skill barrier filters discovery, not deployment.</p>
 </div>
 <div class="card">
-<h3>📦 One-CVE-Wonder Products</h3>
+<h3>Niche Products</h3>
 <p style="color:#94a3b8;font-size:.9em">Niche products with a single critical CVE and minimal deployment. Not worth exploit development for attackers.</p>
 </div>
 </div>
@@ -155,54 +203,71 @@ publication. Traditional 30-day patch cycles are now structurally insufficient f
 
 <!-- SECTION 5: CWE & Ransomware -->
 <div class="section">
-<div class="section-title">CWE Families & Ransomware</div>
+<div class="section-title"><span class="glossary" data-tip="Common Weakness Enumeration — classifies the type of flaw (e.g., buffer overflow, SQL injection, auth bypass)">CWE</span> Families & Ransomware</div>
 <div class="grid-2">
 <div class="card"><h3>KEV by CWE Family</h3><canvas id="cweChart"></canvas></div>
 <div class="card"><h3>Ransomware-Linked KEVs by Stack Layer</h3><canvas id="ransomwareChart"></canvas></div>
 </div>
 <div class="insight">
-<strong>CWE patterns:</strong> Memory corruption (298) and injection (235) dominate KEV — not deserialization or advanced flaws.
-Attackers favor high-impact, easy-to-trigger vulnerabilities. 313 KEVs (20%) are linked to known ransomware campaigns.
+<strong>CWE patterns:</strong> Memory corruption (298) and injection (235) dominate KEV — not <span class="glossary" data-tip="Turning saved/transmitted data back into live program objects — a common RCE vector when the input is untrusted">deserialization</span> or advanced flaws.
+Attackers favor high-impact, easy-to-trigger vulnerabilities. <strong>313 KEVs (20%) are linked to known ransomware campaigns</strong> — most initial access comes through network-parsing targets.
 </div>
 </div>
 
-<!-- SECTION 6: Finance Sector Blind Spots -->
+<!-- SECTION 6: Finance & Reverse Proxy (collapsed) -->
 <div class="section">
-<div class="section-title">Finance Sector KEV Blind Spots</div>
-<div class="grid-2">
-<div class="card">
-<h3>Underrepresented Attack Surfaces</h3>
-<table style="margin-top:8px">
+<details class="dash-expand">
+<summary>Finance Sector KEV Blind Spots</summary>
+<div class="detail-content">
+<p style="color:#94a3b8;font-size:.88em;margin-bottom:12px">KEV is curated for US federal networks. Financial services face a different threat landscape — most finance-sector attacks abuse built-in features, not CVEs. <a href="index.html#finance" style="color:#6366f1">Full discussion in the analysis →</a></p>
+<table style="font-size:.85em">
 <tr><th>Surface</th><th>KEV Coverage</th><th>Risk Assessment</th></tr>
-<tr><td>Active Directory / Kerberos</td><td style="color:#fbbf24">~16 entries</td><td>Core of every enterprise; minimal KEV signal</td></tr>
+<tr><td>Active Directory / <span class="glossary" data-tip="Kerberoasting: extracting service account password hashes from Active Directory — uses legitimate protocol features, not a bug">Kerberos</span></td><td style="color:#fbbf24">~16 entries</td><td>Core of every enterprise; minimal KEV signal</td></tr>
 <tr><td>Middleware (MQ, Kafka, ESB)</td><td style="color:#f87171">~3 entries</td><td>Financial messaging backbone; nearly invisible</td></tr>
-<tr><td>SWIFT / ISO 20022</td><td style="color:#f87171">0 entries</td><td>Specialized; state actors target directly</td></tr>
+<tr><td><span class="glossary" data-tip="The global financial messaging network used by banks to send payment instructions">SWIFT</span> / ISO 20022</td><td style="color:#f87171">0 entries</td><td>Specialized; state actors target directly</td></tr>
 <tr><td>Mobile Zero-Click (iOS/Android)</td><td style="color:#fbbf24">~13 entries</td><td>Exec-level targeting; underreported</td></tr>
-<tr><td>Living-off-the-Land (PowerShell/WMI)</td><td style="color:#fbbf24">Technique, not CVE</td><td>Most common post-compromise method</td></tr>
+<tr><td><span class="glossary" data-tip="Living-off-the-land: attackers use legitimate tools already on the system (PowerShell, WMI) instead of deploying malware">Living-off-the-Land</span></td><td style="color:#fbbf24">Technique, not CVE</td><td>Most common post-compromise method</td></tr>
 </table>
 </div>
-<div class="card">
-<h3>Reverse Proxy: What Doesn't Work</h3>
-<p style="color:#94a3b8;font-size:.9em;line-height:1.5;margin-top:8px">
-Spring4Shell and Log4Shell payloads pass through mod_proxy untouched. The proxy forwards malicious headers and parameters
-without inspection. WAF signatures help for <em>known</em> exploits only.
-</p>
-<h3 style="margin-top:16px">What <span style="color:#34d399">Does</span> Work</h3>
-<table style="margin-top:8px;font-size:.82em">
-<tr><td style="color:#34d399;font-weight:600;width:140px">Path allowlisting</td><td style="color:#94a3b8">Default-deny; only forward routes your app exposes. Blocks class-loader paths (Spring4Shell) without knowing the CVE.</td></tr>
-<tr><td style="color:#34d399;font-weight:600">Header stripping</td><td style="color:#94a3b8">Remove headers your app doesn't need (X-Forwarded-For, Transfer-Encoding). Neutered one Log4Shell vector.</td></tr>
-<tr><td style="color:#34d399;font-weight:600">Request size limits</td><td style="color:#94a3b8">Cap body (16KB), headers (8KB), URL depth. Blocks many deserialization and upload exploits.</td></tr>
-<tr><td style="color:#34d399;font-weight:600">Response hardening</td><td style="color:#94a3b8">Strip Server/X-Powered-By banners. Forces blind probing vs. version-targeted exploits.</td></tr>
+</details>
+<details class="dash-expand">
+<summary>Reverse Proxy Defense-in-Depth</summary>
+<div class="detail-content">
+<p style="color:#94a3b8;font-size:.88em;margin-bottom:12px">Spring4Shell and Log4Shell payloads pass through reverse proxies untouched. <span class="glossary" data-tip="Web Application Firewall — inspects HTTP traffic and blocks known attack patterns">WAF</span> signatures help for known exploits only. Think "seatbelt, not airbag." <a href="index.html#proxy" style="color:#6366f1">Full discussion in the analysis →</a></p>
+<table style="font-size:.82em">
+<tr><td style="color:#34d399;font-weight:600;width:140px">Path allowlisting</td><td style="color:#94a3b8">Default-deny; only forward routes your app exposes.</td></tr>
+<tr><td style="color:#34d399;font-weight:600">Header stripping</td><td style="color:#94a3b8">Remove headers your app doesn't need (X-Forwarded-For, Transfer-Encoding).</td></tr>
+<tr><td style="color:#34d399;font-weight:600">Request size limits</td><td style="color:#94a3b8">Cap body (16KB), headers (8KB), URL depth.</td></tr>
+<tr><td style="color:#34d399;font-weight:600">Response hardening</td><td style="color:#94a3b8">Strip Server/X-Powered-By banners.</td></tr>
 </table>
-<p style="color:#64748b;font-size:.8em;margin-top:10px">Think "seatbelt, not airbag" — constrain the attack surface, don't rely on it to understand the vulnerability.</p>
 </div>
-</div>
+</details>
 </div>
 
 
 <!-- SECTION: MYTHOS DETECTOR -->
 <div class="section">
 <div class="section-title">Mythos Detector: AI-Driven CVE Volume Impact</div>
+<div class="days-counter"><span class="live-dot"></span> Day <strong id="glasswingDays"></strong> since Glasswing launch (April 7, 2026)</div>
+
+<div class="cve-cards">
+<div class="cve-card" style="border-left:3px solid #10b981">
+<div class="cve-id">CVE-2026-4747</div>
+<div class="cve-product">FreeBSD NFS RCE</div>
+<div class="cve-detail">17-year-old bug. Confirmed autonomous Glasswing find.</div>
+</div>
+<div class="cve-card" style="border-left:3px solid #10b981">
+<div class="cve-id">CVE-2026-5194</div>
+<div class="cve-product">wolfSSL cert validation bypass</div>
+<div class="cve-detail">~5B affected devices. Press-confirmed Mythos Preview–assisted. Carlini @ Anthropic.</div>
+</div>
+<div class="cve-card" style="border-left:3px solid #10b981">
+<div class="cve-id">CVE-2026-5588</div>
+<div class="cve-product">Bouncy Castle crypto library</div>
+<div class="cve-detail">Credited to Carlini + Claude.</div>
+</div>
+</div>
+
 <div class="grid-2">
 <div class="card"><h3>Monthly CVE Volume: Baseline + Glasswing Projections</h3><canvas id="mythosBaseChart"></canvas></div>
 <div class="card"><h3>Mythos-Linked CVEs by Product (~40 total)</h3><canvas id="mythosCveChart"></canvas></div>
@@ -210,7 +275,7 @@ without inspection. WAF signatures help for <em>known</em> exploits only.
 
 <div class="card" style="margin-top:20px">
 <h3>Probable Glasswing Participant Self-Scan Findings</h3>
-<p style="color:#94a3b8;font-size:.82em;margin-bottom:12px">CVEs from named Glasswing participants where: vendor is a participant, bug is HTTP-parsing-adjacent, no prior attacker exploitation or third-party researcher credit, and bug pattern is consistent with automated AI scanning. <strong>Separate from the ~40 confirmed/attributed Glasswing CVEs above.</strong></p>
+<p style="color:#94a3b8;font-size:.82em;margin-bottom:12px">CVEs from named Glasswing participants where: vendor is a participant, bug is network-parsing-adjacent, no prior attacker exploitation or third-party researcher credit, and bug pattern is consistent with automated AI scanning. <strong>Separate from the ~40 confirmed/attributed Glasswing CVEs above.</strong></p>
 <table style="width:100%;font-size:.82em;border-collapse:collapse">
 <thead><tr style="border-bottom:1px solid #475569">
 <th style="text-align:left;padding:6px;color:#94a3b8">CVE</th>
@@ -259,7 +324,7 @@ without inspection. WAF signatures help for <em>known</em> exploits only.
 </div>
 
 <div class="insight warn">
-<strong>Volume watch, day 13 post-Glasswing:</strong> Q1 2026 CVE publications came in at 16,255 (+35.3% YoY), with March 2026 at 6,304 (+57.1% vs March 2025). April 2026 is pacing ~3,698 through day 20 (extrapolated ~5,547) — modestly <em>below</em> March and well below the conservative +500/mo trajectory, with daily publication rate continuing to soften (~185/day vs ~203/day in early April). Project Glasswing launched April 7, 2026; the ~40 attributable CVEs remain flat, but three now carry explicit Claude/Mythos credit: CVE-2026-4747 (FreeBSD NFS, autonomous find), CVE-2026-5194 (wolfSSL cert validation, press-confirmed Mythos-assisted), and CVE-2026-5588 (Bouncy Castle, Carlini + Claude). 37 of 40 target HTTP/network-parsing products (Firefox, wolfSSL, NGINX, OpenSSL). Additionally, a Cisco cluster of 4 critical HTTP-adjacent CVEs (3× ISE RCE + 1× Webex SSO bypass, all CVSS 9.8–9.9, disclosed in a single batch) qualifies as probable Glasswing self-scan output — Cisco is a named participant, the cluster pattern suggests systematic automated scanning, and all four are HTTP-parsing-adjacent. See the participant self-scan table below. Counter-argument: NVD publish latency is 4–8 weeks, so the first clear volume signal is still more likely in May, but the attribution signal is strengthening across both Anthropic-credited and participant-product channels.
+<strong>Volume watch, day 13 post-Glasswing:</strong> Q1 2026 CVE publications came in at 16,255 (+35.3% YoY), with March 2026 at 6,304 (+57.1% vs March 2025). April 2026 is pacing ~3,698 through day 20 (extrapolated ~5,547) — modestly <em>below</em> March and well below the conservative +500/mo trajectory, with daily publication rate continuing to soften (~185/day vs ~203/day in early April). Project Glasswing launched April 7, 2026; the ~40 attributable CVEs remain flat, but three now carry explicit Claude/Mythos credit: CVE-2026-4747 (FreeBSD NFS, autonomous find), CVE-2026-5194 (wolfSSL cert validation, press-confirmed Mythos-assisted), and CVE-2026-5588 (Bouncy Castle, Carlini + Claude). 37 of 40 target network-parsing products (Firefox, wolfSSL, NGINX, OpenSSL). Additionally, a Cisco cluster of 4 critical network-parser-adjacent CVEs (3× ISE RCE + 1× Webex SSO bypass, all CVSS 9.8–9.9, disclosed in a single batch) qualifies as probable Glasswing self-scan output — Cisco is a named participant, the cluster pattern suggests systematic automated scanning, and all four are network-parsing-adjacent. See the participant self-scan table below. Counter-argument: NVD publish latency is 4–8 weeks, so the first clear volume signal is still more likely in May, but the attribution signal is strengthening across both Anthropic-credited and participant-product channels.
 </div>
 
 <div class="insight">
@@ -317,16 +382,16 @@ defensive cleanup completes, the time-to-exploit compression we documented (251�
 <div class="section-title">Recommended Patch SLA Framework</div>
 <div class="grid-3">
 <div class="card" style="border-color:#ef4444">
-<h3 style="color:#f87171">⚡ 72 Hours</h3>
-<p style="color:#94a3b8;font-size:.9em">Any CVE entering CISA KEV. Active exploitation confirmed. No exceptions.</p>
+<h3 style="color:#f87171">EMERGENCY — 72 Hours</h3>
+<p style="color:#94a3b8;font-size:.9em">Any CVE entering CISA KEV. Active exploitation confirmed. No exceptions. This is your rebuild-and-release trigger.</p>
 </div>
 <div class="card" style="border-color:#f59e0b">
-<h3 style="color:#fbbf24">🔥 7 Days</h3>
-<p style="color:#94a3b8;font-size:.9em">HTTP-parsing Critical/High not yet in KEV. Products: web servers, VPN/firewalls, email servers, app frameworks parsing untrusted input.</p>
+<h3 style="color:#fbbf24">URGENT — 7 Days</h3>
+<p style="color:#94a3b8;font-size:.9em">Network-parsing Critical/High not yet in KEV. Web servers, VPN, TLS libraries, app frameworks parsing untrusted network input. Prioritize these library updates for your next rebuild.</p>
 </div>
 <div class="card" style="border-color:#3b82f6">
-<h3 style="color:#60a5fa">📋 30 Days</h3>
-<p style="color:#94a3b8;font-size:.9em">All other Critical/High CVEs. Standard patch cycle. Deprioritize firmware, consumer IoT, niche libraries unless Internet-facing.</p>
+<h3 style="color:#60a5fa">STANDARD — 30 Days</h3>
+<p style="color:#94a3b8;font-size:.9em">All other Critical/High CVEs. Normal release cycle. Deprioritize firmware, consumer IoT, non-network-parsing libraries.</p>
 </div>
 </div>
 </div>
@@ -334,8 +399,8 @@ defensive cleanup completes, the time-to-exploit compression we documented (251�
 <!-- SECTION 8: Top Products -->
 <!-- EXPLOIT WATCH LIST -->
 <div class="section" id="watchlist">
-<div class="section-title">Exploit Watch List — HTTP-Parsing Attack Surface</div>
-<p style="color:#94a3b8;font-size:.88em;margin-bottom:16px">CVEs in the HTTP-parsing attack surface assessed as high probability for exploit creation — web servers, template engines, TLS terminators, reverse proxy components, and browser-delivered payloads. Updated daily by analyst agent. Entries that appear in CISA KEV are marked <span style="color:#10b981;font-weight:600">CONFIRMED</span>.</p>
+<div class="section-title">Exploit Watch List — Network-Parser Attack Surface</div>
+<p style="color:#94a3b8;font-size:.88em;margin-bottom:16px">CVEs in the network-parsing attack surface assessed as high probability for exploitation — web servers, template engines, TLS terminators, API frameworks, and browser-delivered payloads. <span class="live-dot"></span> Updated daily by analyst agent. Entries confirmed in CISA KEV are marked <span style="color:#10b981;font-weight:600">CONFIRMED</span>.</p>
 
 <div class="grid-2">
 <div class="card">
@@ -355,16 +420,19 @@ defensive cleanup completes, the time-to-exploit compression we documented (251�
 </div>
 
 <div style="margin-top:24px">
-<h3 style="color:#f8fafc;font-size:1em;margin-bottom:8px">Thesis Challenge: Non-HTTP Library Exploits</h3>
+<h3 style="color:#f8fafc;font-size:1em;margin-bottom:8px">Thesis Challenge: Non-Network-Parser Library Exploits</h3>
 <p style="color:#94a3b8;font-size:.85em;line-height:1.5;margin-bottom:12px">
-If the HTTP-parsing thesis is correct, library/framework CVEs reaching KEV should overwhelmingly involve HTTP-adjacent attack surface. This table tracks counter-examples — library or framework CVEs confirmed exploited through purely non-HTTP vectors. OS/kernel and commercial product CVEs are excluded (different exploitation dynamics). Every entry here weakens the thesis; an empty list strengthens it.
+Tracking counter-examples: library/framework CVEs exploited through purely non-network-parser vectors. Every entry weakens the thesis. <a href="index.html#thesis-challenge" style="color:#6366f1">Methodology in the analysis →</a>
 </p>
-<table style="width:100%;font-size:.82em;border-collapse:collapse">
-<thead><tr style="border-bottom:1px solid #475569"><th style="text-align:left;padding:6px;color:#94a3b8">CVE</th><th style="text-align:left;padding:6px;color:#94a3b8">Library</th><th style="text-align:left;padding:6px;color:#94a3b8">Non-HTTP Vector</th><th style="text-align:center;padding:6px;color:#94a3b8">KEV Date</th></tr></thead>
-<tbody id="thesisChallengeBody">
-<tr><td colspan="4" style="text-align:center;color:#64748b;font-style:italic;padding:1.5em">No counter-examples identified as of April 2026</td></tr>
-</tbody>
+<div class="live-feed">
+<div><span class="live-dot"></span><span style="color:#10b981;font-weight:600">Live feed</span></div>
+<div class="live-status">0 counter-examples identified. The network-parser thesis remains unchallenged by public KEV data.</div>
+<div class="live-counter">Tracking since February 2026 · Assessed daily by analyst agent</div>
+<table style="width:100%;font-size:.82em;border-collapse:collapse;margin-top:12px;display:none" id="thesisChallengeTable">
+<thead><tr style="border-bottom:1px solid #475569"><th style="text-align:left;padding:6px;color:#94a3b8">CVE</th><th style="text-align:left;padding:6px;color:#94a3b8">Library</th><th style="text-align:left;padding:6px;color:#94a3b8">Non-Parser Vector</th><th style="text-align:center;padding:6px;color:#94a3b8">KEV Date</th></tr></thead>
+<tbody id="thesisChallengeBody"></tbody>
 </table>
+</div>
 </div>
 </div>
 
@@ -675,6 +743,17 @@ document.getElementById('csvBtn').addEventListener('click', function() {
     a.click();
     URL.revokeObjectURL(a.href);
 });
+
+// Glasswing days counter
+const glasswingLaunch = new Date('2026-04-07T00:00:00Z');
+const today = new Date();
+const daysSince = Math.floor((today - glasswingLaunch) / (1000*60*60*24));
+const daysEl = document.getElementById('glasswingDays');
+if(daysEl) daysEl.textContent = daysSince;
+
+// Last updated timestamp
+const updEl = document.getElementById('lastUpdated');
+if(updEl) updEl.textContent = today.toLocaleDateString('en-US', {month:'long', day:'numeric', year:'numeric'});
 </script>
 </body>
 </html>
