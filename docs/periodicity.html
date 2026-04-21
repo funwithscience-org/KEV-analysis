@@ -303,21 +303,114 @@ details summary:hover{color:var(--cyan)}
 </div>
 
 <!-- ═══════════════════════════════════════════════════════════ -->
+<h2>The OS Layer: Vulnerability Chaining</h2>
+
+<p>The analysis above treats the application as the unit of patching. But production applications run on base images — a container OS with its own libraries, its own CVEs, and its own patch cadence. We took a real production container image (RHEL-based, ~450 executables) and ran the same 12-month NVD backtest to answer two questions: does the OS layer generate independent emergency rebuild triggers, and does it matter for blast radius when the app layer is breached?</p>
+
+<h3>OS Container Manifest</h3>
+
+<div class="card">
+<p><strong>Image:</strong> RHEL 9 / Amazon Linux 2023 (x86_64), ~25 queryable components.</p>
+<p style="margin-top:6px"><strong>Network parsers (10):</strong> libcurl 4.8.0, OpenSSL 3.2.2, nghttp2, libxml2 2.10.4, expat 1.9.3, Kerberos 5, Python 3.9 (ssl/http/xml stdlib), Java JRE (full JDK), gpgme.</p>
+<p style="margin-top:6px"><strong>Non-parsers (15):</strong> glibc, systemd, sqlite, zlib 1.2.11, xz 5.2.5, bzip2, zstd, libarchive, glib, rpm, pcre2, libyaml, json-c, libgcrypt, oniguruma.</p>
+<p style="margin-top:6px">This is the OS beneath a Spring Boot application — the same app layer analyzed above.</p>
+</div>
+
+<h3>OS-Layer Results: NP+DI = 0</h3>
+
+<div class="hero-stat">
+<div class="stat accent"><div class="number">69</div><div class="label">Total C/H CVEs (12mo)</div></div>
+<div class="stat green"><div class="number">0</div><div class="label">NP + Direct Injection</div></div>
+<div class="stat red"><div class="number">21</div><div class="label">LOCAL vector (privesc)</div></div>
+<div class="stat" style="border-color:var(--amber)"><div class="number">48</div><div class="label" style="color:var(--amber)">NETWORK vector</div></div>
+</div>
+
+<div class="card">
+<p>The NP+DI filter that drives emergency rebuilds at the app layer produced <strong>zero events</strong> at the OS layer in 12 months. The OS layer's 69 C/H CVEs break down: 48 NETWORK (69%) — mostly in sqlite (keyword noise from downstream wrappers), systemd, and zlib — plus 21 LOCAL (30%) and 2 PHYSICAL (3%). None of the network-vector CVEs were direct injection (CWE-78, CWE-22, CWE-89, etc.).</p>
+<p style="margin-top:8px">This means: <strong>the OS layer does not generate independent emergency rebuild triggers under the NP+DI filter.</strong> If you only rebuilt the container when the OS layer demanded it (NP+DI), you'd never rebuild at all. The app layer is what drives the cadence.</p>
+</div>
+
+<h3>The Kill Chain: App Layer = IF, OS Layer = HOW BAD</h3>
+
+<div class="callout callout-warning">
+<strong>But the OS layer isn't irrelevant — it determines blast radius after initial access.</strong>
+<p style="margin-top:8px">If an attacker gains code execution through a Spring app vulnerability (say, Tomcat path traversal or Thymeleaf SSTI), the next question is: what can they do with it? The answer depends on what LOCAL privilege escalation paths exist in the container's OS layer. An unpatched container is an attacker's playground; a freshly patched one limits lateral movement.</p>
+<p style="margin-top:8px">This reframes patching into a two-layer model: the app layer determines <strong>whether</strong> you get breached (initial access), while the OS layer determines <strong>how bad</strong> the breach gets (blast radius through privesc).</p>
+</div>
+
+<h3>Chaining Exposure at Spring Trigger Dates</h3>
+
+<p>If the container base image was built on April 21, 2025 and never refreshed, here's how many LOCAL privilege escalation CVEs accumulate by each Spring NP+DI trigger:</p>
+
+<div class="card">
+<table>
+<thead>
+<tr><th>Spring Trigger</th><th>Vulnerability</th><th>Container Age</th><th>Local Privesc CVEs Available</th><th>Key Components</th></tr>
+</thead>
+<tbody>
+<tr><td><strong>Oct 27, 2025</strong></td><td>Tomcat path traversal</td><td style="color:var(--amber)">189 days</td><td style="color:var(--red);font-weight:700">11</td><td>systemd (5), sqlite (2), zlib (1), rpm (1), openjdk (1), libarchive (1)</td></tr>
+<tr><td><strong>Apr 9, 2026</strong></td><td>Tomcat batch (7 CVEs)</td><td style="color:var(--red)">353 days</td><td style="color:var(--red);font-weight:700">21</td><td>systemd (12), sqlite (4), zlib (2), rpm (1), openjdk (1), libarchive (1)</td></tr>
+<tr><td><strong>Apr 15, 2026</strong></td><td>Thymeleaf SSTI (4 CVEs)</td><td style="color:var(--red)">359 days</td><td style="color:var(--red);font-weight:700">21</td><td>Same as above</td></tr>
+</tbody>
+</table>
+</div>
+
+<p style="margin-top:8px;color:var(--muted)">At the first Spring trigger (Oct 27), an attacker who gets initial access has 11 local privesc CVEs to chain — the container is 6 months stale. By the April triggers, when the real cluster of app-layer vulns hits, the container has 21 privesc paths and hasn't been patched in nearly a year.</p>
+
+<h3>Privesc Accumulation Over Time</h3>
+
+<div class="card">
+<canvas id="chainingChart" height="100"></canvas>
+</div>
+
+<h3>Cadence Comparison: Container Refresh vs. Privesc Exposure</h3>
+
+<div class="card">
+<table>
+<thead>
+<tr><th>Container Refresh Cadence</th><th>Max Privesc CVEs in Any Window</th><th>Reduction vs. Never</th></tr>
+</thead>
+<tbody>
+<tr><td>Never (ride the app cycle)</td><td style="color:var(--red);font-weight:700">21</td><td>—</td></tr>
+<tr><td>Quarterly</td><td style="color:var(--amber);font-weight:700">6</td><td>71%</td></tr>
+<tr><td>Monthly</td><td style="color:var(--green);font-weight:700">5</td><td>76%</td></tr>
+<tr><td>Bi-weekly</td><td style="color:var(--green);font-weight:700">4</td><td>81%</td></tr>
+</tbody>
+</table>
+<p style="margin-top:8px">Monthly container refresh drops the worst-case privesc exposure from 21 CVEs to 5 — a 76% reduction. Going to bi-weekly only saves one more CVE, suggesting monthly is the efficient cadence for blast radius reduction.</p>
+</div>
+
+<h3>Three-Tier Patching Model</h3>
+
+<div class="callout callout-finding">
+<strong>The data supports a three-tier patching model:</strong>
+<p style="margin-top:8px"><strong style="color:var(--red)">Tier 1 — Emergency (NP+DI in app layer):</strong> Rebuild everything — app dependencies AND container base image. These are the 2-4 events per year that represent real initial-access risk. The Spring triggers (Tomcat path traversal, Thymeleaf SSTI) are exactly this class.</p>
+<p style="margin-top:8px"><strong style="color:var(--amber)">Tier 2 — Regular cadence (monthly container refresh):</strong> Rebuild the base image on a monthly cycle regardless of specific CVEs. This isn't responding to any individual vulnerability — it's reducing blast radius by keeping the privesc surface small. The data shows monthly refresh keeps worst-case exposure at 5 CVEs instead of 21.</p>
+<p style="margin-top:8px"><strong style="color:var(--green)">Tier 3 — Ride the release cycle (everything else):</strong> Non-NP library updates, non-DI C/H vulnerabilities, DoS bugs, info leaks. These get swept up in the next scheduled release. Zero of the 34 skipped app-layer events and none of the 48 OS-layer NETWORK events appeared in KEV.</p>
+</div>
+
+<div class="card" style="margin-top:16px">
+<p><strong>The counter-argument worth considering:</strong> This model assumes LOCAL privesc CVEs are the primary chaining risk. But container breakout (escaping the container to the host) is arguably more impactful and usually requires different vulnerabilities (kernel bugs, container runtime flaws) not captured in this OS manifest analysis. The LOCAL CVEs here give escalation <em>within</em> the container — which matters for data access and lateral movement, but doesn't represent the full post-exploitation picture.</p>
+<p style="margin-top:8px">Additionally, the systemd CVEs dominate the LOCAL count (12 of 21), and some of these are kernel-matched CVEs that showed up in the systemd keyword search — NVD keyword noise inflates the count somewhat. The structural finding (OS layer doesn't drive emergency rebuilds, monthly refresh controls blast radius) is robust to this noise, but the specific numbers should be treated as approximate.</p>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════ -->
 <h2>Conclusion</h2>
 
 <div class="callout callout-good">
-<strong>The filter works across ecosystems.</strong> Three different stacks, same structural result:
+<strong>The filter works across ecosystems — and the OS layer confirms the model.</strong>
 <p style="margin-top:8px">Under <strong>"rebuild on any C/H"</strong>: all three stacks hit 14 trigger dates — one every 2-3 weeks. The treadmill never stops, regardless of your tech stack.</p>
 <p style="margin-top:8px">Under <strong>"rebuild on NP + direct injection"</strong>:</p>
 <p style="margin-top:4px">&bull; <span class="fw-badge fw-spring">Spring</span> 2 events, 5.5 months of silence, 85% reduction. Triggers: Tomcat path traversal, Thymeleaf SSTI.</p>
 <p style="margin-top:4px">&bull; <span class="fw-badge fw-node">Node.js</span> 2 events, 10 months of silence before first hit, 86% reduction. Triggers: Koa host injection, Handlebars code injection.</p>
 <p style="margin-top:4px">&bull; <span class="fw-badge fw-django">Django</span> 4 events, quarterly cadence, 71% reduction. Triggers: all Django ORM SQL injection.</p>
-<p style="margin-top:12px">Everything else (Multer DoS, urllib3 decompression bombs, Pillow buffer overflows, Tomcat info leaks, Fastify validation bypasses) rides the normal 30-day release cycle and gets swept up automatically. <strong>Zero of the 34 skipped events appeared in KEV.</strong></p>
-<p style="margin-top:12px">The filter preserves the "seatbelt not airbag" principle: you still patch everything on a regular cycle. But you stop treating every C/H as a fire drill. And when the signal does fire — template injection, path traversal, SQL injection in the HTTP parsing surface — your team responds because they haven't been desensitized by constant false alarms.</p>
+<p style="margin-top:12px"><strong>The OS container layer produced zero NP+DI events in 12 months</strong> — confirming that the app layer drives emergency rebuild cadence, not the base image. But the OS layer isn't free: 21 LOCAL privesc CVEs accumulated over the year. Monthly container refresh keeps that exposure at 5 instead of 21, reducing blast radius by 76% without requiring emergency response.</p>
+<p style="margin-top:12px">Everything else (Multer DoS, urllib3 decompression bombs, Pillow buffer overflows, Tomcat info leaks, Fastify validation bypasses) rides the normal 30-day release cycle and gets swept up automatically. <strong>Zero of the 34 skipped app-layer events appeared in KEV.</strong></p>
+<p style="margin-top:12px">The result is a three-tier model: emergency response for app-layer NP+DI (2-4 times/year), monthly cadence for container base images (blast radius control), and ride-the-cycle for everything else. The filter preserves the "seatbelt not airbag" principle — you still patch everything on a regular cycle, but you stop treating every C/H as a fire drill.</p>
 </div>
 
 <div class="footer">
-Working document for KEV exploitation analysis &bull; Data: OSV.dev (queried April 21, 2026), CISA KEV catalog &bull; Manifests: Spring Boot 3.x (48 deps), Node.js/Express (45 deps), Django/DRF (40 deps)
+Working document for KEV exploitation analysis &bull; Data: OSV.dev + NVD API 2.0 (queried April 21, 2026), CISA KEV catalog &bull; Manifests: Spring Boot 3.x (48 deps), Node.js/Express (45 deps), Django/DRF (40 deps), RHEL-based container OS (~25 components)
 </div>
 
 <!-- ═══════════════════════════════════════════════════════════ -->
@@ -418,6 +511,39 @@ new Chart(document.getElementById('monthlyDjango'), {
     options: {
         scales:{x:{stacked:true,grid:{display:false}},y:{stacked:true,beginAtZero:true,grid:{color:'rgba(51,65,85,.3)'}}},
         plugins:{legend:{position:'top',labels:{color:'#e2e8f0',boxWidth:12}},title:{display:true,text:'Django/Python — Monthly C/H Events',color:C.django}}
+    }
+});
+
+// OS Chaining: Privesc accumulation + Spring trigger overlay
+new Chart(document.getElementById('chainingChart'), {
+    type: 'line',
+    data: {
+        labels: months,
+        datasets: [
+            {label:'All OS C/H (cumulative)',data:[1,6,11,15,19,28,31,31,36,39,44,66,69],
+             borderColor:'#475569',backgroundColor:'rgba(71,85,105,.1)',fill:true,tension:.3,pointRadius:3,borderWidth:2},
+            {label:'LOCAL privesc (cumulative)',data:[0,3,4,4,4,9,12,12,14,15,17,21,21],
+             borderColor:C.red,backgroundColor:'rgba(239,68,68,.1)',fill:true,tension:.3,pointRadius:4,borderWidth:2},
+            {label:'Spring NP+DI triggers',data:[null,null,null,null,null,null,11,null,null,null,null,null,21],
+             borderColor:C.spring,backgroundColor:C.spring,pointRadius:8,pointStyle:'triangle',showLine:false,
+             pointBorderWidth:2,pointBorderColor:'#fff'}
+        ]
+    },
+    options: {
+        scales: {
+            y:{beginAtZero:true,title:{display:true,text:'Cumulative CVEs',color:'#94a3b8'},grid:{color:'rgba(51,65,85,.3)'}},
+            x:{grid:{display:false}}
+        },
+        plugins:{
+            legend:{position:'top',labels:{color:'#e2e8f0',boxWidth:12}},
+            title:{display:true,text:'OS Container Privesc Accumulation vs. Spring App Triggers',color:'#e2e8f0'},
+            tooltip:{callbacks:{label:function(ctx){
+                if(ctx.datasetIndex===2 && ctx.raw!==null){
+                    return ctx.raw+' local privesc CVEs available at Spring trigger';
+                }
+                return ctx.dataset.label+': '+ctx.raw;
+            }}}
+        }
     }
 });
 </script>
