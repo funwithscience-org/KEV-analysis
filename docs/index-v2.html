@@ -201,7 +201,11 @@ details.expandable .detail-content{padding:16px 20px}
 
 <p><strong><span class="glossary" data-tip="CISA's Known Exploited Vulnerabilities list -- the U.S. government's catalog of bugs attackers have actually used in the wild">CISA KEV</span> catalog</strong> -- 1,568 vulnerabilities with confirmed active exploitation. This is the "ground truth" for what attackers actually target. It's curated by CISA for US federal agency compliance, which introduces selection bias toward enterprise/government network-facing targets (see <a href="#caveats">Caveats</a>).</p>
 
-<p><strong><span class="glossary" data-tip="The U.S. government's National Vulnerability Database -- the central repository for all reported software vulnerabilities">NVD</span></strong> -- 23,501 CVEs rated Critical or High (CVSS 7.0+) published 2021-2026. This is the denominator. NVD relies on <span class="glossary" data-tip="Common Platform Enumeration -- a structured naming scheme for software products, used to match CVEs to specific products">CPE</span> strings for product categorization, which significantly undercounts open-source library vulnerabilities. For library-specific analysis, we supplement with <strong><a href="https://osv.dev" target="_blank">OSV</a></strong> (Google's open-source vulnerability database).</p>
+<p><strong><span class="glossary" data-tip="The U.S. government's National Vulnerability Database -- the central repository for all reported software vulnerabilities">NVD</span></strong> -- 23,501 CVEs rated Critical or High (CVSS 7.0+) published 2021-2026. This is the denominator for cross-layer comparisons — it's the only source that consistently covers OS, VPN, browser, and library categories on the same scale.</p>
+
+<div class="callout callout-warning">
+<strong>Important caveat for teams that build their own code:</strong> NVD massively under-represents open-source library vulnerabilities. Most small libraries never register a <span class="glossary" data-tip="Common Platform Enumeration — NVD's naming scheme for matching CVEs to products. Most open-source projects never register a CPE, so their vulnerabilities are invisible to NVD">CPE</span>, so their CVEs are invisible to NVD's categorization. Google's <strong><a href="https://osv.dev" target="_blank">OSV</a></strong> database — which aggregates NVD, GitHub Security Advisories, and ecosystem-specific sources — tracks <strong>770 critical/high vulnerabilities across just 177 popular packages</strong>, more than double NVD's 345 for <em>all</em> libraries. The true library vulnerability population is orders of magnitude larger than NVD suggests. This means the noise your application team faces is significantly worse than the NVD-based numbers in this analysis imply. We use NVD as the primary denominator for the cross-layer comparison (§3) because it's consistent across categories, and switch to OSV for the library-specific and periodicity analysis (§6–9) where accuracy matters more than cross-category consistency.
+</div>
 
 <p>Each CVE was categorized by <strong>stack layer</strong> (OS, VPN/network appliance, JVM/runtime, web server, browser, email/collaboration server, library/framework, CMS/webapp, productivity/desktop, database, firmware/hardware, virtualization/container, IoT/ICS, SSL/TLS/crypto) using CPE product strings and description pattern matching. The <strong>exploitation rate</strong> for each category = (KEV count) / (NVD count).</p>
 
@@ -797,7 +801,7 @@ const DATA = {"layer_data": [{"layer": "other", "kev": 713, "nvd": 17028, "rate"
 
 // ===== CHART RENDERING =====
 // Layer chart
-const layerFiltered = DATA.layer_data.filter(d => d.layer !== 'other');
+const layerFiltered = DATA.layer_data.filter(d => d.layer !== 'other').sort((a,b) => b.rate - a.rate);
 new Chart(document.getElementById('docLayerChart'),{
     type:'bar',
     data:{labels:layerFiltered.map(d=>d.layer.replace(/_/g,' ')),
