@@ -445,6 +445,59 @@ A network-parsing HIGH (7.0-7.9) at 1.52% beats a non-parsing CRITICAL (9.0-9.9)
 
 <p>This means the filter gives you less breathing room when the framework itself has a persistent vulnerability pattern in its parsing surface. But: (a) every trigger was a genuine SQL injection -- zero false positives, and (b) 71% reduction is still operationally meaningful -- you go from near-monthly fire drills to quarterly ones. The 10 skipped rebuilds were DoS bugs, config issues, and non-NP library fixes that never reached KEV.</p>
 
+<h3 id="real-manifest">7g. Real-World Case Study: Enterprise Java Portfolio</h3>
+
+<div class="translation"><strong>In plain English:</strong> The synthetic manifests above prove the filter works in theory. This section tests it against a real enterprise dependency list — 60 libraries from a portfolio of Spring apps, with all the version sprawl and legacy baggage that implies.</div>
+
+<p>A real enterprise Java manifest: 60 unique libraries across multiple Spring-based applications. Unlike the synthetic manifests, this includes build tooling (Maven, Plexus, Surefire), legacy versions (jackson-databind across 7 major versions, log4j 1.x alongside 2.x), and components that have accumulated years of CVEs (XStream, SnakeYAML). This is what a scanner actually flags when it runs against your artifact repository.</p>
+
+<div class="chart-wrap">
+<h4>The NP+DI Funnel: From Scanner Noise to Actionable Signal</h4>
+<p style="font-size:.85em;color:#64748b;margin-bottom:12px">Each bar shows what remains after applying the next filter stage. Data: 60 libraries queried against OSV.dev.</p>
+<canvas id="funnelChart" height="160"></canvas>
+</div>
+
+<table class="data-table">
+<thead><tr><th>Filter Stage</th><th>Count</th><th>Eliminated</th><th>What's filtered out</th></tr></thead>
+<tbody>
+<tr><td>Total vulnerabilities (all severities)</td><td><strong>232</strong></td><td>—</td><td>—</td></tr>
+<tr><td>Critical + High only</td><td><strong>164</strong></td><td>68 (29%)</td><td>Medium/Low severity</td></tr>
+<tr><td>In Network Parsers (NP)</td><td><strong>127</strong></td><td>37 (23%)</td><td>Build tools (Maven, Plexus), utilities, logging frameworks — 11 are build-only and never even deployed</td></tr>
+<tr><td>NP + Direct Injection CWE</td><td><strong>24</strong></td><td>103 (81%)</td><td>Deserialization (jackson-databind: 44 of 45 are CWE-502), DoS, auth bypass, info leak</td></tr>
+</tbody></table>
+
+<div class="callout callout-finding">
+<strong>232 → 24:</strong> Your scanner reports 232 vulnerabilities. The NP+DI filter tells you 24 of them represent the attack patterns that actually reach KEV. The other 208 ride the normal release cycle.
+</div>
+
+<h4>The 13 Libraries Where NP+DI Risk Lives</h4>
+
+<p>Of 60 libraries in the manifest, 13 (22%) produce all 24 NP+DI vulnerabilities. These are the libraries your NP+DI monitoring should cover:</p>
+
+<table class="data-table">
+<thead><tr><th>Library</th><th>Total C/H</th><th>NP+DI</th><th>What triggers</th></tr></thead>
+<tbody>
+<tr><td><strong>xstream</strong></td><td>22</td><td style="color:var(--red);font-weight:700">7</td><td>Command injection (CWE-78), code injection (CWE-94), SSRF (CWE-918)</td></tr>
+<tr><td><strong>dom4j</strong></td><td>3</td><td style="color:var(--red);font-weight:700">3</td><td>XXE (CWE-611), XPath injection (CWE-91)</td></tr>
+<tr><td><strong>tomcat-embed-core</strong></td><td>20</td><td style="color:var(--red);font-weight:700">2</td><td>Path traversal (CWE-23), OS command injection (CWE-78)</td></tr>
+<tr><td><strong>log4j-core</strong></td><td>3</td><td style="color:var(--red);font-weight:700">2</td><td>JNDI expression injection (CWE-917) — Log4Shell</td></tr>
+<tr><td><strong>spring-messaging</strong></td><td>2</td><td style="color:var(--red);font-weight:700">2</td><td>Code injection (CWE-94) via STOMP over WebSocket</td></tr>
+<tr><td><strong>jackson-databind</strong></td><td>45</td><td style="color:var(--red);font-weight:700">1</td><td>Code injection (CWE-94) — the 1 out of 45</td></tr>
+<tr><td><strong>jackson-mapper-asl</strong></td><td>2</td><td style="color:var(--red);font-weight:700">1</td><td>XXE (CWE-611)</td></tr>
+<tr><td><strong>spring-beans</strong></td><td>2</td><td style="color:var(--red);font-weight:700">1</td><td>Code injection (CWE-74, -94) — Spring4Shell</td></tr>
+<tr><td><strong>spring-expression</strong></td><td>1</td><td style="color:var(--red);font-weight:700">1</td><td>SpEL injection (CWE-917)</td></tr>
+<tr><td><strong>springfox-swagger-ui</strong></td><td>1</td><td style="color:var(--red);font-weight:700">1</td><td>XSS (CWE-79)</td></tr>
+<tr><td><strong>hazelcast</strong></td><td>5</td><td style="color:var(--red);font-weight:700">1</td><td>SQL injection (CWE-89)</td></tr>
+<tr><td><strong>mina-core</strong></td><td>2</td><td style="color:var(--red);font-weight:700">1</td><td>Code injection (CWE-94)</td></tr>
+<tr><td><strong>cxf-rt-databinding-aegis</strong></td><td>1</td><td style="color:var(--red);font-weight:700">1</td><td>SSRF (CWE-918)</td></tr>
+</tbody></table>
+
+<p><strong>The jackson-databind story:</strong> This library alone accounts for 45 C/H vulnerabilities — 27% of all C/H in the manifest. Under an "all C/H" policy, jackson-databind is a permanent emergency. Under NP+DI, 44 of 45 are correctly excluded (they're CWE-502 deserialization chains requiring specific gadget classes on the classpath). The one that qualifies (CWE-94 code injection) is a genuinely different bug class — directly exploitable without a gadget chain.</p>
+
+<div class="callout callout-success">
+<strong>The practical test:</strong> This manifest contains Log4Shell, Spring4Shell, Tomcat path traversal, and XStream command injection — the highest-profile Java exploits of the last several years. The NP+DI filter catches every one of them. It also correctly excludes 208 vulnerabilities that, while real, represent attack patterns that don't reach KEV.
+</div>
+
 <!-- ========== 8. KILL CHAIN ========== -->
 <h2 id="kill-chain">8. Kill Chain: App Layer IF, OS Layer HOW BAD</h2>
 
@@ -1067,6 +1120,42 @@ new Chart(document.getElementById('docPatchVelocityChart'), {
         plugins:{legend:{position:'top'}}
     }
 });
+
+// NP+DI Funnel: real-manifest case study (§7g)
+(function(){
+  const labels = ['All Vulns','Critical / High','Network-Parser','NP + Direct Injection'];
+  const values = [232, 164, 127, 24];
+  const colors = ['#94a3b8','#6366f1','#4f46e5','#dc2626'];
+  new Chart(document.getElementById('funnelChart'),{
+    type:'bar',
+    data:{
+      labels: labels,
+      datasets:[{
+        data: values,
+        backgroundColor: colors,
+        borderRadius: 4,
+        barPercentage: 0.7
+      }]
+    },
+    options:{
+      indexAxis:'y',
+      scales:{
+        x:{beginAtZero:true,title:{display:true,text:'Vulnerability count'},grid:{color:'rgba(226,232,240,.6)'}},
+        y:{grid:{display:false}}
+      },
+      plugins:{
+        legend:{display:false},
+        tooltip:{callbacks:{
+          label:function(ctx){
+            const i = ctx.dataIndex;
+            const pct = i===0 ? '' : ' ('+(100-Math.round(values[i]/values[0]*100))+'% eliminated)';
+            return ctx.parsed.x+' vulnerabilities'+pct;
+          }
+        }}
+      }
+    }
+  });
+})();
 
 // Sidebar active tracking
 const sections = document.querySelectorAll('h2[id]');
