@@ -136,16 +136,16 @@ details.expandable .detail-content{padding:16px 20px}
 <!-- SIDEBAR NAV -->
 <nav class="sidebar">
 <div class="sidebar-title">CVE Exploitation<br>Analysis</div>
-<a href="#hypothesis"><span class="toc-num">1</span> The Hypothesis</a>
+<a href="#hypothesis"><span class="toc-num">1</span> The Problem</a>
 <a href="#methodology"><span class="toc-num">2</span> Methodology</a>
-<a href="#observational"><span class="toc-num">3</span> The Observational Case</a>
+<a href="#observational"><span class="toc-num">3</span> Where Exploits Land</a>
 <a href="#stack-layers" class="sub">Stack Layer Rates</a>
 <a href="#http-parsing" class="sub">Network-Parser Signal</a>
 <a href="#libraries" class="sub">Libraries Deep Dive</a>
 <a href="#survivorship"><span class="toc-num">4</span> Why Most Criticals Don't Get Exploited</a>
 <a href="#time-to-exploit"><span class="toc-num">5</span> Time-to-Exploit</a>
 <a href="#np-di-filter"><span class="toc-num">6</span> The NP+DI Filter</a>
-<a href="#cross-framework"><span class="toc-num">7</span> Cross-Framework Validation</a>
+<a href="#cross-framework"><span class="toc-num">7</span> Does It Work?</a>
 <a href="#kill-chain"><span class="toc-num">8</span> Kill Chain Model</a>
 <a href="#external-validation"><span class="toc-num">9</span> External Validation</a>
 <a href="#patching-model"><span class="toc-num">10</span> Three-Tier Patching</a>
@@ -159,36 +159,38 @@ details.expandable .detail-content{padding:16px 20px}
 <!-- MAIN CONTENT -->
 <main class="main">
 
-<h1>From Observation to Filter: A Testable Model for CVE Prioritization</h1>
-<p class="lead">We observed that network-parsing components are exploited at 3-6x the rate of everything else. Then we built a testable filter from that observation and validated it across three ecosystems. The result: <strong>71-86% fewer emergency rebuilds with zero missed exploitations in 12 months.</strong></p>
+<h1>When to Rebuild: Managing Your Patch Queue Without Just Churning</h1>
+<p class="lead">For third-party products — Cisco, Microsoft, Palo Alto — patching is a solved problem. Vendors ship fixes on a known schedule, you apply them, done. The hard problem is <strong>your own application code</strong>, sitting on top of 50+ open-source libraries with no coordinated patch schedule. Every week brings a new critical. Each one means a rebuild, a test cycle, a deploy. You can't do them all. So which ones actually matter?</p>
 
 <div class="cta-row">
-<a href="#np-di-filter" class="primary">Jump to the filter</a>
+<a href="#np-di-filter" class="primary">Jump to the filter &rarr;</a>
 <a href="cve-reference.html" class="secondary">See every CVE classified</a>
 <a href="dashboard.html" class="secondary">Interactive Dashboard</a>
 </div>
 
 <div class="tldr">
-<h3>Key Findings</h3>
+<h3>The Problem and What We Found</h3>
 <ul>
-<li><strong>We tested a sharper filter across 3 ecosystems and it cut emergency rebuilds by 71-86% with zero misses in 12 months.</strong> The filter: only trigger an emergency rebuild for direct injection vulnerabilities in network-parser libraries. Everything else rides the normal release cycle. <span class="tag tag-conf">HIGH CONFIDENCE</span></li>
-<li><strong>3-6x exploitation lift</strong> for network-parsing components (web servers, VPN terminators, TLS stacks, app frameworks) -- consistent across every CVSS severity bucket. A network-parsing HIGH beats a non-parsing CRITICAL for exploitation probability. <span class="tag tag-conf">HIGH CONFIDENCE</span></li>
-<li><strong>14-14-14 convergence:</strong> Three different tech stacks (Spring Boot 48 deps, Node.js/Express 45 deps, Django/DRF 40 deps) all produced exactly 14 all-C/H trigger dates in 12 months. The noise floor is ecosystem-independent.</li>
-<li><strong>Fastest-quartile time-to-exploit: 3 days.</strong> 30-day patch cycles are 30-day exposure windows. <span class="tag tag-conf">HIGH CONFIDENCE</span></li>
-<li><strong>AI-assisted bug-finding (Project Glasswing) may multiply CVE volume 2-3x</strong> starting May-June 2026. <span class="tag tag-spec">SPECULATIVE</span></li>
+<li><strong>The problem:</strong> A modern application depends on 50+ open-source libraries. Unlike Patch Tuesday, these libraries ship CVEs whenever they please — no coordinated schedule, no single vendor to call. Your scanner flags a new critical every other week. "Just patch everything" means continuous rebuilds. You need a filter that tells you when to drop everything and rebuild <em>now</em> vs. when to ride your normal release cycle.</li>
+<li><strong>The observation:</strong> Components that parse untrusted network traffic are exploited at <strong>3–6× the rate</strong> of everything else — consistent across every CVSS severity bucket. But "network parser with a critical" still fires too often. <span class="tag tag-conf">HIGH CONFIDENCE</span></li>
+<li><strong>The sharper filter:</strong> Not all network parser bugs are equal. A DoS in Tomcat isn't the same threat as a path traversal in Tomcat. Filtering for <strong>direct injection CWEs</strong> (path traversal, template injection, SQL injection, command injection) <em>in</em> network parsers — what we call <strong>NP+DI</strong> — cut emergency rebuilds by <strong>71–86%</strong> across three ecosystems with <strong>zero misses</strong> in 12 months. <span class="tag tag-conf">HIGH CONFIDENCE</span></li>
+<li><strong>Time pressure:</strong> The fastest quartile of exploited CVEs are weaponized within <strong>3 days</strong> of disclosure. A 30-day patch cycle is a 30-day exposure window. <span class="tag tag-conf">HIGH CONFIDENCE</span></li>
+<li><strong>The volume is about to get worse:</strong> AI-assisted bug-finding (Project Glasswing) may multiply CVE volume 2–3× starting May–June 2026. Your filter needs to work before the firehose opens further. <span class="tag tag-spec">SPECULATIVE</span></li>
 </ul>
 </div>
 
-<!-- ========== 1. HYPOTHESIS ========== -->
-<h2 id="hypothesis">1. The Hypothesis</h2>
+<!-- ========== 1. THE PROBLEM ========== -->
+<h2 id="hypothesis">1. The Problem</h2>
 
-<div class="translation"><strong>In plain English:</strong> The best predictor of whether a vulnerability gets exploited isn't its severity score -- it's whether the code parses network traffic. We took that observation and built a testable, falsifiable filter.</div>
+<div class="translation"><strong>In plain English:</strong> Your scanner flags a new critical every other week across your open-source dependencies. You can't rebuild for all of them. The severity score doesn't tell you which ones matter. So what does?</div>
 
-<p>Between 2021 and 2026, <strong>23,501</strong> <span class="glossary" data-tip="Unique IDs assigned to each reported software vulnerability">CVEs</span> were rated Critical or High. Of those, only <strong>1,568 (~6.7%)</strong> were ever confirmed as actively exploited in the wild. The question isn't "is this critical?" -- it's "is this one of the 6.7%?"</p>
+<p>Start with the scale of the noise. Between 2021 and 2026, <strong>23,501</strong> <span class="glossary" data-tip="Unique IDs assigned to each reported software vulnerability">CVEs</span> were rated Critical or High — the kind that generate alerts, open tickets, and consume patching cycles. Of those, only <strong>1,568 (~6.7%)</strong> were ever confirmed as actively exploited in the wild. That means <strong>93% of the vulnerabilities your scanner flags as urgent will never actually be used by an attacker.</strong></p>
 
-<p>The answer, consistently across every cut of the data, is structural: <strong>components that parse untrusted network traffic</strong> -- HTTP requests, TLS handshakes, DNS responses, template expressions, authentication tokens -- are exploited at 3-6x the rate of everything else at the same CVSS severity. This holds for OS-level products, for libraries, and for every severity bucket from 7.0 to 10.0.</p>
+<p>For third-party vendor products — your Cisco switches, your Windows servers, your Palo Alto firewalls — this is a manageable problem. Those vendors ship patches on known schedules, your ops team knows how to turn the crank, and the patching process is well-understood even if it's tedious. But your own application code is a different story. A modern application might depend on 50+ open-source libraries, each maintained by different people, each shipping CVEs on their own schedule. There is no Patch Tuesday for open source. When Spring, or Tomcat, or Express, or Django ships a critical, <em>you</em> have to decide: do I drop everything, rebuild, retest, and redeploy right now? Or can this ride the next scheduled release?</p>
 
-<p>That observation led to a testable filter: <strong>NP+DI</strong> (Network Parser + Direct Injection CWE). Only trigger an emergency rebuild when a vulnerability hits a network-parser library <em>and</em> carries a direct-injection CWE. We tested this across three production-representative tech stacks over 12 months. The filter reduced emergency rebuilds by 71-86% with zero missed exploitations. The sections that follow lay out the observational evidence, define the filter precisely, and present the cross-framework validation.</p>
+<p>The default answer — "rebuild on any critical/high in my dependency tree" — sounds responsible, but it's operationally impossible. Our data shows that across three different tech stacks, that rule triggers <strong>14 emergency rebuilds per year</strong>. That's roughly every 2–3 weeks, forever, regardless of your ecosystem. You'd spend more time rebuilding than building.</p>
+
+<p>So the real question is: <strong>which of those 14 triggers actually matter?</strong> Is there a signal in the data — something more useful than the CVSS score — that separates the CVEs attackers actually exploit from the ones that just make noise? That's what this analysis set out to find, and the answer turned out to be structural: it's not just whether the code parses network traffic (though that's the first clue), but <em>what kind of bug</em> it has. The combination of those two factors — network parser + direct injection — is what separates signal from noise.</p>
 
 <!-- ========== 2. METHODOLOGY ========== -->
 <h2 id="methodology">2. Methodology</h2>
@@ -206,9 +208,9 @@ details.expandable .detail-content{padding:16px 20px}
 <p><strong>Periodicity backtest.</strong> To validate the NP+DI filter, we constructed three representative application manifests (Spring Boot 48 deps, Node.js/Express 45 deps, Django/DRF 40 deps) plus an OS container layer (Amazon Linux 2023, ~25 components). We queried every dependency against OSV for critical/high CVEs over a 12-month window (Apr 2025 - Apr 2026), classified each CVE as NP+DI or not, and measured how often each filter would trigger an emergency rebuild. We then cross-validated against five independent exploitation sources: EPSS, CISA KEV, ExploitDB, Nuclei, and Metasploit. Full methodology and per-CVE classifications are in the <a href="periodicity.html" style="color:var(--accent)">periodicity analysis</a> and <a href="cve-reference.html" style="color:var(--accent)">CVE reference</a>.</p>
 
 <!-- ========== 3. OBSERVATIONAL CASE ========== -->
-<h2 id="observational">3. The Observational Case: Network Parsers as Predictor</h2>
+<h2 id="observational">3. The First Clue: Where Exploits Actually Land</h2>
 
-<div class="translation"><strong>In plain English:</strong> Not all critical bugs are equal. OS bugs get attacked 95% of the time. Firmware bugs: 0.13%. Network parsers are exploited at 3-6x the rate of non-parsers at every severity level.</div>
+<div class="translation"><strong>In plain English:</strong> Before we can build a filter, we need to understand the pattern. Where do real-world exploits concentrate? Not where you'd expect from severity scores alone.</div>
 
 <h3 id="stack-layers">3a. Stack Layer Exploitation Rates</h3>
 
@@ -338,17 +340,19 @@ A network-parsing HIGH (7.0-7.9) at 1.52% beats a non-parsing CRITICAL (9.0-9.9)
 <!-- ========== 6. NP+DI FILTER ========== -->
 <h2 id="np-di-filter">6. From Observation to Filter: NP+DI</h2>
 
-<div class="translation"><strong>In plain English:</strong> We turned the "network parsers get exploited more" observation into a concrete, testable rule: only trigger an emergency rebuild when a vulnerability is in a network parser AND carries a direct-injection CWE. Everything else can wait.</div>
+<div class="translation"><strong>In plain English:</strong> "Network parsers are riskier" is an observation. "Rebuild only when a network parser has a direct-injection bug" is a <em>decision rule</em> you can actually use. Here's how we got from one to the other.</div>
 
-<p>The observational data in sections 3-5 establishes that network-parsing components are exploited at dramatically higher rates. But "network parsers are riskier" is an observation, not an operational rule. To be useful for patch prioritization, you need a filter with two properties: it must be <strong>precise enough to reduce noise</strong> and <strong>conservative enough to never miss a real exploitation event</strong>.</p>
+<p>At this point the data tells us two things: network-parsing components get exploited at 3–6× the rate of everything else (§3), and the exploitation window is measured in days, not months (§5). But <strong>"rebuild on any critical/high in a network parser" is still too noisy</strong> to be useful. That rule fires 14 times in 12 months across every stack we tested — about every 2–3 weeks. You'd be churning almost as badly as before.</p>
 
-<h3>6a. Two Criteria: Network Parser + Direct Injection CWE</h3>
+<p>The reason it's too broad: most network-parser CVEs aren't the kind of bug attackers actually exploit for initial access. A denial-of-service in Tomcat is a real bug, but it doesn't give an attacker code execution. An authentication-bypass in Spring Security is concerning, but it requires specific configuration to be reachable. A Fastify validation-bypass is a defense-in-depth issue, not a front-door entry point. What actually reaches KEV — what attackers build exploits for and use in the field — is overwhelmingly <strong>direct injection</strong>: path traversal, template injection, SQL injection, command injection. Bugs where untrusted input becomes executable code or crosses a security boundary without mediation.</p>
 
-<p>The filter has two requirements, both of which must be true:</p>
+<p>That distinction is the filter. Two criteria, both required:</p>
 
-<p><strong>1. Network Parser (NP).</strong> The vulnerable component directly parses untrusted network input -- HTTP requests, TLS handshakes, DNS responses, SMTP headers, template expressions, authentication tokens. This includes web frameworks, app servers, template engines, HTTP client libraries, WebSocket handlers, GraphQL servers, and TLS libraries. It does <em>not</em> include ORMs that only receive pre-parsed input, utility libraries, build tools, or local-only processing libraries.</p>
+<h3>6a. The Two Criteria</h3>
 
-<p><strong>2. Direct Injection (DI) CWE.</strong> The vulnerability carries a CWE that represents direct attacker-to-code-execution or attacker-to-data-access paths. These are the CWEs where untrusted input becomes executable code or traverses a security boundary without mediation.</p>
+<p><strong>1. Network Parser (NP).</strong> The vulnerable component directly parses untrusted network input — HTTP requests, TLS handshakes, DNS responses, SMTP headers, template expressions, authentication tokens. This includes web frameworks (Spring, Express, Django), app servers (Tomcat, Gunicorn), template engines (Thymeleaf, Handlebars, Jinja2), HTTP client libraries, WebSocket handlers, GraphQL servers, and TLS libraries. It does <em>not</em> include ORMs that only receive pre-parsed input (Sequelize, Hibernate), utility libraries (lodash, guava), build tools, or local-only processing libraries (Pillow, numpy).</p>
+
+<p><strong>2. Direct Injection (DI) CWE.</strong> The vulnerability carries a CWE from a specific set — the bug classes where attacker input becomes executable code or traverses a security boundary. Not every network-parser bug qualifies. DoS, info leak, and configuration issues are real problems, but they're not the bugs that give attackers a foothold.</p>
 
 <h3>6b. The DI CWE Set</h3>
 
@@ -386,9 +390,9 @@ A network-parsing HIGH (7.0-7.9) at 1.52% beats a non-parsing CRITICAL (9.0-9.9)
 <p>This is operationally important because it means you can measure the filter's performance against your own dependency stack. Run it for 6 months. Track what it flags and what it skips. If something it skipped gets exploited, the filter needs adjustment. If nothing it skipped gets exploited, you've validated it for your environment. The <a href="cve-reference.html" style="color:var(--accent)">CVE reference list</a> shows every classification so you can audit and re-draw the line yourself.</p>
 
 <!-- ========== 7. CROSS-FRAMEWORK VALIDATION ========== -->
-<h2 id="cross-framework">7. Cross-Framework Validation</h2>
+<h2 id="cross-framework">7. Does It Actually Work? Cross-Framework Validation</h2>
 
-<div class="translation"><strong>In plain English:</strong> We tested the filter against three different tech stacks over 12 months. All three stacks hit 14 rebuild triggers under the old "any critical/high" rule. Under NP+DI, they dropped to 2-4 triggers. Zero missed exploitations.</div>
+<div class="translation"><strong>In plain English:</strong> Theory is nice, but you need to know if this filter actually reduces your rebuild queue without letting something dangerous slip through. We tested it against three real-world-representative tech stacks over 12 months. Short answer: it works.</div>
 
 <h3>7a. Three Stacks, 133 Dependencies</h3>
 
@@ -513,9 +517,9 @@ A network-parsing HIGH (7.0-7.9) at 1.52% beats a non-parsing CRITICAL (9.0-9.9)
 <p>The one CVE that lit up every exploitation source (CVE-2025-14847, zlib -- KEV, Metasploit, EPSS 0.77) is a non-trigger, but it's exploited through MongoDB's wire protocol, not through the Spring/Node/Django apps running on our container. The filter correctly treats it as non-triggering for these applications. That's not a miss -- that's the filter working as designed. Full details in the <a href="periodicity.html#external-validation" style="color:var(--accent)">periodicity analysis</a>.</p>
 
 <!-- ========== 10. PATCHING MODEL ========== -->
-<h2 id="patching-model">10. The Three-Tier Patching Model</h2>
+<h2 id="patching-model">10. Putting It Together: The Three-Tier Patching Model</h2>
 
-<div class="translation"><strong>In plain English:</strong> Replace the one-size-fits-all 30-day rule with three tiers: emergency for NP+DI (2-4x/year), monthly container refresh (blast radius control), and ride the release cycle (everything else).</div>
+<div class="translation"><strong>In plain English:</strong> This is the answer to the question we started with: when do you drop everything and rebuild your application, and when do you let it ride? Three tiers, each backed by the data above.</div>
 
 <table class="data-table">
 <thead><tr><th>Tier</th><th>Trigger</th><th>Frequency</th><th>What You Rebuild</th><th>Rationale</th></tr></thead>
