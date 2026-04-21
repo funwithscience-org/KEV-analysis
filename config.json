@@ -63,17 +63,17 @@
       "2025-09": 3950, "2025-10": 4150, "2025-11": 4000, "2025-12": 4212
     },
     "monthly_cve_2026": {
-      "2026-01": 5143, "2026-02": 4808, "2026-03": 6304, "2026-04": 3698
+      "2026-01": 5143, "2026-02": 4808, "2026-03": 6304, "2026-04": 3885
     },
     "monthly_cve_2026_notes": {
-      "2026-04": "MTD through 2026-04-20 (20 days); extrapolated full-month ~5547 (3698 * 30/20). Pacing continues to slow: +30 net CVEs between day 19 and day 20 (of which 14 bore a 2026-04-20 publication date; the remaining 16 were back-populated to earlier April dates). Daily rate now ~185/day. Tracking well below March (6304) and below the +500/mo conservative Glasswing anchor.",
-      "prior_months_unchanged": "2026-01 = 5143, 2026-02 = 4808, 2026-03 = 6304 — re-confirmed on 2026-04-20."
+      "2026-04": "MTD through 2026-04-21 (21 days); extrapolated full-month ~5550 (3885 * 30/21). +187 net CVEs between day 20 snapshot and day 21 snapshot, driven largely by NVD back-population to 2026-04-20 (finalized at 166 entries vs the 14 we saw 24h earlier). Daily rate ~185/day. Tracking below March (6304) and below the +500/mo conservative Glasswing anchor.",
+      "prior_months_unchanged": "2026-01 = 5143, 2026-02 = 4808, 2026-03 = 6304 — re-confirmed on 2026-04-21."
     },
     "weekly_cve_2026": {
       "2026-W14_Mar30_Apr05": 1304,
       "2026-W15_Apr06_Apr12": 1615,
       "2026-W16_Apr13_Apr19": 1178,
-      "2026-W17_Apr20_Apr26_partial": 14
+      "2026-W17_Apr20_Apr26_partial": 201
     },
     "ms_patch_tuesday": {
       "2025-01": 157, "2025-02": 57, "2025-03": 57, "2025-04": 124,
@@ -90,10 +90,10 @@
       "note": "stack.watch dropped the /8.0 version-specific path; use parent URL (covers all RHEL versions). 2026 YTD: 99 per stack.watch as of 2026-04-18. Red Hat security data API also 404s — stack.watch is the best available source."
     },
     "kev_monthly_2026": {
-      "2026-01": 17, "2026-02": 28, "2026-03": 26, "2026-04": 14
+      "2026-01": 17, "2026-02": 28, "2026-03": 26, "2026-04": 22
     },
     "kev_monthly_2026_notes": {
-      "2026-04": "14 entries added 2026-04-01..2026-04-16 (per CISA KEV catalog version 2026.04.16; no entries on 2026-04-17 or 2026-04-18). Prior run reported 12 — reconciliation against authoritative feed gives 14. Notables: CVE-2026-34197 (Apache ActiveMQ 2026-04-16), CVE-2026-32201 (SharePoint 0-day 2026-04-14), CVE-2026-21643 (Fortinet FortiClient EMS SQLi 2026-04-13), CVE-2026-34621 (Adobe Acrobat prototype pollution 2026-04-13), CVE-2026-1340 (Ivanti EPMM 2026-04-08), CVE-2026-35616 (Fortinet FortiClient EMS 2026-04-06), CVE-2026-3502 (TrueConf Client 2026-04-02), CVE-2026-5281 (Google Dawn 2026-04-01); plus 5 legacy re-adds on 2026-04-13/14 (CVE-2009-0238, CVE-2012-1854, CVE-2020-9715, CVE-2023-21529, CVE-2023-36424) and CVE-2025-60710 Microsoft Windows."
+      "2026-04": "22 entries added 2026-04-01..2026-04-20 (per CISA KEV catalog version 2026.04.20). The four-day dry spell ended 2026-04-20 with a batch of 8 new entries, pushing April above the Q1 2026 monthly average (~24). Notable 2026-04-20 adds include a Cisco Catalyst SD-WAN Manager cluster (CVE-2026-20122, -20128, -20133) — all Cisco (Glasswing participant), all HTTP-adjacent management-plane bugs — plus CVE-2025-2749 (Kentico Xperience), CVE-2023-27351 (PaperCut NG/MF), CVE-2025-48700 (Zimbra), CVE-2025-32975 (Quest KACE SMA), and CVE-2024-27199 (JetBrains TeamCity). Earlier-April entries unchanged: CVE-2026-34197 (Apache ActiveMQ 2026-04-16), CVE-2026-32201 (SharePoint 0-day 2026-04-14), CVE-2026-21643 (Fortinet FortiClient EMS SQLi 2026-04-13), CVE-2026-34621 (Adobe Acrobat prototype pollution 2026-04-13), CVE-2026-1340 (Ivanti EPMM 2026-04-08), CVE-2026-35616 (Fortinet FortiClient EMS 2026-04-06), CVE-2026-3502 (TrueConf Client 2026-04-02), CVE-2026-5281 (Google Dawn 2026-04-01); plus 5 legacy re-adds on 2026-04-13/14 (CVE-2009-0238, CVE-2012-1854, CVE-2020-9715, CVE-2023-21529, CVE-2023-36424) and CVE-2025-60710 Microsoft Windows."
     }
   },
   "exploit_watch_list": {
