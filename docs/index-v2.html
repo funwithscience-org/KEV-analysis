@@ -300,20 +300,20 @@ A network-parsing HIGH (7.0-7.9) at 1.52% beats a non-parsing CRITICAL (9.0-9.9)
 
 <div class="translation"><strong>In plain English:</strong> 93% of "critical" vulnerabilities never get used in real attacks. The reasons are predictable -- and that predictability is what makes smart prioritization possible.</div>
 
-<p>Six patterns explain why the other 93% of critical/high CVEs don't get exploited:</p>
+<p>Six patterns explain why the other 93% of critical/high CVEs don't reach KEV — but some of these carry important caveats:</p>
 
 <p><strong>Firmware and hardware (3,739 NVD, 5 KEV, 0.13%).</strong> High CVSS because theoretical impact is complete system compromise, but exploitation requires physical access and specific device models.</p>
 
-<p><strong>Linux kernel local privilege escalation.</strong> Many kernel CVEs score critical but require local access. Attackers prioritize remote-first vectors for initial access.</p>
+<p><strong>Linux kernel local privilege escalation.</strong> Many kernel CVEs score critical but require local access. These aren't initial-access vectors — they're <em>land-and-expand</em> tools. An attacker who already has a foothold (via a network-parser bug, a phished browser, or stolen credentials) uses kernel privesc to escalate. That makes them dangerous, but in a fundamentally different way: they determine <strong>how bad</strong> a breach gets, not <strong>whether</strong> one starts. We cover this distinction in §9.</p>
 
 <p><strong>Consumer IoT and embedded devices.</strong> High CVSS, low strategic value. Nation-state actors focus on enterprise infrastructure.</p>
 
-<p><strong>Memory corruption complexity.</strong> Many heap overflow and <span class="glossary" data-tip="Use-after-free: a memory safety bug where code accesses memory that has already been freed">use-after-free</span> CVEs score 9.8 but require precise heap grooming, specific binary versions, and ASLR/DEP bypasses. Once a PoC drops publicly, weaponization can follow within hours -- but the complexity filters out independent discovery.</p>
+<p><strong>Memory corruption complexity — with a major exception.</strong> Server-side heap overflows and <span class="glossary" data-tip="Use-after-free: a memory safety bug where code accesses memory that has already been freed">use-after-free</span> bugs score 9.8 but require precise heap grooming, specific binary versions, and ASLR/DEP bypasses. The complexity genuinely filters out most opportunistic attackers. <strong>Browser UAF is the exception.</strong> Chrome and WebKit use-after-free bugs get weaponized within days — sometimes hours — by exploit brokers and state-sponsored actors. The difference is economics: a server-side UAF compromises one target at a time; a browser UAF delivered via phishing or watering-hole can reach millions. The browser exploit market is liquid enough that complexity isn't a barrier.</p>
 
 <p><strong>Non-Western ecosystem and niche products.</strong> Products with limited Western enterprise deployment accumulate NVD criticals but have minimal KEV representation.</p>
 
 <div class="callout callout-success">
-<strong>Implication:</strong> These patterns are predictable. If a CVE falls into one of these categories, the historical exploitation probability drops to near-zero. This isn't a reason to never patch -- it's a reason to deprioritize relative to the categories that actually get exploited.
+<strong>Implication:</strong> These patterns are predictable, but context-dependent. Server-side memory corruption really does stay unexploited most of the time. Browser memory corruption doesn't — it's one of the fastest-exploited categories in the dataset. And kernel privesc bugs aren't "safe to ignore" just because they're not initial access; they're the second half of the kill chain. The right question isn't "will this get exploited?" but "where does this sit in the attack sequence, and does my architecture already contain it?"
 </div>
 
 <!-- ========== 5. TIME-TO-EXPLOIT ========== -->
