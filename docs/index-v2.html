@@ -537,11 +537,28 @@ A network-parsing HIGH (7.0-7.9) at 1.52% beats a non-parsing CRITICAL (9.0-9.9)
 <strong>The shift from the old model:</strong> The old 72h/7d/30d SLA framework treated urgency as a function of CVSS severity and KEV presence. The new model treats urgency as a function of <em>attack surface structure</em> -- where the vulnerability sits in the parsing stack, not how scary its severity score is. This reduces emergency response from near-monthly (14 all-C/H events) to 2-4 genuinely dangerous events per year, while monthly container refresh controls the blast radius that CVSS actually measures well (local privilege escalation).
 </div>
 
+<h3>10a. The WAF Dividend</h3>
+
+<p>There's a useful byproduct of reducing emergency triggers to 2-4 per year: at that volume, <strong>targeted WAF rules become practical</strong>.</p>
+
+<p>At "all critical/high" scale — thousands of CVEs per year — maintaining custom WAF signatures is operationally impossible. Nobody writes and tests custom rules at that cadence. At "all network parsers" (14 triggers/year) it's theoretically possible but the rule diversity is enormous: DoS patterns look nothing like injection patterns look nothing like authentication bypasses. At NP+DI (2-4/year), you're writing a handful of targeted rules for the bug classes WAFs are specifically designed to catch.</p>
+
+<p>And this is where the "DI" half of the filter pays a second dividend. Direct injection attacks are <strong>structurally visible in the request</strong>: a <code>../</code> in a path parameter, a <code>'; DROP TABLE</code> in a query string, a <code>${7*7}</code> in a template field, a <code>; cat /etc/passwd</code> in a header value. WAF vendors have spent two decades refining signatures for exactly these patterns. When a new path-traversal CVE drops in Tomcat, a WAF rule that blocks <code>../</code> sequences in the relevant URL path is straightforward to write, test, and deploy — often buying days or weeks of protection while you prepare the actual rebuild.</p>
+
+<p>Contrast this with deserialization attacks, where the payload is typically an opaque serialized object blob (Java <code>ObjectInputStream</code>, Python <code>pickle</code>, PHP <code>unserialize</code>). A WAF would need to actually deserialize the payload to understand its intent — which is exactly the vulnerability. WAFs can flag known gadget chain byte signatures, but novel chains pass through because the malicious semantics are invisible at the HTTP layer. This is one reason the DI CWE set deliberately focuses on injection classes where the attack structure is visible in transit, not on deserialization (CWE-502), which is genuinely harder to mitigate at the edge.</p>
+
+<div class="callout callout-success">
+<strong>The practical upshot:</strong> When a Tier 1 trigger fires, your response isn't just "rebuild." It's "deploy a targeted WAF rule within hours for immediate mitigation, then rebuild on your timeline." The NP+DI filter gives you few enough events that maintaining those rules is realistic, and the DI bug classes are precisely the ones WAFs handle well.
+</div>
+
+<p><strong>A caveat:</strong> WAFs are not a substitute for patching. Determined attackers find bypass techniques — encoding tricks, edge cases, double-encoding — and WAF rules for a specific CVE are only as good as the researcher's understanding of the exploit path. The value is in raising the bar against <em>opportunistic and automated</em> exploitation, which is exactly what most KEV-listed activity actually is. The WAF buys time; the rebuild closes the hole.</p>
+
 <p><strong>For professionals who want a concrete starting checklist:</strong></p>
 <div class="callout callout-success">
 <strong>Use this tomorrow:</strong><br>
 &bull; Tag your dependency manifest with NP/non-NP for each library<br>
 &bull; Adopt the 3-tier model: emergency (NP+DI), monthly (container refresh), release cycle (everything else)<br>
+&bull; Pre-build WAF rule templates for common DI patterns (path traversal, SQLi, template injection, command injection) — when a Tier 1 trigger fires, adapt and deploy immediately<br>
 &bull; Set up OSV monitoring for your NP libraries -- OSV catches library vulns NVD misses<br>
 &bull; Subscribe to CISA KEV RSS as a safety net for anything the filter might miss<br>
 &bull; Track your filter's hit rate over 6 months -- it should produce zero misses<br>
@@ -553,9 +570,11 @@ A network-parsing HIGH (7.0-7.9) at 1.52% beats a non-parsing CRITICAL (9.0-9.9)
 
 <div class="translation"><strong>In plain English:</strong> "Our apps sit behind a reverse proxy" doesn't protect against application-layer exploits. Spring4Shell and Log4Shell both pass through proxies untouched.</div>
 
-<p>A common pushback: "Our apps sit behind a <span class="glossary" data-tip="A front-door server (like nginx or Apache) that sits between the internet and your application, forwarding traffic inward">reverse proxy</span>, so library vulnerabilities are mitigated." This is partially true for network-layer attacks but largely false for application-layer exploits. Spring4Shell and Log4Shell both pass through <code>mod_proxy</code> untouched -- the proxy doesn't parse the application-layer semantics of what it forwards. A <span class="glossary" data-tip="Web Application Firewall -- inspects HTTP traffic and blocks known attack patterns">WAF</span> with signatures helps for <em>known</em> exploits, but zero-days bypass WAFs by definition.</p>
+<p>A common pushback: "Our apps sit behind a <span class="glossary" data-tip="A front-door server (like nginx or Apache) that sits between the internet and your application, forwarding traffic inward">reverse proxy</span>, so library vulnerabilities are mitigated." This is partially true for network-layer attacks but largely false for application-layer exploits. Spring4Shell and Log4Shell both pass through <code>mod_proxy</code> untouched -- the proxy doesn't parse the application-layer semantics of what it forwards.</p>
 
-<p>This is a companion to the three-tier patching model: the proxy is a seatbelt, not an airbag. It constrains what the attacker can send to the parsing surface, but the NP+DI filter identifies when that parsing surface itself is compromised.</p>
+<p>A <span class="glossary" data-tip="Web Application Firewall -- inspects HTTP traffic and blocks known attack patterns">WAF</span> is a different story. As discussed in §10a, WAFs are genuinely effective against the DI attack classes — but they're a time-buying measure, not a permanent fix. A targeted WAF rule deployed hours after a CVE drops can block the known exploit path while you prepare your rebuild. The reverse proxy underneath, however, is just a pipe: it forwards whatever the WAF doesn't catch, and it doesn't understand what it's forwarding.</p>
+
+<p>This is a companion to the three-tier patching model: the proxy constrains what the attacker can send to the parsing surface, the WAF filters known attack patterns, and the NP+DI filter tells you when to actually rebuild. Each layer has a different job.</p>
 
 <details class="expandable">
 <summary>Reverse proxy defense-in-depth: what actually works (expand for guidance)</summary>
