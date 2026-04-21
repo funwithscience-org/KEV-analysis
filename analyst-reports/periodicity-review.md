@@ -282,4 +282,80 @@ cve-reference.html needs no changes.
 
 ---
 
-*End of review.*
+## 8. Second-Pass Notes (added 2026-04-21, later same-day)
+
+A re-read of the analysis and the earlier sections of this review surfaced six additional pushbacks and one missing comparison that the earlier review didn't fully develop. These are the things I would expect a hostile reviewer from a peer-research team to raise — not fatal, but each one should be addressed before the walkthrough rewrite lands.
+
+### 8.1 The comparison benchmark is missing
+
+The periodicity page compares NP+DI against **"rebuild on every C/H"** — a straw-man baseline that essentially no mature security team actually uses. The interesting comparison is against filters a CISO might plausibly already have in place: `CVSS ≥ 9.0 only`, `attack-vector:N + scope:changed`, `EPSS above 0.01`, or even `KEV-listed components only`. None of these alternative filters are applied to the same 129-CVE dataset for comparison. Without that, we can't tell whether NP+DI's 71–86% reduction represents real marginal value over the filters operators already use, or whether a CVSS-9-only filter would have produced similar numbers for free.
+
+The right version of the periodicity page would have a "filter comparison" table: same 129 CVEs, five or six filters applied, reduction rate and miss rate for each. I suspect NP+DI still wins on the trigger-precision axis, but the case is unmade.
+
+### 8.2 "Zero misses" is partly tautological
+
+The filter was designed with the full 12-month history already visible. The "zero misses in 12 months" claim is therefore a backtest on the data used to design the filter — the same kind of look-ahead bias that makes quant-trading strategies look great in-sample and then underperform live. The honest framing is **"the filter achieves zero misses on the dataset it was constructed from,"** which is weaker than "the filter has never been wrong." The earlier review (Section 1.4) makes this point gently; the walkthrough should make it loudly.
+
+**The corollary is that we should pre-register a forward-looking test now.** Concretely: commit in writing today that "no CVE currently classified as non-trigger on cve-reference.html will appear in CISA KEV by 2027-04-21; if any does, the filter missed." That's the out-of-sample test, and the current repo state is the pre-registration artifact. Without that commitment, any future write-up of "zero misses over 24 months" will rightly be dismissed as goalpost-moving.
+
+### 8.3 The filter mostly recapitulates institutional priors, not independent discovery
+
+The DI CWE set (78, 77, 22, 23, 36, 89, 94, 95, 918, 917, 1336, 116, 74, 75, 113, 93, 611, 91, 90, 79) is, essentially, the injection family as it already exists in CWE's taxonomy — the same family that has dominated KEV's library-level entries for a decade. Adding the NP step ("apply only to dependencies that parse network input") is intuitive and well-motivated by this project's own observational work, but it's not a data-driven discovery — it's an encoding of what the security community already knew and what Section 4 of index.html already argues.
+
+This is a feature, not a bug (the filter is defensible precisely because it's boring). But the walkthrough should frame it as **"we formalized what experienced practitioners already do informally,"** not as a novel predictive model. The marketing value is operationalization, not insight. Overclaiming would be easy and should be avoided.
+
+### 8.4 The April spike analysis has a circularity we haven't addressed
+
+The Spring manifest had 8 C/H events in April 2026 versus 14 in the prior 11 months, all in network parsers. The periodicity page (Section "April 2026 Spike") hints — correctly — that this is consistent with a Glasswing/Mythos-style automated scan of parsing surfaces producing coordinated disclosure batches (Tomcat cluster Apr 9, Thymeleaf cluster Apr 15).
+
+But if Mythos is producing the very bugs that are triggering the filter, then the claim "NP+DI triggers match what exploitation sources already know matters" has a feedback-loop risk: Mythos is scanning the parsing surface because the parsing surface is known to be the exploitation-likely one, producing CVEs in the parsing surface, which then validate a filter that flags the parsing surface. The analysis is still useful, but it measures the community's collective belief about what to scan for as much as it measures which bugs will be exploited.
+
+**Recommendation:** if the April spike content moves into the walkthrough, flag this explicitly. One sentence: "AI-assisted discovery is increasingly focused on the same attack surface this filter highlights, which validates the targeting but makes the filter's apparent accuracy partly self-fulfilling."
+
+### 8.5 The operational cost of Tier 2 is unquantified
+
+The three-tier model recommends **monthly container rebuild** for Tier 2 (blast-radius control). The periodicity page shows the *benefit* of monthly refresh (worst-case privesc drops from 21 to 5) but never the *cost*. A monthly container refresh cadence across a 1,000-container fleet is not free — it's base-image builds, regression testing, staged rollouts, incident response during any breakage window. For most mid-size engineering orgs, monthly container refresh is *aspirational*, not *actual*.
+
+The walkthrough's Section 10 (new outline) will be strengthened by a one-paragraph acknowledgment: **"The monthly cadence is operationally demanding; for teams currently on quarterly or yearly refresh cycles, the path to monthly is a separate engineering program, not a switch to flip."** Otherwise the model reads as an armchair recommendation.
+
+### 8.6 The Django honest-weak-case framing understates a real limitation
+
+The existing review (Section 1.2) argues the Django framing should flip — "Django is the worst case the filter handles, and it still delivers quarterly cadence." I want to push the opposite direction. Django's result is **4 genuine SQLi triggers in 12 months, all in the same component (the ORM)**. If any one of those SQLi CVEs turns out to share a root cause with the others (they appear to: all CWE-89, all in QuerySet/ORM internals), the "4 separate events" framing is misleading. It's really one persistent issue being patched iteratively. In which case the filter is either (a) correctly flagging the same class-of-bug four times, or (b) producing four trigger events that a single architectural fix would have eliminated.
+
+The walkthrough should note this. Not as a weakness of the filter, but as a pattern: **recurring NP+DI triggers in the same component are a signal that the component has a structural issue, not just individual bugs.** That's genuinely actionable insight for the CISO.
+
+### 8.7 Manifest selection is a bigger deal than acknowledged
+
+The three manifests were chosen by the analyst team as "representative" of their ecosystems. They are **not** empirically-validated representatives — no poll of real Spring Boot apps, no aggregation of real Node.js package-lock.json files. For the cross-ecosystem convergence claim ("14-14-14 across three stacks") to mean anything, we need some reason to believe the manifests resemble production deployments.
+
+One bounded test: **pull package.json / pom.xml / requirements.txt from a sample of 20-50 real open-source web apps** (there are plenty on GitHub), compute the median and IQR of NP-parser count and DI-trigger count, and check whether our three synthetic manifests fall inside that distribution. If they do, the convergence claim strengthens. If they don't, the 14-14-14 number is an artifact of manifest construction and should be demoted.
+
+This is a ~1 day of analyst work and would materially strengthen the paper. It's the single highest-leverage thing we could add to the periodicity analysis before publishing to a wider audience.
+
+### 8.8 Net summary for second-pass
+
+None of these change the primary recommendations in Sections 1–7. The review's structural advice (restructure index.html around the prescriptive filter, replace Section 9's CVSS-tier SLAs, add periodicity-filter section to the top of the dashboard) stands. But two of the six points above should be reflected in the walkthrough rewrite:
+
+- **Add a "what would other filters have produced" comparison section** to the new Section 9 (External Validation). CVSS-9-only, EPSS-threshold, KEV-listed-only. Same 129 CVEs. Shows NP+DI's marginal value explicitly.
+- **Pre-register the forward-looking test in writing** in the new Section 12 (Caveats). Without it, the "zero-miss" narrative has a short shelf-life.
+
+The other four (#8.3 priors, #8.4 circularity, #8.5 Tier 2 cost, #8.6 Django structural issue, #8.7 manifest validation) are nice-to-haves that would each add one paragraph.
+
+---
+
+## 9. Daily Scan Addendum — 2026-04-21 (later same-day)
+
+Already covered in the main daily analyst report (`analyst-reports/2026-04-21.md`) and the daily-scan section above (Section 6). Re-verified at report-push time:
+
+- **CISA KEV:** no additions since the 8-CVE batch on 2026-04-20. Catalog total 1,577. HTTP-parsing-adjacent share of April entries remains ~65%.
+- **NVD April MTD:** 3,885 through day 21 (per refresh agent), consistent with ~185/day pace and a ~5,550 April extrapolation.
+- **Glasswing attribution count:** 40, unchanged. Three Claude-in-credit-line CVEs (CVE-2026-4747 FreeBSD NFS, CVE-2026-5194 wolfSSL, CVE-2026-5588 Bouncy Castle), none in KEV.
+- **Probable-participant self-scan table:** unchanged. Cisco SD-WAN Manager triplet disqualifies (pre-disclosure exploitation). OpenClaw cluster disqualifies (not a Glasswing participant product).
+- **Watch list:** no entries moved to confirmed-KEV today. Marimo (CVE-2026-39987) now 10 days post-exploitation-observation with no KEV add — well within the 46-day Cisco-style gap established yesterday.
+- **Thesis-challenge counter-examples:** still zero library/framework CVEs reaching KEV via non-HTTP vectors. Closest outstanding candidate is CVE-2026-33827 (Windows TCP/IP RCE) — 6 days post-disclosure, still not in KEV.
+
+**Nothing today contradicts the periodicity review above.** The day's data (batch of 8 KEV entries, all HTTP-parsing-adjacent) is consistent with the thesis the periodicity filter is built on. No config.json changes this run.
+
+---
+
+*End of review (second-pass complete).*
