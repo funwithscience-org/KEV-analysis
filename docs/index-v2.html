@@ -475,7 +475,7 @@ A network-parsing HIGH (7.0-7.9) at 1.52% beats a non-parsing CRITICAL (9.0-9.9)
 
 <div class="chart-wrap">
 <h4>OS Container Privesc Accumulation vs. Spring App Triggers</h4>
-<canvas id="chainingChart" height="120"></canvas>
+<canvas id="chainingChart" height="180"></canvas>
 </div>
 
 <p>At the first Spring trigger (Oct 27), an attacker who gets initial access has 11 local privesc CVEs to chain. By the April triggers, the container has 21 privesc paths and hasn't been patched in nearly a year. Monthly container refresh drops the worst-case privesc exposure from 21 CVEs to 5 -- a 76% reduction.</p>
@@ -958,7 +958,7 @@ new Chart(document.getElementById('epssChart'), {
     },
     options: {
         scales: {
-            y:{beginAtZero:true,title:{display:true,text:'Cumulative CVEs'}},
+            y:{beginAtZero:true,suggestedMax:75,title:{display:true,text:'Cumulative CVEs'}},
             x:{grid:{display:false}}
         },
         plugins:{
