@@ -272,9 +272,9 @@ details.expandable .detail-content{padding:16px 20px}
 A network-parsing HIGH (7.0-7.9) at 1.52% beats a non-parsing CRITICAL (9.0-9.9) at 0.95%. <strong>CVSS severity alone is a worse triage signal than "does it parse untrusted network input?"</strong>
 </div>
 
-<h3 id="libraries">3c. Libraries: NVD Undercounts, OSV is the Real Denominator</h3>
+<h3 id="libraries">3c. Libraries: The Denominator Makes the Difference</h3>
 
-<p>NVD tracks roughly 345 critical/high library CVEs for our period, but that's a massive undercount. <strong><a href="https://osv.dev" target="_blank">OSV</a></strong> tracks <strong>770 critical/high vulnerabilities across just 177 popular packages</strong> -- more than double NVD's total. Across the five major ecosystems (npm, PyPI, Maven, Go, RubyGems), OSV lists roughly 247,000 advisories total, with an estimated 93,000+ at critical/high severity. Only <strong>21 library entries appear in KEV</strong> -- that's 1.3% of confirmed exploits, and an exploitation rate well below 0.1% against the true vulnerability population.</p>
+<p>NVD tracks roughly 345 critical/high library CVEs for our period -- and at that denominator, the 21 library KEV entries imply a 2.3–6.1% exploitation rate. Sounds significant. But NVD massively undercounts libraries. <strong><a href="https://osv.dev" target="_blank">OSV</a></strong> tracks <strong>770 critical/high vulnerabilities across just 177 popular packages</strong> alone -- more than double NVD's total. Across the five major ecosystems (npm, PyPI, Maven, Go, RubyGems), OSV lists roughly 247,000 advisories total, with an estimated 93,000+ at critical/high severity. Against that real denominator, the exploitation rate drops to well below 0.1%. Your scanner flags thousands of library CVEs per year; virtually none of them will ever be exploited in the wild.</p>
 
 <p>Of those 177 popular packages, <strong>81 (46%) have zero critical/high vulnerabilities</strong> -- and 70 of those 81 are non-network-parser libraries. The median network-parser library has 3 critical/high advisories; the median non-network-parser has <strong>zero</strong>. The top 10 most-vulnerable packages hold 62% of all critical/high advisories, and 6 of 10 are network parsers.</p>
 
@@ -292,7 +292,7 @@ A network-parsing HIGH (7.0-7.9) at 1.52% beats a non-parsing CRITICAL (9.0-9.9)
 </div>
 
 <div class="callout callout-warning">
-<strong>The denominator matters:</strong> NVD suggests a 2.3-6.1% library exploitation rate. OSV reveals the true denominator is orders of magnitude larger: 21 KEV entries against tens of thousands of critical/high library vulnerabilities. Your scanner flags thousands of library CVEs per year. Only a handful will ever matter, and the network-parser signal is what separates them.
+<strong>The math that matters:</strong> At NVD's denominator (345 C/H library CVEs), 21 KEV entries looks like a 2.3–6.1% exploitation rate — enough to worry about. At OSV's denominator (770 C/H across 177 packages, ~93,000+ ecosystem-wide), the same 21 KEV entries are a rounding error. The library exploitation rate isn't "low" — it's <em>insignificant</em>. The network-parser signal is what separates the handful that matter from the thousands that don't.
 </div>
 
 <!-- ========== 4. SURVIVORSHIP ========== -->
@@ -820,28 +820,29 @@ new Chart(document.getElementById('docHttpChart'),{
     options:{scales:{y:{beginAtZero:true,title:{display:true,text:'Exploitation Rate %'}}},plugins:{legend:{position:'top'}}}
 });
 
-// Library distribution chart
+// Library vulnerability concentration: NP vs non-NP
 (function(){
-  const npData=[2,7,8,8,4,5,3,4,2,2,2,1,1,1,0,1,0,0,0,0,1,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1];
-  const otherData=[70,14,9,5,4,3,2,1,1,1,1,1,0,0,1];
-  const maxLen=Math.max(npData.length,otherData.length);
-  const npCounts=[],otherCounts=[],bins=[];
-  for(let i=0;i<maxLen;i++){bins.push(i.toString());npCounts.push(npData[i]||0);otherCounts.push(otherData[i]||0)}
+  const buckets=['Zero','1–3','4–10','11+'];
+  const npPct=[4,43,41,13];    // 54 network-parser packages
+  const nonNpPct=[62,25,12,2]; // 113 non-parser packages
   new Chart(document.getElementById('docLibDistChart'),{
     type:'bar',
     data:{
-      labels:bins,
+      labels:buckets,
       datasets:[
-        {label:'Network-parser (63 packages)',data:npCounts,backgroundColor:'#6366f1',borderRadius:3},
-        {label:'Non-parser (113 packages)',data:otherCounts,backgroundColor:'#94a3b8',borderRadius:3}
+        {label:'Network-parser packages (54)',data:npPct,backgroundColor:'#6366f1',borderRadius:4},
+        {label:'Non-parser packages (113)',data:nonNpPct,backgroundColor:'#94a3b8',borderRadius:4}
       ]
     },
     options:{
       scales:{
-        x:{title:{display:true,text:'Critical/High vulnerabilities per package'},stacked:false},
-        y:{title:{display:true,text:'Number of packages'},beginAtZero:true}
+        x:{title:{display:true,text:'Critical/High CVEs per package'}},
+        y:{title:{display:true,text:'% of packages in category'},beginAtZero:true,max:70,ticks:{callback:v=>v+'%'}}
       },
-      plugins:{legend:{position:'top'}}
+      plugins:{
+        legend:{position:'top'},
+        tooltip:{callbacks:{label:ctx=>ctx.dataset.label.split('(')[0].trim()+': '+ctx.parsed.y+'%'}}
+      }
     }
   });
 })();
