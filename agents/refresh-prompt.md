@@ -156,15 +156,45 @@ For each new advisory found:
 Do NOT auto-add to the probable_participant_cves table — flag in the tracking JSON and let the analyst agent make the call.
 
 ### 14. NP+DI Candidate Scanning
-When processing new NVD CVEs (from step 1) and new KEV entries (from step 2), also flag any that match the NP+DI filter:
+Scan THREE sources for new vulnerabilities matching the NP+DI filter:
+
+**Source 1: NVD** (from step 1) — new CVEs published in the last 24h with CVSS 7.0+
+**Source 2: CISA KEV** (from step 2) — new KEV entries added in the last 24h
+**Source 3: OSV.dev** — query the OSV API for new critical/high advisories in network-parser packages from the last 24-48h. This is critical because OSV catches library vulnerabilities NVD misses entirely (our analysis showed 770 C/H vs NVD's 345 for the same package set).
+
+OSV API query for recent advisories:
+```
+POST https://api.osv.dev/v1/query
+{
+  "package": {"name": "<package>", "ecosystem": "<ecosystem>"},
+  "version": "<latest_version>"
+}
+```
+
+Check at minimum these high-priority NP packages across ecosystems:
+- **Maven**: spring-webmvc, spring-boot, tomcat-embed-core, jackson-databind, jetty-server, undertow-core
+- **npm**: express, next, fastify, axios, socket.io, graphql
+- **PyPI**: django, flask, tornado, twisted, urllib3, requests, gunicorn
+- **Go**: golang.org/x/net, golang.org/x/crypto, fiber, gin-gonic/gin
+- **RubyGems**: rack, actionpack, puma, nokogiri
+- **crates.io**: hyper, actix-web, reqwest, rustls
+
+For each, query OSV and filter results to advisories with:
+- Severity: Critical or High (CVSS 7.0+ or ecosystem-equivalent)
+- Published date: within last 48 hours
+- Not already in NVD results from step 1
+
+**NP+DI filter criteria** (apply to all three sources):
 - **Network Parser**: vulnerable component parses untrusted network input (HTTP, TLS, DNS, SMTP, template expressions, auth tokens)
 - **Direct Injection CWE**: CWE-78, -77, -22, -23, -36, -94, -95, -89, -918, -917, -1336, -116, -74, -75, -113, -93, -611, -91, -90, -79
 
 For flagged CVEs, record in the tracking JSON under `np_di_candidates`:
 ```json
 {
-  "cve": "CVE-YYYY-NNNNN",
+  "cve": "CVE-YYYY-NNNNN or GHSA-xxxx-xxxx-xxxx",
+  "source": "nvd|kev|osv",
   "product": "...",
+  "ecosystem": "maven|npm|pypi|go|rubygems|crates.io|null",
   "cvss": N.N,
   "cwe": "CWE-XX",
   "np_component": "...",
@@ -176,6 +206,8 @@ For flagged CVEs, record in the tracking JSON under `np_di_candidates`:
 ```
 
 The analyst agent (runs 1 hour later) will review these candidates and decide whether to add them to the watch list.
+
+**Rate limiting for OSV**: The OSV API is free but please pace queries at ~1 per second. Batch the package list rather than querying all at once.
 
 ---
 
@@ -294,11 +326,12 @@ For the current month and the next month, also track weekly CVE counts to give m
 ## EXECUTION ORDER
 To manage rate limits and prioritize the most important data:
 1. **NVD + KEV** (steps 1-2) — core data, do first
-2. **Glasswing search** (step 3) — depends on web search, may be slow
-3. **Exploit intelligence** (steps 8-11) — iterate through watch list, one CVE at a time, with 2-3 second pauses between web searches to avoid rate limits
-4. **Vendor advisories** (step 13) — batch of web searches, pace them
-5. **Google News** (step 12) — 7 search queries, pace them
-6. **NP+DI candidate scan** (step 14) — analyze data already collected in steps 1-2
-7. **Patch Tuesday + RHEL** (steps 4-5) — check once, quick
-8. **Projections + timeline** (steps 6-7) — compute from collected data
-9. **Write tracking JSON, update HTML, commit, push**
+2. **OSV scan** (step 14, source 3) — query OSV API for recent C/H advisories in NP packages (~30 queries at 1/sec)
+3. **Glasswing search** (step 3) — depends on web search, may be slow
+4. **Exploit intelligence** (steps 8-11) — iterate through watch list, one CVE at a time, with 2-3 second pauses between web searches to avoid rate limits
+5. **Vendor advisories** (step 13) — batch of web searches, pace them
+6. **Google News** (step 12) — 7 search queries, pace them
+7. **NP+DI candidate scan** (step 14, filter pass) — apply NP+DI filter to NVD + KEV + OSV results collected above
+8. **Patch Tuesday + RHEL** (steps 4-5) — check once, quick
+9. **Projections + timeline** (steps 6-7) — compute from collected data
+10. **Write tracking JSON, update HTML, commit, push**

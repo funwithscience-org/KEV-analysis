@@ -16,7 +16,9 @@
     "jgamblin_monthly": "https://raw.githubusercontent.com/jgamblin/monthlyCVEStats/main/data/monthly.json",
     "exploitdb_search": "https://www.exploit-db.com/search?cve=",
     "github_poc_index": "https://github.com/nomi-sec/PoC-in-GitHub",
-    "metasploit_modules": "https://github.com/rapid7/metasploit-framework"
+    "metasploit_modules": "https://github.com/rapid7/metasploit-framework",
+    "osv_api": "https://api.osv.dev/v1/query",
+    "osv_vulns": "https://api.osv.dev/v1/vulns"
   },
   "glasswing_targets": {
     "known_products": ["Mozilla Firefox", "wolfSSL", "F5 NGINX Plus", "FreeBSD", "OpenSSL"],
