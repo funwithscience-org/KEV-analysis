@@ -540,35 +540,49 @@ details summary:hover{color:var(--cyan)}
 <h3>1. EPSS — Exploit Prediction Scoring</h3>
 
 <div class="card">
-<p><a href="https://www.first.org/epss/" target="_blank" rel="noopener" style="color:var(--cyan)">EPSS</a> (FIRST.org) assigns a probability-of-exploitation-within-30-days score to every CVE. It incorporates real-world signals — exploit code existence, threat intel feeds, social media chatter — on top of CVE metadata like CWE and attack vector. Scores range from 0 to 1; higher means more likely to be exploited.</p>
-</div>
-
-<div class="hero-stat">
-<div class="stat red"><div class="number">3.3x</div><div class="label">Trigger mean EPSS<br>vs. non-trigger (app layer)</div></div>
-<div class="stat accent"><div class="number">2.5x</div><div class="label">Trigger median EPSS<br>vs. non-trigger (app layer)</div></div>
-<div class="stat green"><div class="number">75%</div><div class="label">Triggers above<br>non-trigger median</div></div>
+<p><a href="https://www.first.org/epss/" target="_blank" rel="noopener" style="color:var(--cyan)">EPSS</a> (FIRST.org) assigns a probability-of-exploitation-within-30-days score to every CVE, incorporating real-world signals — exploit code existence, threat intel feeds, social media chatter — on top of CWE and attack vector metadata. The question isn't whether EPSS scores correlate with triggers (they do, 3.3x). The question is: <strong>if you used EPSS instead of NP+DI, how many times would you rebuild, and would you catch more?</strong></p>
 </div>
 
 <div class="card">
-<p><strong>App-layer comparison</strong> (60 CVEs across Spring, Node, Django):</p>
+<p><strong>Operational comparison</strong> — real-world Java manifest, 160 C/H CVEs, 10 confirmed exploited (KEV or Metasploit), 7-day patch-event window:</p>
 <table>
-<thead><tr><th>Group</th><th>n</th><th>Mean EPSS</th><th>Median EPSS</th><th>Max EPSS</th></tr></thead>
+<thead><tr><th>Model</th><th>CVEs flagged</th><th>Patch events</th><th>Exploited caught</th><th>Exploited missed</th></tr></thead>
 <tbody>
-<tr><td style="color:var(--red);font-weight:700">NP+DI Triggers</td><td>16</td><td>0.00389</td><td>0.00130</td><td>0.04424</td></tr>
-<tr><td>Non-triggers</td><td>44</td><td>0.00118</td><td>0.00053</td><td>0.00759</td></tr>
+<tr style="background:#fef2f2"><td>All C/H (baseline)</td><td>160</td><td>66</td><td>10/10</td><td>0</td></tr>
+<tr><td>EPSS ≥ 0.10</td><td>59</td><td>33</td><td>10/10</td><td>0</td></tr>
+<tr><td>EPSS ≥ 0.30</td><td>42</td><td>24</td><td>10/10</td><td>0</td></tr>
+<tr><td>EPSS ≥ 0.50</td><td>32</td><td>21</td><td>10/10</td><td>0</td></tr>
+<tr style="background:#f0f9ff"><td><strong>NP+DI</strong></td><td><strong>25</strong></td><td><strong>19</strong></td><td><strong>5/10</strong></td><td><strong>5</strong></td></tr>
+<tr><td>EPSS ≥ 0.70</td><td>22</td><td>16</td><td>9/10</td><td>1</td></tr>
+<tr><td>EPSS ≥ 0.90</td><td>14</td><td>13</td><td>9/10</td><td>1</td></tr>
 </tbody>
 </table>
-<p style="margin-top:8px">Triggers score 3.3x higher (mean) and 2.5x higher (median) than non-triggers. 75% of trigger CVEs score above the non-trigger median. A rank-sum test confirms triggers cluster toward the top of the distribution.</p>
-<p style="margin-top:8px"><strong>Per-ecosystem:</strong> Django drives the strongest signal — CVE-2026-1207 (Django ORM SQLi) scores 0.044 (89th percentile globally). Node.js triggers score 1.8x vs non-triggers. Spring triggers are only slightly above Spring non-triggers — the weakest result.</p>
+<p style="margin-top:8px">At roughly the same cost (~19–21 patch events), NP+DI catches 5 and EPSS ≥ 0.50 catches all 10. On pure recall EPSS wins. But the two filters are doing different things, and the misses tell the real story.</p>
 </div>
 
 <div class="card">
-<canvas id="epssChart" height="90"></canvas>
+<p><strong>What NP+DI misses (5 CVEs):</strong></p>
+<table style="font-size:.88rem">
+<thead><tr><th>CVE</th><th>Library</th><th>EPSS</th><th>Why NP+DI missed</th></tr></thead>
+<tbody>
+<tr><td><code>CVE-2020-1938</code></td><td>Tomcat (Ghostcat)</td><td>0.945</td><td>CWE-269 misclass — should be CWE-22</td></tr>
+<tr><td><code>CVE-2025-24813</code></td><td>Tomcat</td><td>0.942</td><td>CWE-502 only — deser via HTTP PUT, DI boundary grey area</td></tr>
+<tr><td><code>CVE-2026-34197</code></td><td>ActiveMQ</td><td>0.596</td><td>CWE-20 generic — should be CWE-94</td></tr>
+<tr><td><code>CVE-2022-42889</code></td><td>commons-text</td><td>0.943</td><td>Not a network parser — text interpolation library</td></tr>
+<tr><td><code>CVE-2022-1471</code></td><td>SnakeYAML</td><td>0.938</td><td>NP but CWE-502 deser — not direct injection</td></tr>
+</tbody>
+</table>
+<p style="margin-top:8px">Three are CWE misclassification on network parsers (the AI safety-net would catch these). One is a non-network-parser library (commons-text). One is deserialization that NP+DI deliberately filters. EPSS catches all five because it doesn't care about CWE accuracy — it reads the exploitation signal directly.</p>
+</div>
+
+<div class="card">
+<p><strong>What EPSS ≥ 0.50 over-fires on (22 non-exploited CVEs):</strong></p>
+<p style="margin-top:8px">Half (10/22) are <strong>jackson-databind deserialization chains</strong> (CWE-502) — the exact class NP+DI deliberately filters because they require gadget-chain context an attacker can't reach from the network. Another 3 are DoS/resource exhaustion. The rest are auth bypasses, open redirects, and a Tomcat TOCTOU race. These are real vulnerabilities, but they ride the normal patch cycle — none of them ended up in KEV or got a Metasploit module.</p>
 </div>
 
 <div class="callout callout-warning">
-<strong>The circularity caveat.</strong> EPSS uses CWE type and attack vector as model features — the same inputs our filter uses. Some of the 3.3x ratio is EPSS agreeing with itself. But EPSS also incorporates real-world exploitation signals (social media chatter, public exploit code, threat intel feeds) that our filter doesn't look at. The overlap isn't total — if EPSS only used the same features, the ratio would be higher. The moderate separation (3.3x, not 10x) is consistent with our filter capturing a real signal that EPSS partially corroborates.
-<p style="margin-top:8px"><strong>The OS layer complication.</strong> The highest EPSS score in the entire dataset is a zlib CVE at 0.77 (99th percentile) — a non-trigger in the OS layer. Ten OS CVEs outscore the app-trigger mean. EPSS scores these based on the component's global exposure (zlib is in everything), not whether they're reachable in a specific deployment. This is the gap between "exploitable somewhere" and "exploitable in my container running a Spring app."</p>
+<strong>NP+DI and EPSS are complementary, not competing.</strong> NP+DI is a structural filter — it asks "can an attacker reach this from the network on day zero?" EPSS is a behavioral filter — it asks "is anyone actually targeting this?" NP+DI catches threats before EPSS has signal (9 NP+DI triggers score below EPSS 0.10, including recent Tomcat path traversals and Hazelcast SQLi). EPSS catches things with broken CWE metadata that NP+DI can't see through.
+<p style="margin-top:8px">The practical answer may be the union: NP+DI as the structural baseline (fires immediately on disclosure), with EPSS ≥ 0.50 as a second-look for anything the filter skipped. That costs ~28 patch events over 7 years (3.5/year) and catches all 10 exploited CVEs. Whether the extra 9 events over NP+DI alone are worth it depends on your rebuild cost.</p>
 </div>
 
 <h3>2. CISA KEV — Known Exploited Vulnerabilities</h3>
@@ -635,7 +649,7 @@ details summary:hover{color:var(--cyan)}
 <table>
 <thead><tr><th>Source</th><th>What It Measures</th><th>Trigger Signal</th><th>Non-Trigger Signal</th><th>Missed Anything?</th></tr></thead>
 <tbody>
-<tr><td><strong>EPSS</strong></td><td>Exploitation probability</td><td>3.3x mean, 2.5x median (app layer)</td><td>OS layer scores high on global exposure</td><td style="color:var(--green);font-weight:700">No</td></tr>
+<tr><td><strong>EPSS</strong></td><td>Exploitation probability</td><td>EPSS ≥ 0.50 ≈ 21 events, catches 10/10</td><td>NP+DI catches 9 CVEs below EPSS 0.10</td><td style="color:var(--amber);font-weight:700">Complementary</td></tr>
 <tr><td><strong>CISA KEV</strong></td><td>Confirmed exploitation</td><td>0 hits</td><td>1 hit (zlib — different deployment context)</td><td style="color:var(--green);font-weight:700">No</td></tr>
 <tr><td><strong>ExploitDB</strong></td><td>Public exploit code</td><td>1 hit (Django SQLi)</td><td>1 hit (sqlite — local access only)</td><td style="color:var(--green);font-weight:700">No</td></tr>
 <tr><td><strong>Nuclei</strong></td><td>Active scanning</td><td>1 template (Django SQLi)</td><td>0 app-layer templates</td><td style="color:var(--green);font-weight:700">No</td></tr>
@@ -645,11 +659,9 @@ details summary:hover{color:var(--cyan)}
 </div>
 
 <div class="callout callout-good">
-<strong>Zero misses is the metric that matters.</strong>
-<p style="margin-top:8px">Across every validation source, the same pattern holds: <strong>nothing the filter deprioritized accumulated meaningful exploitation evidence.</strong> The 113 non-trigger CVEs have zero KEV entries, zero Metasploit modules, and one ExploitDB entry (a sqlite heap overflow requiring local access — exactly the deployment context the filter correctly deprioritizes). The filter isn't just reducing noise, it's reducing noise without ever being wrong.</p>
-<p style="margin-top:8px">Meanwhile, the triggers are starting to light up. CVE-2026-1207 (Django SQLi) has converged across three independent sources: EPSS top trigger score (89th percentile), ExploitDB exploit code, and active Nuclei scanning template. The Tomcat and Thymeleaf triggers match the exact vulnerability classes (path traversal, SSTI) that dominate KEV's historical library-level entries. The exploitation ecosystem is catching up to what the filter already flagged. <a href="cve-reference.html" style="color:var(--cyan)">Every CVE's classification and reasoning is auditable →</a></p>
-<p style="margin-top:8px">The one CVE that lit up every exploitation source (CVE-2025-14847, zlib — KEV, Metasploit, EPSS 0.77) is a non-trigger, but it's exploited through MongoDB's wire protocol, not through the Spring/Node/Django apps running on our container. <strong>Deployment context matters:</strong> the filter correctly treats it as non-triggering for these applications even though it's genuinely dangerous elsewhere. That's not a miss — that's the filter working as designed.</p>
-<p style="margin-top:8px"><strong>The remaining question is time.</strong> Twelve months of "zero misses" is strong but not conclusive. Some of the 113 skipped CVEs might still get exploited. A 24-month retest with a wider manifest set would either strengthen the case or surface the first miss — and either outcome would be useful. The goal isn't to be exactly right; it's to be slightly conservative and never wrong. So far, so good.</p>
+<strong>The 12-month synthetic stacks have zero misses.</strong> Across every validation source, nothing the filter deprioritized in the 12-month window accumulated meaningful exploitation evidence. The 113 non-trigger CVEs have zero KEV entries, zero Metasploit modules, and one ExploitDB entry (a sqlite heap overflow requiring local access). CVE-2026-1207 (Django SQLi) has converged across three independent sources: EPSS top trigger score (89th percentile), ExploitDB exploit code, and active Nuclei scanning template. <a href="cve-reference.html" style="color:var(--cyan)">Every CVE's classification and reasoning is auditable →</a>
+<p style="margin-top:8px"><strong>The 7-year real manifest tells a more honest story:</strong> NP+DI catches 5 of 10 confirmed-exploited CVEs. The 5 misses are 3 CWE misclassifications on network parsers, 1 non-network-parser library (commons-text), and 1 deliberate deserialization exclusion (SnakeYAML). EPSS ≥ 0.50 catches all 10 at roughly the same patch-event cost (~21 vs ~19). The two filters are complementary — NP+DI fires immediately on disclosure before EPSS has signal; EPSS catches what broken CWE metadata hides from NP+DI.</p>
+<p style="margin-top:8px">The one CVE that lit up every exploitation source in the 12-month window (CVE-2025-14847, zlib — KEV, Metasploit, EPSS 0.77) is a non-trigger, exploited through MongoDB's wire protocol, not through the Spring/Node/Django apps. <strong>Deployment context matters:</strong> the filter correctly treats it as non-triggering for these applications even though it's genuinely dangerous elsewhere.</p>
 </div>
 
 <!-- ═══════════════════════════════════════════════════════════ -->
@@ -664,7 +676,7 @@ details summary:hover{color:var(--cyan)}
 <p style="margin-top:4px">&bull; <span class="fw-badge fw-django">Django</span> 4 events, quarterly cadence, 71% reduction. Triggers: all Django ORM SQL injection.</p>
 <p style="margin-top:4px">&bull; <span class="fw-badge fw-netty">Netty</span> 1 event, 360 days of silence, 67% reduction. Trigger: Netty HTTP request smuggling (CWE-444). Without the CWE-444 addition, this stack would have had zero triggers.</p>
 <p style="margin-top:12px"><strong>The OS container layer produced zero NP+DI events in 12 months</strong> — confirming that the app layer drives emergency rebuild cadence, not the base image. But the OS layer isn't free: 21 LOCAL privesc CVEs accumulated over the year. Monthly container refresh keeps that exposure at 5 instead of 21, reducing blast radius by 76% without requiring emergency response.</p>
-<p style="margin-top:12px">Everything else (Multer DoS, urllib3 decompression bombs, Pillow buffer overflows, Tomcat info leaks, Fastify validation bypasses) rides the normal 30-day release cycle and gets swept up automatically. <strong>Zero of the 34 skipped app-layer events appeared in KEV.</strong> External validation via EPSS shows triggers score 3.3x higher on exploitation probability than non-triggers at the app layer, with the Django SQLi CVEs accumulating the strongest signal across all sources (EPSS, ExploitDB, Nuclei).</p>
+<p style="margin-top:12px">Everything else (Multer DoS, urllib3 decompression bombs, Pillow buffer overflows, Tomcat info leaks, Fastify validation bypasses) rides the normal 30-day release cycle and gets swept up automatically. <strong>Zero of the 34 skipped app-layer events appeared in KEV.</strong> Over the 7-year real manifest, NP+DI and EPSS ≥ 0.50 produce similar patch-event counts (~19 vs ~21) but catch different things — NP+DI fires on day zero before exploitation signal builds; EPSS catches CWE-misclassified misses. The practical model may be NP+DI as the structural baseline with EPSS as a second-look safety net.</p>
 <p style="margin-top:12px">The result is a three-tier model: emergency response for app-layer NP+DI (1-4 times/year), monthly cadence for container base images (blast radius control), and ride-the-cycle for everything else. The filter preserves the "seatbelt not airbag" principle — you still patch everything on a regular cycle, but you stop treating every C/H as a fire drill. The <a href="cve-reference.html" style="color:var(--cyan)">full CVE reference list</a> is available for independent validation of every classification.</p>
 </div>
 
@@ -819,32 +831,6 @@ new Chart(document.getElementById('realManifestChart'), {
         plugins:{
             legend:{position:'top',labels:{color:'#334155',boxWidth:12}},
             title:{display:true,text:'Real-World Java Manifest — Quarterly C/H Events (2018–2026)',color:'#0ea5e9',font:{size:14}}
-        }
-    }
-});
-
-// EPSS: Trigger vs Non-trigger comparison (app-layer only)
-new Chart(document.getElementById('epssChart'), {
-    type: 'bar',
-    data: {
-        labels: ['Spring\nTriggers','Spring\nNon-trig','Node.js\nTriggers','Node.js\nNon-trig','Django\nTriggers','Django\nNon-trig','OS Container\nNon-trig'],
-        datasets: [{
-            label: 'Mean EPSS score',
-            data: [0.00128, 0.00211, 0.00147, 0.00083, 0.00945, 0.00043, 0.01312],
-            backgroundColor: [C.spring,'#475569',C.node,'#475569',C.django,'#475569','#475569'],
-            borderRadius: 4,
-        }]
-    },
-    options: {
-        scales: {
-            y:{beginAtZero:true,title:{display:true,text:'Mean EPSS Score',color:'#64748b'},grid:{color:'rgba(226,232,240,.6)'},
-              ticks:{callback:function(v){return v.toFixed(4)}}},
-            x:{grid:{display:false},ticks:{font:{size:9}}}
-        },
-        plugins:{
-            legend:{display:false},
-            title:{display:true,text:'EPSS Exploitation Probability — Triggers vs Non-Triggers by Ecosystem',color:'#334155'},
-            tooltip:{callbacks:{label:function(ctx){return 'EPSS: '+ctx.raw.toFixed(5)}}}
         }
     }
 });
