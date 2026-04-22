@@ -666,8 +666,18 @@ new Chart(document.getElementById('liftChart'), {
             borderRadius: 4
         }]
     },
-    options: { scales:{y:{beginAtZero:true,ticks:{callback:v=>v+'×'}}}, plugins:{legend:{display:false}} }
+    options: { scales:{y:{beginAtZero:true,ticks:{callback:v=>v+'×'}}}, plugins:{legend:{display:false}},
+    },
 });
+// Lift chart color legend
+(function(){
+  const el = document.getElementById('liftChart');
+  if(!el) return;
+  const leg = document.createElement('div');
+  leg.style.cssText = 'text-align:center;font-size:.78rem;color:#94a3b8;margin-top:6px';
+  leg.innerHTML = '<span style="display:inline-block;width:10px;height:10px;background:'+C.red+';border-radius:2px;margin-right:3px"></span>≥ 5× &nbsp; <span style="display:inline-block;width:10px;height:10px;background:'+C.amber+';border-radius:2px;margin-right:3px"></span>3–5× &nbsp; <span style="display:inline-block;width:10px;height:10px;background:'+C.green+';border-radius:2px;margin-right:3px"></span>< 3×';
+  el.parentNode.appendChild(leg);
+})();
 
 // 5. TTE chart
 new Chart(document.getElementById('tteChart'), {
