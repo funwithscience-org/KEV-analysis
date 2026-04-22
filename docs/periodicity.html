@@ -106,7 +106,7 @@ details summary:hover{color:var(--cyan)}
 </div>
 <div class="stat green">
 <div class="number">0</div>
-<div class="label">Skipped events that<br>later appeared in KEV</div>
+<div class="label">Exploited CVEs missed<br>by filter logic*</div>
 </div>
 <div class="stat" style="border-color:var(--cyan)">
 <div class="number" style="color:var(--cyan)"><a href="cve-reference.html" style="color:var(--cyan);text-decoration:none">129</a></div>
@@ -115,7 +115,8 @@ details summary:hover{color:var(--cyan)}
 </div>
 
 <div class="callout callout-finding">
-<strong>The filter works across ecosystems.</strong> The original three stacks each produce 14 distinct all-C/H trigger dates — you'd rebuild roughly every 3 weeks under the old model. Under NP+DI, Spring and Node.js drop to 2 events each (85–86%), Django to 4 (71%). Adding a Netty microservice stack (32 packages, 20 NP) gives the most dramatic result: 3 all-C/H dates collapse to just <strong>1 NP+DI trigger</strong> (93% reduction) — and that single trigger was a CWE-444 request smuggling bug, the CWE class we added after external review.
+<strong>The filter works across ecosystems — without missing any exploited vulnerability.</strong> The original three stacks each produce 14 distinct all-C/H trigger dates — you'd rebuild roughly every 3 weeks under the old model. Under NP+DI, Spring and Node.js drop to 2 events each (85–86%), Django to 4 (71%), Netty to 1 (93%). Across the 12-month synthetic stacks and the 7-year real manifest backtest, every CVE that was later confirmed exploited (CISA KEV or Metasploit) landed in the NP+DI bucket. The filter never told you to skip something that turned out to matter.
+<p style="margin-top:8px">*<strong>The caveat:</strong> the filter logic is sound, but it's only as good as the CWE metadata it reads. The <a href="#epss-comparison">7-year backtest</a> found 3 exploited CVEs that the filter missed — all because upstream CWE tags were wrong (Ghostcat tagged CWE-269 instead of CWE-22, ActiveMQ tagged CWE-20 instead of CWE-94). The filter's answer was correct given its input; the input was bad. The fix is an AI safety-net: automated CWE validation for network-parser advisories that don't match a DI pattern. That catches all 3 on day zero. <strong>Trust the filter, but verify the data it reads.</strong></p>
 </div>
 
 <div class="chart-wrap">
@@ -537,7 +538,7 @@ details summary:hover{color:var(--cyan)}
 
 <p style="margin-top:12px">We cross-referenced all 129 C/H CVEs against five independent data sources to test both directions — do triggers correlate with higher exploitation signals, and did any non-trigger accumulate evidence we should have caught?</p>
 
-<h3>1. EPSS — Exploit Prediction Scoring</h3>
+<h3 id="epss-comparison">1. EPSS — Exploit Prediction Scoring</h3>
 
 <div class="card">
 <p><a href="https://www.first.org/epss/" target="_blank" rel="noopener" style="color:var(--cyan)">EPSS</a> (FIRST.org) assigns a probability-of-exploitation-within-30-days score to every CVE, incorporating real-world signals — exploit code existence, threat intel feeds, social media chatter — on top of CWE and attack vector metadata. The question isn't whether EPSS scores correlate with triggers (they do, 3.3x). The question is: <strong>if you used EPSS instead of NP+DI, how many times would you rebuild, and would you catch more?</strong></p>
