@@ -21,21 +21,49 @@
     "osv_vulns": "https://api.osv.dev/v1/vulns"
   },
   "glasswing_targets": {
-    "known_products": ["Mozilla Firefox", "wolfSSL", "F5 NGINX Plus", "FreeBSD", "OpenSSL"],
+    "known_products": [
+      "Mozilla Firefox",
+      "wolfSSL",
+      "F5 NGINX Plus",
+      "FreeBSD",
+      "OpenSSL"
+    ],
     "known_count": 40,
-    "product_breakdown": {"Mozilla Firefox": 28, "wolfSSL": 9, "F5 NGINX Plus": 1, "FreeBSD": 1, "OpenSSL": 1},
-    "confirmed_glasswing_cves": ["CVE-2026-4747"],
-    "claude_credited_cves": ["CVE-2026-4747", "CVE-2026-5194", "CVE-2026-5588"],
+    "product_breakdown": {
+      "Mozilla Firefox": 28,
+      "wolfSSL": 9,
+      "F5 NGINX Plus": 1,
+      "FreeBSD": 1,
+      "OpenSSL": 1
+    },
+    "confirmed_glasswing_cves": [
+      "CVE-2026-4747"
+    ],
+    "claude_credited_cves": [
+      "CVE-2026-4747",
+      "CVE-2026-5194",
+      "CVE-2026-5588"
+    ],
     "claude_credited_notes": {
-      "CVE-2026-4747": "FreeBSD NFS RCE — confirmed Glasswing autonomous find",
-      "CVE-2026-5194": "wolfSSL cert validation bypass — press-confirmed Mythos Preview-assisted, Carlini @ Anthropic",
-      "CVE-2026-5588": "Bouncy Castle — credited to Carlini + Claude"
+      "CVE-2026-4747": "FreeBSD NFS RCE \u2014 confirmed Glasswing autonomous find",
+      "CVE-2026-5194": "wolfSSL cert validation bypass \u2014 press-confirmed Mythos Preview-assisted, Carlini @ Anthropic",
+      "CVE-2026-5588": "Bouncy Castle \u2014 credited to Carlini + Claude"
     },
     "last_verified": "2026-04-20T04:11Z",
     "participants": [
-      "AWS", "Anthropic", "Apple", "Broadcom", "Cisco", "CrowdStrike",
-      "Google", "Intel", "JPMorganChase", "Linux Foundation", "Microsoft",
-      "Nvidia", "Palo Alto Networks"
+      "AWS",
+      "Anthropic",
+      "Apple",
+      "Broadcom",
+      "Cisco",
+      "CrowdStrike",
+      "Google",
+      "Intel",
+      "JPMorganChase",
+      "Linux Foundation",
+      "Microsoft",
+      "Nvidia",
+      "Palo Alto Networks"
     ],
     "launch_date": "2026-04-07",
     "probable_participant_cves": {
@@ -49,30 +77,92 @@
         "disclosed_during_or_after_glasswing_era"
       ],
       "entries": [
-        {"cve":"CVE-2026-20180","vendor":"Cisco","product":"ISE","cvss":9.9,"cwe":"Input Validation","vector":"Crafted HTTP request → RCE (read-only admin)","disclosed":"2026-04-15","cluster":"cisco-ise-apr2026","notes":"Batch of 3 ISE RCEs disclosed simultaneously — cluster pattern consistent with systematic AI audit"},
-        {"cve":"CVE-2026-20186","vendor":"Cisco","product":"ISE","cvss":9.9,"cwe":"Input Validation","vector":"Crafted HTTP request → RCE (read-only admin)","disclosed":"2026-04-15","cluster":"cisco-ise-apr2026","notes":"Same batch as -20180; identical attack pattern, different code path"},
-        {"cve":"CVE-2026-20147","vendor":"Cisco","product":"ISE","cvss":9.9,"cwe":"Input Validation","vector":"Crafted HTTP request → RCE (admin creds)","disclosed":"2026-04-15","cluster":"cisco-ise-apr2026","notes":"Third ISE RCE in same batch; requires full admin creds vs read-only for -20180/-20186"},
-        {"cve":"CVE-2026-20184","vendor":"Cisco","product":"Webex","cvss":9.8,"cwe":"Improper Certificate Validation","vector":"SSO certificate bypass → user impersonation","disclosed":"2026-04-15","cluster":"cisco-webex-apr2026","notes":"Certificate validation flaw in SSO integration. Same disclosure batch as ISE bugs. Pattern consistent with TLS/cert-handling audit sweep"}
+        {
+          "cve": "CVE-2026-20180",
+          "vendor": "Cisco",
+          "product": "ISE",
+          "cvss": 9.9,
+          "cwe": "Input Validation",
+          "vector": "Crafted HTTP request \u2192 RCE (read-only admin)",
+          "disclosed": "2026-04-15",
+          "cluster": "cisco-ise-apr2026",
+          "notes": "Batch of 3 ISE RCEs disclosed simultaneously \u2014 cluster pattern consistent with systematic AI audit"
+        },
+        {
+          "cve": "CVE-2026-20186",
+          "vendor": "Cisco",
+          "product": "ISE",
+          "cvss": 9.9,
+          "cwe": "Input Validation",
+          "vector": "Crafted HTTP request \u2192 RCE (read-only admin)",
+          "disclosed": "2026-04-15",
+          "cluster": "cisco-ise-apr2026",
+          "notes": "Same batch as -20180; identical attack pattern, different code path"
+        },
+        {
+          "cve": "CVE-2026-20147",
+          "vendor": "Cisco",
+          "product": "ISE",
+          "cvss": 9.9,
+          "cwe": "Input Validation",
+          "vector": "Crafted HTTP request \u2192 RCE (admin creds)",
+          "disclosed": "2026-04-15",
+          "cluster": "cisco-ise-apr2026",
+          "notes": "Third ISE RCE in same batch; requires full admin creds vs read-only for -20180/-20186"
+        },
+        {
+          "cve": "CVE-2026-20184",
+          "vendor": "Cisco",
+          "product": "Webex",
+          "cvss": 9.8,
+          "cwe": "Improper Certificate Validation",
+          "vector": "SSO certificate bypass \u2192 user impersonation",
+          "disclosed": "2026-04-15",
+          "cluster": "cisco-webex-apr2026",
+          "notes": "Certificate validation flaw in SSO integration. Same disclosure batch as ISE bugs. Pattern consistent with TLS/cert-handling audit sweep"
+        }
       ]
     }
   },
   "projections": {
     "conservative_monthly_increase": 500,
-    "aggressive_monthly_increase_range": [2000, 5000],
-    "projection_months": ["2026-05", "2026-06", "2026-07", "2026-08", "2026-09", "2026-10"]
+    "aggressive_monthly_increase_range": [
+      2000,
+      5000
+    ],
+    "projection_months": [
+      "2026-05",
+      "2026-06",
+      "2026-07",
+      "2026-08",
+      "2026-09",
+      "2026-10"
+    ]
   },
   "baseline_data": {
     "monthly_cve_2025": {
-      "2025-01": 4200, "2025-02": 3800, "2025-03": 4012, "2025-04": 3950,
-      "2025-05": 3900, "2025-06": 3850, "2025-07": 4100, "2025-08": 4050,
-      "2025-09": 3950, "2025-10": 4150, "2025-11": 4000, "2025-12": 4212
+      "2025-01": 4200,
+      "2025-02": 3800,
+      "2025-03": 4012,
+      "2025-04": 3950,
+      "2025-05": 3900,
+      "2025-06": 3850,
+      "2025-07": 4100,
+      "2025-08": 4050,
+      "2025-09": 3950,
+      "2025-10": 4150,
+      "2025-11": 4000,
+      "2025-12": 4212
     },
     "monthly_cve_2026": {
-      "2026-01": 5143, "2026-02": 4808, "2026-03": 6304, "2026-04": 4227
+      "2026-01": 5143,
+      "2026-02": 4808,
+      "2026-03": 6304,
+      "2026-04": 4227
     },
     "monthly_cve_2026_notes": {
-      "2026-04": "MTD through 2026-04-22 (22 days); extrapolated full-month ~5764 (4227 * 30/22). +342 net CVEs between day 21 and day 22 snapshots, driven primarily by NVD back-population of 2026-04-21 (finalized at 359 entries vs the 35 we saw 24h earlier) — classic 24h catch-up. Day 22 itself running at 18 entries same-day. Daily rate ~192/day. Still tracking below March (6304) and below the +500/mo conservative Glasswing anchor, but the gap has narrowed.",
-      "prior_months_unchanged": "2026-01 = 5143, 2026-02 = 4808, 2026-03 = 6304 — re-confirmed on 2026-04-22."
+      "2026-04": "MTD through 2026-04-22 (22 days); extrapolated full-month ~5764 (4227 * 30/22). +342 net CVEs between day 21 and day 22 snapshots, driven primarily by NVD back-population of 2026-04-21 (finalized at 359 entries vs the 35 we saw 24h earlier) \u2014 classic 24h catch-up. Day 22 itself running at 18 entries same-day. Daily rate ~192/day. Still tracking below March (6304) and below the +500/mo conservative Glasswing anchor, but the gap has narrowed.",
+      "prior_months_unchanged": "2026-01 = 5143, 2026-02 = 4808, 2026-03 = 6304 \u2014 re-confirmed on 2026-04-22."
     },
     "weekly_cve_2026": {
       "2026-W14_Mar30_Apr05": 1304,
@@ -81,10 +171,22 @@
       "2026-W17_Apr20_Apr26_partial": 543
     },
     "ms_patch_tuesday": {
-      "2025-01": 157, "2025-02": 57, "2025-03": 57, "2025-04": 124,
-      "2025-05": 71, "2025-06": 65, "2025-07": 127, "2025-08": 107,
-      "2025-09": 80, "2025-10": 167, "2025-11": 63, "2025-12": 56,
-      "2026-01": 112, "2026-02": 55, "2026-03": 79, "2026-04": 163
+      "2025-01": 157,
+      "2025-02": 57,
+      "2025-03": 57,
+      "2025-04": 124,
+      "2025-05": 71,
+      "2025-06": 65,
+      "2025-07": 127,
+      "2025-08": 107,
+      "2025-09": 80,
+      "2025-10": 167,
+      "2025-11": 63,
+      "2025-12": 56,
+      "2026-01": 112,
+      "2026-02": 55,
+      "2026-03": 79,
+      "2026-04": 163
     },
     "rhel8_security": {
       "2025_annual": 204,
@@ -92,57 +194,382 @@
       "2026_q1_total": 98,
       "2026_monthly_avg": 25,
       "2026-04_estimated": 23,
-      "note": "stack.watch dropped the /8.0 version-specific path; use parent URL (covers all RHEL versions). 2026 YTD: 99 per stack.watch as of 2026-04-18. Red Hat security data API also 404s — stack.watch is the best available source."
+      "note": "stack.watch dropped the /8.0 version-specific path; use parent URL (covers all RHEL versions). 2026 YTD: 99 per stack.watch as of 2026-04-18. Red Hat security data API also 404s \u2014 stack.watch is the best available source."
     },
     "kev_monthly_2026": {
-      "2026-01": 17, "2026-02": 28, "2026-03": 26, "2026-04": 22
+      "2026-01": 17,
+      "2026-02": 28,
+      "2026-03": 26,
+      "2026-04": 22
     },
     "kev_monthly_2026_notes": {
-      "2026-04": "22 entries added 2026-04-01..2026-04-20 (per CISA KEV catalog version 2026.04.21 released 2026-04-21T17:10Z). No new KEV additions between 2026-04-20 and 2026-04-22 — catalog refreshed but content unchanged. April total holding at 22 (ahead of Q1 monthly average ~24). Notable 2026-04-20 batch: Cisco Catalyst SD-WAN Manager cluster (CVE-2026-20122, -20128, -20133) — Cisco (Glasswing participant), HTTP-adjacent management-plane bugs; plus CVE-2025-2749 (Kentico Xperience), CVE-2023-27351 (PaperCut NG/MF), CVE-2025-48700 (Zimbra), CVE-2025-32975 (Quest KACE SMA), CVE-2024-27199 (JetBrains TeamCity). Earlier-April entries unchanged: CVE-2026-34197 (Apache ActiveMQ 2026-04-16), CVE-2026-32201 (SharePoint 0-day 2026-04-14), CVE-2026-21643 (Fortinet FortiClient EMS SQLi 2026-04-13), CVE-2026-34621 (Adobe Acrobat prototype pollution 2026-04-13), CVE-2026-1340 (Ivanti EPMM 2026-04-08), CVE-2026-35616 (Fortinet FortiClient EMS 2026-04-06), CVE-2026-3502 (TrueConf Client 2026-04-02), CVE-2026-5281 (Google Dawn 2026-04-01); plus 5 legacy re-adds on 2026-04-13/14 (CVE-2009-0238, CVE-2012-1854, CVE-2020-9715, CVE-2023-21529, CVE-2023-36424) and CVE-2025-60710 Microsoft Windows."
+      "2026-04": "22 entries added 2026-04-01..2026-04-20 (per CISA KEV catalog version 2026.04.21 released 2026-04-21T17:10Z). No new KEV additions between 2026-04-20 and 2026-04-22 \u2014 catalog refreshed but content unchanged. April total holding at 22 (ahead of Q1 monthly average ~24). Notable 2026-04-20 batch: Cisco Catalyst SD-WAN Manager cluster (CVE-2026-20122, -20128, -20133) \u2014 Cisco (Glasswing participant), HTTP-adjacent management-plane bugs; plus CVE-2025-2749 (Kentico Xperience), CVE-2023-27351 (PaperCut NG/MF), CVE-2025-48700 (Zimbra), CVE-2025-32975 (Quest KACE SMA), CVE-2024-27199 (JetBrains TeamCity). Earlier-April entries unchanged: CVE-2026-34197 (Apache ActiveMQ 2026-04-16), CVE-2026-32201 (SharePoint 0-day 2026-04-14), CVE-2026-21643 (Fortinet FortiClient EMS SQLi 2026-04-13), CVE-2026-34621 (Adobe Acrobat prototype pollution 2026-04-13), CVE-2026-1340 (Ivanti EPMM 2026-04-08), CVE-2026-35616 (Fortinet FortiClient EMS 2026-04-06), CVE-2026-3502 (TrueConf Client 2026-04-02), CVE-2026-5281 (Google Dawn 2026-04-01); plus 5 legacy re-adds on 2026-04-13/14 (CVE-2009-0238, CVE-2012-1854, CVE-2020-9715, CVE-2023-21529, CVE-2023-36424) and CVE-2025-60710 Microsoft Windows."
     }
   },
   "exploit_watch_list": {
     "description": "HTTP-parsing-adjacent CVEs predicted to be actively exploited. Analyst adds entries; refresh agent checks KEV status.",
     "focus": "HTTP-parsing attack surface only: web servers, template engines, TLS terminators, reverse proxy components, API frameworks, browser-delivered payloads",
-    "selection_criteria": ["http_parsing_adjacent", "low_or_no_auth", "high_exploitability", "broad_deployment", "cwe_family_match"],
+    "selection_criteria": [
+      "http_parsing_adjacent",
+      "low_or_no_auth",
+      "high_exploitability",
+      "broad_deployment",
+      "cwe_family_match"
+    ],
     "server": [
-      {"cve":"CVE-2026-40477","product":"Thymeleaf SSTI","status":"watching","added":"2026-04-18","kevDate":null},
-      {"cve":"CVE-2026-40478","product":"Thymeleaf Spring5 SSTI","status":"watching","added":"2026-04-18","kevDate":null},
-      {"cve":"CVE-2026-5194","product":"wolfSSL cert validation","status":"watching","added":"2026-04-18","kevDate":null},
-      {"cve":"CVE-2026-5501","product":"wolfSSL OpenSSL compat","status":"watching","added":"2026-04-18","kevDate":null},
-      {"cve":"CVE-2026-21858","product":"n8n Ni8mare (webhook Content-Type confusion)","status":"watching","added":"2026-04-19","kevDate":null},
-      {"cve":"CVE-2026-39987","product":"Marimo terminal WebSocket","status":"watching","added":"2026-04-19","kevDate":null},
-      {"cve":"CVE-2026-20180","product":"Cisco ISE (crafted HTTP → RCE)","status":"watching","added":"2026-04-20","kevDate":null},
-      {"cve":"CVE-2026-20186","product":"Cisco ISE (crafted HTTP → RCE, read-only admin)","status":"watching","added":"2026-04-20","kevDate":null},
-      {"cve":"CVE-2026-20147","product":"Cisco ISE (crafted HTTP → RCE, admin)","status":"watching","added":"2026-04-20","kevDate":null},
-      {"cve":"CVE-2026-20184","product":"Cisco Webex (SSO cert bypass → impersonation)","status":"watching","added":"2026-04-20","kevDate":null},
-      {"cve":"CVE-2026-32201","product":"SharePoint","status":"confirmed","added":"2026-04-14","kevDate":"2026-04-14"},
-      {"cve":"CVE-2026-34197","product":"Apache ActiveMQ","status":"confirmed","added":"2026-04-16","kevDate":"2026-04-16"}
+      {
+        "cve": "CVE-2026-40477",
+        "product": "Thymeleaf SSTI",
+        "status": "watching",
+        "added": "2026-04-18",
+        "kevDate": null
+      },
+      {
+        "cve": "CVE-2026-40478",
+        "product": "Thymeleaf Spring5 SSTI",
+        "status": "watching",
+        "added": "2026-04-18",
+        "kevDate": null
+      },
+      {
+        "cve": "CVE-2026-5194",
+        "product": "wolfSSL cert validation",
+        "status": "watching",
+        "added": "2026-04-18",
+        "kevDate": null
+      },
+      {
+        "cve": "CVE-2026-5501",
+        "product": "wolfSSL OpenSSL compat",
+        "status": "watching",
+        "added": "2026-04-18",
+        "kevDate": null
+      },
+      {
+        "cve": "CVE-2026-21858",
+        "product": "n8n Ni8mare (webhook Content-Type confusion)",
+        "status": "watching",
+        "added": "2026-04-19",
+        "kevDate": null
+      },
+      {
+        "cve": "CVE-2026-39987",
+        "product": "Marimo terminal WebSocket",
+        "status": "watching",
+        "added": "2026-04-19",
+        "kevDate": null
+      },
+      {
+        "cve": "CVE-2026-20180",
+        "product": "Cisco ISE (crafted HTTP \u2192 RCE)",
+        "status": "watching",
+        "added": "2026-04-20",
+        "kevDate": null
+      },
+      {
+        "cve": "CVE-2026-20186",
+        "product": "Cisco ISE (crafted HTTP \u2192 RCE, read-only admin)",
+        "status": "watching",
+        "added": "2026-04-20",
+        "kevDate": null
+      },
+      {
+        "cve": "CVE-2026-20147",
+        "product": "Cisco ISE (crafted HTTP \u2192 RCE, admin)",
+        "status": "watching",
+        "added": "2026-04-20",
+        "kevDate": null
+      },
+      {
+        "cve": "CVE-2026-20184",
+        "product": "Cisco Webex (SSO cert bypass \u2192 impersonation)",
+        "status": "watching",
+        "added": "2026-04-20",
+        "kevDate": null
+      },
+      {
+        "cve": "CVE-2026-32201",
+        "product": "SharePoint",
+        "status": "confirmed",
+        "added": "2026-04-14",
+        "kevDate": "2026-04-14"
+      },
+      {
+        "cve": "CVE-2026-34197",
+        "product": "Apache ActiveMQ",
+        "status": "confirmed",
+        "added": "2026-04-16",
+        "kevDate": "2026-04-16"
+      }
     ],
     "desktop": [
-      {"cve":"CVE-2026-34621","product":"Adobe Acrobat","status":"confirmed","added":"2026-04-15","kevDate":"2026-04-15"},
-      {"cve":"CVE-2026-33825","product":"Windows Defender (BlueHammer)","status":"watching","added":"2026-04-18","kevDate":null}
+      {
+        "cve": "CVE-2026-34621",
+        "product": "Adobe Acrobat",
+        "status": "confirmed",
+        "added": "2026-04-15",
+        "kevDate": "2026-04-15"
+      },
+      {
+        "cve": "CVE-2026-33825",
+        "product": "Windows Defender (BlueHammer)",
+        "status": "watching",
+        "added": "2026-04-18",
+        "kevDate": null
+      }
     ]
   },
   "exploit_intelligence": {
     "description": "Tracks public exploit availability for watch list CVEs across ExploitDB, Metasploit, and GitHub PoC repos. Updated daily by refresh agent.",
-    "maturity_levels": ["none", "poc", "functional", "weaponized"],
-    "last_full_scan": "2026-04-22T03:10Z",
+    "maturity_levels": [
+      "none",
+      "poc",
+      "functional",
+      "weaponized"
+    ],
+    "last_full_scan": "2026-04-22T03:40Z",
     "cve_status": {
-      "CVE-2026-40477": {"exploitdb":{"found":false},"metasploit":{"found":false},"github_poc":{"found":true,"repo_count":null,"notes":"PoC exploits circulating in researcher communities per CSO Online / The Hacker Wire 2026-04-17; not aggregated in public indexes yet"},"overall_maturity":"poc","last_checked":"2026-04-22T03:10Z"},
-      "CVE-2026-40478": {"exploitdb":{"found":false},"metasploit":{"found":false},"github_poc":{"found":true,"repo_count":null,"notes":"Same Thymeleaf cluster as CVE-2026-40477 — PoCs circulating"},"overall_maturity":"poc","last_checked":"2026-04-22T03:10Z"},
-      "CVE-2026-5194": {"exploitdb":{"found":false},"metasploit":{"found":false},"github_poc":{"found":false,"repo_count":0,"notes":"No dedicated PoC published to major indexes; researchers likely holding to allow patching window"},"overall_maturity":"none","last_checked":"2026-04-22T03:10Z"},
-      "CVE-2026-5501": {"exploitdb":{"found":false},"metasploit":{"found":false},"github_poc":{"found":false,"repo_count":0},"overall_maturity":"none","last_checked":"2026-04-22T03:10Z"},
-      "CVE-2026-21858": {"exploitdb":{"found":false},"metasploit":{"found":false},"github_poc":{"found":true,"repo_count":null,"notes":"Ni8mare: Cyera Research published technical writeup with attack chain; Orca Security, Picus, Upwind all published explainers. Working attack chain in the wild."},"overall_maturity":"functional","last_checked":"2026-04-22T03:10Z"},
-      "CVE-2026-39987": {"exploitdb":{"found":false},"metasploit":{"found":false},"github_poc":{"found":true,"repo_count":null,"notes":"Marimo RCE exploited within 10h of disclosure per Security Affairs, The Hacker News, Resecurity. Exploitation is trivial (unauthenticated WebSocket /terminal/ws → PTY shell)."},"overall_maturity":"weaponized","last_checked":"2026-04-22T03:10Z"},
-      "CVE-2026-20180": {"exploitdb":{"found":false},"metasploit":{"found":false},"github_poc":{"found":false,"repo_count":0,"notes":"Fresh disclosure, no public PoC surfaced yet"},"overall_maturity":"none","last_checked":"2026-04-22T03:10Z"},
-      "CVE-2026-20186": {"exploitdb":{"found":false},"metasploit":{"found":false},"github_poc":{"found":false,"repo_count":0,"notes":"Fresh disclosure, no public PoC surfaced yet"},"overall_maturity":"none","last_checked":"2026-04-22T03:10Z"},
-      "CVE-2026-20147": {"exploitdb":{"found":false},"metasploit":{"found":false},"github_poc":{"found":false,"repo_count":0,"notes":"Fresh disclosure, no public PoC surfaced yet"},"overall_maturity":"none","last_checked":"2026-04-22T03:10Z"},
-      "CVE-2026-20184": {"exploitdb":{"found":false},"metasploit":{"found":false},"github_poc":{"found":false,"repo_count":0,"notes":"Fresh disclosure, no public PoC surfaced yet"},"overall_maturity":"none","last_checked":"2026-04-22T03:10Z"},
-      "CVE-2026-32201": {"exploitdb":{"found":false},"metasploit":{"found":false},"github_poc":{"found":true,"repo_count":null,"notes":"KEV-listed 2026-04-14 — active zero-day exploitation against SharePoint"},"overall_maturity":"weaponized","last_checked":"2026-04-22T03:10Z"},
-      "CVE-2026-34197": {"exploitdb":{"found":false},"metasploit":{"found":false},"github_poc":{"found":true,"repo_count":null,"notes":"KEV-listed 2026-04-16; Horizon3.ai Claude-assisted disclosure with full attack-chain walkthrough"},"overall_maturity":"weaponized","last_checked":"2026-04-22T03:10Z"},
-      "CVE-2026-34621": {"exploitdb":{"found":false},"metasploit":{"found":false},"github_poc":{"found":true,"repo_count":null,"notes":"KEV-listed 2026-04-15 — Adobe Acrobat prototype pollution, actively exploited"},"overall_maturity":"weaponized","last_checked":"2026-04-22T03:10Z"},
-      "CVE-2026-33825": {"exploitdb":{"found":true,"notes":"BlueHammer PoC posted to GitHub 2026-04-03 by pseudonym 'Chaotic Eclipse'/'Nightmare-Eclipse' prior to Apr 14 patch; triple-0day cluster alongside RedSun and UnDefend"},"metasploit":{"found":false},"github_poc":{"found":true,"repo_count":3,"notes":"Three Defender 0-days disclosed in a 13-day window; KEV-eligible"},"overall_maturity":"weaponized","last_checked":"2026-04-22T03:10Z"}
+      "CVE-2026-40477": {
+        "exploitdb": {
+          "found": false
+        },
+        "metasploit": {
+          "found": false,
+          "verified_via": "targeted web search of rapid7/metasploit-framework 2026-04-22",
+          "last_checked": "2026-04-22T03:40Z"
+        },
+        "github_poc": {
+          "found": true,
+          "repo_count": null,
+          "notes": "PoC exploits circulating in researcher communities per CSO Online / The Hacker Wire 2026-04-17; not aggregated in public indexes yet"
+        },
+        "overall_maturity": "poc",
+        "last_checked": "2026-04-22T03:10Z"
+      },
+      "CVE-2026-40478": {
+        "exploitdb": {
+          "found": false
+        },
+        "metasploit": {
+          "found": false,
+          "verified_via": "targeted web search of rapid7/metasploit-framework 2026-04-22",
+          "last_checked": "2026-04-22T03:40Z"
+        },
+        "github_poc": {
+          "found": true,
+          "repo_count": null,
+          "notes": "Same Thymeleaf cluster as CVE-2026-40477 \u2014 PoCs circulating"
+        },
+        "overall_maturity": "poc",
+        "last_checked": "2026-04-22T03:10Z"
+      },
+      "CVE-2026-5194": {
+        "exploitdb": {
+          "found": false
+        },
+        "metasploit": {
+          "found": false,
+          "verified_via": "targeted web search of rapid7/metasploit-framework 2026-04-22",
+          "last_checked": "2026-04-22T03:40Z"
+        },
+        "github_poc": {
+          "found": false,
+          "repo_count": 0,
+          "notes": "No dedicated PoC published to major indexes; researchers likely holding to allow patching window"
+        },
+        "overall_maturity": "none",
+        "last_checked": "2026-04-22T03:10Z"
+      },
+      "CVE-2026-5501": {
+        "exploitdb": {
+          "found": false
+        },
+        "metasploit": {
+          "found": false,
+          "verified_via": "targeted web search of rapid7/metasploit-framework 2026-04-22",
+          "last_checked": "2026-04-22T03:40Z"
+        },
+        "github_poc": {
+          "found": false,
+          "repo_count": 0
+        },
+        "overall_maturity": "none",
+        "last_checked": "2026-04-22T03:10Z"
+      },
+      "CVE-2026-21858": {
+        "exploitdb": {
+          "found": false
+        },
+        "metasploit": {
+          "found": false,
+          "verified_via": "targeted web search of rapid7/metasploit-framework 2026-04-22",
+          "last_checked": "2026-04-22T03:40Z"
+        },
+        "github_poc": {
+          "found": true,
+          "repo_count": null,
+          "notes": "Ni8mare: Cyera Research published technical writeup with attack chain; Orca Security, Picus, Upwind all published explainers. Working attack chain in the wild."
+        },
+        "overall_maturity": "functional",
+        "last_checked": "2026-04-22T03:10Z"
+      },
+      "CVE-2026-39987": {
+        "exploitdb": {
+          "found": false
+        },
+        "metasploit": {
+          "found": false,
+          "verified_via": "targeted web search of rapid7/metasploit-framework 2026-04-22",
+          "last_checked": "2026-04-22T03:40Z"
+        },
+        "github_poc": {
+          "found": true,
+          "repo_count": null,
+          "notes": "Sysdig Threat Research observed ITW exploitation within 9h 41m of disclosure WITHOUT public exploit code. Technical writeups (Resecurity, Security Affairs) contain sufficient detail for ad-hoc PoC reconstruction. Weaponized classification based on active ITW, not a published PoC."
+        },
+        "overall_maturity": "weaponized",
+        "last_checked": "2026-04-22T03:10Z"
+      },
+      "CVE-2026-20180": {
+        "exploitdb": {
+          "found": false
+        },
+        "metasploit": {
+          "found": false,
+          "verified_via": "targeted web search of rapid7/metasploit-framework 2026-04-22",
+          "last_checked": "2026-04-22T03:40Z"
+        },
+        "github_poc": {
+          "found": false,
+          "repo_count": 0,
+          "notes": "Fresh disclosure, no public PoC surfaced yet"
+        },
+        "overall_maturity": "none",
+        "last_checked": "2026-04-22T03:10Z",
+        "notes_addendum": "Tenable Nessus plugin 306554 is a scanner signature, not a Metasploit module or exploit PoC."
+      },
+      "CVE-2026-20186": {
+        "exploitdb": {
+          "found": false
+        },
+        "metasploit": {
+          "found": false,
+          "verified_via": "targeted web search of rapid7/metasploit-framework 2026-04-22",
+          "last_checked": "2026-04-22T03:40Z"
+        },
+        "github_poc": {
+          "found": false,
+          "repo_count": 0,
+          "notes": "Fresh disclosure, no public PoC surfaced yet"
+        },
+        "overall_maturity": "none",
+        "last_checked": "2026-04-22T03:10Z",
+        "notes_addendum": "Tenable Nessus plugin 306554 is a scanner signature, not a Metasploit module or exploit PoC."
+      },
+      "CVE-2026-20147": {
+        "exploitdb": {
+          "found": false
+        },
+        "metasploit": {
+          "found": false,
+          "verified_via": "targeted web search of rapid7/metasploit-framework 2026-04-22",
+          "last_checked": "2026-04-22T03:40Z"
+        },
+        "github_poc": {
+          "found": false,
+          "repo_count": 0,
+          "notes": "Fresh disclosure, no public PoC surfaced yet"
+        },
+        "overall_maturity": "none",
+        "last_checked": "2026-04-22T03:10Z",
+        "notes_addendum": "Tenable Nessus plugin 306554 is a scanner signature, not a Metasploit module or exploit PoC."
+      },
+      "CVE-2026-20184": {
+        "exploitdb": {
+          "found": false
+        },
+        "metasploit": {
+          "found": false,
+          "verified_via": "targeted web search of rapid7/metasploit-framework 2026-04-22",
+          "last_checked": "2026-04-22T03:40Z"
+        },
+        "github_poc": {
+          "found": false,
+          "repo_count": 0,
+          "notes": "Fresh disclosure, no public PoC surfaced yet"
+        },
+        "overall_maturity": "none",
+        "last_checked": "2026-04-22T03:10Z"
+      },
+      "CVE-2026-32201": {
+        "exploitdb": {
+          "found": false
+        },
+        "metasploit": {
+          "found": false,
+          "verified_via": "targeted web search of rapid7/metasploit-framework 2026-04-22",
+          "last_checked": "2026-04-22T03:40Z"
+        },
+        "github_poc": {
+          "found": true,
+          "repo_count": null,
+          "notes": "KEV-listed 2026-04-14 \u2014 active zero-day exploitation against SharePoint"
+        },
+        "overall_maturity": "weaponized",
+        "last_checked": "2026-04-22T03:10Z"
+      },
+      "CVE-2026-34197": {
+        "exploitdb": {
+          "found": false
+        },
+        "metasploit": {
+          "found": false,
+          "verified_via": "targeted web search of rapid7/metasploit-framework 2026-04-22",
+          "last_checked": "2026-04-22T03:40Z"
+        },
+        "github_poc": {
+          "found": true,
+          "repo_count": null,
+          "notes": "KEV-listed 2026-04-16; Horizon3.ai Claude-assisted disclosure with full attack-chain walkthrough"
+        },
+        "overall_maturity": "weaponized",
+        "last_checked": "2026-04-22T03:10Z"
+      },
+      "CVE-2026-34621": {
+        "exploitdb": {
+          "found": false
+        },
+        "metasploit": {
+          "found": false,
+          "verified_via": "targeted web search of rapid7/metasploit-framework 2026-04-22",
+          "last_checked": "2026-04-22T03:40Z"
+        },
+        "github_poc": {
+          "found": true,
+          "repo_count": null,
+          "notes": "KEV-listed 2026-04-15 \u2014 Adobe Acrobat prototype pollution, actively exploited. Non-Metasploit exploit repo github.com/ercihan/CVE-2026-34621 observed."
+        },
+        "overall_maturity": "weaponized",
+        "last_checked": "2026-04-22T03:10Z"
+      },
+      "CVE-2026-33825": {
+        "exploitdb": {
+          "found": true,
+          "notes": "BlueHammer PoC posted to GitHub 2026-04-03 by pseudonym 'Chaotic Eclipse'/'Nightmare-Eclipse' prior to Apr 14 patch; triple-0day cluster alongside RedSun and UnDefend"
+        },
+        "metasploit": {
+          "found": false,
+          "verified_via": "targeted web search of rapid7/metasploit-framework 2026-04-22",
+          "last_checked": "2026-04-22T03:40Z"
+        },
+        "github_poc": {
+          "found": true,
+          "repo_count": 3,
+          "notes": "Three Defender 0-days disclosed in a 13-day window; KEV-eligible"
+        },
+        "overall_maturity": "weaponized",
+        "last_checked": "2026-04-22T03:10Z"
+      }
     }
   }
 }
