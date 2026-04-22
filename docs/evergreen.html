@@ -317,6 +317,71 @@ code{background:#f1f5f9;padding:2px 6px;border-radius:4px;font-size:.88em}
 
 <p>CIQ (Rocky Linux) published research showing Red Hat's backporting rate declines sharply as a RHEL version ages — even during its supported lifecycle. RHEL 8.8 kernel commits showed decreasing backported fixes starting November 2021. Each new RHEL major version resets the backporting clock, but the same decay pattern repeats. Running the latest stable upstream kernel would be ideal, but vendor-frozen kernels are the enterprise reality.</p>
 
+<h3>The real evergreening argument: exploit mitigations</h3>
+
+<p>The CVE count and patch speed data suggest evergreening doesn't help much tactically. But there's a macro argument that's harder to quantify and probably more important: <strong>newer kernels make exploitation dramatically harder</strong>, even when the vulnerability exists. This is the <a href="index.html#kill-chain">Land &amp; Expand</a> framing — the OS determines how bad things get after the initial compromise.</p>
+
+<div class="card">
+<p><strong>On RHEL 6 (kernel 2.6.32), a kernel memory corruption gives you:</strong></p>
+<table style="font-size:.86em">
+<thead><tr><th>Step</th><th>Attacker needs</th><th>RHEL 6 answer</th></tr></thead>
+<tbody>
+<tr><td>Find the kernel in memory</td><td>Defeat KASLR</td><td style="color:var(--green)">No KASLR. Addresses are static and world-readable via <code>/proc/kallsyms</code>.</td></tr>
+<tr><td>Execute attacker code</td><td>Defeat SMEP/SMAP</td><td style="color:var(--green)">Neither exists. Jump directly to shellcode in userspace.</td></tr>
+<tr><td>Overflow the stack</td><td>Defeat stack canaries</td><td style="color:var(--green)">Basic <code>-fstack-protector</code> only — covers functions with char arrays, misses most.</td></tr>
+<tr><td>Persist as root</td><td>Defeat lockdown/module signing</td><td style="color:var(--green)">Neither exists. Load any <code>.ko</code>, write to <code>/dev/mem</code>, <code>kexec</code> anything.</td></tr>
+<tr><td>Move laterally</td><td>Defeat SELinux/seccomp</td><td style="color:var(--green)">Basic SELinux targeted policy, no seccomp-bpf. Many unconfined domains.</td></tr>
+</tbody>
+</table>
+<p class="footnote">One bug = one reliable exploit. Minimal chaining required.</p>
+</div>
+
+<div class="card">
+<p><strong>On RHEL 9 (kernel 5.14), the same memory corruption requires:</strong></p>
+<table style="font-size:.86em">
+<thead><tr><th>Step</th><th>Attacker needs</th><th>RHEL 9 answer</th></tr></thead>
+<tbody>
+<tr><td>Find the kernel in memory</td><td>Defeat KASLR</td><td style="color:var(--red)">Full KASLR + <code>kptr_restrict</code> + <code>dmesg_restrict</code>. Need a separate info leak.</td></tr>
+<tr><td>Execute attacker code</td><td>Defeat SMEP+SMAP</td><td style="color:var(--red)">Both enforced. Must use data-only or ROP/JOP attack — no userspace exec.</td></tr>
+<tr><td>Build a ROP chain</td><td>Defeat CFI</td><td style="color:var(--red)">Control Flow Integrity validates indirect call targets. ROP gadgets restricted.</td></tr>
+<tr><td>Overflow the stack</td><td>Defeat stack canaries</td><td style="color:var(--red)"><code>-fstack-protector-strong</code> covers all functions with arrays. <code>VMAP_STACK</code> adds guard pages.</td></tr>
+<tr><td>Overflow via copy</td><td>Defeat hardened usercopy</td><td style="color:var(--red)"><code>copy_to/from_user</code> validates slab object bounds. Can't overflow into adjacent objects.</td></tr>
+<tr><td>Persist as root</td><td>Defeat lockdown/module signing</td><td style="color:var(--red)">Lockdown mode blocks <code>/dev/mem</code>, <code>kexec</code>, unsigned modules — even for root.</td></tr>
+<tr><td>Move laterally</td><td>Defeat SELinux/seccomp</td><td style="color:var(--red)">Refined SELinux policy, seccomp-bpf syscall filtering, restricted user namespaces.</td></tr>
+</tbody>
+</table>
+<p class="footnote">Requires chaining 3–5 separate bypass techniques. Often version-specific and unreliable.</p>
+</div>
+
+<div class="callout callout-warning">
+<strong>This is the real evergreening argument — and it's strong.</strong> The CVE count doesn't shrink, but the <em>exploitability</em> of each CVE drops dramatically. RHEL 6 has approximately zero post-exploitation barriers. RHEL 9 has ~15 distinct hardening mechanisms that collectively transform kernel exploitation from a straightforward single-step process into a complex multi-stage chain. You're safe from nf_tables bugs on RHEL 6 the same way a horse is safe from flat tires — but when a bug <em>does</em> hit old code that exists in 2.6.32, the attacker's path to full compromise is a straight line.
+<p style="margin-top:8px">Windows Server has the same story: Secured Core (HVCI, VBS, DMA protection) on Server 2022+ doesn't reduce CVE count but makes exploitation significantly harder. The mitigations are the reason to evergreen, not the patch math.</p>
+</div>
+
+<details>
+<summary>Full mitigation comparison table (15 mechanisms)</summary>
+<table style="font-size:.82em">
+<thead><tr><th>Mitigation</th><th>RHEL 6</th><th>RHEL 7</th><th>RHEL 8</th><th>RHEL 9</th><th>What it blocks</th></tr></thead>
+<tbody>
+<tr><td>SMEP</td><td class="no">No</td><td class="yes">Yes</td><td class="yes">Yes</td><td class="yes">Yes</td><td>ret2user — kernel executing userspace code</td></tr>
+<tr><td>SMAP</td><td class="no">No</td><td class="no">Partial</td><td class="yes">Yes</td><td class="yes">Yes</td><td>Kernel reading userspace data structures</td></tr>
+<tr><td>KASLR</td><td class="no">No</td><td class="no">Partial</td><td class="yes">Yes</td><td class="yes">Yes</td><td>Predicting kernel addresses for ROP</td></tr>
+<tr><td>KPTI</td><td class="no">Backport</td><td class="no">Backport</td><td class="yes">Yes</td><td class="yes">Yes</td><td>Meltdown + kernel address leaks</td></tr>
+<tr><td>Stack protector (strong)</td><td class="no">Weak</td><td class="no">Weak</td><td class="yes">Yes</td><td class="yes">Yes</td><td>Stack buffer overflows</td></tr>
+<tr><td>Hardened usercopy</td><td class="no">No</td><td class="no">No</td><td class="yes">Yes</td><td class="yes">Yes</td><td>Heap overflow via copy_to/from_user</td></tr>
+<tr><td>FORTIFY_SOURCE (kernel)</td><td class="no">No</td><td class="no">No</td><td class="yes">Yes</td><td class="yes">Yes</td><td>memcpy/strcpy buffer overflows</td></tr>
+<tr><td>VMAP_STACK</td><td class="no">No</td><td class="no">No</td><td class="yes">Yes</td><td class="yes">Yes</td><td>Stack overflow into adjacent memory</td></tr>
+<tr><td>CFI</td><td class="no">No</td><td class="no">No</td><td class="no">No</td><td class="yes">Partial</td><td>ROP/JOP gadget chains</td></tr>
+<tr><td>seccomp-bpf</td><td class="no">No</td><td class="yes">Yes</td><td class="yes">Yes</td><td class="yes">Yes</td><td>Reduces kernel syscall attack surface</td></tr>
+<tr><td>Lockdown mode</td><td class="no">No</td><td class="no">No</td><td class="no">No</td><td class="yes">Yes</td><td>Root modifying kernel (/dev/mem, kexec, modules)</td></tr>
+<tr><td>Module signing</td><td class="no">No</td><td class="no">Optional</td><td class="yes">Enforced</td><td class="yes">Enforced</td><td>Loading malicious kernel modules</td></tr>
+<tr><td>kptr_restrict</td><td class="no">No</td><td class="yes">Yes</td><td class="yes">Yes</td><td class="yes">Yes</td><td>Trivial KASLR bypass via /proc/kallsyms</td></tr>
+<tr><td>dmesg_restrict</td><td class="no">No</td><td class="yes">Yes</td><td class="yes">Yes</td><td class="yes">Yes</td><td>Kernel pointer leaks via dmesg</td></tr>
+<tr><td>Yama (ptrace restrict)</td><td class="no">No</td><td class="yes">Yes</td><td class="yes">Yes</td><td class="yes">Yes</td><td>Unprivileged process inspection/injection</td></tr>
+</tbody>
+</table>
+</details>
+
 <div class="chart-wrap">
 <h3>RHEL Kernel Advisories by Year</h3>
 <canvas id="rhelChart"></canvas>
