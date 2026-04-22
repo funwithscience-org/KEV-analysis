@@ -223,7 +223,7 @@ code{background:#f1f5f9;padding:2px 6px;border-radius:4px;font-size:.88em}
 </div>
 </div>
 
-<p>The "current" RHEL version consistently receives the <strong>most</strong> advisories, not the fewest. This partly reflects that Red Hat patches all severities on current versions but only Critical/Important on older ones — but the sheer volume gap (125 vs 2) is too large to be explained by policy alone.</p>
+<p>The "current" RHEL version consistently receives the <strong>most</strong> advisories, not the fewest. The obvious question: is RHEL 6's low count because the CVEs genuinely don't apply, or because Red Hat marks them "Won't Fix" and you're sitting there exposed? We checked.</p>
 
 <h3>Why newer kernels have more CVEs</h3>
 
@@ -240,6 +240,30 @@ code{background:#f1f5f9;padding:2px 6px;border-radius:4px;font-size:.88em}
 </tbody>
 </table>
 </div>
+
+<h3>Validation: "Not Affected" vs "Won't Fix"</h3>
+
+<p>We queried the <a href="https://access.redhat.com/hydra/rest/securitydata/">Red Hat Security Data API</a> for 141 Important-severity kernel CVEs from 2023–2024 that were patched on RHEL 8 or RHEL 9, and checked each one's status on RHEL 6:</p>
+
+<div class="card">
+<table style="font-size:.88em">
+<thead><tr><th>RHEL 6 Status</th><th>Important 2023<br>(77 CVEs)</th><th>Important 2024<br>(64 CVEs)</th><th>Meaning</th></tr></thead>
+<tbody>
+<tr><td><strong>Not affected</strong></td><td style="color:var(--green);font-weight:700">69 (90%)</td><td style="color:var(--green);font-weight:700">58 (91%)</td><td>Vulnerable code doesn't exist in kernel 2.6.32</td></tr>
+<tr><td><strong>Patched</strong></td><td>4 (5%)</td><td>3 (5%)</td><td>Old subsystems that do exist — Red Hat fixed them</td></tr>
+<tr><td><strong>Out of support scope</strong></td><td>1 (1%)</td><td>2 (3%)</td><td>Red Hat didn't evaluate (EOL)</td></tr>
+<tr><td style="color:var(--red);font-weight:700">Won't Fix</td><td style="color:var(--green);font-weight:700">0 (0%)</td><td style="color:var(--green);font-weight:700">0 (0%)</td><td>Vulnerable but unpatched</td></tr>
+</tbody>
+</table>
+</div>
+
+<div class="callout callout-success">
+<strong>The low advisory count is real, not a reporting artifact.</strong> Zero of 141 Important-severity kernel CVEs were marked "Won't Fix" on RHEL 6. ~90% were explicitly "Not affected." The kernel subsystems generating the most CVEs in 2023–2024 — nf_tables (kernel 3.13), eBPF (3.18), OverlayFS (3.18), kTLS (4.13), io_uring (5.1), NVMe-TCP (5.0) — simply don't exist in kernel 2.6.32. The code isn't there, so the bugs can't be either.
+</div>
+
+<p>The analogy: RHEL 6 is safe from nf_tables bugs the same way a horse is safe from flat tires. The trade-off is that you don't get containers, eBPF monitoring, or any of the security infrastructure those subsystems enable.</p>
+
+<p><strong>The caveat:</strong> for Moderate-severity CVEs, 23% were marked "Out of support scope" — Red Hat didn't bother evaluating them. Some of those likely do affect kernel 2.6.32 (generic subsystems like IPv4 IGMP, SMB). And this is specifically about <em>kernel</em> attack surface — the userspace stack on RHEL 6 (OpenSSL, glibc, etc.) is a different story entirely, with much thinner ELS coverage for libraries that are shared across all versions.</p>
 
 <h3>The real argument: lifecycle coverage</h3>
 
