@@ -756,8 +756,8 @@ new Chart(document.getElementById('mythosCveChart'), {
 new Chart(document.getElementById('mythosKevChart'), {
     type:'bar',
     data:{
-        labels:mMonths,
-        datasets:[{label:'KEV Additions',data:mKevVals,backgroundColor:mMonths.map(m=>m>='2026-04'?C.red:C.purple),borderRadius:4}]
+        labels:mMonthsAll,
+        datasets:[{label:'KEV Additions',data:mKevVals,backgroundColor:mMonthsAll.map(m=>m>='2026-04'?C.red:C.purple),borderRadius:4}]
     },
     options:{plugins:{legend:{display:false}},scales:{y:{beginAtZero:true,title:{display:true,text:'KEV Entries Added'}}}}
 });
