@@ -544,35 +544,35 @@ details summary:hover{color:var(--cyan)}
 </div>
 
 <div class="card">
-<p><strong>Operational comparison</strong> — real-world Java manifest, 160 C/H CVEs, 8 in-scope exploited (KEV or Metasploit on network-parser libraries), 7-day patch-event window:</p>
+<p><strong>Operational comparison</strong> — real-world Java manifest, 8 in-scope exploited CVEs (KEV or Metasploit on network-parser libraries). The catch: EPSS "catches 8/8" is a retrospective claim using <em>today's</em> scores. What matters is how many each model catches <em>when you need to act</em>:</p>
 <table>
-<thead><tr><th>Model</th><th>CVEs flagged</th><th>Patch events</th><th>Exploited caught</th><th>Missed</th><th>Fires on</th></tr></thead>
+<thead><tr><th>Model</th><th>Day 0</th><th>Day 7</th><th>Day 30</th><th>Eventually</th><th>Patch events</th></tr></thead>
 <tbody>
-<tr style="background:#fef2f2"><td>All C/H (baseline)</td><td>160</td><td>66</td><td>8/8</td><td>0</td><td>Day 0</td></tr>
-<tr><td>EPSS ≥ 0.10</td><td>59</td><td>33</td><td>8/8</td><td>0</td><td>Days–months</td></tr>
-<tr><td>EPSS ≥ 0.50</td><td>32</td><td>21</td><td>7/8</td><td>1</td><td>Days–months</td></tr>
-<tr style="background:#f0f9ff"><td><strong>NP+DI</strong></td><td><strong>25</strong></td><td><strong>19</strong></td><td><strong>5/8</strong></td><td><strong>3</strong></td><td><strong>Day 0</strong></td></tr>
-<tr style="background:#f0fdf4"><td><strong>NP+DI + AI scan</strong></td><td><strong>~28</strong></td><td><strong>~22</strong></td><td><strong>8/8</strong></td><td><strong>0</strong></td><td><strong>Day 0</strong></td></tr>
-<tr><td>EPSS ≥ 0.70</td><td>22</td><td>16</td><td>7/8</td><td>1</td><td>Weeks–months</td></tr>
-<tr><td>EPSS ≥ 0.90</td><td>14</td><td>13</td><td>7/8</td><td>1</td><td>Weeks–years</td></tr>
+<tr style="background:#f0f9ff"><td><strong>NP+DI</strong></td><td><strong>5/8</strong></td><td><strong>5/8</strong></td><td><strong>5/8</strong></td><td><strong>5/8</strong></td><td><strong>19</strong></td></tr>
+<tr style="background:#f0fdf4"><td><strong>NP+DI + AI scan</strong></td><td><strong>8/8</strong></td><td><strong>8/8</strong></td><td><strong>8/8</strong></td><td><strong>8/8</strong></td><td><strong>~22</strong></td></tr>
+<tr><td>EPSS ≥ 0.10</td><td>1/8</td><td>4/8</td><td>4/8</td><td>8/8</td><td>33</td></tr>
+<tr><td>EPSS ≥ 0.50</td><td>0/8</td><td>2/8</td><td>4/8</td><td>7/8</td><td>21</td></tr>
 </tbody>
 </table>
-<p style="margin-top:8px;font-size:.88rem;color:#64748b">Scored against 8 in-scope exploited CVEs (network-parser libraries). Two additional exploited CVEs — commons-text (not a network parser) and SnakeYAML (deserialization, deliberately excluded) — are out of NP+DI's scope, not misses.<sup>†</sup> EPSS counts are normalized to the same 8 for apples-to-apples; at EPSS ≥ 0.50, ActiveMQ (0.47) falls below threshold.</p>
+<p style="margin-top:8px;font-size:.88rem;color:#64748b">Day 0/7/30 EPSS scores queried from the <a href="https://www.first.org/epss/" target="_blank" rel="noopener" style="color:var(--cyan)">FIRST.org historical API</a>. Two pre-EPSS CVEs (Ghostcat 2020, Tomcat CGI 2019) and two with no early data (Spring4Shell day 1, ActiveMQ day 1) scored as 0. "Eventually" uses current scores. Two exploited CVEs out of NP+DI scope (commons-text, SnakeYAML) excluded from all counts.<sup>†</sup></p>
 </div>
 
 <div class="card">
-<p><strong>The speed advantage is the point.</strong> NP+DI fires on disclosure day — it's structural, not behavioral. EPSS has to wait for exploitation signal to build (PoCs, social media, threat intel feeds). <a href="https://www.first.org/epss/user-guide" target="_blank" rel="noopener" style="color:var(--cyan)">FIRST.org doesn't prescribe a threshold</a>; they recommend combining EPSS with CVSS in a context-dependent quadrant model. Here's what the actual lag looks like:</p>
+<p><strong>EPSS needs the world to react before it can score.</strong> NP+DI fires on disclosure day because it reads CVE structure, not exploitation signal. Here's the raw EPSS timeline for each exploited CVE:</p>
 <table style="font-size:.88rem">
-<thead><tr><th>CVE</th><th>Name</th><th>Published</th><th>NP+DI fires</th><th>EPSS ≥ 0.50</th><th>Delay</th></tr></thead>
+<thead><tr><th>CVE</th><th>Name</th><th>Day 1</th><th>Day 7</th><th>Day 30</th><th>Current</th></tr></thead>
 <tbody>
-<tr><td><code>CVE-2021-44228</code></td><td>Log4Shell</td><td>2021-12-10</td><td style="color:var(--green)">Day 0</td><td>2021-12-14</td><td style="font-weight:600">+4 days</td></tr>
-<tr><td><code>CVE-2022-22965</code></td><td>Spring4Shell</td><td>2022-03-31</td><td style="color:var(--green)">Day 0</td><td>2022-04-09</td><td style="font-weight:600">+9 days</td></tr>
-<tr><td><code>CVE-2021-39144</code></td><td>XStream RCE</td><td>2021-08-25</td><td style="color:var(--green)">Day 0</td><td>2023-03-07</td><td style="font-weight:600;color:#ef4444">+559 days</td></tr>
-<tr><td><code>CVE-2021-45046</code></td><td>Log4Shell f/u</td><td>2021-12-14</td><td style="color:var(--green)">Day 0</td><td>~2021-12-18</td><td style="font-weight:600">+4 days</td></tr>
-<tr><td><code>CVE-2019-0232</code></td><td>Tomcat CGI</td><td>2019-04-18</td><td style="color:var(--green)">Day 0</td><td>pre-EPSS</td><td style="font-size:.8rem">EPSS launched 2021</td></tr>
+<tr><td><code>CVE-2021-44228</code></td><td>Log4Shell</td><td style="color:var(--green)">0.159</td><td style="color:var(--green)">0.918</td><td>0.933</td><td>0.945</td></tr>
+<tr><td><code>CVE-2021-45046</code></td><td>Log4Shell f/u</td><td>0.056</td><td style="color:var(--green)">0.789</td><td>0.818</td><td>0.943</td></tr>
+<tr><td><code>CVE-2022-22965</code></td><td>Spring4Shell</td><td>—</td><td style="color:var(--green)">0.225</td><td>0.651</td><td>0.944</td></tr>
+<tr><td><code>CVE-2021-39144</code></td><td>XStream RCE</td><td>0.014</td><td>0.014</td><td style="color:#ef4444">0.018</td><td>0.943</td></tr>
+<tr><td><code>CVE-2025-24813</code></td><td>Tomcat PUT</td><td>0.000</td><td style="color:var(--green)">0.195</td><td>0.935</td><td>0.942</td></tr>
+<tr><td><code>CVE-2020-1938</code></td><td>Ghostcat</td><td colspan="3" style="text-align:center;color:#64748b">pre-EPSS (disclosed Feb 2020)</td><td>0.945</td></tr>
+<tr><td><code>CVE-2026-34197</code></td><td>ActiveMQ</td><td>—</td><td>—</td><td style="color:#ef4444">0.062</td><td style="color:#ef4444">0.596</td></tr>
+<tr><td><code>CVE-2019-0232</code></td><td>Tomcat CGI</td><td colspan="3" style="text-align:center;color:#64748b">pre-EPSS (disclosed Apr 2019)</td><td>0.941</td></tr>
 </tbody>
 </table>
-<p style="margin-top:8px">Log4Shell and Spring4Shell were famous enough that EPSS caught up in days. XStream sat below 0.50 for <strong>19 months</strong> — it only crossed when the EPSS v3 model shipped in March 2023, not because of new exploitation signal. For the CVEs where speed matters most (day-zero RCE in your web framework), NP+DI has a 4–9 day head start over EPSS on the fast ones, and a year-plus advantage on quieter libraries.</p>
+<p style="margin-top:8px">Only Log4Shell crossed EPSS 0.10 on day 1 — and that's because the entire internet was on fire. XStream sat at 0.018 for a month and didn't cross 0.50 until <strong>19 months later</strong> when the EPSS v3 model shipped (March 2023) — a model change, not new exploitation signal. ActiveMQ still hasn't crossed 0.50 (peaked at 0.47). <a href="https://www.first.org/epss/user-guide" target="_blank" rel="noopener" style="color:var(--cyan)">FIRST.org doesn't prescribe a threshold</a>; they recommend combining EPSS with CVSS in a context-dependent quadrant model.</p>
 </div>
 
 <div class="card">
@@ -596,8 +596,9 @@ details summary:hover{color:var(--cyan)}
 </div>
 
 <div class="callout callout-warning">
-<strong>NP+DI's value over EPSS is speed, not recall.</strong> Both filters produce ~19–21 patch events over 7 years. But NP+DI fires on disclosure day because it reads the CVE's structure, not the world's reaction to it. EPSS needs 4–9 days to catch famous vulns (Log4Shell, Spring4Shell), weeks-to-months for well-known libraries, and 19 months for XStream. For the worst-case CVEs — the ones where every hour matters — that's the difference between "we started patching Friday" and "we started patching the following week."
-<p style="margin-top:8px">Add the AI safety-net (automated CWE validation for NP-but-not-DI advisories) and NP+DI catches 8/8 on day zero. EPSS ≥ 0.50 catches 7/8 eventually. The one it misses (ActiveMQ, 0.47) is the one where the CWE was lazily tagged CWE-20 and the exploitation signal never built — exactly the kind of quiet-but-dangerous vuln that a structural filter exists to catch.</p>
+<strong>NP+DI + AI scan catches 8/8 on day zero. EPSS ≥ 0.10 catches 1/8.</strong>
+<p style="margin-top:8px">EPSS is a retrospective tool being used for a real-time problem. Its scores are excellent for prioritizing a backlog of unpatched CVEs — but for the question "should I drop everything and rebuild right now?", it can't answer until the exploitation ecosystem has reacted. That takes days for famous vulns (Log4Shell), weeks for well-known libraries (Tomcat PUT), and months-to-never for quieter ones (XStream, ActiveMQ).</p>
+<p style="margin-top:8px">NP+DI is the opposite trade-off: it fires immediately because it reads the CVE's structure, not the world's reaction to it. The 3 misses are CWE metadata failures, not timing failures — and the AI safety-net closes that gap on day zero too. The result is a filter that answers "rebuild now?" the moment the advisory drops, without waiting for Twitter to notice.</p>
 </div>
 
 <h3>2. CISA KEV — Known Exploited Vulnerabilities</h3>
