@@ -638,14 +638,17 @@ new Chart(document.getElementById('layerDistChart'), {
   });
 })();
 
+// Sort CVSS buckets descending (10.0 → 6.0)
+const httpSorted = [...DATA.http_data].sort((a,b) => parseFloat(b.bucket) - parseFloat(a.bucket));
+
 // 3. HTTP chart
 new Chart(document.getElementById('httpChart'), {
     type: 'bar',
     data: {
-        labels: DATA.http_data.map(h => 'CVSS '+h.bucket),
+        labels: httpSorted.map(h => 'CVSS '+h.bucket),
         datasets: [
-            {label:'HTTP-parsing',data:DATA.http_data.map(h=>h.http_rate),backgroundColor:C.red,borderRadius:4},
-            {label:'Non-HTTP',data:DATA.http_data.map(h=>h.nonhttp_rate),backgroundColor:C.slate,borderRadius:4}
+            {label:'HTTP-parsing',data:httpSorted.map(h=>h.http_rate),backgroundColor:C.red,borderRadius:4},
+            {label:'Non-HTTP',data:httpSorted.map(h=>h.nonhttp_rate),backgroundColor:C.slate,borderRadius:4}
         ]
     },
     options: { scales:{y:{beginAtZero:true,ticks:{callback:v=>v+'%'}}}, plugins:{legend:{position:'top'}} }
@@ -655,11 +658,11 @@ new Chart(document.getElementById('httpChart'), {
 new Chart(document.getElementById('liftChart'), {
     type: 'bar',
     data: {
-        labels: DATA.http_data.map(h => 'CVSS '+h.bucket),
+        labels: httpSorted.map(h => 'CVSS '+h.bucket),
         datasets: [{
             label: 'Exploitation Lift (×)',
-            data: DATA.http_data.map(h => h.lift),
-            backgroundColor: DATA.http_data.map(h => h.lift >= 5 ? C.red : h.lift >= 3 ? C.amber : C.green),
+            data: httpSorted.map(h => h.lift),
+            backgroundColor: httpSorted.map(h => h.lift >= 5 ? C.red : h.lift >= 3 ? C.amber : C.green),
             borderRadius: 4
         }]
     },
