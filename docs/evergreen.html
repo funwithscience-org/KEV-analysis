@@ -468,17 +468,28 @@ code{background:#f1f5f9;padding:2px 6px;border-radius:4px;font-size:.88em}
 <h3>Why newer kernels have more CVEs</h3>
 
 <div class="card">
-<p>Each RHEL major version adds kernel subsystems that become fresh attack surface: user namespaces, eBPF, io_uring, OverlayFS, nf_tables improvements, cgroup v2, fs_context. These are valuable security infrastructure (namespaces enable containers, eBPF enables monitoring), but they carry their own bugs.</p>
+<p>The obvious explanation is "new subsystems" — user namespaces, eBPF, io_uring, nf_tables — that don't exist in older kernels. That's part of the story, but the KEV data reveals a bigger one: <strong>new code in old subsystems</strong>.</p>
 
-<p style="margin-top:12px">Of 12 notable kernel CVEs examined from 2018–2024:</p>
-<table style="font-size:.88em">
-<thead><tr><th>Pattern</th><th>Count</th><th>Examples</th></tr></thead>
+<p style="margin-top:12px">We traced the bug-introduction point for every Linux kernel CVE in the CISA KEV catalog that affects RHEL 8 or 9. The subsystem names are familiar — AF_PACKET, ALSA, ptrace, POSIX timers — but the vulnerable code is not:</p>
+
+<table style="font-size:.84em">
+<thead><tr><th>CVE</th><th>Subsystem</th><th>Subsystem exists since</th><th>Bug introduced in</th><th>RHEL 6?</th></tr></thead>
 <tbody>
-<tr><td>Hit newer RHEL, <strong>not</strong> older</td><td style="font-weight:700;color:var(--red)">6</td><td>Dirty Pipe (5.8+), OverlayFS privesc (5.11+), fs_context heap overflow (4.18+), cgroup1 UAF (5.x), nf_tables (5.8+), AF_PACKET (4.6+)</td></tr>
-<tr><td>Hit all versions equally</td><td>4</td><td>SACK Panic (TCP), vhost overflow, Sequoia (VFS), Meltdown (hardware)</td></tr>
-<tr><td>Hit older RHEL, <strong>not</strong> newer</td><td style="font-weight:700;color:var(--green)">2</td><td>cls_route UAF (legacy code removed), Dirty COW (mm race fixed)</td></tr>
+<tr><td><code>CVE-2021-22600</code></td><td>AF_PACKET</td><td>kernel 2.0</td><td style="color:var(--red)">4.14</td><td class="yes">No — 2017-era rework</td></tr>
+<tr><td><code>CVE-2023-0266</code></td><td>ALSA PCM</td><td>kernel 2.6</td><td style="color:var(--red)">4.14</td><td class="yes">No — locking refactor</td></tr>
+<tr><td><code>CVE-2019-13272</code></td><td>ptrace</td><td>~forever</td><td style="color:var(--red)">3.16</td><td class="yes">No — credential change</td></tr>
+<tr><td><code>CVE-2025-38352</code></td><td>POSIX timers</td><td>kernel 2.6</td><td style="color:var(--red)">2.6.36</td><td class="yes">No — timer refactor</td></tr>
+<tr><td><code>CVE-2024-50302</code></td><td>HID core</td><td>kernel 2.6</td><td style="color:var(--red)">3.12</td><td class="yes">No — buffer change</td></tr>
+<tr><td><code>CVE-2024-1086</code></td><td>nf_tables</td><td>kernel 3.13</td><td style="color:var(--red)">3.15</td><td class="yes">No — entire subsystem absent</td></tr>
+<tr><td><code>CVE-2021-22555</code></td><td>netfilter/xtables</td><td>kernel 2.6</td><td>2.6.19</td><td class="worse">Yes — genuinely old bug</td></tr>
 </tbody>
 </table>
+
+<p style="margin-top:12px">RHEL 6 has AF_PACKET, ALSA, ptrace, and POSIX timers. But it has the <strong>2008-era versions</strong>. The bugs being exploited today were introduced by refactors and feature additions in kernel 3.x–4.x. Only 1 of 11 RHEL 8 KEV entries (CVE-2021-22555) is in genuinely old code that exists in RHEL 6.</p>
+</div>
+
+<div class="callout callout-finding">
+<strong>Where the bugs were introduced — by RHEL era:</strong> Of 14 unique kernel CVEs exploited on RHEL 8 or 9, 79% (11 of 14) were introduced before RHEL 8's kernel (4.18) — mostly in the RHEL 7 era (3.10–4.17). Only 21% (3 of 14) were introduced after 4.18. This means <strong>RHEL 8 and 9 share 64% of their exploited CVEs</strong> (9 of 14). The big generation boundary is between RHEL 7 and 8, not between 8 and 9. The RHEL 9 advantage over RHEL 8 is almost entirely about mitigations, not fewer applicable CVEs.
 </div>
 
 <h3>The exploitation test: KEV + Metasploit</h3>
@@ -499,24 +510,45 @@ code{background:#f1f5f9;padding:2px 6px;border-radius:4px;font-size:.88em}
 </div>
 
 <div class="callout callout-success">
-<strong>Unlike Java libraries, the kernel has a real evergreening win at the exploitation layer.</strong> By moving from RHEL 6/7 to RHEL 9, you drop 10 confirmed-exploited CVEs and pick up 3 new ones — a net reduction of 7 exploited CVEs (excluding physical-access and both-gen). That 10-to-3 ratio is not something we saw in any other layer of the stack.
+<strong>Unlike Java libraries, the kernel has a real evergreening win — but it's between RHEL 6/7 and RHEL 8, not between 8 and 9.</strong> Moving from RHEL 6/7 to RHEL 8+ drops 10 old-gen-only KEV entries. But RHEL 8 and 9 share 64% of their exploited CVEs (9 of 14 unique entries) because most bugs were introduced in the 3.x–4.x kernel era, before either shipped.
 </div>
 
-<p>But the picture gets more interesting when you add mitigations. Take Dirty Pipe (CVE-2022-0847): the underlying bug exists in RHEL 8's kernel (4.18), but the specific exploit path requires <code>PIPE_BUF_FLAG_CAN_MERGE</code> functionality introduced in 5.8. Red Hat marked RHEL 8 as "affected" but noted that known exploits don't work. The <strong>Metasploit module checks kernel ≥ 5.8</strong> and won't even attempt RHEL 8. Similarly, the <code>af_packet_packet_set_ring</code> Metasploit module explicitly documents that it includes SMEP, SMAP, and KASLR bypasses — the module needs those bypasses precisely because RHEL 7+ enforces those protections.</p>
+<h3>Generation span: which RHEL versions share which exploited CVEs?</h3>
 
-<p>This gives us two distinct generation effects for kernels that we didn't see for Java:</p>
+<div class="card">
+<table style="font-size:.82em">
+<thead><tr><th>Span</th><th>Count</th><th>CVEs</th><th>Pattern</th></tr></thead>
+<tbody>
+<tr style="background:rgba(16,185,129,.06)"><td><strong>RHEL 6 only</strong></td><td>3</td><td>RDS, perf_events, fbmem</td><td>Fixed before kernel 3.10. Evergreening to RHEL 7 eliminates these.</td></tr>
+<tr style="background:rgba(16,185,129,.06)"><td><strong>RHEL 6+7</strong></td><td>5</td><td>tty race, futex, <strong>Dirty Cow</strong>, ELF PIE, ELF overflow</td><td>Fixed before kernel 4.18. Evergreening to RHEL 8 eliminates these.</td></tr>
+<tr><td><strong>RHEL 6+7+8</strong></td><td>1</td><td>netfilter xtables (CVE-2021-22555)</td><td>The ONE genuinely old bug. Fixed in 5.12, so RHEL 9 drops it.</td></tr>
+<tr style="background:rgba(245,158,11,.06)"><td><strong>RHEL 7+8</strong></td><td>1</td><td>ptrace creds</td><td>Bug intro 3.16, fixed 5.1. Falls off at RHEL 9.</td></tr>
+<tr style="background:rgba(245,158,11,.06)"><td><strong>RHEL 7+8+9</strong></td><td>2</td><td>nf_tables (CVE-2024-1086), HID core*</td><td>Bug intro 3.x era. Persists across modern RHEL.</td></tr>
+<tr style="background:rgba(245,158,11,.06)"><td><strong>RHEL 8+9</strong></td><td>3</td><td>AF_PACKET, nft_object, ALSA PCM</td><td>Bug intro 3.13–4.14. Present in both modern versions.</td></tr>
+<tr style="background:rgba(239,68,68,.06)"><td><strong>RHEL 9 only</strong></td><td>3</td><td>fs_context, <strong>Dirty Pipe</strong>, overlayfs privesc</td><td>Bug intro 5.1–5.11. Evergreening to RHEL 9 <em>introduces</em> these.</td></tr>
+<tr><td><strong>All versions</strong></td><td>4</td><td>USB UVC*, USB-audio* (×2), POSIX timers</td><td>3 require physical USB access. POSIX timers is the one shared remote CVE.</td></tr>
+</tbody>
+</table>
+<p class="footnote">* = requires physical USB device insertion. 22 of 24 KEV entries shown (2 excluded: ARM-only and Ubuntu-config-only).</p>
+</div>
+
+<p>Reading this table top-to-bottom: RHEL 6→7 drops 3 CVEs. RHEL 7→8 drops 5 more plus ptrace. RHEL 8→9 drops 2 (netfilter xtables, ptrace) but <em>adds</em> 3 (Dirty Pipe, fs_context, overlayfs). The middle band — RHEL 8+9 shared — is 5 CVEs that neither upgrade avoids. That 64% overlap between RHEL 8 and 9 is the key finding.</p>
+
+<p>The RHEL 8 → 9 step changes the exploitation story through <strong>mitigations, not surface removal</strong>. Take Dirty Pipe (CVE-2022-0847): the underlying bug exists in RHEL 8's kernel (4.18), but the specific exploit path requires <code>PIPE_BUF_FLAG_CAN_MERGE</code> functionality introduced in 5.8. Red Hat marked RHEL 8 as "affected" but noted that known exploits don't work. The <strong>Metasploit module checks kernel ≥ 5.8</strong> and won't even attempt RHEL 8. Similarly, the <code>af_packet_packet_set_ring</code> Metasploit module explicitly documents that it includes SMEP, SMAP, and KASLR bypasses — the module needs those bypasses precisely because RHEL 7+ enforces those protections.</p>
+
+<p>This gives us two distinct generation effects, but they operate at different boundaries:</p>
 
 <div class="card">
 <table style="font-size:.88em">
-<thead><tr><th>Effect</th><th>What happens</th><th>Java equivalent?</th></tr></thead>
+<thead><tr><th>Effect</th><th>Boundary</th><th>What happens</th></tr></thead>
 <tbody>
-<tr><td><strong>Surface removal</strong></td><td>42% of exploited kernel CVEs exist only in old code that newer kernels don't ship</td><td>Yes, but the old-gen-only Java CVEs weren't being exploited on servers anyway</td></tr>
-<tr><td><strong>Exploitation hardening</strong></td><td>The 25% of exploited CVEs hitting both generations are dramatically harder to exploit on RHEL 9 (SMEP+SMAP+KASLR+CFI vs. nothing)</td><td>No equivalent — JVM has no analog to SMEP/SMAP</td></tr>
+<tr><td><strong>Surface removal</strong></td><td>RHEL 6/7 → RHEL 8</td><td>10 old-gen KEV entries dropped. Not because old subsystems are removed, but because the <em>buggy code revisions</em> in those subsystems (AF_PACKET 4.14 rework, ptrace 3.16 cred change, ALSA 4.14 locking) postdate kernel 2.6/3.10.</td></tr>
+<tr><td><strong>Exploitation hardening</strong></td><td>RHEL 8 → RHEL 9</td><td>Minimal surface difference (9 of 14 KEV CVEs shared). But SMEP+SMAP+KASLR+CFI make the shared CVEs dramatically harder to weaponize. The value is in mitigations, not in CVE avoidance.</td></tr>
 </tbody>
 </table>
 </div>
 
-<p>This is why the kernel is the strongest case for evergreening in the entire analysis: it's the one layer where you get both fewer exploited CVEs <em>and</em> harder exploitation of the CVEs that remain.</p>
+<p>The kernel is still the strongest case for evergreening in the analysis — but the argument is layered. The RHEL 6 → 8 jump reduces confirmed exploitation. The RHEL 8 → 9 jump reduces exploitability of shared CVEs. Neither looks like the Java story (where evergreening was neutral-to-harmful).</p>
 
 <h3>Validation: "Not Affected" vs "Won't Fix"</h3>
 
