@@ -306,10 +306,34 @@ code{background:#f1f5f9;padding:2px 6px;border-radius:4px;font-size:.88em}
 <strong>Finding:</strong> Evergreening is irrelevant for 6 of 28 CVEs (XStream) because there's only one version line. It's irrelevant for 7 more (Tomcat) because all generations are affected equally. It matters for Spring — but only for patch access, not vulnerability avoidance, and the paywalled CVEs aren't being exploited. The lever that actually maps to library health state is <strong>dependency pruning</strong> (drop XStream: &minus;6 CVEs) and <strong>patch currency</strong> (stay on latest minor: handles 24 of 28). Generation shifts are orthogonal.
 </div>
 
-<!-- ===== JVM PLATFORM ===== -->
-<h2>2. The JVM Platform — One Big Discontinuity, Then Flat</h2>
+<h3>The Java evergreening funnel: C/H → NP+DI → Exploited</h3>
 
-<p>The library analysis above covers the application layer. But the JVM itself is a platform — and it has its own CVE history independent of Spring, Tomcat, or Log4j. Does staying on the latest JDK (8 → 11 → 17 → 21) reduce exposure at the platform level?</p>
+<p>Pulling together libraries and JVM platform into a single view. For each generation category, how many CVEs survive each filter stage?</p>
+
+<div class="card">
+<table style="font-size:.84em">
+<thead><tr><th>Generation</th><th>Layer</th><th>C/H CVEs</th><th>NP+DI</th><th>Exploited (KEV/MSF)</th><th>Verdict</th></tr></thead>
+<tbody>
+<tr style="background:rgba(16,185,129,.06)"><td><strong>Old gen only</strong><br>(avoided by evergreening)</td><td>Libraries</td><td>2</td><td>2</td><td style="color:var(--green);font-weight:700">0</td><td>Dead libraries (jackson-mapper-asl, Springfox). Neither exploited.</td></tr>
+<tr style="background:rgba(16,185,129,.06)"><td></td><td>JVM (desktop)</td><td>13+</td><td>varies</td><td style="color:var(--green);font-weight:700">0 server</td><td>Applet/sandbox escapes. All 13 KEV entries are desktop-only — zero server risk.</td></tr>
+<tr style="background:rgba(16,185,129,.06)"><td></td><td>JVM (server)</td><td>~3–5/yr</td><td>few</td><td style="color:var(--green);font-weight:700">0</td><td>Nashorn, RMI, legacy Hotspot. Low severity, none exploited.</td></tr>
+<tr style="background:rgba(239,68,68,.06)"><td><strong>New gen only</strong><br>(introduced by evergreening)</td><td>Libraries</td><td>2</td><td>2</td><td style="color:var(--red);font-weight:700">2</td><td>Spring4Shell (KEV + MSF), ActiveMQ Jolokia (KEV + MSF). Both confirmed exploited.</td></tr>
+<tr style="background:rgba(239,68,68,.06)"><td></td><td>JVM</td><td>~2–3/yr</td><td>some</td><td style="color:var(--green);font-weight:700">0</td><td>Psychic Signatures (CVSS 7.5, Java 15-18 only). Not exploited.</td></tr>
+<tr><td><strong>Both gens</strong><br>(no difference)</td><td>Libraries</td><td>~24</td><td>~22</td><td style="color:var(--red);font-weight:700">2</td><td>Log4Shell (KEV), XStream CVE-2021-39144 (KEV, via VMware). Shared-code bugs.</td></tr>
+<tr><td></td><td>JVM</td><td>70–80%/yr</td><td>most (AV:N ~90%)</td><td style="color:var(--green);font-weight:700">0</td><td>JSSE, Networking, 2D, JAXP. Shared code, same-day patches, never exploited on servers.</td></tr>
+<tr style="background:rgba(245,158,11,.06)"><td><strong>Both gens, paywalled on old</strong><br>(patch access gap)</td><td>Libraries</td><td>7</td><td>4</td><td style="color:var(--green);font-weight:700">0</td><td>Spring post-EOL. Broadcom paywall, no free patch. None exploited.</td></tr>
+</tbody>
+</table>
+</div>
+
+<div class="callout callout-warning">
+<strong>The pattern is stark.</strong> The only CVEs in this entire dataset that are confirmed exploited on the <em>new</em> generation (Spring4Shell, ActiveMQ) are ones that evergreening <em>introduced</em>. The CVEs that evergreening avoids (dead libraries, desktop applets, legacy JVM subsystems) have zero server-side exploitation. And the CVEs that hit both generations equally (Log4Shell, XStream) are the ones where the generation is irrelevant. Evergreening's net effect on the Java stack: you trade unexploited old-gen-only CVEs for exploited new-gen-only CVEs.
+</div>
+
+<!-- ===== JVM PLATFORM ===== -->
+<h2>2. The JVM Platform — Flat for Servers</h2>
+
+<p>The library analysis above covers the application layer. The JVM itself has its own CVE history independent of Spring, Tomcat, or Log4j. For server workloads, the picture is simple: zero confirmed exploitation at any version, ever.</p>
 
 <div class="hero-row">
 <div class="hero-card">
