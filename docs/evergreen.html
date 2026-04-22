@@ -481,6 +481,43 @@ code{background:#f1f5f9;padding:2px 6px;border-radius:4px;font-size:.88em}
 </table>
 </div>
 
+<h3>The exploitation test: KEV + Metasploit</h3>
+
+<p>Advisory counts and example CVEs are suggestive, but we've argued throughout this analysis that <strong>exploitation is what matters</strong>. So: of the 24 Linux kernel CVEs in the CISA KEV catalog (confirmed exploited in the wild), how do they break down by generation?</p>
+
+<div class="card">
+<table style="font-size:.84em">
+<thead><tr><th>Generation</th><th>KEV Count</th><th>%</th><th>Key CVEs</th></tr></thead>
+<tbody>
+<tr style="background:rgba(16,185,129,.06)"><td><strong>Old-gen only</strong><br><span style="font-size:.85em;color:var(--muted)">Fixed before RHEL 8/9 kernel</span></td><td style="font-weight:700;color:var(--green)">10</td><td>42%</td><td>Dirty Cow (CVE-2016-5195), futex/Towelroot (CVE-2014-3153), netfilter x_tables (CVE-2021-22555), ELF PIE (CVE-2017-1000253), perf_events, tty race, RDS, fbmem, ARM API, ELF overflow</td></tr>
+<tr style="background:rgba(239,68,68,.06)"><td><strong>New-gen only</strong><br><span style="font-size:.85em;color:var(--muted)">Introduced by RHEL 8/9 era code</span></td><td style="font-weight:700;color:var(--red)">3</td><td>12%</td><td>Dirty Pipe (CVE-2022-0847, 5.8+), OverlayFS privesc (CVE-2023-0386, 5.11+), fs_context overflow (CVE-2022-0185, 5.1+)</td></tr>
+<tr><td><strong>Both generations</strong><br><span style="font-size:.85em;color:var(--muted)">Shared code, spans old + new</span></td><td style="font-weight:700">6</td><td>25%</td><td>nf_tables (CVE-2024-1086), POSIX timers (CVE-2025-38352), ALSA PCM, AF_PACKET double-free, nft_object, ptrace creds</td></tr>
+<tr><td><strong>Physical USB access</strong><br><span style="font-size:.85em;color:var(--muted)">Different threat model</span></td><td style="color:var(--muted)">4</td><td>17%</td><td>UVC video, HID core, USB-audio (×2) — all require physical device insertion</td></tr>
+<tr><td><strong>Config-specific</strong></td><td style="color:var(--muted)">1</td><td>4%</td><td>CVE-2021-3493 — Ubuntu user_ns config; RHEL unaffected by default</td></tr>
+</tbody>
+</table>
+</div>
+
+<div class="callout callout-success">
+<strong>Unlike Java libraries, the kernel has a real evergreening win at the exploitation layer.</strong> By moving from RHEL 6/7 to RHEL 9, you drop 10 confirmed-exploited CVEs and pick up 3 new ones — a net reduction of 7 exploited CVEs (excluding physical-access and both-gen). That 10-to-3 ratio is not something we saw in any other layer of the stack.
+</div>
+
+<p>But the picture gets more interesting when you add mitigations. Take Dirty Pipe (CVE-2022-0847): the underlying bug exists in RHEL 8's kernel (4.18), but the specific exploit path requires <code>PIPE_BUF_FLAG_CAN_MERGE</code> functionality introduced in 5.8. Red Hat marked RHEL 8 as "affected" but noted that known exploits don't work. The <strong>Metasploit module checks kernel ≥ 5.8</strong> and won't even attempt RHEL 8. Similarly, the <code>af_packet_packet_set_ring</code> Metasploit module explicitly documents that it includes SMEP, SMAP, and KASLR bypasses — the module needs those bypasses precisely because RHEL 7+ enforces those protections.</p>
+
+<p>This gives us two distinct generation effects for kernels that we didn't see for Java:</p>
+
+<div class="card">
+<table style="font-size:.88em">
+<thead><tr><th>Effect</th><th>What happens</th><th>Java equivalent?</th></tr></thead>
+<tbody>
+<tr><td><strong>Surface removal</strong></td><td>42% of exploited kernel CVEs exist only in old code that newer kernels don't ship</td><td>Yes, but the old-gen-only Java CVEs weren't being exploited on servers anyway</td></tr>
+<tr><td><strong>Exploitation hardening</strong></td><td>The 25% of exploited CVEs hitting both generations are dramatically harder to exploit on RHEL 9 (SMEP+SMAP+KASLR+CFI vs. nothing)</td><td>No equivalent — JVM has no analog to SMEP/SMAP</td></tr>
+</tbody>
+</table>
+</div>
+
+<p>This is why the kernel is the strongest case for evergreening in the entire analysis: it's the one layer where you get both fewer exploited CVEs <em>and</em> harder exploitation of the CVEs that remain.</p>
+
 <h3>Validation: "Not Affected" vs "Won't Fix"</h3>
 
 <p>We queried the <a href="https://access.redhat.com/hydra/rest/securitydata/">Red Hat Security Data API</a> for 141 Important-severity kernel CVEs from 2023–2024 that were patched on RHEL 8 or RHEL 9, and checked each one's status on RHEL 6:</p>
@@ -842,7 +879,7 @@ code{background:#f1f5f9;padding:2px 6px;border-radius:4px;font-size:.88em}
 <table>
 <thead><tr><th>Strategy</th><th>Reduces CVE count?</th><th>Reduces exploitation risk?</th><th>Mechanism</th></tr></thead>
 <tbody>
-<tr><td><strong>Evergreening</strong> (new major versions)</td><td><span class="tag tag-red">No — equal or more</span></td><td><span class="tag tag-amber">Depends on ecosystem</span></td><td>JVM: 13 KEV entries were desktop/applet only — zero server-side exploitation at any version. RHEL/Windows: mitigations harden post-exploitation. Node.js: <em>adds</em> attack surface (permission model, undici, io_uring). Across all ecosystems, new versions introduce new bugs (Psychic Signatures, Spring4Shell, CVE-2022-35255). Spring 5.x post-EOL accumulates NP+DI debt but none exploited. Node.js has strongest evergreen pressure (30mo lifecycle, no free backports) but worst payoff (more CVEs, ecosystem risk is version-independent).</td></tr>
+<tr><td><strong>Evergreening</strong> (new major versions)</td><td><span class="tag tag-red">No — equal or more</span></td><td><span class="tag tag-amber">Depends on layer</span></td><td><strong>Kernel: best case</strong> — 10 of 24 KEV entries (42%) exist only in old-gen code, vs 3 (12%) new-gen-only. Net reduction of 7 confirmed-exploited CVEs, plus SMEP/SMAP/KASLR make remaining CVEs harder to exploit. <strong>Java libraries: neutral-to-worse</strong> — old-gen-only CVEs had zero server exploitation; new-gen-only had 2 confirmed exploited (Spring4Shell, ActiveMQ). <strong>JVM: irrelevant</strong> — 13 KEV entries were desktop/applet only, zero server risk at any version. <strong>Node.js: worse</strong> — adds attack surface (permission model, undici, io_uring), ecosystem risk is version-independent.</td></tr>
 <tr><td><strong>Patch currency</strong> (latest minor/patch)</td><td><span class="tag tag-green">Yes</span></td><td><span class="tag tag-green">Yes</span></td><td>26 of 28 Java CVEs fixed by point releases within existing major lines</td></tr>
 <tr><td><strong>Dependency pruning</strong> (drop unused libs)</td><td><span class="tag tag-green">Yes</span></td><td><span class="tag tag-green">Yes</span></td><td>Dropping XStream alone eliminates 6 of 28 CVEs regardless of generation</td></tr>
 <tr><td><strong>NP+DI filter</strong></td><td><span class="tag tag-green">Yes (80% reduction)</span></td><td><span class="tag tag-green">Yes</span></td><td>Works identically across generations — fires on CVE structure, not version</td></tr>
