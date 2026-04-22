@@ -168,9 +168,9 @@ code{background:#f1f5f9;padding:2px 6px;border-radius:4px;font-size:.88em}
 <strong>No.</strong> NP+DI fires on CWE pattern + network parser classification, not library version. The 2 avoided CVEs (jackson-mapper-asl, Swagger UI) were both NP+DI triggers — so the filter would have fired either way. The 2 "made worse" CVEs were also NP+DI triggers. You'd rebuild the same number of times on either generation. The filter is generation-agnostic because the vulnerability classes it targets (injection, parser abuse, auth bypass) exist in every generation.
 </div>
 
-<h3>The lifecycle question: Spring 5.x after EOL</h3>
+<h3>A different question: can you get patches at all?</h3>
 
-<p>The NP+DI analysis above covers the 8-year backtest window. But Spring 5.x has now crossed its OSS end-of-life (Framework 5.3: Aug 2024, Boot 2.7: Nov 2023). Does the post-EOL accumulation pattern we saw with RHEL 6 repeat here?</p>
+<p>The 28-CVE backtest above asks: <em>does your generation determine which CVEs you face?</em> Answer: barely (2 avoided, 2 worse, 24 identical). But there's a second question the backtest doesn't capture: <em>can you get a free patch when a CVE hits?</em> The CVEs below affect <strong>both</strong> Spring 5.x and 6.x — they would be "no difference" rows in the table above. But the patch availability diverges after Spring 5.3's OSS end-of-life.</p>
 
 <div class="card">
 <p><strong>Key dates:</strong></p>
@@ -202,7 +202,7 @@ code{background:#f1f5f9;padding:2px 6px;border-radius:4px;font-size:.88em}
 </table>
 </div>
 
-<p>The structural pattern is real: 7 CVEs accumulating, 4 clearly NP+DI, all paywalled. Unlike RHEL 6 kernel CVEs (where ~90% were genuinely "Not affected"), these <em>do</em> affect Spring 5.3.x — the code is there, the bugs are there, and Broadcom confirmed as much by shipping commercial patches. And unlike Microsoft's EternalBlue exception (where they went back and patched Windows 2003 for free), Broadcom held the commercial-only line even for the CVSS 9.1 auth bypass.</p>
+<p>To be clear: every one of these CVEs affects <strong>both</strong> Spring 5.x and 6.x. An evergreener on Spring 6 has the same bugs — the difference is purely that they can get a free OSS patch. These would all be "no difference" rows in the 28-CVE table, bringing the total to ~35 CVEs with the evergreening score still at 2 avoided / 2 worse. The gap is about patch access, not vulnerability avoidance. Broadcom held the commercial-only line even for the CVSS 9.1 auth bypass — no EternalBlue-style free exception.</p>
 
 <div class="callout callout-finding">
 <strong>But none of them are being exploited.</strong> Zero KEV entries, zero Metasploit modules, zero ExploitDB entries across all 7 CVEs. The path traversals require functional web framework endpoints (a minority of Spring apps). The auth bypass requires WebFlux + static resources + specific security config. The actuator bypass requires CloudFoundry deployment. The conditions are narrow enough that despite high CVSS scores and unpatched target populations, attackers haven't shown interest.
