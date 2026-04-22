@@ -68,17 +68,17 @@
       "2025-09": 3950, "2025-10": 4150, "2025-11": 4000, "2025-12": 4212
     },
     "monthly_cve_2026": {
-      "2026-01": 5143, "2026-02": 4808, "2026-03": 6304, "2026-04": 3885
+      "2026-01": 5143, "2026-02": 4808, "2026-03": 6304, "2026-04": 4227
     },
     "monthly_cve_2026_notes": {
-      "2026-04": "MTD through 2026-04-21 (21 days); extrapolated full-month ~5550 (3885 * 30/21). +187 net CVEs between day 20 snapshot and day 21 snapshot, driven largely by NVD back-population to 2026-04-20 (finalized at 166 entries vs the 14 we saw 24h earlier). Daily rate ~185/day. Tracking below March (6304) and below the +500/mo conservative Glasswing anchor.",
-      "prior_months_unchanged": "2026-01 = 5143, 2026-02 = 4808, 2026-03 = 6304 — re-confirmed on 2026-04-21."
+      "2026-04": "MTD through 2026-04-22 (22 days); extrapolated full-month ~5764 (4227 * 30/22). +342 net CVEs between day 21 and day 22 snapshots, driven primarily by NVD back-population of 2026-04-21 (finalized at 359 entries vs the 35 we saw 24h earlier) — classic 24h catch-up. Day 22 itself running at 18 entries same-day. Daily rate ~192/day. Still tracking below March (6304) and below the +500/mo conservative Glasswing anchor, but the gap has narrowed.",
+      "prior_months_unchanged": "2026-01 = 5143, 2026-02 = 4808, 2026-03 = 6304 — re-confirmed on 2026-04-22."
     },
     "weekly_cve_2026": {
       "2026-W14_Mar30_Apr05": 1304,
       "2026-W15_Apr06_Apr12": 1615,
       "2026-W16_Apr13_Apr19": 1178,
-      "2026-W17_Apr20_Apr26_partial": 201
+      "2026-W17_Apr20_Apr26_partial": 543
     },
     "ms_patch_tuesday": {
       "2025-01": 157, "2025-02": 57, "2025-03": 57, "2025-04": 124,
@@ -98,7 +98,7 @@
       "2026-01": 17, "2026-02": 28, "2026-03": 26, "2026-04": 22
     },
     "kev_monthly_2026_notes": {
-      "2026-04": "22 entries added 2026-04-01..2026-04-20 (per CISA KEV catalog version 2026.04.20). The four-day dry spell ended 2026-04-20 with a batch of 8 new entries, pushing April above the Q1 2026 monthly average (~24). Notable 2026-04-20 adds include a Cisco Catalyst SD-WAN Manager cluster (CVE-2026-20122, -20128, -20133) — all Cisco (Glasswing participant), all HTTP-adjacent management-plane bugs — plus CVE-2025-2749 (Kentico Xperience), CVE-2023-27351 (PaperCut NG/MF), CVE-2025-48700 (Zimbra), CVE-2025-32975 (Quest KACE SMA), and CVE-2024-27199 (JetBrains TeamCity). Earlier-April entries unchanged: CVE-2026-34197 (Apache ActiveMQ 2026-04-16), CVE-2026-32201 (SharePoint 0-day 2026-04-14), CVE-2026-21643 (Fortinet FortiClient EMS SQLi 2026-04-13), CVE-2026-34621 (Adobe Acrobat prototype pollution 2026-04-13), CVE-2026-1340 (Ivanti EPMM 2026-04-08), CVE-2026-35616 (Fortinet FortiClient EMS 2026-04-06), CVE-2026-3502 (TrueConf Client 2026-04-02), CVE-2026-5281 (Google Dawn 2026-04-01); plus 5 legacy re-adds on 2026-04-13/14 (CVE-2009-0238, CVE-2012-1854, CVE-2020-9715, CVE-2023-21529, CVE-2023-36424) and CVE-2025-60710 Microsoft Windows."
+      "2026-04": "22 entries added 2026-04-01..2026-04-20 (per CISA KEV catalog version 2026.04.21 released 2026-04-21T17:10Z). No new KEV additions between 2026-04-20 and 2026-04-22 — catalog refreshed but content unchanged. April total holding at 22 (ahead of Q1 monthly average ~24). Notable 2026-04-20 batch: Cisco Catalyst SD-WAN Manager cluster (CVE-2026-20122, -20128, -20133) — Cisco (Glasswing participant), HTTP-adjacent management-plane bugs; plus CVE-2025-2749 (Kentico Xperience), CVE-2023-27351 (PaperCut NG/MF), CVE-2025-48700 (Zimbra), CVE-2025-32975 (Quest KACE SMA), CVE-2024-27199 (JetBrains TeamCity). Earlier-April entries unchanged: CVE-2026-34197 (Apache ActiveMQ 2026-04-16), CVE-2026-32201 (SharePoint 0-day 2026-04-14), CVE-2026-21643 (Fortinet FortiClient EMS SQLi 2026-04-13), CVE-2026-34621 (Adobe Acrobat prototype pollution 2026-04-13), CVE-2026-1340 (Ivanti EPMM 2026-04-08), CVE-2026-35616 (Fortinet FortiClient EMS 2026-04-06), CVE-2026-3502 (TrueConf Client 2026-04-02), CVE-2026-5281 (Google Dawn 2026-04-01); plus 5 legacy re-adds on 2026-04-13/14 (CVE-2009-0238, CVE-2012-1854, CVE-2020-9715, CVE-2023-21529, CVE-2023-36424) and CVE-2025-60710 Microsoft Windows."
     }
   },
   "exploit_watch_list": {
@@ -127,7 +127,22 @@
   "exploit_intelligence": {
     "description": "Tracks public exploit availability for watch list CVEs across ExploitDB, Metasploit, and GitHub PoC repos. Updated daily by refresh agent.",
     "maturity_levels": ["none", "poc", "functional", "weaponized"],
-    "last_full_scan": null,
-    "cve_status": {}
+    "last_full_scan": "2026-04-22T03:10Z",
+    "cve_status": {
+      "CVE-2026-40477": {"exploitdb":{"found":false},"metasploit":{"found":false},"github_poc":{"found":true,"repo_count":null,"notes":"PoC exploits circulating in researcher communities per CSO Online / The Hacker Wire 2026-04-17; not aggregated in public indexes yet"},"overall_maturity":"poc","last_checked":"2026-04-22T03:10Z"},
+      "CVE-2026-40478": {"exploitdb":{"found":false},"metasploit":{"found":false},"github_poc":{"found":true,"repo_count":null,"notes":"Same Thymeleaf cluster as CVE-2026-40477 — PoCs circulating"},"overall_maturity":"poc","last_checked":"2026-04-22T03:10Z"},
+      "CVE-2026-5194": {"exploitdb":{"found":false},"metasploit":{"found":false},"github_poc":{"found":false,"repo_count":0,"notes":"No dedicated PoC published to major indexes; researchers likely holding to allow patching window"},"overall_maturity":"none","last_checked":"2026-04-22T03:10Z"},
+      "CVE-2026-5501": {"exploitdb":{"found":false},"metasploit":{"found":false},"github_poc":{"found":false,"repo_count":0},"overall_maturity":"none","last_checked":"2026-04-22T03:10Z"},
+      "CVE-2026-21858": {"exploitdb":{"found":false},"metasploit":{"found":false},"github_poc":{"found":true,"repo_count":null,"notes":"Ni8mare: Cyera Research published technical writeup with attack chain; Orca Security, Picus, Upwind all published explainers. Working attack chain in the wild."},"overall_maturity":"functional","last_checked":"2026-04-22T03:10Z"},
+      "CVE-2026-39987": {"exploitdb":{"found":false},"metasploit":{"found":false},"github_poc":{"found":true,"repo_count":null,"notes":"Marimo RCE exploited within 10h of disclosure per Security Affairs, The Hacker News, Resecurity. Exploitation is trivial (unauthenticated WebSocket /terminal/ws → PTY shell)."},"overall_maturity":"weaponized","last_checked":"2026-04-22T03:10Z"},
+      "CVE-2026-20180": {"exploitdb":{"found":false},"metasploit":{"found":false},"github_poc":{"found":false,"repo_count":0,"notes":"Fresh disclosure, no public PoC surfaced yet"},"overall_maturity":"none","last_checked":"2026-04-22T03:10Z"},
+      "CVE-2026-20186": {"exploitdb":{"found":false},"metasploit":{"found":false},"github_poc":{"found":false,"repo_count":0,"notes":"Fresh disclosure, no public PoC surfaced yet"},"overall_maturity":"none","last_checked":"2026-04-22T03:10Z"},
+      "CVE-2026-20147": {"exploitdb":{"found":false},"metasploit":{"found":false},"github_poc":{"found":false,"repo_count":0,"notes":"Fresh disclosure, no public PoC surfaced yet"},"overall_maturity":"none","last_checked":"2026-04-22T03:10Z"},
+      "CVE-2026-20184": {"exploitdb":{"found":false},"metasploit":{"found":false},"github_poc":{"found":false,"repo_count":0,"notes":"Fresh disclosure, no public PoC surfaced yet"},"overall_maturity":"none","last_checked":"2026-04-22T03:10Z"},
+      "CVE-2026-32201": {"exploitdb":{"found":false},"metasploit":{"found":false},"github_poc":{"found":true,"repo_count":null,"notes":"KEV-listed 2026-04-14 — active zero-day exploitation against SharePoint"},"overall_maturity":"weaponized","last_checked":"2026-04-22T03:10Z"},
+      "CVE-2026-34197": {"exploitdb":{"found":false},"metasploit":{"found":false},"github_poc":{"found":true,"repo_count":null,"notes":"KEV-listed 2026-04-16; Horizon3.ai Claude-assisted disclosure with full attack-chain walkthrough"},"overall_maturity":"weaponized","last_checked":"2026-04-22T03:10Z"},
+      "CVE-2026-34621": {"exploitdb":{"found":false},"metasploit":{"found":false},"github_poc":{"found":true,"repo_count":null,"notes":"KEV-listed 2026-04-15 — Adobe Acrobat prototype pollution, actively exploited"},"overall_maturity":"weaponized","last_checked":"2026-04-22T03:10Z"},
+      "CVE-2026-33825": {"exploitdb":{"found":true,"notes":"BlueHammer PoC posted to GitHub 2026-04-03 by pseudonym 'Chaotic Eclipse'/'Nightmare-Eclipse' prior to Apr 14 patch; triple-0day cluster alongside RedSun and UnDefend"},"metasploit":{"found":false},"github_poc":{"found":true,"repo_count":3,"notes":"Three Defender 0-days disclosed in a 13-day window; KEV-eligible"},"overall_maturity":"weaponized","last_checked":"2026-04-22T03:10Z"}
+    }
   }
 }
