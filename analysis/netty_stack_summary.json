@@ -1,0 +1,30 @@
+{
+  "stack": "Netty microservice",
+  "packages": 32,
+  "np_packages": 20,
+  "non_np_packages": 12,
+  "total_vulns": 140,
+  "ch": 95,
+  "np_ch": 86,
+  "npdi_ch": 27,
+  "non_np_ch": 9,
+  "noise_reduction_pct": 72,
+  "window": "2025-04-01 to 2026-04-30",
+  "in_window_ch": 4,
+  "in_window_npdi": 1,
+  "trigger_dates_ch": 3,
+  "trigger_dates_npdi": 1,
+  "npdi_trigger": {
+    "date": "2026-03-26",
+    "cve": "CVE-2026-33870",
+    "package": "netty-codec-http",
+    "cwes": [
+      "CWE-444"
+    ],
+    "summary": "Netty HTTP Request Smuggling via Chunked Extension"
+  },
+  "notes": {
+    "jackson_databind": "67 C/H, 20 NP+DI \u2014 jackson is NP in this stack (Netty parses HTTP, jackson parses JSON bodies)",
+    "cwe444_hit": "The ONLY NP+DI trigger was a CWE-444 smuggling bug \u2014 the CWE we just added"
+  }
+}
