@@ -358,4 +358,147 @@ Already covered in the main daily analyst report (`analyst-reports/2026-04-21.md
 
 ---
 
-*End of review (second-pass complete).*
+*End of second-pass review.*
+
+---
+
+## 10. Third-Pass Review — 2026-04-22
+
+A day of substantial page evolution. Reviewing against the prior-day recommendations, I find most of the structural advice has already landed in the repo — index.html and dashboard.html now match the outline proposed in Section 2.2. Three new pieces of analytical work were also added today: **Netty as a 4th ecosystem, CWE-444 added to the DI CWE set, and a 7-year historical backtest against a real enterprise Java manifest**. This pass evaluates those additions, checks what's still outstanding from yesterday's punch-list, and appends today's daily scan.
+
+### 10.1 What landed from yesterday's recommendations
+
+Cross-referencing commit history against Section 7 (action items) of the 2026-04-21 review:
+
+- ✅ **Index.html structural rewrite (action item #4).** The new section headings map cleanly to the 2.2 outline: §6 From Observation to Filter (NP+DI), §7 Cross-Framework Validation, §8 Kill Chain, §9 External Validation (Zero-Miss Window), §10 Three-Tier Patching Model, §11 Reverse Proxy Myth, §12 Mythos (demoted), §13 Watch List, §14 Caveats. The heavy-lift reorganization happened in the `index-v2.html → index.html` promotion (commit 4173854).
+- ✅ **Dashboard: NP+DI Filter section at the top and Three-Tier Patching Model replacement for Patch SLA cards (action item #2).** `docs/dashboard.html` now leads with the NP+DI cross-framework chart and the hero-stat triple (14 → 2-4, zero misses, CVE reference link), and the Three-Tier section replaced the prior 72h/7d/30d framework. The internal inconsistency flagged yesterday is resolved.
+- ✅ **TL;DR rewrite (action item #3).** The new index.html opens with "The Problem and What We Found" and leads with the prescriptive framing. Observational bullets follow, not lead.
+- ✅ **Periodicity-specific caveats in §14.** The caveats section explicitly includes OSV severity coverage, CWE-20 ambiguity, and window sensitivity. (See also §10.4 below — one pre-registration gap still open.)
+- ✅ **Top-of-page nav (action item #1).** Dashboard now links to Periodicity Analysis. Index.html's hero section also surfaces the filter-first framing.
+
+Still open from yesterday's punch-list:
+
+- ◻️ **"What would other filters have produced" comparison section (§8.1).** No CVSS-9-only / EPSS-threshold / KEV-listed comparison has been added. The External Validation section (§9 in the new outline) still validates NP+DI *against* other signals without running those signals as filters over the 129-CVE dataset. This remains the single highest-value unaddressed critique.
+- ◻️ **Pre-registered forward-looking KEV test (§8.2).** The periodicity page still claims "zero misses in 12 months" without an explicit pre-registration commitment that the 113 non-trigger CVEs will remain KEV-free through a stated future date. Without that commitment, the zero-miss number has a decay problem.
+- ◻️ **Operational cost of Tier 2 (§8.5).** The three-tier model still describes "monthly container refresh" as a benefit without a cost-side paragraph. Readers with 1,000-container fleets on quarterly cadence will notice.
+- ◻️ **Real-world manifest validation for Spring/Express/Django/Netty (§8.7).** The 7-year real-enterprise-Java backtest added today (§10.3 below) addresses this partially for the Java stack — but only for the Spring-family ecosystem. Node.js, Django, and the Netty microservice stack are still synthetic.
+
+### 10.2 Netty as 4th ecosystem — solid extension, with one reservation
+
+The Netty stack (32 packages, 20 NP) produces 3 all-C/H dates and **1 NP+DI trigger — a 93% reduction**, the steepest of the four stacks. This is a useful addition because:
+
+- It tests the filter on a *Reactive/microservice* Java stack rather than the servlet/MVC Spring stack, showing ecosystem diversity within Java.
+- The single trigger is CWE-444 request smuggling (Netty chunked extension quoted-string bug, Mar 26) — not a result cherry-picked to be nice.
+- The 360-day silence window is the longest across any stack and plays the hero-stat role that Node.js's 311-day window played yesterday.
+
+**One reservation I'd raise:** the page notes candidly that "without the CWE-444 addition, this stack would have had zero NP+DI triggers in 12 months." That's simultaneously the best and worst data point for the filter. Best: it demonstrates that adding a missing injection CWE class immediately caught a real smuggling vulnerability (the page correctly frames this as validation of the filter's responsiveness to input). Worst: it means the Netty result depends on a CWE class that was only added *today* — which is unavoidable ex post facto but worth naming.
+
+The walkthrough currently presents CWE-444 in a footnote citing Nathan Dornbrook's external flag (`fn-444`, around line 1238). The footnote is appropriately honest. But the *headline number* ("93% reduction") is now in some sense an in-sample result for CWE-444 — the class was added after the Netty Mar 26 bug was already visible. A reader doing a close read will notice. Recommendation: in the headline or callout, add a short qualifier — *"93% reduction including CWE-444, which was added to the DI set in April 2026 after external review"* — so nobody has to dig into the footnote to find the caveat.
+
+A second, smaller concern: the Netty manifest at 32 packages is noticeably smaller than Spring (48), Node.js (45), Django (40). The "14-14-14" convergence claim is weakened by Netty's 3-events baseline — it doesn't converge to 14, it sits well below. The walkthrough should add a sentence: *"The 14-14-14 convergence holds among manifests of comparable size; smaller manifests produce lower absolute counts but the reduction ratio is preserved."* Otherwise the convergence narrative gets muddied by the Netty outlier.
+
+### 10.3 The 7-year real-enterprise-manifest backtest — the biggest strengthening of the analysis
+
+This is the single best thing that's happened to the periodicity page since yesterday. 93 C/H dates across Q4 2018 – Q2 2026, collapsed to 22 NP+DI dates and 19 patch events (after 7-day clustering) — an 80% reduction over seven years, with the filter correctly firing on Log4Shell (Dec 2021), Spring4Shell (Mar 2022), Tomcat request smuggling, XStream RCE clusters, and SpEL injection.
+
+**Why this is load-bearing:**
+
+1. **It addresses the look-ahead bias concern from §8.2.** The yearly table shows how the filter would have performed in years when it didn't exist yet. If the filter had been in production in 2021, it would have fired on the XStream triple-disclosure (Aug 25) and the Log4Shell cluster (Dec 9-14) and skipped everything else. Those are exactly the two rebuilds you'd want to have triggered. This isn't the pre-registered forward test I recommended, but it's the next best thing: backtesting on data that was produced *before* the filter was designed.
+2. **It catches the two canonical Java-ecosystem emergency events.** If the filter had missed Log4Shell or Spring4Shell, the analysis would collapse. That it catches both, and catches them as patch-event clusters (Log4Shell + follow-on + jackson = one 5-day cycle, not three separate fires), is a strong affirmation.
+3. **The 2022 result is the sharpest answer to the "deserialization straw-man" critique.** 20 C/H dates, 15 of them jackson-databind CWE-502 disclosures, and the filter correctly ignored every one — firing only on Spring4Shell and a Tomcat smuggling bug. This is the clearest single-year data point that "the filter rejects deserialization noise without missing real exploits."
+4. **The 2026 partial year (4 C/H dates, 0 NP+DI triggers) is honest.** The page doesn't hide that the current year's result is 100% reduction specifically because no smuggling/traversal/injection CVEs have hit the real-enterprise manifest yet in 2026. That's brittle — one CVE could change it — but the page doesn't claim otherwise.
+
+**What I'd push back on:**
+
+- **The "patch events" collapse (7-day clustering) is introduced without prior definition.** A reader comes to the chart and sees 22 NP+DI dates but only 19 patch events, with the reduction calculated from patch events. This is reasonable (if you're already in an incident, overlapping CVEs don't double the cost), but it also lowers the denominator in a way that makes the reduction look stronger. The walkthrough should explicitly note: "Reduction percentages in the yearly table use patch events, not raw CVE counts; using raw CVE counts gives an 76% reduction instead of 80%." Minor but worth stating.
+- **Manifest selection is still the live concern.** The real-enterprise manifest is 60 libraries from "a portfolio of Spring apps" — better than synthetic, but still one organization's choices. Yesterday's §8.7 recommendation of polling 20-50 real open-source GitHub manifests remains outstanding. The 7-year backtest *replaces* the synthetic-Spring manifest validation; it doesn't generalize to Node.js or Django. **One real enterprise Java manifest doesn't remove the cross-ecosystem manifest-selection concern.**
+- **2019-2024 averaged ~12 C/H dates/year in this manifest.** That's close to the synthetic-Spring 14/year figure but the variance is wide (3 → 20 → 5). A single-year snapshot of any stack is window-dependent; the multi-year backtest makes that concrete. The walkthrough could use this to strengthen the argument: "The 12-month window in our synthetic backtest could have looked quite different if it had ended in 2021 or started in 2018; the 7-year backtest shows the filter's performance is stable across those variations."
+
+### 10.4 CWE-444 addition — worth doing, worth disclosing more loudly
+
+CWE-444 (HTTP Request Smuggling) was added to the DI CWE set today after Nathan Dornbrook flagged CVE-2025-55315 (ASP.NET Core smuggling, CVSS 9.9). The footnote at index.html line 1238 documents the provenance honestly: 182 CVEs in NVD carrying CWE-444, all on network parsers, one prior KEV entry (CVE-2022-22536 SAP). Adding it reclassified two Tomcat smuggling CVEs in the enterprise manifest backtest (23 → 25 NP+DI) and turned the Netty result from zero triggers to one trigger.
+
+**The principle is sound.** HTTP request smuggling is exactly the kind of network-parser direct-injection the filter is designed to catch — the original DI set omitted it through oversight, not by intent. Adding it makes the filter more complete, not looser.
+
+**But this is a second instance of in-sample CWE-set expansion.** The first was CWE-918 (SSRF) and CWE-611 (XXE) in the original construction. The pattern — "we noticed we missed a class, we added it" — is legitimate but it means the DI CWE set is not fully pre-registered. A future reader could reasonably ask whether additional classes will be added later to capture newly-emerging injection patterns (AI-prompt injection, for example, which doesn't have a stable CWE assignment yet).
+
+**Recommendation for the walkthrough:** add a sentence to §6b (The DI CWE Set) that explicitly names this practice — *"The DI CWE set is versioned. CWE-444 was added on 2026-04-22 after external review. We will add new CWE classes when they represent genuine network-parser direct-injection patterns, and we disclose such changes transparently. The filter's validation numbers are re-run against the current set whenever it changes."* This makes the pattern a feature, not a quiet change log.
+
+**The bigger-picture note:** the filter's value is not that the CWE set is fixed; it's that the filter is *explicit* about what's in and out. A CVSS-9-only filter doesn't have this property — its threshold is fixed but the definition of CVSS-9 shifts over time with NIST/FIRST rescoring. The NP+DI filter's versioned CWE set is a feature that should be framed as such, not apologized for.
+
+### 10.5 Dashboard: one stale chart
+
+Small operational note: the dashboard's `crossFrameworkChart` (line ~780) still renders **3 frameworks** (Spring, Node.js, Django) at 2/2/4 NP+DI triggers vs 14/14/14 all-C/H. The periodicity page now includes Netty. The dashboard chart should be updated to 4 bars (adding Netty at 1 NP+DI vs 3 all-C/H, with the 93% reduction called out).
+
+Also: the "Chaining Exposure" chart (`chainingChart` around line 805+) and the three-tier card section are correct and matched to periodicity.html. Only the cross-framework chart needs the Netty add.
+
+### 10.6 Cross-page architecture — now coherent
+
+The four-page architecture from yesterday's §4 is now largely in place. Checking against the table:
+
+| Page | Role | Today's state |
+|---|---|---|
+| index.html | Narrative walkthrough | ✅ Restructured to new outline. Leads with problem-framing, ends with watch list + caveats. |
+| dashboard.html | Live data exhibits | ✅ Leads with NP+DI section; three-tier model replaces old SLA cards. One chart stale (crossFrameworkChart missing Netty). |
+| periodicity.html | Deep-dive technical | ✅ Extended today with Netty + 7-year backtest. |
+| cve-reference.html | Audit trail | ✅ Now has CVE numbers alongside GHSA and a CSV download. |
+
+Nav: dashboard links to periodicity. Index links to dashboard. Periodicity.html should grow a top-of-page nav bar matching the other three; today it's still a standalone deep-dive without obvious links back to index.html or dashboard.html. Low-priority cleanup.
+
+### 10.7 Second-order concerns surfaced by today's additions
+
+Three observations that weren't relevant yesterday but are relevant now:
+
+**(a) The real-enterprise-manifest backtest inadvertently strengthens the observational case for §3.** The 7-year timeline shows that jackson-databind, SnakeYAML, XStream — the big deserialization-CVE factories — produce lots of CVEs but near-zero KEV entries. This is exactly the observational pattern §3 of the walkthrough argues for (network-parser injection is the exploitation signal; deserialization is the volume generator). The §3 narrative should cite the real-manifest backtest as corroboration. Currently §3 uses only the CVSS-severity-by-stack-layer data; adding one paragraph pointing at the 2018-2026 real-manifest timeline would strengthen the observational foundation.
+
+**(b) Log4Shell is now a validated filter-catch and should be a callout.** "Log4Shell was caught" is a stronger sentence than "the filter works across ecosystems." It's the single most famous Java CVE of the decade and the backtest confirms the filter would have fired on it. The walkthrough should promote this to a hero callout — probably in §7 (cross-framework validation) or the §10.3 equivalent.
+
+**(c) The 93 → 22 → 19 funnel is a cleaner teaching example than the 14 → 2 synthetic-stack number.** The synthetic stacks produce pedagogically clean numbers but require the reader to trust that the manifest is representative. The real-enterprise 7-year funnel produces messier numbers but is less vulnerable to the "it's a toy manifest" pushback. When writing the walkthrough's TL;DR, consider leading with "93 C/H events → 19 patch events in a real Java manifest over 7 years (80% reduction)" instead of or alongside the 14-14-14 synthetic convergence — the real-data number is more persuasive to a skeptical CISO.
+
+### 10.8 Net summary for third-pass
+
+The periodicity analysis has materially strengthened in 24 hours. The two biggest wins are the 7-year real-manifest backtest (which partially retires the §8.7 manifest-selection critique for Java) and the Netty addition (which tests a 4th ecosystem and validates the CWE-444 addition). Most of yesterday's structural recommendations for index.html and dashboard.html are now implemented.
+
+The four unaddressed items from yesterday's punch-list remain worth doing:
+
+1. **Alternative-filter comparison table** (CVSS-9, EPSS, KEV-only over the 129-CVE dataset) — highest value.
+2. **Pre-registered forward-looking KEV test** for non-trigger CVEs through a specific future date.
+3. **Tier 2 operational cost paragraph** for the monthly container refresh recommendation.
+4. **Cross-ecosystem manifest validation** (real Node.js and Django manifests, not just synthetic).
+
+New items specific to today:
+
+5. **CWE-set versioning disclosure** in §6b. Call out the practice, don't hide it in a footnote.
+6. **Dashboard cross-framework chart update** to include Netty (4th bar).
+7. **Periodicity.html top-nav** back to index.html and dashboard.html.
+8. **Log4Shell-caught callout** in §7 or §7g of the walkthrough. This is a marketing hero-stat sitting unused.
+
+Nothing observed today weakens the core conclusions. The prescriptive case is sharper now than it was 24 hours ago, and the 7-year Java backtest is the most convincing piece of evidence the project has produced.
+
+---
+
+## 11. Daily Scan — 2026-04-22
+
+Per the refresh agent output in `kev-tracking.json` (last_run 2026-04-22T03:10:00Z) and cross-checked against today's commits:
+
+- **CISA KEV:** still 22 April entries. Catalog version rolled from 2026.04.20 → 2026.04.21 overnight but *contents unchanged* — no new adds since the 8-CVE batch on Apr 20. Dry spell resumes (1 day). Apr total is on pace with Q1 monthly average (~24).
+- **NVD April MTD:** 4,227 through day 22, extrapolates to ~5,764 (up from 5,547 yesterday). The +342 overnight delta is almost entirely back-population: Apr 21 same-day count moved 35 → 359 as NVD caught up. Apr 22 same-day is only 18. Underlying daily rate stays near 192/day. Still ~9% below March (6,304) and well below all Glasswing-inflation projections.
+- **W17 partial:** 543 across 3 days (~181/day). Too early to call an inflection; expect ~900-1000 final after back-population.
+- **Glasswing attribution count:** 40, unchanged. Three Claude-in-credit-line CVEs (CVE-2026-4747 FreeBSD NFS, CVE-2026-5194 wolfSSL, CVE-2026-5588 Bouncy Castle). None in KEV. InfoQ citation of **"CVE-2026-31402" as a Linux NFS heap overflow (23-year bug) found by Carlini with Claude Code** needs analyst deduplication — likely conflation with CVE-2026-4747 FreeBSD NFS. Flagging for tomorrow's agent run.
+- **New Claude-assisted non-Anthropic CVE:** **CVE-2026-34197 (Apache ActiveMQ)** added to KEV on 2026-04-16; per Horizon3.ai disclosure, found by Naveen Sunkavally using Claude (~10 min attack-chain trace). This is the first publicly-credited third-party (not Carlini/Anthropic) Claude-assisted CVE to reach KEV. Pattern-significant: it means Claude-the-research-tool is producing exploitation-grade findings outside Project Glasswing, which materially expands the story the walkthrough tells about AI-assisted discovery. Not a probable-participant-self-scan (Apache isn't a Glasswing participant). But worth a line in Section 12 (Mythos) about the *non-Glasswing* Claude-assisted discovery channel.
+- **Probable Glasswing participant self-scan candidates flagged by refresh agent:** 
+  - **CVE-2026-40050 (CrowdStrike LogScale, CVSS 9.8, CWE-22 + CWE-306)** — unauthenticated path traversal on an HTTP log-ingest endpoint. CrowdStrike is a Glasswing participant. This is the strongest probable-self-scan candidate of the week. Analyst verification needed: credit line on CrowdStrike's advisory. If no third-party researcher is credited, this should be added to `probable_participant_cves` in config.json.
+  - **CVE-2026-20093 (Cisco IMC, CVSS 9.8)** and **CVE-2026-20160 (Cisco Smart Software Manager On-Prem, CVSS 9.8)** — both Cisco (Glasswing participant), both HTTP-adjacent. Analyst verification needed on credits.
+  - **CVE-2026-24164 (NVIDIA BioNeMo, CVSS 7.8, CWE-502)** — NVIDIA (Glasswing participant). Deserialization rather than HTTP parsing, so fits a broader "automated-scan" pattern than the strict NP+DI filter. Review candidate, not clear add.
+  - **CVE-2026-1386 (AWS Firecracker jailer)** — AWS (Glasswing participant), but symlink/local attack vector — disqualifies for NP+DI but still participant-self-scan-relevant.
+  - **CVE-2026-39861 (Anthropic Claude Code sandbox, CVSS 7.7, CWE-22 + CWE-61)** — sandbox → workspace symlink escape. Anthropic is the Glasswing *principal*, not just a participant. Local attack vector removes NP+DI relevance, but a participant-self-scan framing does cover "Anthropic dogfooding on its own product."
+- **Watch list:** no entries moved to KEV today. Thymeleaf SSTI pair (CVE-2026-40477/-40478) still functional/PoC-only, wolfSSL and Cisco ISE/Webex quad still no-public-PoC.
+- **NP+DI candidate sweep new flags:** refresh agent surfaced CVE-2026-21571 (Atlassian Bamboo CWE-78, CVSS 9.4), CVE-2026-40887 (Vendure e-commerce CWE-89, CVSS 9.1), CVE-2026-40906 (ElectricSQL CWE-89, CVSS 9.9), CVE-2026-40911 (WWBN AVideo WebSocket CWE-94, CVSS 10.0), CVE-2026-41193 (FreeScout CWE-22 zipslip, CVSS 9.1), CVE-2026-40576 (excel-mcp-server CWE-22, CVSS 9.4), CVE-2026-40520 (FreePBX GraphQL CWE-78, CVSS 8.6). All are textbook NP+DI pattern candidates. CVE-2026-40576 is interesting — first MCP server in our candidate set, and MCP transport exposure is a growth surface worth watching.
+- **Thesis challenge / counter-examples:** still zero. No library/framework CVE has reached KEV via non-HTTP vector in the tracked window. CVE-2026-33827 (Windows TCP/IP RCE) — 7 days post-disclosure, still not KEV — remains the closest outstanding contender but also remains product-level, not library.
+- **Today's MS/RHEL/volume numbers:** MS Patch Tuesday April 2026 = 163 (unchanged, second-largest PT ever). RHEL 8 April = ~23 (low-confidence estimate, stack.watch still returns YTD aggregate only).
+
+**Nothing today contradicts the periodicity review.** The CrowdStrike LogScale advisory is the single most material new signal — if confirmed as a participant self-scan, it materially strengthens the Mythos-adjacent discovery narrative and gives us a 5th probable-self-scan CVE. No config.json changes this run (analyst verification needs to happen before the CrowdStrike CVE enters the tracked list).
+
+---
+
+*End of review (third-pass complete, 2026-04-22).*
