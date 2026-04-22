@@ -1,0 +1,5381 @@
+[
+  {
+    "id": "GHSA-vmfg-rjjm-rjrj",
+    "aliases": [
+      "CVE-2017-5929"
+    ],
+    "score": 0.0,
+    "severity": "CRITICAL",
+    "cwes": [
+      "CWE-502"
+    ],
+    "published": "2021-06-07T16:07:36",
+    "pub_date": "2021-06-07T16:07:36",
+    "summary": "QOS.ch Logback vulnerable to Deserialization of Untrusted Data",
+    "packages": [
+      "ch.qos.logback:logback-classic"
+    ],
+    "is_np": false,
+    "is_build_only": false,
+    "is_di": false,
+    "di_by_cwe": false,
+    "di_by_keyword": false,
+    "is_ch": true
+  },
+  {
+    "id": "GHSA-vmq6-5m68-f53m",
+    "aliases": [
+      "CVE-2023-6378"
+    ],
+    "score": 0.0,
+    "severity": "HIGH",
+    "cwes": [
+      "CWE-502"
+    ],
+    "published": "2023-11-29T12:30:16",
+    "pub_date": "2023-11-29T12:30:16",
+    "summary": "logback serialization vulnerability",
+    "packages": [
+      "ch.qos.logback:logback-classic"
+    ],
+    "is_np": false,
+    "is_build_only": false,
+    "is_di": false,
+    "di_by_cwe": false,
+    "di_by_keyword": false,
+    "is_ch": true
+  },
+  {
+    "id": "GHSA-4gq5-ch57-c2mg",
+    "aliases": [
+      "CVE-2018-14719"
+    ],
+    "score": 0.0,
+    "severity": "CRITICAL",
+    "cwes": [
+      "CWE-502"
+    ],
+    "published": "2019-01-04T19:09:49",
+    "pub_date": "2019-01-04T19:09:49",
+    "summary": "Arbitrary Code Execution in jackson-databind",
+    "packages": [
+      "com.fasterxml.jackson.core:jackson-databind"
+    ],
+    "is_np": true,
+    "is_build_only": false,
+    "is_di": false,
+    "di_by_cwe": false,
+    "di_by_keyword": false,
+    "is_ch": true
+  },
+  {
+    "id": "GHSA-4w82-r329-3q67",
+    "aliases": [
+      "CVE-2020-8840"
+    ],
+    "score": 0.0,
+    "severity": "CRITICAL",
+    "cwes": [
+      "CWE-502"
+    ],
+    "published": "2020-03-04T20:52:14",
+    "pub_date": "2020-03-04T20:52:14",
+    "summary": "Deserialization of Untrusted Data in jackson-databind",
+    "packages": [
+      "com.fasterxml.jackson.core:jackson-databind"
+    ],
+    "is_np": true,
+    "is_build_only": false,
+    "is_di": false,
+    "di_by_cwe": false,
+    "di_by_keyword": false,
+    "is_ch": true
+  },
+  {
+    "id": "GHSA-57j2-w4cx-62h2",
+    "aliases": [
+      "CVE-2020-36518"
+    ],
+    "score": 0.0,
+    "severity": "HIGH",
+    "cwes": [
+      "CWE-787"
+    ],
+    "published": "2022-03-12T00:00:36",
+    "pub_date": "2022-03-12T00:00:36",
+    "summary": "Deeply nested json in jackson-databind",
+    "packages": [
+      "com.fasterxml.jackson.core:jackson-databind"
+    ],
+    "is_np": true,
+    "is_build_only": false,
+    "is_di": false,
+    "di_by_cwe": false,
+    "di_by_keyword": false,
+    "is_ch": true
+  },
+  {
+    "id": "GHSA-5949-rw7g-wx7w",
+    "aliases": [
+      "BIT-nifi-2021-20190",
+      "CVE-2021-20190"
+    ],
+    "score": 0.0,
+    "severity": "HIGH",
+    "cwes": [
+      "CWE-502"
+    ],
+    "published": "2021-01-20T21:20:15",
+    "pub_date": "2021-01-20T21:20:15",
+    "summary": "Deserialization of untrusted data in jackson-databind",
+    "packages": [
+      "com.fasterxml.jackson.core:jackson-databind"
+    ],
+    "is_np": true,
+    "is_build_only": false,
+    "is_di": false,
+    "di_by_cwe": false,
+    "di_by_keyword": false,
+    "is_ch": true
+  },
+  {
+    "id": "GHSA-5r5r-6hpj-8gg9",
+    "aliases": [
+      "CVE-2020-35728"
+    ],
+    "score": 0.0,
+    "severity": "HIGH",
+    "cwes": [
+      "CWE-502"
+    ],
+    "published": "2021-12-09T19:15:24",
+    "pub_date": "2021-12-09T19:15:24",
+    "summary": "Serialization gadget exploit in jackson-databind",
+    "packages": [
+      "com.fasterxml.jackson.core:jackson-databind"
+    ],
+    "is_np": true,
+    "is_build_only": false,
+    "is_di": false,
+    "di_by_cwe": false,
+    "di_by_keyword": false,
+    "is_ch": true
+  },
+  {
+    "id": "GHSA-5ww9-j83m-q7qx",
+    "aliases": [
+      "CVE-2019-12086"
+    ],
+    "score": 0.0,
+    "severity": "HIGH",
+    "cwes": [
+      "CWE-502"
+    ],
+    "published": "2019-05-23T09:32:24",
+    "pub_date": "2019-05-23T09:32:24",
+    "summary": "Information exposure in FasterXML jackson-databind",
+    "packages": [
+      "com.fasterxml.jackson.core:jackson-databind"
+    ],
+    "is_np": true,
+    "is_build_only": false,
+    "is_di": false,
+    "di_by_cwe": false,
+    "di_by_keyword": false,
+    "is_ch": true
+  },
+  {
+    "id": "GHSA-645p-88qh-w398",
+    "aliases": [
+      "CVE-2018-14718"
+    ],
+    "score": 0.0,
+    "severity": "CRITICAL",
+    "cwes": [
+      "CWE-502"
+    ],
+    "published": "2019-01-04T19:06:55",
+    "pub_date": "2019-01-04T19:06:55",
+    "summary": "Arbitrary Code Execution in jackson-databind",
+    "packages": [
+      "com.fasterxml.jackson.core:jackson-databind"
+    ],
+    "is_np": true,
+    "is_build_only": false,
+    "is_di": false,
+    "di_by_cwe": false,
+    "di_by_keyword": false,
+    "is_ch": true
+  },
+  {
+    "id": "GHSA-6fpp-rgj9-8rwc",
+    "aliases": [
+      "CVE-2019-14379"
+    ],
+    "score": 0.0,
+    "severity": "CRITICAL",
+    "cwes": [
+      "CWE-1321",
+      "CWE-915"
+    ],
+    "published": "2019-08-01T19:18:00",
+    "pub_date": "2019-08-01T19:18:00",
+    "summary": "Deserialization of untrusted data in FasterXML jackson-databind",
+    "packages": [
+      "com.fasterxml.jackson.core:jackson-databind"
+    ],
+    "is_np": true,
+    "is_build_only": false,
+    "is_di": false,
+    "di_by_cwe": false,
+    "di_by_keyword": false,
+    "is_ch": true
+  },
+  {
+    "id": "GHSA-85cw-hj65-qqv9",
+    "aliases": [
+      "CVE-2019-16335"
+    ],
+    "score": 0.0,
+    "severity": "CRITICAL",
+    "cwes": [
+      "CWE-502"
+    ],
+    "published": "2019-09-23T18:33:45",
+    "pub_date": "2019-09-23T18:33:45",
+    "summary": "Polymorphic Typing issue in FasterXML jackson-databind",
+    "packages": [
+      "com.fasterxml.jackson.core:jackson-databind"
+    ],
+    "is_np": true,
+    "is_build_only": false,
+    "is_di": false,
+    "di_by_cwe": false,
+    "di_by_keyword": false,
+    "is_ch": true
+  },
+  {
+    "id": "GHSA-89qr-369f-5m5x",
+    "aliases": [
+      "CVE-2020-36182"
+    ],
+    "score": 0.0,
+    "severity": "HIGH",
+    "cwes": [
+      "CWE-502"
+    ],
+    "published": "2021-12-09T19:15:46",
+    "pub_date": "2021-12-09T19:15:46",
+    "summary": "Unsafe Deserialization in jackson-databind",
+    "packages": [
+      "com.fasterxml.jackson.core:jackson-databind"
+    ],
+    "is_np": true,
+    "is_build_only": false,
+    "is_di": false,
+    "di_by_cwe": false,
+    "di_by_keyword": false,
+    "is_ch": true
+  },
+  {
+    "id": "GHSA-8c4j-34r4-xr8g",
+    "aliases": [
+      "CVE-2020-36180"
+    ],
+    "score": 0.0,
+    "severity": "HIGH",
+    "cwes": [
+      "CWE-502"
+    ],
+    "published": "2021-12-09T19:16:18",
+    "pub_date": "2021-12-09T19:16:18",
+    "summary": "Unsafe Deserialization in jackson-databind",
+    "packages": [
+      "com.fasterxml.jackson.core:jackson-databind"
+    ],
+    "is_np": true,
+    "is_build_only": false,
+    "is_di": false,
+    "di_by_cwe": false,
+    "di_by_keyword": false,
+    "is_ch": true
+  },
+  {
+    "id": "GHSA-8w26-6f25-cm9x",
+    "aliases": [
+      "CVE-2020-36185"
+    ],
+    "score": 0.0,
+    "severity": "HIGH",
+    "cwes": [
+      "CWE-502"
+    ],
+    "published": "2021-12-09T19:16:02",
+    "pub_date": "2021-12-09T19:16:02",
+    "summary": "Unsafe Deserialization in jackson-databind",
+    "packages": [
+      "com.fasterxml.jackson.core:jackson-databind"
+    ],
+    "is_np": true,
+    "is_build_only": false,
+    "is_di": false,
+    "di_by_cwe": false,
+    "di_by_keyword": false,
+    "is_ch": true
+  },
+  {
+    "id": "GHSA-9gph-22xh-8x98",
+    "aliases": [
+      "CVE-2020-36179"
+    ],
+    "score": 0.0,
+    "severity": "HIGH",
+    "cwes": [
+      "CWE-502"
+    ],
+    "published": "2021-12-09T19:15:54",
+    "pub_date": "2021-12-09T19:15:54",
+    "summary": "Unsafe Deserialization in jackson-databind",
+    "packages": [
+      "com.fasterxml.jackson.core:jackson-databind"
+    ],
+    "is_np": true,
+    "is_build_only": false,
+    "is_di": false,
+    "di_by_cwe": false,
+    "di_by_keyword": false,
+    "is_ch": true
+  },
+  {
+    "id": "GHSA-9m6f-7xcq-8vf8",
+    "aliases": [
+      "CVE-2020-36183"
+    ],
+    "score": 0.0,
+    "severity": "HIGH",
+    "cwes": [
+      "CWE-502"
+    ],
+    "published": "2021-12-09T19:16:34",
+    "pub_date": "2021-12-09T19:16:34",
+    "summary": "Unsafe Deserialization in jackson-databind",
+    "packages": [
+      "com.fasterxml.jackson.core:jackson-databind"
+    ],
+    "is_np": true,
+    "is_build_only": false,
+    "is_di": false,
+    "di_by_cwe": false,
+    "di_by_keyword": false,
+    "is_ch": true
+  },
+  {
+    "id": "GHSA-c8hm-7hpq-7jhg",
+    "aliases": [
+      "CVE-2018-19362"
+    ],
+    "score": 0.0,
+    "severity": "CRITICAL",
+    "cwes": [
+      "CWE-502"
+    ],
+    "published": "2019-01-04T19:07:03",
+    "pub_date": "2019-01-04T19:07:03",
+    "summary": "com.fasterxml.jackson.core:jackson-databind vulnerable to Deserialization of Untrusted Data",
+    "packages": [
+      "com.fasterxml.jackson.core:jackson-databind"
+    ],
+    "is_np": true,
+    "is_build_only": false,
+    "is_di": false,
+    "di_by_cwe": false,
+    "di_by_keyword": false,
+    "is_ch": true
+  },
+  {
+    "id": "GHSA-cf6r-3wgc-h863",
+    "aliases": [
+      "CVE-2019-14892"
+    ],
+    "score": 0.0,
+    "severity": "HIGH",
+    "cwes": [
+      "CWE-502",
+      "CWE-200"
+    ],
+    "published": "2020-05-15T18:58:58",
+    "pub_date": "2020-05-15T18:58:58",
+    "summary": "Polymorphic deserialization of malicious object in jackson-databind",
+    "packages": [
+      "com.fasterxml.jackson.core:jackson-databind"
+    ],
+    "is_np": true,
+    "is_build_only": false,
+    "is_di": false,
+    "di_by_cwe": false,
+    "di_by_keyword": false,
+    "is_ch": true
+  },
+  {
+    "id": "GHSA-cggj-fvv3-cqwv",
+    "aliases": [
+      "CVE-2018-7489"
+    ],
+    "score": 0.0,
+    "severity": "CRITICAL",
+    "cwes": [
+      "CWE-502",
+      "CWE-184"
+    ],
+    "published": "2018-10-16T17:45:18",
+    "pub_date": "2018-10-16T17:45:18",
+    "summary": "FasterXML jackson-databind allows unauthenticated remote code execution ",
+    "packages": [
+      "com.fasterxml.jackson.core:jackson-databind"
+    ],
+    "is_np": true,
+    "is_build_only": false,
+    "is_di": false,
+    "di_by_cwe": false,
+    "di_by_keyword": false,
+    "is_ch": true
+  },
+  {
+    "id": "GHSA-cjjf-94ff-43w7",
+    "aliases": [
+      "CVE-2018-12022"
+    ],
+    "score": 0.0,
+    "severity": "HIGH",
+    "cwes": [
+      "CWE-502"
+    ],
+    "published": "2019-03-25T18:03:09",
+    "pub_date": "2019-03-25T18:03:09",
+    "summary": "jackson-databind Deserialization of Untrusted Data vulnerability",
+    "packages": [
+      "com.fasterxml.jackson.core:jackson-databind"
+    ],
+    "is_np": true,
+    "is_build_only": false,
+    "is_di": false,
+    "di_by_cwe": false,
+    "di_by_keyword": false,
+    "is_ch": true
+  },
+  {
+    "id": "GHSA-cmfg-87vq-g5g4",
+    "aliases": [
+      "CVE-2019-12814"
+    ],
+    "score": 0.0,
+    "severity": "MODERATE",
+    "cwes": [
+      "CWE-502"
+    ],
+    "published": "2019-07-17T15:26:12",
+    "pub_date": "2019-07-17T15:26:12",
+    "summary": "Deserialization of untrusted data in FasterXML jackson-databind",
+    "packages": [
+      "com.fasterxml.jackson.core:jackson-databind"
+    ],
+    "is_np": true,
+    "is_build_only": false,
+    "is_di": false,
+    "di_by_cwe": false,
+    "di_by_keyword": false,
+    "is_ch": false
+  },
+  {
+    "id": "GHSA-cvm9-fjm9-3572",
+    "aliases": [
+      "CVE-2020-36181"
+    ],
+    "score": 0.0,
+    "severity": "HIGH",
+    "cwes": [
+      "CWE-502"
+    ],
+    "published": "2021-12-09T19:16:10",
+    "pub_date": "2021-12-09T19:16:10",
+    "summary": "Unsafe Deserialization in jackson-databind",
+    "packages": [
+      "com.fasterxml.jackson.core:jackson-databind"
+    ],
+    "is_np": true,
+    "is_build_only": false,
+    "is_di": false,
+    "di_by_cwe": false,
+    "di_by_keyword": false,
+    "is_ch": true
+  },
+  {
+    "id": "GHSA-f3j5-rmmp-3fc5",
+    "aliases": [
+      "CVE-2019-17267"
+    ],
+    "score": 0.0,
+    "severity": "CRITICAL",
+    "cwes": [
+      "CWE-502"
+    ],
+    "published": "2020-06-15T18:44:48",
+    "pub_date": "2020-06-15T18:44:48",
+    "summary": "Improper Input Validation in jackson-databind",
+    "packages": [
+      "com.fasterxml.jackson.core:jackson-databind"
+    ],
+    "is_np": true,
+    "is_build_only": false,
+    "is_di": false,
+    "di_by_cwe": false,
+    "di_by_keyword": false,
+    "is_ch": true
+  },
+  {
+    "id": "GHSA-f9xh-2qgp-cq57",
+    "aliases": [
+      "CVE-2020-36188"
+    ],
+    "score": 0.0,
+    "severity": "HIGH",
+    "cwes": [
+      "CWE-502"
+    ],
+    "published": "2021-12-09T19:16:42",
+    "pub_date": "2021-12-09T19:16:42",
+    "summary": "Unsafe Deserialization in jackson-databind",
+    "packages": [
+      "com.fasterxml.jackson.core:jackson-databind"
+    ],
+    "is_np": true,
+    "is_build_only": false,
+    "is_di": false,
+    "di_by_cwe": false,
+    "di_by_keyword": false,
+    "is_ch": true
+  },
+  {
+    "id": "GHSA-fmmc-742q-jg75",
+    "aliases": [
+      "CVE-2019-16943"
+    ],
+    "score": 0.0,
+    "severity": "CRITICAL",
+    "cwes": [
+      "CWE-502"
+    ],
+    "published": "2019-11-13T00:32:27",
+    "pub_date": "2019-11-13T00:32:27",
+    "summary": "jackson-databind polymorphic typing issue",
+    "packages": [
+      "com.fasterxml.jackson.core:jackson-databind"
+    ],
+    "is_np": true,
+    "is_build_only": false,
+    "is_di": false,
+    "di_by_cwe": false,
+    "di_by_keyword": false,
+    "is_ch": true
+  },
+  {
+    "id": "GHSA-fqwf-pjwf-7vqv",
+    "aliases": [
+      "CVE-2020-10673"
+    ],
+    "score": 0.0,
+    "severity": "HIGH",
+    "cwes": [
+      "CWE-502"
+    ],
+    "published": "2020-05-15T18:59:04",
+    "pub_date": "2020-05-15T18:59:04",
+    "summary": "jackson-databind mishandles the interaction between serialization gadgets and typing",
+    "packages": [
+      "com.fasterxml.jackson.core:jackson-databind"
+    ],
+    "is_np": true,
+    "is_build_only": false,
+    "is_di": false,
+    "di_by_cwe": false,
+    "di_by_keyword": false,
+    "is_ch": true
+  },
+  {
+    "id": "GHSA-gjmw-vf9h-g25v",
+    "aliases": [
+      "CVE-2019-17531"
+    ],
+    "score": 0.0,
+    "severity": "CRITICAL",
+    "cwes": [
+      "CWE-502"
+    ],
+    "published": "2019-11-13T00:32:38",
+    "pub_date": "2019-11-13T00:32:38",
+    "summary": "jackson-databind polymorphic typing issue",
+    "packages": [
+      "com.fasterxml.jackson.core:jackson-databind"
+    ],
+    "is_np": true,
+    "is_build_only": false,
+    "is_di": false,
+    "di_by_cwe": false,
+    "di_by_keyword": false,
+    "is_ch": true
+  },
+  {
+    "id": "GHSA-gwp4-hfv6-p7hw",
+    "aliases": [
+      "CVE-2019-14439"
+    ],
+    "score": 0.0,
+    "severity": "HIGH",
+    "cwes": [
+      "CWE-502"
+    ],
+    "published": "2019-08-01T19:18:06",
+    "pub_date": "2019-08-01T19:18:06",
+    "summary": "Deserialization of untrusted data in FasterXML jackson-databind",
+    "packages": [
+      "com.fasterxml.jackson.core:jackson-databind"
+    ],
+    "is_np": true,
+    "is_build_only": false,
+    "is_di": false,
+    "di_by_cwe": false,
+    "di_by_keyword": false,
+    "is_ch": true
+  },
+  {
+    "id": "GHSA-gww7-p5w4-wrfv",
+    "aliases": [
+      "CVE-2019-20330"
+    ],
+    "score": 0.0,
+    "severity": "CRITICAL",
+    "cwes": [
+      "CWE-502"
+    ],
+    "published": "2020-03-04T20:52:11",
+    "pub_date": "2020-03-04T20:52:11",
+    "summary": "Deserialization of Untrusted Data in jackson-databind",
+    "packages": [
+      "com.fasterxml.jackson.core:jackson-databind"
+    ],
+    "is_np": true,
+    "is_build_only": false,
+    "is_di": false,
+    "di_by_cwe": false,
+    "di_by_keyword": false,
+    "is_ch": true
+  },
+  {
+    "id": "GHSA-h3cw-g4mq-c5x2",
+    "aliases": [
+      "CVE-2020-24616"
+    ],
+    "score": 0.0,
+    "severity": "HIGH",
+    "cwes": [
+      "CWE-502",
+      "CWE-94"
+    ],
+    "published": "2021-12-09T19:14:51",
+    "pub_date": "2021-12-09T19:14:51",
+    "summary": "Code Injection in jackson-databind",
+    "packages": [
+      "com.fasterxml.jackson.core:jackson-databind"
+    ],
+    "is_np": true,
+    "is_build_only": false,
+    "is_di": true,
+    "di_by_cwe": true,
+    "di_by_keyword": false,
+    "is_ch": true
+  },
+  {
+    "id": "GHSA-h592-38cm-4ggp",
+    "aliases": [
+      "CVE-2017-15095"
+    ],
+    "score": 0.0,
+    "severity": "CRITICAL",
+    "cwes": [
+      "CWE-502",
+      "CWE-184"
+    ],
+    "published": "2018-10-18T17:42:34",
+    "pub_date": "2018-10-18T17:42:34",
+    "summary": "jackson-databind vulnerable to deserialization flaw leading to unauthenticated remote code execution",
+    "packages": [
+      "com.fasterxml.jackson.core:jackson-databind"
+    ],
+    "is_np": true,
+    "is_build_only": false,
+    "is_di": false,
+    "di_by_cwe": false,
+    "di_by_keyword": false,
+    "is_ch": true
+  },
+  {
+    "id": "GHSA-h822-r4r5-v8jg",
+    "aliases": [
+      "CVE-2019-14540"
+    ],
+    "score": 0.0,
+    "severity": "CRITICAL",
+    "cwes": [
+      "CWE-502"
+    ],
+    "published": "2019-09-23T18:33:25",
+    "pub_date": "2019-09-23T18:33:25",
+    "summary": "Polymorphic Typing issue in FasterXML jackson-databind",
+    "packages": [
+      "com.fasterxml.jackson.core:jackson-databind"
+    ],
+    "is_np": true,
+    "is_build_only": false,
+    "is_di": false,
+    "di_by_cwe": false,
+    "di_by_keyword": false,
+    "is_ch": true
+  },
+  {
+    "id": "GHSA-m6x4-97wx-4q27",
+    "aliases": [
+      "CVE-2020-36184"
+    ],
+    "score": 0.0,
+    "severity": "HIGH",
+    "cwes": [
+      "CWE-502"
+    ],
+    "published": "2021-12-09T19:16:26",
+    "pub_date": "2021-12-09T19:16:26",
+    "summary": "Unsafe Deserialization in jackson-databind",
+    "packages": [
+      "com.fasterxml.jackson.core:jackson-databind"
+    ],
+    "is_np": true,
+    "is_build_only": false,
+    "is_di": false,
+    "di_by_cwe": false,
+    "di_by_keyword": false,
+    "is_ch": true
+  },
+  {
+    "id": "GHSA-mph4-vhrx-mv67",
+    "aliases": [
+      "CVE-2019-12384"
+    ],
+    "score": 0.0,
+    "severity": "MODERATE",
+    "cwes": [
+      "CWE-502"
+    ],
+    "published": "2019-07-05T21:07:27",
+    "pub_date": "2019-07-05T21:07:27",
+    "summary": "Deserialization of Untrusted Data in FasterXML jackson-databind",
+    "packages": [
+      "com.fasterxml.jackson.core:jackson-databind"
+    ],
+    "is_np": true,
+    "is_build_only": false,
+    "is_di": false,
+    "di_by_cwe": false,
+    "di_by_keyword": false,
+    "is_ch": false
+  },
+  {
+    "id": "GHSA-mx7p-6679-8g3q",
+    "aliases": [
+      "CVE-2019-16942"
+    ],
+    "score": 0.0,
+    "severity": "CRITICAL",
+    "cwes": [
+      "CWE-502"
+    ],
+    "published": "2019-10-28T20:51:15",
+    "pub_date": "2019-10-28T20:51:15",
+    "summary": "Polymorphic Typing in FasterXML jackson-databind",
+    "packages": [
+      "com.fasterxml.jackson.core:jackson-databind"
+    ],
+    "is_np": true,
+    "is_build_only": false,
+    "is_di": false,
+    "di_by_cwe": false,
+    "di_by_keyword": false,
+    "is_ch": true
+  },
+  {
+    "id": "GHSA-p43x-xfjf-5jhr",
+    "aliases": [
+      "CVE-2020-9548"
+    ],
+    "score": 0.0,
+    "severity": "CRITICAL",
+    "cwes": [
+      "CWE-502"
+    ],
+    "published": "2020-05-15T18:59:01",
+    "pub_date": "2020-05-15T18:59:01",
+    "summary": "jackson-databind mishandles the interaction between serialization gadgets and typing",
+    "packages": [
+      "com.fasterxml.jackson.core:jackson-databind"
+    ],
+    "is_np": true,
+    "is_build_only": false,
+    "is_di": false,
+    "di_by_cwe": false,
+    "di_by_keyword": false,
+    "is_ch": true
+  },
+  {
+    "id": "GHSA-q93h-jc49-78gg",
+    "aliases": [
+      "CVE-2020-9547"
+    ],
+    "score": 0.0,
+    "severity": "CRITICAL",
+    "cwes": [
+      "CWE-502"
+    ],
+    "published": "2020-05-15T18:59:10",
+    "pub_date": "2020-05-15T18:59:10",
+    "summary": "jackson-databind mishandles the interaction between serialization gadgets and typing",
+    "packages": [
+      "com.fasterxml.jackson.core:jackson-databind"
+    ],
+    "is_np": true,
+    "is_build_only": false,
+    "is_di": false,
+    "di_by_cwe": false,
+    "di_by_keyword": false,
+    "is_ch": true
+  },
+  {
+    "id": "GHSA-qjw2-hr98-qgfh",
+    "aliases": [
+      "CVE-2020-24750"
+    ],
+    "score": 0.0,
+    "severity": "HIGH",
+    "cwes": [
+      "CWE-502"
+    ],
+    "published": "2021-12-09T19:15:36",
+    "pub_date": "2021-12-09T19:15:36",
+    "summary": "Unsafe Deserialization in jackson-databind",
+    "packages": [
+      "com.fasterxml.jackson.core:jackson-databind"
+    ],
+    "is_np": true,
+    "is_build_only": false,
+    "is_di": false,
+    "di_by_cwe": false,
+    "di_by_keyword": false,
+    "is_ch": true
+  },
+  {
+    "id": "GHSA-qr7j-h6gg-jmgc",
+    "aliases": [
+      "CVE-2018-11307"
+    ],
+    "score": 0.0,
+    "severity": "CRITICAL",
+    "cwes": [
+      "CWE-502"
+    ],
+    "published": "2019-07-16T17:42:21",
+    "pub_date": "2019-07-16T17:42:21",
+    "summary": "Deserialization of Untrusted Data in jackson-databind",
+    "packages": [
+      "com.fasterxml.jackson.core:jackson-databind"
+    ],
+    "is_np": true,
+    "is_build_only": false,
+    "is_di": false,
+    "di_by_cwe": false,
+    "di_by_keyword": false,
+    "is_ch": true
+  },
+  {
+    "id": "GHSA-qxxx-2pp7-5hmx",
+    "aliases": [
+      "CVE-2017-7525"
+    ],
+    "score": 0.0,
+    "severity": "CRITICAL",
+    "cwes": [
+      "CWE-502",
+      "CWE-184"
+    ],
+    "published": "2018-10-16T17:21:35",
+    "pub_date": "2018-10-16T17:21:35",
+    "summary": "jackson-databind is vulnerable to a deserialization flaw",
+    "packages": [
+      "com.fasterxml.jackson.core:jackson-databind"
+    ],
+    "is_np": true,
+    "is_build_only": false,
+    "is_di": false,
+    "di_by_cwe": false,
+    "di_by_keyword": false,
+    "is_ch": true
+  },
+  {
+    "id": "GHSA-r3gr-cxrf-hg25",
+    "aliases": [
+      "CVE-2020-35491"
+    ],
+    "score": 0.0,
+    "severity": "HIGH",
+    "cwes": [
+      "CWE-502",
+      "CWE-913"
+    ],
+    "published": "2021-12-09T19:15:11",
+    "pub_date": "2021-12-09T19:15:11",
+    "summary": "Serialization gadgets exploit in jackson-databind",
+    "packages": [
+      "com.fasterxml.jackson.core:jackson-databind"
+    ],
+    "is_np": true,
+    "is_build_only": false,
+    "is_di": false,
+    "di_by_cwe": false,
+    "di_by_keyword": false,
+    "is_ch": true
+  },
+  {
+    "id": "GHSA-r695-7vr9-jgc2",
+    "aliases": [
+      "CVE-2020-36187"
+    ],
+    "score": 0.0,
+    "severity": "HIGH",
+    "cwes": [
+      "CWE-502"
+    ],
+    "published": "2021-12-09T19:16:51",
+    "pub_date": "2021-12-09T19:16:51",
+    "summary": "Unsafe Deserialization in jackson-databind",
+    "packages": [
+      "com.fasterxml.jackson.core:jackson-databind"
+    ],
+    "is_np": true,
+    "is_build_only": false,
+    "is_di": false,
+    "di_by_cwe": false,
+    "di_by_keyword": false,
+    "is_ch": true
+  },
+  {
+    "id": "GHSA-rfx6-vp9g-rh7v",
+    "aliases": [
+      "CVE-2017-17485"
+    ],
+    "score": 0.0,
+    "severity": "CRITICAL",
+    "cwes": [
+      "CWE-502"
+    ],
+    "published": "2018-10-18T17:42:48",
+    "pub_date": "2018-10-18T17:42:48",
+    "summary": "jackson-databind vulnerable to remote code execution due to incorrect deserialization and blocklist bypass",
+    "packages": [
+      "com.fasterxml.jackson.core:jackson-databind"
+    ],
+    "is_np": true,
+    "is_build_only": false,
+    "is_di": false,
+    "di_by_cwe": false,
+    "di_by_keyword": false,
+    "is_ch": true
+  },
+  {
+    "id": "GHSA-rgv9-q543-rqg4",
+    "aliases": [
+      "CVE-2022-42004"
+    ],
+    "score": 0.0,
+    "severity": "HIGH",
+    "cwes": [
+      "CWE-400",
+      "CWE-502"
+    ],
+    "published": "2022-10-03T00:00:31",
+    "pub_date": "2022-10-03T00:00:31",
+    "summary": "Uncontrolled Resource Consumption in FasterXML jackson-databind",
+    "packages": [
+      "com.fasterxml.jackson.core:jackson-databind"
+    ],
+    "is_np": true,
+    "is_build_only": false,
+    "is_di": false,
+    "di_by_cwe": false,
+    "di_by_keyword": false,
+    "is_ch": true
+  },
+  {
+    "id": "GHSA-rpr3-cw39-3pxh",
+    "aliases": [
+      "CVE-2020-10650"
+    ],
+    "score": 0.0,
+    "severity": "HIGH",
+    "cwes": [
+      "CWE-502"
+    ],
+    "published": "2022-07-15T19:41:47",
+    "pub_date": "2022-07-15T19:41:47",
+    "summary": "jackson-databind vulnerable to unsafe deserialization",
+    "packages": [
+      "com.fasterxml.jackson.core:jackson-databind"
+    ],
+    "is_np": true,
+    "is_build_only": false,
+    "is_di": false,
+    "di_by_cwe": false,
+    "di_by_keyword": false,
+    "is_ch": true
+  },
+  {
+    "id": "GHSA-v585-23hc-c647",
+    "aliases": [
+      "CVE-2020-36186"
+    ],
+    "score": 0.0,
+    "severity": "HIGH",
+    "cwes": [
+      "CWE-502"
+    ],
+    "published": "2021-11-19T20:13:06",
+    "pub_date": "2021-11-19T20:13:06",
+    "summary": "Unsafe Deserialization in jackson-databind",
+    "packages": [
+      "com.fasterxml.jackson.core:jackson-databind"
+    ],
+    "is_np": true,
+    "is_build_only": false,
+    "is_di": false,
+    "di_by_cwe": false,
+    "di_by_keyword": false,
+    "is_ch": true
+  },
+  {
+    "id": "GHSA-vfqx-33qm-g869",
+    "aliases": [
+      "CVE-2020-36189"
+    ],
+    "score": 0.0,
+    "severity": "HIGH",
+    "cwes": [
+      "CWE-502"
+    ],
+    "published": "2021-12-09T19:16:59",
+    "pub_date": "2021-12-09T19:16:59",
+    "summary": "Unsafe Deserialization in jackson-databind",
+    "packages": [
+      "com.fasterxml.jackson.core:jackson-databind"
+    ],
+    "is_np": true,
+    "is_build_only": false,
+    "is_di": false,
+    "di_by_cwe": false,
+    "di_by_keyword": false,
+    "is_ch": true
+  },
+  {
+    "id": "GHSA-w3f4-3q6j-rh82",
+    "aliases": [
+      "CVE-2018-5968"
+    ],
+    "score": 0.0,
+    "severity": "HIGH",
+    "cwes": [
+      "CWE-502",
+      "CWE-184"
+    ],
+    "published": "2020-06-30T20:40:50",
+    "pub_date": "2020-06-30T20:40:50",
+    "summary": "Deserialization of Untrusted Data in jackson-databind",
+    "packages": [
+      "com.fasterxml.jackson.core:jackson-databind"
+    ],
+    "is_np": true,
+    "is_build_only": false,
+    "is_di": false,
+    "di_by_cwe": false,
+    "di_by_keyword": false,
+    "is_ch": true
+  },
+  {
+    "id": "GHSA-wh8g-3j2c-rqj5",
+    "aliases": [
+      "CVE-2020-35490"
+    ],
+    "score": 0.0,
+    "severity": "HIGH",
+    "cwes": [
+      "CWE-502"
+    ],
+    "published": "2021-12-09T19:15:00",
+    "pub_date": "2021-12-09T19:15:00",
+    "summary": "Serialization gadgets exploit in jackson-databind",
+    "packages": [
+      "com.fasterxml.jackson.core:jackson-databind"
+    ],
+    "is_np": true,
+    "is_build_only": false,
+    "is_di": false,
+    "di_by_cwe": false,
+    "di_by_keyword": false,
+    "is_ch": true
+  },
+  {
+    "id": "GHSA-3f7h-mf4q-vrm4",
+    "aliases": [
+      "CVE-2022-40152"
+    ],
+    "score": 0.0,
+    "severity": "MODERATE",
+    "cwes": [
+      "CWE-121",
+      "CWE-787"
+    ],
+    "published": "2022-09-17T00:00:41",
+    "pub_date": "2022-09-17T00:00:41",
+    "summary": "Denial of Service due to parser crash",
+    "packages": [
+      "com.fasterxml.woodstox:woodstox-core"
+    ],
+    "is_np": true,
+    "is_build_only": false,
+    "is_di": false,
+    "di_by_cwe": false,
+    "di_by_keyword": false,
+    "is_ch": false
+  },
+  {
+    "id": "GHSA-pmxq-pj47-j8j4",
+    "aliases": [
+      "BIT-wiremock-2023-41329",
+      "CVE-2023-41329"
+    ],
+    "score": 0.0,
+    "severity": "LOW",
+    "cwes": [
+      "CWE-350",
+      "CWE-290"
+    ],
+    "published": "2023-09-08T12:19:49",
+    "pub_date": "2023-09-08T12:19:49",
+    "summary": "Domain restrictions bypass via DNS Rebinding in WireMock and WireMock Studio webhooks, proxy and recorder modes",
+    "packages": [
+      "com.github.tomakehurst:wiremock-jre8-standalone"
+    ],
+    "is_np": false,
+    "is_build_only": true,
+    "is_di": false,
+    "di_by_cwe": false,
+    "di_by_keyword": false,
+    "is_ch": false
+  },
+  {
+    "id": "GHSA-8h4x-xvjp-vf99",
+    "aliases": [
+      "CVE-2023-45860"
+    ],
+    "score": 0.0,
+    "severity": "HIGH",
+    "cwes": [
+      "CWE-89"
+    ],
+    "published": "2024-02-16T23:14:45",
+    "pub_date": "2024-02-16T23:14:45",
+    "summary": "Hazelcast Platform permission checking in CSV File Source connector",
+    "packages": [
+      "com.hazelcast:hazelcast"
+    ],
+    "is_np": true,
+    "is_build_only": false,
+    "is_di": true,
+    "di_by_cwe": true,
+    "di_by_keyword": false,
+    "is_ch": true
+  },
+  {
+    "id": "GHSA-c5hg-mr8r-f6jp",
+    "aliases": [
+      "CVE-2022-36437"
+    ],
+    "score": 0.0,
+    "severity": "CRITICAL",
+    "cwes": [
+      "CWE-384"
+    ],
+    "published": "2022-12-27T14:40:39",
+    "pub_date": "2022-12-27T14:40:39",
+    "summary": "Hazelcast connection caching",
+    "packages": [
+      "com.hazelcast:hazelcast"
+    ],
+    "is_np": true,
+    "is_build_only": false,
+    "is_di": false,
+    "di_by_cwe": false,
+    "di_by_keyword": false,
+    "is_ch": true
+  },
+  {
+    "id": "GHSA-c5vj-wp4v-mmvx",
+    "aliases": [
+      "CVE-2023-33265"
+    ],
+    "score": 0.0,
+    "severity": "HIGH",
+    "cwes": [
+      "CWE-862"
+    ],
+    "published": "2023-07-19T22:08:40",
+    "pub_date": "2023-07-19T22:08:40",
+    "summary": "Hazelcast Executor Services don't check client permissions properly",
+    "packages": [
+      "com.hazelcast:hazelcast"
+    ],
+    "is_np": true,
+    "is_build_only": false,
+    "is_di": false,
+    "di_by_cwe": false,
+    "di_by_keyword": false,
+    "is_ch": true
+  },
+  {
+    "id": "GHSA-jv65-pf7v-f7p8",
+    "aliases": [
+      "CVE-2016-10750"
+    ],
+    "score": 0.0,
+    "severity": "HIGH",
+    "cwes": [
+      "CWE-502"
+    ],
+    "published": "2022-05-24T16:46:09",
+    "pub_date": "2022-05-24T16:46:09",
+    "summary": "Deserialization of Untrusted Data in Hazelcast",
+    "packages": [
+      "com.hazelcast:hazelcast"
+    ],
+    "is_np": true,
+    "is_build_only": false,
+    "is_di": false,
+    "di_by_cwe": false,
+    "di_by_keyword": false,
+    "is_ch": true
+  },
+  {
+    "id": "GHSA-xh6m-7cr7-xx66",
+    "aliases": [
+      "CVE-2023-45859"
+    ],
+    "score": 0.0,
+    "severity": "HIGH",
+    "cwes": [
+      "CWE-281",
+      "CWE-922"
+    ],
+    "published": "2024-02-27T21:54:15",
+    "pub_date": "2024-02-27T21:54:15",
+    "summary": "Missing permission checks on Hazelcast client protocol",
+    "packages": [
+      "com.hazelcast:hazelcast"
+    ],
+    "is_np": true,
+    "is_build_only": false,
+    "is_di": false,
+    "di_by_cwe": false,
+    "di_by_keyword": false,
+    "is_ch": true
+  },
+  {
+    "id": "GHSA-2p3x-qw9c-25hh",
+    "aliases": [
+      "BIT-activemq-2021-21341",
+      "CVE-2021-21341"
+    ],
+    "score": 0.0,
+    "severity": "HIGH",
+    "cwes": [
+      "CWE-400",
+      "CWE-502",
+      "CWE-835"
+    ],
+    "published": "2021-03-22T23:27:51",
+    "pub_date": "2021-03-22T23:27:51",
+    "summary": "XStream can cause a Denial of Service.",
+    "packages": [
+      "com.thoughtworks.xstream:xstream"
+    ],
+    "is_np": true,
+    "is_build_only": false,
+    "is_di": false,
+    "di_by_cwe": false,
+    "di_by_keyword": false,
+    "is_ch": true
+  },
+  {
+    "id": "GHSA-2q8x-2p7f-574v",
+    "aliases": [
+      "CVE-2021-39153"
+    ],
+    "score": 0.0,
+    "severity": "HIGH",
+    "cwes": [
+      "CWE-502"
+    ],
+    "published": "2021-08-25T14:46:49",
+    "pub_date": "2021-08-25T14:46:49",
+    "summary": "XStream is vulnerable to an Arbitrary Code Execution attack",
+    "packages": [
+      "com.thoughtworks.xstream:xstream"
+    ],
+    "is_np": true,
+    "is_build_only": false,
+    "is_di": false,
+    "di_by_cwe": false,
+    "di_by_keyword": false,
+    "is_ch": true
+  },
+  {
+    "id": "GHSA-3ccq-5vw3-2p6x",
+    "aliases": [
+      "CVE-2021-39149"
+    ],
+    "score": 0.0,
+    "severity": "HIGH",
+    "cwes": [
+      "CWE-502",
+      "CWE-434"
+    ],
+    "published": "2021-08-25T14:47:28",
+    "pub_date": "2021-08-25T14:47:28",
+    "summary": "XStream is vulnerable to an Arbitrary Code Execution attack",
+    "packages": [
+      "com.thoughtworks.xstream:xstream"
+    ],
+    "is_np": true,
+    "is_build_only": false,
+    "is_di": false,
+    "di_by_cwe": false,
+    "di_by_keyword": false,
+    "is_ch": true
+  },
+  {
+    "id": "GHSA-43gc-mjxg-gvrq",
+    "aliases": [
+      "BIT-activemq-2021-21350",
+      "CVE-2021-21350"
+    ],
+    "score": 0.0,
+    "severity": "MODERATE",
+    "cwes": [
+      "CWE-502",
+      "CWE-434"
+    ],
+    "published": "2021-03-22T23:29:28",
+    "pub_date": "2021-03-22T23:29:28",
+    "summary": "XStream is vulnerable to an Arbitrary Code Execution attack",
+    "packages": [
+      "com.thoughtworks.xstream:xstream"
+    ],
+    "is_np": true,
+    "is_build_only": false,
+    "is_di": false,
+    "di_by_cwe": false,
+    "di_by_keyword": false,
+    "is_ch": false
+  },
+  {
+    "id": "GHSA-4cch-wxpw-8p28",
+    "aliases": [
+      "CVE-2020-26258"
+    ],
+    "score": 0.0,
+    "severity": "MODERATE",
+    "cwes": [
+      "CWE-918"
+    ],
+    "published": "2020-12-21T16:28:42",
+    "pub_date": "2020-12-21T16:28:42",
+    "summary": "Server-Side Forgery Request can be activated unmarshalling with XStream",
+    "packages": [
+      "com.thoughtworks.xstream:xstream"
+    ],
+    "is_np": true,
+    "is_build_only": false,
+    "is_di": true,
+    "di_by_cwe": true,
+    "di_by_keyword": false,
+    "is_ch": false
+  },
+  {
+    "id": "GHSA-4hrm-m67v-5cxr",
+    "aliases": [
+      "BIT-activemq-2021-21346",
+      "CVE-2021-21346"
+    ],
+    "score": 0.0,
+    "severity": "MODERATE",
+    "cwes": [
+      "CWE-502",
+      "CWE-434"
+    ],
+    "published": "2021-03-22T23:28:49",
+    "pub_date": "2021-03-22T23:28:49",
+    "summary": "XStream is vulnerable to an Arbitrary Code Execution attack",
+    "packages": [
+      "com.thoughtworks.xstream:xstream"
+    ],
+    "is_np": true,
+    "is_build_only": false,
+    "is_di": false,
+    "di_by_cwe": false,
+    "di_by_keyword": false,
+    "is_ch": false
+  },
+  {
+    "id": "GHSA-56p8-3fh9-4cvq",
+    "aliases": [
+      "BIT-activemq-2021-21348",
+      "CVE-2021-21348"
+    ],
+    "score": 0.0,
+    "severity": "MODERATE",
+    "cwes": [
+      "CWE-400",
+      "CWE-502"
+    ],
+    "published": "2021-03-22T23:29:09",
+    "pub_date": "2021-03-22T23:29:09",
+    "summary": "XStream is vulnerable to an attack using Regular Expression for a Denial of Service (ReDos)",
+    "packages": [
+      "com.thoughtworks.xstream:xstream"
+    ],
+    "is_np": true,
+    "is_build_only": false,
+    "is_di": false,
+    "di_by_cwe": false,
+    "di_by_keyword": false,
+    "is_ch": false
+  },
+  {
+    "id": "GHSA-59jw-jqf4-3wq3",
+    "aliases": [
+      "BIT-activemq-2021-21344",
+      "CVE-2021-21344"
+    ],
+    "score": 0.0,
+    "severity": "MODERATE",
+    "cwes": [
+      "CWE-502",
+      "CWE-434"
+    ],
+    "published": "2021-03-22T23:28:23",
+    "pub_date": "2021-03-22T23:28:23",
+    "summary": "XStream is vulnerable to an Arbitrary Code Execution attack",
+    "packages": [
+      "com.thoughtworks.xstream:xstream"
+    ],
+    "is_np": true,
+    "is_build_only": false,
+    "is_di": false,
+    "di_by_cwe": false,
+    "di_by_keyword": false,
+    "is_ch": false
+  },
+  {
+    "id": "GHSA-64xx-cq4q-mf44",
+    "aliases": [
+      "CVE-2021-39139"
+    ],
+    "score": 0.0,
+    "severity": "HIGH",
+    "cwes": [
+      "CWE-502"
+    ],
+    "published": "2021-08-25T14:48:47",
+    "pub_date": "2021-08-25T14:48:47",
+    "summary": "XStream is vulnerable to an Arbitrary Code Execution attack",
+    "packages": [
+      "com.thoughtworks.xstream:xstream"
+    ],
+    "is_np": true,
+    "is_build_only": false,
+    "is_di": false,
+    "di_by_cwe": false,
+    "di_by_keyword": false,
+    "is_ch": true
+  },
+  {
+    "id": "GHSA-6w62-hx7r-mw68",
+    "aliases": [
+      "CVE-2021-39154"
+    ],
+    "score": 0.0,
+    "severity": "HIGH",
+    "cwes": [
+      "CWE-502",
+      "CWE-434"
+    ],
+    "published": "2021-08-25T14:46:38",
+    "pub_date": "2021-08-25T14:46:38",
+    "summary": "XStream is vulnerable to an Arbitrary Code Execution attack",
+    "packages": [
+      "com.thoughtworks.xstream:xstream"
+    ],
+    "is_np": true,
+    "is_build_only": false,
+    "is_di": false,
+    "di_by_cwe": false,
+    "di_by_keyword": false,
+    "is_ch": true
+  },
+  {
+    "id": "GHSA-6wf9-jmg9-vxcc",
+    "aliases": [
+      "CVE-2021-39140"
+    ],
+    "score": 0.0,
+    "severity": "MODERATE",
+    "cwes": [
+      "CWE-502",
+      "CWE-835"
+    ],
+    "published": "2021-08-25T14:48:39",
+    "pub_date": "2021-08-25T14:48:39",
+    "summary": "XStream can cause a Denial of Service",
+    "packages": [
+      "com.thoughtworks.xstream:xstream"
+    ],
+    "is_np": true,
+    "is_build_only": false,
+    "is_di": false,
+    "di_by_cwe": false,
+    "di_by_keyword": false,
+    "is_ch": false
+  },
+  {
+    "id": "GHSA-74cv-f58x-f9wf",
+    "aliases": [
+      "BIT-activemq-2021-21343",
+      "CVE-2021-21343"
+    ],
+    "score": 0.0,
+    "severity": "MODERATE",
+    "cwes": [
+      "CWE-73",
+      "CWE-502"
+    ],
+    "published": "2021-03-22T23:28:13",
+    "pub_date": "2021-03-22T23:28:13",
+    "summary": "XStream is vulnerable to an Arbitrary File Deletion on the local host when unmarshalling as long as the executing process has sufficient rights",
+    "packages": [
+      "com.thoughtworks.xstream:xstream"
+    ],
+    "is_np": true,
+    "is_build_only": false,
+    "is_di": false,
+    "di_by_cwe": false,
+    "di_by_keyword": false,
+    "is_ch": false
+  },
+  {
+    "id": "GHSA-7chv-rrw6-w6fc",
+    "aliases": [
+      "CVE-2021-29505"
+    ],
+    "score": 0.0,
+    "severity": "HIGH",
+    "cwes": [
+      "CWE-74",
+      "CWE-502",
+      "CWE-94"
+    ],
+    "published": "2021-05-18T18:36:27",
+    "pub_date": "2021-05-18T18:36:27",
+    "summary": "XStream is vulnerable to a Remote Command Execution attack",
+    "packages": [
+      "com.thoughtworks.xstream:xstream"
+    ],
+    "is_np": true,
+    "is_build_only": false,
+    "is_di": true,
+    "di_by_cwe": true,
+    "di_by_keyword": false,
+    "is_ch": true
+  },
+  {
+    "id": "GHSA-8jrj-525p-826v",
+    "aliases": [
+      "CVE-2021-39145"
+    ],
+    "score": 0.0,
+    "severity": "HIGH",
+    "cwes": [
+      "CWE-502"
+    ],
+    "published": "2021-08-25T14:48:12",
+    "pub_date": "2021-08-25T14:48:12",
+    "summary": "XStream is vulnerable to an Arbitrary Code Execution attack",
+    "packages": [
+      "com.thoughtworks.xstream:xstream"
+    ],
+    "is_np": true,
+    "is_build_only": false,
+    "is_di": false,
+    "di_by_cwe": false,
+    "di_by_keyword": false,
+    "is_ch": true
+  },
+  {
+    "id": "GHSA-cxfm-5m4g-x7xp",
+    "aliases": [
+      "CVE-2021-39150"
+    ],
+    "score": 0.0,
+    "severity": "HIGH",
+    "cwes": [
+      "CWE-918",
+      "CWE-502"
+    ],
+    "published": "2021-08-25T14:47:19",
+    "pub_date": "2021-08-25T14:47:19",
+    "summary": "A Server-Side Forgery Request can be activated unmarshalling with XStream to access data streams from an arbitrary URL referencing a resource in an intranet or the local host",
+    "packages": [
+      "com.thoughtworks.xstream:xstream"
+    ],
+    "is_np": true,
+    "is_build_only": false,
+    "is_di": true,
+    "di_by_cwe": true,
+    "di_by_keyword": false,
+    "is_ch": true
+  },
+  {
+    "id": "GHSA-f554-x222-wgf7",
+    "aliases": [
+      "CVE-2013-7285"
+    ],
+    "score": 0.0,
+    "severity": "CRITICAL",
+    "cwes": [
+      "CWE-77",
+      "CWE-78"
+    ],
+    "published": "2019-05-29T18:05:03",
+    "pub_date": "2019-05-29T18:05:03",
+    "summary": "Command Injection in Xstream",
+    "packages": [
+      "com.thoughtworks.xstream:xstream"
+    ],
+    "is_np": true,
+    "is_build_only": false,
+    "is_di": true,
+    "di_by_cwe": true,
+    "di_by_keyword": false,
+    "is_ch": true
+  },
+  {
+    "id": "GHSA-f6hm-88x3-mfjv",
+    "aliases": [
+      "BIT-activemq-2021-21349",
+      "CVE-2021-21349"
+    ],
+    "score": 0.0,
+    "severity": "MODERATE",
+    "cwes": [
+      "CWE-918",
+      "CWE-502"
+    ],
+    "published": "2021-03-22T23:29:19",
+    "pub_date": "2021-03-22T23:29:19",
+    "summary": "A Server-Side Forgery Request can be activated unmarshalling with XStream to access data streams from an arbitrary URL referencing a resource in an intranet or the local host",
+    "packages": [
+      "com.thoughtworks.xstream:xstream"
+    ],
+    "is_np": true,
+    "is_build_only": false,
+    "is_di": true,
+    "di_by_cwe": true,
+    "di_by_keyword": false,
+    "is_ch": false
+  },
+  {
+    "id": "GHSA-f8cc-g7j8-xxpm",
+    "aliases": [
+      "CVE-2022-40151"
+    ],
+    "score": 0.0,
+    "severity": "HIGH",
+    "cwes": [
+      "CWE-502",
+      "CWE-121",
+      "CWE-787"
+    ],
+    "published": "2022-12-30T16:58:39",
+    "pub_date": "2022-12-30T16:58:39",
+    "summary": "XStream can cause a Denial of Service by injecting deeply nested objects raising a stack overflow",
+    "packages": [
+      "com.thoughtworks.xstream:xstream"
+    ],
+    "is_np": true,
+    "is_build_only": false,
+    "is_di": false,
+    "di_by_cwe": false,
+    "di_by_keyword": false,
+    "is_ch": true
+  },
+  {
+    "id": "GHSA-g5w6-mrj7-75h2",
+    "aliases": [
+      "CVE-2021-39141"
+    ],
+    "score": 0.0,
+    "severity": "HIGH",
+    "cwes": [
+      "CWE-502"
+    ],
+    "published": "2021-08-25T14:48:31",
+    "pub_date": "2021-08-25T14:48:31",
+    "summary": "XStream is vulnerable to an Arbitrary Code Execution attack",
+    "packages": [
+      "com.thoughtworks.xstream:xstream"
+    ],
+    "is_np": true,
+    "is_build_only": false,
+    "is_di": false,
+    "di_by_cwe": false,
+    "di_by_keyword": false,
+    "is_ch": true
+  },
+  {
+    "id": "GHSA-h7v4-7xg3-hxcc",
+    "aliases": [
+      "CVE-2021-39147"
+    ],
+    "score": 0.0,
+    "severity": "HIGH",
+    "cwes": [
+      "CWE-502"
+    ],
+    "published": "2021-08-25T14:47:46",
+    "pub_date": "2021-08-25T14:47:46",
+    "summary": "XStream is vulnerable to an Arbitrary Code Execution attack",
+    "packages": [
+      "com.thoughtworks.xstream:xstream"
+    ],
+    "is_np": true,
+    "is_build_only": false,
+    "is_di": false,
+    "di_by_cwe": false,
+    "di_by_keyword": false,
+    "is_ch": true
+  },
+  {
+    "id": "GHSA-hf23-9pf7-388p",
+    "aliases": [
+      "CVE-2019-10173"
+    ],
+    "score": 0.0,
+    "severity": "CRITICAL",
+    "cwes": [
+      "CWE-502",
+      "CWE-94"
+    ],
+    "published": "2019-07-26T16:09:47",
+    "pub_date": "2019-07-26T16:09:47",
+    "summary": "Deserialization of Untrusted Data and Code Injection in xstream",
+    "packages": [
+      "com.thoughtworks.xstream:xstream"
+    ],
+    "is_np": true,
+    "is_build_only": false,
+    "is_di": true,
+    "di_by_cwe": true,
+    "di_by_keyword": false,
+    "is_ch": true
+  },
+  {
+    "id": "GHSA-hfq9-hggm-c56q",
+    "aliases": [
+      "CVE-2024-47072"
+    ],
+    "score": 0.0,
+    "severity": "HIGH",
+    "cwes": [
+      "CWE-502",
+      "CWE-121"
+    ],
+    "published": "2024-11-07T21:51:17",
+    "pub_date": "2024-11-07T21:51:17",
+    "summary": "XStream is vulnerable to a Denial of Service attack due to stack overflow from a manipulated binary input stream",
+    "packages": [
+      "com.thoughtworks.xstream:xstream"
+    ],
+    "is_np": true,
+    "is_build_only": false,
+    "is_di": false,
+    "di_by_cwe": false,
+    "di_by_keyword": false,
+    "is_ch": true
+  },
+  {
+    "id": "GHSA-hph2-m3g5-xxv4",
+    "aliases": [
+      "CVE-2021-39151"
+    ],
+    "score": 0.0,
+    "severity": "HIGH",
+    "cwes": [
+      "CWE-502",
+      "CWE-434"
+    ],
+    "published": "2021-08-25T14:47:09",
+    "pub_date": "2021-08-25T14:47:09",
+    "summary": "XStream is vulnerable to an Arbitrary Code Execution attack",
+    "packages": [
+      "com.thoughtworks.xstream:xstream"
+    ],
+    "is_np": true,
+    "is_build_only": false,
+    "is_di": false,
+    "di_by_cwe": false,
+    "di_by_keyword": false,
+    "is_ch": true
+  },
+  {
+    "id": "GHSA-hrcp-8f3q-4w2c",
+    "aliases": [
+      "BIT-activemq-2021-21351",
+      "CVE-2021-21351"
+    ],
+    "score": 0.0,
+    "severity": "MODERATE",
+    "cwes": [
+      "CWE-502",
+      "CWE-434"
+    ],
+    "published": "2021-03-22T23:29:37",
+    "pub_date": "2021-03-22T23:29:37",
+    "summary": "XStream is vulnerable to an Arbitrary Code Execution attack",
+    "packages": [
+      "com.thoughtworks.xstream:xstream"
+    ],
+    "is_np": true,
+    "is_build_only": false,
+    "is_di": false,
+    "di_by_cwe": false,
+    "di_by_keyword": false,
+    "is_ch": false
+  },
+  {
+    "id": "GHSA-hvv8-336g-rx3m",
+    "aliases": [
+      "BIT-activemq-2021-21342",
+      "CVE-2021-21342"
+    ],
+    "score": 0.0,
+    "severity": "MODERATE",
+    "cwes": [
+      "CWE-918",
+      "CWE-502"
+    ],
+    "published": "2021-03-22T23:28:01",
+    "pub_date": "2021-03-22T23:28:01",
+    "summary": "A Server-Side Forgery Request can be activated unmarshalling with XStream to access data streams from an arbitrary URL referencing a resource in an intranet or the local host",
+    "packages": [
+      "com.thoughtworks.xstream:xstream"
+    ],
+    "is_np": true,
+    "is_build_only": false,
+    "is_di": true,
+    "di_by_cwe": true,
+    "di_by_keyword": false,
+    "is_ch": false
+  },
+  {
+    "id": "GHSA-hwpc-8xqv-jvj4",
+    "aliases": [
+      "BIT-activemq-2021-21345",
+      "CVE-2021-21345"
+    ],
+    "score": 0.0,
+    "severity": "MODERATE",
+    "cwes": [
+      "CWE-78",
+      "CWE-94"
+    ],
+    "published": "2021-03-22T23:28:38",
+    "pub_date": "2021-03-22T23:28:38",
+    "summary": "XStream is vulnerable to a Remote Command Execution attack",
+    "packages": [
+      "com.thoughtworks.xstream:xstream"
+    ],
+    "is_np": true,
+    "is_build_only": false,
+    "is_di": true,
+    "di_by_cwe": true,
+    "di_by_keyword": false,
+    "is_ch": false
+  },
+  {
+    "id": "GHSA-j563-grx4-pjpv",
+    "aliases": [
+      "CVE-2022-41966"
+    ],
+    "score": 0.0,
+    "severity": "HIGH",
+    "cwes": [
+      "CWE-502",
+      "CWE-674",
+      "CWE-121",
+      "CWE-120"
+    ],
+    "published": "2022-12-29T01:48:08",
+    "pub_date": "2022-12-29T01:48:08",
+    "summary": "XStream can cause Denial of Service via stack overflow",
+    "packages": [
+      "com.thoughtworks.xstream:xstream"
+    ],
+    "is_np": true,
+    "is_build_only": false,
+    "is_di": false,
+    "di_by_cwe": false,
+    "di_by_keyword": false,
+    "is_ch": true
+  },
+  {
+    "id": "GHSA-j9h8-phrw-h4fh",
+    "aliases": [
+      "CVE-2021-39144"
+    ],
+    "score": 0.0,
+    "severity": "HIGH",
+    "cwes": [
+      "CWE-502",
+      "CWE-306",
+      "CWE-94"
+    ],
+    "published": "2021-08-25T14:48:19",
+    "pub_date": "2021-08-25T14:48:19",
+    "summary": "XStream is vulnerable to a Remote Command Execution attack",
+    "packages": [
+      "com.thoughtworks.xstream:xstream"
+    ],
+    "is_np": true,
+    "is_build_only": false,
+    "is_di": true,
+    "di_by_cwe": true,
+    "di_by_keyword": false,
+    "is_ch": true
+  },
+  {
+    "id": "GHSA-jfvx-7wrx-43fh",
+    "aliases": [
+      "CVE-2020-26259"
+    ],
+    "score": 0.0,
+    "severity": "MODERATE",
+    "cwes": [
+      "CWE-78"
+    ],
+    "published": "2020-12-21T16:28:26",
+    "pub_date": "2020-12-21T16:28:26",
+    "summary": "XStream vulnerable to an Arbitrary File Deletion on the local host when unmarshalling",
+    "packages": [
+      "com.thoughtworks.xstream:xstream"
+    ],
+    "is_np": true,
+    "is_build_only": false,
+    "is_di": true,
+    "di_by_cwe": true,
+    "di_by_keyword": false,
+    "is_ch": false
+  },
+  {
+    "id": "GHSA-mw36-7c6c-q4q2",
+    "aliases": [
+      "BIT-activemq-2020-26217",
+      "CVE-2020-26217"
+    ],
+    "score": 0.0,
+    "severity": "HIGH",
+    "cwes": [
+      "CWE-78"
+    ],
+    "published": "2020-11-16T20:07:59",
+    "pub_date": "2020-11-16T20:07:59",
+    "summary": "XStream can be used for Remote Code Execution",
+    "packages": [
+      "com.thoughtworks.xstream:xstream"
+    ],
+    "is_np": true,
+    "is_build_only": false,
+    "is_di": true,
+    "di_by_cwe": true,
+    "di_by_keyword": false,
+    "is_ch": true
+  },
+  {
+    "id": "GHSA-p8pq-r894-fm8f",
+    "aliases": [
+      "CVE-2021-39146"
+    ],
+    "score": 0.0,
+    "severity": "HIGH",
+    "cwes": [
+      "CWE-502"
+    ],
+    "published": "2021-08-25T14:47:57",
+    "pub_date": "2021-08-25T14:47:57",
+    "summary": "XStream is vulnerable to an Arbitrary Code Execution attack",
+    "packages": [
+      "com.thoughtworks.xstream:xstream"
+    ],
+    "is_np": true,
+    "is_build_only": false,
+    "is_di": false,
+    "di_by_cwe": false,
+    "di_by_keyword": false,
+    "is_ch": true
+  },
+  {
+    "id": "GHSA-qpfq-ph7r-qv6f",
+    "aliases": [
+      "BIT-activemq-2021-21347",
+      "CVE-2021-21347"
+    ],
+    "score": 0.0,
+    "severity": "MODERATE",
+    "cwes": [
+      "CWE-502",
+      "CWE-434"
+    ],
+    "published": "2021-03-22T23:29:00",
+    "pub_date": "2021-03-22T23:29:00",
+    "summary": "XStream is vulnerable to an Arbitrary Code Execution attack",
+    "packages": [
+      "com.thoughtworks.xstream:xstream"
+    ],
+    "is_np": true,
+    "is_build_only": false,
+    "is_di": false,
+    "di_by_cwe": false,
+    "di_by_keyword": false,
+    "is_ch": false
+  },
+  {
+    "id": "GHSA-qrx8-8545-4wg2",
+    "aliases": [
+      "CVE-2021-39148"
+    ],
+    "score": 0.0,
+    "severity": "HIGH",
+    "cwes": [
+      "CWE-502"
+    ],
+    "published": "2021-08-25T14:47:38",
+    "pub_date": "2021-08-25T14:47:38",
+    "summary": "XStream is vulnerable to an Arbitrary Code Execution attack",
+    "packages": [
+      "com.thoughtworks.xstream:xstream"
+    ],
+    "is_np": true,
+    "is_build_only": false,
+    "is_di": false,
+    "di_by_cwe": false,
+    "di_by_keyword": false,
+    "is_ch": true
+  },
+  {
+    "id": "GHSA-rmr5-cpv2-vgjf",
+    "aliases": [
+      "BIT-jenkins-2021-43859",
+      "CVE-2021-43859"
+    ],
+    "score": 0.0,
+    "severity": "HIGH",
+    "cwes": [
+      "CWE-400",
+      "CWE-502"
+    ],
+    "published": "2022-02-01T00:48:15",
+    "pub_date": "2022-02-01T00:48:15",
+    "summary": "Denial of Service by injecting highly recursive collections or maps in XStream",
+    "packages": [
+      "com.thoughtworks.xstream:xstream"
+    ],
+    "is_np": true,
+    "is_build_only": false,
+    "is_di": false,
+    "di_by_cwe": false,
+    "di_by_keyword": false,
+    "is_ch": true
+  },
+  {
+    "id": "GHSA-xw4p-crpj-vjx2",
+    "aliases": [
+      "CVE-2021-39152"
+    ],
+    "score": 0.0,
+    "severity": "HIGH",
+    "cwes": [
+      "CWE-918",
+      "CWE-502"
+    ],
+    "published": "2021-08-25T14:46:59",
+    "pub_date": "2021-08-25T14:46:59",
+    "summary": "A Server-Side Forgery Request can be activated unmarshalling with XStream to access data streams from an arbitrary URL referencing a resource in an intranet or the local host",
+    "packages": [
+      "com.thoughtworks.xstream:xstream"
+    ],
+    "is_np": true,
+    "is_build_only": false,
+    "is_di": true,
+    "di_by_cwe": true,
+    "di_by_keyword": false,
+    "is_ch": true
+  },
+  {
+    "id": "GHSA-6hgm-866r-3cjv",
+    "aliases": [
+      "CVE-2015-6420"
+    ],
+    "score": 0.0,
+    "severity": "HIGH",
+    "cwes": [
+      "CWE-502"
+    ],
+    "published": "2020-06-15T20:36:20",
+    "pub_date": "2020-06-15T20:36:20",
+    "summary": "Insecure Deserialization in Apache Commons Collection",
+    "packages": [
+      "commons-collections:commons-collections"
+    ],
+    "is_np": false,
+    "is_build_only": false,
+    "is_di": false,
+    "di_by_cwe": false,
+    "di_by_keyword": false,
+    "is_ch": true
+  },
+  {
+    "id": "GHSA-fjq5-5j5f-mvxh",
+    "aliases": [
+      "CVE-2015-7501"
+    ],
+    "score": 0.0,
+    "severity": "CRITICAL",
+    "cwes": [
+      "CWE-502"
+    ],
+    "published": "2022-05-13T01:25:20",
+    "pub_date": "2022-05-13T01:25:20",
+    "summary": "Deserialization of Untrusted Data in Apache commons collections",
+    "packages": [
+      "commons-collections:commons-collections"
+    ],
+    "is_np": false,
+    "is_build_only": false,
+    "is_di": false,
+    "di_by_cwe": false,
+    "di_by_keyword": false,
+    "is_ch": true
+  },
+  {
+    "id": "GHSA-6pcc-3rfx-4gpm",
+    "aliases": [
+      "CVE-2018-1000632"
+    ],
+    "score": 0.0,
+    "severity": "HIGH",
+    "cwes": [
+      "CWE-91"
+    ],
+    "published": "2018-10-16T17:01:25",
+    "pub_date": "2018-10-16T17:01:25",
+    "summary": "Dom4j contains a XML Injection vulnerability",
+    "packages": [
+      "dom4j:dom4j"
+    ],
+    "is_np": true,
+    "is_build_only": false,
+    "is_di": true,
+    "di_by_cwe": true,
+    "di_by_keyword": false,
+    "is_ch": true
+  },
+  {
+    "id": "GHSA-hwj3-m3p6-hj38",
+    "aliases": [
+      "CVE-2020-10683"
+    ],
+    "score": 0.0,
+    "severity": "CRITICAL",
+    "cwes": [
+      "CWE-611"
+    ],
+    "published": "2020-06-05T16:13:36",
+    "pub_date": "2020-06-05T16:13:36",
+    "summary": "dom4j allows External Entities by default which might enable XXE attacks",
+    "packages": [
+      "dom4j:dom4j",
+      "org.dom4j:dom4j"
+    ],
+    "is_np": true,
+    "is_build_only": false,
+    "is_di": true,
+    "di_by_cwe": true,
+    "di_by_keyword": false,
+    "is_ch": true
+  },
+  {
+    "id": "GHSA-c427-hjc3-wrfw",
+    "aliases": [
+      "CVE-2019-17495"
+    ],
+    "score": 0.0,
+    "severity": "CRITICAL",
+    "cwes": [
+      "CWE-79",
+      "CWE-352"
+    ],
+    "published": "2019-10-15T19:27:05",
+    "pub_date": "2019-10-15T19:27:05",
+    "summary": "Cross-site scripting in Swagger-UI",
+    "packages": [
+      "io.springfox:springfox-swagger-ui"
+    ],
+    "is_np": true,
+    "is_build_only": false,
+    "is_di": true,
+    "di_by_cwe": true,
+    "di_by_keyword": false,
+    "is_ch": true
+  },
+  {
+    "id": "GHSA-2qrg-x229-3v8q",
+    "aliases": [
+      "CVE-2019-17571"
+    ],
+    "score": 0.0,
+    "severity": "CRITICAL",
+    "cwes": [
+      "CWE-502"
+    ],
+    "published": "2020-01-06T18:43:49",
+    "pub_date": "2020-01-06T18:43:49",
+    "summary": "Deserialization of Untrusted Data in Log4j",
+    "packages": [
+      "log4j:log4j"
+    ],
+    "is_np": false,
+    "is_build_only": false,
+    "is_di": false,
+    "di_by_cwe": false,
+    "di_by_keyword": false,
+    "is_ch": true
+  },
+  {
+    "id": "GHSA-65fg-84f6-3jq3",
+    "aliases": [
+      "CVE-2022-23305"
+    ],
+    "score": 0.0,
+    "severity": "CRITICAL",
+    "cwes": [
+      "CWE-89"
+    ],
+    "published": "2022-01-21T23:26:47",
+    "pub_date": "2022-01-21T23:26:47",
+    "summary": "SQL Injection in Log4j 1.2.x",
+    "packages": [
+      "log4j:log4j"
+    ],
+    "is_np": false,
+    "is_build_only": false,
+    "is_di": true,
+    "di_by_cwe": true,
+    "di_by_keyword": false,
+    "is_ch": true
+  },
+  {
+    "id": "GHSA-f7vh-qwp3-x37m",
+    "aliases": [
+      "CVE-2022-23307"
+    ],
+    "score": 0.0,
+    "severity": "CRITICAL",
+    "cwes": [
+      "CWE-502"
+    ],
+    "published": "2022-01-19T00:01:15",
+    "pub_date": "2022-01-19T00:01:15",
+    "summary": "Deserialization of Untrusted Data in Apache Log4j",
+    "packages": [
+      "log4j:log4j"
+    ],
+    "is_np": false,
+    "is_build_only": false,
+    "is_di": false,
+    "di_by_cwe": false,
+    "di_by_keyword": false,
+    "is_ch": true
+  },
+  {
+    "id": "GHSA-fp5r-v3w9-4333",
+    "aliases": [
+      "CVE-2021-4104"
+    ],
+    "score": 0.0,
+    "severity": "HIGH",
+    "cwes": [
+      "CWE-502"
+    ],
+    "published": "2021-12-14T19:49:31",
+    "pub_date": "2021-12-14T19:49:31",
+    "summary": "JMSAppender in Log4j 1.2 is vulnerable to deserialization of untrusted data",
+    "packages": [
+      "log4j:log4j"
+    ],
+    "is_np": false,
+    "is_build_only": false,
+    "is_di": false,
+    "di_by_cwe": false,
+    "di_by_keyword": false,
+    "is_ch": true
+  },
+  {
+    "id": "GHSA-vp98-w2p3-mv35",
+    "aliases": [
+      "CVE-2023-26464"
+    ],
+    "score": 0.0,
+    "severity": "HIGH",
+    "cwes": [
+      "CWE-400",
+      "CWE-502"
+    ],
+    "published": "2023-03-10T15:30:43",
+    "pub_date": "2023-03-10T15:30:43",
+    "summary": "Apache Log4j 1.x (EOL) allows Denial of Service (DoS)",
+    "packages": [
+      "log4j:log4j"
+    ],
+    "is_np": false,
+    "is_build_only": false,
+    "is_di": false,
+    "di_by_cwe": false,
+    "di_by_keyword": false,
+    "is_ch": true
+  },
+  {
+    "id": "GHSA-w9p3-5cr8-m3jj",
+    "aliases": [
+      "CVE-2022-23302"
+    ],
+    "score": 0.0,
+    "severity": "HIGH",
+    "cwes": [
+      "CWE-502"
+    ],
+    "published": "2022-01-21T23:27:14",
+    "pub_date": "2022-01-21T23:27:14",
+    "summary": "Deserialization of Untrusted Data in Log4j 1.x",
+    "packages": [
+      "log4j:log4j"
+    ],
+    "is_np": false,
+    "is_build_only": false,
+    "is_di": false,
+    "di_by_cwe": false,
+    "di_by_keyword": false,
+    "is_ch": true
+  },
+  {
+    "id": "GHSA-859m-2pfx-fwhf",
+    "aliases": [
+      "CVE-2023-39022"
+    ],
+    "score": 0.0,
+    "severity": "CRITICAL",
+    "cwes": [
+      "CWE-94"
+    ],
+    "published": "2023-07-28T15:30:23",
+    "pub_date": "2023-07-28T15:30:23",
+    "summary": "Code injection in oscore",
+    "packages": [
+      "opensymphony:oscore"
+    ],
+    "is_np": false,
+    "is_build_only": false,
+    "is_di": true,
+    "di_by_cwe": true,
+    "di_by_keyword": false,
+    "is_ch": true
+  },
+  {
+    "id": "GHSA-5568-6qcg-g7fx",
+    "aliases": [
+      "BIT-activemq-2026-39304",
+      "CVE-2026-39304"
+    ],
+    "score": 0.0,
+    "severity": "HIGH",
+    "cwes": [
+      "CWE-400"
+    ],
+    "published": "2026-04-10T12:31:44",
+    "pub_date": "2026-04-10T12:31:44",
+    "summary": " Apache ActiveMQ: Denial of Service via Out of Memory vulnerability",
+    "packages": [
+      "org.apache.activemq:activemq-all"
+    ],
+    "is_np": true,
+    "is_build_only": false,
+    "is_di": false,
+    "di_by_cwe": false,
+    "di_by_keyword": false,
+    "is_ch": true
+  },
+  {
+    "id": "GHSA-c825-6ph3-4h84",
+    "aliases": [
+      "BIT-activemq-2025-66168",
+      "CVE-2025-66168"
+    ],
+    "score": 0.0,
+    "severity": "MODERATE",
+    "cwes": [
+      "CWE-190"
+    ],
+    "published": "2026-03-04T09:31:07",
+    "pub_date": "2026-03-04T09:31:07",
+    "summary": "Apache ActiveMQ is Vulnerable to Integer Overflow or Wraparound",
+    "packages": [
+      "org.apache.activemq:activemq-all"
+    ],
+    "is_np": true,
+    "is_build_only": false,
+    "is_di": false,
+    "di_by_cwe": false,
+    "di_by_keyword": false,
+    "is_ch": false
+  },
+  {
+    "id": "GHSA-h2h4-5m64-m273",
+    "aliases": [
+      "BIT-activemq-2026-33227",
+      "CVE-2026-33227"
+    ],
+    "score": 0.0,
+    "severity": "MODERATE",
+    "cwes": [
+      "CWE-22"
+    ],
+    "published": "2026-04-07T09:31:22",
+    "pub_date": "2026-04-07T09:31:22",
+    "summary": "Apache ActiveMQ: Improper validation and restriction of a classpath path name",
+    "packages": [
+      "org.apache.activemq:activemq-all"
+    ],
+    "is_np": true,
+    "is_build_only": false,
+    "is_di": true,
+    "di_by_cwe": true,
+    "di_by_keyword": false,
+    "is_ch": false
+  },
+  {
+    "id": "GHSA-rxpj-7qvf-xv32",
+    "aliases": [
+      "BIT-activemq-2026-34197",
+      "CVE-2026-34197"
+    ],
+    "score": 0.0,
+    "severity": "HIGH",
+    "cwes": [
+      "CWE-20"
+    ],
+    "published": "2026-04-07T09:31:22",
+    "pub_date": "2026-04-07T09:31:22",
+    "summary": "Authenticated Apache ActiveMQ Broker and Apache ActiveMQ users could perform RCE via Jolokia MBeans",
+    "packages": [
+      "org.apache.activemq:activemq-all"
+    ],
+    "is_np": true,
+    "is_build_only": false,
+    "is_di": false,
+    "di_by_cwe": false,
+    "di_by_keyword": false,
+    "is_ch": true
+  },
+  {
+    "id": "GHSA-97xg-phpr-rg8q",
+    "aliases": [
+      "CVE-2022-42920"
+    ],
+    "score": 0.0,
+    "severity": "CRITICAL",
+    "cwes": [
+      "CWE-787"
+    ],
+    "published": "2022-11-07T19:00:22",
+    "pub_date": "2022-11-07T19:00:22",
+    "summary": "Apache Commons BCEL vulnerable to out-of-bounds write",
+    "packages": [
+      "org.apache.bcel:bcel"
+    ],
+    "is_np": false,
+    "is_build_only": true,
+    "is_di": false,
+    "di_by_cwe": false,
+    "di_by_keyword": false,
+    "is_ch": true
+  },
+  {
+    "id": "GHSA-599f-7c49-w659",
+    "aliases": [
+      "CVE-2022-42889"
+    ],
+    "score": 0.0,
+    "severity": "CRITICAL",
+    "cwes": [
+      "CWE-94"
+    ],
+    "published": "2022-10-13T19:00:17",
+    "pub_date": "2022-10-13T19:00:17",
+    "summary": "Arbitrary code execution in Apache Commons Text",
+    "packages": [
+      "org.apache.commons:commons-text"
+    ],
+    "is_np": false,
+    "is_build_only": false,
+    "is_di": true,
+    "di_by_cwe": true,
+    "di_by_keyword": false,
+    "is_ch": true
+  },
+  {
+    "id": "GHSA-qmgx-j96g-4428",
+    "aliases": [
+      "CVE-2024-28752"
+    ],
+    "score": 0.0,
+    "severity": "CRITICAL",
+    "cwes": [
+      "CWE-918"
+    ],
+    "published": "2024-03-15T12:30:37",
+    "pub_date": "2024-03-15T12:30:37",
+    "summary": "SSRF vulnerability using the Aegis DataBinding in Apache CXF",
+    "packages": [
+      "org.apache.cxf:cxf-rt-databinding-aegis"
+    ],
+    "is_np": true,
+    "is_build_only": false,
+    "is_di": true,
+    "di_by_cwe": true,
+    "di_by_keyword": false,
+    "is_ch": true
+  },
+  {
+    "id": "GHSA-2jc4-r94c-rp7h",
+    "aliases": [
+      "CVE-2022-46751"
+    ],
+    "score": 0.0,
+    "severity": "HIGH",
+    "cwes": [
+      "CWE-611",
+      "CWE-91"
+    ],
+    "published": "2023-08-21T09:30:21",
+    "pub_date": "2023-08-21T09:30:21",
+    "summary": "Apache Ivy External Entity Reference vulnerability",
+    "packages": [
+      "org.apache.ivy:ivy"
+    ],
+    "is_np": false,
+    "is_build_only": true,
+    "is_di": true,
+    "di_by_cwe": true,
+    "di_by_keyword": false,
+    "is_ch": true
+  },
+  {
+    "id": "GHSA-94rr-4jr5-9h2p",
+    "aliases": [
+      "CVE-2022-37865"
+    ],
+    "score": 0.0,
+    "severity": "CRITICAL",
+    "cwes": [
+      "CWE-22"
+    ],
+    "published": "2022-11-07T12:00:33",
+    "pub_date": "2022-11-07T12:00:33",
+    "summary": "Apache Ivy does not verify target path when extracting the archive",
+    "packages": [
+      "org.apache.ivy:ivy"
+    ],
+    "is_np": false,
+    "is_build_only": true,
+    "is_di": true,
+    "di_by_cwe": true,
+    "di_by_keyword": false,
+    "is_ch": true
+  },
+  {
+    "id": "GHSA-wv7w-rj2x-556x",
+    "aliases": [
+      "CVE-2022-37866"
+    ],
+    "score": 0.0,
+    "severity": "HIGH",
+    "cwes": [
+      "CWE-22"
+    ],
+    "published": "2022-11-07T19:00:20",
+    "pub_date": "2022-11-07T19:00:20",
+    "summary": "Apache Ivy vulnerable to path traversal",
+    "packages": [
+      "org.apache.ivy:ivy"
+    ],
+    "is_np": false,
+    "is_build_only": true,
+    "is_di": true,
+    "di_by_cwe": true,
+    "di_by_keyword": false,
+    "is_ch": true
+  },
+  {
+    "id": "GHSA-3pxv-7cmr-fjr4",
+    "aliases": [
+      "CVE-2026-34480"
+    ],
+    "score": 0.0,
+    "severity": "MODERATE",
+    "cwes": [
+      "CWE-116"
+    ],
+    "published": "2026-04-10T18:31:17",
+    "pub_date": "2026-04-10T18:31:17",
+    "summary": "Apache Log4j Core: Silent log event loss in XmlLayout due to unescaped XML 1.0 forbidden characters",
+    "packages": [
+      "org.apache.logging.log4j:log4j-core"
+    ],
+    "is_np": true,
+    "is_build_only": false,
+    "is_di": true,
+    "di_by_cwe": true,
+    "di_by_keyword": false,
+    "is_ch": false
+  },
+  {
+    "id": "GHSA-7rjr-3q55-vv33",
+    "aliases": [
+      "CVE-2021-45046"
+    ],
+    "score": 0.0,
+    "severity": "CRITICAL",
+    "cwes": [
+      "CWE-917",
+      "CWE-502"
+    ],
+    "published": "2021-12-14T18:01:28",
+    "pub_date": "2021-12-14T18:01:28",
+    "summary": "Incomplete fix for Apache Log4j vulnerability",
+    "packages": [
+      "org.apache.logging.log4j:log4j-core"
+    ],
+    "is_np": true,
+    "is_build_only": false,
+    "is_di": true,
+    "di_by_cwe": true,
+    "di_by_keyword": false,
+    "is_ch": true
+  },
+  {
+    "id": "GHSA-8489-44mv-ggj8",
+    "aliases": [
+      "CVE-2021-44832"
+    ],
+    "score": 0.0,
+    "severity": "MODERATE",
+    "cwes": [
+      "CWE-74",
+      "CWE-20"
+    ],
+    "published": "2022-01-04T16:14:20",
+    "pub_date": "2022-01-04T16:14:20",
+    "summary": "Improper Input Validation and Injection in Apache Log4j2",
+    "packages": [
+      "org.apache.logging.log4j:log4j-core"
+    ],
+    "is_np": true,
+    "is_build_only": false,
+    "is_di": true,
+    "di_by_cwe": true,
+    "di_by_keyword": false,
+    "is_ch": false
+  },
+  {
+    "id": "GHSA-jfh8-c2jp-5v3q",
+    "aliases": [
+      "CVE-2021-44228"
+    ],
+    "score": 0.0,
+    "severity": "CRITICAL",
+    "cwes": [
+      "CWE-917",
+      "CWE-20",
+      "CWE-502",
+      "CWE-400"
+    ],
+    "published": "2021-12-10T00:40:56",
+    "pub_date": "2021-12-10T00:40:56",
+    "summary": "Remote code injection in Log4j",
+    "packages": [
+      "org.apache.logging.log4j:log4j-core"
+    ],
+    "is_np": true,
+    "is_build_only": false,
+    "is_di": true,
+    "di_by_cwe": true,
+    "di_by_keyword": false,
+    "is_ch": true
+  },
+  {
+    "id": "GHSA-p6xc-xr62-6r2g",
+    "aliases": [
+      "CVE-2021-45105"
+    ],
+    "score": 0.0,
+    "severity": "HIGH",
+    "cwes": [
+      "CWE-674",
+      "CWE-20"
+    ],
+    "published": "2021-12-18T18:00:07",
+    "pub_date": "2021-12-18T18:00:07",
+    "summary": "Apache Log4j2 vulnerable to Improper Input Validation and Uncontrolled Recursion",
+    "packages": [
+      "org.apache.logging.log4j:log4j-core"
+    ],
+    "is_np": true,
+    "is_build_only": false,
+    "is_di": false,
+    "di_by_cwe": false,
+    "di_by_keyword": false,
+    "is_ch": true
+  },
+  {
+    "id": "GHSA-vc5p-v9hr-52mj",
+    "aliases": [
+      "CVE-2025-68161"
+    ],
+    "score": 0.0,
+    "severity": "MODERATE",
+    "cwes": [
+      "CWE-297"
+    ],
+    "published": "2025-12-18T21:31:44",
+    "pub_date": "2025-12-18T21:31:44",
+    "summary": "Apache Log4j does not verify the TLS hostname in its Socket Appender",
+    "packages": [
+      "org.apache.logging.log4j:log4j-core"
+    ],
+    "is_np": true,
+    "is_build_only": false,
+    "is_di": false,
+    "di_by_cwe": false,
+    "di_by_keyword": false,
+    "is_ch": false
+  },
+  {
+    "id": "GHSA-vwqq-5vrc-xw9h",
+    "aliases": [
+      "CVE-2020-9488"
+    ],
+    "score": 0.0,
+    "severity": "LOW",
+    "cwes": [
+      "CWE-295"
+    ],
+    "published": "2020-06-05T14:15:51",
+    "pub_date": "2020-06-05T14:15:51",
+    "summary": "Improper validation of certificate with host mismatch in Apache Log4j SMTP appender",
+    "packages": [
+      "org.apache.logging.log4j:log4j-core"
+    ],
+    "is_np": true,
+    "is_build_only": false,
+    "is_di": false,
+    "di_by_cwe": false,
+    "di_by_keyword": false,
+    "is_ch": false
+  },
+  {
+    "id": "GHSA-rhgr-952r-6p8q",
+    "aliases": [
+      "CVE-2022-29599"
+    ],
+    "score": 0.0,
+    "severity": "CRITICAL",
+    "cwes": [
+      "CWE-77",
+      "CWE-116"
+    ],
+    "published": "2022-05-24T00:01:49",
+    "pub_date": "2022-05-24T00:01:49",
+    "summary": "Command injection in Apache Maven maven-shared-utils",
+    "packages": [
+      "org.apache.maven.shared:maven-shared-utils"
+    ],
+    "is_np": false,
+    "is_build_only": true,
+    "is_di": true,
+    "di_by_cwe": true,
+    "di_by_keyword": false,
+    "is_ch": true
+  },
+  {
+    "id": "GHSA-2f88-5hg8-9x2x",
+    "aliases": [
+      "BIT-maven-2021-26291",
+      "CVE-2021-26291"
+    ],
+    "score": 0.0,
+    "severity": "CRITICAL",
+    "cwes": [
+      "CWE-346"
+    ],
+    "published": "2021-06-16T17:32:49",
+    "pub_date": "2021-06-16T17:32:49",
+    "summary": "Origin Validation Error in Apache Maven",
+    "packages": [
+      "org.apache.maven:maven-core",
+      "org.apache.maven:maven-compat"
+    ],
+    "is_np": false,
+    "is_build_only": true,
+    "is_di": false,
+    "di_by_cwe": false,
+    "di_by_keyword": false,
+    "is_ch": true
+  },
+  {
+    "id": "GHSA-5h29-qq92-wj7f",
+    "aliases": [
+      "CVE-2019-0231"
+    ],
+    "score": 0.0,
+    "severity": "HIGH",
+    "cwes": [
+      "CWE-319"
+    ],
+    "published": "2022-05-24T16:57:28",
+    "pub_date": "2022-05-24T16:57:28",
+    "summary": "Cleartext Transmission of Sensitive Information in Apache MINA",
+    "packages": [
+      "org.apache.mina:mina-core"
+    ],
+    "is_np": true,
+    "is_build_only": false,
+    "is_di": false,
+    "di_by_cwe": false,
+    "di_by_keyword": false,
+    "is_ch": true
+  },
+  {
+    "id": "GHSA-6mcm-j9cj-3vc3",
+    "aliases": [
+      "CVE-2021-41973"
+    ],
+    "score": 0.0,
+    "severity": "MODERATE",
+    "cwes": [
+      "CWE-835"
+    ],
+    "published": "2021-11-03T17:30:35",
+    "pub_date": "2021-11-03T17:30:35",
+    "summary": "Infinite loop in Apache MINA",
+    "packages": [
+      "org.apache.mina:mina-core"
+    ],
+    "is_np": true,
+    "is_build_only": false,
+    "is_di": false,
+    "di_by_cwe": false,
+    "di_by_keyword": false,
+    "is_ch": false
+  },
+  {
+    "id": "GHSA-76h9-2vwh-w278",
+    "aliases": [
+      "CVE-2024-52046"
+    ],
+    "score": 0.0,
+    "severity": "CRITICAL",
+    "cwes": [
+      "CWE-502",
+      "CWE-94"
+    ],
+    "published": "2024-12-25T12:30:45",
+    "pub_date": "2024-12-25T12:30:45",
+    "summary": "Apache MINA Deserialization RCE Vulnerability",
+    "packages": [
+      "org.apache.mina:mina-core"
+    ],
+    "is_np": true,
+    "is_build_only": false,
+    "is_di": true,
+    "di_by_cwe": true,
+    "di_by_keyword": false,
+    "is_ch": true
+  },
+  {
+    "id": "GHSA-fhw8-8j55-vwgq",
+    "aliases": [
+      "CVE-2022-45047"
+    ],
+    "score": 0.0,
+    "severity": "CRITICAL",
+    "cwes": [
+      "CWE-502"
+    ],
+    "published": "2022-11-16T12:00:18",
+    "pub_date": "2022-11-16T12:00:18",
+    "summary": "Unsafe deserialization in Apache MINA SSHD",
+    "packages": [
+      "org.apache.sshd:sshd-core"
+    ],
+    "is_np": true,
+    "is_build_only": false,
+    "is_di": false,
+    "di_by_cwe": false,
+    "di_by_keyword": false,
+    "is_ch": true
+  },
+  {
+    "id": "GHSA-25xr-qj8w-c4vf",
+    "aliases": [
+      "BIT-tomcat-2025-53506",
+      "CVE-2025-53506"
+    ],
+    "score": 0.0,
+    "severity": "HIGH",
+    "cwes": [
+      "CWE-400"
+    ],
+    "published": "2025-07-10T21:31:53",
+    "pub_date": "2025-07-10T21:31:53",
+    "summary": "Apache Tomcat Coyote vulnerable to Denial of Service via excessive HTTP/2 streams",
+    "packages": [
+      "org.apache.tomcat.embed:tomcat-embed-core"
+    ],
+    "is_np": true,
+    "is_build_only": false,
+    "is_di": false,
+    "di_by_cwe": false,
+    "di_by_keyword": false,
+    "is_ch": true
+  },
+  {
+    "id": "GHSA-2rvv-w9r2-rg7m",
+    "aliases": [
+      "BIT-tomcat-2021-24122",
+      "CVE-2021-24122"
+    ],
+    "score": 0.0,
+    "severity": "MODERATE",
+    "cwes": [
+      "CWE-706",
+      "CWE-200"
+    ],
+    "published": "2021-05-13T22:30:02",
+    "pub_date": "2021-05-13T22:30:02",
+    "summary": "Information Disclosure in Apache Tomcat",
+    "packages": [
+      "org.apache.tomcat.embed:tomcat-embed-core"
+    ],
+    "is_np": true,
+    "is_build_only": false,
+    "is_di": false,
+    "di_by_cwe": false,
+    "di_by_keyword": false,
+    "is_ch": false
+  },
+  {
+    "id": "GHSA-3p2h-wqq4-wf4h",
+    "aliases": [
+      "BIT-tomcat-2025-31650",
+      "CVE-2025-31650"
+    ],
+    "score": 0.0,
+    "severity": "MODERATE",
+    "cwes": [
+      "CWE-460",
+      "CWE-459"
+    ],
+    "published": "2025-04-28T21:30:43",
+    "pub_date": "2025-04-28T21:30:43",
+    "summary": "Apache Tomcat Denial of Service via invalid HTTP priority header",
+    "packages": [
+      "org.apache.tomcat.embed:tomcat-embed-core"
+    ],
+    "is_np": true,
+    "is_build_only": false,
+    "is_di": false,
+    "di_by_cwe": false,
+    "di_by_keyword": false,
+    "is_ch": false
+  },
+  {
+    "id": "GHSA-46j3-r4pj-4835",
+    "aliases": [
+      "CVE-2018-8034"
+    ],
+    "score": 0.0,
+    "severity": "HIGH",
+    "cwes": [
+      "CWE-295"
+    ],
+    "published": "2018-10-17T16:32:43",
+    "pub_date": "2018-10-17T16:32:43",
+    "summary": "The host name verification missing in Apache Tomcat",
+    "packages": [
+      "org.apache.tomcat.embed:tomcat-embed-core"
+    ],
+    "is_np": true,
+    "is_build_only": false,
+    "is_di": false,
+    "di_by_cwe": false,
+    "di_by_keyword": false,
+    "is_ch": true
+  },
+  {
+    "id": "GHSA-5j33-cvvr-w245",
+    "aliases": [
+      "BIT-tomcat-2024-50379",
+      "CVE-2024-50379"
+    ],
+    "score": 0.0,
+    "severity": "HIGH",
+    "cwes": [
+      "CWE-367"
+    ],
+    "published": "2024-12-17T15:31:43",
+    "pub_date": "2024-12-17T15:31:43",
+    "summary": "Apache Tomcat Time-of-check Time-of-use (TOCTOU) Race Condition vulnerability",
+    "packages": [
+      "org.apache.tomcat.embed:tomcat-embed-core"
+    ],
+    "is_np": true,
+    "is_build_only": false,
+    "is_di": false,
+    "di_by_cwe": false,
+    "di_by_keyword": false,
+    "is_ch": true
+  },
+  {
+    "id": "GHSA-5q99-f34m-67gc",
+    "aliases": [
+      "CVE-2018-11784"
+    ],
+    "score": 0.0,
+    "severity": "MODERATE",
+    "cwes": [
+      "CWE-601"
+    ],
+    "published": "2018-10-17T16:31:02",
+    "pub_date": "2018-10-17T16:31:02",
+    "summary": "Apache Tomcat Open Redirect vulnerability",
+    "packages": [
+      "org.apache.tomcat.embed:tomcat-embed-core"
+    ],
+    "is_np": true,
+    "is_build_only": false,
+    "is_di": false,
+    "di_by_cwe": false,
+    "di_by_keyword": false,
+    "is_ch": false
+  },
+  {
+    "id": "GHSA-6rxj-58jh-436r",
+    "aliases": [
+      "CVE-2018-1304"
+    ],
+    "score": 0.0,
+    "severity": "MODERATE",
+    "cwes": [],
+    "published": "2018-10-17T16:31:17",
+    "pub_date": "2018-10-17T16:31:17",
+    "summary": "Apache Tomcat unauthorized access vulnerability",
+    "packages": [
+      "org.apache.tomcat.embed:tomcat-embed-core"
+    ],
+    "is_np": true,
+    "is_build_only": false,
+    "is_di": false,
+    "di_by_cwe": false,
+    "di_by_keyword": false,
+    "is_ch": false
+  },
+  {
+    "id": "GHSA-6v52-mj5r-7j2m",
+    "aliases": [
+      "CVE-2018-8037"
+    ],
+    "score": 0.0,
+    "severity": "MODERATE",
+    "cwes": [
+      "CWE-362"
+    ],
+    "published": "2018-10-17T16:33:02",
+    "pub_date": "2018-10-17T16:33:02",
+    "summary": "Apache Tomcat Race Condition vulnerability",
+    "packages": [
+      "org.apache.tomcat.embed:tomcat-embed-core"
+    ],
+    "is_np": true,
+    "is_build_only": false,
+    "is_di": false,
+    "di_by_cwe": false,
+    "di_by_keyword": false,
+    "is_ch": false
+  },
+  {
+    "id": "GHSA-7w75-32cg-r6g2",
+    "aliases": [
+      "BIT-tomcat-2024-24549",
+      "CVE-2024-24549"
+    ],
+    "score": 0.0,
+    "severity": "MODERATE",
+    "cwes": [
+      "CWE-20"
+    ],
+    "published": "2024-03-13T18:31:34",
+    "pub_date": "2024-03-13T18:31:34",
+    "summary": "Apache Tomcat Denial of Service due to improper input validation vulnerability for HTTP/2 requests",
+    "packages": [
+      "org.apache.tomcat.embed:tomcat-embed-core"
+    ],
+    "is_np": true,
+    "is_build_only": false,
+    "is_di": false,
+    "di_by_cwe": false,
+    "di_by_keyword": false,
+    "is_ch": false
+  },
+  {
+    "id": "GHSA-83qj-6fr2-vhqg",
+    "aliases": [
+      "BIT-tomcat-2025-24813",
+      "CVE-2025-24813"
+    ],
+    "score": 0.0,
+    "severity": "CRITICAL",
+    "cwes": [
+      "CWE-44",
+      "CWE-502"
+    ],
+    "published": "2025-03-10T18:31:56",
+    "pub_date": "2025-03-10T18:31:56",
+    "summary": "Apache Tomcat: Potential RCE and/or information disclosure and/or information corruption with partial PUT",
+    "packages": [
+      "org.apache.tomcat.embed:tomcat-embed-core"
+    ],
+    "is_np": true,
+    "is_build_only": false,
+    "is_di": false,
+    "di_by_cwe": false,
+    "di_by_keyword": false,
+    "is_ch": true
+  },
+  {
+    "id": "GHSA-8vmx-qmch-mpqg",
+    "aliases": [
+      "CVE-2019-0232"
+    ],
+    "score": 0.0,
+    "severity": "HIGH",
+    "cwes": [
+      "CWE-78"
+    ],
+    "published": "2019-04-18T14:27:35",
+    "pub_date": "2019-04-18T14:27:35",
+    "summary": "Apache Tomcat OS Command Injection vulnerability",
+    "packages": [
+      "org.apache.tomcat.embed:tomcat-embed-core"
+    ],
+    "is_np": true,
+    "is_build_only": false,
+    "is_di": true,
+    "di_by_cwe": true,
+    "di_by_keyword": false,
+    "is_ch": true
+  },
+  {
+    "id": "GHSA-9xcj-c8cr-8c3c",
+    "aliases": [
+      "CVE-2019-17563"
+    ],
+    "score": 0.0,
+    "severity": "HIGH",
+    "cwes": [
+      "CWE-384"
+    ],
+    "published": "2019-12-26T18:22:26",
+    "pub_date": "2019-12-26T18:22:26",
+    "summary": "In Apache Tomcat, when using FORM authentication there was a narrow window where an attacker could perform a session fixation attack",
+    "packages": [
+      "org.apache.tomcat.embed:tomcat-embed-core"
+    ],
+    "is_np": true,
+    "is_build_only": false,
+    "is_di": false,
+    "di_by_cwe": false,
+    "di_by_keyword": false,
+    "is_ch": true
+  },
+  {
+    "id": "GHSA-c9hw-wf7x-jp9j",
+    "aliases": [
+      "BIT-tomcat-2020-1938",
+      "CVE-2020-1938"
+    ],
+    "score": 0.0,
+    "severity": "CRITICAL",
+    "cwes": [
+      "CWE-269"
+    ],
+    "published": "2020-06-15T18:51:21",
+    "pub_date": "2020-06-15T18:51:21",
+    "summary": "Improper Privilege Management in Tomcat",
+    "packages": [
+      "org.apache.tomcat.embed:tomcat-embed-core"
+    ],
+    "is_np": true,
+    "is_build_only": false,
+    "is_di": false,
+    "di_by_cwe": false,
+    "di_by_keyword": false,
+    "is_ch": true
+  },
+  {
+    "id": "GHSA-f4qf-m5gf-8jm8",
+    "aliases": [
+      "BIT-tomcat-2024-21733",
+      "CVE-2024-21733"
+    ],
+    "score": 0.0,
+    "severity": "MODERATE",
+    "cwes": [
+      "CWE-209"
+    ],
+    "published": "2024-01-19T12:30:18",
+    "pub_date": "2024-01-19T12:30:18",
+    "summary": "Apache Tomcat vulnerable to Generation of Error Message Containing Sensitive Information",
+    "packages": [
+      "org.apache.tomcat.embed:tomcat-embed-core"
+    ],
+    "is_np": true,
+    "is_build_only": false,
+    "is_di": false,
+    "di_by_cwe": false,
+    "di_by_keyword": false,
+    "is_ch": false
+  },
+  {
+    "id": "GHSA-fccv-jmmp-qg76",
+    "aliases": [
+      "BIT-tomcat-2023-46589",
+      "CVE-2023-46589"
+    ],
+    "score": 0.0,
+    "severity": "HIGH",
+    "cwes": [
+      "CWE-20",
+      "CWE-444"
+    ],
+    "published": "2023-11-28T18:30:23",
+    "pub_date": "2023-11-28T18:30:23",
+    "summary": "Apache Tomcat Improper Input Validation vulnerability",
+    "packages": [
+      "org.apache.tomcat.embed:tomcat-embed-core"
+    ],
+    "is_np": true,
+    "is_build_only": false,
+    "is_di": true,
+    "di_by_cwe": true,
+    "di_by_keyword": false,
+    "is_ch": true
+  },
+  {
+    "id": "GHSA-ff77-26x5-69cr",
+    "aliases": [
+      "BIT-tomcat-2025-31651",
+      "CVE-2025-31651"
+    ],
+    "score": 0.0,
+    "severity": "LOW",
+    "cwes": [
+      "CWE-150",
+      "CWE-116"
+    ],
+    "published": "2025-04-28T21:30:43",
+    "pub_date": "2025-04-28T21:30:43",
+    "summary": "Apache Tomcat Rewrite rule bypass",
+    "packages": [
+      "org.apache.tomcat.embed:tomcat-embed-core"
+    ],
+    "is_np": true,
+    "is_build_only": false,
+    "is_di": true,
+    "di_by_cwe": true,
+    "di_by_keyword": false,
+    "is_ch": false
+  },
+  {
+    "id": "GHSA-fpj8-gq4v-p354",
+    "aliases": [
+      "BIT-tomcat-2025-66614",
+      "CVE-2025-66614"
+    ],
+    "score": 0.0,
+    "severity": "MODERATE",
+    "cwes": [
+      "CWE-20",
+      "CWE-295"
+    ],
+    "published": "2026-02-17T21:31:13",
+    "pub_date": "2026-02-17T21:31:13",
+    "summary": "Apache Tomcat - Client certificate verification bypass",
+    "packages": [
+      "org.apache.tomcat.embed:tomcat-embed-core"
+    ],
+    "is_np": true,
+    "is_build_only": false,
+    "is_di": false,
+    "di_by_cwe": false,
+    "di_by_keyword": false,
+    "is_ch": false
+  },
+  {
+    "id": "GHSA-g8pj-r55q-5c2v",
+    "aliases": [
+      "BIT-tomcat-2023-42795",
+      "CVE-2023-42795"
+    ],
+    "score": 0.0,
+    "severity": "MODERATE",
+    "cwes": [
+      "CWE-459"
+    ],
+    "published": "2023-10-10T18:31:35",
+    "pub_date": "2023-10-10T18:31:35",
+    "summary": "Apache Tomcat Incomplete Cleanup vulnerability",
+    "packages": [
+      "org.apache.tomcat.embed:tomcat-embed-core"
+    ],
+    "is_np": true,
+    "is_build_only": false,
+    "is_di": false,
+    "di_by_cwe": false,
+    "di_by_keyword": false,
+    "is_ch": false
+  },
+  {
+    "id": "GHSA-h2fw-rfh5-95r3",
+    "aliases": [
+      "BIT-tomcat-2025-46701",
+      "CVE-2025-46701"
+    ],
+    "score": 0.0,
+    "severity": "LOW",
+    "cwes": [
+      "CWE-178"
+    ],
+    "published": "2025-05-29T21:31:37",
+    "pub_date": "2025-05-29T21:31:37",
+    "summary": "Apache Tomcat - CGI security constraint bypass",
+    "packages": [
+      "org.apache.tomcat.embed:tomcat-embed-core"
+    ],
+    "is_np": true,
+    "is_build_only": false,
+    "is_di": false,
+    "di_by_cwe": false,
+    "di_by_keyword": false,
+    "is_ch": false
+  },
+  {
+    "id": "GHSA-h3gc-qfqq-6h8f",
+    "aliases": [
+      "BIT-tomcat-2025-48988",
+      "CVE-2025-48988"
+    ],
+    "score": 0.0,
+    "severity": "HIGH",
+    "cwes": [
+      "CWE-770"
+    ],
+    "published": "2025-06-16T15:32:28",
+    "pub_date": "2025-06-16T15:32:28",
+    "summary": "Apache Tomcat - DoS in multipart upload",
+    "packages": [
+      "org.apache.tomcat.embed:tomcat-embed-core"
+    ],
+    "is_np": true,
+    "is_build_only": false,
+    "is_di": false,
+    "di_by_cwe": false,
+    "di_by_keyword": false,
+    "is_ch": true
+  },
+  {
+    "id": "GHSA-hgrr-935x-pq79",
+    "aliases": [
+      "BIT-tomcat-2025-61795",
+      "CVE-2025-61795"
+    ],
+    "score": 0.0,
+    "severity": "LOW",
+    "cwes": [
+      "CWE-404"
+    ],
+    "published": "2025-10-27T18:31:13",
+    "pub_date": "2025-10-27T18:31:13",
+    "summary": "Apache Tomcat Vulnerable to Improper Resource Shutdown or Release",
+    "packages": [
+      "org.apache.tomcat.embed:tomcat-embed-core"
+    ],
+    "is_np": true,
+    "is_build_only": false,
+    "is_di": false,
+    "di_by_cwe": false,
+    "di_by_keyword": false,
+    "is_ch": false
+  },
+  {
+    "id": "GHSA-hh3j-x4mc-g48r",
+    "aliases": [
+      "CVE-2019-12418"
+    ],
+    "score": 0.0,
+    "severity": "HIGH",
+    "cwes": [
+      "CWE-522"
+    ],
+    "published": "2019-12-26T18:22:36",
+    "pub_date": "2019-12-26T18:22:36",
+    "summary": "Insufficiently Protected Credentials in Apache Tomcat",
+    "packages": [
+      "org.apache.tomcat.embed:tomcat-embed-core"
+    ],
+    "is_np": true,
+    "is_build_only": false,
+    "is_di": false,
+    "di_by_cwe": false,
+    "di_by_keyword": false,
+    "is_ch": true
+  },
+  {
+    "id": "GHSA-j39c-c8hj-x4j3",
+    "aliases": [
+      "BIT-tomcat-2021-25122",
+      "CVE-2021-25122"
+    ],
+    "score": 0.0,
+    "severity": "HIGH",
+    "cwes": [
+      "CWE-200"
+    ],
+    "published": "2021-06-16T17:45:29",
+    "pub_date": "2021-06-16T17:45:29",
+    "summary": "Exposure of Sensitive Information to an Unauthorized Actor in Apache Tomcat",
+    "packages": [
+      "org.apache.tomcat.embed:tomcat-embed-core"
+    ],
+    "is_np": true,
+    "is_build_only": false,
+    "is_di": false,
+    "di_by_cwe": false,
+    "di_by_keyword": false,
+    "is_ch": true
+  },
+  {
+    "id": "GHSA-jgwr-3qm3-26f3",
+    "aliases": [
+      "BIT-tomcat-2021-25329",
+      "CVE-2021-25329"
+    ],
+    "score": 0.0,
+    "severity": "HIGH",
+    "cwes": [
+      "CWE-502"
+    ],
+    "published": "2021-03-19T20:11:13",
+    "pub_date": "2021-03-19T20:11:13",
+    "summary": "Potential remote code execution in Apache Tomcat",
+    "packages": [
+      "org.apache.tomcat.embed:tomcat-embed-core"
+    ],
+    "is_np": true,
+    "is_build_only": false,
+    "is_di": false,
+    "di_by_cwe": false,
+    "di_by_keyword": false,
+    "is_ch": true
+  },
+  {
+    "id": "GHSA-jjpq-gp5q-8q6w",
+    "aliases": [
+      "CVE-2019-0221"
+    ],
+    "score": 0.0,
+    "severity": "MODERATE",
+    "cwes": [
+      "CWE-79"
+    ],
+    "published": "2019-05-30T03:30:42",
+    "pub_date": "2019-05-30T03:30:42",
+    "summary": "Cross-site scripting in Apache Tomcat",
+    "packages": [
+      "org.apache.tomcat.embed:tomcat-embed-core"
+    ],
+    "is_np": true,
+    "is_build_only": false,
+    "is_di": true,
+    "di_by_cwe": true,
+    "di_by_keyword": false,
+    "is_ch": false
+  },
+  {
+    "id": "GHSA-jx6h-3fjx-cgv5",
+    "aliases": [
+      "CVE-2018-1305"
+    ],
+    "score": 0.0,
+    "severity": "MODERATE",
+    "cwes": [],
+    "published": "2018-10-17T16:31:48",
+    "pub_date": "2018-10-17T16:31:48",
+    "summary": "Apache Tomcat information exposure vulnerability",
+    "packages": [
+      "org.apache.tomcat.embed:tomcat-embed-core"
+    ],
+    "is_np": true,
+    "is_build_only": false,
+    "is_di": false,
+    "di_by_cwe": false,
+    "di_by_keyword": false,
+    "is_ch": false
+  },
+  {
+    "id": "GHSA-m59c-jpc8-m2x4",
+    "aliases": [
+      "CVE-2018-1336"
+    ],
+    "score": 0.0,
+    "severity": "HIGH",
+    "cwes": [
+      "CWE-835"
+    ],
+    "published": "2018-10-17T16:32:18",
+    "pub_date": "2018-10-17T16:32:18",
+    "summary": "In Apache Tomcat there is an improper handing of overflow in the UTF-8 decoder ",
+    "packages": [
+      "org.apache.tomcat.embed:tomcat-embed-core"
+    ],
+    "is_np": true,
+    "is_build_only": false,
+    "is_di": false,
+    "di_by_cwe": false,
+    "di_by_keyword": false,
+    "is_ch": true
+  },
+  {
+    "id": "GHSA-p22x-g9px-3945",
+    "aliases": [
+      "BIT-tomcat-2022-42252",
+      "CVE-2022-42252"
+    ],
+    "score": 0.0,
+    "severity": "HIGH",
+    "cwes": [
+      "CWE-20",
+      "CWE-444"
+    ],
+    "published": "2022-11-01T12:00:30",
+    "pub_date": "2022-11-01T12:00:30",
+    "summary": "Apache Tomcat may reject request containing invalid Content-Length header",
+    "packages": [
+      "org.apache.tomcat.embed:tomcat-embed-core"
+    ],
+    "is_np": true,
+    "is_build_only": false,
+    "is_di": true,
+    "di_by_cwe": true,
+    "di_by_keyword": false,
+    "is_ch": true
+  },
+  {
+    "id": "GHSA-q3mw-pvr8-9ggc",
+    "aliases": [
+      "BIT-tomcat-2023-41080",
+      "CVE-2023-41080"
+    ],
+    "score": 0.0,
+    "severity": "MODERATE",
+    "cwes": [
+      "CWE-601"
+    ],
+    "published": "2023-08-25T21:30:48",
+    "pub_date": "2023-08-25T21:30:48",
+    "summary": "Apache Tomcat Open Redirect vulnerability",
+    "packages": [
+      "org.apache.tomcat.embed:tomcat-embed-core"
+    ],
+    "is_np": true,
+    "is_build_only": false,
+    "is_di": false,
+    "di_by_cwe": false,
+    "di_by_keyword": false,
+    "is_ch": false
+  },
+  {
+    "id": "GHSA-q4hg-rmq2-52q9",
+    "aliases": [
+      "CVE-2019-10072"
+    ],
+    "score": 0.0,
+    "severity": "HIGH",
+    "cwes": [
+      "CWE-667"
+    ],
+    "published": "2019-06-26T01:09:40",
+    "pub_date": "2019-06-26T01:09:40",
+    "summary": "Improper Locking in Apache Tomcat",
+    "packages": [
+      "org.apache.tomcat.embed:tomcat-embed-core"
+    ],
+    "is_np": true,
+    "is_build_only": false,
+    "is_di": false,
+    "di_by_cwe": false,
+    "di_by_keyword": false,
+    "is_ch": true
+  },
+  {
+    "id": "GHSA-qcxh-w3j9-58qr",
+    "aliases": [
+      "CVE-2019-0199"
+    ],
+    "score": 0.0,
+    "severity": "HIGH",
+    "cwes": [
+      "CWE-400"
+    ],
+    "published": "2020-06-15T18:51:09",
+    "pub_date": "2020-06-15T18:51:09",
+    "summary": "Apache Tomcat Denial of Service vulnerability",
+    "packages": [
+      "org.apache.tomcat.embed:tomcat-embed-core"
+    ],
+    "is_np": true,
+    "is_build_only": false,
+    "is_di": false,
+    "di_by_cwe": false,
+    "di_by_keyword": false,
+    "is_ch": true
+  },
+  {
+    "id": "GHSA-qppj-fm5r-hxr3",
+    "aliases": [
+      "BIT-apisix-2023-44487",
+      "BIT-aspnet-core-2023-44487",
+      "BIT-contour-2023-44487",
+      "BIT-dotnet-2023-44487",
+      "BIT-dotnet-sdk-2023-44487",
+      "BIT-envoy-2023-44487",
+      "BIT-golang-2023-44487",
+      "BIT-jenkins-2023-44487",
+      "BIT-kong-2023-44487",
+      "BIT-nginx-2023-44487",
+      "BIT-nginx-gateway-2023-44487",
+      "BIT-nginx-ingress-controller-2023-44487",
+      "BIT-node-2023-44487",
+      "BIT-node-min-2023-44487",
+      "BIT-solr-2023-44487",
+      "BIT-tomcat-2023-44487",
+      "BIT-varnish-2023-44487",
+      "CVE-2023-44487"
+    ],
+    "score": 0.0,
+    "severity": "MODERATE",
+    "cwes": [
+      "CWE-400"
+    ],
+    "published": "2023-10-10T21:28:24",
+    "pub_date": "2023-10-10T21:28:24",
+    "summary": "HTTP/2 Stream Cancellation Attack",
+    "packages": [
+      "org.apache.tomcat.embed:tomcat-embed-core"
+    ],
+    "is_np": true,
+    "is_build_only": false,
+    "is_di": false,
+    "di_by_cwe": false,
+    "di_by_keyword": false,
+    "is_ch": false
+  },
+  {
+    "id": "GHSA-qq5r-98hh-rxc9",
+    "aliases": [
+      "BIT-tomcat-2026-24733",
+      "CVE-2026-24733"
+    ],
+    "score": 0.0,
+    "severity": "LOW",
+    "cwes": [
+      "CWE-20"
+    ],
+    "published": "2026-02-17T21:31:13",
+    "pub_date": "2026-02-17T21:31:13",
+    "summary": "Apache Tomcat - Security constraint bypass with HTTP/0.9",
+    "packages": [
+      "org.apache.tomcat.embed:tomcat-embed-core"
+    ],
+    "is_np": true,
+    "is_build_only": false,
+    "is_di": false,
+    "di_by_cwe": false,
+    "di_by_keyword": false,
+    "is_ch": false
+  },
+  {
+    "id": "GHSA-qxf4-chvg-4r8r",
+    "aliases": [
+      "BIT-tomcat-2020-1935",
+      "CVE-2020-1935"
+    ],
+    "score": 0.0,
+    "severity": "MODERATE",
+    "cwes": [
+      "CWE-444"
+    ],
+    "published": "2020-02-28T01:10:48",
+    "pub_date": "2020-02-28T01:10:48",
+    "summary": "Potential HTTP request smuggling in Apache Tomcat",
+    "packages": [
+      "org.apache.tomcat.embed:tomcat-embed-core"
+    ],
+    "is_np": true,
+    "is_build_only": false,
+    "is_di": true,
+    "di_by_cwe": true,
+    "di_by_keyword": false,
+    "is_ch": false
+  },
+  {
+    "id": "GHSA-r4x2-3cq5-hqvp",
+    "aliases": [
+      "CVE-2018-8014"
+    ],
+    "score": 0.0,
+    "severity": "CRITICAL",
+    "cwes": [
+      "CWE-1188"
+    ],
+    "published": "2018-10-17T16:32:32",
+    "pub_date": "2018-10-17T16:32:32",
+    "summary": "The defaults settings for the CORS filter provided in Apache Tomcat are insecure and enable 'supportsCredentials' for all origins",
+    "packages": [
+      "org.apache.tomcat.embed:tomcat-embed-core"
+    ],
+    "is_np": true,
+    "is_build_only": false,
+    "is_di": false,
+    "di_by_cwe": false,
+    "di_by_keyword": false,
+    "is_ch": true
+  },
+  {
+    "id": "GHSA-r6j3-px5g-cq3x",
+    "aliases": [
+      "BIT-tomcat-2023-45648",
+      "CVE-2023-45648"
+    ],
+    "score": 0.0,
+    "severity": "MODERATE",
+    "cwes": [
+      "CWE-20"
+    ],
+    "published": "2023-10-10T21:31:12",
+    "pub_date": "2023-10-10T21:31:12",
+    "summary": "Apache Tomcat Improper Input Validation vulnerability",
+    "packages": [
+      "org.apache.tomcat.embed:tomcat-embed-core"
+    ],
+    "is_np": true,
+    "is_build_only": false,
+    "is_di": false,
+    "di_by_cwe": false,
+    "di_by_keyword": false,
+    "is_ch": false
+  },
+  {
+    "id": "GHSA-wc4r-xq3c-5cf3",
+    "aliases": [
+      "BIT-tomcat-2025-49125",
+      "CVE-2025-49125"
+    ],
+    "score": 0.0,
+    "severity": "MODERATE",
+    "cwes": [
+      "CWE-288"
+    ],
+    "published": "2025-06-16T15:32:28",
+    "pub_date": "2025-06-16T15:32:28",
+    "summary": "Apache Tomcat - Security constraint bypass for pre/post-resources",
+    "packages": [
+      "org.apache.tomcat.embed:tomcat-embed-core"
+    ],
+    "is_np": true,
+    "is_build_only": false,
+    "is_di": false,
+    "di_by_cwe": false,
+    "di_by_keyword": false,
+    "is_ch": false
+  },
+  {
+    "id": "GHSA-wm9w-rjj3-j356",
+    "aliases": [
+      "BIT-tomcat-2024-34750",
+      "CVE-2024-34750"
+    ],
+    "score": 0.0,
+    "severity": "HIGH",
+    "cwes": [
+      "CWE-400",
+      "CWE-755"
+    ],
+    "published": "2024-07-03T21:39:44",
+    "pub_date": "2024-07-03T21:39:44",
+    "summary": "Apache Tomcat - Denial of Service",
+    "packages": [
+      "org.apache.tomcat.embed:tomcat-embed-core"
+    ],
+    "is_np": true,
+    "is_build_only": false,
+    "is_di": false,
+    "di_by_cwe": false,
+    "di_by_keyword": false,
+    "is_ch": true
+  },
+  {
+    "id": "GHSA-wmwf-9ccg-fff5",
+    "aliases": [
+      "BIT-tomcat-2025-55752",
+      "CVE-2025-55752"
+    ],
+    "score": 0.0,
+    "severity": "HIGH",
+    "cwes": [
+      "CWE-23"
+    ],
+    "published": "2025-10-27T18:31:13",
+    "pub_date": "2025-10-27T18:31:13",
+    "summary": "Apache Tomcat Vulnerable to Relative Path Traversal",
+    "packages": [
+      "org.apache.tomcat.embed:tomcat-embed-core"
+    ],
+    "is_np": true,
+    "is_build_only": false,
+    "is_di": true,
+    "di_by_cwe": true,
+    "di_by_keyword": false,
+    "is_ch": true
+  },
+  {
+    "id": "GHSA-wr62-c79q-cv37",
+    "aliases": [
+      "BIT-tomcat-2025-52520",
+      "CVE-2025-52520"
+    ],
+    "score": 0.0,
+    "severity": "HIGH",
+    "cwes": [
+      "CWE-190"
+    ],
+    "published": "2025-07-10T21:31:52",
+    "pub_date": "2025-07-10T21:31:52",
+    "summary": "Apache Tomcat Catalina is vulnerable to DoS attack through bypassing of size limits",
+    "packages": [
+      "org.apache.tomcat.embed:tomcat-embed-core"
+    ],
+    "is_np": true,
+    "is_build_only": false,
+    "is_di": false,
+    "di_by_cwe": false,
+    "di_by_keyword": false,
+    "is_ch": true
+  },
+  {
+    "id": "GHSA-mw3r-pfmg-xp92",
+    "aliases": [
+      "CVE-2021-23926"
+    ],
+    "score": 0.0,
+    "severity": "CRITICAL",
+    "cwes": [
+      "CWE-776"
+    ],
+    "published": "2021-06-16T17:37:11",
+    "pub_date": "2021-06-16T17:37:11",
+    "summary": "Improper Restriction of Recursive Entity References in Apache XMLBeans",
+    "packages": [
+      "org.apache.xmlbeans:xmlbeans"
+    ],
+    "is_np": false,
+    "is_build_only": false,
+    "is_di": false,
+    "di_by_cwe": false,
+    "di_by_keyword": false,
+    "is_ch": true
+  },
+  {
+    "id": "GHSA-rcjj-h6gh-jf3r",
+    "aliases": [
+      "CVE-2020-17521"
+    ],
+    "score": 0.0,
+    "severity": "MODERATE",
+    "cwes": [
+      "CWE-379"
+    ],
+    "published": "2020-12-09T19:03:03",
+    "pub_date": "2020-12-09T19:03:03",
+    "summary": "Information Disclosure in Apache Groovy",
+    "packages": [
+      "org.codehaus.groovy:groovy-all"
+    ],
+    "is_np": true,
+    "is_build_only": false,
+    "is_di": false,
+    "di_by_cwe": false,
+    "di_by_keyword": false,
+    "is_ch": false
+  },
+  {
+    "id": "GHSA-xphj-m9cc-8fmq",
+    "aliases": [
+      "CVE-2016-6814"
+    ],
+    "score": 0.0,
+    "severity": "CRITICAL",
+    "cwes": [
+      "CWE-502"
+    ],
+    "published": "2022-05-13T01:25:19",
+    "pub_date": "2022-05-13T01:25:19",
+    "summary": "Deserialization of Untrusted Data in Groovy",
+    "packages": [
+      "org.codehaus.groovy:groovy-all"
+    ],
+    "is_np": true,
+    "is_build_only": false,
+    "is_di": false,
+    "di_by_cwe": false,
+    "di_by_keyword": false,
+    "is_ch": true
+  },
+  {
+    "id": "GHSA-c27h-mcmw-48hv",
+    "aliases": [
+      "CVE-2019-10202"
+    ],
+    "score": 0.0,
+    "severity": "CRITICAL",
+    "cwes": [
+      "CWE-502"
+    ],
+    "published": "2022-05-24T16:57:28",
+    "pub_date": "2022-05-24T16:57:28",
+    "summary": "Deserialization of Untrusted Data in org.codehaus.jackson:jackson-mapper-asl",
+    "packages": [
+      "org.codehaus.jackson:jackson-mapper-asl"
+    ],
+    "is_np": true,
+    "is_build_only": false,
+    "is_di": false,
+    "di_by_cwe": false,
+    "di_by_keyword": false,
+    "is_ch": true
+  },
+  {
+    "id": "GHSA-r6j9-8759-g62w",
+    "aliases": [
+      "CVE-2019-10172"
+    ],
+    "score": 0.0,
+    "severity": "HIGH",
+    "cwes": [
+      "CWE-611"
+    ],
+    "published": "2020-02-04T22:39:19",
+    "pub_date": "2020-02-04T22:39:19",
+    "summary": "Improper Restriction of XML External Entity Reference in jackson-mapper-asl",
+    "packages": [
+      "org.codehaus.jackson:jackson-mapper-asl"
+    ],
+    "is_np": true,
+    "is_build_only": false,
+    "is_di": true,
+    "di_by_cwe": true,
+    "di_by_keyword": false,
+    "is_ch": true
+  },
+  {
+    "id": "GHSA-hcxq-x77q-3469",
+    "aliases": [
+      "CVE-2018-1002200"
+    ],
+    "score": 0.0,
+    "severity": "MODERATE",
+    "cwes": [
+      "CWE-22"
+    ],
+    "published": "2022-05-13T01:35:03",
+    "pub_date": "2022-05-13T01:35:03",
+    "summary": "Improper Limitation of a Pathname to a Restricted Directory in plexus-archiver",
+    "packages": [
+      "org.codehaus.plexus:plexus-archiver"
+    ],
+    "is_np": false,
+    "is_build_only": true,
+    "is_di": true,
+    "di_by_cwe": true,
+    "di_by_keyword": false,
+    "is_ch": false
+  },
+  {
+    "id": "GHSA-wh3p-fphp-9h2m",
+    "aliases": [
+      "CVE-2023-37460"
+    ],
+    "score": 0.0,
+    "severity": "HIGH",
+    "cwes": [
+      "CWE-22"
+    ],
+    "published": "2023-07-25T17:20:43",
+    "pub_date": "2023-07-25T17:20:43",
+    "summary": "Arbitrary File Creation in AbstractUnArchiver",
+    "packages": [
+      "org.codehaus.plexus:plexus-archiver"
+    ],
+    "is_np": false,
+    "is_build_only": true,
+    "is_di": true,
+    "di_by_cwe": true,
+    "di_by_keyword": false,
+    "is_ch": true
+  },
+  {
+    "id": "GHSA-6fmv-xxpf-w3cw",
+    "aliases": [
+      "CVE-2025-67030"
+    ],
+    "score": 0.0,
+    "severity": "HIGH",
+    "cwes": [
+      "CWE-22"
+    ],
+    "published": "2026-03-25T18:31:55",
+    "pub_date": "2026-03-25T18:31:55",
+    "summary": "Plexus-Utils has a Directory Traversal vulnerability in its extractFile method ",
+    "packages": [
+      "org.codehaus.plexus:plexus-utils"
+    ],
+    "is_np": false,
+    "is_build_only": true,
+    "is_di": true,
+    "di_by_cwe": true,
+    "di_by_keyword": false,
+    "is_ch": true
+  },
+  {
+    "id": "GHSA-8vhq-qq4p-grq3",
+    "aliases": [
+      "CVE-2017-1000487"
+    ],
+    "score": 0.0,
+    "severity": "CRITICAL",
+    "cwes": [
+      "CWE-78"
+    ],
+    "published": "2022-05-13T01:11:53",
+    "pub_date": "2022-05-13T01:11:53",
+    "summary": "OS Command Injection in Plexus-utils",
+    "packages": [
+      "org.codehaus.plexus:plexus-utils"
+    ],
+    "is_np": false,
+    "is_build_only": true,
+    "is_di": true,
+    "di_by_cwe": true,
+    "di_by_keyword": false,
+    "is_ch": true
+  },
+  {
+    "id": "GHSA-g6ph-x5wf-g337",
+    "aliases": [
+      "CVE-2022-4244"
+    ],
+    "score": 0.0,
+    "severity": "HIGH",
+    "cwes": [
+      "CWE-22"
+    ],
+    "published": "2023-09-25T21:30:26",
+    "pub_date": "2023-09-25T21:30:26",
+    "summary": "plexus-codehaus vulnerable to directory traversal",
+    "packages": [
+      "org.codehaus.plexus:plexus-utils"
+    ],
+    "is_np": false,
+    "is_build_only": true,
+    "is_di": true,
+    "di_by_cwe": true,
+    "di_by_keyword": false,
+    "is_ch": true
+  },
+  {
+    "id": "GHSA-jcwr-x25h-x5fh",
+    "aliases": [
+      "CVE-2022-4245"
+    ],
+    "score": 0.0,
+    "severity": "MODERATE",
+    "cwes": [
+      "CWE-611",
+      "CWE-91"
+    ],
+    "published": "2023-09-25T21:30:26",
+    "pub_date": "2023-09-25T21:30:26",
+    "summary": "codehaus-plexus vulnerable to XML injection",
+    "packages": [
+      "org.codehaus.plexus:plexus-utils"
+    ],
+    "is_np": false,
+    "is_build_only": true,
+    "is_di": true,
+    "di_by_cwe": true,
+    "di_by_keyword": false,
+    "is_ch": false
+  },
+  {
+    "id": "GHSA-74pv-v9gh-h25p",
+    "aliases": [
+      "CVE-2018-1000075"
+    ],
+    "score": 0.0,
+    "severity": "HIGH",
+    "cwes": [
+      "CWE-835"
+    ],
+    "published": "2022-05-13T01:48:31",
+    "pub_date": "2022-05-13T01:48:31",
+    "summary": "RubyGems Infinite Loop vulnerability",
+    "packages": [
+      "org.jruby:jruby-stdlib"
+    ],
+    "is_np": false,
+    "is_build_only": false,
+    "is_di": false,
+    "di_by_cwe": false,
+    "di_by_keyword": false,
+    "is_ch": true
+  },
+  {
+    "id": "GHSA-87qx-g5wg-mwmj",
+    "aliases": [
+      "CVE-2018-1000078"
+    ],
+    "score": 0.0,
+    "severity": "MODERATE",
+    "cwes": [
+      "CWE-79"
+    ],
+    "published": "2022-05-14T01:01:09",
+    "pub_date": "2022-05-14T01:01:09",
+    "summary": "RubyGems Cross-site Scripting vulnerability",
+    "packages": [
+      "org.jruby:jruby-stdlib"
+    ],
+    "is_np": false,
+    "is_build_only": false,
+    "is_di": true,
+    "di_by_cwe": true,
+    "di_by_keyword": false,
+    "is_ch": false
+  },
+  {
+    "id": "GHSA-8qxg-mff5-j3wc",
+    "aliases": [
+      "CVE-2018-1000079"
+    ],
+    "score": 0.0,
+    "severity": "MODERATE",
+    "cwes": [
+      "CWE-22"
+    ],
+    "published": "2022-05-14T01:54:40",
+    "pub_date": "2022-05-14T01:54:40",
+    "summary": "RubyGems Path Traversal vulnerability",
+    "packages": [
+      "org.jruby:jruby-stdlib"
+    ],
+    "is_np": false,
+    "is_build_only": false,
+    "is_di": true,
+    "di_by_cwe": true,
+    "di_by_keyword": false,
+    "is_ch": false
+  },
+  {
+    "id": "GHSA-gv86-43rv-79m2",
+    "aliases": [
+      "CVE-2018-1000077"
+    ],
+    "score": 0.0,
+    "severity": "MODERATE",
+    "cwes": [
+      "CWE-20"
+    ],
+    "published": "2022-05-14T01:01:09",
+    "pub_date": "2022-05-14T01:01:09",
+    "summary": "RubyGems Improper Input Validation vulnerability",
+    "packages": [
+      "org.jruby:jruby-stdlib"
+    ],
+    "is_np": false,
+    "is_build_only": false,
+    "is_di": false,
+    "di_by_cwe": false,
+    "di_by_keyword": false,
+    "is_ch": false
+  },
+  {
+    "id": "GHSA-gx69-6cp4-hxrj",
+    "aliases": [
+      "CVE-2018-1000073"
+    ],
+    "score": 0.0,
+    "severity": "HIGH",
+    "cwes": [
+      "CWE-59"
+    ],
+    "published": "2022-05-13T01:18:44",
+    "pub_date": "2022-05-13T01:18:44",
+    "summary": "RubyGems Link Following vulnerability",
+    "packages": [
+      "org.jruby:jruby-stdlib"
+    ],
+    "is_np": false,
+    "is_build_only": false,
+    "is_di": false,
+    "di_by_cwe": false,
+    "di_by_keyword": false,
+    "is_ch": true
+  },
+  {
+    "id": "GHSA-mc6j-h948-v2p6",
+    "aliases": [
+      "CVE-2018-1000076"
+    ],
+    "score": 0.0,
+    "severity": "CRITICAL",
+    "cwes": [
+      "CWE-347"
+    ],
+    "published": "2022-05-14T01:01:12",
+    "pub_date": "2022-05-14T01:01:12",
+    "summary": "RubyGems Improper Verification of Cryptographic Signature vulnerability",
+    "packages": [
+      "org.jruby:jruby-stdlib"
+    ],
+    "is_np": false,
+    "is_build_only": false,
+    "is_di": false,
+    "di_by_cwe": false,
+    "di_by_keyword": false,
+    "is_ch": true
+  },
+  {
+    "id": "GHSA-qj2w-mw2r-pv39",
+    "aliases": [
+      "CVE-2018-1000074"
+    ],
+    "score": 0.0,
+    "severity": "HIGH",
+    "cwes": [
+      "CWE-502"
+    ],
+    "published": "2022-05-14T01:01:12",
+    "pub_date": "2022-05-14T01:01:12",
+    "summary": "RubyGems Deserialization of Untrusted Data vulnerability",
+    "packages": [
+      "org.jruby:jruby-stdlib"
+    ],
+    "is_np": false,
+    "is_build_only": false,
+    "is_di": false,
+    "di_by_cwe": false,
+    "di_by_keyword": false,
+    "is_ch": true
+  },
+  {
+    "id": "GHSA-6r7r-jj8h-pq6v",
+    "aliases": [
+      "CVE-2016-4000"
+    ],
+    "score": 0.0,
+    "severity": "CRITICAL",
+    "cwes": [
+      "CWE-502"
+    ],
+    "published": "2022-05-13T01:25:20",
+    "pub_date": "2022-05-13T01:25:20",
+    "summary": "Deserialization of Untrusted Data in Jython",
+    "packages": [
+      "org.python:jython-standalone"
+    ],
+    "is_np": true,
+    "is_build_only": false,
+    "is_di": false,
+    "di_by_cwe": false,
+    "di_by_keyword": false,
+    "is_ch": true
+  },
+  {
+    "id": "GHSA-9347-9w64-q5wp",
+    "aliases": [
+      "CVE-2013-2027"
+    ],
+    "score": 0.0,
+    "severity": "MODERATE",
+    "cwes": [
+      "CWE-281"
+    ],
+    "published": "2022-05-14T02:05:10",
+    "pub_date": "2022-05-14T02:05:10",
+    "summary": "Jython Improper Access Restrictions vulnerability",
+    "packages": [
+      "org.python:jython-standalone"
+    ],
+    "is_np": true,
+    "is_build_only": false,
+    "is_di": false,
+    "di_by_cwe": false,
+    "di_by_keyword": false,
+    "is_ch": false
+  },
+  {
+    "id": "GHSA-g5h3-w546-pj7f",
+    "aliases": [
+      "CVE-2023-20873"
+    ],
+    "score": 0.0,
+    "severity": "CRITICAL",
+    "cwes": [],
+    "published": "2023-04-20T21:33:27",
+    "pub_date": "2023-04-20T21:33:27",
+    "summary": "Spring Boot Security Bypass with Wildcard Pattern Matching on Cloud Foundry",
+    "packages": [
+      "org.springframework.boot:spring-boot-actuator-autoconfigure"
+    ],
+    "is_np": true,
+    "is_build_only": false,
+    "is_di": false,
+    "di_by_cwe": false,
+    "di_by_keyword": false,
+    "is_ch": true
+  },
+  {
+    "id": "GHSA-2ppp-9496-p23q",
+    "aliases": [
+      "CVE-2020-5408"
+    ],
+    "score": 0.0,
+    "severity": "MODERATE",
+    "cwes": [
+      "CWE-329",
+      "CWE-330"
+    ],
+    "published": "2020-06-15T19:34:31",
+    "pub_date": "2020-06-15T19:34:31",
+    "summary": "Insufficient Entropy in Spring Security",
+    "packages": [
+      "org.springframework.security:spring-security-core"
+    ],
+    "is_np": false,
+    "is_build_only": false,
+    "is_di": false,
+    "di_by_cwe": false,
+    "di_by_keyword": false,
+    "is_ch": false
+  },
+  {
+    "id": "GHSA-8crv-49fr-2h6j",
+    "aliases": [
+      "CVE-2016-5007"
+    ],
+    "score": 0.0,
+    "severity": "HIGH",
+    "cwes": [],
+    "published": "2018-10-17T20:30:12",
+    "pub_date": "2018-10-17T20:30:12",
+    "summary": "Spring Security and Spring Framework may not recognize certain paths that should be protected",
+    "packages": [
+      "org.springframework.security:spring-security-core",
+      "org.springframework:spring-core"
+    ],
+    "is_np": false,
+    "is_build_only": false,
+    "is_di": false,
+    "di_by_cwe": false,
+    "di_by_keyword": false,
+    "is_ch": true
+  },
+  {
+    "id": "GHSA-f3jh-qvm4-mg39",
+    "aliases": [
+      "CVE-2024-22257"
+    ],
+    "score": 0.0,
+    "severity": "HIGH",
+    "cwes": [
+      "CWE-287",
+      "CWE-862"
+    ],
+    "published": "2024-03-18T15:30:51",
+    "pub_date": "2024-03-18T15:30:51",
+    "summary": "Erroneous authentication pass in Spring Security",
+    "packages": [
+      "org.springframework.security:spring-security-core"
+    ],
+    "is_np": false,
+    "is_build_only": false,
+    "is_di": false,
+    "di_by_cwe": false,
+    "di_by_keyword": false,
+    "is_ch": true
+  },
+  {
+    "id": "GHSA-hh32-7344-cg2f",
+    "aliases": [
+      "CVE-2022-22978"
+    ],
+    "score": 0.0,
+    "severity": "CRITICAL",
+    "cwes": [
+      "CWE-285",
+      "CWE-863"
+    ],
+    "published": "2022-05-20T00:00:39",
+    "pub_date": "2022-05-20T00:00:39",
+    "summary": "Authorization bypass in Spring Security",
+    "packages": [
+      "org.springframework.security:spring-security-core",
+      "org.springframework.security:spring-security-web"
+    ],
+    "is_np": true,
+    "is_build_only": false,
+    "is_di": false,
+    "di_by_cwe": false,
+    "di_by_keyword": false,
+    "is_ch": true
+  },
+  {
+    "id": "GHSA-q3v6-hm2v-pw99",
+    "aliases": [
+      "CVE-2024-38827"
+    ],
+    "score": 0.0,
+    "severity": "MODERATE",
+    "cwes": [
+      "CWE-639"
+    ],
+    "published": "2024-12-02T15:31:41",
+    "pub_date": "2024-12-02T15:31:41",
+    "summary": "Spring Framework has Authorization Bypass for Case Sensitive Comparisons",
+    "packages": [
+      "org.springframework.security:spring-security-core"
+    ],
+    "is_np": false,
+    "is_build_only": false,
+    "is_di": false,
+    "di_by_cwe": false,
+    "di_by_keyword": false,
+    "is_ch": false
+  },
+  {
+    "id": "GHSA-v33x-prhc-gph5",
+    "aliases": [
+      "CVE-2019-11272"
+    ],
+    "score": 0.0,
+    "severity": "HIGH",
+    "cwes": [
+      "CWE-522",
+      "CWE-287"
+    ],
+    "published": "2019-06-27T17:24:58",
+    "pub_date": "2019-06-27T17:24:58",
+    "summary": "Insufficiently Protected Credentials and Improper Authentication in Spring Security",
+    "packages": [
+      "org.springframework.security:spring-security-core"
+    ],
+    "is_np": false,
+    "is_build_only": false,
+    "is_di": false,
+    "di_by_cwe": false,
+    "di_by_keyword": false,
+    "is_ch": true
+  },
+  {
+    "id": "GHSA-v35c-49j6-q8hq",
+    "aliases": [
+      "CVE-2016-9879"
+    ],
+    "score": 0.0,
+    "severity": "HIGH",
+    "cwes": [],
+    "published": "2020-09-15T20:30:34",
+    "pub_date": "2020-09-15T20:30:34",
+    "summary": "Security Constraint Bypass in Spring Security",
+    "packages": [
+      "org.springframework.security:spring-security-core"
+    ],
+    "is_np": false,
+    "is_build_only": false,
+    "is_di": false,
+    "di_by_cwe": false,
+    "di_by_keyword": false,
+    "is_ch": true
+  },
+  {
+    "id": "GHSA-mg83-c7gq-rv5c",
+    "aliases": [
+      "CVE-2025-22228"
+    ],
+    "score": 0.0,
+    "severity": "HIGH",
+    "cwes": [
+      "CWE-287",
+      "CWE-521"
+    ],
+    "published": "2025-03-20T06:31:09",
+    "pub_date": "2025-03-20T06:31:09",
+    "summary": "Spring Security Does Not Enforce Password Length",
+    "packages": [
+      "org.springframework.security:spring-security-crypto"
+    ],
+    "is_np": false,
+    "is_build_only": false,
+    "is_di": false,
+    "di_by_cwe": false,
+    "di_by_keyword": false,
+    "is_ch": true
+  },
+  {
+    "id": "GHSA-c4q5-6c82-3qpw",
+    "aliases": [
+      "CVE-2024-38821"
+    ],
+    "score": 0.0,
+    "severity": "CRITICAL",
+    "cwes": [
+      "CWE-285",
+      "CWE-770"
+    ],
+    "published": "2024-10-28T09:30:53",
+    "pub_date": "2024-10-28T09:30:53",
+    "summary": "Spring Security vulnerable to Authorization Bypass of Static Resources in WebFlux Applications",
+    "packages": [
+      "org.springframework.security:spring-security-web"
+    ],
+    "is_np": true,
+    "is_build_only": false,
+    "is_di": false,
+    "di_by_cwe": false,
+    "di_by_keyword": false,
+    "is_ch": true
+  },
+  {
+    "id": "GHSA-gq28-h5vg-8prx",
+    "aliases": [
+      "CVE-2021-22112"
+    ],
+    "score": 0.0,
+    "severity": "HIGH",
+    "cwes": [
+      "CWE-269"
+    ],
+    "published": "2021-05-10T15:22:39",
+    "pub_date": "2021-05-10T15:22:39",
+    "summary": "Privilege escalation in spring security",
+    "packages": [
+      "org.springframework.security:spring-security-web"
+    ],
+    "is_np": true,
+    "is_build_only": false,
+    "is_di": false,
+    "di_by_cwe": false,
+    "di_by_keyword": false,
+    "is_ch": true
+  },
+  {
+    "id": "GHSA-mf92-479x-3373",
+    "aliases": [
+      "CVE-2026-22732"
+    ],
+    "score": 0.0,
+    "severity": "CRITICAL",
+    "cwes": [
+      "CWE-425"
+    ],
+    "published": "2026-03-20T00:31:28",
+    "pub_date": "2026-03-20T00:31:28",
+    "summary": "Spring Security HTTP Headers Are not Written Under Some Conditions",
+    "packages": [
+      "org.springframework.security:spring-security-web"
+    ],
+    "is_np": true,
+    "is_build_only": false,
+    "is_di": false,
+    "di_by_cwe": false,
+    "di_by_keyword": false,
+    "is_ch": true
+  },
+  {
+    "id": "GHSA-8222-6fc8-mhvf",
+    "aliases": [
+      "CVE-2019-3773"
+    ],
+    "score": 0.0,
+    "severity": "CRITICAL",
+    "cwes": [
+      "CWE-611"
+    ],
+    "published": "2019-01-25T16:18:52",
+    "pub_date": "2019-01-25T16:18:52",
+    "summary": "Vulnerability that affects org.springframework.ws:spring-ws and org.springframework.ws:spring-xml",
+    "packages": [
+      "org.springframework.ws:spring-xml"
+    ],
+    "is_np": false,
+    "is_build_only": false,
+    "is_di": true,
+    "di_by_cwe": true,
+    "di_by_keyword": false,
+    "is_ch": true
+  },
+  {
+    "id": "GHSA-36p3-wjmg-h94x",
+    "aliases": [
+      "CVE-2022-22965"
+    ],
+    "score": 0.0,
+    "severity": "CRITICAL",
+    "cwes": [
+      "CWE-74",
+      "CWE-94"
+    ],
+    "published": "2022-03-31T18:30:50",
+    "pub_date": "2022-03-31T18:30:50",
+    "summary": "Remote Code Execution in Spring Framework",
+    "packages": [
+      "org.springframework:spring-beans"
+    ],
+    "is_np": true,
+    "is_build_only": false,
+    "is_di": true,
+    "di_by_cwe": true,
+    "di_by_keyword": false,
+    "is_ch": true
+  },
+  {
+    "id": "GHSA-hh26-6xwr-ggv7",
+    "aliases": [
+      "CVE-2022-22970"
+    ],
+    "score": 0.0,
+    "severity": "HIGH",
+    "cwes": [
+      "CWE-770"
+    ],
+    "published": "2022-05-13T00:00:28",
+    "pub_date": "2022-05-13T00:00:28",
+    "summary": "Denial of service in Spring Framework",
+    "packages": [
+      "org.springframework:spring-beans"
+    ],
+    "is_np": true,
+    "is_build_only": false,
+    "is_di": false,
+    "di_by_cwe": false,
+    "di_by_keyword": false,
+    "is_ch": true
+  },
+  {
+    "id": "GHSA-4487-x383-qpph",
+    "aliases": [
+      "CVE-2018-1272"
+    ],
+    "score": 0.0,
+    "severity": "HIGH",
+    "cwes": [],
+    "published": "2018-10-17T20:27:47",
+    "pub_date": "2018-10-17T20:27:47",
+    "summary": "Possible privilege escalation in org.springframework:spring-core",
+    "packages": [
+      "org.springframework:spring-core"
+    ],
+    "is_np": false,
+    "is_build_only": false,
+    "is_di": false,
+    "di_by_cwe": false,
+    "di_by_keyword": false,
+    "is_ch": true
+  },
+  {
+    "id": "GHSA-g8hw-794c-4j9g",
+    "aliases": [
+      "CVE-2018-1271"
+    ],
+    "score": 0.0,
+    "severity": "MODERATE",
+    "cwes": [
+      "CWE-22"
+    ],
+    "published": "2018-10-17T20:07:03",
+    "pub_date": "2018-10-17T20:07:03",
+    "summary": "Path Traversal in org.springframework:spring-core",
+    "packages": [
+      "org.springframework:spring-core"
+    ],
+    "is_np": false,
+    "is_build_only": false,
+    "is_di": true,
+    "di_by_cwe": true,
+    "di_by_keyword": false,
+    "is_ch": false
+  },
+  {
+    "id": "GHSA-pgf9-h69p-pcgf",
+    "aliases": [
+      "CVE-2015-5211"
+    ],
+    "score": 0.0,
+    "severity": "HIGH",
+    "cwes": [
+      "CWE-20",
+      "CWE-552"
+    ],
+    "published": "2018-10-17T20:29:33",
+    "pub_date": "2018-10-17T20:29:33",
+    "summary": "Files or Directories Accessible to External Parties in org.springframework:spring-core",
+    "packages": [
+      "org.springframework:spring-core"
+    ],
+    "is_np": false,
+    "is_build_only": false,
+    "is_di": false,
+    "di_by_cwe": false,
+    "di_by_keyword": false,
+    "is_ch": true
+  },
+  {
+    "id": "GHSA-rcpf-vj53-7h2m",
+    "aliases": [
+      "CVE-2018-1257"
+    ],
+    "score": 0.0,
+    "severity": "MODERATE",
+    "cwes": [],
+    "published": "2018-10-17T20:02:20",
+    "pub_date": "2018-10-17T20:02:20",
+    "summary": "Denial of Service in org.springframework:spring-core",
+    "packages": [
+      "org.springframework:spring-core"
+    ],
+    "is_np": false,
+    "is_build_only": false,
+    "is_di": false,
+    "di_by_cwe": false,
+    "di_by_keyword": false,
+    "is_ch": false
+  },
+  {
+    "id": "GHSA-558x-2xjg-6232",
+    "aliases": [
+      "CVE-2022-22950"
+    ],
+    "score": 0.0,
+    "severity": "MODERATE",
+    "cwes": [
+      "CWE-770"
+    ],
+    "published": "2022-04-03T00:01:00",
+    "pub_date": "2022-04-03T00:01:00",
+    "summary": "Allocation of Resources Without Limits or Throttling in Spring Framework",
+    "packages": [
+      "org.springframework:spring-expression"
+    ],
+    "is_np": true,
+    "is_build_only": false,
+    "is_di": false,
+    "di_by_cwe": false,
+    "di_by_keyword": false,
+    "is_ch": false
+  },
+  {
+    "id": "GHSA-564r-hj7v-mcr5",
+    "aliases": [
+      "CVE-2023-20861"
+    ],
+    "score": 0.0,
+    "severity": "MODERATE",
+    "cwes": [
+      "CWE-917",
+      "CWE-400"
+    ],
+    "published": "2023-03-23T21:30:19",
+    "pub_date": "2023-03-23T21:30:19",
+    "summary": "Spring Framework vulnerable to denial of service via specially crafted SpEL expression",
+    "packages": [
+      "org.springframework:spring-expression"
+    ],
+    "is_np": true,
+    "is_build_only": false,
+    "is_di": true,
+    "di_by_cwe": true,
+    "di_by_keyword": false,
+    "is_ch": false
+  },
+  {
+    "id": "GHSA-9cmq-m9j5-mvww",
+    "aliases": [
+      "CVE-2024-38808"
+    ],
+    "score": 0.0,
+    "severity": "MODERATE",
+    "cwes": [
+      "CWE-770"
+    ],
+    "published": "2024-08-20T09:30:28",
+    "pub_date": "2024-08-20T09:30:28",
+    "summary": "Spring Framework vulnerable to Denial of Service",
+    "packages": [
+      "org.springframework:spring-expression"
+    ],
+    "is_np": true,
+    "is_build_only": false,
+    "is_di": false,
+    "di_by_cwe": false,
+    "di_by_keyword": false,
+    "is_ch": false
+  },
+  {
+    "id": "GHSA-wxqc-pxw9-g2p8",
+    "aliases": [
+      "CVE-2023-20863"
+    ],
+    "score": 0.0,
+    "severity": "HIGH",
+    "cwes": [
+      "CWE-917",
+      "CWE-400",
+      "CWE-770"
+    ],
+    "published": "2023-04-13T21:30:27",
+    "pub_date": "2023-04-13T21:30:27",
+    "summary": "Spring Framework vulnerable to denial of service",
+    "packages": [
+      "org.springframework:spring-expression"
+    ],
+    "is_np": true,
+    "is_build_only": false,
+    "is_di": true,
+    "di_by_cwe": true,
+    "di_by_keyword": false,
+    "is_ch": true
+  },
+  {
+    "id": "GHSA-3rmv-2pg5-xvqj",
+    "aliases": [
+      "CVE-2018-1275"
+    ],
+    "score": 0.0,
+    "severity": "CRITICAL",
+    "cwes": [
+      "CWE-358",
+      "CWE-94"
+    ],
+    "published": "2018-10-17T20:28:00",
+    "pub_date": "2018-10-17T20:28:00",
+    "summary": "Spring Framework has Improperly Implemented Security Check for Standard",
+    "packages": [
+      "org.springframework:spring-messaging"
+    ],
+    "is_np": true,
+    "is_build_only": false,
+    "is_di": true,
+    "di_by_cwe": true,
+    "di_by_keyword": false,
+    "is_ch": true
+  },
+  {
+    "id": "GHSA-p5hg-3xm3-gcjg",
+    "aliases": [
+      "CVE-2018-1270"
+    ],
+    "score": 0.0,
+    "severity": "CRITICAL",
+    "cwes": [
+      "CWE-358",
+      "CWE-94"
+    ],
+    "published": "2018-10-17T20:05:59",
+    "pub_date": "2018-10-17T20:05:59",
+    "summary": "Spring Framework allows applications to expose STOMP over WebSocket endpoints",
+    "packages": [
+      "org.springframework:spring-messaging"
+    ],
+    "is_np": true,
+    "is_build_only": false,
+    "is_di": true,
+    "di_by_cwe": true,
+    "di_by_keyword": false,
+    "is_ch": true
+  },
+  {
+    "id": "GHSA-rqph-vqwm-22vc",
+    "aliases": [
+      "CVE-2022-22971"
+    ],
+    "score": 0.0,
+    "severity": "MODERATE",
+    "cwes": [
+      "CWE-770"
+    ],
+    "published": "2022-05-13T00:00:29",
+    "pub_date": "2022-05-13T00:00:29",
+    "summary": "Allocation of Resources Without Limits or Throttling in Spring Framework",
+    "packages": [
+      "org.springframework:spring-messaging"
+    ],
+    "is_np": true,
+    "is_build_only": false,
+    "is_di": false,
+    "di_by_cwe": false,
+    "di_by_keyword": false,
+    "is_ch": false
+  },
+  {
+    "id": "GHSA-2rmj-mq67-h97g",
+    "aliases": [
+      "CVE-2024-38809"
+    ],
+    "score": 0.0,
+    "severity": "MODERATE",
+    "cwes": [
+      "CWE-400",
+      "CWE-1333"
+    ],
+    "published": "2024-09-24T18:34:43",
+    "pub_date": "2024-09-24T18:34:43",
+    "summary": "Spring Framework DoS via conditional HTTP request",
+    "packages": [
+      "org.springframework:spring-web"
+    ],
+    "is_np": true,
+    "is_build_only": false,
+    "is_di": false,
+    "di_by_cwe": false,
+    "di_by_keyword": false,
+    "is_ch": false
+  },
+  {
+    "id": "GHSA-2wrp-6fg6-hmc5",
+    "aliases": [
+      "CVE-2024-22262"
+    ],
+    "score": 0.0,
+    "severity": "HIGH",
+    "cwes": [
+      "CWE-601"
+    ],
+    "published": "2024-04-16T06:30:28",
+    "pub_date": "2024-04-16T06:30:28",
+    "summary": "Spring Framework URL Parsing with Host Validation",
+    "packages": [
+      "org.springframework:spring-web"
+    ],
+    "is_np": true,
+    "is_build_only": false,
+    "is_di": false,
+    "di_by_cwe": false,
+    "di_by_keyword": false,
+    "is_ch": true
+  },
+  {
+    "id": "GHSA-4gc7-5j7h-4qph",
+    "aliases": [
+      "CVE-2024-38820"
+    ],
+    "score": 0.0,
+    "severity": "MODERATE",
+    "cwes": [
+      "CWE-178"
+    ],
+    "published": "2024-10-18T06:30:32",
+    "pub_date": "2024-10-18T06:30:32",
+    "summary": "Spring Framework DataBinder Case Sensitive Match Exception",
+    "packages": [
+      "org.springframework:spring-web"
+    ],
+    "is_np": true,
+    "is_build_only": false,
+    "is_di": false,
+    "di_by_cwe": false,
+    "di_by_keyword": false,
+    "is_ch": false
+  },
+  {
+    "id": "GHSA-4wrc-f8pq-fpqp",
+    "aliases": [
+      "CVE-2016-1000027"
+    ],
+    "score": 0.0,
+    "severity": "CRITICAL",
+    "cwes": [
+      "CWE-502"
+    ],
+    "published": "2022-05-24T17:05:30",
+    "pub_date": "2022-05-24T17:05:30",
+    "summary": "Pivotal Spring Framework contains unsafe Java deserialization methods",
+    "packages": [
+      "org.springframework:spring-web"
+    ],
+    "is_np": true,
+    "is_build_only": false,
+    "is_di": false,
+    "di_by_cwe": false,
+    "di_by_keyword": false,
+    "is_ch": true
+  },
+  {
+    "id": "GHSA-6v7w-535j-rq5m",
+    "aliases": [
+      "CVE-2015-3192"
+    ],
+    "score": 0.0,
+    "severity": "MODERATE",
+    "cwes": [
+      "CWE-119"
+    ],
+    "published": "2018-10-17T20:29:12",
+    "pub_date": "2018-10-17T20:29:12",
+    "summary": "Pivotal Spring Framework DoS Attack with XML Input",
+    "packages": [
+      "org.springframework:spring-web"
+    ],
+    "is_np": true,
+    "is_build_only": false,
+    "is_di": false,
+    "di_by_cwe": false,
+    "di_by_keyword": false,
+    "is_ch": false
+  },
+  {
+    "id": "GHSA-ccgv-vj62-xf9h",
+    "aliases": [
+      "CVE-2024-22243"
+    ],
+    "score": 0.0,
+    "severity": "HIGH",
+    "cwes": [
+      "CWE-601"
+    ],
+    "published": "2024-02-23T06:30:31",
+    "pub_date": "2024-02-23T06:30:31",
+    "summary": "Spring Web vulnerable to Open Redirect or Server Side Request Forgery",
+    "packages": [
+      "org.springframework:spring-web"
+    ],
+    "is_np": true,
+    "is_build_only": false,
+    "is_di": false,
+    "di_by_cwe": false,
+    "di_by_keyword": false,
+    "is_ch": true
+  },
+  {
+    "id": "GHSA-hgjh-9rj2-g67j",
+    "aliases": [
+      "CVE-2024-22259"
+    ],
+    "score": 0.0,
+    "severity": "HIGH",
+    "cwes": [
+      "CWE-601"
+    ],
+    "published": "2024-03-16T06:30:27",
+    "pub_date": "2024-03-16T06:30:27",
+    "summary": "Spring Framework URL Parsing with Host Validation Vulnerability",
+    "packages": [
+      "org.springframework:spring-web"
+    ],
+    "is_np": true,
+    "is_build_only": false,
+    "is_di": false,
+    "di_by_cwe": false,
+    "di_by_keyword": false,
+    "is_ch": true
+  },
+  {
+    "id": "GHSA-chfm-68vv-pvw5",
+    "aliases": [
+      "CVE-2024-31573"
+    ],
+    "score": 0.0,
+    "severity": "LOW",
+    "cwes": [],
+    "published": "2024-05-01T16:40:01",
+    "pub_date": "2024-05-01T16:40:01",
+    "summary": "XMLUnit for Java has Insecure Defaults when Processing XSLT Stylesheets",
+    "packages": [
+      "org.xmlunit:xmlunit-core"
+    ],
+    "is_np": false,
+    "is_build_only": true,
+    "is_di": false,
+    "di_by_cwe": false,
+    "di_by_keyword": false,
+    "is_ch": false
+  },
+  {
+    "id": "GHSA-3mc7-4q67-w48m",
+    "aliases": [
+      "CVE-2022-25857"
+    ],
+    "score": 0.0,
+    "severity": "HIGH",
+    "cwes": [
+      "CWE-400",
+      "CWE-776"
+    ],
+    "published": "2022-08-31T00:00:24",
+    "pub_date": "2022-08-31T00:00:24",
+    "summary": "Uncontrolled Resource Consumption in snakeyaml",
+    "packages": [
+      "org.yaml:snakeyaml"
+    ],
+    "is_np": true,
+    "is_build_only": false,
+    "is_di": false,
+    "di_by_cwe": false,
+    "di_by_keyword": false,
+    "is_ch": true
+  },
+  {
+    "id": "GHSA-98wm-3w3q-mw94",
+    "aliases": [
+      "CVE-2022-38751"
+    ],
+    "score": 0.0,
+    "severity": "MODERATE",
+    "cwes": [
+      "CWE-121",
+      "CWE-787"
+    ],
+    "published": "2022-09-06T00:00:27",
+    "pub_date": "2022-09-06T00:00:27",
+    "summary": "snakeYAML before 1.31 vulnerable to Denial of Service due to Out-of-bounds Write",
+    "packages": [
+      "org.yaml:snakeyaml"
+    ],
+    "is_np": true,
+    "is_build_only": false,
+    "is_di": false,
+    "di_by_cwe": false,
+    "di_by_keyword": false,
+    "is_ch": false
+  },
+  {
+    "id": "GHSA-9w3m-gqgf-c4p9",
+    "aliases": [
+      "CVE-2022-38752"
+    ],
+    "score": 0.0,
+    "severity": "MODERATE",
+    "cwes": [
+      "CWE-121",
+      "CWE-787"
+    ],
+    "published": "2022-09-06T00:00:27",
+    "pub_date": "2022-09-06T00:00:27",
+    "summary": "snakeYAML before 1.32 vulnerable to Denial of Service due to Out-of-bounds Write",
+    "packages": [
+      "org.yaml:snakeyaml"
+    ],
+    "is_np": true,
+    "is_build_only": false,
+    "is_di": false,
+    "di_by_cwe": false,
+    "di_by_keyword": false,
+    "is_ch": false
+  },
+  {
+    "id": "GHSA-c4r9-r8fh-9vj2",
+    "aliases": [
+      "CVE-2022-38749"
+    ],
+    "score": 0.0,
+    "severity": "MODERATE",
+    "cwes": [
+      "CWE-121",
+      "CWE-787"
+    ],
+    "published": "2022-09-06T00:00:27",
+    "pub_date": "2022-09-06T00:00:27",
+    "summary": "snakeYAML before 1.31 vulnerable to Denial of Service due to Out-of-bounds Write",
+    "packages": [
+      "org.yaml:snakeyaml"
+    ],
+    "is_np": true,
+    "is_build_only": false,
+    "is_di": false,
+    "di_by_cwe": false,
+    "di_by_keyword": false,
+    "is_ch": false
+  },
+  {
+    "id": "GHSA-hhhw-99gj-p3c3",
+    "aliases": [
+      "CVE-2022-38750"
+    ],
+    "score": 0.0,
+    "severity": "MODERATE",
+    "cwes": [
+      "CWE-121",
+      "CWE-787"
+    ],
+    "published": "2022-09-06T00:00:27",
+    "pub_date": "2022-09-06T00:00:27",
+    "summary": "snakeYAML before 1.31 vulnerable to Denial of Service due to Out-of-bounds Write",
+    "packages": [
+      "org.yaml:snakeyaml"
+    ],
+    "is_np": true,
+    "is_build_only": false,
+    "is_di": false,
+    "di_by_cwe": false,
+    "di_by_keyword": false,
+    "is_ch": false
+  },
+  {
+    "id": "GHSA-mjmj-j48q-9wg2",
+    "aliases": [
+      "CVE-2022-1471"
+    ],
+    "score": 0.0,
+    "severity": "HIGH",
+    "cwes": [
+      "CWE-20",
+      "CWE-502"
+    ],
+    "published": "2022-12-12T21:19:47",
+    "pub_date": "2022-12-12T21:19:47",
+    "summary": "SnakeYaml Constructor Deserialization Remote Code Execution",
+    "packages": [
+      "org.yaml:snakeyaml"
+    ],
+    "is_np": true,
+    "is_build_only": false,
+    "is_di": false,
+    "di_by_cwe": false,
+    "di_by_keyword": false,
+    "is_ch": true
+  },
+  {
+    "id": "GHSA-rvwf-54qp-4r6v",
+    "aliases": [
+      "CVE-2017-18640"
+    ],
+    "score": 0.0,
+    "severity": "HIGH",
+    "cwes": [
+      "CWE-776"
+    ],
+    "published": "2021-06-04T21:37:45",
+    "pub_date": "2021-06-04T21:37:45",
+    "summary": "SnakeYAML Entity Expansion during load operation",
+    "packages": [
+      "org.yaml:snakeyaml"
+    ],
+    "is_np": true,
+    "is_build_only": false,
+    "is_di": false,
+    "di_by_cwe": false,
+    "di_by_keyword": false,
+    "is_ch": true
+  },
+  {
+    "id": "GHSA-w37g-rhq8-7m4j",
+    "aliases": [
+      "CVE-2022-41854"
+    ],
+    "score": 0.0,
+    "severity": "MODERATE",
+    "cwes": [
+      "CWE-121",
+      "CWE-787"
+    ],
+    "published": "2022-11-11T19:00:31",
+    "pub_date": "2022-11-11T19:00:31",
+    "summary": "Snakeyaml vulnerable to Stack overflow leading to denial of service",
+    "packages": [
+      "org.yaml:snakeyaml"
+    ],
+    "is_np": true,
+    "is_build_only": false,
+    "is_di": false,
+    "di_by_cwe": false,
+    "di_by_keyword": false,
+    "is_ch": false
+  }
+]

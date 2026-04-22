@@ -463,11 +463,11 @@ A network-parsing HIGH (7.0-7.9) at 1.52% beats a non-parsing CRITICAL (9.0-9.9)
 <tr><td>Total vulnerabilities (all severities)</td><td><strong>232</strong></td><td>—</td><td>—</td></tr>
 <tr><td>Critical + High only</td><td><strong>164</strong></td><td>68 (29%)</td><td>Medium/Low severity</td></tr>
 <tr><td>In Network Parsers (NP)</td><td><strong>127</strong></td><td>37 (23%)</td><td>Build tools (Maven, Plexus), utilities, logging frameworks — 11 are build-only and never even deployed</td></tr>
-<tr><td>NP + Direct Injection CWE</td><td><strong>24</strong></td><td>103 (81%)</td><td>Deserialization (jackson-databind: 44 of 45 are CWE-502), DoS, auth bypass, info leak</td></tr>
+<tr><td>NP + Direct Injection CWE</td><td><strong>25</strong></td><td>102 (80%)</td><td>Deserialization (jackson-databind: 44 of 45 are CWE-502), DoS, auth bypass, info leak</td></tr>
 </tbody></table>
 
 <div class="callout callout-finding">
-<strong>232 → 24:</strong> Your scanner reports 232 vulnerabilities. The NP+DI filter tells you 24 of them represent the attack patterns that actually reach KEV. The other 208 ride the normal release cycle.
+<strong>232 → 25:</strong> Your scanner reports 232 vulnerabilities. The NP+DI filter tells you 25 of them represent the attack patterns that actually reach KEV. The other 207 ride the normal release cycle.
 </div>
 
 <h4>The 13 Libraries Where NP+DI Risk Lives</h4>
@@ -479,7 +479,7 @@ A network-parsing HIGH (7.0-7.9) at 1.52% beats a non-parsing CRITICAL (9.0-9.9)
 <tbody>
 <tr><td><strong>xstream</strong></td><td>22</td><td style="color:var(--red);font-weight:700">7</td><td>Command injection (CWE-78), code injection (CWE-94), SSRF (CWE-918)</td></tr>
 <tr><td><strong>dom4j</strong></td><td>3</td><td style="color:var(--red);font-weight:700">3</td><td>XXE (CWE-611), XPath injection (CWE-91)</td></tr>
-<tr><td><strong>tomcat-embed-core</strong></td><td>20</td><td style="color:var(--red);font-weight:700">2</td><td>Path traversal (CWE-23), OS command injection (CWE-78)</td></tr>
+<tr><td><strong>tomcat-embed-core</strong></td><td>20</td><td style="color:var(--red);font-weight:700">4</td><td>Path traversal (CWE-23), OS command injection (CWE-78), HTTP request smuggling (CWE-444)</td></tr>
 <tr><td><strong>log4j-core</strong></td><td>3</td><td style="color:var(--red);font-weight:700">2</td><td>JNDI expression injection (CWE-917) — Log4Shell</td></tr>
 <tr><td><strong>spring-messaging</strong></td><td>2</td><td style="color:var(--red);font-weight:700">2</td><td>Code injection (CWE-94) via STOMP over WebSocket</td></tr>
 <tr><td><strong>jackson-databind</strong></td><td>45</td><td style="color:var(--red);font-weight:700">1</td><td>Code injection (CWE-94) — the 1 out of 45</td></tr>
@@ -505,8 +505,8 @@ A network-parsing HIGH (7.0-7.9) at 1.52% beats a non-parsing CRITICAL (9.0-9.9)
 <table class="data-table">
 <thead><tr><th>Filter Tier</th><th>Vulns</th><th>In KEV</th><th>Exploitation Rate</th><th>Metasploit Modules</th></tr></thead>
 <tbody>
-<tr style="background:rgba(220,38,38,.08)"><td><strong>NP + DI (filter output)</strong></td><td>23</td><td><strong style="color:var(--red)">4</strong></td><td><strong style="color:var(--red)">17.4%</strong></td><td>14 modules across 4 CVEs</td></tr>
-<tr><td>NP only (DI filter removed)</td><td>102</td><td>3</td><td>2.9%</td><td>6 modules across 3 CVEs</td></tr>
+<tr style="background:rgba(220,38,38,.08)"><td><strong>NP + DI (filter output)</strong></td><td>25</td><td><strong style="color:var(--red)">4</strong></td><td><strong style="color:var(--red)">16.0%</strong></td><td>14 modules across 4 CVEs</td></tr>
+<tr><td>NP only (DI filter removed)</td><td>100</td><td>3</td><td>3.0%</td><td>6 modules across 3 CVEs</td></tr>
 <tr><td>Non-NP Critical/High</td><td>35</td><td>0</td><td>0.0%</td><td>0</td></tr>
 </tbody></table>
 
@@ -554,7 +554,7 @@ A network-parsing HIGH (7.0-7.9) at 1.52% beats a non-parsing CRITICAL (9.0-9.9)
 <p>The irony is worth noting: if AI tooling like Glasswing/Mythos is now capable of <em>finding</em> vulnerabilities, using it to <em>correctly classify</em> them is a significantly easier ask. The safety net costs almost nothing and closes the filter's only demonstrated gap.</p>
 
 <div class="callout callout-finding">
-<strong>Backtest summary:</strong> 17.4% exploitation rate in the NP+DI bucket vs. 2.9% in NP-only vs. 0% in non-NP. The filter caught Log4Shell, Spring4Shell, and XStream RCE cleanly. Its three misses are all CWE taxonomy failures on HTTP-adjacent attacks — fixable with an AI classification review pass that adds minutes, not hours, to the triage workflow.
+<strong>Backtest summary:</strong> 16% exploitation rate in the NP+DI bucket vs. 3% in NP-only vs. 0% in non-NP. The filter caught Log4Shell, Spring4Shell, and XStream RCE cleanly. Its three misses are all CWE taxonomy failures on HTTP-adjacent attacks — fixable with an AI classification review pass that adds minutes, not hours, to the triage workflow.
 </div>
 
 <!-- ========== 8. KILL CHAIN ========== -->
@@ -1183,7 +1183,7 @@ new Chart(document.getElementById('docPatchVelocityChart'), {
 // NP+DI Funnel: real-manifest case study (§7g)
 (function(){
   const labels = ['All Vulns','Critical / High','Network-Parser','NP + Direct Injection'];
-  const values = [232, 164, 127, 24];
+  const values = [232, 164, 127, 25];
   const colors = ['#94a3b8','#6366f1','#4f46e5','#dc2626'];
   new Chart(document.getElementById('funnelChart'),{
     type:'bar',
