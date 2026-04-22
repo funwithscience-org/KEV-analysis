@@ -248,8 +248,121 @@ code{background:#f1f5f9;padding:2px 6px;border-radius:4px;font-size:.88em}
 </table>
 </details>
 
+<!-- ===== JVM PLATFORM ===== -->
+<h2>2. The JVM Platform — One Big Discontinuity, Then Flat</h2>
+
+<p>The library analysis above covers the application layer. But the JVM itself is a platform — and it has its own CVE history independent of Spring, Tomcat, or Log4j. Does staying on the latest JDK (8 → 11 → 17 → 21) reduce exposure at the platform level?</p>
+
+<div class="hero-row">
+<div class="hero-card" style="border-color:var(--green)">
+<div class="num" style="color:var(--green)">13 of 13</div>
+<div class="lbl">KEV Java entries avoided<br>by moving to Java 11+</div>
+</div>
+<div class="hero-card">
+<div class="num" style="color:var(--muted)">70–80%</div>
+<div class="lbl">CVEs hit ALL versions<br>simultaneously</div>
+</div>
+<div class="hero-card" style="border-color:var(--red)">
+<div class="num" style="color:var(--red)">0</div>
+<div class="lbl">Modern JVM CVEs (2017+)<br>in CISA KEV</div>
+</div>
+</div>
+
+<h3>The Java 11 discontinuity: removing the exploit surface</h3>
+
+<p>Every single Java CVE in CISA KEV — all 13 of them — targets the applet/Deployment sandbox, which was removed in Java 11. This is the one place in our entire analysis where evergreening genuinely eliminates <strong>confirmed exploitation</strong>.</p>
+
+<div class="card">
+<table style="font-size:.84em">
+<thead><tr><th>KEV CVEs (all 13)</th><th>Years</th><th>Component</th><th>Removed in</th></tr></thead>
+<tbody>
+<tr><td><code>CVE-2010-0840</code> through <code>CVE-2016-3427</code></td><td>2010–2016</td><td>Deployment / Applets / Sandbox escapes</td><td><span class="tag tag-green">Java 11</span></td></tr>
+</tbody>
+</table>
+<p class="footnote">Java Web Start, applets, and the browser plugin were the #1 source of Java exploits in 2010–2017. Java 11 removed all of them. An organization on Java 11+ was immune to every historically-exploited JVM vulnerability.</p>
+</div>
+
+<p>Other subsystem removals contribute smaller gains:</p>
+
+<div class="card">
+<table style="font-size:.86em">
+<thead><tr><th>Subsystem</th><th>Removed</th><th>CVE examples</th><th>Evergreen benefit</th></tr></thead>
+<tbody>
+<tr><td>Java Deployment (Web Start/Applets)</td><td>Java 11</td><td>All 13 KEV entries; CVE-2021-35560 (7.5)</td><td class="yes">Eliminates entire exploited surface</td></tr>
+<tr><td>Nashorn JavaScript engine</td><td>Java 15</td><td>CVE-2018-3183 (9.0); CVE-2025-30761 (5.9, still affects Java 8/11)</td><td class="yes">Removes scripting RCE path</td></tr>
+<tr><td>CORBA</td><td>Java 11</td><td>IIOP deserialization surface</td><td class="yes">Removes deserialization vector</td></tr>
+<tr><td>RMI Activation</td><td>Java 17</td><td>CVE-2026-21925 (4.8, Java 8/11 only)</td><td class="yes">Reduces RMI surface</td></tr>
+<tr><td>SecurityManager</td><td>Java 24</td><td>Paradox: was a defense mechanism, repeatedly broken</td><td style="color:var(--amber)">Simplifies, but removes sandbox model</td></tr>
+</tbody>
+</table>
+</div>
+
+<h3>After Java 11: the curve flattens</h3>
+
+<p>Post-removal, the evergreening benefit drops sharply. Most JVM CVEs affect all supported versions simultaneously because the core libraries (Hotspot, JSSE, Networking, 2D, JAXP) are shared code.</p>
+
+<div class="card">
+<p><strong>Typical Oracle CPU version ranges (April 2026 example):</strong></p>
+<table style="font-size:.86em">
+<thead><tr><th>Pattern</th><th>Est. %</th><th>Example CVEs</th></tr></thead>
+<tbody>
+<tr><td>Affect ALL versions (8, 11, 17, 21+)</td><td style="font-weight:700">70–80%</td><td>CVE-2025-21587 (JSSE, 7.4), CVE-2025-50059 (Networking SSRF, 8.6), CVE-2026-34282 (Networking, 7.5), CVE-2025-50106 (2D, 8.1)</td></tr>
+<tr><td>Old Java only (8, sometimes 11)</td><td>10–15%</td><td>CVE-2025-30761 (Nashorn, 5.9), CVE-2026-21925 (RMI, 4.8), CVE-2026-22003 (Hotspot legacy, 6.0)</td></tr>
+<tr><td>New Java only (17+, or single version)</td><td>5–10%</td><td>CVE-2022-21449 (ECDSA "Psychic Signatures", 7.5 — Java 15-18 ONLY), CVE-2024-20932 (Security, 7.5 — Java 17 ONLY)</td></tr>
+</tbody>
+</table>
+</div>
+
+<div class="callout callout-warning">
+<strong>Evergreening introduces new JVM bugs too.</strong> CVE-2022-21449 ("Psychic Signatures") is the JVM equivalent of Spring4Shell: Oracle rewrote the ECDSA signature verification in Java 15 and introduced a catastrophic flaw that let any signature validate. <strong>Java 8 and 11 were completely immune</strong> — they used the old C implementation. The team that "fell behind" on Java 11 dodged a CVSS 7.5 crypto vulnerability that the evergreeners ate.
+</div>
+
+<h3>Severity is declining, not increasing</h3>
+
+<div class="card">
+<table style="font-size:.86em">
+<thead><tr><th>Period</th><th>Avg CVEs/year</th><th>Critical</th><th>High</th><th>AV:N ratio</th></tr></thead>
+<tbody>
+<tr><td>2018–2019</td><td>~47</td><td>3/yr</td><td>12/yr</td><td>95%</td></tr>
+<tr><td>2020–2022</td><td>~37</td><td>0.3/yr</td><td>5/yr</td><td>99%</td></tr>
+<tr><td>2023–2026</td><td>~28</td><td>0/yr</td><td>4/yr</td><td>89%</td></tr>
+</tbody>
+</table>
+<p class="footnote">Zero Critical JVM CVEs since 2021. High-severity count has halved. The JVM's AV:N ratio (~90%+) means almost everything meets the NP threshold, but the dangerous-impact bar is increasingly not met.</p>
+</div>
+
+<h3>Patching model: no paywall trap</h3>
+
+<p>Unlike Spring under Broadcom, the JVM patching story has no paywall trap. Oracle patches all supported versions simultaneously in each quarterly CPU (like Windows Patch Tuesday, unlike RHEL). And critically, the OpenJDK ecosystem provides free backports:</p>
+
+<div class="card">
+<table style="font-size:.86em">
+<thead><tr><th>Java version</th><th>Oracle free updates</th><th>Free backport source</th><th>Status</th></tr></thead>
+<tbody>
+<tr><td>Java 8</td><td>Ended Jan 2019</td><td>Red Hat (OpenJDK 8u), Adoptium, Amazon Corretto</td><td class="yes">Active — free patches within days of Oracle CPU</td></tr>
+<tr><td>Java 11</td><td>Ended Sep 2023</td><td>Red Hat (OpenJDK 11u), Adoptium, Amazon Corretto</td><td class="yes">Active — same</td></tr>
+<tr><td>Java 17</td><td>Through Sep 2026</td><td>Oracle + community</td><td class="yes">Active</td></tr>
+<tr><td>Java 21</td><td>Through Sep 2028</td><td>Oracle + community</td><td class="yes">Active</td></tr>
+</tbody>
+</table>
+<p class="footnote">Red Hat took over maintenance of OpenJDK 8u and 11u. Adoptium/Temurin builds follow within days of each Oracle CPU. There is no Broadcom-style commercial gate — Java 8 users on Adoptium get the same security patches as Java 21 users, for free, on roughly the same schedule.</p>
+</div>
+
+<div class="callout callout-finding">
+<strong>The JVM evergreening story in one sentence:</strong> Java 11 was a genuine security discontinuity that eliminated the entire historically-exploited attack surface. Everything after that is flat — same CVEs, same patches, same day. The JVM doesn't have a lifecycle trap because the open-source ecosystem provides free backports indefinitely. The case for JVM evergreening is Java 8→11 (strong) and 11→17+ (weak, and you trade old-version-only CVEs for new-version-only CVEs at roughly the same rate).
+</div>
+
+<h3>Zero modern exploitation</h3>
+
+<p>Perhaps the most striking finding: <strong>no Java SE CVE from 2017 onward appears in CISA KEV.</strong> The JVM itself hasn't been confirmed exploited in the wild in nearly a decade. All modern Java-ecosystem exploitation happens at the library layer (Log4Shell) or application server layer (WebLogic deserialization, 11 KEV entries). The platform is generating CVEs — 28-37 per year — but attackers aren't using them. This is consistent with the broader pattern: CVSS score alone doesn't predict exploitation.</p>
+
+<div class="chart-wrap">
+<h3>Java SE CVEs by Year (Oracle CPU)</h3>
+<canvas id="jvmChart"></canvas>
+</div>
+
 <!-- ===== RHEL ===== -->
-<h2>2. RHEL — Newer Kernels, More Attack Surface</h2>
+<h2>3. RHEL — Newer Kernels, More Attack Surface</h2>
 
 <p>Compare staying on RHEL 6 (kernel 2.6.32, GA 2010) vs evergreening to RHEL 8 (kernel 4.18, GA 2019) → RHEL 9 (kernel 5.14, GA 2022) as each became available.</p>
 
@@ -431,7 +544,7 @@ code{background:#f1f5f9;padding:2px 6px;border-radius:4px;font-size:.88em}
 </div>
 
 <!-- ===== WINDOWS ===== -->
-<h2>3. Windows Server — More Features, More CVEs</h2>
+<h2>4. Windows Server — More Features, More CVEs</h2>
 
 <p>Compare staying on Windows Server 2016 vs evergreening to Server 2019 (Oct 2018) → Server 2022 (Aug 2021) as each became available.</p>
 
@@ -509,15 +622,15 @@ code{background:#f1f5f9;padding:2px 6px;border-radius:4px;font-size:.88em}
 <p><strong>So evergreening Windows Server doesn't help with patch speed</strong> — it helps with patch <em>scope</em> (more CVEs get fixed because more subsystems exist) and exploitation mitigations (Secured Core, HVCI). The speed is the same regardless of version.</p>
 
 <!-- ===== SYNTHESIS ===== -->
-<h2>4. Synthesis: What Actually Reduces CVE Exposure?</h2>
+<h2>5. Synthesis: What Actually Reduces CVE Exposure?</h2>
 
 <div class="card">
-<p>Across all three axes, the same pattern emerges:</p>
+<p>Across all four layers — libraries, JVM platform, RHEL, Windows — the same pattern emerges:</p>
 
 <table>
 <thead><tr><th>Strategy</th><th>Reduces CVE count?</th><th>Reduces exploitation risk?</th><th>Mechanism</th></tr></thead>
 <tbody>
-<tr><td><strong>Evergreening</strong> (new major versions)</td><td><span class="tag tag-red">No — equal or more</span></td><td><span class="tag tag-green">Yes</span></td><td>Exploitation mitigations, faster RHEL patches (days→weeks lead), legacy protocol removal. Lifecycle coverage matters theoretically (Spring 5.x: 7 unpatched C/H CVEs post-EOL) but unpatched CVEs aren't being exploited so far.</td></tr>
+<tr><td><strong>Evergreening</strong> (new major versions)</td><td><span class="tag tag-red">No — equal or more</span></td><td><span class="tag tag-green">Yes (with one exception)</span></td><td>Exploitation mitigations (RHEL, Windows), legacy surface removal (JVM: Java 11 eliminated all 13 KEV entries). But new versions introduce new bugs (Psychic Signatures, Spring4Shell). Spring 5.x post-EOL is accumulating NP+DI-class CVEs with no free patches — but none are being exploited.</td></tr>
 <tr><td><strong>Patch currency</strong> (latest minor/patch)</td><td><span class="tag tag-green">Yes</span></td><td><span class="tag tag-green">Yes</span></td><td>26 of 28 Java CVEs fixed by point releases within existing major lines</td></tr>
 <tr><td><strong>Dependency pruning</strong> (drop unused libs)</td><td><span class="tag tag-green">Yes</span></td><td><span class="tag tag-green">Yes</span></td><td>Dropping XStream alone eliminates 6 of 28 CVEs regardless of generation</td></tr>
 <tr><td><strong>NP+DI filter</strong></td><td><span class="tag tag-green">Yes (80% reduction)</span></td><td><span class="tag tag-green">Yes</span></td><td>Works identically across generations — fires on CVE structure, not version</td></tr>
@@ -539,6 +652,26 @@ code{background:#f1f5f9;padding:2px 6px;border-radius:4px;font-size:.88em}
 </div><!-- /container -->
 
 <script>
+// JVM CVEs by year (Oracle CPU)
+new Chart(document.getElementById('jvmChart'), {
+    type: 'bar',
+    data: {
+        labels: ['2018','2019','2020','2021','2022','2023','2024','2025'],
+        datasets: [
+            {label:'Critical',data:[4,2,1,2,0,0,0,0],backgroundColor:'#ef4444',borderRadius:3},
+            {label:'High',data:[20,5,10,3,3,2,4,8],backgroundColor:'#f59e0b',borderRadius:3},
+            {label:'Medium+Low',data:[32,37,36,25,33,19,28,6],backgroundColor:'#94a3b8',borderRadius:3}
+        ]
+    },
+    options: {
+        scales: {
+            y:{beginAtZero:true,stacked:true,title:{display:true,text:'Java SE CVEs'},grid:{color:'rgba(226,232,240,.6)'}},
+            x:{stacked:true,grid:{display:false}}
+        },
+        plugins:{legend:{position:'top',labels:{boxWidth:12}}}
+    }
+});
+
 // RHEL kernel advisories chart
 new Chart(document.getElementById('rhelChart'), {
     type: 'bar',
