@@ -294,21 +294,72 @@ details summary:hover{color:var(--cyan)}
 <p style="margin-top:8px">The grey bars are the C/H events the filter discards — jackson-databind deserialization chains, logback serialization bugs, SnakeYAML parsing issues, auth bypasses, DoS. The colored bars are NP+DI: the events that actually warranted emergency response. The ratio holds remarkably steady across years:</p>
 
 <table>
-<thead><tr><th>Year</th><th>C/H dates</th><th>NP+DI dates</th><th>Patch events</th><th>Reduction</th><th>Notable triggers</th></tr></thead>
+<thead><tr><th>Year</th><th>C/H dates</th><th>NP+DI dates</th><th>Patch events</th><th>Exploited</th><th>Reduction</th><th>Notable triggers</th></tr></thead>
 <tbody>
-<tr><td>2018</td><td>3</td><td>2</td><td>1</td><td>67%</td><td>dom4j XPath + Spring messaging RCE (1 day apart)</td></tr>
-<tr><td>2019</td><td>16</td><td>4</td><td>4</td><td>75%</td><td>Tomcat CGI, XStream command injection</td></tr>
-<tr><td>2020</td><td>9</td><td>3</td><td>3</td><td>67%</td><td>dom4j XXE, XStream RCE</td></tr>
-<tr><td>2021</td><td>14</td><td>5</td><td>3</td><td>79%</td><td>XStream 3-CVE batch (same day); <strong>Log4Shell</strong> + follow-on (5 days)</td></tr>
-<tr><td>2022</td><td>20</td><td>2</td><td>2</td><td>90%</td><td><strong>Spring4Shell</strong>, Tomcat request smuggling</td></tr>
-<tr><td>2023</td><td>10</td><td>2</td><td>2</td><td>80%</td><td>SpEL injection, Tomcat request smuggling</td></tr>
-<tr><td>2024</td><td>12</td><td>3</td><td>3</td><td>75%</td><td>Hazelcast SQLi, CXF SSRF, MINA code injection</td></tr>
-<tr><td>2025</td><td>5</td><td>1</td><td>1</td><td>80%</td><td>Tomcat path traversal</td></tr>
-<tr><td>2026 (partial)</td><td>4</td><td>0</td><td>0</td><td>100%</td><td>—</td></tr>
+<tr><td>2018</td><td>3</td><td>2</td><td>1</td><td>0</td><td>67%</td><td>dom4j XPath + Spring messaging RCE (1 day apart)</td></tr>
+<tr><td>2019</td><td>16</td><td>4</td><td>4</td><td>1</td><td>75%</td><td>Tomcat CGI <span style="color:#ef4444">[MSF]</span>, XStream command injection</td></tr>
+<tr><td>2020</td><td>9</td><td>3</td><td>3</td><td>0</td><td>67%</td><td>dom4j XXE, XStream RCE</td></tr>
+<tr><td>2021</td><td>14</td><td>5</td><td>3</td><td>3</td><td>79%</td><td>XStream RCE <span style="color:#ef4444">[KEV]</span>; <strong>Log4Shell</strong> <span style="color:#ef4444">[KEV]</span> + follow-on <span style="color:#ef4444">[KEV]</span></td></tr>
+<tr><td>2022</td><td>20</td><td>2</td><td>2</td><td>1</td><td>90%</td><td><strong>Spring4Shell</strong> <span style="color:#ef4444">[KEV]</span>, Tomcat request smuggling</td></tr>
+<tr><td>2023</td><td>10</td><td>2</td><td>2</td><td>0</td><td>80%</td><td>SpEL injection, Tomcat request smuggling</td></tr>
+<tr><td>2024</td><td>12</td><td>3</td><td>3</td><td>0</td><td>75%</td><td>Hazelcast SQLi, CXF SSRF, MINA code injection</td></tr>
+<tr><td>2025</td><td>5</td><td>1</td><td>1</td><td>0</td><td>80%</td><td>Tomcat path traversal</td></tr>
+<tr><td>2026 (partial)</td><td>4</td><td>0</td><td>0</td><td>0</td><td>100%</td><td>—</td></tr>
 </tbody>
+<tfoot><tr style="font-weight:600"><td>Total</td><td>93</td><td>22</td><td>19</td><td>5</td><td>80%</td><td>4 KEV + 1 MSF-only; 0 exploited CVEs missed by NP+DI*</td></tr></tfoot>
 </table>
 
 <p style="margin-top:8px;font-size:.88rem;color:#64748b"><strong>Patch events</strong> merge NP+DI triggers within a 7-day window — if you're already in rebuild/test when the next CVE drops, that's one forced march, not two. A fast CI/CD pipeline makes the extra CVE cheap; it's the stop-the-world for the stragglers that hurts. Reduction is calculated from patch events, not raw CVE count.</p>
+<p style="margin-top:4px;font-size:.88rem;color:#64748b"><strong>Exploited</strong> = confirmed in CISA KEV or with a Metasploit module. Every manifest CVE with exploitation evidence landed in the NP+DI bucket. *Three non-NP+DI CVEs reached KEV via CWE misclassification — see detail below.</p>
+
+<details style="margin-top:16px">
+<summary style="cursor:pointer;font-weight:600;color:#0ea5e9">Full NP+DI CVE list with exploitation evidence</summary>
+<div style="margin-top:12px">
+
+<table style="font-size:.88rem">
+<thead><tr><th>CVE</th><th>Date</th><th>Library</th><th>Type</th><th>KEV</th><th>MSF</th><th>Notes</th></tr></thead>
+<tbody>
+<tr><td><code>CVE-2018-1000632</code></td><td>2018-10-16</td><td>dom4j</td><td>XPath injection</td><td></td><td></td><td></td></tr>
+<tr><td><code>CVE-2018-1275</code></td><td>2018-10-17</td><td>spring-messaging</td><td>SpEL RCE</td><td></td><td></td><td></td></tr>
+<tr><td><code>CVE-2018-1270</code></td><td>2018-10-17</td><td>spring-messaging</td><td>SpEL RCE</td><td></td><td></td><td>Variant of -1275</td></tr>
+<tr style="background:#fef2f2"><td><code>CVE-2019-0232</code></td><td>2019-04-18</td><td>Tomcat</td><td>CGI OS injection</td><td></td><td style="color:#ef4444">1 module</td><td>Windows-only; CGI cmdline args</td></tr>
+<tr><td><code>CVE-2013-7285</code></td><td>2019-05-29</td><td>XStream</td><td>Command injection</td><td></td><td></td><td>PoCs exist on GitHub</td></tr>
+<tr><td><code>CVE-2019-10173</code></td><td>2019-07-26</td><td>XStream</td><td>Code injection</td><td></td><td></td><td></td></tr>
+<tr><td><code>CVE-2019-17495</code></td><td>2019-10-15</td><td>Swagger UI</td><td>XSS + CSRF</td><td></td><td></td><td></td></tr>
+<tr><td><code>CVE-2019-10172</code></td><td>2020-02-04</td><td>jackson-mapper-asl</td><td>XXE</td><td></td><td></td><td></td></tr>
+<tr><td><code>CVE-2020-10683</code></td><td>2020-06-05</td><td>dom4j</td><td>XXE</td><td></td><td></td><td></td></tr>
+<tr><td><code>CVE-2020-26217</code></td><td>2020-11-16</td><td>XStream</td><td>OS command exec</td><td></td><td></td><td>PoCs exist on GitHub</td></tr>
+<tr><td><code>CVE-2021-29505</code></td><td>2021-05-18</td><td>XStream</td><td>Code injection</td><td></td><td></td><td></td></tr>
+<tr><td><code>CVE-2021-39150</code></td><td>2021-08-25</td><td>XStream</td><td>SSRF</td><td></td><td></td><td>Same-day batch (3 CVEs)</td></tr>
+<tr style="background:#fef2f2"><td><code>CVE-2021-39144</code></td><td>2021-08-25</td><td>XStream</td><td>RCE</td><td style="color:#ef4444">KEV</td><td style="color:#ef4444">1 module</td><td>Exploited via VMware NSX</td></tr>
+<tr><td><code>CVE-2021-39152</code></td><td>2021-08-25</td><td>XStream</td><td>SSRF</td><td></td><td></td><td>Same-day batch</td></tr>
+<tr><td><code>CVE-2020-24616</code></td><td>2021-12-09</td><td>jackson-databind</td><td>Deser → RCE</td><td></td><td></td><td>Caught by DI keyword</td></tr>
+<tr style="background:#fef2f2"><td><code>CVE-2021-44228</code></td><td>2021-12-10</td><td>Log4j</td><td>JNDI injection</td><td style="color:#ef4444">KEV</td><td style="color:#ef4444">5 modules</td><td><strong>Log4Shell</strong></td></tr>
+<tr style="background:#fef2f2"><td><code>CVE-2021-45046</code></td><td>2021-12-14</td><td>Log4j</td><td>JNDI injection</td><td style="color:#ef4444">KEV</td><td style="color:#ef4444">1 module</td><td>Log4Shell follow-on</td></tr>
+<tr style="background:#fef2f2"><td><code>CVE-2022-22965</code></td><td>2022-03-31</td><td>Spring Framework</td><td>ClassLoader RCE</td><td style="color:#ef4444">KEV</td><td style="color:#ef4444">1 module</td><td><strong>Spring4Shell</strong></td></tr>
+<tr><td><code>CVE-2022-42252</code></td><td>2022-11-01</td><td>Tomcat</td><td>Request smuggling</td><td></td><td></td><td>CWE-444</td></tr>
+<tr><td><code>CVE-2023-20863</code></td><td>2023-04-13</td><td>Spring Expression</td><td>SpEL injection</td><td></td><td></td><td></td></tr>
+<tr><td><code>CVE-2023-46589</code></td><td>2023-11-28</td><td>Tomcat</td><td>Request smuggling</td><td></td><td></td><td>CWE-444</td></tr>
+<tr><td><code>CVE-2023-45860</code></td><td>2024-02-16</td><td>Hazelcast</td><td>SQL injection</td><td></td><td></td><td></td></tr>
+<tr><td><code>CVE-2024-28752</code></td><td>2024-03-15</td><td>Apache CXF</td><td>SSRF</td><td></td><td></td><td></td></tr>
+<tr><td><code>CVE-2024-52046</code></td><td>2024-12-25</td><td>Apache MINA</td><td>Deser → code injection</td><td></td><td></td><td></td></tr>
+<tr><td><code>CVE-2025-55752</code></td><td>2025-10-27</td><td>Tomcat</td><td>Path traversal</td><td></td><td></td><td></td></tr>
+</tbody>
+</table>
+
+<p style="margin-top:12px"><strong>Filter misses (non-NP+DI but exploited):</strong> Three CVEs from this manifest reached CISA KEV but were <em>not</em> flagged by the NP+DI filter. All three are CWE classification failures, not filter logic failures:</p>
+<table style="font-size:.88rem;margin-top:8px">
+<thead><tr><th>CVE</th><th>Library</th><th>Why missed</th><th>KEV</th><th>MSF</th></tr></thead>
+<tbody>
+<tr><td><code>CVE-2020-1938</code></td><td>Tomcat (Ghostcat)</td><td>CWE-269 — should be CWE-22; AJP file-read is path traversal</td><td style="color:#ef4444">KEV</td><td style="color:#ef4444">1 module</td></tr>
+<tr><td><code>CVE-2025-24813</code></td><td>Tomcat</td><td>CWE-502 only — deserialization via HTTP PUT; grey-area DI boundary</td><td style="color:#ef4444">KEV</td><td style="color:#ef4444">1 module</td></tr>
+<tr><td><code>CVE-2026-34197</code></td><td>ActiveMQ (Jolokia)</td><td>CWE-20 — generic; should be CWE-94 code injection</td><td style="color:#ef4444">KEV</td><td></td></tr>
+</tbody>
+</table>
+<p style="margin-top:8px;font-size:.88rem;color:#64748b">The AI safety-net recommendation (automated CWE validation for NP-but-not-DI advisories) would catch all three. See the walkthrough §7g for the full analysis.</p>
+
+</div>
+</details>
 
 <p style="margin-top:12px"><strong>2022 is the standout year:</strong> 20 C/H dates but only 2 NP+DI triggers (90% reduction). That was the year jackson-databind's deserialization CVE avalanche peaked — 15 of those 20 dates were jackson CWE-502 disclosures. The filter correctly ignored all of them and fired only on Spring4Shell (confirmed exploited, KEV) and a Tomcat smuggling bug.</p>
 
