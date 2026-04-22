@@ -341,7 +341,7 @@ details summary:hover{color:var(--cyan)}
 </div>
 
 <div class="card">
-<p>The NP+DI filter that drives emergency rebuilds at the app layer produced <strong>zero events</strong> at the OS layer in 12 months. The OS layer's 69 C/H CVEs break down: 48 NETWORK (69%) — mostly in sqlite (keyword noise from downstream wrappers), systemd, and zlib — plus 21 LOCAL (30%) and 2 PHYSICAL (3%). None of the network-vector CVEs were direct injection (CWE-78, CWE-22, CWE-89, etc.).</p>
+<p>The NP+DI filter that drives emergency rebuilds at the app layer produced <strong>zero events</strong> at the OS layer in 12 months. The OS layer's 69 C/H CVEs break down: 48 NETWORK (69%) — mostly in sqlite (keyword noise from downstream wrappers), systemd, and zlib — plus 21 LOCAL (30%) and 2 PHYSICAL (3%). None of the network-vector CVEs were direct injection (CWE-78, CWE-22, CWE-89, CWE-444, etc.).</p>
 <p style="margin-top:8px">This means: <strong>the OS layer does not generate independent emergency rebuild triggers under the NP+DI filter.</strong> If you only rebuilt the container when the OS layer demanded it (NP+DI), you'd never rebuild at all. The app layer is what drives the cadence.</p>
 </div>
 

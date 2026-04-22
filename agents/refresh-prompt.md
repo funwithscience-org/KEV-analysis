@@ -186,7 +186,7 @@ For each, query OSV and filter results to advisories with:
 
 **NP+DI filter criteria** (apply to all three sources):
 - **Network Parser**: vulnerable component parses untrusted network input (HTTP, TLS, DNS, SMTP, template expressions, auth tokens)
-- **Direct Injection CWE**: CWE-78, -77, -22, -23, -36, -94, -95, -89, -918, -917, -1336, -116, -74, -75, -113, -93, -611, -91, -90, -79
+- **Direct Injection CWE**: CWE-78, -77, -22, -23, -36, -94, -95, -89, -918, -917, -1336, -116, -74, -75, -113, -93, -611, -91, -90, -79, -444
 
 For flagged CVEs, record in the tracking JSON under `np_di_candidates`:
 ```json
