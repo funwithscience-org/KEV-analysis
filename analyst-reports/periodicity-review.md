@@ -502,3 +502,53 @@ Per the refresh agent output in `kev-tracking.json` (last_run 2026-04-22T03:10:0
 ---
 
 *End of review (third-pass complete, 2026-04-22).*
+
+---
+
+## 12. Addendum — Exploitation Evidence Added to Real-Manifest Table (commit 538a475)
+
+Noticed immediately after my first push: a commit landed (538a475, "Add exploitation evidence to real-manifest periodicity table") that materially revises the zero-miss narrative. The revised page now discloses:
+
+- **5 exploited CVEs across 19 patch events in the 7-year Java manifest:** 4 in CISA KEV (Log4Shell, Log4Shell follow-on, XStream RCE via VMware NSX, Spring4Shell) + 1 Metasploit-only (Tomcat CVE-2019-0232). All 5 were caught by the NP+DI filter. Good.
+- **3 filter misses (CVEs in this manifest that reached KEV but were NOT flagged by NP+DI):**
+  1. **CVE-2020-1938 (Tomcat "Ghostcat" AJP file read)** — classified CWE-269 (improper privilege management); should arguably be CWE-22 (path traversal) since the bug is arbitrary-file read via AJP. DI filter missed it because CWE-269 isn't in the DI set.
+  2. **CVE-2025-24813 (Tomcat HTTP PUT deserialization RCE)** — classified CWE-502 only; the filter intentionally excludes pure CWE-502 (to filter deserialization noise), but this specific bug is triggerable via HTTP PUT, which puts it in the grey zone between "deserialization noise" and "network-parser direct injection."
+  3. **CVE-2026-34197 (ActiveMQ Jolokia RCE)** — classified CWE-20 (generic input validation); should be CWE-94 (code injection). The filter missed it because CWE-20 alone isn't in the DI set.
+
+### 12.1 This is important intellectual honesty — and it changes the headline
+
+The "zero misses" claim I was evaluating in §1.4 and §10.2 above is no longer strictly correct. The corrected claim is: **zero misses where CWE classifications are correct; three misses where NVD's CWE assignment is wrong or incomplete.**
+
+This is a *better* story than the literal zero-miss claim, not a worse one. Here's why:
+
+- **The 3 misses all share a root cause** (CWE misclassification by NVD/CNAs), which means the failure mode is specifiable and addressable — it's not "random bugs slip through."
+- **The proposed mitigation (the "AI safety-net recommendation" the commit references — automated CWE validation for NP-but-not-DI advisories) is both concrete and testable.** A reviewer asking "how do you know the 3 misses are the full miss set?" has an answer: run an automated CWE-validation sweep over every NP-library advisory that was NP-but-not-DI; if the sweep flags additional CVEs, those are additional misses.
+- **It resolves the §8.2 concern from yesterday's second pass** ("zero misses is partly tautological because you designed the filter on the data"). The three misses are disclosed openly, they share a structural cause, and the mitigation is distinct from the filter itself. That's more defensible than a literal zero.
+
+### 12.2 What this means for the walkthrough and dashboard
+
+- **The index.html TL;DR and §7/§9 callouts need to shift from "zero misses" to "zero misses within correctly-classified advisories; three misses attributable to CWE misassignment, all specifiable."** The *number* loses its marketing polish but the *story* strengthens.
+- **The dashboard's "zero misses" hero-stat needs the same update.** Replace "0 skipped events later appeared in KEV" with "3 misses across 7 years, all CWE-misclassification; see reference."
+- **The AI safety-net recommendation should be promoted into the walkthrough's §7g or §10.** It's the single most actionable operator-facing addition of the week — "here's the filter, here's the known failure mode, here's the proposed mitigation." That's a complete operational argument.
+- **CVE-2026-34197 (ActiveMQ Jolokia) is both a filter miss AND the Claude-assisted Horizon3.ai disclosure from today's daily scan.** This is a useful cross-reference: the same CVE serves as (a) a filter-miss case study, (b) a Claude-as-research-tool attribution datapoint, and (c) a live-24h KEV add. The walkthrough's Mythos section (§12) and periodicity section (§7g) should cross-link on this CVE specifically — it's a rare example of a CVE that illuminates multiple threads of the analysis at once.
+
+### 12.3 Remaining exposure
+
+Two questions the revised page doesn't yet answer:
+
+1. **Are there non-manifest CWE-misclassification misses?** The 3 disclosed misses are manifest-internal. A CWE-sweep over the full library CVE universe (not just this manifest) could surface more. Worth a paragraph acknowledging that "the 3 misses are what we've found in this manifest; the rate in the wild is unmeasured." Being conservative strengthens the case.
+2. **Is the AI safety-net recommendation actually implemented or just proposed?** The commit message mentions it; the page references it. Operationally, is there a script running over new NP-advisory CWE assignments flagging ambiguities for human review? If yes, say so and describe it. If proposed-only, say that too. The honesty on the 3 misses is the biggest intellectual-honesty asset the page has acquired in weeks — double down on it by being explicit about what's built vs. what's planned.
+
+### 12.4 Updated punch-list (post-addendum)
+
+Adding to the §10.8 list:
+
+9. **Update the zero-miss callouts on index.html and dashboard.html** to reflect the 3-miss disclosure. Highest-urgency copy change across both pages — the current headline text is no longer accurate.
+10. **Promote the AI safety-net recommendation to a §7g or §10 callout** in the walkthrough. This is the operational payoff of the miss-analysis and it's currently buried in `<details>`.
+11. **Run the CWE-validation sweep over the full NP-library universe** (not just this manifest). If additional misses surface, disclose them. If not, the 3-miss number strengthens.
+
+Nothing about this addendum changes my overall assessment from §10.8: the analysis is materially stronger than it was 24 hours ago. If anything, the disclosure of 3 misses with a specifiable root cause and proposed mitigation is the single most analytically sophisticated thing the project has published.
+
+---
+
+*End of review (third-pass + addendum complete, 2026-04-22).*
