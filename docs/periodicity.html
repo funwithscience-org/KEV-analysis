@@ -552,27 +552,36 @@ details summary:hover{color:var(--cyan)}
 <tr><td>EPSS ≥ 0.10</td><td>59</td><td>33</td><td>10/10</td><td>0</td></tr>
 <tr><td>EPSS ≥ 0.30</td><td>42</td><td>24</td><td>10/10</td><td>0</td></tr>
 <tr><td>EPSS ≥ 0.50</td><td>32</td><td>21</td><td>10/10</td><td>0</td></tr>
-<tr style="background:#f0f9ff"><td><strong>NP+DI</strong></td><td><strong>25</strong></td><td><strong>19</strong></td><td><strong>5/10</strong></td><td><strong>5</strong></td></tr>
+<tr style="background:#f0f9ff"><td><strong>NP+DI</strong></td><td><strong>25</strong></td><td><strong>19</strong></td><td><strong>5/8*</strong></td><td><strong>3*</strong></td></tr>
 <tr><td>EPSS ≥ 0.70</td><td>22</td><td>16</td><td>9/10</td><td>1</td></tr>
 <tr><td>EPSS ≥ 0.90</td><td>14</td><td>13</td><td>9/10</td><td>1</td></tr>
 </tbody>
 </table>
-<p style="margin-top:8px">At roughly the same cost (~19–21 patch events), NP+DI catches 5 and EPSS ≥ 0.50 catches all 10. On pure recall EPSS wins. But the two filters are doing different things, and the misses tell the real story.</p>
+<p style="margin-top:8px">*NP+DI is scored against the 8 exploited CVEs in its scope (network-parser libraries). Two exploited CVEs — commons-text (not a network parser) and SnakeYAML (deserialization, deliberately excluded) — are out of scope, not misses. The 3 actual misses are all CWE misclassification on network parsers. EPSS is scored against all 10 regardless of scope.</p>
+<p style="margin-top:8px">At roughly the same cost (~19–21 patch events), NP+DI catches 5/8 in-scope and EPSS ≥ 0.50 catches 10/10 across all categories. The misses tell the real story:</p>
 </div>
 
 <div class="card">
-<p><strong>What NP+DI misses (5 CVEs):</strong></p>
+<p><strong>The 3 NP+DI misses</strong> (network-parser CVEs with broken CWE metadata):</p>
 <table style="font-size:.88rem">
-<thead><tr><th>CVE</th><th>Library</th><th>EPSS</th><th>Why NP+DI missed</th></tr></thead>
+<thead><tr><th>CVE</th><th>Library</th><th>EPSS</th><th>Why the filter missed</th></tr></thead>
 <tbody>
-<tr><td><code>CVE-2020-1938</code></td><td>Tomcat (Ghostcat)</td><td>0.945</td><td>CWE-269 misclass — should be CWE-22</td></tr>
+<tr><td><code>CVE-2020-1938</code></td><td>Tomcat (Ghostcat)</td><td>0.945</td><td>CWE-269 misclass — should be CWE-22 path traversal</td></tr>
 <tr><td><code>CVE-2025-24813</code></td><td>Tomcat</td><td>0.942</td><td>CWE-502 only — deser via HTTP PUT, DI boundary grey area</td></tr>
-<tr><td><code>CVE-2026-34197</code></td><td>ActiveMQ</td><td>0.596</td><td>CWE-20 generic — should be CWE-94</td></tr>
-<tr><td><code>CVE-2022-42889</code></td><td>commons-text</td><td>0.943</td><td>Not a network parser — text interpolation library</td></tr>
-<tr><td><code>CVE-2022-1471</code></td><td>SnakeYAML</td><td>0.938</td><td>NP but CWE-502 deser — not direct injection</td></tr>
+<tr><td><code>CVE-2026-34197</code></td><td>ActiveMQ</td><td>0.596</td><td>CWE-20 generic — should be CWE-94 code injection</td></tr>
 </tbody>
 </table>
-<p style="margin-top:8px">Three are CWE misclassification on network parsers (the AI safety-net would catch these). One is a non-network-parser library (commons-text). One is deserialization that NP+DI deliberately filters. EPSS catches all five because it doesn't care about CWE accuracy — it reads the exploitation signal directly.</p>
+<p style="margin-top:8px">All three are CWE classification failures, not filter logic failures. The AI safety-net (automated CWE validation for NP-but-not-DI advisories) would catch all three. EPSS catches them because it reads exploitation signal directly and doesn't depend on CWE accuracy.</p>
+
+<p style="margin-top:12px"><strong>2 additional exploited CVEs are out of NP+DI's scope:</strong></p>
+<table style="font-size:.88rem">
+<thead><tr><th>CVE</th><th>Library</th><th>EPSS</th><th>Why out of scope</th></tr></thead>
+<tbody>
+<tr><td><code>CVE-2022-42889</code></td><td>commons-text</td><td>0.943</td><td>Not a network parser — text interpolation library used app-internally</td></tr>
+<tr><td><code>CVE-2022-1471</code></td><td>SnakeYAML</td><td>0.938</td><td>Deserialization (CWE-502) — deliberately excluded; requires gadget-chain context</td></tr>
+</tbody>
+</table>
+<p style="margin-top:8px">These aren't filter failures — the filter correctly identifies them as not matching NP+DI criteria. commons-text doesn't parse network input. SnakeYAML deserialization requires an attacker who already controls YAML input. EPSS flags both because high-profile deserialization CVEs accumulate exploitation signal regardless of reachability.</p>
 </div>
 
 <div class="card">
@@ -581,8 +590,8 @@ details summary:hover{color:var(--cyan)}
 </div>
 
 <div class="callout callout-warning">
-<strong>NP+DI and EPSS are complementary, not competing.</strong> NP+DI is a structural filter — it asks "can an attacker reach this from the network on day zero?" EPSS is a behavioral filter — it asks "is anyone actually targeting this?" NP+DI catches threats before EPSS has signal (9 NP+DI triggers score below EPSS 0.10, including recent Tomcat path traversals and Hazelcast SQLi). EPSS catches things with broken CWE metadata that NP+DI can't see through.
-<p style="margin-top:8px">The practical answer may be the union: NP+DI as the structural baseline (fires immediately on disclosure), with EPSS ≥ 0.50 as a second-look for anything the filter skipped. That costs ~28 patch events over 7 years (3.5/year) and catches all 10 exploited CVEs. Whether the extra 9 events over NP+DI alone are worth it depends on your rebuild cost.</p>
+<strong>NP+DI and EPSS are complementary, not competing.</strong> NP+DI is a structural filter — it asks "can an attacker reach this from the network on day zero?" EPSS is a behavioral filter — it asks "is anyone actually targeting this?" NP+DI catches threats before EPSS has signal (9 NP+DI triggers score below EPSS 0.10, including recent Tomcat path traversals and Hazelcast SQLi). EPSS catches things with broken CWE metadata that NP+DI can't see through, plus high-profile deserialization CVEs that NP+DI deliberately excludes.
+<p style="margin-top:8px">The practical answer may be the union: NP+DI as the structural baseline (fires immediately on disclosure), with EPSS ≥ 0.50 as a second-look for anything the filter skipped. That costs ~28 patch events over 7 years (3.5/year) and catches all 10 exploited CVEs — including the 3 CWE-misclassified misses and the 2 out-of-scope deserialization CVEs. Whether the extra 9 events over NP+DI alone are worth it depends on your rebuild cost.</p>
 </div>
 
 <h3>2. CISA KEV — Known Exploited Vulnerabilities</h3>
@@ -660,7 +669,7 @@ details summary:hover{color:var(--cyan)}
 
 <div class="callout callout-good">
 <strong>The 12-month synthetic stacks have zero misses.</strong> Across every validation source, nothing the filter deprioritized in the 12-month window accumulated meaningful exploitation evidence. The 113 non-trigger CVEs have zero KEV entries, zero Metasploit modules, and one ExploitDB entry (a sqlite heap overflow requiring local access). CVE-2026-1207 (Django SQLi) has converged across three independent sources: EPSS top trigger score (89th percentile), ExploitDB exploit code, and active Nuclei scanning template. <a href="cve-reference.html" style="color:var(--cyan)">Every CVE's classification and reasoning is auditable →</a>
-<p style="margin-top:8px"><strong>The 7-year real manifest tells a more honest story:</strong> NP+DI catches 5 of 10 confirmed-exploited CVEs. The 5 misses are 3 CWE misclassifications on network parsers, 1 non-network-parser library (commons-text), and 1 deliberate deserialization exclusion (SnakeYAML). EPSS ≥ 0.50 catches all 10 at roughly the same patch-event cost (~21 vs ~19). The two filters are complementary — NP+DI fires immediately on disclosure before EPSS has signal; EPSS catches what broken CWE metadata hides from NP+DI.</p>
+<p style="margin-top:8px"><strong>The 7-year real manifest tells a more honest story:</strong> NP+DI catches 5 of 8 in-scope exploited CVEs. The 3 misses are all CWE misclassification on network parsers (Ghostcat, Tomcat PUT, ActiveMQ). Two additional exploited CVEs (commons-text, SnakeYAML) are out of NP+DI's scope entirely. EPSS ≥ 0.50 catches all 10 at roughly the same patch-event cost (~21 vs ~19). The two filters are complementary — NP+DI fires immediately on disclosure before EPSS has signal; EPSS catches what broken CWE metadata hides from NP+DI.</p>
 <p style="margin-top:8px">The one CVE that lit up every exploitation source in the 12-month window (CVE-2025-14847, zlib — KEV, Metasploit, EPSS 0.77) is a non-trigger, exploited through MongoDB's wire protocol, not through the Spring/Node/Django apps. <strong>Deployment context matters:</strong> the filter correctly treats it as non-triggering for these applications even though it's genuinely dangerous elsewhere.</p>
 </div>
 
