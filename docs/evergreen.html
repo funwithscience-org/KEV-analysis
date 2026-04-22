@@ -273,6 +273,44 @@ code{background:#f1f5f9;padding:2px 6px;border-radius:4px;font-size:.88em}
 <p style="margin-top:8px">During RHEL 6's full support phase (pre-Nov 2020), patch delivery was roughly comparable. The evergreening benefit is entirely about staying inside the support window where Red Hat actively patches everything.</p>
 </div>
 
+<h3>Patch delivery speed: newer = faster</h3>
+
+<p>Even when a CVE affects both old and new RHEL versions, the newer version gets the patch first. We pulled advisory dates from the Red Hat Security Data API for kernel CVEs that were patched on multiple RHEL versions.</p>
+
+<div class="card">
+<p><strong>Full support overlap (2018–2020)</strong> — RHEL 6, 7, and 8 all actively supported:</p>
+<table style="font-size:.84em">
+<thead><tr><th>CVE</th><th>Name</th><th>RHEL 8</th><th>RHEL 7</th><th>RHEL 6</th><th>Gap</th></tr></thead>
+<tbody>
+<tr><td><code>CVE-2019-11477</code></td><td>SACK Panic</td><td>Jun 17</td><td>Jun 17</td><td>Jun 17</td><td style="color:var(--green)">0 days</td></tr>
+<tr><td><code>CVE-2019-11135</code></td><td>TSX Async Abort</td><td>Nov 12</td><td>Nov 12</td><td>Nov 12</td><td style="color:var(--green)">0 days</td></tr>
+<tr><td><code>CVE-2019-14835</code></td><td>vhost overflow</td><td>Sep 20</td><td>Sep 20</td><td>Sep 23</td><td>3 days</td></tr>
+<tr><td><code>CVE-2019-14821</code></td><td>KVM OOB</td><td>Nov 5</td><td>Nov 26</td><td>Dec 17</td><td style="color:var(--amber)">42 days</td></tr>
+<tr><td><code>CVE-2019-17666</code></td><td>rtlwifi overflow</td><td>Feb 4</td><td>Mar 9</td><td>Apr 22</td><td style="color:var(--red)">78 days</td></tr>
+<tr><td><code>CVE-2019-9503</code></td><td>brcmfmac</td><td>Sep 12</td><td>Mar 31 (+6mo)</td><td>—</td><td style="color:var(--red)">201 days</td></tr>
+</tbody>
+</table>
+<p class="footnote">Emergency/embargoed CVEs (SACK, TSX) ship same-day across all versions. Routine Important CVEs show RHEL 8 first, RHEL 6 last, with gaps of weeks to months. RHEL 6 never received a patch before RHEL 8 in any sample.</p>
+</div>
+
+<div class="card">
+<p><strong>Post-RHEL 6 EOL / ELS period (2021–2023):</strong></p>
+<table style="font-size:.84em">
+<thead><tr><th>CVE</th><th>Name</th><th>RHEL 9</th><th>RHEL 8</th><th>RHEL 7</th><th>RHEL 6 ELS</th><th>Gap</th></tr></thead>
+<tbody>
+<tr><td><code>CVE-2021-33909</code></td><td>Sequoia (root)</td><td>—</td><td>Jul 20</td><td>Jul 20</td><td>Jul 20</td><td style="color:var(--green)">0 days</td></tr>
+<tr><td><code>CVE-2020-29661</code></td><td>tty UAF</td><td>—</td><td>Feb 16</td><td>Feb 2</td><td>Apr 20</td><td style="color:var(--amber)">77 days</td></tr>
+<tr><td><code>CVE-2023-3776</code></td><td>cls_fw UAF</td><td>Sep 12</td><td>Sep 19</td><td>Nov 21</td><td>Apr 16 (+7mo)</td><td style="color:var(--red)">217 days</td></tr>
+<tr><td><code>CVE-2021-22555</code></td><td>netfilter OOB</td><td>—</td><td>Aug 10</td><td>Aug 31</td><td>Oct '25 (+4yr)</td><td style="color:var(--red)">1,522 days</td></tr>
+</tbody>
+</table>
+<p class="footnote">Critical/embargoed CVEs (Sequoia) still get same-day ELS treatment. Everything else: RHEL 6 ELS lags months to years. CVE-2021-22555 took over 4 years to reach RHEL 6 ELS.</p>
+</div>
+
+<div class="callout callout-finding">
+<strong>Evergreening buys patch speed, even when the CVE applies to all versions.</strong> During full support, the newest RHEL version leads by days to weeks. After EOL, the gap becomes months to years. The only exception: coordinated embargo disclosures where Red Hat ships all versions simultaneously.
+</div>
+
 <h3>The CIQ backporting caveat</h3>
 
 <p>CIQ (Rocky Linux) published research showing Red Hat's backporting rate declines sharply as a RHEL version ages — even during its supported lifecycle. RHEL 8.8 kernel commits showed decreasing backported fixes starting November 2021. Each new RHEL major version resets the backporting clock, but the same decay pattern repeats. Running the latest stable upstream kernel would be ideal, but vendor-frozen kernels are the enterprise reality.</p>
@@ -342,6 +380,24 @@ code{background:#f1f5f9;padding:2px 6px;border-radius:4px;font-size:.88em}
 <canvas id="winChart"></canvas>
 </div>
 
+<h3>Patch delivery speed: same day, always</h3>
+
+<p>Unlike RHEL, Windows Server patches ship simultaneously for all supported versions — every Patch Tuesday, every version gets its cumulative update on the same day. Verified across multiple months and including out-of-band emergency patches:</p>
+
+<div class="card">
+<table style="font-size:.88em">
+<thead><tr><th>Event</th><th>Server 2016</th><th>Server 2019</th><th>Server 2022</th><th>Server 2025</th></tr></thead>
+<tbody>
+<tr><td>April 2024 Patch Tuesday</td><td>Apr 9</td><td>Apr 9</td><td>Apr 9</td><td>—</td></tr>
+<tr><td>March 2026 Patch Tuesday</td><td>Mar 10</td><td>Mar 10</td><td>Mar 10</td><td>Mar 10</td></tr>
+<tr><td>April 2026 OOB emergency</td><td>Apr 19</td><td>Apr 19</td><td>Apr 19</td><td>Apr 19</td></tr>
+</tbody>
+</table>
+<p class="footnote">Microsoft's cumulative update model compiles fixes against all supported branches simultaneously. A version is either in support (same-day patches) or out of support (nothing). There's no RHEL-style ELS middle ground where fixes trickle in slowly.</p>
+</div>
+
+<p><strong>So evergreening Windows Server doesn't help with patch speed</strong> — it helps with patch <em>scope</em> (more CVEs get fixed because more subsystems exist) and exploitation mitigations (Secured Core, HVCI). The speed is the same regardless of version.</p>
+
 <!-- ===== SYNTHESIS ===== -->
 <h2>4. Synthesis: What Actually Reduces CVE Exposure?</h2>
 
@@ -351,7 +407,7 @@ code{background:#f1f5f9;padding:2px 6px;border-radius:4px;font-size:.88em}
 <table>
 <thead><tr><th>Strategy</th><th>Reduces CVE count?</th><th>Reduces exploitation risk?</th><th>Mechanism</th></tr></thead>
 <tbody>
-<tr><td><strong>Evergreening</strong> (new major versions)</td><td><span class="tag tag-red">No — equal or more</span></td><td><span class="tag tag-green">Yes</span></td><td>Lifecycle coverage, exploitation mitigations, legacy protocol removal</td></tr>
+<tr><td><strong>Evergreening</strong> (new major versions)</td><td><span class="tag tag-red">No — equal or more</span></td><td><span class="tag tag-green">Yes</span></td><td>Lifecycle coverage, exploitation mitigations, faster RHEL patches (days→weeks lead), legacy protocol removal</td></tr>
 <tr><td><strong>Patch currency</strong> (latest minor/patch)</td><td><span class="tag tag-green">Yes</span></td><td><span class="tag tag-green">Yes</span></td><td>26 of 28 Java CVEs fixed by point releases within existing major lines</td></tr>
 <tr><td><strong>Dependency pruning</strong> (drop unused libs)</td><td><span class="tag tag-green">Yes</span></td><td><span class="tag tag-green">Yes</span></td><td>Dropping XStream alone eliminates 6 of 28 CVEs regardless of generation</td></tr>
 <tr><td><strong>NP+DI filter</strong></td><td><span class="tag tag-green">Yes (80% reduction)</span></td><td><span class="tag tag-green">Yes</span></td><td>Works identically across generations — fires on CVE structure, not version</td></tr>
