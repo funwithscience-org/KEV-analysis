@@ -282,7 +282,7 @@ details summary:hover{color:var(--cyan)}
 
 <div class="card">
 <p>The synthetic stacks above test 12-month windows. Here we run the NP+DI filter against a <strong>real enterprise Java manifest</strong> (60 libraries from a portfolio of Spring apps) across its entire CVE history: Q4 2018 through Q2 2026.</p>
-<p style="margin-top:8px"><strong>93 distinct C/H trigger dates → 22 NP+DI trigger dates</strong> (76% reduction over 7+ years). The chart below shows quarterly vulnerability volume, with NP+DI triggers stacked against the noise they replace.</p>
+<p style="margin-top:8px"><strong>93 C/H dates → 22 NP+DI dates → 19 patch events</strong> (80% reduction over 7+ years). A "patch event" merges NP+DI triggers within a 7-day window — if you're already rebuilding when the next CVE drops, that's one cycle, not two. The chart below shows quarterly vulnerability volume, with NP+DI triggers stacked against the noise they replace.</p>
 </div>
 
 <div class="chart-wrap">
@@ -294,23 +294,25 @@ details summary:hover{color:var(--cyan)}
 <p style="margin-top:8px">The grey bars are the C/H events the filter discards — jackson-databind deserialization chains, logback serialization bugs, SnakeYAML parsing issues, auth bypasses, DoS. The colored bars are NP+DI: the events that actually warranted emergency response. The ratio holds remarkably steady across years:</p>
 
 <table>
-<thead><tr><th>Year</th><th>C/H dates</th><th>NP+DI dates</th><th>Reduction</th><th>Notable triggers</th></tr></thead>
+<thead><tr><th>Year</th><th>C/H dates</th><th>NP+DI dates</th><th>Patch events</th><th>Reduction</th><th>Notable triggers</th></tr></thead>
 <tbody>
-<tr><td>2018</td><td>3</td><td>2</td><td>33%</td><td>dom4j XPath injection, Spring messaging RCE</td></tr>
-<tr><td>2019</td><td>16</td><td>4</td><td>75%</td><td>Tomcat CGI, XStream command injection</td></tr>
-<tr><td>2020</td><td>9</td><td>3</td><td>67%</td><td>dom4j XXE, XStream RCE</td></tr>
-<tr><td>2021</td><td>14</td><td>5</td><td>64%</td><td>XStream SSRF/RCE cluster, <strong>Log4Shell</strong>, Log4j follow-on</td></tr>
-<tr><td>2022</td><td>20</td><td>2</td><td>90%</td><td><strong>Spring4Shell</strong>, Tomcat request smuggling</td></tr>
-<tr><td>2023</td><td>10</td><td>2</td><td>80%</td><td>SpEL injection, Tomcat request smuggling</td></tr>
-<tr><td>2024</td><td>12</td><td>3</td><td>75%</td><td>Hazelcast SQLi, CXF SSRF, MINA code injection</td></tr>
-<tr><td>2025</td><td>5</td><td>1</td><td>80%</td><td>Tomcat path traversal</td></tr>
-<tr><td>2026 (partial)</td><td>4</td><td>0</td><td>100%</td><td>—</td></tr>
+<tr><td>2018</td><td>3</td><td>2</td><td>1</td><td>67%</td><td>dom4j XPath + Spring messaging RCE (1 day apart)</td></tr>
+<tr><td>2019</td><td>16</td><td>4</td><td>4</td><td>75%</td><td>Tomcat CGI, XStream command injection</td></tr>
+<tr><td>2020</td><td>9</td><td>3</td><td>3</td><td>67%</td><td>dom4j XXE, XStream RCE</td></tr>
+<tr><td>2021</td><td>14</td><td>5</td><td>3</td><td>79%</td><td>XStream 3-CVE batch (same day); <strong>Log4Shell</strong> + follow-on (5 days)</td></tr>
+<tr><td>2022</td><td>20</td><td>2</td><td>2</td><td>90%</td><td><strong>Spring4Shell</strong>, Tomcat request smuggling</td></tr>
+<tr><td>2023</td><td>10</td><td>2</td><td>2</td><td>80%</td><td>SpEL injection, Tomcat request smuggling</td></tr>
+<tr><td>2024</td><td>12</td><td>3</td><td>3</td><td>75%</td><td>Hazelcast SQLi, CXF SSRF, MINA code injection</td></tr>
+<tr><td>2025</td><td>5</td><td>1</td><td>1</td><td>80%</td><td>Tomcat path traversal</td></tr>
+<tr><td>2026 (partial)</td><td>4</td><td>0</td><td>0</td><td>100%</td><td>—</td></tr>
 </tbody>
 </table>
 
+<p style="margin-top:8px;font-size:.88rem;color:#64748b"><strong>Patch events</strong> merge NP+DI triggers within a 7-day window — if you're already in rebuild/test when the next CVE drops, that's one forced march, not two. A fast CI/CD pipeline makes the extra CVE cheap; it's the stop-the-world for the stragglers that hurts. Reduction is calculated from patch events, not raw CVE count.</p>
+
 <p style="margin-top:12px"><strong>2022 is the standout year:</strong> 20 C/H dates but only 2 NP+DI triggers (90% reduction). That was the year jackson-databind's deserialization CVE avalanche peaked — 15 of those 20 dates were jackson CWE-502 disclosures. The filter correctly ignored all of them and fired only on Spring4Shell (confirmed exploited, KEV) and a Tomcat smuggling bug.</p>
 
-<p style="margin-top:8px"><strong>2021 Q3–Q4 is the stress test:</strong> XStream triple-SSRF disclosure (Aug 25), followed by Log4Shell (Dec 10) and its follow-on (Dec 14). Three NP+DI triggers in four months — the busiest period in the dataset. All three were subsequently confirmed exploited in the wild. The filter didn't just reduce noise; it surfaced the exact CVEs that ended up in KEV.</p>
+<p style="margin-top:8px"><strong>2021 is the stress test:</strong> 5 NP+DI dates but only 3 patch events. The XStream triple-disclosure (Aug 25) was one advisory, one rebuild. The Log4Shell cluster — jackson-databind RCE (Dec 9), Log4Shell (Dec 10), follow-on (Dec 14) — was 5 days of continuous incident response, not three separate fire drills. All three patch events surfaced CVEs that ended up in KEV.</p>
 </div>
 
 <!-- ═══════════════════════════════════════════════════════════ -->
