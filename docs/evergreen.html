@@ -73,48 +73,48 @@ code{background:#f1f5f9;padding:2px 6px;border-radius:4px;font-size:.88em}
 <h2>The Short Answer</h2>
 
 <div class="verdict-box">
-<div class="number">Evergreening shifts the attack surface.<br>It doesn't shrink it.</div>
-<div class="label" style="margin-top:12px">Across Java libraries, RHEL kernels, and Windows Server — newer versions consistently have <strong>equal or more</strong> CVEs to patch, not fewer. The case for staying current is lifecycle coverage and exploitation mitigations, not a smaller patch burden.</div>
+<div class="number">It depends on the ecosystem — and the answer isn't what you'd expect.</div>
+<div class="label" style="margin-top:12px">Across Java, Node.js, RHEL, and Windows Server — evergreening doesn't consistently reduce CVE exposure. In some cases (Java 11) it eliminates confirmed exploitation. In others (Node.js 18+) it <em>adds</em> attack surface. The consistent finding: the runtime/platform generates CVEs that nobody exploits; the library/ecosystem layer is where confirmed damage happens.</div>
 </div>
 
 <div class="hero-row">
 <div class="hero-card">
-<div class="num" style="color:var(--accent)">2 of 28</div>
-<div class="lbl">Java CVEs avoided<br>by evergreening</div>
+<div class="num" style="color:var(--accent)">2 of ~35</div>
+<div class="lbl">Java library CVEs avoided<br>by evergreening (neither exploited)</div>
 </div>
 <div class="hero-card">
-<div class="num" style="color:var(--red)">2 of 28</div>
-<div class="lbl">Java CVEs <em>worse</em><br>on the new stack</div>
+<div class="num" style="color:var(--red)">2 of ~35</div>
+<div class="lbl">Java library CVEs <em>worse</em><br>on the new stack (both exploited)</div>
 </div>
 <div class="hero-card">
-<div class="num" style="color:var(--amber)">+25–30%</div>
-<div class="lbl">More Windows CVEs<br>on Server 2022 vs 2016</div>
+<div class="num" style="color:var(--amber)">7</div>
+<div class="lbl">Spring post-EOL C/H CVEs<br>with no free patch</div>
 </div>
 <div class="hero-card">
-<div class="num" style="color:var(--green)">Lifecycle</div>
-<div class="lbl">The real reason<br>to evergreen</div>
+<div class="num" style="color:var(--green)">13 of 13</div>
+<div class="lbl">JVM KEV entries eliminated<br>by Java 11 (applet removal)</div>
 </div>
 </div>
 
 <!-- ===== JAVA / OPEN SOURCE ===== -->
 <h2>1. Java Libraries — The Real-World Manifest</h2>
 
-<p>Our <a href="periodicity.html">periodicity analysis</a> backtested a real-world Java manifest (Spring Boot app, ~40 dependencies) over 8 years (2018–2026), producing 25 NP+DI trigger CVEs plus 3 filter misses. The manifest was built on the "old generation": Java 8, Spring 5, Spring Boot 1.x, Tomcat 9.</p>
+<p>Our <a href="periodicity.html">periodicity analysis</a> backtested a real-world Java manifest (Spring Boot app, ~40 dependencies) over 8 years (2018–2026). The NP+DI filter produced 28 CVEs. Expanding to all Critical/High CVEs in the Spring ecosystem post-EOL adds 7 more, for ~35 total. The manifest was built on the "old generation": Java 8, Spring 5, Spring Boot 1.x, Tomcat 9.</p>
 
-<p><strong>The evergreen alternative:</strong> upgrade to Java 11 (2018) → 17 (2021) → 21 (2023), Spring 6 (2022), Spring Boot 3 (2022), Tomcat 10 (2021) as each became available. Would any of the 28 CVEs have been avoided?</p>
+<p><strong>The evergreen alternative:</strong> upgrade to Java 11 (2018) → 17 (2021) → 21 (2023), Spring 6 (2022), Spring Boot 3 (2022), Tomcat 10 (2021) as each became available. For each CVE, we ask two questions: (1) does the new generation avoid the vulnerability? and (2) can you get a free patch?</p>
 
 <div class="hero-row">
 <div class="hero-card" style="border-color:var(--green)">
 <div class="num" style="color:var(--green)">2</div>
-<div class="lbl">Avoided by evergreening</div>
+<div class="lbl">Avoided by evergreening<br><span style="font-size:.9em">(neither exploited)</span></div>
 </div>
 <div class="hero-card" style="border-color:var(--red)">
 <div class="num" style="color:var(--red)">2</div>
-<div class="lbl">Made <em>worse</em></div>
+<div class="lbl">Made <em>worse</em><br><span style="font-size:.9em">(both exploited)</span></div>
 </div>
 <div class="hero-card">
-<div class="num" style="color:var(--muted)">24</div>
-<div class="lbl">No difference</div>
+<div class="num" style="color:var(--muted)">~31</div>
+<div class="lbl">Both generations affected<br><span style="font-size:.9em">(7 paywalled on old gen)</span></div>
 </div>
 </div>
 
@@ -146,9 +146,9 @@ code{background:#f1f5f9;padding:2px 6px;border-radius:4px;font-size:.88em}
 <strong>Spring4Shell is the headliner.</strong> The single most impactful exploited CVE in this dataset was one where the "old" stack (Java 8) was immune and the "modern" stack (JDK 9+) was vulnerable. An evergreener would have had to emergency-patch; the team that stayed on Java 8 could have ignored it entirely.
 </div>
 
-<h3>No difference: 24 of 28 CVEs</h3>
+<h3>Both generations affected: ~31 of ~35 CVEs</h3>
 
-<p>The vast majority affected all supported major versions simultaneously. The patterns:</p>
+<p>The vast majority affected all supported major versions simultaneously — the generation doesn't determine whether you have the bug. But for 7 of these (Spring ecosystem post-EOL), the generation determines whether you can get a <em>free patch</em>. The patterns:</p>
 
 <div class="card">
 <p><strong>Tomcat (7 CVEs):</strong> Every Tomcat CVE — Ghostcat, request smuggling, PUT deserialization, path traversal — affected all generations (8.5, 9, 10, 10.1, 11) equally. Tomcat's core request-handling code is shared across generations. Fixed by minor patch, not generation upgrade.</p>
@@ -168,9 +168,9 @@ code{background:#f1f5f9;padding:2px 6px;border-radius:4px;font-size:.88em}
 <strong>No.</strong> NP+DI fires on CWE pattern + network parser classification, not library version. The 2 avoided CVEs (jackson-mapper-asl, Swagger UI) were both NP+DI triggers — so the filter would have fired either way. The 2 "made worse" CVEs were also NP+DI triggers. You'd rebuild the same number of times on either generation. The filter is generation-agnostic because the vulnerability classes it targets (injection, parser abuse, auth bypass) exist in every generation.
 </div>
 
-<h3>A different question: can you get patches at all?</h3>
+<h3>The 7 paywalled CVEs: Spring 5.x after EOL</h3>
 
-<p>The 28-CVE backtest above asks: <em>does your generation determine which CVEs you face?</em> Answer: barely (2 avoided, 2 worse, 24 identical). But there's a second question the backtest doesn't capture: <em>can you get a free patch when a CVE hits?</em> The CVEs below affect <strong>both</strong> Spring 5.x and 6.x — they would be "no difference" rows in the table above. But the patch availability diverges after Spring 5.3's OSS end-of-life.</p>
+<p>Seven of the ~31 "both generations affected" CVEs have a twist: they affect Spring 5.x and 6.x equally, but <strong>free patches only exist on 6.x</strong>. After Spring 5.3's OSS end-of-life (Aug 2024), Broadcom backports fixes to 5.3.x — but behind a commercial paywall. This is where evergreening matters: not because it avoids the vulnerability, but because it preserves your access to free patches.</p>
 
 <div class="card">
 <p><strong>Key dates:</strong></p>
