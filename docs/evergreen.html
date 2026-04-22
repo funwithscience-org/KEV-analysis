@@ -130,6 +130,8 @@ code{background:#f1f5f9;padding:2px 6px;border-radius:4px;font-size:.88em}
 
 <p class="footnote">Both are cases where a library was abandoned entirely — no patch exists. The generation shift forces you off the dead dependency. This is <strong>dependency pruning</strong>, not platform improvement.</p>
 
+<p>Both were NP+DI triggers, so the filter would have flagged them for a rebuild. But neither was ever exploited — no KEV entry, no Metasploit module, no ExploitDB entry. The 2 CVEs that evergreening avoids were fire drills that turned out to be false alarms. Meanwhile, the 2 CVEs that evergreening made <em>worse</em> (Spring4Shell, ActiveMQ) were both <strong>confirmed exploited</strong> with KEV entries and Metasploit modules.</p>
+
 <h3>Made worse: the new stack was the vulnerable one</h3>
 
 <table>
