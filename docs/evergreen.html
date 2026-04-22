@@ -248,6 +248,64 @@ code{background:#f1f5f9;padding:2px 6px;border-radius:4px;font-size:.88em}
 </table>
 </details>
 
+<h3>Library health matters more than library generation</h3>
+
+<p>The 28-CVE manifest contains libraries in three different health states, and the right remediation depends on which state the library is in — not what generation you're running.</p>
+
+<table>
+<thead>
+<tr><th>Library</th><th>CVEs</th><th>Health State</th><th>Remediation</th><th>Notes</th></tr>
+</thead>
+<tbody>
+<tr>
+<td>XStream</td><td>6</td>
+<td><span class="tag tag-red">Architecturally broken</span><br><span class="footnote">Sole maintainer, denylist whack-a-mole 2013–2021</span></td>
+<td>Drop it or ensure &ge; 1.4.18</td>
+<td>No 2.0 exists. 1.4.18 switched to allowlist; RCE stream stopped. CVE-2021-39144 is in CISA KEV (exploited via VMware).</td>
+</tr>
+<tr>
+<td>dom4j</td><td>2</td>
+<td><span class="tag tag-amber">Undermaintained</span><br><span class="footnote">Sole maintainer, multi-year release gaps</span></td>
+<td>Invisible transitive dep via Hibernate — monitor or pin version</td>
+<td>Last release Jan 2023. Most projects don't know they depend on it.</td>
+</tr>
+<tr>
+<td>Spring Framework / Security / Boot</td><td>5 (in backtest) + 7 post-EOL</td>
+<td><span class="tag tag-amber">Vendor-paywalled after EOL</span></td>
+<td>Pay Broadcom, migrate to Spring 6 / Boot 3, or accept risk</td>
+<td>Post-EOL CVEs include NP+DI but none exploited. No free "EternalBlue exception."</td>
+</tr>
+<tr>
+<td>Tomcat</td><td>7</td>
+<td><span class="tag tag-green">Healthy</span><br><span class="footnote">Multi-contributor, regular releases</span></td>
+<td>Patch currency — stay on latest minor</td>
+<td>All generations affected equally. CVEs are shared-code, not version-specific.</td>
+</tr>
+<tr>
+<td>Log4j 2</td><td>2</td>
+<td><span class="tag tag-green">Healthy</span><br><span class="footnote">Post-Log4Shell renaissance</span></td>
+<td>Patch currency</td>
+<td>Regular quarterly releases, multiple active contributors.</td>
+</tr>
+<tr>
+<td>jackson-databind</td><td>1</td>
+<td><span class="tag tag-green">Healthy but bus-factor risk</span><br><span class="footnote">Tatu Saloranta = 11k+ commits</span></td>
+<td>Patch currency</td>
+<td>Jackson 3.x migration in progress.</td>
+</tr>
+<tr>
+<td>Others (Hazelcast, CXF, MINA, Swagger, jackson-mapper-asl)</td><td>1 each</td>
+<td><span class="tag tag-gray">Various</span></td>
+<td>Depends on library</td>
+<td>jackson-mapper-asl and Springfox are dead (the 2 "avoided" CVEs).</td>
+</tr>
+</tbody>
+</table>
+
+<div class="callout callout-finding">
+<strong>Finding:</strong> Evergreening is irrelevant for 6 of 28 CVEs (XStream) because there's only one version line. It's irrelevant for 7 more (Tomcat) because all generations are affected equally. It matters for Spring — but only for patch access, not vulnerability avoidance, and the paywalled CVEs aren't being exploited. The lever that actually maps to library health state is <strong>dependency pruning</strong> (drop XStream: &minus;6 CVEs) and <strong>patch currency</strong> (stay on latest minor: handles 24 of 28). Generation shifts are orthogonal.
+</div>
+
 <!-- ===== JVM PLATFORM ===== -->
 <h2>2. The JVM Platform — One Big Discontinuity, Then Flat</h2>
 
