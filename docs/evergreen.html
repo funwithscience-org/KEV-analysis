@@ -91,8 +91,8 @@ code{background:#f1f5f9;padding:2px 6px;border-radius:4px;font-size:.88em}
 <div class="lbl">Spring post-EOL C/H CVEs<br>with no free patch</div>
 </div>
 <div class="hero-card">
-<div class="num" style="color:var(--green)">13 of 13</div>
-<div class="lbl">JVM KEV entries eliminated<br>by Java 11 (applet removal)</div>
+<div class="num" style="color:var(--muted)">0</div>
+<div class="lbl">Server-side JVM CVEs<br>exploited (any version, ever)</div>
 </div>
 </div>
 
@@ -312,32 +312,32 @@ code{background:#f1f5f9;padding:2px 6px;border-radius:4px;font-size:.88em}
 <p>The library analysis above covers the application layer. But the JVM itself is a platform — and it has its own CVE history independent of Spring, Tomcat, or Log4j. Does staying on the latest JDK (8 → 11 → 17 → 21) reduce exposure at the platform level?</p>
 
 <div class="hero-row">
-<div class="hero-card" style="border-color:var(--green)">
-<div class="num" style="color:var(--green)">13 of 13</div>
-<div class="lbl">KEV Java entries avoided<br>by moving to Java 11+</div>
+<div class="hero-card">
+<div class="num" style="color:var(--muted)">0</div>
+<div class="lbl">Server-side JVM CVEs<br>in CISA KEV (any version)</div>
 </div>
 <div class="hero-card">
 <div class="num" style="color:var(--muted)">70–80%</div>
 <div class="lbl">CVEs hit ALL versions<br>simultaneously</div>
 </div>
 <div class="hero-card" style="border-color:var(--red)">
-<div class="num" style="color:var(--red)">0</div>
-<div class="lbl">Modern JVM CVEs (2017+)<br>in CISA KEV</div>
+<div class="num" style="color:var(--red)">1</div>
+<div class="lbl">CVE where evergreening<br>introduced the vulnerability</div>
 </div>
 </div>
 
-<h3>The Java 11 discontinuity: removing the exploit surface</h3>
+<h3>The Java 11 discontinuity: less than it appears</h3>
 
-<p>Every single Java CVE in CISA KEV — all 13 of them — targets the applet/Deployment sandbox, which was removed in Java 11. This is the one place in our entire analysis where evergreening genuinely eliminates <strong>confirmed exploitation</strong>.</p>
+<p>All 13 Java CVEs in CISA KEV (CVE-2010-0840 through CVE-2016-3427) target the applet/Deployment sandbox — browser-side drive-by attacks where visiting a malicious webpage exploits the Java browser plugin. Java 11 removed this subsystem. But <strong>this was never a server risk.</strong> Server workloads don't run browsers, don't load applets, and never invoked the Deployment code path. The Deployment subsystem was dead weight on servers regardless of Java version.</p>
 
 <div class="card">
 <table style="font-size:.84em">
-<thead><tr><th>KEV CVEs (all 13)</th><th>Years</th><th>Component</th><th>Removed in</th></tr></thead>
+<thead><tr><th>KEV CVEs (all 13)</th><th>Years</th><th>Component</th><th>Server risk?</th></tr></thead>
 <tbody>
-<tr><td><code>CVE-2010-0840</code> through <code>CVE-2016-3427</code></td><td>2010–2016</td><td>Deployment / Applets / Sandbox escapes</td><td><span class="tag tag-green">Java 11</span></td></tr>
+<tr><td><code>CVE-2010-0840</code> through <code>CVE-2016-3427</code></td><td>2010–2016</td><td>Deployment / Applets / Sandbox escapes</td><td class="no">No — client-side/desktop only</td></tr>
 </tbody>
 </table>
-<p class="footnote">Java Web Start, applets, and the browser plugin were the #1 source of Java exploits in 2010–2017. Java 11 removed all of them. An organization on Java 11+ was immune to every historically-exploited JVM vulnerability.</p>
+<p class="footnote">These were browser plugin exploits. Browsers had already blocked Java plugins by 2015 (Chrome 45) and 2017 (Firefox 52). Java 11 (Sep 2018) formalized the removal of an attack surface that was already dead in practice. For server workloads, these CVEs were irrelevant at every Java version.</p>
 </div>
 
 <p>Other subsystem removals contribute smaller gains:</p>
@@ -346,7 +346,7 @@ code{background:#f1f5f9;padding:2px 6px;border-radius:4px;font-size:.88em}
 <table style="font-size:.86em">
 <thead><tr><th>Subsystem</th><th>Removed</th><th>CVE examples</th><th>Evergreen benefit</th></tr></thead>
 <tbody>
-<tr><td>Java Deployment (Web Start/Applets)</td><td>Java 11</td><td>All 13 KEV entries; CVE-2021-35560 (7.5)</td><td class="yes">Eliminates entire exploited surface</td></tr>
+<tr><td>Java Deployment (Web Start/Applets)</td><td>Java 11</td><td>All 13 KEV entries; CVE-2021-35560 (7.5)</td><td class="no">Desktop only — no server impact</td></tr>
 <tr><td>Nashorn JavaScript engine</td><td>Java 15</td><td>CVE-2018-3183 (9.0); CVE-2025-30761 (5.9, still affects Java 8/11)</td><td class="yes">Removes scripting RCE path</td></tr>
 <tr><td>CORBA</td><td>Java 11</td><td>IIOP deserialization surface</td><td class="yes">Removes deserialization vector</td></tr>
 <tr><td>RMI Activation</td><td>Java 17</td><td>CVE-2026-21925 (4.8, Java 8/11 only)</td><td class="yes">Reduces RMI surface</td></tr>
@@ -407,7 +407,7 @@ code{background:#f1f5f9;padding:2px 6px;border-radius:4px;font-size:.88em}
 </div>
 
 <div class="callout callout-finding">
-<strong>The JVM evergreening story in one sentence:</strong> Java 11 was a genuine security discontinuity that eliminated the entire historically-exploited attack surface. Everything after that is flat — same CVEs, same patches, same day. The JVM doesn't have a lifecycle trap because the open-source ecosystem provides free backports indefinitely. The case for JVM evergreening is Java 8→11 (strong) and 11→17+ (weak, and you trade old-version-only CVEs for new-version-only CVEs at roughly the same rate).
+<strong>The JVM evergreening story in one sentence:</strong> For server workloads, the JVM has zero confirmed exploitation at any version — the 13 KEV entries were all desktop/applet exploits irrelevant to servers. The curve is flat: same CVEs, same patches, same day. The JVM doesn't have a lifecycle trap because the open-source ecosystem provides free backports indefinitely. Evergreening from Java 8→11 removes dead code (Deployment, CORBA) that was never a server risk. Going further (11→17+) trades old-version-only CVEs for new-version-only CVEs at roughly the same rate, with Psychic Signatures (Java 15-18 only) being the most dangerous CVE in the dataset — and one that only existed because of the upgrade.
 </div>
 
 <h3>Zero modern exploitation</h3>
@@ -793,7 +793,7 @@ code{background:#f1f5f9;padding:2px 6px;border-radius:4px;font-size:.88em}
 <tbody>
 <tr><td>Evergreen boundary</td><td>Java 8→11 (applet removal)</td><td>Node 16→18 (OpenSSL 1.1.1→3.0)</td></tr>
 <tr><td>Direction</td><td class="yes">Boundary <em>removes</em> attack surface</td><td class="worse">Boundary <em>adds</em> attack surface</td></tr>
-<tr><td>Runtime in CISA KEV</td><td>13 entries (all pre-2017 applets)</td><td>0 entries</td></tr>
+<tr><td>Runtime in CISA KEV (server-side)</td><td>0 entries (13 KEV entries are desktop/applet only)</td><td>0 entries</td></tr>
 <tr><td>Ecosystem in CISA KEV</td><td>WebLogic (11), Log4Shell</td><td>React2Shell (10.0), lodash, systeminformation</td></tr>
 <tr><td>Post-EOL free patches</td><td class="yes">Yes (Red Hat, Adoptium, Corretto)</td><td class="worse">No — commercial only</td></tr>
 <tr><td>Support window</td><td>8+ years (free community LTS)</td><td>30 months</td></tr>
@@ -818,7 +818,7 @@ code{background:#f1f5f9;padding:2px 6px;border-radius:4px;font-size:.88em}
 <table>
 <thead><tr><th>Strategy</th><th>Reduces CVE count?</th><th>Reduces exploitation risk?</th><th>Mechanism</th></tr></thead>
 <tbody>
-<tr><td><strong>Evergreening</strong> (new major versions)</td><td><span class="tag tag-red">No — equal or more</span></td><td><span class="tag tag-amber">Depends on ecosystem</span></td><td>JVM: Java 11 removed all exploited surface (13 KEV entries). RHEL/Windows: mitigations harden post-exploitation. Node.js: <em>adds</em> attack surface (permission model, undici, io_uring). Across all ecosystems, new versions introduce new bugs (Psychic Signatures, Spring4Shell, CVE-2022-35255). Spring 5.x post-EOL accumulates NP+DI debt but none exploited. Node.js has strongest evergreen pressure (30mo lifecycle, no free backports) but worst payoff (more CVEs, ecosystem risk is version-independent).</td></tr>
+<tr><td><strong>Evergreening</strong> (new major versions)</td><td><span class="tag tag-red">No — equal or more</span></td><td><span class="tag tag-amber">Depends on ecosystem</span></td><td>JVM: 13 KEV entries were desktop/applet only — zero server-side exploitation at any version. RHEL/Windows: mitigations harden post-exploitation. Node.js: <em>adds</em> attack surface (permission model, undici, io_uring). Across all ecosystems, new versions introduce new bugs (Psychic Signatures, Spring4Shell, CVE-2022-35255). Spring 5.x post-EOL accumulates NP+DI debt but none exploited. Node.js has strongest evergreen pressure (30mo lifecycle, no free backports) but worst payoff (more CVEs, ecosystem risk is version-independent).</td></tr>
 <tr><td><strong>Patch currency</strong> (latest minor/patch)</td><td><span class="tag tag-green">Yes</span></td><td><span class="tag tag-green">Yes</span></td><td>26 of 28 Java CVEs fixed by point releases within existing major lines</td></tr>
 <tr><td><strong>Dependency pruning</strong> (drop unused libs)</td><td><span class="tag tag-green">Yes</span></td><td><span class="tag tag-green">Yes</span></td><td>Dropping XStream alone eliminates 6 of 28 CVEs regardless of generation</td></tr>
 <tr><td><strong>NP+DI filter</strong></td><td><span class="tag tag-green">Yes (80% reduction)</span></td><td><span class="tag tag-green">Yes</span></td><td>Works identically across generations — fires on CVE structure, not version</td></tr>
