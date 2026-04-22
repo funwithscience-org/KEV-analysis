@@ -158,8 +158,8 @@
     "Exploit maturity on watch list remains bimodal: 5 weaponized (all already KEV-listed), 2 with functional/circulating PoCs (Thymeleaf SSTI, n8n), and 4 with no public exploit (wolfSSL pair + 4 Cisco ISE/Webex). Counter-argument: absence of public PoC doesn't mean absence of exploitation — private exploits and state-actor tooling are invisible to this survey.",
     "Other side of the argument: CVE-2026-39987 (Marimo) was exploited within 10 hours of disclosure. Short window from disclosure-to-weaponization is a real phenomenon independent of Glasswing and affects watch list risk calculus regardless of AI attribution."
   ],
-  "changes_pushed": false,
-  "commit_sha": null,
+  "changes_pushed": true,
+  "commit_sha": "84cd8a9",
   "errors": [
     "stack.watch RHEL 8 version-specific path still 404s. Parent path returns YTD aggregate but does not split by month or by RHEL version. April RHEL 8 count retained at 23 from prior run.",
     "Red Hat security data API (access.redhat.com/labs/securitydataapi/cve.json) remains 404 — excluded from the data path until a working replacement is found.",
