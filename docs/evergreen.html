@@ -166,12 +166,11 @@ code{background:#f1f5f9;padding:2px 6px;border-radius:4px;font-size:.88em}
 
 <div class="callout callout-finding">
 <strong>No.</strong> NP+DI fires on CWE pattern + network parser classification, not library version. The 2 avoided CVEs (jackson-mapper-asl, Swagger UI) were both NP+DI triggers — so the filter would have fired either way. The 2 "made worse" CVEs were also NP+DI triggers. You'd rebuild the same number of times on either generation. The filter is generation-agnostic because the vulnerability classes it targets (injection, parser abuse, auth bypass) exist in every generation.
-<p style="margin-top:8px">But that's within the NP+DI scope. What happens when you widen the lens to <em>all</em> Critical and High CVEs across the Spring ecosystem?</p>
 </div>
 
-<h3>The lifecycle trap: Spring 5.x beyond NP+DI</h3>
+<h3>The lifecycle question: Spring 5.x after EOL</h3>
 
-<p>The NP+DI analysis above covers network-parser CVEs — the ones that trigger emergency rebuilds. But Spring 5.x tells a broader story when you look at <strong>all</strong> Critical and High CVEs, not just the NP+DI triggers. The pattern is the same one we saw with RHEL 6: active support → commercial-only → monotonic accumulation of unpatched vulns.</p>
+<p>The NP+DI analysis above covers the 8-year backtest window. But Spring 5.x has now crossed its OSS end-of-life (Framework 5.3: Aug 2024, Boot 2.7: Nov 2023). Does the post-EOL accumulation pattern we saw with RHEL 6 repeat here?</p>
 
 <div class="card">
 <p><strong>Key dates:</strong></p>
@@ -186,48 +185,31 @@ code{background:#f1f5f9;padding:2px 6px;border-radius:4px;font-size:.88em}
 <p class="footnote">Migration to Spring 6 / Boot 3 requires Java 17+ and javax-to-jakarta namespace change — a significant refactor, not a drop-in upgrade.</p>
 </div>
 
-<p>Since those EOL dates, Critical and High CVEs have been accumulating with fixes only available on Spring 6.x / Boot 3.x (or via paid commercial support). Here's what Spring Boot 2.7 / Framework 5.3 users on the free tier are sitting on:</p>
+<p>Since those EOL dates, Critical and High CVEs have accumulated with free fixes only on Spring 6.x / Boot 3.x. Broadcom <em>does</em> backport patches to 5.3.x/2.7.x — but behind a commercial paywall, shipped simultaneously with the 6.x fix (no timing gap). We classified each by NP+DI status:</p>
 
 <div class="card">
-<p><strong>Spring Framework — commercial-only HIGH CVEs:</strong></p>
-<table style="font-size:.86em">
-<thead><tr><th>CVE</th><th>CVSS</th><th>Type</th><th>Fixed in</th><th>Spring 5.3 status</th></tr></thead>
+<table style="font-size:.84em">
+<thead><tr><th>CVE</th><th>CVSS</th><th>Type</th><th>NP+DI?</th><th>Spring 5.x OSS</th><th>Exploited?</th></tr></thead>
 <tbody>
-<tr><td><code>CVE-2024-38816</code></td><td>7.5</td><td>Path traversal (functional web frameworks)</td><td>6.1.13 / 6.0.25</td><td class="worse">Unpatched (OSS)</td></tr>
-<tr><td><code>CVE-2024-38819</code></td><td>7.5</td><td>Path traversal (static resource serving)</td><td>6.1.14 / 6.0.26</td><td class="worse">Unpatched (OSS)</td></tr>
+<tr><td><code>CVE-2024-38816</code></td><td>7.5</td><td>Framework: path traversal (functional web)</td><td class="yes">Yes</td><td class="worse">Commercial only</td><td class="no">No</td></tr>
+<tr><td><code>CVE-2024-38819</code></td><td>7.5</td><td>Framework: path traversal (static resources)</td><td class="yes">Yes</td><td class="worse">Commercial only</td><td class="no">No</td></tr>
+<tr><td><code>CVE-2024-38821</code></td><td>9.1</td><td>Security: auth bypass (WebFlux static resources)</td><td class="yes">Yes</td><td class="worse">Commercial only</td><td class="no">No</td></tr>
+<tr><td><code>CVE-2026-22732</code></td><td>9.1</td><td>Security: response headers silently dropped</td><td style="color:var(--amber)">Borderline</td><td class="worse">Commercial only</td><td class="no">No</td></tr>
+<tr><td><code>CVE-2026-22733</code></td><td>8.2</td><td>Boot: CloudFoundry actuator auth bypass</td><td class="yes">Yes</td><td class="worse">Commercial only</td><td class="no">No</td></tr>
+<tr><td><code>CVE-2025-22235</code></td><td>7.3</td><td>Boot: EndpointRequest auth bypass (C:L/I:L/A:L)</td><td class="no">Marginal</td><td class="worse">Commercial only</td><td class="no">No</td></tr>
+<tr><td><code>CVE-2024-38807</code></td><td>6.3</td><td>Boot: jar signature forgery (AV:L)</td><td class="no">No</td><td class="worse">Commercial only</td><td class="no">No</td></tr>
 </tbody>
 </table>
 </div>
 
-<div class="card">
-<p><strong>Spring Security — commercial-only HIGH/CRITICAL CVEs:</strong></p>
-<table style="font-size:.86em">
-<thead><tr><th>CVE</th><th>CVSS</th><th>Type</th><th>Fixed in</th><th>Spring 5.x status</th></tr></thead>
-<tbody>
-<tr><td><code>CVE-2024-38821</code></td><td>9.1</td><td>Authorization bypass (static resources)</td><td>Security 6.3.4 / 6.2.7</td><td class="worse">Unpatched (OSS)</td></tr>
-<tr><td><code>CVE-2026-22732</code></td><td>9.1</td><td>Critical auth bypass</td><td>Security 6.x only</td><td class="worse">Unpatched (OSS)</td></tr>
-</tbody>
-</table>
+<p>The structural pattern is real: 7 CVEs accumulating, 4 clearly NP+DI, all paywalled. Unlike RHEL 6 kernel CVEs (where ~90% were genuinely "Not affected"), these <em>do</em> affect Spring 5.3.x — the code is there, the bugs are there, and Broadcom confirmed as much by shipping commercial patches. And unlike Microsoft's EternalBlue exception (where they went back and patched Windows 2003 for free), Broadcom held the commercial-only line even for the CVSS 9.1 auth bypass.</p>
+
+<div class="callout callout-finding">
+<strong>But none of them are being exploited.</strong> Zero KEV entries, zero Metasploit modules, zero ExploitDB entries across all 7 CVEs. The path traversals require functional web framework endpoints (a minority of Spring apps). The auth bypass requires WebFlux + static resources + specific security config. The actuator bypass requires CloudFoundry deployment. The conditions are narrow enough that despite high CVSS scores and unpatched target populations, attackers haven't shown interest.
+<p style="margin-top:8px">This is consistent with the pattern already visible in the NP+DI backtest: the 2 CVEs evergreening <em>avoids</em> (jackson-mapper-asl, Swagger UI) were never exploited either. Meanwhile the 2 it made <em>worse</em> (Spring4Shell, ActiveMQ) were both confirmed exploited. High CVSS + unpatched ≠ exploitation. The lifecycle debt is accumulating, but so far it's been a difference without a distinction.</p>
 </div>
 
-<div class="card">
-<p><strong>Spring Boot — commercial-only HIGH CVEs:</strong></p>
-<table style="font-size:.86em">
-<thead><tr><th>CVE</th><th>CVSS</th><th>Type</th><th>Fixed in</th><th>Boot 2.7 status</th></tr></thead>
-<tbody>
-<tr><td><code>CVE-2024-38807</code></td><td>7.3</td><td>Jar signature forgery</td><td>Boot 3.3.3 / 3.2.9</td><td class="worse">Unpatched (OSS)</td></tr>
-<tr><td><code>CVE-2025-22235</code></td><td>7.3</td><td>Authorization bypass</td><td>Boot 3.x only</td><td class="worse">Unpatched (OSS)</td></tr>
-<tr><td><code>CVE-2026-22733</code></td><td>8.2</td><td>Actuator endpoint bypass</td><td>Boot 3.x only</td><td class="worse">Unpatched (OSS)</td></tr>
-</tbody>
-</table>
-</div>
-
-<p>That's <strong>at least 7 HIGH/CRITICAL CVEs</strong> accumulating since late 2024 — including two CVSS 9.1 auth bypasses — with no free fix for Spring Boot 2.7 users. And the count only goes up from here.</p>
-
-<div class="callout callout-warning">
-<strong>This is exactly the RHEL 6 pattern.</strong> During active support, Spring 5.x and 6.x got the same patches at roughly the same time — like RHEL 6 and 8 during their full-support overlap. After OSS EOL, it's RHEL 6 ELS all over again: you either pay for commercial patches or you accumulate unpatched CVEs at an accelerating rate. The migration barrier (Java 17 + javax→jakarta) plays the same role as the RHEL major-version jump — technically sound but operationally expensive enough that many teams delay it.
-<p style="margin-top:8px">The NP+DI filter is generation-agnostic and fires the same regardless. But on Spring 5.3 OSS, when the filter fires, <strong>there's no patch to apply</strong>. The filter tells you to rebuild — but you can't rebuild within your current generation. That's when lifecycle becomes the tactical constraint, not just a strategic one.</p>
-</div>
+<p><strong>The open question:</strong> does this stay true? The post-EOL window is only ~18 months old. The RHEL 6 ELS story took years to develop a meaningful patch gap. And these are NP+DI-class vulnerabilities on one of the most widely deployed web frameworks — the kind of target that could become attractive if the holdout population persists long enough. But the current evidence says: you can see the lifecycle risk accumulating on paper, and it's not translating to exploitation in practice.</p>
 
 <details>
 <summary>Full 28-CVE breakdown table</summary>
@@ -535,7 +517,7 @@ code{background:#f1f5f9;padding:2px 6px;border-radius:4px;font-size:.88em}
 <table>
 <thead><tr><th>Strategy</th><th>Reduces CVE count?</th><th>Reduces exploitation risk?</th><th>Mechanism</th></tr></thead>
 <tbody>
-<tr><td><strong>Evergreening</strong> (new major versions)</td><td><span class="tag tag-red">No — equal or more</span></td><td><span class="tag tag-green">Yes</span></td><td>Lifecycle coverage (Spring 5.x: 7+ unpatched C/H CVEs post-EOL; RHEL 6: months-to-years patch lag), exploitation mitigations, faster RHEL patches (days→weeks lead), legacy protocol removal</td></tr>
+<tr><td><strong>Evergreening</strong> (new major versions)</td><td><span class="tag tag-red">No — equal or more</span></td><td><span class="tag tag-green">Yes</span></td><td>Exploitation mitigations, faster RHEL patches (days→weeks lead), legacy protocol removal. Lifecycle coverage matters theoretically (Spring 5.x: 7 unpatched C/H CVEs post-EOL) but unpatched CVEs aren't being exploited so far.</td></tr>
 <tr><td><strong>Patch currency</strong> (latest minor/patch)</td><td><span class="tag tag-green">Yes</span></td><td><span class="tag tag-green">Yes</span></td><td>26 of 28 Java CVEs fixed by point releases within existing major lines</td></tr>
 <tr><td><strong>Dependency pruning</strong> (drop unused libs)</td><td><span class="tag tag-green">Yes</span></td><td><span class="tag tag-green">Yes</span></td><td>Dropping XStream alone eliminates 6 of 28 CVEs regardless of generation</td></tr>
 <tr><td><strong>NP+DI filter</strong></td><td><span class="tag tag-green">Yes (80% reduction)</span></td><td><span class="tag tag-green">Yes</span></td><td>Works identically across generations — fires on CVE structure, not version</td></tr>
@@ -545,7 +527,7 @@ code{background:#f1f5f9;padding:2px 6px;border-radius:4px;font-size:.88em}
 
 <div class="callout callout-success">
 <strong>The tactical answer:</strong> If you're trying to reduce how often you drop everything and rebuild, evergreening is not the lever. <strong>Patch currency within your current generation</strong> (staying on the latest minor release) handles 24 of 28 CVEs. <strong>Dependency pruning</strong> (do you actually need XStream?) handles another 6. And <strong>NP+DI</strong> tells you which of the remaining patches actually require an emergency rebuild vs. riding the normal cycle.
-<p style="margin-top:12px">Evergreening is still the right long-term strategy — you need to stay inside the support window, and the exploitation mitigations are real. But it's a strategic decision (lifecycle planning), not a tactical one (fewer fire drills). The exception: once your platform crosses its OSS EOL (Spring 5.3 after Aug 2024, RHEL 6 after Nov 2020), lifecycle <em>becomes</em> the tactical constraint — the filter fires but there's no free patch to apply.</p>
+<p style="margin-top:12px">Evergreening is still the right long-term strategy — you need to stay inside the support window, and the exploitation mitigations are real. But it's a strategic decision (lifecycle planning), not a tactical one (fewer fire drills). Spring 5.x post-EOL is accumulating NP+DI-class CVEs with no free patches — but none are being exploited yet, so the lifecycle debt remains theoretical.</p>
 </div>
 
 <h3>The counterargument</h3>
