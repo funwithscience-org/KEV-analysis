@@ -679,16 +679,146 @@ code{background:#f1f5f9;padding:2px 6px;border-radius:4px;font-size:.88em}
 
 <p><strong>So evergreening Windows Server doesn't help with patch speed</strong> — it helps with patch <em>scope</em> (more CVEs get fixed because more subsystems exist) and exploitation mitigations (Secured Core, HVCI). The speed is the same regardless of version.</p>
 
-<!-- ===== SYNTHESIS ===== -->
-<h2>5. Synthesis: What Actually Reduces CVE Exposure?</h2>
+<!-- ===== NODE.JS ===== -->
+<h2>5. Node.js — The Inverse of Java</h2>
+
+<p>The Java evergreen story had one clean discontinuity (Java 11 removing applets) and then flattened out. Node.js tells a different story: the boundary exists, but evergreening makes you <em>more</em> exposed to platform CVEs, not less. And the ecosystem/supply-chain risk completely dominates the runtime risk.</p>
+
+<div class="hero-row">
+<div class="hero-card" style="border-color:var(--red)">
+<div class="num" style="color:var(--red)">0</div>
+<div class="lbl">Node.js runtime CVEs<br>in CISA KEV</div>
+</div>
+<div class="hero-card" style="border-color:var(--amber)">
+<div class="num" style="color:var(--amber)">10+</div>
+<div class="lbl">Permission model bypass CVEs<br>(Node 20+ only)</div>
+</div>
+<div class="hero-card" style="border-color:var(--red)">
+<div class="num" style="color:var(--red)">10.0</div>
+<div class="lbl">CVSS of React2Shell<br>(npm ecosystem, in KEV)</div>
+</div>
+</div>
+
+<h3>The boundary: OpenSSL 1.1.1 → 3.0 (Node 16 → 18)</h3>
+
+<p>Node.js LTS versions are tied to OpenSSL versions. Node 10/12/14/16 all bundled OpenSSL 1.1.1. Node 18+ switched to OpenSSL 3.0. When OpenSSL 1.1.1 went EOL in September 2023, <strong>Node 16's EOL was pulled forward 7 months</strong> rather than attempt an in-place OpenSSL upgrade. The project literally killed the version early.</p>
 
 <div class="card">
-<p>Across all four layers — libraries, JVM platform, RHEL, Windows — the same pattern emerges:</p>
+<table style="font-size:.86em">
+<thead><tr><th>Node LTS</th><th>Released</th><th>EOL</th><th>OpenSSL</th><th>Notes</th></tr></thead>
+<tbody>
+<tr><td>Node 10</td><td>Apr 2018</td><td>Apr 2021</td><td>1.1.1</td><td></td></tr>
+<tr><td>Node 12</td><td>Apr 2019</td><td>Apr 2022</td><td>1.1.1</td><td></td></tr>
+<tr><td>Node 14</td><td>Apr 2020</td><td>Apr 2023</td><td>1.1.1</td><td></td></tr>
+<tr><td>Node 16</td><td>Apr 2021</td><td style="color:var(--red);font-weight:700">Sep 2023 (early)</td><td>1.1.1</td><td>EOL moved 7mo early — OpenSSL 1.1.1 EOL</td></tr>
+<tr><td>Node 18</td><td>Apr 2022</td><td>Apr 2025</td><td style="color:var(--accent);font-weight:700">3.0</td><td><strong>The boundary</strong></td></tr>
+<tr><td>Node 20</td><td>Apr 2023</td><td>Apr 2026</td><td>3.0</td><td>+ Permission model, io_uring</td></tr>
+<tr><td>Node 22</td><td>Apr 2024</td><td>Apr 2027</td><td>3.0 → 3.5</td><td></td></tr>
+</tbody>
+</table>
+</div>
+
+<p>This is structurally similar to Java 8→11 — a crypto library EOL forcing a platform migration. But the security consequences are inverted.</p>
+
+<h3>Evergreening ADDS attack surface (the opposite of Java)</h3>
+
+<p>Java 8→11 <em>removed</em> subsystems (applets, CORBA, Nashorn) and shrank the CVE surface. Node 16→18+ <em>added</em> features that became new CVE sources:</p>
+
+<div class="card">
+<table style="font-size:.86em">
+<thead><tr><th>New in Node 18+</th><th>CVEs introduced</th><th>Severity</th></tr></thead>
+<tbody>
+<tr><td><strong>undici/fetch API</strong> (bundled HTTP client)</td><td>CVE-2023-45143, CVE-2024-30260, CVE-2024-30261, CVE-2025-22150, CVE-2026-22036</td><td>Multiple Medium/High</td></tr>
+<tr><td><strong>Permission model</strong> (Node 20+)</td><td>CVE-2023-39331, CVE-2023-39332, CVE-2024-21890, CVE-2024-21891, CVE-2024-21896, CVE-2025-55130, CVE-2026-21636, CVE-2026-21716, CVE-2026-21711 + more</td><td>10+ bypass CVEs</td></tr>
+<tr><td><strong>io_uring integration</strong> (Node 20+)</td><td>CVE-2024-22017</td><td>Privilege escalation</td></tr>
+<tr><td><strong>OpenSSL 3.0 migration</strong></td><td>CVE-2022-35255 (WebCrypto weak randomness)</td><td><span class="tag tag-red">Critical 9.1</span></td></tr>
+<tr><td><strong>diagnostics_channel</strong> (Node 20+)</td><td>CVE-2025-23083</td><td>Worker thread info leak</td></tr>
+</tbody>
+</table>
+</div>
+
+<div class="callout callout-warning">
+<strong>CVE-2022-35255 is the Psychic Signatures of Node.js.</strong> The OpenSSL 3.0 migration changed entropy behavior in WebCrypto, introducing a Critical 9.1 weak-randomness vulnerability that <strong>only existed on Node 18</strong>. Node 16 and below were immune. The migration itself was the vulnerability. Compare Java's CVE-2022-21449 (Psychic Signatures, Java 15-18 only) and Spring4Shell (JDK 9+ only) — the same pattern across three ecosystems.
+</div>
+
+<h3>But the runtime isn't what gets exploited</h3>
+
+<p>Despite all the runtime CVEs — HTTP request smuggling in llhttp, HTTP/2 floods, permission model bypasses — <strong>zero Node.js runtime CVEs appear in CISA KEV.</strong> The exploited vulnerabilities are all in the npm ecosystem layer:</p>
+
+<div class="card">
+<table style="font-size:.86em">
+<thead><tr><th>CVE</th><th>Product</th><th>CVSS</th><th>What happened</th></tr></thead>
+<tbody>
+<tr><td><code>CVE-2025-55182</code></td><td>Next.js (React Server Components)</td><td><span class="tag tag-red">10.0</span></td><td>React2Shell — mass exploitation by nation-state groups within hours of disclosure</td></tr>
+<tr><td><code>CVE-2021-21315</code></td><td>systeminformation (npm)</td><td>High</td><td>Command injection, in CISA KEV since Jan 2022</td></tr>
+<tr><td><code>CVE-2019-10758</code></td><td>mongo-express (npm)</td><td>Critical</td><td>RCE via toBSON, in CISA KEV since Dec 2021</td></tr>
+<tr><td><code>CVE-2020-8203</code></td><td>lodash</td><td>High 7.4</td><td>Prototype pollution, in CISA KEV — confirmed exploitation</td></tr>
+</tbody>
+</table>
+<p class="footnote">The runtime generates CVEs. The ecosystem gets exploited. This is the same pattern as Java — zero JVM CVEs in KEV, but Log4Shell and WebLogic deserialization are heavily exploited.</p>
+</div>
+
+<h3>Express: not the Spring equivalent</h3>
+
+<p>Express 4→5 is <strong>not</strong> a Spring 5→6-style boundary. Express has had only 4 CVEs in its entire history (1 High). The migration barrier is low — no namespace changes, no paradigm shift, automated codemods available. Express 5 requires Node 18+ but the codebase change is modest. The real vulnerability surface is in Express's dependencies (body-parser, qs, path-to-regexp, serve-static) and the wider npm ecosystem, not Express itself.</p>
+
+<h3>The npm ecosystem: where the risk actually lives</h3>
+
+<p>The Node.js evergreen story can't be told without the npm supply chain, which has no equivalent in the Java world at this scale.</p>
+
+<div class="card">
+<p><strong>lodash — the XStream of npm:</strong></p>
+<p>~46M weekly downloads, effectively unmaintained since 2021 (last meaningful release 4.17.21). Chronic prototype pollution: CVE-2018-16487, CVE-2019-10744 (Critical 9.1), CVE-2020-8203 (in CISA KEV), CVE-2021-23337, CVE-2026-2950. One maintainer. Unlike XStream, there's no architectural fix coming — the prototype pollution pattern is inherent to lodash's design of deep object manipulation.</p>
+
+<p style="margin-top:12px"><strong>vm2 — declared unfixable:</strong></p>
+<p>Sandbox escape library ultimately <strong>deprecated entirely</strong> after repeated Critical CVEs (CVE-2023-37466, CVE-2023-37903, CVE-2026-22709, all CVSS 9.8). The maintainers concluded the sandbox approach was architecturally unsound — the XStream denylist admission, but for JavaScript sandboxing.</p>
+
+<p style="margin-top:12px"><strong>Supply chain attacks dominate traditional CVEs:</strong></p>
+<p>event-stream (2018, social engineering → crypto theft), ua-parser-js (2021, account compromise → cryptominer), colors/faker.js (2022, maintainer sabotage), the September 2025 npm worm (chalk + debug compromised, 2.6B weekly downloads, self-replicating), axios (March 2026, lead maintainer credentials compromised). Over 99% of open-source malware now targets npm. Average npm project: 79 transitive dependencies.</p>
+</div>
+
+<h3>Post-EOL: commercial-only, no community safety net</h3>
+
+<p>Unlike Java — where Red Hat, Amazon Corretto, and Eclipse Adoptium provide <strong>free</strong> extended LTS builds for Java 8 and 11 indefinitely — Node.js EOL support is <strong>commercial only</strong> (HeroDevs, NodeSource, TuxCare). Each LTS gets 30 months total (vs. Java's 8+ years of free community support). The Node.js project started publishing CVEs for EOL versions themselves in 2025 (CVE-2025-23087 for all Node ≤17) to flag the risk.</p>
+
+<div class="callout callout-finding">
+<strong>The evergreen pressure is stronger in Node.js than anywhere else we've examined.</strong> Shorter support windows (30 months vs. 8+ years for Java, 10 years for RHEL, 10 years for Windows Server), no free community backports after EOL, and the project willing to kill versions early when upstream dependencies (OpenSSL) go EOL. But the payoff for evergreening is worse — newer versions have <em>more</em> CVEs (new features = new bugs), the runtime isn't what gets exploited anyway, and the real risk (npm supply chain) is completely version-independent.
+</div>
+
+<h3>The comparison table</h3>
+
+<div class="card">
+<table style="font-size:.84em">
+<thead><tr><th>Dimension</th><th>Java (JVM + Spring)</th><th>Node.js (runtime + npm)</th></tr></thead>
+<tbody>
+<tr><td>Evergreen boundary</td><td>Java 8→11 (applet removal)</td><td>Node 16→18 (OpenSSL 1.1.1→3.0)</td></tr>
+<tr><td>Direction</td><td class="yes">Boundary <em>removes</em> attack surface</td><td class="worse">Boundary <em>adds</em> attack surface</td></tr>
+<tr><td>Runtime in CISA KEV</td><td>13 entries (all pre-2017 applets)</td><td>0 entries</td></tr>
+<tr><td>Ecosystem in CISA KEV</td><td>WebLogic (11), Log4Shell</td><td>React2Shell (10.0), lodash, systeminformation</td></tr>
+<tr><td>Post-EOL free patches</td><td class="yes">Yes (Red Hat, Adoptium, Corretto)</td><td class="worse">No — commercial only</td></tr>
+<tr><td>Support window</td><td>8+ years (free community LTS)</td><td>30 months</td></tr>
+<tr><td>Framework migration barrier</td><td class="worse">High (javax→jakarta + Java 17)</td><td class="yes">Low (Express 4→5 is modest)</td></tr>
+<tr><td>Supply chain risk</td><td>Moderate (Maven Central, signed artifacts)</td><td class="worse">Extreme (99% of OSS malware targets npm)</td></tr>
+<tr><td>Dominant risk layer</td><td>Libraries (Spring, XStream, Log4j)</td><td>Ecosystem (npm packages, supply chain)</td></tr>
+</tbody>
+</table>
+</div>
+
+<div class="chart-wrap">
+<h3>Node.js Runtime Security Releases by Year</h3>
+<canvas id="nodeChart"></canvas>
+</div>
+
+<!-- ===== SYNTHESIS ===== -->
+<h2>6. Synthesis: What Actually Reduces CVE Exposure?</h2>
+
+<div class="card">
+<p>Across all five layers — Java libraries, JVM platform, RHEL, Windows Server, Node.js — a pattern emerges, though with important variation:</p>
 
 <table>
 <thead><tr><th>Strategy</th><th>Reduces CVE count?</th><th>Reduces exploitation risk?</th><th>Mechanism</th></tr></thead>
 <tbody>
-<tr><td><strong>Evergreening</strong> (new major versions)</td><td><span class="tag tag-red">No — equal or more</span></td><td><span class="tag tag-green">Yes (with one exception)</span></td><td>Exploitation mitigations (RHEL, Windows), legacy surface removal (JVM: Java 11 eliminated all 13 KEV entries). But new versions introduce new bugs (Psychic Signatures, Spring4Shell). Spring 5.x post-EOL is accumulating NP+DI-class CVEs with no free patches — but none are being exploited.</td></tr>
+<tr><td><strong>Evergreening</strong> (new major versions)</td><td><span class="tag tag-red">No — equal or more</span></td><td><span class="tag tag-amber">Depends on ecosystem</span></td><td>JVM: Java 11 removed all exploited surface (13 KEV entries). RHEL/Windows: mitigations harden post-exploitation. Node.js: <em>adds</em> attack surface (permission model, undici, io_uring). Across all ecosystems, new versions introduce new bugs (Psychic Signatures, Spring4Shell, CVE-2022-35255). Spring 5.x post-EOL accumulates NP+DI debt but none exploited. Node.js has strongest evergreen pressure (30mo lifecycle, no free backports) but worst payoff (more CVEs, ecosystem risk is version-independent).</td></tr>
 <tr><td><strong>Patch currency</strong> (latest minor/patch)</td><td><span class="tag tag-green">Yes</span></td><td><span class="tag tag-green">Yes</span></td><td>26 of 28 Java CVEs fixed by point releases within existing major lines</td></tr>
 <tr><td><strong>Dependency pruning</strong> (drop unused libs)</td><td><span class="tag tag-green">Yes</span></td><td><span class="tag tag-green">Yes</span></td><td>Dropping XStream alone eliminates 6 of 28 CVEs regardless of generation</td></tr>
 <tr><td><strong>NP+DI filter</strong></td><td><span class="tag tag-green">Yes (80% reduction)</span></td><td><span class="tag tag-green">Yes</span></td><td>Works identically across generations — fires on CVE structure, not version</td></tr>
@@ -710,6 +840,26 @@ code{background:#f1f5f9;padding:2px 6px;border-radius:4px;font-size:.88em}
 </div><!-- /container -->
 
 <script>
+// Node.js security releases by year (runtime-level, approximate from Node.js blog)
+new Chart(document.getElementById('nodeChart'), {
+    type: 'bar',
+    data: {
+        labels: ['2018','2019','2020','2021','2022','2023','2024','2025'],
+        datasets: [
+            {label:'Critical',data:[3,2,9,16,13,10,10,7],backgroundColor:'#ef4444',borderRadius:3},
+            {label:'High',data:[38,7,13,31,24,24,27,28],backgroundColor:'#f59e0b',borderRadius:3},
+            {label:'Medium+Low',data:[7,7,4,25,21,19,32,47],backgroundColor:'#94a3b8',borderRadius:3}
+        ]
+    },
+    options: {
+        scales: {
+            y:{beginAtZero:true,stacked:true,title:{display:true,text:'Node.js Ecosystem CVEs (incl. npm)'},grid:{color:'rgba(226,232,240,.6)'}},
+            x:{stacked:true,grid:{display:false}}
+        },
+        plugins:{legend:{position:'top',labels:{boxWidth:12}}}
+    }
+});
+
 // JVM CVEs by year (Oracle CPU)
 new Chart(document.getElementById('jvmChart'), {
     type: 'bar',
