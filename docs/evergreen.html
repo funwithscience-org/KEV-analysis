@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Evergreening Analysis — Does Staying Current Reduce CVE Exposure?</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+<style>
+:root{--bg:#ffffff;--text:#1e293b;--muted:#64748b;--border:#e2e8f0;--card:#f8fafc;--accent:#6366f1;--red:#ef4444;--amber:#f59e0b;--green:#10b981;--cyan:#0ea5e9}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:var(--bg);color:var(--text);line-height:1.65;padding:0}
+.container{max-width:960px;margin:0 auto;padding:32px 24px}
+h1{font-size:1.8em;color:var(--accent);margin-bottom:8px}
+h2{font-size:1.35em;color:var(--text);margin:40px 0 16px;padding-bottom:8px;border-bottom:2px solid var(--accent)}
+h3{font-size:1.1em;margin:24px 0 12px;color:var(--text)}
+p{margin:12px 0}
+a{color:var(--accent)}
+
+.subtitle{font-size:1.05em;color:var(--muted);margin-bottom:32px}
+.draft-notice{background:#fef3c7;border:1px solid #fbbf24;border-radius:8px;padding:12px 16px;margin-bottom:24px;font-size:.9em;color:#92400e}
+
+.verdict-box{background:var(--card);border:2px solid var(--accent);border-radius:12px;padding:24px;margin:24px 0;text-align:center}
+.verdict-box .number{font-size:2.2em;font-weight:800;color:var(--accent);line-height:1.1}
+.verdict-box .label{font-size:.95em;color:var(--muted);margin-top:4px}
+
+.hero-row{display:flex;gap:16px;justify-content:center;flex-wrap:wrap;margin:20px 0}
+.hero-card{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:16px 20px;text-align:center;min-width:180px;flex:1}
+.hero-card .num{font-size:1.8em;font-weight:800;line-height:1.1}
+.hero-card .lbl{font-size:.82em;color:var(--muted);margin-top:4px}
+
+.card{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:20px;margin:16px 0}
+
+table{width:100%;border-collapse:collapse;margin:16px 0;font-size:.9em}
+th{background:var(--card);border-bottom:2px solid var(--border);padding:10px 8px;text-align:left;font-weight:600;color:var(--text)}
+td{border-bottom:1px solid var(--border);padding:8px;vertical-align:top}
+tr:hover{background:rgba(99,102,241,.04)}
+.yes{color:var(--green);font-weight:700}
+.no{color:var(--muted)}
+.worse{color:var(--red);font-weight:700}
+.tag{display:inline-block;padding:2px 8px;border-radius:4px;font-size:.8em;font-weight:600}
+.tag-green{background:#dcfce7;color:#166534}
+.tag-red{background:#fef2f2;color:#991b1b}
+.tag-amber{background:#fef3c7;color:#92400e}
+.tag-gray{background:#f1f5f9;color:#475569}
+
+.callout{border-radius:10px;padding:16px 20px;margin:20px 0}
+.callout-finding{background:rgba(99,102,241,.06);border-left:4px solid var(--accent)}
+.callout-warning{background:rgba(239,68,68,.06);border-left:4px solid var(--red)}
+.callout-success{background:rgba(16,185,129,.06);border-left:4px solid var(--green)}
+
+.chart-wrap{margin:20px 0;max-width:700px}
+canvas{max-height:320px}
+
+details{margin:12px 0}
+details summary{cursor:pointer;color:var(--accent);font-weight:600;font-size:.95em}
+details summary:hover{text-decoration:underline}
+
+code{background:#f1f5f9;padding:2px 6px;border-radius:4px;font-size:.88em}
+
+.footnote{font-size:.85em;color:var(--muted);margin-top:8px}
+@media(max-width:640px){.hero-row{flex-direction:column}.hero-card{min-width:auto}}
+</style>
+</head>
+<body>
+<div class="container">
+
+<div class="draft-notice">SCRATCH / WORKING DOCUMENT — Not linked from the main site. Analysis in progress.</div>
+
+<h1>Does Evergreening Change the Answer?</h1>
+<p class="subtitle">If you aggressively adopt new major versions of your platform, OS, and libraries as they ship — do you avoid vulnerabilities, or just trade old ones for new ones?</p>
+
+<!-- ===== EXECUTIVE SUMMARY ===== -->
+<h2>The Short Answer</h2>
+
+<div class="verdict-box">
+<div class="number">Evergreening shifts the attack surface.<br>It doesn't shrink it.</div>
+<div class="label" style="margin-top:12px">Across Java libraries, RHEL kernels, and Windows Server — newer versions consistently have <strong>equal or more</strong> CVEs to patch, not fewer. The case for staying current is lifecycle coverage and exploitation mitigations, not a smaller patch burden.</div>
+</div>
+
+<div class="hero-row">
+<div class="hero-card">
+<div class="num" style="color:var(--accent)">2 of 28</div>
+<div class="lbl">Java CVEs avoided<br>by evergreening</div>
+</div>
+<div class="hero-card">
+<div class="num" style="color:var(--red)">2 of 28</div>
+<div class="lbl">Java CVEs <em>worse</em><br>on the new stack</div>
+</div>
+<div class="hero-card">
+<div class="num" style="color:var(--amber)">+25–30%</div>
+<div class="lbl">More Windows CVEs<br>on Server 2022 vs 2016</div>
+</div>
+<div class="hero-card">
+<div class="num" style="color:var(--green)">Lifecycle</div>
+<div class="lbl">The real reason<br>to evergreen</div>
+</div>
+</div>
+
+<!-- ===== JAVA / OPEN SOURCE ===== -->
+<h2>1. Java Libraries — The Real-World Manifest</h2>
+
+<p>Our <a href="periodicity.html">periodicity analysis</a> backtested a real-world Java manifest (Spring Boot app, ~40 dependencies) over 8 years (2018–2026), producing 25 NP+DI trigger CVEs plus 3 filter misses. The manifest was built on the "old generation": Java 8, Spring 5, Spring Boot 1.x, Tomcat 9.</p>
+
+<p><strong>The evergreen alternative:</strong> upgrade to Java 11 (2018) → 17 (2021) → 21 (2023), Spring 6 (2022), Spring Boot 3 (2022), Tomcat 10 (2021) as each became available. Would any of the 28 CVEs have been avoided?</p>
+
+<div class="hero-row">
+<div class="hero-card" style="border-color:var(--green)">
+<div class="num" style="color:var(--green)">2</div>
+<div class="lbl">Avoided by evergreening</div>
+</div>
+<div class="hero-card" style="border-color:var(--red)">
+<div class="num" style="color:var(--red)">2</div>
+<div class="lbl">Made <em>worse</em></div>
+</div>
+<div class="hero-card">
+<div class="num" style="color:var(--muted)">24</div>
+<div class="lbl">No difference</div>
+</div>
+</div>
+
+<h3>Avoided: dead libraries forced out by the generation shift</h3>
+
+<table>
+<thead><tr><th>CVE</th><th>Library</th><th>Why avoided</th></tr></thead>
+<tbody>
+<tr><td><code>CVE-2019-10172</code></td><td>jackson-mapper-asl (Jackson 1.x)</td><td>Jackson 1.x is EOL since 2013, <strong>never patched</strong>. Spring Boot 2+ uses jackson-databind (Jackson 2.x). Evergreening forces migration — the only remediation.</td></tr>
+<tr><td><code>CVE-2019-17495</code></td><td>Swagger UI (via Springfox)</td><td>Springfox is abandoned and incompatible with Spring Boot 3. Migration to springdoc-openapi bundles a current Swagger UI. Indirect benefit.</td></tr>
+</tbody>
+</table>
+
+<p class="footnote">Both are cases where a library was abandoned entirely — no patch exists. The generation shift forces you off the dead dependency. This is <strong>dependency pruning</strong>, not platform improvement.</p>
+
+<h3>Made worse: the new stack was the vulnerable one</h3>
+
+<table>
+<thead><tr><th>CVE</th><th>Library</th><th>What happened</th></tr></thead>
+<tbody>
+<tr><td><code>CVE-2022-22965</code></td><td>Spring Framework<br>(Spring4Shell)</td><td class="worse">Requires JDK 9+ to exploit. <strong>Java 8 was completely immune.</strong> The evergreen path (Java 11/17) was the vulnerable path. Spring 6 didn't exist yet (released Nov 2022; bug was March 2022).</td></tr>
+<tr><td><code>CVE-2026-34197</code></td><td>ActiveMQ (Jolokia)</td><td class="worse">ActiveMQ 6.0.0–6.1.1 <strong>removed Jolokia authentication</strong> by default (CVE-2024-32114), making the newer generation more exploitable than 5.x until 6.2.3 patched it.</td></tr>
+</tbody>
+</table>
+
+<div class="callout callout-warning">
+<strong>Spring4Shell is the headliner.</strong> The single most impactful exploited CVE in this dataset was one where the "old" stack (Java 8) was immune and the "modern" stack (JDK 9+) was vulnerable. An evergreener would have had to emergency-patch; the team that stayed on Java 8 could have ignored it entirely.
+</div>
+
+<h3>No difference: 24 of 28 CVEs</h3>
+
+<p>The vast majority affected all supported major versions simultaneously. The patterns:</p>
+
+<div class="card">
+<p><strong>Tomcat (7 CVEs):</strong> Every Tomcat CVE — Ghostcat, request smuggling, PUT deserialization, path traversal — affected all generations (8.5, 9, 10, 10.1, 11) equally. Tomcat's core request-handling code is shared across generations. Fixed by minor patch, not generation upgrade.</p>
+
+<p style="margin-top:12px"><strong>XStream (6 CVEs):</strong> XStream is an application-level dependency. Its version is unrelated to Spring/Java generation. All 6 CVEs would only have been avoided by <strong>dropping XStream entirely</strong> — dependency pruning, not evergreening.</p>
+
+<p style="margin-top:12px"><strong>Spring Framework (3 CVEs):</strong> CVE-2018-1275/1270 (SpEL RCE) affected Spring 4.x AND 5.x. CVE-2023-20863 (SpEL injection) affected Spring 5 AND Spring 6. Both generations vulnerable, fixed by patch release.</p>
+
+<p style="margin-top:12px"><strong>Log4j (2 CVEs):</strong> Log4Shell affected Log4j 2.0–2.14.1 regardless of what Spring/Java version you run. Spring Boot defaults to Logback; if you opted into Log4j2, both Spring Boot 2 and 3 are equally affected.</p>
+
+<p style="margin-top:12px"><strong>Everything else</strong> (dom4j, jackson-databind, Hazelcast, Apache CXF, Apache MINA): All generations affected. These are transitive or application-level dependencies whose vulnerability is version-of-the-library specific, not platform-generation specific.</p>
+</div>
+
+<h3>Does evergreening change the NP+DI answer?</h3>
+
+<div class="callout callout-finding">
+<strong>No.</strong> NP+DI fires on CWE pattern + network parser classification, not library version. The 2 avoided CVEs (jackson-mapper-asl, Swagger UI) were both NP+DI triggers — so the filter would have fired either way. The 2 "made worse" CVEs were also NP+DI triggers. You'd rebuild the same number of times on either generation. The filter is generation-agnostic because the vulnerability classes it targets (injection, parser abuse, auth bypass) exist in every generation.
+</div>
+
+<details>
+<summary>Full 28-CVE breakdown table</summary>
+<table style="font-size:.84em">
+<thead><tr><th>CVE</th><th>Library</th><th>Type</th><th>Affected versions</th><th>Evergreen?</th></tr></thead>
+<tbody>
+<tr><td><code>CVE-2018-1000632</code></td><td>dom4j</td><td>NP+DI</td><td>All dom4j &lt; 2.1.1 (transitive via Hibernate, present in Spring Boot 2 and 3)</td><td class="no">No diff</td></tr>
+<tr><td><code>CVE-2018-1275</code></td><td>Spring Framework</td><td>NP+DI</td><td>Spring 4.3.0–4.3.15, 5.0.0–5.0.4</td><td class="no">No diff</td></tr>
+<tr><td><code>CVE-2018-1270</code></td><td>Spring Framework</td><td>NP+DI</td><td>Spring &lt; 4.3.16, 5.0.0–5.0.4</td><td class="no">No diff</td></tr>
+<tr><td><code>CVE-2019-0232</code></td><td>Tomcat</td><td>NP+DI</td><td>Tomcat 7/8.5/9 (Windows only; Tomcat 10 didn't exist)</td><td class="no">No diff</td></tr>
+<tr><td><code>CVE-2013-7285</code></td><td>XStream</td><td>NP+DI</td><td>XStream ≤ 1.4.6 / 1.4.10</td><td class="no">No diff</td></tr>
+<tr><td><code>CVE-2019-10173</code></td><td>XStream</td><td>NP+DI</td><td>XStream 1.4.10</td><td class="no">No diff</td></tr>
+<tr><td><code>CVE-2019-17495</code></td><td>Swagger UI</td><td>NP+DI</td><td>Swagger UI &lt; 3.23.11 (via Springfox)</td><td class="yes">Avoided</td></tr>
+<tr><td><code>CVE-2019-10172</code></td><td>jackson-mapper-asl</td><td>NP+DI</td><td>All 1.9.x (EOL, no fix)</td><td class="yes">Avoided</td></tr>
+<tr><td><code>CVE-2020-10683</code></td><td>dom4j</td><td>NP+DI</td><td>dom4j &lt; 2.1.3 (via Hibernate)</td><td class="no">No diff</td></tr>
+<tr><td><code>CVE-2020-26217</code></td><td>XStream</td><td>NP+DI</td><td>XStream &lt; 1.4.14</td><td class="no">No diff</td></tr>
+<tr><td><code>CVE-2021-29505</code></td><td>XStream</td><td>NP+DI</td><td>XStream &lt; 1.4.17</td><td class="no">No diff</td></tr>
+<tr><td><code>CVE-2021-39150</code></td><td>XStream</td><td>NP+DI</td><td>XStream &lt; 1.4.18</td><td class="no">No diff</td></tr>
+<tr><td><code>CVE-2021-39144</code></td><td>XStream</td><td>NP+DI</td><td>XStream &lt; 1.4.18</td><td class="no">No diff</td></tr>
+<tr><td><code>CVE-2021-39152</code></td><td>XStream</td><td>NP+DI</td><td>XStream &lt; 1.4.18</td><td class="no">No diff</td></tr>
+<tr><td><code>CVE-2020-24616</code></td><td>jackson-databind</td><td>NP+DI</td><td>jackson-databind 2.x &lt; 2.9.10.6</td><td class="no">No diff</td></tr>
+<tr><td><code>CVE-2021-44228</code></td><td>Log4j 2</td><td>NP+DI</td><td>Log4j 2.0-beta9 to 2.14.1</td><td class="no">No diff</td></tr>
+<tr><td><code>CVE-2021-45046</code></td><td>Log4j 2</td><td>NP+DI</td><td>Log4j 2.0–2.15.0</td><td class="no">No diff</td></tr>
+<tr><td><code>CVE-2022-22965</code></td><td>Spring Framework</td><td>NP+DI</td><td>Spring 5.2.x/5.3.x on JDK 9+</td><td class="worse">Worse</td></tr>
+<tr><td><code>CVE-2022-42252</code></td><td>Tomcat</td><td>NP+DI</td><td>Tomcat 8.5/9/10.0/10.1</td><td class="no">No diff</td></tr>
+<tr><td><code>CVE-2023-20863</code></td><td>Spring Expression</td><td>NP+DI</td><td>Spring 5.x AND 6.0.x</td><td class="no">No diff</td></tr>
+<tr><td><code>CVE-2023-46589</code></td><td>Tomcat</td><td>NP+DI</td><td>Tomcat 8.5/9/10.1/11.0</td><td class="no">No diff</td></tr>
+<tr><td><code>CVE-2023-45860</code></td><td>Hazelcast</td><td>NP+DI</td><td>Hazelcast ≤ 5.3.4</td><td class="no">No diff</td></tr>
+<tr><td><code>CVE-2024-28752</code></td><td>Apache CXF</td><td>NP+DI</td><td>CXF &lt; 3.5.8 / &lt; 3.6.3 / &lt; 4.0.4</td><td class="no">No diff</td></tr>
+<tr><td><code>CVE-2024-52046</code></td><td>Apache MINA</td><td>NP+DI</td><td>MINA 2.0.x/2.1.x/2.2.x</td><td class="no">No diff</td></tr>
+<tr><td><code>CVE-2025-55752</code></td><td>Tomcat</td><td>NP+DI</td><td>Tomcat 8.5/9/10.1/11.0</td><td class="no">No diff</td></tr>
+<tr><td><code>CVE-2020-1938</code></td><td>Tomcat (Ghostcat)</td><td>Miss</td><td>Tomcat 7/8.5/9</td><td class="no">No diff</td></tr>
+<tr><td><code>CVE-2025-24813</code></td><td>Tomcat</td><td>Miss</td><td>Tomcat 9/10.1/11</td><td class="no">No diff</td></tr>
+<tr><td><code>CVE-2026-34197</code></td><td>ActiveMQ</td><td>Miss</td><td>ActiveMQ &lt; 5.19.4 AND 6.0.0–6.2.2</td><td class="worse">Worse</td></tr>
+</tbody>
+</table>
+</details>
+
+<!-- ===== RHEL ===== -->
+<h2>2. RHEL — Newer Kernels, More Attack Surface</h2>
+
+<p>Compare staying on RHEL 6 (kernel 2.6.32, GA 2010) vs evergreening to RHEL 8 (kernel 4.18, GA 2019) → RHEL 9 (kernel 5.14, GA 2022) as each became available.</p>
+
+<div class="hero-row">
+<div class="hero-card" style="border-color:var(--red)">
+<div class="num" style="color:var(--red)">99</div>
+<div class="lbl">RHEL 8 kernel advisories<br>in 2024</div>
+</div>
+<div class="hero-card">
+<div class="num" style="color:var(--red)">125</div>
+<div class="lbl">RHEL 9 kernel advisories<br>in 2024</div>
+</div>
+<div class="hero-card" style="border-color:var(--green)">
+<div class="num" style="color:var(--green)">2</div>
+<div class="lbl">RHEL 6 ELS kernel advisories<br>in 2024</div>
+</div>
+</div>
+
+<p>The "current" RHEL version consistently receives the <strong>most</strong> advisories, not the fewest. This partly reflects that Red Hat patches all severities on current versions but only Critical/Important on older ones — but the sheer volume gap (125 vs 2) is too large to be explained by policy alone.</p>
+
+<h3>Why newer kernels have more CVEs</h3>
+
+<div class="card">
+<p>Each RHEL major version adds kernel subsystems that become fresh attack surface: user namespaces, eBPF, io_uring, OverlayFS, nf_tables improvements, cgroup v2, fs_context. These are valuable security infrastructure (namespaces enable containers, eBPF enables monitoring), but they carry their own bugs.</p>
+
+<p style="margin-top:12px">Of 12 notable kernel CVEs examined from 2018–2024:</p>
+<table style="font-size:.88em">
+<thead><tr><th>Pattern</th><th>Count</th><th>Examples</th></tr></thead>
+<tbody>
+<tr><td>Hit newer RHEL, <strong>not</strong> older</td><td style="font-weight:700;color:var(--red)">6</td><td>Dirty Pipe (5.8+), OverlayFS privesc (5.11+), fs_context heap overflow (4.18+), cgroup1 UAF (5.x), nf_tables (5.8+), AF_PACKET (4.6+)</td></tr>
+<tr><td>Hit all versions equally</td><td>4</td><td>SACK Panic (TCP), vhost overflow, Sequoia (VFS), Meltdown (hardware)</td></tr>
+<tr><td>Hit older RHEL, <strong>not</strong> newer</td><td style="font-weight:700;color:var(--green)">2</td><td>cls_route UAF (legacy code removed), Dirty COW (mm race fixed)</td></tr>
+</tbody>
+</table>
+</div>
+
+<h3>The real argument: lifecycle coverage</h3>
+
+<div class="callout callout-finding">
+<p><strong>The case for RHEL evergreening isn't fewer CVEs — it's getting patches at all.</strong></p>
+<p style="margin-top:8px">RHEL 6 went EOL November 2020. After that, without paid ELS ($400+/server/year), you get zero patches. With ELS, you get 2–3 advisories/year vs. 99+ on RHEL 8. And patch delivery is dramatically slower: CVE-2021-22555 (netfilter write) was patched on RHEL 8 within 34 days; the RHEL 6 ELS patch arrived <strong>4+ years later</strong>.</p>
+<p style="margin-top:8px">During RHEL 6's full support phase (pre-Nov 2020), patch delivery was roughly comparable. The evergreening benefit is entirely about staying inside the support window where Red Hat actively patches everything.</p>
+</div>
+
+<h3>The CIQ backporting caveat</h3>
+
+<p>CIQ (Rocky Linux) published research showing Red Hat's backporting rate declines sharply as a RHEL version ages — even during its supported lifecycle. RHEL 8.8 kernel commits showed decreasing backported fixes starting November 2021. Each new RHEL major version resets the backporting clock, but the same decay pattern repeats. Running the latest stable upstream kernel would be ideal, but vendor-frozen kernels are the enterprise reality.</p>
+
+<div class="chart-wrap">
+<h3>RHEL Kernel Advisories by Year</h3>
+<canvas id="rhelChart"></canvas>
+</div>
+
+<!-- ===== WINDOWS ===== -->
+<h2>3. Windows Server — More Features, More CVEs</h2>
+
+<p>Compare staying on Windows Server 2016 vs evergreening to Server 2019 (Oct 2018) → Server 2022 (Aug 2021) as each became available.</p>
+
+<div class="hero-row">
+<div class="hero-card">
+<div class="num" style="color:var(--muted)">610</div>
+<div class="lbl">Server 2016 CVEs<br>in 2025</div>
+</div>
+<div class="hero-card" style="border-color:var(--red)">
+<div class="num" style="color:var(--red)">761</div>
+<div class="lbl">Server 2022 CVEs<br>in 2025</div>
+</div>
+<div class="hero-card" style="border-color:var(--red)">
+<div class="num" style="color:var(--red)">787</div>
+<div class="lbl">Server 2025 CVEs<br>in 2025</div>
+</div>
+</div>
+
+<p>Server 2022 had <strong>151 more CVEs</strong> to patch than Server 2016 in 2025 (25% more). Server 2025 had 177 more (29% more). This pattern held every single month — not once in 20+ months of data did Server 2016 have more Patch Tuesday CVEs than Server 2022.</p>
+
+<h3>Where the extra CVEs come from</h3>
+
+<div class="card">
+<p>In a typical Patch Tuesday (April 2026 example, 128 Server CVEs):</p>
+<table style="font-size:.88em">
+<thead><tr><th>Pattern</th><th>CVEs</th><th>%</th></tr></thead>
+<tbody>
+<tr><td>Affect ALL versions (2016/2019/2022/2025)</td><td>84</td><td>65%</td></tr>
+<tr><td>Affect Server 2016</td><td>87</td><td>68%</td></tr>
+<tr><td>Affect Server 2025</td><td>124</td><td>96%</td></tr>
+<tr><td>Affect ONLY Server 2016 (not newer)</td><td>0</td><td>0%</td></tr>
+</tbody>
+</table>
+<p style="margin-top:8px">~65% of CVEs hit every supported version. The remaining ~35% are almost entirely "newer versions only" — new subsystems (Brokering File System, Virtual Secure Mode, Azure Local, PrintWorkflowUserSvc) that older versions never had.</p>
+<p style="margin-top:8px">Across all of 2024, only <strong>5 CVEs</strong> affected Server 2016 but not newer versions. In 2025, just <strong>1 CVE</strong>. The "legacy-only" CVE category barely exists.</p>
+</div>
+
+<h3>Notable CVEs: version doesn't matter</h3>
+
+<div class="card">
+<p><strong>PrintNightmare</strong> (CVE-2021-34527): ALL versions. Patches released simultaneously. Core print spooler code is shared.</p>
+<p style="margin-top:8px"><strong>Zerologon</strong> (CVE-2020-1472, CVSS 10.0): ALL versions (2008 R2 through 2019). Netlogon protocol is shared infrastructure.</p>
+<p style="margin-top:8px"><strong>EternalBlue</strong> (CVE-2017-0144): The one genuine legacy example — SMBv1 is not installed by default on Server 2019+. But SMBv1 can also be disabled on Server 2016. This is a configuration choice, not a version-freshness issue.</p>
+</div>
+
+<h3>The real argument: exploitation mitigations</h3>
+
+<div class="callout callout-finding">
+<p><strong>The case for Windows Server evergreening isn't fewer CVEs — it's making CVEs harder to weaponize.</strong></p>
+<p style="margin-top:8px">Server 2022+ ships with Secured Core (HVCI, DMA protection, VBS), TLS 1.0/1.1 disabled by default, and TPM 2.0 for firmware protection. These don't reduce the CVE count — they reduce exploitability. An attacker hitting a CVE on Server 2022 faces more hurdles than the same CVE on Server 2016.</p>
+<p style="margin-top:8px">And like RHEL, there's a lifecycle argument: Server 2016 mainstream support ended January 2022, extended support runs to January 2027. Staying current buys runway before you hit end-of-support.</p>
+</div>
+
+<div class="chart-wrap">
+<h3>Windows Server Patch Tuesday CVEs (2025)</h3>
+<canvas id="winChart"></canvas>
+</div>
+
+<!-- ===== SYNTHESIS ===== -->
+<h2>4. Synthesis: What Actually Reduces CVE Exposure?</h2>
+
+<div class="card">
+<p>Across all three axes, the same pattern emerges:</p>
+
+<table>
+<thead><tr><th>Strategy</th><th>Reduces CVE count?</th><th>Reduces exploitation risk?</th><th>Mechanism</th></tr></thead>
+<tbody>
+<tr><td><strong>Evergreening</strong> (new major versions)</td><td><span class="tag tag-red">No — equal or more</span></td><td><span class="tag tag-green">Yes</span></td><td>Lifecycle coverage, exploitation mitigations, legacy protocol removal</td></tr>
+<tr><td><strong>Patch currency</strong> (latest minor/patch)</td><td><span class="tag tag-green">Yes</span></td><td><span class="tag tag-green">Yes</span></td><td>26 of 28 Java CVEs fixed by point releases within existing major lines</td></tr>
+<tr><td><strong>Dependency pruning</strong> (drop unused libs)</td><td><span class="tag tag-green">Yes</span></td><td><span class="tag tag-green">Yes</span></td><td>Dropping XStream alone eliminates 6 of 28 CVEs regardless of generation</td></tr>
+<tr><td><strong>NP+DI filter</strong></td><td><span class="tag tag-green">Yes (80% reduction)</span></td><td><span class="tag tag-green">Yes</span></td><td>Works identically across generations — fires on CVE structure, not version</td></tr>
+</tbody>
+</table>
+</div>
+
+<div class="callout callout-success">
+<strong>The tactical answer:</strong> If you're trying to reduce how often you drop everything and rebuild, evergreening is not the lever. <strong>Patch currency within your current generation</strong> (staying on the latest minor release) handles 24 of 28 CVEs. <strong>Dependency pruning</strong> (do you actually need XStream?) handles another 6. And <strong>NP+DI</strong> tells you which of the remaining patches actually require an emergency rebuild vs. riding the normal cycle.
+<p style="margin-top:12px">Evergreening is still the right long-term strategy — you need to stay inside the support window, and the exploitation mitigations are real. But it's a strategic decision (lifecycle planning), not a tactical one (fewer fire drills).</p>
+</div>
+
+<h3>The counterargument</h3>
+
+<p>There's a reasonable objection: evergreening keeps you close to upstream, which means patches arrive faster and the backporting decay problem (documented by CIQ for RHEL) is minimized. This is true — but it's a <em>speed of patch delivery</em> argument, not a <em>fewer patches</em> argument. And for the Java libraries, it's largely irrelevant: the fixes were version-of-the-library patches, not platform backports. Log4j 2.15.0 shipped the same day for everyone regardless of what JDK or Spring version they ran.</p>
+
+<p>The strongest evergreening argument is probably <strong>transitive dependency freshness</strong>: Spring Boot 3's dependency management BOM pulls newer versions of its transitive dependencies, which means you're less likely to be running a 3-year-old version of a library with known vulns. But this is again dependency management — you can achieve the same thing with Dependabot or Renovate on any generation.</p>
+
+</div><!-- /container -->
+
+<script>
+// RHEL kernel advisories chart
+new Chart(document.getElementById('rhelChart'), {
+    type: 'bar',
+    data: {
+        labels: ['2019','2020','2021','2022','2023','2024'],
+        datasets: [
+            {label:'RHEL 6',data:[30,16,3,3,2,2],backgroundColor:'#94a3b8',borderRadius:3},
+            {label:'RHEL 7',data:[74,71,53,35,28,20],backgroundColor:'#f59e0b',borderRadius:3},
+            {label:'RHEL 8',data:[18,42,60,64,87,99],backgroundColor:'#ef4444',borderRadius:3},
+            {label:'RHEL 9',data:[null,null,null,12,49,125],backgroundColor:'#6366f1',borderRadius:3}
+        ]
+    },
+    options: {
+        scales: {
+            y:{beginAtZero:true,title:{display:true,text:'Kernel Security Advisories'},grid:{color:'rgba(226,232,240,.6)'}},
+            x:{grid:{display:false}}
+        },
+        plugins:{legend:{position:'top',labels:{boxWidth:12}}}
+    }
+});
+
+// Windows Server CVEs chart
+new Chart(document.getElementById('winChart'), {
+    type: 'bar',
+    data: {
+        labels: ['Server 2016','Server 2019','Server 2022','Server 2025'],
+        datasets: [{
+            label: 'CVEs in 2025',
+            data: [610, 694, 761, 787],
+            backgroundColor: ['#94a3b8','#f59e0b','#ef4444','#6366f1'],
+            borderRadius: 4
+        }]
+    },
+    options: {
+        scales: {
+            y:{beginAtZero:true,title:{display:true,text:'CVEs (Patch Tuesday total)'},grid:{color:'rgba(226,232,240,.6)'}},
+            x:{grid:{display:false}}
+        },
+        plugins:{legend:{display:false}}
+    }
+});
+</script>
+
+</body>
+</html>
