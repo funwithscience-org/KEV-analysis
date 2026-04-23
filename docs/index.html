@@ -418,14 +418,14 @@ A network-parsing HIGH (7.0-7.9) at 0.89% beats a non-parsing CRITICAL (9.0-9.9)
 <canvas id="crossFrameworkChart" height="120"></canvas>
 </div>
 
-<h3>7c. Reduction: Spring 85%, Node 86%, Django 71%</h3>
+<h3>7c. Reduction: Spring 59%, Node 86%, Django 67%</h3>
 
 <table class="data-table">
 <thead><tr><th>Framework</th><th>All C/H dates</th><th>NP+DI dates</th><th>Reduction</th><th>Longest silence</th><th>Pattern</th></tr></thead>
 <tbody>
-<tr><td><strong>Spring Boot</strong></td><td>14 (~every 27d)</td><td><strong>2</strong></td><td><span class="tag tag-green">85%</span></td><td>189 days</td><td>189d silence - Oct 27 - 164d - Apr 9 + Apr 15</td></tr>
+<tr><td><strong>Spring Boot</strong></td><td>14 (~every 27d)</td><td><strong>5</strong></td><td><span class="tag tag-green">64%</span></td><td>164 days</td><td>May 21 - 118d - Sep 16 - 41d - Oct 27 - 164d - Apr 9 + Apr 15</td></tr>
 <tr><td><strong>Node.js/Express</strong></td><td>14 (~every 25d)</td><td><strong>2</strong></td><td><span class="tag tag-green">86%</span></td><td>311 days</td><td>311d silence - Feb 26 - 29d - Mar 27</td></tr>
-<tr><td><strong>Django/DRF</strong></td><td>14 (~every 22d)</td><td><strong>4</strong></td><td><span class="tag tag-green">71%</span></td><td>140 days</td><td>140d - Sep 8 - Oct 1 - Nov 5 - 90d - Feb 3</td></tr>
+<tr><td><strong>Django/DRF</strong></td><td>14 (~every 22d)</td><td><strong>6</strong></td><td><span class="tag tag-green">67%</span></td><td>140 days</td><td>140d - Sep 8 - Oct 1 - Nov 5 - 90d - Feb 3 - 38d - Mar 13</td></tr>
 </tbody></table>
 
 <h3>7d. Silence Windows</h3>
@@ -434,7 +434,7 @@ A network-parsing HIGH (7.0-7.9) at 0.89% beats a non-parsing CRITICAL (9.0-9.9)
 
 <h3>7e. What the Filter Caught</h3>
 
-<p><strong>Spring Boot (2 events):</strong> Tomcat path traversal (CWE-23) via crafted HTTP request, and Thymeleaf template injection (CWE-1336/917) -- textbook SSTI leading to RCE. The Thymeleaf SSTI is exactly the vulnerability class that reaches KEV.</p>
+<p><strong>Spring Boot (5 events):</strong> Spring Security authorization bypass (CWE-693, CWE-863) via annotation detection failure, Tomcat CLIENT_CERT authentication bypass (CWE-287), Tomcat path traversal (CWE-23) via crafted HTTP request, and Thymeleaf template injection (CWE-1336/917) -- textbook SSTI leading to RCE. The auth bypass events reflect the widened DI definition: untrusted input that changes a security decision.</p>
 
 <p><strong>Node.js (2 events):</strong> Koa host header injection (CWE-74) enabling cache poisoning, and Handlebars code injection (CWE-94) via AST type confusion -- four separate attack vectors in the same disclosure. Template engine code injection -- same vulnerability class as the Spring Thymeleaf hit.</p>
 
@@ -1045,7 +1045,7 @@ new Chart(document.getElementById('crossFrameworkChart'), {
         labels: ['Spring Boot','Node.js/Express','Django/Python'],
         datasets: [
             {label:'All C/H trigger dates',data:[14,14,14],backgroundColor:'rgba(220,38,38,.2)',borderColor:'#dc2626',borderWidth:1,borderRadius:4},
-            {label:'NP+DI trigger dates',data:[2,2,4],backgroundColor:['#d97706','#059669','#0ea5e9'],borderRadius:4},
+            {label:'NP+DI trigger dates',data:[5,2,6],backgroundColor:['#d97706','#059669','#0ea5e9'],borderRadius:4},
         ]
     },
     options: {

@@ -101,8 +101,8 @@ details summary:hover{color:var(--cyan)}
 <div class="label">All C/H trigger dates<br><em>identical across all 3 stacks</em></div>
 </div>
 <div class="stat accent">
-<div class="number">1 – 4</div>
-<div class="label">NP+DI trigger dates<br>per stack (67–93% reduction)</div>
+<div class="number">2 – 6</div>
+<div class="label">NP+DI trigger dates<br>per stack (59–86% reduction)</div>
 </div>
 <div class="stat green">
 <div class="number">0</div>
@@ -115,7 +115,7 @@ details summary:hover{color:var(--cyan)}
 </div>
 
 <div class="callout callout-finding">
-<strong>The filter works across ecosystems — without missing any exploited vulnerability.</strong> The original three stacks each produce 14 distinct all-C/H trigger dates — you'd rebuild roughly every 3 weeks under the old model. Under NP+DI, Spring and Node.js drop to 2 events each (85–86%), Django to 4 (71%), Netty to 1 (93%). Across the 12-month synthetic stacks and the 7-year real manifest backtest, every CVE that was later confirmed exploited (CISA KEV or Metasploit) landed in the NP+DI bucket. The filter never told you to skip something that turned out to matter.
+<strong>The filter works across ecosystems — without missing any exploited vulnerability.</strong> The original three stacks each produce 14 distinct all-C/H trigger dates — you'd rebuild roughly every 3 weeks under the old model. Under NP+DI (including auth bypass via input manipulation), Spring drops to 5 events (64%), Node.js to 2 (86%), Django to 6 (67%), Netty to 1 (93%). Across the 12-month synthetic stacks and the 7-year real manifest backtest, every CVE that was later confirmed exploited (CISA KEV or Metasploit) landed in the NP+DI bucket. The filter never told you to skip something that turned out to matter.
 <p style="margin-top:8px">*<strong>The caveat:</strong> the filter logic is sound, but it's only as good as the CWE metadata it reads. The <a href="#epss-comparison">7-year backtest</a> found 3 exploited CVEs that the filter missed — all because upstream CWE tags were wrong (Ghostcat tagged CWE-269 instead of CWE-22, ActiveMQ tagged CWE-20 instead of CWE-94). The filter's answer was correct given its input; the input was bad. The fix is an AI safety-net: automated CWE validation for network-parser advisories that don't match a DI pattern. That catches all 3 on day zero. <strong>Trust the filter, but verify the data it reads.</strong></p>
 </div>
 
@@ -181,10 +181,10 @@ details summary:hover{color:var(--cyan)}
 <tr>
 <td><span class="fw-badge fw-spring">Spring Boot</span></td>
 <td>14 (≈ every 27 days)</td>
-<td><strong>2</strong></td>
-<td style="color:var(--green)"><strong>85%</strong></td>
-<td>189 days</td>
-<td><em>189 days silence</em> → Oct 27 → <em>164 days</em> → Apr 9 + Apr 15</td>
+<td><strong>5</strong></td>
+<td style="color:var(--green)"><strong>64%</strong></td>
+<td>120 days</td>
+<td>May 21 → <em>118 days</em> → Sep 16 → <em>41 days</em> → Oct 27 → <em>164 days</em> → Apr 9 + Apr 15</td>
 </tr>
 <tr>
 <td><span class="fw-badge fw-node">Node.js</span></td>
@@ -197,10 +197,10 @@ details summary:hover{color:var(--cyan)}
 <tr>
 <td><span class="fw-badge fw-django">Django</span></td>
 <td>14 (≈ every 22 days)</td>
-<td><strong>4</strong></td>
-<td style="color:var(--green)"><strong>71%</strong></td>
+<td><strong>6</strong></td>
+<td style="color:var(--green)"><strong>67%</strong></td>
 <td>140 days</td>
-<td><em>140 days</em> → Sep 8 → Oct 1 → Nov 5 → <em>90 days</em> → Feb 3</td>
+<td><em>140 days</em> → Sep 8 → Oct 1 → Nov 5 → <em>90 days</em> → Feb 3 → <em>38 days</em> → Mar 13</td>
 </tr>
 <tr>
 <td><span class="fw-badge fw-netty">Netty</span></td>
@@ -222,7 +222,7 @@ details summary:hover{color:var(--cyan)}
 
 <div class="grid-3">
 <div class="card">
-<h3><span class="fw-badge fw-spring">Spring Boot</span> 2 events</h3>
+<h3><span class="fw-badge fw-spring">Spring Boot</span> 5 events</h3>
 <p><strong>Oct 27:</strong> Tomcat path traversal (CWE-23) — attacker sends crafted HTTP request, traverses outside web root. Classic direct injection.</p>
 <p><strong>Apr 9:</strong> Tomcat output encoding flaw (CWE-116) — improper encoding in JsonAccessLogValve.</p>
 <p><strong>Apr 15:</strong> Thymeleaf template injection ×2 (CWE-1336/917) — expression language injection via template processing. Textbook SSTI → RCE.</p>
@@ -399,7 +399,7 @@ details summary:hover{color:var(--cyan)}
 
 <div class="callout callout-warning">
 <strong>Django is the weakest result, and that's worth understanding.</strong> Unlike Spring and Node.js (which had long silence windows), Django produced 4 NP+DI triggers in 12 months — roughly quarterly. All four were CWE-89 (SQL injection) in Django's ORM layer itself. The Django security team kept finding and patching variants of the same underlying issue (column alias handling, QuerySet connector kwargs).
-<p style="margin-top:8px">This means the filter gives you less breathing room when the framework itself has a persistent vulnerability pattern in its parsing surface. But note: (a) every trigger was a genuine SQL injection — there were no false positives, and (b) 71% reduction is still operationally meaningful — you go from near-monthly fire drills to quarterly ones.</p>
+<p style="margin-top:8px">This means the filter gives you less breathing room when the framework itself has a persistent vulnerability pattern in its parsing surface. But note: (a) every trigger was a genuine SQL injection — there were no false positives, and (b) 67% reduction is still operationally meaningful — you go from near-monthly fire drills to roughly bimonthly ones.</p>
 <p style="margin-top:8px">The counter-argument: "if I'm on Django, the filter only saves me 10 rebuilds a year." That's fair. But those 10 skipped rebuilds were DoS bugs, config issues, and non-NP library fixes that never reached KEV. The 4 rebuilds you did do were all real.</p>
 </div>
 
@@ -418,7 +418,7 @@ details summary:hover{color:var(--cyan)}
 <h2>April 2026 Spike</h2>
 
 <div class="card">
-<p>April was anomalous for Spring specifically. The Spring manifest saw <strong>8 C/H events in April</strong> versus 14 in the prior 11 months combined. All 8 were in network-parser components (Tomcat, Thymeleaf). 5 of 8 were direct injection.</p>
+<p>April was anomalous for Spring specifically. The Spring manifest saw <strong>8 C/H events in April</strong> versus 14 in the prior 11 months combined. All 8 were in network-parser components (Tomcat, Thymeleaf). 6 of 8 were direct injection (including auth bypass via input manipulation).</p>
 <p style="margin-top:8px">The timing is suggestive: Anthropic announced Glasswing/Mythos on April 7. The Tomcat batch (7 CVEs) dropped April 9 — a coordinated release pattern consistent with accumulated findings. The Thymeleaf SSTI pair dropped April 15 — exactly the kind of pattern-matching vulnerability that AI-assisted code scanning excels at. No explicit Mythos attribution in any advisory, but the all-NP/zero-non-NP ratio in a manifest where parsers are only 33% of dependencies suggests focused scanning of parsing surfaces.</p>
 <p style="margin-top:8px">Node.js and Django did not show an April spike of the same magnitude.</p>
 </div>
@@ -688,13 +688,13 @@ details summary:hover{color:var(--cyan)}
 <strong>The filter works across ecosystems — and the OS layer confirms the model.</strong>
 <p style="margin-top:8px">Under <strong>"rebuild on any C/H"</strong>: the original three stacks each hit 14 trigger dates — one every 2-3 weeks. Netty is quieter at 3 dates. The treadmill never stops regardless of your tech stack.</p>
 <p style="margin-top:8px">Under <strong>"rebuild on NP + direct injection"</strong>:</p>
-<p style="margin-top:4px">&bull; <span class="fw-badge fw-spring">Spring</span> 2 events, 5.5 months of silence, 85% reduction. Triggers: Tomcat path traversal, Thymeleaf SSTI.</p>
+<p style="margin-top:4px">&bull; <span class="fw-badge fw-spring">Spring</span> 5 events, 64% reduction. Triggers: Spring Security auth bypass (×2), Tomcat CLIENT_CERT auth failure, Tomcat path traversal, Thymeleaf SSTI.</p>
 <p style="margin-top:4px">&bull; <span class="fw-badge fw-node">Node.js</span> 2 events, 10 months of silence before first hit, 86% reduction. Triggers: Koa host injection, Handlebars code injection.</p>
-<p style="margin-top:4px">&bull; <span class="fw-badge fw-django">Django</span> 4 events, quarterly cadence, 71% reduction. Triggers: all Django ORM SQL injection.</p>
+<p style="margin-top:4px">&bull; <span class="fw-badge fw-django">Django</span> 6 events, 67% reduction. Triggers: Django ORM SQL injection (×5), PyJWT crit header validation bypass.</p>
 <p style="margin-top:4px">&bull; <span class="fw-badge fw-netty">Netty</span> 1 event, 360 days of silence, 67% reduction. Trigger: Netty HTTP request smuggling (CWE-444). Without the CWE-444 addition, this stack would have had zero triggers.</p>
 <p style="margin-top:12px"><strong>The OS container layer produced zero NP+DI events in 12 months</strong> — confirming that the app layer drives emergency rebuild cadence, not the base image. But the OS layer isn't free: 21 LOCAL privesc CVEs accumulated over the year. Monthly container refresh keeps that exposure at 5 instead of 21, reducing blast radius by 76% without requiring emergency response.</p>
 <p style="margin-top:12px">Everything else (Multer DoS, urllib3 decompression bombs, Pillow buffer overflows, Tomcat info leaks, Fastify validation bypasses) rides the normal 30-day release cycle and gets swept up automatically. <strong>Zero of the 34 skipped app-layer events appeared in KEV.</strong> Over the 7-year real manifest, NP+DI and EPSS ≥ 0.50 produce similar patch-event counts (~19 vs ~21) but catch different things — NP+DI fires on day zero before exploitation signal builds; EPSS catches CWE-misclassified misses. The practical model may be NP+DI as the structural baseline with EPSS as a second-look safety net.</p>
-<p style="margin-top:12px">The result is a three-tier model: emergency response for app-layer NP+DI (1-4 times/year), monthly cadence for container base images (blast radius control), and ride-the-cycle for everything else. The filter preserves the "seatbelt not airbag" principle — you still patch everything on a regular cycle, but you stop treating every C/H as a fire drill. The <a href="cve-reference.html" style="color:var(--cyan)">full CVE reference list</a> is available for independent validation of every classification.</p>
+<p style="margin-top:12px">The result is a three-tier model: emergency response for app-layer NP+DI (2-6 times/year), monthly cadence for container base images (blast radius control), and ride-the-cycle for everything else. The filter preserves the "seatbelt not airbag" principle — you still patch everything on a regular cycle, but you stop treating every C/H as a fire drill. The <a href="cve-reference.html" style="color:var(--cyan)">full CVE reference list</a> is available for independent validation of every classification.</p>
 </div>
 
 <div class="footer">
@@ -716,7 +716,7 @@ new Chart(document.getElementById('crossFrameworkChart'), {
         labels: ['Spring Boot','Node.js/Express','Django/Python','Netty'],
         datasets: [
             {label:'All C/H trigger dates',data:[14,14,14,3],backgroundColor:'rgba(239,68,68,.3)',borderColor:C.red,borderWidth:1,borderRadius:4},
-            {label:'NP+DI trigger dates',data:[2,2,4,1],backgroundColor:[C.spring,C.node,C.django,C.netty],borderRadius:4},
+            {label:'NP+DI trigger dates',data:[5,2,6,1],backgroundColor:[C.spring,C.node,C.django,C.netty],borderRadius:4},
         ]
     },
     options: {
@@ -734,7 +734,7 @@ new Chart(document.getElementById('periodicityChart'), {
     data: {
         labels: ['Spring\nAll C/H','Spring\nNP+DI','Node.js\nAll C/H','Node.js\nNP+DI','Django\nAll C/H','Django\nNP+DI','Netty\nAll C/H','Netty\nNP+DI'],
         datasets: [
-            {label:'Rebuild trigger dates',data:[14,2,14,2,14,4,3,1],
+            {label:'Rebuild trigger dates',data:[14,5,14,2,14,6,3,1],
              backgroundColor:[C.red,C.spring,C.red,C.node,C.red,C.django,C.red,C.netty],borderRadius:4,yAxisID:'y'},
             {label:'Longest silence (days)',data:[113,189,81,311,69,140,120,360],type:'line',
              borderColor:C.green,backgroundColor:'transparent',pointBackgroundColor:C.green,pointRadius:6,borderWidth:2,yAxisID:'y2',
@@ -760,8 +760,8 @@ new Chart(document.getElementById('monthlySpring'), {
     data: {
         labels: months,
         datasets: [
-            {label:'Other C/H',data:[2,1,3,2,1,2,0,0,0,0,1,1,3],backgroundColor:'#475569',borderRadius:3},
-            {label:'NP+DI (rebuild trigger)',data:[0,0,0,0,0,0,1,0,0,0,0,0,5],backgroundColor:C.spring,borderRadius:3}
+            {label:'Other C/H',data:[2,0,3,2,1,1,0,0,0,0,1,1,2],backgroundColor:'#475569',borderRadius:3},
+            {label:'NP+DI (rebuild trigger)',data:[0,1,0,0,0,1,1,0,0,0,0,0,6],backgroundColor:C.spring,borderRadius:3}
         ]
     },
     options: {
@@ -792,8 +792,8 @@ new Chart(document.getElementById('monthlyDjango'), {
     data: {
         labels: months,
         datasets: [
-            {label:'Other C/H',data:[0,0,0,1,0,0,0,1,2,1,2,3,3],backgroundColor:'#475569',borderRadius:3},
-            {label:'NP+DI (rebuild trigger)',data:[0,0,0,0,0,1,1,1,0,0,2,0,0],backgroundColor:C.django,borderRadius:3}
+            {label:'Other C/H',data:[0,0,0,1,0,0,0,1,2,1,2,2,3],backgroundColor:'#475569',borderRadius:3},
+            {label:'NP+DI (rebuild trigger)',data:[0,0,0,0,0,1,1,1,0,0,2,1,0],backgroundColor:C.django,borderRadius:3}
         ]
     },
     options: {
