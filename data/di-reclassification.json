@@ -1,0 +1,224 @@
+{
+  "description": "Auth bypass CVEs reclassified as DI under widened definition (April 2026)",
+  "methodology": {
+    "query": "OSV API query for Spring Security, Tomcat NP components; filter to CWE-287, CWE-289, CWE-306, CWE-345, CWE-693, CWE-863 at CRITICAL/HIGH severity; 2018-2026 window",
+    "di_definition": "Untrusted input that is interpreted as code, controls a file path, changes a security decision, or is injected into server-side template output",
+    "auth_bypass_rationale": "Auth bypass via input manipulation shares the same pattern as injection: user input changes what a security decision returns. These are not WAF-detectable because the inputs are syntactically valid.",
+    "exclusion_criteria": "CVEs where auth bypass is secondary to DoS (e.g., CWE-400 primary + CWE-863 secondary) are excluded"
+  },
+  "added_cwes": [
+    "CWE-287",
+    "CWE-289",
+    "CWE-306",
+    "CWE-345",
+    "CWE-693",
+    "CWE-863",
+    "CWE-1321"
+  ],
+  "seven_year_backtest_additions": [
+    {
+      "cve": "CVE-2018-15801",
+      "vuln_id": "GHSA-missing",
+      "date": "2018-12-20",
+      "package": "spring-security-core",
+      "ecosystem": "Maven",
+      "cwes": [
+        "CWE-345"
+      ],
+      "severity": "HIGH",
+      "summary": "Spring Security authorization bypass via insufficient signature verification",
+      "year": 2018,
+      "included": true,
+      "rationale": "Untrusted input (crafted token) bypasses signature verification, changing auth decision"
+    },
+    {
+      "cve": "CVE-2019-11272",
+      "date": "2019-06-27",
+      "package": "spring-security-core",
+      "ecosystem": "Maven",
+      "cwes": [
+        "CWE-287",
+        "CWE-522"
+      ],
+      "severity": "HIGH",
+      "summary": "Insufficiently protected credentials and improper authentication in Spring Security",
+      "year": 2019,
+      "included": true,
+      "rationale": "Improper authentication allows bypass of credential checks"
+    },
+    {
+      "cve": "CVE-2021-22119",
+      "date": "2021-07-02",
+      "package": "spring-security-core",
+      "ecosystem": "Maven",
+      "cwes": [
+        "CWE-400",
+        "CWE-863"
+      ],
+      "severity": "HIGH",
+      "summary": "Resource exhaustion in Spring Security",
+      "year": 2021,
+      "included": false,
+      "rationale": "EXCLUDED: Primary mechanism is DoS (CWE-400). CWE-863 is secondary \u2014 auth bypass is a consequence of resource exhaustion, not untrusted input changing a security decision"
+    },
+    {
+      "cve": "CVE-2022-22978",
+      "date": "2022-05-20",
+      "package": "spring-security-core, spring-security-web",
+      "ecosystem": "Maven",
+      "cwes": [
+        "CWE-285",
+        "CWE-863"
+      ],
+      "severity": "CRITICAL",
+      "summary": "Authorization bypass via RegexRequestMatcher in Spring Security",
+      "year": 2022,
+      "included": true,
+      "rationale": "Crafted request path bypasses regex-based auth rules. Input directly changes authorization decision.",
+      "note": "Appears in both spring-security-core and spring-security-web; counted as 1 event"
+    },
+    {
+      "cve": "CVE-2022-31692",
+      "date": "2022-11-01",
+      "package": "spring-security-core",
+      "ecosystem": "Maven",
+      "cwes": [
+        "CWE-863"
+      ],
+      "severity": "CRITICAL",
+      "summary": "Spring Security authorization rules bypassed via forward or include dispatch",
+      "year": 2022,
+      "included": true,
+      "rationale": "Request dispatch mechanism bypasses authorization checks. Crafted request changes auth outcome."
+    },
+    {
+      "cve": "CVE-2024-22257",
+      "date": "2024-03-18",
+      "package": "spring-security-core",
+      "ecosystem": "Maven",
+      "cwes": [
+        "CWE-287",
+        "CWE-862"
+      ],
+      "severity": "HIGH",
+      "summary": "Erroneous authentication pass in Spring Security",
+      "year": 2024,
+      "included": true,
+      "rationale": "Authentication logic incorrectly passes. Untrusted request reaches auth check and gets wrong answer."
+    }
+  ],
+  "twelve_month_backtest_additions": [
+    {
+      "cve": "CVE-2025-41232",
+      "date": "2025-05-21",
+      "package": "spring-security-core",
+      "ecosystem": "Maven",
+      "cwes": [
+        "CWE-693"
+      ],
+      "severity": "CRITICAL",
+      "summary": "Spring Security authorization bypass for method security annotations on private methods",
+      "framework": "Spring",
+      "included": true
+    },
+    {
+      "cve": "CVE-2025-41248",
+      "date": "2025-09-16",
+      "package": "spring-security-core",
+      "ecosystem": "Maven",
+      "cwes": [
+        "CWE-289",
+        "CWE-863"
+      ],
+      "severity": "HIGH",
+      "summary": "Spring Security annotation detection mechanism has authorization bypass",
+      "framework": "Spring",
+      "included": true
+    },
+    {
+      "cve": "CVE-2026-29145",
+      "date": "2026-04-09",
+      "package": "tomcat-embed-core",
+      "ecosystem": "Maven",
+      "cwes": [
+        "CWE-287"
+      ],
+      "severity": "CRITICAL",
+      "summary": "Apache Tomcat CLIENT_CERT authentication does not fail as expected",
+      "framework": "Spring",
+      "included": true
+    },
+    {
+      "cve": "GHSA-752w-5fwx-jx9f",
+      "date": "2026-03-13",
+      "package": "pyjwt",
+      "ecosystem": "PyPI",
+      "cwes": [
+        "CWE-345",
+        "CWE-863"
+      ],
+      "severity": "HIGH",
+      "summary": "PyJWT accepts unknown crit header extensions, bypassing JWT validation",
+      "framework": "Django",
+      "included": true
+    }
+  ],
+  "impact_summary": {
+    "seven_year_backtest": {
+      "npdi_dates": {
+        "old": 22,
+        "new": 27,
+        "delta": 5
+      },
+      "patch_events": {
+        "old": 19,
+        "new": "~24",
+        "note": "May be slightly less due to 7-day merge windows"
+      },
+      "reduction": {
+        "old": "80%",
+        "new": "~74%"
+      },
+      "per_year_changes": {
+        "2018": {
+          "old": 2,
+          "new": 3
+        },
+        "2019": {
+          "old": 4,
+          "new": 5
+        },
+        "2022": {
+          "old": 2,
+          "new": 4
+        },
+        "2024": {
+          "old": 3,
+          "new": 4
+        }
+      }
+    },
+    "twelve_month_backtest": {
+      "spring": {
+        "old": 6,
+        "new": 9
+      },
+      "nodejs": {
+        "old": 5,
+        "new": 5
+      },
+      "django": {
+        "old": 5,
+        "new": 6
+      },
+      "total": {
+        "old": 16,
+        "new": 20
+      },
+      "reduction": {
+        "old": "73%",
+        "new": "67%"
+      }
+    }
+  }
+}
