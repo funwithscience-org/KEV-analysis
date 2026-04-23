@@ -103,7 +103,7 @@ details summary:hover{color:var(--cyan)}
 </div>
 <div class="stat accent">
 <div class="number">2 – 6</div>
-<div class="label">NP+DI trigger dates<br>per stack (59–86% reduction)</div>
+<div class="label">NP+DI trigger dates<br>per stack (64–86% reduction)</div>
 </div>
 <div class="stat green">
 <div class="number">0</div>
@@ -523,7 +523,7 @@ details summary:hover{color:var(--cyan)}
 
 <div class="callout callout-finding">
 <strong>The data supports a three-tier patching model:</strong>
-<p style="margin-top:8px"><strong style="color:var(--red)">Tier 1 — Emergency (NP+DI in app layer):</strong> Rebuild everything — app dependencies AND container base image. These are the 2-4 events per year that represent real initial-access risk. The Spring triggers (Tomcat path traversal, Thymeleaf SSTI) are exactly this class.</p>
+<p style="margin-top:8px"><strong style="color:var(--red)">Tier 1 — Emergency (NP+DI in app layer):</strong> Rebuild everything — app dependencies AND container base image. These are the 2-6 events per year that represent real initial-access risk. The Spring triggers (Tomcat path traversal, Thymeleaf SSTI) are exactly this class.</p>
 <p style="margin-top:8px"><strong style="color:var(--amber)">Tier 2 — Regular cadence (monthly container refresh):</strong> Rebuild the base image on a monthly cycle regardless of specific CVEs. This isn't responding to any individual vulnerability — it's reducing blast radius by keeping the privesc surface small. The data shows monthly refresh keeps worst-case exposure at 5 CVEs instead of 21.</p>
 <p style="margin-top:8px"><strong style="color:var(--green)">Tier 3 — Ride the release cycle (everything else):</strong> Non-NP library updates, non-DI C/H vulnerabilities, DoS bugs, info leaks. These get swept up in the next scheduled release. Zero of the 34 skipped app-layer events and none of the 48 OS-layer NETWORK events appeared in KEV.</p>
 </div>

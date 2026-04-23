@@ -174,7 +174,7 @@ details.expandable .detail-content{padding:16px 20px}
 <ul>
 <li><strong>The problem:</strong> A modern application depends on 50+ open-source libraries. Unlike Patch Tuesday, these libraries ship CVEs whenever they please — no coordinated schedule, no single vendor to call. Your scanner flags a new critical every other week. "Just patch everything" means continuous rebuilds. You need a filter that tells you when to drop everything and rebuild <em>now</em> vs. when to ride your normal release cycle.</li>
 <li><strong>The observation:</strong> Components that parse untrusted network traffic are exploited at <strong>3–6× the rate</strong> of everything else — consistent across every CVSS severity bucket. But "network parser with a critical" still fires too often. <span class="tag tag-conf">HIGH CONFIDENCE</span></li>
-<li><strong>The sharper filter:</strong> Not all network parser bugs are equal. A DoS in Tomcat isn't the same threat as a path traversal in Tomcat. Filtering for <strong>direct injection CWEs</strong> (path traversal, template injection, SQL injection, command injection, request smuggling) <em>in</em> network parsers — what we call <strong>NP+DI</strong> — cut emergency rebuilds by <strong>71–86%</strong> across three ecosystems with <strong>zero misses</strong> in 12 months. <span class="tag tag-conf">HIGH CONFIDENCE</span></li>
+<li><strong>The sharper filter:</strong> Not all network parser bugs are equal. A DoS in Tomcat isn't the same threat as a path traversal in Tomcat. Filtering for <strong>direct injection CWEs</strong> (path traversal, template injection, SQL injection, command injection, request smuggling) <em>in</em> network parsers — what we call <strong>NP+DI</strong> — cut emergency rebuilds by <strong>64–86%</strong> across three ecosystems with <strong>zero misses</strong> in 12 months. <span class="tag tag-conf">HIGH CONFIDENCE</span></li>
 <li><strong>Time pressure:</strong> The fastest quartile of exploited CVEs are weaponized within <strong>3 days</strong> of disclosure. A 30-day patch cycle is a 30-day exposure window. <span class="tag tag-conf">HIGH CONFIDENCE</span></li>
 <li><strong>The volume is about to get worse:</strong> AI-assisted bug-finding (Project Glasswing) may multiply CVE volume 2–3× starting May–June 2026. Your filter needs to work before the firehose opens further. <span class="tag tag-spec">SPECULATIVE</span></li>
 </ul>
@@ -303,7 +303,7 @@ A network-parsing HIGH (7.0-7.9) at 0.89% beats a non-parsing CRITICAL (9.0-9.9)
 
 <p>Six patterns explain why the other 93% of critical/high CVEs don't reach KEV — but some of these carry important caveats:</p>
 
-<p><strong>Firmware and hardware (3,739 NVD, 5 KEV, 0.13%).</strong> High CVSS because theoretical impact is complete system compromise, but exploitation requires physical access and specific device models.</p>
+<p><strong>Firmware and hardware (3,739 NVD, 4 KEV, 0.11%).</strong> High CVSS because theoretical impact is complete system compromise, but exploitation requires physical access and specific device models.</p>
 
 <p><strong>Linux kernel local privilege escalation.</strong> Many kernel CVEs score critical but require local access. These aren't initial-access vectors — they're <em>land-and-expand</em> tools. An attacker who already has a foothold (via a network-parser bug, a phished browser, or stolen credentials) uses kernel privesc to escalate. That makes them dangerous, but in a fundamentally different way: they determine <strong>how bad</strong> a breach gets, not <strong>whether</strong> one starts. We cover this distinction in §9.</p>
 
@@ -408,7 +408,7 @@ A network-parsing HIGH (7.0-7.9) at 0.89% beats a non-parsing CRITICAL (9.0-9.9)
 
 <div class="hero-stat">
 <div class="stat red"><div class="number">14</div><div class="label">All C/H trigger dates<br>(identical across all 3 stacks)</div></div>
-<div class="stat"><div class="number">2 - 4</div><div class="label">NP+DI trigger dates<br>per stack (71-86% reduction)</div></div>
+<div class="stat"><div class="number">2 - 6</div><div class="label">NP+DI trigger dates<br>per stack (64-86% reduction)</div></div>
 <div class="stat green"><div class="number">0</div><div class="label">Skipped events later<br>confirmed exploited</div></div>
 </div>
 
@@ -419,7 +419,7 @@ A network-parsing HIGH (7.0-7.9) at 0.89% beats a non-parsing CRITICAL (9.0-9.9)
 <canvas id="crossFrameworkChart" height="120"></canvas>
 </div>
 
-<h3>7c. Reduction: Spring 59%, Node 86%, Django 67%</h3>
+<h3>7c. Reduction: Spring 64%, Node 86%, Django 67%</h3>
 
 <table class="data-table">
 <thead><tr><th>Framework</th><th>All C/H dates</th><th>NP+DI dates</th><th>Reduction</th><th>Longest silence</th><th>Pattern</th></tr></thead>
@@ -650,20 +650,20 @@ A network-parsing HIGH (7.0-7.9) at 0.89% beats a non-parsing CRITICAL (9.0-9.9)
 <table class="data-table">
 <thead><tr><th>Tier</th><th>Trigger</th><th>Frequency</th><th>What You Rebuild</th><th>Rationale</th></tr></thead>
 <tbody>
-<tr><td><span class="tag tag-red">Tier 1: Emergency</span></td><td>NP+DI in app layer</td><td><strong>2-4x/year</strong></td><td>App dependencies AND container base image</td><td>Real initial-access risk. Tomcat path traversal, Thymeleaf SSTI, Django SQLi -- these are the vulnerability classes that reach KEV.</td></tr>
+<tr><td><span class="tag tag-red">Tier 1: Emergency</span></td><td>NP+DI in app layer</td><td><strong>2-6x/year</strong></td><td>App dependencies AND container base image</td><td>Real initial-access risk. Tomcat path traversal, Thymeleaf SSTI, Django SQLi -- these are the vulnerability classes that reach KEV.</td></tr>
 <tr><td><span class="tag tag-amber">Tier 2: Monthly cadence</span></td><td>Calendar (monthly)</td><td><strong>12x/year</strong></td><td>Container base image only</td><td>Blast radius control. Monthly refresh keeps worst-case privesc exposure at 5 CVEs instead of 21 (76% reduction). Not responding to any individual CVE -- just keeping the chaining surface small.</td></tr>
 <tr><td><span class="tag tag-green">Tier 3: Release cycle</span></td><td>Normal release cadence</td><td><strong>As scheduled</strong></td><td>Everything else</td><td>Non-NP library updates, non-DI C/H vulnerabilities, DoS bugs, info leaks. Zero of 34 skipped app-layer events and none of 48 OS-layer NETWORK events appeared in KEV.</td></tr>
 </tbody></table>
 
 <div class="callout callout-finding">
-<strong>The shift from the old model:</strong> The old 72h/7d/30d SLA framework treated urgency as a function of CVSS severity and KEV presence. The new model treats urgency as a function of <em>attack surface structure</em> -- where the vulnerability sits in the parsing stack, not how scary its severity score is. This reduces emergency response from near-monthly (14 all-C/H events) to 2-4 genuinely dangerous events per year, while monthly container refresh controls the blast radius that CVSS actually measures well (local privilege escalation).
+<strong>The shift from the old model:</strong> The old 72h/7d/30d SLA framework treated urgency as a function of CVSS severity and KEV presence. The new model treats urgency as a function of <em>attack surface structure</em> -- where the vulnerability sits in the parsing stack, not how scary its severity score is. This reduces emergency response from near-monthly (14 all-C/H events) to 2-6 genuinely dangerous events per year, while monthly container refresh controls the blast radius that CVSS actually measures well (local privilege escalation).
 </div>
 
 <h3>10a. The WAF Dividend</h3>
 
-<p>There's a useful byproduct of reducing emergency triggers to 2-4 per year: at that volume, <strong>targeted WAF rules become practical</strong>.</p>
+<p>There's a useful byproduct of reducing emergency triggers to 2-6 per year: at that volume, <strong>targeted WAF rules become practical</strong>.</p>
 
-<p>At "all critical/high" scale — thousands of CVEs per year — maintaining custom WAF signatures is operationally impossible. Nobody writes and tests custom rules at that cadence. At "all network parsers" (14 triggers/year) it's theoretically possible but the rule diversity is enormous: DoS patterns look nothing like injection patterns look nothing like authentication bypasses. At NP+DI (2-4/year), you're writing a handful of targeted rules for the bug classes WAFs are specifically designed to catch.</p>
+<p>At "all critical/high" scale — thousands of CVEs per year — maintaining custom WAF signatures is operationally impossible. Nobody writes and tests custom rules at that cadence. At "all network parsers" (14 triggers/year) it's theoretically possible but the rule diversity is enormous: DoS patterns look nothing like injection patterns look nothing like authentication bypasses. At NP+DI (2-6/year), you're writing a handful of targeted rules for the bug classes WAFs are specifically designed to catch.</p>
 
 <p>And this is where the "DI" half of the filter pays a second dividend. Direct injection attacks are <strong>structurally visible in the request</strong>: a <code>../</code> in a path parameter, a <code>'; DROP TABLE</code> in a query string, a <code>${7*7}</code> in a template field, a <code>; cat /etc/passwd</code> in a header value. WAF vendors have spent two decades refining signatures for exactly these patterns. When a new path-traversal CVE drops in Tomcat, a WAF rule that blocks <code>../</code> sequences in the relevant URL path is straightforward to write, test, and deploy — often buying days or weeks of protection while you prepare the actual rebuild.</p>
 
