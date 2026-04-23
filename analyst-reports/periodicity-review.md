@@ -552,3 +552,128 @@ Nothing about this addendum changes my overall assessment from §10.8: the analy
 ---
 
 *End of review (third-pass + addendum complete, 2026-04-22).*
+
+---
+
+## 13. Fourth-pass review — 2026-04-23
+
+I re-ran the full review today against the current HEAD (commit `7251fbd`, 13 commits ahead of where I stopped yesterday). Most of what passes 1–3 recommended is now in the repo. This pass is deliberately short, specific, and devil's-advocate-heavy because the remaining gaps are smaller and more interesting than the ones we started with.
+
+### 13.1 TL;DR — where the restructuring landed
+
+**Implemented since pass 3:**
+- Walkthrough is fully restructured into 14 sections matching the narrative arc recommended in §1 and §2. NP+DI filter is §6 with explicit 6a/6b/6c sub-structure. Cross-framework validation is §7 with the seven sub-parts including the real-manifest backtest (§7d) and the three-miss disclosure (§7e–7f).
+- Kill-chain "Land & Expand" framing is §8 with the OS privesc dependency argument integrated (commit `dc78d30`).
+- Three-tier patching model is §10 with the WAF Dividend callout as §10a (per the §3 recommendation yesterday).
+- Dashboard now leads with an NP+DI Filter section at the top (line ~155–170), including a twin-button link to periodicity.html and cve-reference.html — the "front door" navigation recommended in §4 is wired.
+- Top-of-page nav bar on all four pages (Walkthrough / Dashboard / Periodicity / CVE Reference) with current-page highlighting. Cross-page architecture is cleanly linked.
+- EPSS comparison is reframed around operational speed, not distributional mean/median (commit `34a2051`). The "NP+DI + AI scan = 8/8 on day 0, EPSS ≥ 0.10 = 1/8 on day 1" hero-stat is exactly the framing §9 and §10 kept asking for.
+- Real-manifest backtest discloses the 5 exploited CVEs and the 3 CWE-misclassification misses explicitly in both §7d and §7e. This is the intellectual-honesty upgrade §12 called for.
+- AI safety-net recommendation is promoted into §7e and §7f rather than buried in a `<details>` — commit `b7e7b8a` shows the "16% NP+DI vs 3% NP-only vs 0% non-NP" framing.
+
+**This is a lot of work in ~30 hours. The remaining gaps are narrower.**
+
+### 13.2 Four-section assessment (what remains)
+
+#### Section 1 — Assessment of the Periodicity Analysis
+
+The periodicity analysis is in good shape. Three points stand out today that prior passes didn't flag:
+
+**Holds up well:**
+- The three-tier patching model (Emergency / Monthly / Release-cycle) is now framed around **blast radius, not severity**. That's a meaningful conceptual upgrade — it means the tier isn't "how scary is this CVE" but "how much of the deployment do I need to touch to patch it?" This is the right framing for ops.
+- The EPSS comparison in §9 is operationally defensible now. "Day 0 vs Day 1" is a testable claim; "our mean is lower than EPSS's mean" was not.
+- The 3-miss disclosure, paired with the AI safety-net recommendation, is unusually honest for a vendor-pitch-style analysis page. It materially strengthens the case.
+
+**Remains overclaimed:**
+- The dashboard's hero insight at line 160 still reads **"zero misses — no filtered-out CVE has appeared in CISA KEV."** This is the exact claim §12.4 item #9 flagged as no-longer-accurate. The walkthrough §7e has been updated with the 3-miss disclosure; the dashboard has not. This is a five-minute copy edit and it should be done before anyone external reads the dashboard page. The two pages are now internally inconsistent.
+- Walkthrough §9 title is still "External Validation: The Zero-Miss Window." Its hero-stat row (`8/8 NP+DI + AI scan catches on day 0`) is correct — that's the 5-exploited + 3-miss total restated as "with AI safety-net applied, 0 missed." But the section intro line 599 still says **"Zero misses across 113 non-triggers"** and line 919 still describes the claim as **"12 months of zero misses."** Both need to be revised to match §7e's honesty. The fix is small: say **"Zero misses within correctly-classified advisories; three misses traceable to CWE misassignment, all specifiable and catchable by an automated CWE-validation pass."** That's the story. The current wording buries it.
+- The "testable metric" framing in §13 of the walkthrough ("your filter should produce zero misses") should be softened to **"your filter + AI safety-net should produce zero KEV misses; track CWE-classification disagreements as a leading indicator."**
+
+**Devil's-advocate pressure points that the current draft doesn't fully answer:**
+
+1. **Backtest freshness.** The 7-year Java manifest ends somewhere around early 2026 but today's daily scan shows CVE-2026-34197 (ActiveMQ Jolokia) — both a filter miss AND a Horizon3.ai Claude-assisted disclosure that hit KEV on 2026-04-16. Has that CVE been folded into the manifest case study yet? Grep shows it referenced in §12 (Mythos) but I don't see it called out in §7e/7f as a 2026 real-time validation of the miss set. It should be. It's the best possible validation: the page predicts the failure mode (CWE-20 assignment hides a CWE-94 bug), and the failure mode fires 30 days later with a live KEV entry.
+2. **Selection-bias critique survives.** Pass 2 flagged that the manifest is curated (popular Java libraries, not a random draw). The current §7d discloses the 60-library count but doesn't explicitly address why these 60 and not others. A paragraph of form "manifest selected to maximize HTTP-parsing surface — exactly the CVE class the filter targets; a manifest of purely computational libraries would produce trivially-zero NP+DI hits and would not validate the filter" would preempt the obvious criticism. One paragraph.
+3. **No quantified cost-of-rebuilds baseline.** The three-tier model claims 71–86% reduction in rebuild-trigger dates. But what does a rebuild cost an operator? Hours of CI time, deploy coordination, rollback risk. If the answer is "pennies because CI is free and deploys are continuous," the tier model's value is smaller than the claim implies. A single sentence acknowledging "the reduction matters proportional to rebuild cost; for shops with continuous deployment the savings are smaller" would disarm the cheap shot.
+4. **Non-HTTP library exploitation bias.** OSV survey shows ~93,000 ecosystem-wide C/H; our 177-library sample pulls 770. That's a ~0.8% sample. The filter's performance on the 99.2% we haven't looked at is unknown. The walkthrough §6c hints at this but doesn't land the point: **the filter's validity hinges on the claim that exploitation is concentrated in the 1% of libraries that parse network input.** If a reviewer pushes back ("but what about the 92,230 C/Hs you didn't examine?"), the answer is "those libraries aren't network-parseable, so the filter trivially deprioritizes them; the open question is whether any of them become exploited, which would be evidence *against* the filter." That's the argument — write it down.
+
+#### Section 2 — Walkthrough Restructuring (what's left)
+
+The restructuring is largely done. Outstanding items:
+
+1. **Update §9 intro copy to match §7e honesty.** Swap the literal zero-miss claim for the corrected CWE-classification-caveated version. Reframe §9's title from "The Zero-Miss Window" to something like "Cross-Validation Against Five Exploitation Databases" — the analytical content is what matters, the marketing headline hurts the credibility upgrade §7e delivered.
+2. **Add a §7e.5 (or §7f sub-bullet) for the 2026-04-16 ActiveMQ Jolokia live-fire validation.** Quote: *"On 2026-04-16, 30 days after publishing this analysis, CVE-2026-34197 (Apache ActiveMQ Jolokia RCE) was added to CISA KEV. The filter missed it — CVE-2026-34197 was assigned CWE-20 (generic input validation) rather than CWE-94 (code injection). This is the exact failure mode §7e predicted. The AI safety-net pass would have flagged it on publication date."* That's the pitch. Write it.
+3. **Soften §13 ("your filter should produce zero misses") to "your filter + AI safety-net should approach zero misses; track CWE disagreement as leading indicator."** One-line edit.
+4. **Add the "why these 60 libraries" paragraph to §7d.** Preempt the manifest-selection-bias critique in one paragraph. §2.b above.
+5. **Add a sentence to §10 (three-tier model) about rebuild-cost dependency.** §2.c above. One sentence.
+6. **Sidebar TOC doesn't update for sub-sections.** Minor but: sidebar currently lists only top-level (1–14); the deep structure (6a/6b/6c, 7a–7g) is invisible in navigation. A reader scanning the sidebar won't know §7 has seven sub-parts. Consider a collapsed sub-TOC or one-level-deep sidebar expansion.
+
+**What to keep as-is:** sections 1–8 are in good shape. Section 11 (Reverse Proxy Myth), Section 12 (Mythos Detector), and Section 14 (Caveats) read well. The real-manifest case study (§7d) is now arguably the strongest single section of any page in this repo.
+
+**What to cut:** nothing. Every section is pulling its weight. The urge to cut the long library-exploitation caveats in §6c should be resisted — they're what make the NP+DI thesis survive a skeptical read.
+
+#### Section 3 — Dashboard Updates
+
+Dashboard leads with NP+DI. That's right. Remaining items:
+
+1. **Fix the line-160 hero insight zero-miss claim.** Replace with *"…reduces rebuild-trigger dates by 71–86% with 3 CWE-misclassification misses across 7 years of manifest history, all catchable with an AI-assisted CWE validation pass — see periodicity page."* This is the single most urgent edit across all four pages; the two pages currently contradict each other on the filter's miss count.
+2. **Add a miss-disclosure chart or stat to the NP+DI section.** One card showing "5 exploited CVEs in manifest / 4 caught by NP+DI / 3 additional KEV entries missed (CWE-misclassified) / 0 missed with AI safety-net." That's the honest version of the 71–86% hero number. It converts the single-metric headline into a two-layer accuracy claim, which is more defensible under pressure.
+3. **Consider moving the "Three-Tier Patching Model" section closer to the NP+DI section.** Currently it's after CWE Families and Mythos Detector; logically it's the operational consequence of NP+DI and belongs adjacent. This is a taste call, not a must-do.
+4. **Redundancy audit.** The dashboard and walkthrough both have: (a) NP+DI hero stat; (b) the 12-month periodicity chart; (c) the three-tier model; (d) the watch list. That's expected for an overview-vs-explainer split but the content is near-duplicate. Pick one authoritative version per page: dashboard = the numbers + link out; walkthrough = the numbers + the argument. Today the dashboard is ~40% dashboard-only content and ~60% mini-walkthrough; I'd lean it further toward "numbers only, click through for why."
+5. **KPI tile for NP+DI effectiveness.** Suggestion: a top-row KPI card on the dashboard showing something like `16% / 3% / 0%` (NP+DI / NP-only / non-NP exploitation rate in the manifest). That's the single most actionable number in the entire analysis and it currently lives only in the walkthrough.
+
+#### Section 4 — Cross-Page Architecture
+
+Four pages now: Walkthrough (index.html), Dashboard, Periodicity Analysis, CVE Reference. Top-of-page nav is wired. That's clean.
+
+**Current architecture:**
+- **Dashboard** = entry point, charts-first, minimal prose. Link-out to walkthrough and periodicity.
+- **Walkthrough** = the argument, long-form, methodology-first.
+- **Periodicity** = the detailed case study (cross-framework + real-manifest backtest).
+- **CVE Reference** = the raw per-CVE classification table.
+
+**Open question: is the dashboard the right front door?** A skeptical CISO landing on the dashboard sees charts + a link row but doesn't immediately encounter the argument. If the argument is the point, the walkthrough is the front door; the dashboard is the appendix. Today the site defaults to the walkthrough path (index.html is the walkthrough), which is the right call — but the cross-page nav treats dashboard as coequal with walkthrough, which slightly underweights the walkthrough's primacy. Minor: consider making "Walkthrough" the visually-dominant nav item (e.g., first position, bolded).
+
+**Evergreen.html is unlinked.** Grep confirms no page references docs/evergreen.html. It's currently a scratch page with 5 months of analysis. Two options: (1) integrate it into the walkthrough as a supporting case study (likely §7 or §10), or (2) explicitly mark it as scratch in a README/index comment so future analysts know it's not production. Today it's in limbo.
+
+**CVE Reference page is under-promoted.** It's the most rigorous piece of per-CVE classification work we've published and only gets a tiny link-out on the dashboard and a nav-bar entry. Consider a brief callout on the walkthrough — "every claim in this page is backed by per-CVE classifications in the CVE Reference. Each claim is auditable." That's a credibility asset we're not currently cashing.
+
+**Navigation heuristic I'd suggest:** a reader scanning the sidebar of any page should be one click from (a) the argument, (b) the charts, (c) the case study, and (d) the raw data. Today the top nav does this but the sidebars don't — only the walkthrough has a rich sidebar. Consider adding a minimal "See also" footer to periodicity.html and cve-reference.html pointing back to the main walkthrough + dashboard.
+
+### 13.3 Daily scan — 2026-04-23
+
+Today's refresh run (kev-analysis-refresh 05:03 local, kev-tracking.json timestamp `2026-04-23T05:05:00Z`):
+
+- **KEV catalog unchanged for 3 consecutive days.** Catalog version `2026.04.21`, released 2026-04-21T17:10:43Z. April total still 22. CISA ran a heavy surge 2026-04-20/21 (the 8-entry HTTP-parsing sweep logged in rolling.md) and has been quiet since. This is a normal pattern — KEV additions are bursty, and the ~24/month Q1 2026 average holds.
+- **NVD April MTD = 4,593 on day 23.** Extrapolates to 5,991 full-month (up from 5,764 yesterday; back-population continues, Apr 22 finalized at 355 vs. the 18 we saw 24h earlier). Daily pace steady at ~186/day for fully-populated days. This puts 2026 on track for the largest-ever single CVE year, continuing the Q1 trend.
+- **Glasswing/Mythos total: 283 Mythos-linked fixes.** No new additions today. The Firefox 150 disclosure (271 fixes, 41 CVE-tier, 3 Claude-credited: CVE-2026-6746, -6757, -6758) remains the dominant contributor. The 271 number is Mozilla's internal characterization; only 41 are CVE-tier and only 3 are explicitly credited to Claude in MFSA 2026-30. The config.json note already disclaims this — keep the "Mythos-linked fixes" vs. "Claude-credited CVEs" distinction. I don't see a reason to shift the framing today.
+- **Watch list:** no movement. Thymeleaf SSTI pair (CVE-2026-40477/-40478) still PoC-only. wolfSSL and Cisco ISE/Webex quad still no-public-PoC. CVE-2026-33825 (Windows Defender BlueHammer, Patch Tuesday disclosure, PoC on GitHub since Apr 3) is the single most conspicuous no-KEV-yet CVE on the list — it's been nearly three weeks with public PoC and CISA hasn't listed it. Either they're using something else to gate inclusion (active exploitation in the wild, not just public PoC) or the Apr 3 PoC wasn't weaponized. Worth a 2-line note in tomorrow's rolling.md.
+- **Probable participant self-scan status:** the four Cisco ISE/Webex CVEs (20180, 20186, 20147, 20184) remain the headline cluster; the CrowdStrike LogScale advisory flagged in yesterday's §11 third-pass scan is still pending analyst verification before it enters the tracked list.
+- **Thesis-challenge table:** still empty. CVE-2026-33827 (Windows TCP/IP RCE) — now 8 days post-disclosure, still not KEV — remains the closest contender but is product-level, not library.
+- **Counter-argument I want to note:** three consecutive days of no KEV additions does NOT validate the HTTP-parsing thesis. The catalog has idle periods; the thesis is about exploitation rates and CWE patterns, not daily additions. Anyone reading the rolling.md should not interpret "quiet KEV days" as "HTTP-parsing CVEs are down." The denominator matters and we only have 22 April data points.
+
+### 13.4 Punch-list (for the HTML editor, not me)
+
+Consolidated from §13.2–§13.3. In priority order:
+
+1. **[~5 min, highest urgency]** Fix dashboard line 160 hero insight. Replace "zero misses" with 3-miss-disclosure language. The dashboard and walkthrough are currently internally inconsistent.
+2. **[~10 min]** Update walkthrough §9 intro (line 599) and §9 caveats (line 919) to match §7e's 3-miss disclosure. Consider retitling §9 from "The Zero-Miss Window."
+3. **[~15 min]** Add a §7e.5 callout for CVE-2026-34197 as a 2026-04-16 live-fire validation of the CWE-misclassification miss mode.
+4. **[~10 min]** Add the manifest-selection-bias paragraph to §7d.
+5. **[~5 min]** Add the rebuild-cost-dependency sentence to §10.
+6. **[~15 min]** Add the NP+DI-effectiveness KPI tile (16% / 3% / 0%) to the dashboard top row.
+7. **[~10 min]** Add a miss-disclosure stat card to the dashboard NP+DI section.
+8. **[~5 min]** Add "See also" footers to periodicity.html and cve-reference.html.
+9. **[~5 min]** Decide fate of evergreen.html: integrate or mark-as-scratch.
+10. **[~15 min]** Consider sidebar-subsection TOC for walkthrough §6 and §7.
+
+Items 1 and 2 are the only must-ship-today changes. Everything else is improvement, not correction.
+
+### 13.5 Overall read
+
+The analysis is stronger than it was 72 hours ago. The 3-miss disclosure paired with the AI safety-net recommendation is the best single piece of intellectual-honesty positioning the project has. The remaining gaps are copy-edits and preemptive disarming of predictable critiques — not structural flaws. If we ship items 1–2 today and items 3–5 within the week, the site reads as a finished argument rather than a work-in-progress.
+
+One caveat to my own review: I'm marking my own homework here — passes 1–3 recommended most of what got built, and now I'm reviewing the result. A fresh external reviewer would probably surface things I'm missing. Worth considering whether to solicit an outside-the-loop reader for a final pass before treating this as "done."
+
+---
+
+*End of review (fourth-pass complete, 2026-04-23).*
