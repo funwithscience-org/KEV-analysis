@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Glasswing / Mythos Intelligence Assessment</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-annotation@3.0.1/dist/chartjs-plugin-annotation.min.js"></script>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:#0f172a;color:#e2e8f0;padding:20px}
+.container{max-width:1440px;margin:0 auto}
+h1{text-align:center;font-size:2.2em;margin-bottom:8px;color:#f1f5f9;letter-spacing:-0.02em}
+.subtitle{text-align:center;color:#94a3b8;margin-bottom:30px;font-size:1.05em}
+.kpi-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:16px;margin-bottom:32px}
+.kpi{background:#1e293b;border-radius:12px;padding:24px;text-align:center;border:1px solid #334155;position:relative;overflow:hidden}
+.kpi::before{content:'';position:absolute;top:0;left:0;right:0;height:3px}
+.kpi:nth-child(1)::before{background:linear-gradient(90deg,#6366f1,#8b5cf6)}
+.kpi:nth-child(2)::before{background:linear-gradient(90deg,#ec4899,#f43f5e)}
+.kpi:nth-child(3)::before{background:linear-gradient(90deg,#06b6d4,#3b82f6)}
+.kpi:nth-child(4)::before{background:linear-gradient(90deg,#10b981,#34d399)}
+.kpi:nth-child(5)::before{background:linear-gradient(90deg,#f59e0b,#f97316)}
+.kpi:nth-child(6)::before{background:linear-gradient(90deg,#ef4444,#dc2626)}
+.kpi-val{font-size:2.4em;font-weight:700;color:#f8fafc;margin-bottom:4px}
+.kpi-label{font-size:.85em;color:#94a3b8;line-height:1.3}
+.section{margin-bottom:32px}
+.section-title{font-size:1.4em;font-weight:600;color:#f1f5f9;margin-bottom:16px;padding-bottom:8px;border-bottom:2px solid #334155}
+.grid-2{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+.grid-3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:20px}
+.card{background:#1e293b;border-radius:12px;padding:20px;border:1px solid #334155}
+.card h3{color:#e2e8f0;font-size:1.05em;margin-bottom:12px}
+canvas{width:100%!important;max-height:380px}
+.insight{background:#1e293b;border-left:4px solid #6366f1;padding:16px 20px;border-radius:0 8px 8px 0;margin:16px 0;font-size:.95em;line-height:1.6;color:#cbd5e1}
+.insight strong{color:#a5b4fc}
+.insight.warn{border-left-color:#f59e0b}
+.insight.warn strong{color:#fbbf24}
+.insight.danger{border-left-color:#ef4444}
+.insight.danger strong{color:#fca5a5}
+table{width:100%;border-collapse:collapse;font-size:.88em}
+th{background:#334155;color:#e2e8f0;padding:10px 12px;text-align:left;font-weight:600;position:sticky;top:0}
+td{padding:8px 12px;border-bottom:1px solid #1e293b;color:#cbd5e1}
+tr:hover td{background:#334155}
+.table-wrap{max-height:500px;overflow-y:auto;border-radius:8px;border:1px solid #334155}
+.search-box{margin-bottom:12px}
+.search-box input{width:100%;padding:10px 14px;background:#1e293b;border:1px solid #475569;border-radius:8px;color:#e2e8f0;font-size:.95em}
+.search-box input::placeholder{color:#64748b}
+.tab-bar{display:flex;gap:8px;margin-bottom:16px;flex-wrap:wrap}
+.tab{padding:8px 16px;border-radius:8px;background:#334155;color:#94a3b8;cursor:pointer;font-size:.88em;border:1px solid #475569;transition:all .2s}
+.tab:hover,.tab.active{background:#4f46e5;color:#fff;border-color:#4f46e5}
+.tte-table{width:auto;margin:0 auto}
+.tte-table th,.tte-table td{padding:10px 20px;text-align:center}
+.lift-badge{display:inline-block;padding:2px 8px;border-radius:4px;font-weight:600;font-size:.85em}
+.lift-high{background:#065f46;color:#34d399}
+.lift-med{background:#713f12;color:#fbbf24}
+@media(max-width:900px){.grid-2,.grid-3{grid-template-columns:1fr}}
+.footer{text-align:center;color:#64748b;font-size:.8em;margin-top:40px;padding-top:20px;border-top:1px solid #334155}
+/* ===== GLOSSARY TOOLTIPS ===== */
+.glossary{border-bottom:1.5px dotted #64748b;cursor:help;position:relative;white-space:nowrap}
+.glossary:hover::after{content:attr(data-tip);position:absolute;bottom:calc(100% + 6px);left:50%;transform:translateX(-50%);background:#f8fafc;color:#1e293b;padding:6px 12px;border-radius:6px;font-size:.82em;white-space:normal;width:max-content;max-width:300px;line-height:1.4;z-index:50;box-shadow:0 4px 12px rgba(0,0,0,.4);pointer-events:none}
+.glossary:hover::before{content:'';position:absolute;bottom:calc(100% + 2px);left:50%;transform:translateX(-50%);border:5px solid transparent;border-top-color:#f8fafc;z-index:51}
+/* ===== HERO KPI ===== */
+.kpi-hero{background:linear-gradient(135deg,#1e293b 0%,#0f172a 100%);border-radius:12px;padding:28px 32px;text-align:center;border:2px solid #6366f1;position:relative;overflow:hidden}
+.kpi-hero::before{content:'';position:absolute;top:0;left:0;right:0;height:4px;background:linear-gradient(90deg,#6366f1,#ec4899)}
+.kpi-hero .kpi-val{font-size:2.8em;font-weight:800;color:#f8fafc;margin-bottom:4px}
+.kpi-hero .kpi-sub{font-size:.88em;color:#a5b4fc;margin-top:4px;line-height:1.4}
+.kpi-support{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+.kpi-sm{background:#1e293b;border-radius:10px;padding:14px;text-align:center;border:1px solid #334155}
+.kpi-sm .kpi-val{font-size:1.5em;font-weight:700;color:#e2e8f0}
+.kpi-sm .kpi-label{font-size:.78em;color:#94a3b8;line-height:1.3;margin-top:2px}
+@media(max-width:900px){.kpi-support{grid-template-columns:1fr 1fr}}
+/* ===== LIVE FEED CARD ===== */
+.live-feed{background:#1e293b;border:1px solid #334155;border-radius:10px;padding:24px;text-align:center;position:relative}
+.live-feed .live-dot{display:inline-block;width:8px;height:8px;background:#10b981;border-radius:50%;margin-right:6px;animation:pulse-dot 2s infinite}
+@keyframes pulse-dot{0%,100%{opacity:1}50%{opacity:.4}}
+.live-feed .live-status{color:#94a3b8;font-size:.92em;line-height:1.5}
+.live-feed .live-counter{color:#64748b;font-size:.8em;margin-top:8px}
+/* ===== DETAILS DRAWERS (dark theme) ===== */
+details.dash-expand{margin:16px 0;border:1px solid #334155;border-radius:8px;overflow:hidden}
+details.dash-expand summary{padding:12px 16px;background:#1e293b;cursor:pointer;font-weight:600;color:#a5b4fc;font-size:.9em;list-style:none}
+details.dash-expand summary::-webkit-details-marker{display:none}
+details.dash-expand summary::before{content:'▸ ';color:#6366f1}
+details.dash-expand[open] summary::before{content:'▾ '}
+details.dash-expand .detail-content{padding:16px;background:#0f172a}
+/* ===== DAYS COUNTER ===== */
+.days-counter{display:inline-flex;align-items:center;gap:8px;background:#1e293b;border:1px solid #6366f1;border-radius:8px;padding:8px 16px;font-size:.9em;color:#a5b4fc;margin-bottom:16px}
+.days-counter strong{font-size:1.3em;color:#f8fafc}
+/* ===== CVE CARDS ===== */
+.cve-cards{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:16px 0}
+.cve-card{background:#1e293b;border:1px solid #334155;border-radius:8px;padding:14px;font-size:.82em}
+.cve-card .cve-id{font-family:monospace;color:#a5b4fc;font-weight:700;font-size:1.05em}
+.cve-card .cve-product{color:#e2e8f0;margin:4px 0}
+.cve-card .cve-detail{color:#64748b;font-size:.9em}
+@media(max-width:900px){.cve-cards{grid-template-columns:1fr}}
+.page-nav{display:flex;gap:8px;justify-content:center;padding:12px 20px;background:#1e293b;border-bottom:1px solid #334155}
+.page-nav a{padding:6px 16px;border-radius:20px;font-size:.85em;font-weight:600;text-decoration:none;color:#94a3b8;border:1px solid #475569;transition:all .15s}
+.page-nav a:hover{color:#6366f1;border-color:#6366f1}
+.page-nav a.current{background:#6366f1;color:#fff;border-color:#6366f1}
+/* NP+DI Section */
+.npdi-hero-stats{display:flex;gap:16px;justify-content:center;align-items:center;flex-wrap:wrap;margin:16px 0;font-size:.95em;color:#e2e8f0}
+.npdi-hero-stats span{background:#1e293b;padding:8px 16px;border-radius:8px;border:1px solid #334155}
+.npdi-hero-stats .highlight{color:#f59e0b;font-weight:700;font-size:1.1em}
+.tier-card{background:#1e293b;border-radius:12px;padding:20px;border:2px solid #334155}
+.tier-card h3{margin-bottom:8px}
+.tier-card p{color:#94a3b8;font-size:.9em;line-height:1.5}
+/* ===== DRAFT NOTICE ===== */
+.draft-notice{background:#1e293b;border:1px solid #f59e0b;border-radius:8px;padding:12px 20px;margin-bottom:24px;text-align:center;font-size:.88em;color:#fbbf24}
+</style>
+</head>
+<body>
+<div class="container">
+<nav class="page-nav">
+<a href="index.html">Walkthrough</a>
+<a href="dashboard.html">Dashboard</a>
+<a href="periodicity.html">Periodicity Analysis</a>
+<a href="cve-reference.html">CVE Reference</a>
+<a href="glasswing.html" class="current">Glasswing</a>
+</nav>
+<h1>Glasswing / Mythos Intelligence Assessment</h1>
+<p class="subtitle">Tracking Anthropic's Project Glasswing and Mythos-class AI vulnerability discovery</p>
+<div class="draft-notice">Intelligence assessment &mdash; speculative analysis based on pattern-matching, not confirmed attribution unless explicitly stated.</div>
+
+<!-- SECTION: MYTHOS DETECTOR -->
+<div class="section">
+<div class="section-title">Mythos Detector: AI-Driven CVE Volume Impact</div>
+<div class="days-counter"><span class="live-dot"></span> Day <strong id="glasswingDays"></strong> since Glasswing launch (April 7, 2026)</div>
+
+<div class="cve-cards">
+<div class="cve-card" style="border-left:3px solid #10b981">
+<div class="cve-id">CVE-2026-4747</div>
+<div class="cve-product">FreeBSD NFS RCE</div>
+<div class="cve-detail">17-year-old bug. Confirmed autonomous Glasswing find.</div>
+</div>
+<div class="cve-card" style="border-left:3px solid #10b981">
+<div class="cve-id">CVE-2026-5194</div>
+<div class="cve-product">wolfSSL cert validation bypass</div>
+<div class="cve-detail">~5B affected devices. Press-confirmed Mythos Preview&ndash;assisted. Carlini @ Anthropic.</div>
+</div>
+<div class="cve-card" style="border-left:3px solid #10b981">
+<div class="cve-id">CVE-2026-5588</div>
+<div class="cve-product">Bouncy Castle crypto library</div>
+<div class="cve-detail">Credited to Carlini + Claude.</div>
+</div>
+</div>
+
+<div class="grid-2">
+<div class="card"><h3>Monthly CVE Volume: Baseline + Glasswing Projections</h3><canvas id="mythosBaseChart"></canvas></div>
+<div class="card"><h3>Mythos-Linked Vulnerabilities by Product (~283 fixes; 6 CVE-credited)</h3><canvas id="mythosCveChart"></canvas></div>
+</div>
+
+<div class="card" style="margin-top:20px">
+<h3>Probable Glasswing Participant Self-Scan Findings</h3>
+<p style="color:#94a3b8;font-size:.82em;margin-bottom:12px">CVEs from named Glasswing participants where: vendor is a participant, bug is network-parsing-adjacent, no prior attacker exploitation or third-party researcher credit, and bug pattern is consistent with automated AI scanning. <strong>Separate from the ~40 confirmed/attributed Glasswing CVEs above.</strong></p>
+<table style="width:100%;font-size:.82em;border-collapse:collapse">
+<thead><tr style="border-bottom:1px solid #475569">
+<th style="text-align:left;padding:6px;color:#94a3b8">CVE</th>
+<th style="text-align:left;padding:6px;color:#94a3b8">Participant</th>
+<th style="text-align:left;padding:6px;color:#94a3b8">Product</th>
+<th style="text-align:center;padding:6px;color:#94a3b8">CVSS</th>
+<th style="text-align:left;padding:6px;color:#94a3b8">HTTP-Adjacent Vector</th>
+<th style="text-align:left;padding:6px;color:#94a3b8">Why Probable</th>
+</tr></thead>
+<tbody>
+<tr style="border-bottom:1px solid #1e293b">
+<td style="padding:6px;color:#e2e8f0;font-family:monospace;font-size:.95em">CVE-2026-20180</td>
+<td style="padding:6px;color:#f59e0b;font-weight:600">Cisco</td>
+<td style="padding:6px;color:#cbd5e1">ISE</td>
+<td style="padding:6px;text-align:center;color:#ef4444;font-weight:700">9.9</td>
+<td style="padding:6px;color:#94a3b8">Crafted HTTP request &rarr; RCE (read-only admin)</td>
+<td style="padding:6px;color:#94a3b8">Cluster: 3 ISE RCEs in one batch. Input validation bugs found across multiple code paths &mdash; consistent with systematic automated scan.</td>
+</tr>
+<tr style="border-bottom:1px solid #1e293b">
+<td style="padding:6px;color:#e2e8f0;font-family:monospace;font-size:.95em">CVE-2026-20186</td>
+<td style="padding:6px;color:#f59e0b;font-weight:600">Cisco</td>
+<td style="padding:6px;color:#cbd5e1">ISE</td>
+<td style="padding:6px;text-align:center;color:#ef4444;font-weight:700">9.9</td>
+<td style="padding:6px;color:#94a3b8">Crafted HTTP request &rarr; RCE (read-only admin)</td>
+<td style="padding:6px;color:#94a3b8">Same batch, different code path. Identical pattern to -20180.</td>
+</tr>
+<tr style="border-bottom:1px solid #1e293b">
+<td style="padding:6px;color:#e2e8f0;font-family:monospace;font-size:.95em">CVE-2026-20147</td>
+<td style="padding:6px;color:#f59e0b;font-weight:600">Cisco</td>
+<td style="padding:6px;color:#cbd5e1">ISE</td>
+<td style="padding:6px;text-align:center;color:#ef4444;font-weight:700">9.9</td>
+<td style="padding:6px;color:#94a3b8">Crafted HTTP request &rarr; RCE (admin creds)</td>
+<td style="padding:6px;color:#94a3b8">Third ISE RCE in same batch. Slightly higher auth bar (full admin vs read-only).</td>
+</tr>
+<tr style="border-bottom:1px solid #1e293b">
+<td style="padding:6px;color:#e2e8f0;font-family:monospace;font-size:.95em">CVE-2026-20184</td>
+<td style="padding:6px;color:#f59e0b;font-weight:600">Cisco</td>
+<td style="padding:6px;color:#cbd5e1">Webex</td>
+<td style="padding:6px;text-align:center;color:#ef4444;font-weight:700">9.8</td>
+<td style="padding:6px;color:#94a3b8">SSO certificate validation bypass &rarr; user impersonation</td>
+<td style="padding:6px;color:#94a3b8">Same disclosure batch as ISE bugs. Cert-handling audit pattern consistent with TLS/HTTP review sweep.</td>
+</tr>
+</tbody>
+</table>
+<p style="color:#64748b;font-size:.78em;margin-top:10px"><strong>Qualification criteria:</strong> Glasswing participant vendor + HTTP-parsing-adjacent + no attacker exploitation before disclosure + no third-party researcher credit + bug pattern consistent with automated scanning + disclosed during Glasswing era. Counter-argument: Cisco has a steady CVE cadence and internal security teams that predate Glasswing; these could be conventional audit findings.</p>
+</div>
+
+<div class="insight warn">
+<strong>Volume watch, day 15 post-Glasswing:</strong> Q1 2026 CVE publications came in at 16,255 (+35.3% YoY), with March 2026 at 6,304 (+57.1% vs March 2025). April 2026 is pacing 4,227 through day 22 (extrapolated ~5,764) &mdash; still <em>below</em> March, but the gap is narrowing thanks to a large back-population of Apr 21 (35 &rarr; 359 entries as NVD caught up). Daily publication rate holding near ~190/day. Project Glasswing launched April 7, 2026; the ~40 attributable CVEs remain flat, but three now carry explicit Claude/Mythos credit: CVE-2026-4747 (FreeBSD NFS, autonomous find), CVE-2026-5194 (wolfSSL cert validation, press-confirmed Mythos-assisted), and CVE-2026-5588 (Bouncy Castle, Carlini + Claude). 37 of 40 target network-parsing products (Firefox, wolfSSL, NGINX, OpenSSL). Additionally, a Cisco cluster of 4 critical network-parser-adjacent CVEs (3&times; ISE RCE + 1&times; Webex SSO bypass, all CVSS 9.8&ndash;9.9, disclosed in a single batch) qualifies as probable Glasswing self-scan output &mdash; Cisco is a named participant, the cluster pattern suggests systematic automated scanning, and all four are network-parsing-adjacent. See the participant self-scan table above. Counter-argument: NVD publish latency is 4&ndash;8 weeks, so the first clear volume signal is still more likely in May, but the attribution signal is strengthening across both Anthropic-credited and participant-product channels.
+</div>
+
+<div class="insight">
+<strong>Projection update (2026-04-20):</strong> Revised projection curves to account for real-world disclosure timelines &mdash; participants had pre-announcement Mythos access and are racing to fix findings before production release. Conservative (+500/mo) begins May; aggressive ramps steeply May&ndash;June.
+</div>
+
+<div class="grid-2">
+<div class="card"><h3>KEV Additions: Monthly Trend</h3><canvas id="mythosKevChart"></canvas></div>
+<div class="card">
+<h3>Glasswing Participants (13 named)</h3>
+<table style="margin-top:8px;font-size:.85em">
+<tr><th>Organization</th><th>Impact</th></tr>
+<tr><td>Microsoft</td><td style="color:#f87171">Massive</td></tr>
+<tr><td>Google</td><td style="color:#f87171">Massive</td></tr>
+<tr><td>Apple</td><td style="color:#f87171">Massive</td></tr>
+<tr><td>Linux Foundation</td><td style="color:#f87171">Massive</td></tr>
+<tr><td>Amazon Web Services</td><td style="color:#fbbf24">High</td></tr>
+<tr><td>Cisco</td><td style="color:#fbbf24">High</td></tr>
+<tr><td>Palo Alto Networks</td><td style="color:#fbbf24">High</td></tr>
+<tr><td>Broadcom (VMware)</td><td style="color:#fbbf24">High</td></tr>
+<tr><td>Intel</td><td style="color:#94a3b8">Moderate</td></tr>
+<tr><td>Nvidia</td><td style="color:#94a3b8">Moderate</td></tr>
+<tr><td>CrowdStrike</td><td style="color:#94a3b8">Moderate</td></tr>
+<tr><td>JPMorganChase</td><td style="color:#94a3b8">Finance</td></tr>
+<tr><td>Anthropic</td><td style="color:#94a3b8">Self-scan</td></tr>
+</table>
+<p style="color:#64748b;font-size:.8em;margin-top:8px">+ ~40 unnamed orgs. $100M in credits committed.</p>
+</div>
+</div>
+<div class="insight danger">
+<strong>Projection:</strong> Conservative estimate adds +500 CVEs/month from Glasswing; aggressive scenario (based on 90&times; Firefox benchmark)
+could push +2,000&ndash;5,000/month. Full results expected July 2026. If Mythos-class capability reaches offensive actors before
+defensive cleanup completes, the time-to-exploit compression we documented (251&rarr;11 days) could accelerate further.
+</div>
+
+<div class="grid-2" style="margin-top:20px">
+<div class="card"><h3>Monthly Security Fixes: Microsoft vs RHEL 8</h3><canvas id="dashPatchChart"></canvas></div>
+<div class="card">
+<h3>Patch Volume at a Glance</h3>
+<table style="margin-top:8px;font-size:.85em">
+<tr><th></th><th>Microsoft</th><th>RHEL 8</th></tr>
+<tr><td>2025 Total</td><td style="color:#a5b4fc">1131</td><td style="color:#fca5a5">204</td></tr>
+<tr><td>2025 Monthly Avg</td><td style="color:#a5b4fc">~94</td><td style="color:#fca5a5">~17</td></tr>
+<tr><td>2026 YTD</td><td style="color:#a5b4fc">409</td><td style="color:#fca5a5">98</td></tr>
+<tr><td>Apr 2026 (Glasswing month)</td><td style="color:#fbbf24">163</td><td style="color:#fbbf24">23</td></tr>
+</table>
+<p style="color:#64748b;font-size:.8em;margin-top:12px">Microsoft = Patch Tuesday (security only). RHEL = security advisories (est. from 204 annual CVEs).</p>
+</div>
+</div>
+
+</div>
+
+<div class="footer">
+Glasswing / Mythos Intelligence Assessment &mdash; Part of the <a href="index.html" style="color:#6366f1">KEV Exploitation Analysis</a> project.
+</div>
+
+</div>
+
+<script>
+const C = {
+    purple: 'rgba(99,102,241,.8)', purpleBg: 'rgba(99,102,241,.15)',
+    pink: 'rgba(236,72,153,.8)', pinkBg: 'rgba(236,72,153,.15)',
+    cyan: 'rgba(6,182,212,.8)', cyanBg: 'rgba(6,182,212,.15)',
+    green: 'rgba(16,185,129,.8)', greenBg: 'rgba(16,185,129,.15)',
+    amber: 'rgba(245,158,11,.8)', amberBg: 'rgba(245,158,11,.15)',
+    red: 'rgba(239,68,68,.8)', redBg: 'rgba(239,68,68,.15)',
+    slate: 'rgba(148,163,184,.6)'
+};
+
+Chart.defaults.color = '#94a3b8';
+Chart.defaults.borderColor = 'rgba(51,65,85,.5)';
+
+// Mythos baseline chart — extended timeline with projections
+const mMonthsAll = ["2025-01","2025-02","2025-03","2025-04","2025-05","2025-06","2025-07","2025-08","2025-09","2025-10","2025-11","2025-12","2026-01","2026-02","2026-03","2026-04","2026-05","2026-06","2026-07","2026-08","2026-09","2026-10"];
+const mActualCve = {"2025-01":4200,"2025-02":3800,"2025-03":4012,"2025-04":3950,"2025-05":3900,"2025-06":3850,"2025-07":4100,"2025-08":4050,"2025-09":3950,"2025-10":4150,"2025-11":4000,"2025-12":4212,"2026-01":5143,"2026-02":4808,"2026-03":6304,"2026-04":5991};
+const mCveVals = mMonthsAll.map(m => mActualCve[m] || null);
+const mKevLookup = {"2025-01":14,"2025-02":27,"2025-03":32,"2025-04":15,"2025-05":24,"2025-06":20,"2025-07":20,"2025-08":15,"2025-09":16,"2025-10":31,"2025-11":11,"2025-12":20,"2026-01":17,"2026-02":28,"2026-03":26,"2026-04":22};
+const mKevVals = mMonthsAll.map(m => mKevLookup[m] || null);
+// Projection lines: start from last actual (2026-04) and extend forward
+const mConservative = mMonthsAll.map((m,i) => {const proj={"2026-04":5991,"2026-05":6491,"2026-06":6991,"2026-07":7491,"2026-08":7991,"2026-09":8491,"2026-10":8991}; return proj[m]||null;});
+const mAggressive = mMonthsAll.map((m,i) => {const proj={"2026-04":5991,"2026-05":7991,"2026-06":9991,"2026-07":11991,"2026-08":12991,"2026-09":13491,"2026-10":13991}; return proj[m]||null;});
+
+new Chart(document.getElementById('mythosBaseChart'), {
+    type:'line',
+    data:{
+        labels:mMonthsAll,
+        datasets:[
+            {label:'Actual CVEs',data:mCveVals,borderColor:C.cyan,backgroundColor:C.cyanBg,fill:true,tension:.3,pointRadius:4,spanGaps:false},
+            {label:'Conservative (+500/mo)',data:mConservative,borderColor:C.amber,borderDash:[5,5],fill:false,tension:.3,pointRadius:4,pointStyle:'triangle'},
+            {label:'Aggressive (+2-5k/mo)',data:mAggressive,borderColor:C.red,borderDash:[5,5],fill:false,tension:.3,pointRadius:4,pointStyle:'triangle'}
+        ]
+    },
+    options:{
+        scales:{y:{beginAtZero:false,min:3000,title:{display:true,text:'Monthly CVEs'}},
+                x:{ticks:{callback:function(v,i){const m=mMonthsAll[i];return m>='2026-05'?m+' ⟶':m;}}}},
+        plugins:{legend:{position:'top'},
+            annotation:{annotations:{glasswing:{type:'line',xMin:15,xMax:15,borderColor:'rgba(245,158,11,.5)',borderWidth:2,borderDash:[6,3],
+                label:{display:true,content:'Glasswing',position:'start',backgroundColor:'rgba(245,158,11,.8)',color:'#000',font:{size:10}}}}}}
+    }
+});
+
+// Mythos CVE breakdown
+new Chart(document.getElementById('mythosCveChart'), {
+    type:'bar',
+    data:{
+        labels:["Mozilla Firefox", "wolfSSL", "F5 NGINX Plus", "FreeBSD", "OpenSSL"],
+        datasets:[{label:'Vulnerabilities fixed',data:[271, 9, 1, 1, 1],backgroundColor:[C.purple,C.cyan,C.green,C.red,C.amber],borderRadius:4}]
+    },
+    options:{indexAxis:'y',plugins:{legend:{display:false}},scales:{x:{beginAtZero:true}}}
+});
+
+// KEV monthly trend
+new Chart(document.getElementById('mythosKevChart'), {
+    type:'bar',
+    data:{
+        labels:mMonthsAll,
+        datasets:[{label:'KEV Additions',data:mKevVals,backgroundColor:mMonthsAll.map(m=>m>='2026-04'?C.red:C.purple),borderRadius:4}]
+    },
+    options:{plugins:{legend:{display:false}},scales:{y:{beginAtZero:true,title:{display:true,text:'KEV Entries Added'}}}}
+});
+
+// Patch velocity dashboard chart
+new Chart(document.getElementById('dashPatchChart'), {
+    type:'bar',
+    data:{
+        labels:["2025-01", "2025-02", "2025-03", "2025-04", "2025-05", "2025-06", "2025-07", "2025-08", "2025-09", "2025-10", "2025-11", "2025-12", "2026-01", "2026-02", "2026-03", "2026-04"],
+        datasets:[
+            {label:'Microsoft',data:[157, 57, 57, 124, 71, 65, 127, 107, 80, 167, 63, 56, 112, 55, 79, 163],backgroundColor:C.purple,borderRadius:4},
+            {label:'RHEL 8',data:[15, 14, 18, 16, 17, 15, 19, 18, 16, 20, 19, 17, 22, 25, 28, 23],backgroundColor:C.red,borderRadius:4}
+        ]
+    },
+    options:{scales:{y:{beginAtZero:true,title:{display:true,text:'Security Fixes'}}},plugins:{legend:{position:'top'}}}
+});
+
+// Glasswing days counter
+const glasswingLaunch = new Date('2026-04-07T00:00:00Z');
+const today = new Date();
+const daysSince = Math.floor((today - glasswingLaunch) / (1000*60*60*24));
+const daysEl = document.getElementById('glasswingDays');
+if(daysEl) daysEl.textContent = daysSince;
+</script>
+</body>
+</html>

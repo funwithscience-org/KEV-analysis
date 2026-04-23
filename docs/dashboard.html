@@ -110,6 +110,7 @@ details.dash-expand .detail-content{padding:16px;background:#0f172a}
 <a href="dashboard.html" class="current">Dashboard</a>
 <a href="periodicity.html">Periodicity Analysis</a>
 <a href="cve-reference.html">CVE Reference</a>
+<a href="glasswing.html">Glasswing</a>
 </nav>
 <h1>KEV Exploitation Dashboard</h1>
 <p class="subtitle">Explore 1,578 exploited vulnerabilities against 23,501 critical <span class="glossary" data-tip="Common Vulnerabilities and Exposures — unique IDs assigned to each reported software vulnerability">CVEs</span>. <span style="color:#64748b">Updated <span id="lastUpdated"></span></span></p>
@@ -125,7 +126,7 @@ details.dash-expand .detail-content{padding:16px;background:#0f172a}
 <div class="kpi-hero" style="border-color:#f59e0b">
 <div class="kpi-val" style="color:#fbbf24">+35.3% YoY</div>
 <div class="kpi-label" style="color:#94a3b8">Q1 2026 <span class="glossary" data-tip="Common Vulnerabilities and Exposures — unique IDs for reported software vulnerabilities">CVE</span> Publications vs Q1 2025</div>
-<div class="kpi-sub" style="color:#fde68a">March 2026 alone: +57.1% — and Glasswing launched April 7.</div>
+<div class="kpi-sub" style="color:#fde68a">March 2026 alone: +57.1% year-over-year.</div>
 </div>
 </div>
 <!-- SUPPORTING STATS -->
@@ -312,136 +313,10 @@ Attackers favor high-impact, easy-to-trigger vulnerabilities. <strong>186 window
 </div>
 
 
-<!-- SECTION: MYTHOS DETECTOR -->
-<div class="section">
-<div class="section-title">Mythos Detector: AI-Driven CVE Volume Impact</div>
-<div class="days-counter"><span class="live-dot"></span> Day <strong id="glasswingDays"></strong> since Glasswing launch (April 7, 2026)</div>
-
-<div class="cve-cards">
-<div class="cve-card" style="border-left:3px solid #10b981">
-<div class="cve-id">CVE-2026-4747</div>
-<div class="cve-product">FreeBSD NFS RCE</div>
-<div class="cve-detail">17-year-old bug. Confirmed autonomous Glasswing find.</div>
-</div>
-<div class="cve-card" style="border-left:3px solid #10b981">
-<div class="cve-id">CVE-2026-5194</div>
-<div class="cve-product">wolfSSL cert validation bypass</div>
-<div class="cve-detail">~5B affected devices. Press-confirmed Mythos Preview–assisted. Carlini @ Anthropic.</div>
-</div>
-<div class="cve-card" style="border-left:3px solid #10b981">
-<div class="cve-id">CVE-2026-5588</div>
-<div class="cve-product">Bouncy Castle crypto library</div>
-<div class="cve-detail">Credited to Carlini + Claude.</div>
-</div>
-</div>
-
-<div class="grid-2">
-<div class="card"><h3>Monthly CVE Volume: Baseline + Glasswing Projections</h3><canvas id="mythosBaseChart"></canvas></div>
-<div class="card"><h3>Mythos-Linked Vulnerabilities by Product (~283 fixes; 6 CVE-credited)</h3><canvas id="mythosCveChart"></canvas></div>
-</div>
-
-<div class="card" style="margin-top:20px">
-<h3>Probable Glasswing Participant Self-Scan Findings</h3>
-<p style="color:#94a3b8;font-size:.82em;margin-bottom:12px">CVEs from named Glasswing participants where: vendor is a participant, bug is network-parsing-adjacent, no prior attacker exploitation or third-party researcher credit, and bug pattern is consistent with automated AI scanning. <strong>Separate from the ~40 confirmed/attributed Glasswing CVEs above.</strong></p>
-<table style="width:100%;font-size:.82em;border-collapse:collapse">
-<thead><tr style="border-bottom:1px solid #475569">
-<th style="text-align:left;padding:6px;color:#94a3b8">CVE</th>
-<th style="text-align:left;padding:6px;color:#94a3b8">Participant</th>
-<th style="text-align:left;padding:6px;color:#94a3b8">Product</th>
-<th style="text-align:center;padding:6px;color:#94a3b8">CVSS</th>
-<th style="text-align:left;padding:6px;color:#94a3b8">HTTP-Adjacent Vector</th>
-<th style="text-align:left;padding:6px;color:#94a3b8">Why Probable</th>
-</tr></thead>
-<tbody>
-<tr style="border-bottom:1px solid #1e293b">
-<td style="padding:6px;color:#e2e8f0;font-family:monospace;font-size:.95em">CVE-2026-20180</td>
-<td style="padding:6px;color:#f59e0b;font-weight:600">Cisco</td>
-<td style="padding:6px;color:#cbd5e1">ISE</td>
-<td style="padding:6px;text-align:center;color:#ef4444;font-weight:700">9.9</td>
-<td style="padding:6px;color:#94a3b8">Crafted HTTP request → RCE (read-only admin)</td>
-<td style="padding:6px;color:#94a3b8">Cluster: 3 ISE RCEs in one batch. Input validation bugs found across multiple code paths — consistent with systematic automated scan.</td>
-</tr>
-<tr style="border-bottom:1px solid #1e293b">
-<td style="padding:6px;color:#e2e8f0;font-family:monospace;font-size:.95em">CVE-2026-20186</td>
-<td style="padding:6px;color:#f59e0b;font-weight:600">Cisco</td>
-<td style="padding:6px;color:#cbd5e1">ISE</td>
-<td style="padding:6px;text-align:center;color:#ef4444;font-weight:700">9.9</td>
-<td style="padding:6px;color:#94a3b8">Crafted HTTP request → RCE (read-only admin)</td>
-<td style="padding:6px;color:#94a3b8">Same batch, different code path. Identical pattern to -20180.</td>
-</tr>
-<tr style="border-bottom:1px solid #1e293b">
-<td style="padding:6px;color:#e2e8f0;font-family:monospace;font-size:.95em">CVE-2026-20147</td>
-<td style="padding:6px;color:#f59e0b;font-weight:600">Cisco</td>
-<td style="padding:6px;color:#cbd5e1">ISE</td>
-<td style="padding:6px;text-align:center;color:#ef4444;font-weight:700">9.9</td>
-<td style="padding:6px;color:#94a3b8">Crafted HTTP request → RCE (admin creds)</td>
-<td style="padding:6px;color:#94a3b8">Third ISE RCE in same batch. Slightly higher auth bar (full admin vs read-only).</td>
-</tr>
-<tr style="border-bottom:1px solid #1e293b">
-<td style="padding:6px;color:#e2e8f0;font-family:monospace;font-size:.95em">CVE-2026-20184</td>
-<td style="padding:6px;color:#f59e0b;font-weight:600">Cisco</td>
-<td style="padding:6px;color:#cbd5e1">Webex</td>
-<td style="padding:6px;text-align:center;color:#ef4444;font-weight:700">9.8</td>
-<td style="padding:6px;color:#94a3b8">SSO certificate validation bypass → user impersonation</td>
-<td style="padding:6px;color:#94a3b8">Same disclosure batch as ISE bugs. Cert-handling audit pattern consistent with TLS/HTTP review sweep.</td>
-</tr>
-</tbody>
-</table>
-<p style="color:#64748b;font-size:.78em;margin-top:10px"><strong>Qualification criteria:</strong> Glasswing participant vendor + HTTP-parsing-adjacent + no attacker exploitation before disclosure + no third-party researcher credit + bug pattern consistent with automated scanning + disclosed during Glasswing era. Counter-argument: Cisco has a steady CVE cadence and internal security teams that predate Glasswing; these could be conventional audit findings.</p>
-</div>
-
-<div class="insight warn">
-<strong>Volume watch, day 15 post-Glasswing:</strong> Q1 2026 CVE publications came in at 16,255 (+35.3% YoY), with March 2026 at 6,304 (+57.1% vs March 2025). April 2026 is pacing 4,227 through day 22 (extrapolated ~5,764) — still <em>below</em> March, but the gap is narrowing thanks to a large back-population of Apr 21 (35 → 359 entries as NVD caught up). Daily publication rate holding near ~190/day. Project Glasswing launched April 7, 2026; the ~40 attributable CVEs remain flat, but three now carry explicit Claude/Mythos credit: CVE-2026-4747 (FreeBSD NFS, autonomous find), CVE-2026-5194 (wolfSSL cert validation, press-confirmed Mythos-assisted), and CVE-2026-5588 (Bouncy Castle, Carlini + Claude). 37 of 40 target network-parsing products (Firefox, wolfSSL, NGINX, OpenSSL). Additionally, a Cisco cluster of 4 critical network-parser-adjacent CVEs (3× ISE RCE + 1× Webex SSO bypass, all CVSS 9.8–9.9, disclosed in a single batch) qualifies as probable Glasswing self-scan output — Cisco is a named participant, the cluster pattern suggests systematic automated scanning, and all four are network-parsing-adjacent. See the participant self-scan table below. Counter-argument: NVD publish latency is 4–8 weeks, so the first clear volume signal is still more likely in May, but the attribution signal is strengthening across both Anthropic-credited and participant-product channels.
-</div>
-
-<div class="insight">
-<strong>Projection update (2026-04-20):</strong> Revised projection curves to account for real-world disclosure timelines — participants had pre-announcement Mythos access and are racing to fix findings before production release. Conservative (+500/mo) begins May; aggressive ramps steeply May–June.
-</div>
-
-<div class="grid-2">
-<div class="card"><h3>KEV Additions: Monthly Trend</h3><canvas id="mythosKevChart"></canvas></div>
-<div class="card">
-<h3>Glasswing Participants (13 named)</h3>
-<table style="margin-top:8px;font-size:.85em">
-<tr><th>Organization</th><th>Impact</th></tr>
-<tr><td>Microsoft</td><td style="color:#f87171">Massive</td></tr>
-<tr><td>Google</td><td style="color:#f87171">Massive</td></tr>
-<tr><td>Apple</td><td style="color:#f87171">Massive</td></tr>
-<tr><td>Linux Foundation</td><td style="color:#f87171">Massive</td></tr>
-<tr><td>Amazon Web Services</td><td style="color:#fbbf24">High</td></tr>
-<tr><td>Cisco</td><td style="color:#fbbf24">High</td></tr>
-<tr><td>Palo Alto Networks</td><td style="color:#fbbf24">High</td></tr>
-<tr><td>Broadcom (VMware)</td><td style="color:#fbbf24">High</td></tr>
-<tr><td>Intel</td><td style="color:#94a3b8">Moderate</td></tr>
-<tr><td>Nvidia</td><td style="color:#94a3b8">Moderate</td></tr>
-<tr><td>CrowdStrike</td><td style="color:#94a3b8">Moderate</td></tr>
-<tr><td>JPMorganChase</td><td style="color:#94a3b8">Finance</td></tr>
-<tr><td>Anthropic</td><td style="color:#94a3b8">Self-scan</td></tr>
-</table>
-<p style="color:#64748b;font-size:.8em;margin-top:8px">+ ~40 unnamed orgs. $100M in credits committed.</p>
-</div>
-</div>
-<div class="insight danger">
-<strong>Projection:</strong> Conservative estimate adds +500 CVEs/month from Glasswing; aggressive scenario (based on 90× Firefox benchmark)
-could push +2,000–5,000/month. Full results expected July 2026. If Mythos-class capability reaches offensive actors before
-defensive cleanup completes, the time-to-exploit compression we documented (251→11 days) could accelerate further.
-</div>
-
-<div class="grid-2" style="margin-top:20px">
-<div class="card"><h3>Monthly Security Fixes: Microsoft vs RHEL 8</h3><canvas id="dashPatchChart"></canvas></div>
-<div class="card">
-<h3>Patch Volume at a Glance</h3>
-<table style="margin-top:8px;font-size:.85em">
-<tr><th></th><th>Microsoft</th><th>RHEL 8</th></tr>
-<tr><td>2025 Total</td><td style="color:#a5b4fc">1131</td><td style="color:#fca5a5">204</td></tr>
-<tr><td>2025 Monthly Avg</td><td style="color:#a5b4fc">~94</td><td style="color:#fca5a5">~17</td></tr>
-<tr><td>2026 YTD</td><td style="color:#a5b4fc">409</td><td style="color:#fca5a5">98</td></tr>
-<tr><td>Apr 2026 (Glasswing month)</td><td style="color:#fbbf24">163</td><td style="color:#fbbf24">23</td></tr>
-</table>
-<p style="color:#64748b;font-size:.8em;margin-top:12px">Microsoft = Patch Tuesday (security only). RHEL = security advisories (est. from 204 annual CVEs).</p>
-</div>
-</div>
-
+<!-- Glasswing analysis moved to dedicated page -->
+<div class="section" style="text-align:center;padding:24px">
+<p style="color:#94a3b8">Glasswing / Mythos intelligence assessment has been moved to a dedicated page.</p>
+<a href="glasswing.html" style="color:#6366f1;text-decoration:none;border:1px solid #6366f1;border-radius:6px;padding:8px 20px;display:inline-block">View Glasswing Analysis &rarr;</a>
 </div>
 
 <!-- SECTION 7: Three-Tier Patching Model -->
@@ -728,68 +603,7 @@ new Chart(document.getElementById('topProductsChart'), {
 });
 
 
-// Mythos baseline chart — extended timeline with projections
-const mMonthsAll = ["2025-01","2025-02","2025-03","2025-04","2025-05","2025-06","2025-07","2025-08","2025-09","2025-10","2025-11","2025-12","2026-01","2026-02","2026-03","2026-04","2026-05","2026-06","2026-07","2026-08","2026-09","2026-10"];
-const mActualCve = {"2025-01":4200,"2025-02":3800,"2025-03":4012,"2025-04":3950,"2025-05":3900,"2025-06":3850,"2025-07":4100,"2025-08":4050,"2025-09":3950,"2025-10":4150,"2025-11":4000,"2025-12":4212,"2026-01":5143,"2026-02":4808,"2026-03":6304,"2026-04":5991};
-const mCveVals = mMonthsAll.map(m => mActualCve[m] || null);
-const mKevLookup = {"2025-01":14,"2025-02":27,"2025-03":32,"2025-04":15,"2025-05":24,"2025-06":20,"2025-07":20,"2025-08":15,"2025-09":16,"2025-10":31,"2025-11":11,"2025-12":20,"2026-01":17,"2026-02":28,"2026-03":26,"2026-04":22};
-const mKevVals = mMonthsAll.map(m => mKevLookup[m] || null);
-// Projection lines: start from last actual (2026-04) and extend forward
-const mConservative = mMonthsAll.map((m,i) => {const proj={"2026-04":5991,"2026-05":6491,"2026-06":6991,"2026-07":7491,"2026-08":7991,"2026-09":8491,"2026-10":8991}; return proj[m]||null;});
-const mAggressive = mMonthsAll.map((m,i) => {const proj={"2026-04":5991,"2026-05":7991,"2026-06":9991,"2026-07":11991,"2026-08":12991,"2026-09":13491,"2026-10":13991}; return proj[m]||null;});
-
-new Chart(document.getElementById('mythosBaseChart'), {
-    type:'line',
-    data:{
-        labels:mMonthsAll,
-        datasets:[
-            {label:'Actual CVEs',data:mCveVals,borderColor:C.cyan,backgroundColor:C.cyanBg,fill:true,tension:.3,pointRadius:4,spanGaps:false},
-            {label:'Conservative (+500/mo)',data:mConservative,borderColor:C.amber,borderDash:[5,5],fill:false,tension:.3,pointRadius:4,pointStyle:'triangle'},
-            {label:'Aggressive (+2-5k/mo)',data:mAggressive,borderColor:C.red,borderDash:[5,5],fill:false,tension:.3,pointRadius:4,pointStyle:'triangle'}
-        ]
-    },
-    options:{
-        scales:{y:{beginAtZero:false,min:3000,title:{display:true,text:'Monthly CVEs'}},
-                x:{ticks:{callback:function(v,i){const m=mMonthsAll[i];return m>='2026-05'?m+' ⟶':m;}}}},
-        plugins:{legend:{position:'top'},
-            annotation:{annotations:{glasswing:{type:'line',xMin:15,xMax:15,borderColor:'rgba(245,158,11,.5)',borderWidth:2,borderDash:[6,3],
-                label:{display:true,content:'Glasswing',position:'start',backgroundColor:'rgba(245,158,11,.8)',color:'#000',font:{size:10}}}}}}
-    }
-});
-
-// Mythos CVE breakdown
-new Chart(document.getElementById('mythosCveChart'), {
-    type:'bar',
-    data:{
-        labels:["Mozilla Firefox", "wolfSSL", "F5 NGINX Plus", "FreeBSD", "OpenSSL"],
-        datasets:[{label:'Vulnerabilities fixed',data:[271, 9, 1, 1, 1],backgroundColor:[C.purple,C.cyan,C.green,C.red,C.amber],borderRadius:4}]
-    },
-    options:{indexAxis:'y',plugins:{legend:{display:false}},scales:{x:{beginAtZero:true}}}
-});
-
-// KEV monthly trend
-new Chart(document.getElementById('mythosKevChart'), {
-    type:'bar',
-    data:{
-        labels:mMonthsAll,
-        datasets:[{label:'KEV Additions',data:mKevVals,backgroundColor:mMonthsAll.map(m=>m>='2026-04'?C.red:C.purple),borderRadius:4}]
-    },
-    options:{plugins:{legend:{display:false}},scales:{y:{beginAtZero:true,title:{display:true,text:'KEV Entries Added'}}}}
-});
-
-
-// Patch velocity dashboard chart
-new Chart(document.getElementById('dashPatchChart'), {
-    type:'bar',
-    data:{
-        labels:["2025-01", "2025-02", "2025-03", "2025-04", "2025-05", "2025-06", "2025-07", "2025-08", "2025-09", "2025-10", "2025-11", "2025-12", "2026-01", "2026-02", "2026-03", "2026-04"],
-        datasets:[
-            {label:'Microsoft',data:[157, 57, 57, 124, 71, 65, 127, 107, 80, 167, 63, 56, 112, 55, 79, 163],backgroundColor:C.purple,borderRadius:4},
-            {label:'RHEL 8',data:[15, 14, 18, 16, 17, 15, 19, 18, 16, 20, 19, 17, 22, 25, 28, 23],backgroundColor:C.red,borderRadius:4}
-        ]
-    },
-    options:{scales:{y:{beginAtZero:true,title:{display:true,text:'Security Fixes'}}},plugins:{legend:{position:'top'}}}
-});
+// Glasswing/Mythos charts moved to glasswing.html
 
 
 // NP+DI Cross-Framework bar chart
@@ -964,14 +778,8 @@ document.getElementById('csvBtn').addEventListener('click', function() {
     URL.revokeObjectURL(a.href);
 });
 
-// Glasswing days counter
-const glasswingLaunch = new Date('2026-04-07T00:00:00Z');
-const today = new Date();
-const daysSince = Math.floor((today - glasswingLaunch) / (1000*60*60*24));
-const daysEl = document.getElementById('glasswingDays');
-if(daysEl) daysEl.textContent = daysSince;
-
 // Last updated timestamp
+const today = new Date();
 const updEl = document.getElementById('lastUpdated');
 if(updEl) updEl.textContent = today.toLocaleDateString('en-US', {month:'long', day:'numeric', year:'numeric'});
 </script>
