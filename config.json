@@ -28,9 +28,10 @@
       "FreeBSD",
       "OpenSSL"
     ],
-    "known_count": 40,
+    "known_count": 283,
+    "known_count_notes": "Mozilla MFSA 2026-30 (Firefox 150) reports 271 vulnerabilities fixed from a single Claude Mythos evaluation pass (41 CVE-tier entries; 3 explicitly credited to Claude in the advisory). Previous '40 total' framing reflected early-April coverage and did not yet include the Firefox 150 disclosure announced 2026-04-21/22. 271-vs-3 ratio of total-fixes-to-CVE-credited means the headline number substantially overstates CVE-severity of Mythos findings.",
     "product_breakdown": {
-      "Mozilla Firefox": 28,
+      "Mozilla Firefox": 271,
       "wolfSSL": 9,
       "F5 NGINX Plus": 1,
       "FreeBSD": 1,
@@ -42,14 +43,20 @@
     "claude_credited_cves": [
       "CVE-2026-4747",
       "CVE-2026-5194",
-      "CVE-2026-5588"
+      "CVE-2026-5588",
+      "CVE-2026-6746",
+      "CVE-2026-6757",
+      "CVE-2026-6758"
     ],
     "claude_credited_notes": {
       "CVE-2026-4747": "FreeBSD NFS RCE \u2014 confirmed Glasswing autonomous find",
       "CVE-2026-5194": "wolfSSL cert validation bypass \u2014 press-confirmed Mythos Preview-assisted, Carlini @ Anthropic",
-      "CVE-2026-5588": "Bouncy Castle \u2014 credited to Carlini + Claude"
+      "CVE-2026-5588": "Bouncy Castle \u2014 credited to Carlini + Claude",
+      "CVE-2026-6746": "Firefox 150 \u2014 officially credited to Claude in MFSA 2026-30 (2026-04-21/22)",
+      "CVE-2026-6757": "Firefox 150 JavaScript invalid pointer \u2014 officially credited to Claude in MFSA 2026-30",
+      "CVE-2026-6758": "Firefox 150 JavaScript use-after-free \u2014 officially credited to Claude in MFSA 2026-30"
     },
-    "last_verified": "2026-04-20T04:11Z",
+    "last_verified": "2026-04-23T05:05Z",
     "participants": [
       "AWS",
       "Anthropic",
@@ -158,17 +165,17 @@
       "2026-01": 5143,
       "2026-02": 4808,
       "2026-03": 6304,
-      "2026-04": 4227
+      "2026-04": 4593
     },
     "monthly_cve_2026_notes": {
-      "2026-04": "MTD through 2026-04-22 (22 days); extrapolated full-month ~5764 (4227 * 30/22). +342 net CVEs between day 21 and day 22 snapshots, driven primarily by NVD back-population of 2026-04-21 (finalized at 359 entries vs the 35 we saw 24h earlier) \u2014 classic 24h catch-up. Day 22 itself running at 18 entries same-day. Daily rate ~192/day. Still tracking below March (6304) and below the +500/mo conservative Glasswing anchor, but the gap has narrowed.",
-      "prior_months_unchanged": "2026-01 = 5143, 2026-02 = 4808, 2026-03 = 6304 \u2014 re-confirmed on 2026-04-22."
+      "2026-04": "MTD through 2026-04-23 (23 days); extrapolated full-month ~5991 (4593 * 30/23). +366 net CVEs between day 22 and day 23 snapshots. Bulk of the move was NVD back-population of 2026-04-22 (finalized at 355 entries vs the 18 we saw 24h earlier) \u2014 same 24h catch-up pattern as Apr 21 did yesterday. Apr 21 has stabilized at 359. Apr 23 same-day is 29, and will grow. Daily rate through fully-populated days is ~186/day; extrapolation up from 5764 \u2192 5991 (+3.9%). Still tracking below March (6304) and below the conservative Glasswing anchor, though the gap to March has narrowed to ~5%.",
+      "prior_months_unchanged": "2026-01 = 5143, 2026-02 = 4808, 2026-03 = 6304 \u2014 re-confirmed on 2026-04-23."
     },
     "weekly_cve_2026": {
       "2026-W14_Mar30_Apr05": 1304,
       "2026-W15_Apr06_Apr12": 1615,
       "2026-W16_Apr13_Apr19": 1178,
-      "2026-W17_Apr20_Apr26_partial": 543
+      "2026-W17_Apr20_Apr26_partial": 909
     },
     "ms_patch_tuesday": {
       "2025-01": 157,
@@ -203,7 +210,7 @@
       "2026-04": 22
     },
     "kev_monthly_2026_notes": {
-      "2026-04": "22 entries added 2026-04-01..2026-04-20 (per CISA KEV catalog version 2026.04.21 released 2026-04-21T17:10Z). No new KEV additions between 2026-04-20 and 2026-04-22 \u2014 catalog refreshed but content unchanged. April total holding at 22 (ahead of Q1 monthly average ~24). Notable 2026-04-20 batch: Cisco Catalyst SD-WAN Manager cluster (CVE-2026-20122, -20128, -20133) \u2014 Cisco (Glasswing participant), HTTP-adjacent management-plane bugs; plus CVE-2025-2749 (Kentico Xperience), CVE-2023-27351 (PaperCut NG/MF), CVE-2025-48700 (Zimbra), CVE-2025-32975 (Quest KACE SMA), CVE-2024-27199 (JetBrains TeamCity). Earlier-April entries unchanged: CVE-2026-34197 (Apache ActiveMQ 2026-04-16), CVE-2026-32201 (SharePoint 0-day 2026-04-14), CVE-2026-21643 (Fortinet FortiClient EMS SQLi 2026-04-13), CVE-2026-34621 (Adobe Acrobat prototype pollution 2026-04-13), CVE-2026-1340 (Ivanti EPMM 2026-04-08), CVE-2026-35616 (Fortinet FortiClient EMS 2026-04-06), CVE-2026-3502 (TrueConf Client 2026-04-02), CVE-2026-5281 (Google Dawn 2026-04-01); plus 5 legacy re-adds on 2026-04-13/14 (CVE-2009-0238, CVE-2012-1854, CVE-2020-9715, CVE-2023-21529, CVE-2023-36424) and CVE-2025-60710 Microsoft Windows."
+      "2026-04": "22 entries added 2026-04-01..2026-04-20 (per CISA KEV catalog version 2026.04.21 released 2026-04-21T17:10Z). No new KEV additions between 2026-04-20 and 2026-04-23 \u2014 catalog unchanged for three consecutive days. April total holding at 22 (ahead of Q1 monthly average ~24). Notable 2026-04-20 batch: Cisco Catalyst SD-WAN Manager cluster (CVE-2026-20122, -20128, -20133) \u2014 Cisco (Glasswing participant), HTTP-adjacent management-plane bugs; plus CVE-2025-2749 (Kentico Xperience), CVE-2023-27351 (PaperCut NG/MF), CVE-2025-48700 (Zimbra), CVE-2025-32975 (Quest KACE SMA), CVE-2024-27199 (JetBrains TeamCity). Earlier-April entries unchanged: CVE-2026-34197 (Apache ActiveMQ 2026-04-16), CVE-2026-32201 (SharePoint 0-day 2026-04-14), CVE-2026-21643 (Fortinet FortiClient EMS SQLi 2026-04-13), CVE-2026-34621 (Adobe Acrobat prototype pollution 2026-04-13), CVE-2026-1340 (Ivanti EPMM 2026-04-08), CVE-2026-35616 (Fortinet FortiClient EMS 2026-04-06), CVE-2026-3502 (TrueConf Client 2026-04-02), CVE-2026-5281 (Google Dawn 2026-04-01); plus 5 legacy re-adds on 2026-04-13/14 (CVE-2009-0238, CVE-2012-1854, CVE-2020-9715, CVE-2023-21529, CVE-2023-36424) and CVE-2025-60710 Microsoft Windows."
     }
   },
   "exploit_watch_list": {
@@ -327,7 +334,7 @@
       "functional",
       "weaponized"
     ],
-    "last_full_scan": "2026-04-22T03:40Z",
+    "last_full_scan": "2026-04-23T05:05Z",
     "cve_status": {
       "CVE-2026-40477": {
         "exploitdb": {

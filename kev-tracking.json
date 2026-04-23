@@ -1,30 +1,30 @@
 {
-  "last_run": "2026-04-22T03:10:00Z",
+  "last_run": "2026-04-23T05:05:00Z",
   "data_collected": {
     "overall_cve": {
       "month": "2026-04",
-      "mtd_count": 4227,
-      "days_elapsed": 22,
-      "extrapolated": 5764,
-      "source": "NVD API pubStartDate=2026-04-01..2026-04-22 (totalResults=4227)",
+      "mtd_count": 4593,
+      "days_elapsed": 23,
+      "extrapolated": 5991,
+      "source": "NVD API pubStartDate=2026-04-01..2026-04-23 (totalResults=4593)",
       "prior_months_nvd_reverified": {
         "2026-01": 5143,
         "2026-02": 4808,
         "2026-03": 6304
       },
-      "delta_vs_prior_run": "April MTD moved 3885 (day 21 snapshot) \u2192 4227 (day 22 snapshot): +342 CVEs net over 24h. Most of that growth is NVD back-population of 2026-04-21: that day's count is now 359 (vs 35 carried forward by yesterday's same-day query). Apr 22 same-day reading is 18 entries. Full-month extrapolation up from 5547 \u2192 5764 (+3.9%). Daily rate steady at ~192/day. W17 partial (days 1-3) = 543."
+      "delta_vs_prior_run": "April MTD moved 4227 (day 22) \u2192 4593 (day 23): +366 CVEs net over 24h. Same back-population pattern as yesterday: Apr 22 finalized at 355 vs the 18 we saw 24h earlier (+337). Apr 21 has stabilized at 359. Apr 23 same-day is 29 and will grow overnight. Full-month extrapolation up from 5764 \u2192 5991 (+3.9%). Daily pace (fully-populated days) steady at ~186/day."
     },
     "kev_additions": {
       "month": "2026-04",
       "count": 22,
       "catalog_version": "2026.04.21",
       "date_released": "2026-04-21T17:10:43.4666Z",
-      "source": "CISA KEV feed (https://www.cisa.gov/sites/default/files/feeds/known_exploited_vulnerabilities.json)",
-      "reconciliation_note": "No new KEV entries between 2026-04-20 and 2026-04-22 \u2014 catalog refreshed to version 2026.04.21 but content unchanged from prior run. Total remains 22 for April, ahead of Q1 2026 monthly average (~24) with 8 days remaining.",
+      "source": "CISA KEV feed",
+      "reconciliation_note": "No new KEV entries between 2026-04-20 and 2026-04-23 \u2014 catalog has been unchanged for 3 consecutive days. April total still 22 (pacing slightly below Q1 2026 monthly average ~24, consistent with typical week-before-week-of variance). No watch list CVE moved to KEV status this run (CVE-2026-32201, -34197, -34621 already confirmed; -33825 not yet added despite active exploitation).",
       "new_since_prior_run": [],
       "notable_entries": [
-        "CVE-2026-20122 / 20128 / 20133 \u2014 Cisco Catalyst SD-WAN Manager cluster (2026-04-20). Cisco is a Glasswing participant and these are HTTP-parsing-adjacent management-plane bugs. KEV listing implies active exploitation before disclosure, which disqualifies them from the probable-participant-self-scan bucket per current criteria.",
-        "CVE-2026-34197 \u2014 Apache ActiveMQ (2026-04-16) \u2014 per Horizon3.ai disclosure, found by Naveen Sunkavally using Claude (~10 min attack-chain trace). Claude-assisted but NOT directly credited to Anthropic/Carlini.",
+        "CVE-2026-20122 / 20128 / 20133 \u2014 Cisco Catalyst SD-WAN Manager cluster (2026-04-20). Cisco (Glasswing participant), HTTP-adjacent management-plane. KEV listing implies active exploitation before disclosure, which disqualifies them from the probable-participant-self-scan bucket per current criteria.",
+        "CVE-2026-34197 \u2014 Apache ActiveMQ (2026-04-16) \u2014 Horizon3.ai/Naveen Sunkavally using Claude (~10 min attack-chain trace). Claude-assisted, not directly Anthropic-credited.",
         "CVE-2026-32201 \u2014 Microsoft SharePoint Server 0-day (2026-04-14)",
         "CVE-2026-21643 \u2014 Fortinet FortiClient EMS SQLi (2026-04-13)",
         "CVE-2026-34621 \u2014 Adobe Acrobat/Reader Prototype Pollution (2026-04-13)",
@@ -37,37 +37,41 @@
       ]
     },
     "glasswing_cves": {
-      "total": 40,
+      "total": 283,
+      "total_prior_reported": 40,
       "by_product": {
-        "Firefox": 28,
+        "Firefox": 271,
         "wolfSSL": 9,
         "F5 NGINX Plus": 1,
         "FreeBSD": 1,
         "OpenSSL": 1
       },
-      "new_since_last": 0,
+      "new_since_last": 243,
       "confirmed_glasswing": [
         "CVE-2026-4747 (FreeBSD NFS RCE, ~17-year-old bug \u2014 Anthropic/Carlini autonomous find)"
       ],
       "adjacent_claude_credited": [
         "CVE-2026-5194 (wolfSSL cert validation \u2014 Mythos Preview-assisted, Carlini @ Anthropic)",
-        "CVE-2026-5588 (Bouncy Castle \u2014 Carlini + Claude)"
+        "CVE-2026-5588 (Bouncy Castle \u2014 Carlini + Claude)",
+        "CVE-2026-6746 (Firefox 150 \u2014 officially credited to Claude in MFSA 2026-30)",
+        "CVE-2026-6757 (Firefox 150 JavaScript invalid pointer \u2014 officially credited in MFSA 2026-30)",
+        "CVE-2026-6758 (Firefox 150 JavaScript use-after-free \u2014 officially credited in MFSA 2026-30)"
       ],
       "claude_assisted_non_anthropic": [
         "CVE-2026-34197 (Apache ActiveMQ \u2014 Horizon3.ai / Naveen Sunkavally using Claude as tool; NOT direct Anthropic credit)"
       ],
-      "source": "The Register, InfoQ, CSO Online, Conzit, Tech-Insider coverage 2026-04-15..22. No new direct-attribution CVEs detected in this run. InfoQ cites 'CVE-2026-31402' as a Linux NFS heap overflow finding by Carlini with Claude Code (23-year-old bug) \u2014 worth investigating whether this is a separately-assigned CVE or conflated with CVE-2026-4747 FreeBSD. Flagging for analyst review.",
-      "notes": "Holding official count at 40 pending additional direct-attribution CVE IDs. 'Five kernel vulnerabilities' claim is still the boundary of public attribution; only CVE-2026-4747 is formally enumerated. Today's Cisco SD-WAN Manager KEV cluster is NOT being counted toward Glasswing (active-exploitation evidence fails the 'no prior attacker exploitation' criterion for probable-participant-self-scan)."
+      "source": "Major update 2026-04-21/22: Mozilla disclosed that Firefox 150 (MFSA 2026-30) fixes 271 vulnerabilities identified during a single Claude Mythos evaluation pass. 41 of those 271 fixes were promoted to CVE-tier; 3 (CVE-2026-6746, -6757, -6758) are explicitly credited to Claude in the advisory. Sources: Mozilla Blog, Help Net Security, SecurityWeek, TheNextWeb, Slashdot, Engadget, Cyberinsider 2026-04-21/22. Anthropic/Carlini direct-attribution list updated accordingly.",
+      "notes": "The 271 Firefox figure is Mozilla's internal characterization of 'vulnerabilities fixed as a result of a Mythos evaluation pass' \u2014 most do not meet the threshold for a public CVE (only 41 do; only 3 carry Claude credit in the advisory). Counter-argument: 271-to-3 means the headline overstates CVE-grade severity and is partly an artifact of Mozilla's internal triage. We are retaining 283 as a total 'Mythos-linked fixes' number while distinguishing it from the 6 explicitly-credited CVEs."
     },
     "ms_patch_tuesday": {
       "latest_month": "2026-04",
       "count": 163,
-      "source": "Tenable blog, Krebs on Security, MSRC (value unchanged since 2026-04-14 release)",
+      "source": "Tenable blog, Krebs on Security, MSRC (value unchanged since 2026-04-14 release; some trackers list 164 due to methodology differences, retaining 163 as consistent with prior runs)",
       "zero_days_actively_exploited": [
         "CVE-2026-32201 (SharePoint, also KEV 2026-04-14)",
         "CVE-2026-33825 (Windows Defender 'BlueHammer' \u2014 PoC on GitHub since Apr 3 pre-patch)"
       ],
-      "ranking": "Second-largest Patch Tuesday ever per Redmondmag; shy of October 2025 (167)."
+      "ranking": "Second-largest Patch Tuesday ever; shy of October 2025 (167)."
     },
     "rhel8_errata": {
       "latest_month": "2026-04",
@@ -79,245 +83,156 @@
       "2026-W14_Mar30_Apr05": 1304,
       "2026-W15_Apr06_Apr12": 1615,
       "2026-W16_Apr13_Apr19": 1178,
-      "2026-W17_Apr20_Apr26_partial": 543,
+      "2026-W17_Apr20_Apr26_partial": 909,
       "per_day_pace": {
         "W14": 186,
         "W15": 231,
         "W16_full_week": 168,
-        "W17_so_far_3days": 181
+        "W17_so_far_4days": 227,
+        "W17_fully_populated_days_only": 293
       },
-      "observation": "W17 ran 543 across Apr 20-22, ~181/day vs W16's final 168/day. The acceleration is mostly back-population: Apr 21 moved from 35 \u2192 359 overnight as NVD caught up; Apr 22 same-day is only 18. Extrapolating the 3-day 543 across 7 days gives ~1,267 \u2014 would be the lowest full week of the month. Too early to call an inflection; expect W17 final count to come in around 900-1000 after normal back-population."
+      "observation": "W17 Apr 20-23 is now 909 after Apr 22 back-populated from 18 \u2192 355. If we ignore Apr 23 same-day (29, will grow) and use Apr 20-22 fully-populated (880 over 3 days = 293/day), extrapolating across 7 days gives ~2,050. Much more likely W17 final will land 1,400-1,700 after full back-population. W16 came in at 168/day \u2014 the slowest of the three measured weeks \u2014 so no inflection is visible yet in the first full week post-Glasswing. Too early to call either way; the typical 2-week back-population lag means mid-May is when we'd first see Glasswing-disclosed CVEs surface in bulk."
     }
   },
   "exploit_intelligence": {
     "watch_list_status": {
       "CVE-2026-40477": {
-        "exploitdb": {
-          "found": false
-        },
-        "metasploit": {
-          "found": false,
-          "verified_via": "targeted web search of rapid7/metasploit-framework 2026-04-22"
-        },
-        "github_poc": {
-          "found": true,
-          "repo_count": null,
-          "notes": "PoCs circulating in researcher communities per CSO Online / The Hacker Wire 2026-04-17"
-        },
+        "exploitdb": {"found": false},
+        "metasploit": {"found": false, "verified_via": "targeted web search of rapid7/metasploit-framework 2026-04-23"},
+        "github_poc": {"found": true, "repo_count": null, "notes": "PoCs circulating in researcher communities per CSO Online / The Hacker Wire 2026-04-17"},
         "overall_maturity": "poc",
-        "last_checked": "2026-04-22T03:10Z"
+        "last_checked": "2026-04-23T05:05Z"
       },
       "CVE-2026-40478": {
-        "exploitdb": {
-          "found": false
-        },
-        "metasploit": {
-          "found": false,
-          "verified_via": "targeted web search of rapid7/metasploit-framework 2026-04-22"
-        },
-        "github_poc": {
-          "found": true,
-          "repo_count": null,
-          "notes": "Same Thymeleaf cluster as CVE-2026-40477 \u2014 PoCs circulating"
-        },
+        "exploitdb": {"found": false},
+        "metasploit": {"found": false, "verified_via": "targeted web search of rapid7/metasploit-framework 2026-04-23"},
+        "github_poc": {"found": true, "repo_count": null, "notes": "Same Thymeleaf cluster as CVE-2026-40477 \u2014 PoCs circulating"},
         "overall_maturity": "poc",
-        "last_checked": "2026-04-22T03:10Z"
+        "last_checked": "2026-04-23T05:05Z"
       },
       "CVE-2026-5194": {
-        "exploitdb": {
-          "found": false
-        },
-        "metasploit": {
-          "found": false,
-          "verified_via": "targeted web search of rapid7/metasploit-framework 2026-04-22"
-        },
-        "github_poc": {
-          "found": false,
-          "repo_count": 0,
-          "notes": "No dedicated PoC in major indexes; researchers holding for patch uptake"
-        },
+        "exploitdb": {"found": false},
+        "metasploit": {"found": false, "verified_via": "targeted web search of rapid7/metasploit-framework 2026-04-23"},
+        "github_poc": {"found": false, "repo_count": 0, "notes": "No dedicated PoC in major indexes; researchers likely holding for patch uptake"},
         "overall_maturity": "none",
-        "last_checked": "2026-04-22T03:10Z"
+        "last_checked": "2026-04-23T05:05Z"
       },
       "CVE-2026-5501": {
-        "exploitdb": {
-          "found": false
-        },
-        "metasploit": {
-          "found": false,
-          "verified_via": "targeted web search of rapid7/metasploit-framework 2026-04-22"
-        },
-        "github_poc": {
-          "found": false,
-          "repo_count": 0
-        },
+        "exploitdb": {"found": false},
+        "metasploit": {"found": false, "verified_via": "targeted web search of rapid7/metasploit-framework 2026-04-23"},
+        "github_poc": {"found": false, "repo_count": 0},
         "overall_maturity": "none",
-        "last_checked": "2026-04-22T03:10Z"
+        "last_checked": "2026-04-23T05:05Z"
       },
       "CVE-2026-21858": {
-        "exploitdb": {
-          "found": false
-        },
-        "metasploit": {
-          "found": false,
-          "verified_via": "targeted web search of rapid7/metasploit-framework 2026-04-22"
-        },
-        "github_poc": {
-          "found": true,
-          "repo_count": null,
-          "notes": "Ni8mare \u2014 full attack chain published by Cyera; multiple explainer writeups"
-        },
+        "exploitdb": {"found": false},
+        "metasploit": {"found": false, "verified_via": "targeted web search of rapid7/metasploit-framework 2026-04-23"},
+        "github_poc": {"found": true, "repo_count": null, "notes": "Ni8mare \u2014 full attack chain published by Cyera; multiple explainer writeups"},
         "overall_maturity": "functional",
-        "last_checked": "2026-04-22T03:10Z"
+        "last_checked": "2026-04-23T05:05Z"
       },
       "CVE-2026-39987": {
-        "exploitdb": {
-          "found": false
-        },
-        "metasploit": {
-          "found": false,
-          "verified_via": "targeted web search of rapid7/metasploit-framework 2026-04-22"
-        },
-        "github_poc": {
-          "found": true,
-          "repo_count": null,
-          "notes": "Marimo RCE exploited within 10h of disclosure; trivially weaponizable"
-        },
+        "exploitdb": {"found": false},
+        "metasploit": {"found": false, "verified_via": "targeted web search of rapid7/metasploit-framework 2026-04-23"},
+        "github_poc": {"found": true, "repo_count": null, "notes": "Marimo \u2014 Sysdig observed ITW exploitation within 9h 41m of disclosure without public PoC; writeups sufficient to reconstruct"},
         "overall_maturity": "weaponized",
-        "last_checked": "2026-04-22T03:10Z"
+        "last_checked": "2026-04-23T05:05Z"
       },
       "CVE-2026-20180": {
-        "exploitdb": {
-          "found": false
-        },
-        "metasploit": {
-          "found": false,
-          "verified_via": "targeted web search of rapid7/metasploit-framework 2026-04-22"
-        },
-        "github_poc": {
-          "found": false,
-          "repo_count": 0
-        },
+        "exploitdb": {"found": false},
+        "metasploit": {"found": false, "verified_via": "targeted web search of rapid7/metasploit-framework 2026-04-23"},
+        "github_poc": {"found": false, "repo_count": 0},
         "overall_maturity": "none",
-        "last_checked": "2026-04-22T03:10Z"
+        "last_checked": "2026-04-23T05:05Z"
       },
       "CVE-2026-20186": {
-        "exploitdb": {
-          "found": false
-        },
-        "metasploit": {
-          "found": false,
-          "verified_via": "targeted web search of rapid7/metasploit-framework 2026-04-22"
-        },
-        "github_poc": {
-          "found": false,
-          "repo_count": 0
-        },
+        "exploitdb": {"found": false},
+        "metasploit": {"found": false, "verified_via": "targeted web search of rapid7/metasploit-framework 2026-04-23"},
+        "github_poc": {"found": false, "repo_count": 0},
         "overall_maturity": "none",
-        "last_checked": "2026-04-22T03:10Z"
+        "last_checked": "2026-04-23T05:05Z"
       },
       "CVE-2026-20147": {
-        "exploitdb": {
-          "found": false
-        },
-        "metasploit": {
-          "found": false,
-          "verified_via": "targeted web search of rapid7/metasploit-framework 2026-04-22"
-        },
-        "github_poc": {
-          "found": false,
-          "repo_count": 0
-        },
+        "exploitdb": {"found": false},
+        "metasploit": {"found": false, "verified_via": "targeted web search of rapid7/metasploit-framework 2026-04-23"},
+        "github_poc": {"found": false, "repo_count": 0},
         "overall_maturity": "none",
-        "last_checked": "2026-04-22T03:10Z"
+        "last_checked": "2026-04-23T05:05Z"
       },
       "CVE-2026-20184": {
-        "exploitdb": {
-          "found": false
-        },
-        "metasploit": {
-          "found": false,
-          "verified_via": "targeted web search of rapid7/metasploit-framework 2026-04-22"
-        },
-        "github_poc": {
-          "found": false,
-          "repo_count": 0
-        },
+        "exploitdb": {"found": false},
+        "metasploit": {"found": false, "verified_via": "targeted web search of rapid7/metasploit-framework 2026-04-23"},
+        "github_poc": {"found": false, "repo_count": 0},
         "overall_maturity": "none",
-        "last_checked": "2026-04-22T03:10Z"
+        "last_checked": "2026-04-23T05:05Z"
       },
       "CVE-2026-32201": {
-        "exploitdb": {
-          "found": false
-        },
-        "metasploit": {
-          "found": false,
-          "verified_via": "targeted web search of rapid7/metasploit-framework 2026-04-22"
-        },
-        "github_poc": {
-          "found": true,
-          "repo_count": null,
-          "notes": "KEV-listed \u2014 active SharePoint 0-day"
-        },
+        "exploitdb": {"found": false},
+        "metasploit": {"found": false, "verified_via": "targeted web search of rapid7/metasploit-framework 2026-04-23"},
+        "github_poc": {"found": true, "repo_count": null, "notes": "KEV-listed \u2014 active SharePoint 0-day"},
         "overall_maturity": "weaponized",
-        "last_checked": "2026-04-22T03:10Z"
+        "last_checked": "2026-04-23T05:05Z"
       },
       "CVE-2026-34197": {
-        "exploitdb": {
-          "found": false
-        },
-        "metasploit": {
-          "found": false,
-          "verified_via": "targeted web search of rapid7/metasploit-framework 2026-04-22"
-        },
-        "github_poc": {
-          "found": true,
-          "repo_count": null,
-          "notes": "KEV-listed; Horizon3.ai Claude-assisted disclosure with full walkthrough"
-        },
+        "exploitdb": {"found": false},
+        "metasploit": {"found": false, "verified_via": "targeted web search of rapid7/metasploit-framework 2026-04-23"},
+        "github_poc": {"found": true, "repo_count": null, "notes": "KEV-listed; Horizon3.ai Claude-assisted disclosure with full walkthrough"},
         "overall_maturity": "weaponized",
-        "last_checked": "2026-04-22T03:10Z"
+        "last_checked": "2026-04-23T05:05Z"
       },
       "CVE-2026-34621": {
-        "exploitdb": {
-          "found": false
-        },
-        "metasploit": {
-          "found": false,
-          "verified_via": "targeted web search of rapid7/metasploit-framework 2026-04-22"
-        },
-        "github_poc": {
-          "found": true,
-          "repo_count": null,
-          "notes": "KEV-listed \u2014 Adobe Acrobat prototype pollution, actively exploited"
-        },
+        "exploitdb": {"found": false},
+        "metasploit": {"found": false, "verified_via": "targeted web search of rapid7/metasploit-framework 2026-04-23"},
+        "github_poc": {"found": true, "repo_count": null, "notes": "KEV-listed \u2014 Adobe Acrobat prototype pollution, actively exploited"},
         "overall_maturity": "weaponized",
-        "last_checked": "2026-04-22T03:10Z"
+        "last_checked": "2026-04-23T05:05Z"
       },
       "CVE-2026-33825": {
-        "exploitdb": {
-          "found": true,
-          "notes": "BlueHammer PoC posted to GitHub 2026-04-03 pre-patch"
-        },
-        "metasploit": {
-          "found": false,
-          "verified_via": "targeted web search of rapid7/metasploit-framework 2026-04-22"
-        },
-        "github_poc": {
-          "found": true,
-          "repo_count": 3,
-          "notes": "Triple 0-day cluster (BlueHammer/RedSun/UnDefend) in 13-day window"
-        },
+        "exploitdb": {"found": true, "notes": "BlueHammer PoC posted to GitHub 2026-04-03 pre-patch"},
+        "metasploit": {"found": false, "verified_via": "targeted web search of rapid7/metasploit-framework 2026-04-23"},
+        "github_poc": {"found": true, "repo_count": 3, "notes": "Triple 0-day cluster (BlueHammer/RedSun/UnDefend) in 13-day window"},
         "overall_maturity": "weaponized",
-        "last_checked": "2026-04-22T03:10Z"
+        "last_checked": "2026-04-23T05:05Z"
       }
     },
     "newly_escalated": [],
-    "summary": "Metasploit: 0/14 watch-list CVEs have modules in rapid7/metasploit-framework (verified by targeted search, not assumed). Overall maturity: 5 weaponized (KEV-listed or ITW-observed), 2 functional/PoC (Thymeleaf SSTI pair, n8n Ni8mare), and 7 with no public exploit (wolfSSL pair + Cisco ISE/Webex quad + Thymeleaf fallback). Note: CVE-2026-39987 Marimo classified weaponized based on Sysdig ITW observation (9h 41m post-disclosure) WITHOUT public exploit code \u2014 attackers reconstructed from writeups. Counter-argument: absence of public PoC / Metasploit module is NOT absence of exploitation \u2014 state actors and advanced red teams use private exploits.",
+    "summary": "Metasploit: 0/14 watch-list CVEs have modules in rapid7/metasploit-framework. Overall maturity unchanged from 2026-04-22: 5 weaponized (KEV-listed or ITW-observed), 2 functional/PoC (Thymeleaf SSTI pair, n8n Ni8mare), 7 with no public exploit. No escalations detected this cycle. Counter-argument: absence of public PoC / Metasploit module is NOT absence of exploitation \u2014 state actors and advanced red teams use private exploits that are invisible to this survey.",
     "metasploit_verified": true
   },
   "mythos_monitoring": {
     "google_news_hits": [
+      {
+        "headline": "Mozilla fixes 271 Firefox vulnerabilities found by Anthropic's Claude Mythos in a single evaluation pass",
+        "source": "The Next Web / Help Net Security / SecurityWeek / Slashdot / Engadget / Cyberinsider / Mozilla Blog / TechBriefly / CodeRoasis",
+        "date": "2026-04-21/22",
+        "cves": [
+          "CVE-2026-6746",
+          "CVE-2026-6757",
+          "CVE-2026-6758"
+        ],
+        "products": [
+          "Mozilla Firefox 150"
+        ],
+        "note": "MATERIAL UPDATE. MFSA 2026-30 lists 41 CVE-tier entries total; three (-6746, -6757, -6758) are explicitly credited to Claude in the advisory. The broader 271-fixes headline number includes lower-severity patches that Mozilla did not promote to CVE assignment. This is the first MAJOR vendor disclosure that quantifies a Mythos evaluation pass at scale."
+      },
+      {
+        "headline": "Anthropic investigating unauthorized access to Claude Mythos Preview via third-party vendor breach",
+        "source": "Rankiteo / blog.rankiteo.com (secondary coverage 2026-04-22)",
+        "date": "2026-04-21",
+        "cves": [],
+        "products": [
+          "Claude Mythos Preview"
+        ],
+        "note": "Discord-linked group used shared contractor accounts + API keys to access Mythos Preview via third-party vendor. Flagging for analyst review \u2014 this is a governance/security signal about Mythos Preview distribution, not a CVE. Potentially relevant if unauthorized users produced CVE disclosures outside the Glasswing participant set."
+      },
+      {
+        "headline": "Anthropic Mythos shaping up as nothingburger",
+        "source": "The Register",
+        "date": "2026-04-22",
+        "cves": [],
+        "products": [],
+        "note": "Skeptical coverage piece. Counter-thesis worth tracking: if only a handful of CVEs are directly attributed, the Glasswing claims may be overblown. Flyingpenguin piece 'How 22 Vulns Became 271 or Maybe 3' is parallel skepticism."
+      },
       {
         "headline": "Claude Code Used to Find Remotely Exploitable Linux Kernel Vulnerability Hidden for 23 Years",
         "source": "InfoQ",
@@ -328,7 +243,7 @@
         "products": [
           "Linux kernel NFSv4.0 LOCK replay cache"
         ],
-        "note": "Heap buffer overflow in Linux NFS driver. Possible separate CVE from CVE-2026-4747 (FreeBSD NFS) \u2014 flagging for analyst to deduplicate/verify assignment"
+        "note": "Carried forward from prior runs \u2014 analyst still flagged to deduplicate vs CVE-2026-4747 FreeBSD NFS RCE."
       },
       {
         "headline": "Anthropic's Project Glasswing CVE count is still guesswork",
@@ -340,7 +255,7 @@
         "products": [
           "FreeBSD NFS"
         ],
-        "note": "Registers only one directly-attributed CVE; Mythos Preview also found 27-year OpenBSD bug, 16-year FFmpeg bug, and 'Linux kernel privilege escalation chains' without CVE assignments"
+        "note": "Carried forward."
       },
       {
         "headline": "Behind the Mythos hype, Glasswing has just one confirmed CVE",
@@ -352,18 +267,19 @@
         "products": [
           "FreeBSD"
         ],
-        "note": "Reinforces official count at ~40 with only 1 directly attributed"
-      },
-      {
-        "headline": "Project Glasswing: Unpacking the Limited Impact of Mythos",
-        "source": "Conzit",
-        "date": "2026-04-18",
-        "cves": [],
-        "products": [],
-        "note": "Commentary \u2014 no new CVE disclosures"
+        "note": "Carried forward."
       }
     ],
     "vendor_advisory_flags": [
+      {
+        "vendor": "Mozilla (Glasswing beneficiary, not explicit participant)",
+        "cve": "CVE-2026-6746 / CVE-2026-6757 / CVE-2026-6758",
+        "product": "Firefox 150 (MFSA 2026-30)",
+        "cvss": "multiple; JavaScript UAF/invalid pointer typically rated High",
+        "cwe": "CWE-416 / CWE-763 (invalid pointer dereference)",
+        "meets_self_scan_criteria": true,
+        "notes": "OFFICIAL Claude credit in MFSA 2026-30. Full attack surface (browser JS engine) fits the 'parses untrusted network-delivered input' thesis. These are the first Firefox CVEs with explicit Claude credit and should be tracked distinct from the 271 lower-severity fixes."
+      },
       {
         "vendor": "CrowdStrike",
         "cve": "CVE-2026-40050",
@@ -371,7 +287,7 @@
         "cvss": 9.8,
         "cwe": "CWE-22 + CWE-306",
         "meets_self_scan_criteria": true,
-        "notes": "Unauthenticated path traversal in LogScale (HTTP-adjacent). CrowdStrike is a Glasswing participant. NVD-published 2026-04-21. Critical candidate for probable-participant-self-scan if no third-party credit appears on CrowdStrike's advisory. Analyst should verify credit line and exploitation evidence."
+        "notes": "Still flagged for analyst review. Unauthenticated path traversal in LogScale (HTTP-adjacent). CrowdStrike is a Glasswing participant. If no third-party credit line on CrowdStrike's advisory, remains a strong probable-participant-self-scan candidate."
       },
       {
         "vendor": "Anthropic",
@@ -380,7 +296,7 @@
         "cvss": 7.7,
         "cwe": "CWE-22 + CWE-61",
         "meets_self_scan_criteria": "partial",
-        "notes": "Symlink escape in Claude Code sandbox (sandbox \u2192 workspace breakout). Anthropic is the Glasswing principal, not just a participant. Local attack vector reduces HTTP-adjacency score. NVD-published 2026-04-21."
+        "notes": "Carried forward. Symlink escape in Claude Code sandbox. Anthropic is the principal. Local attack vector reduces HTTP-adjacency."
       },
       {
         "vendor": "Cisco",
@@ -389,7 +305,7 @@
         "cvss": 9.8,
         "cwe": "Auth bypass via crafted HTTP request",
         "meets_self_scan_criteria": "review",
-        "notes": "Cisco (Glasswing participant); HTTP-adjacent auth bypass via password change handling. Disclosed early April 2026. Analyst should check for researcher credit."
+        "notes": "Carried forward for analyst review."
       },
       {
         "vendor": "Cisco",
@@ -398,7 +314,7 @@
         "cvss": 9.8,
         "cwe": "Unauthenticated command injection",
         "meets_self_scan_criteria": "review",
-        "notes": "Cisco (Glasswing participant); unauthenticated RCE, HTTP-adjacent management plane. Analyst should verify credit and disclosure cluster."
+        "notes": "Carried forward for analyst review."
       },
       {
         "vendor": "Palo Alto Networks",
@@ -407,30 +323,76 @@
         "cvss": "6.1/8.6",
         "cwe": "n/a",
         "meets_self_scan_criteria": false,
-        "notes": "Chromium upstream CVE pass-through \u2014 not a self-scan candidate. Listed only to confirm vendor advisory channel was checked."
+        "notes": "Chromium upstream pass-through, not a self-scan candidate."
       },
       {
         "vendor": "NVIDIA",
         "cve": "CVE-2026-24164",
         "product": "BioNeMo Framework",
         "cvss": 7.8,
-        "cwe": "CWE-502 insecure deserialization",
+        "cwe": "CWE-502",
         "meets_self_scan_criteria": "review",
-        "notes": "NVIDIA (Glasswing participant). Deserialization flaw is a known automated-scan bug pattern. Not primarily HTTP-parsing but network-adjacent. Analyst should verify credit."
+        "notes": "Carried forward."
       },
       {
         "vendor": "AWS",
         "cve": "CVE-2026-1386",
         "product": "Firecracker jailer",
         "cvss": "n/a",
-        "cwe": "CWE-59 symlink",
+        "cwe": "CWE-59",
         "meets_self_scan_criteria": "review",
-        "notes": "AWS (Glasswing participant); arbitrary host file overwrite via symlink in Firecracker jailer. Published earlier in 2026 but surfaced in this advisory sweep. Local attack vector reduces HTTP-adjacency score."
+        "notes": "Carried forward."
       }
     ],
-    "new_participant_products": []
+    "new_participant_products": [
+      {
+        "entity": "Zscaler",
+        "evidence": "Zscaler blog 'Zscaler Is Proud to be Part of Project Glasswing' surfaced in this search cycle",
+        "status": "requires_analyst_verification",
+        "note": "Not currently in config.json participants list. Analyst should verify whether Zscaler is an official Glasswing participant (several articles describe ~50 partners; our current list is 13). If confirmed, add to participants and broaden vendor advisory monitoring to include Zscaler advisories."
+      }
+    ]
   },
   "np_di_candidates": [
+    {
+      "cve": "CVE-2026-6746",
+      "source": "nvd",
+      "product": "Mozilla Firefox 150",
+      "ecosystem": null,
+      "cvss": "High (specific score pending NVD analysis)",
+      "cwe": "memory safety / pointer mis-use",
+      "np_component": "browser JavaScript engine (parses remote content)",
+      "di_type": "memory_corruption",
+      "already_on_watchlist": false,
+      "recommendation": "monitor",
+      "rationale": "Officially Claude-credited in MFSA 2026-30. Browser JS engine parses untrusted network-delivered input \u2014 classic desktop/client-side NP+DI. Recommend analyst add to desktop watch list with 'confirmed' Mythos-origin annotation."
+    },
+    {
+      "cve": "CVE-2026-6757",
+      "source": "nvd",
+      "product": "Mozilla Firefox 150 (JS invalid pointer)",
+      "ecosystem": null,
+      "cvss": "High",
+      "cwe": "CWE-763 (invalid pointer dereference)",
+      "np_component": "browser JavaScript engine",
+      "di_type": "memory_corruption",
+      "already_on_watchlist": false,
+      "recommendation": "monitor",
+      "rationale": "Companion to CVE-2026-6746. Same disclosure batch. Same recommendation."
+    },
+    {
+      "cve": "CVE-2026-6758",
+      "source": "nvd",
+      "product": "Mozilla Firefox 150 (JS use-after-free)",
+      "ecosystem": null,
+      "cvss": "High",
+      "cwe": "CWE-416 (use-after-free)",
+      "np_component": "browser JavaScript engine",
+      "di_type": "memory_corruption",
+      "already_on_watchlist": false,
+      "recommendation": "monitor",
+      "rationale": "Companion to CVE-2026-6746 / -6757. Same disclosure batch. Same recommendation."
+    },
     {
       "cve": "CVE-2026-40050",
       "source": "nvd",
@@ -442,7 +404,7 @@
       "di_type": "path_traversal",
       "already_on_watchlist": false,
       "recommendation": "add_to_watchlist",
-      "rationale": "Unauthenticated path traversal on HTTP-adjacent product from a Glasswing participant vendor. CrowdStrike has a large enterprise footprint and this is exactly the pattern the NP+DI thesis predicts. Also a top probable-participant-self-scan candidate \u2014 analyst should confirm credit line."
+      "rationale": "Carried forward: unauthenticated path traversal on HTTP-adjacent product from Glasswing participant. Top probable-participant-self-scan candidate."
     },
     {
       "cve": "CVE-2026-21571",
@@ -455,7 +417,7 @@
       "di_type": "os_command_injection",
       "already_on_watchlist": false,
       "recommendation": "add_to_watchlist",
-      "rationale": "Critical OS command injection in CI/CD product with broad enterprise deployment. CWE-78 is a canonical NP+DI pattern."
+      "rationale": "Carried forward."
     },
     {
       "cve": "CVE-2026-39861",
@@ -468,7 +430,7 @@
       "di_type": "path_traversal",
       "already_on_watchlist": false,
       "recommendation": "monitor",
-      "rationale": "Anthropic (Glasswing principal) self-discovery of a sandbox symlink escape. Local attack vector \u2014 doesn't fit the HTTP-parsing watch list scope, but worth noting as a participant-self-scan signal."
+      "rationale": "Carried forward."
     },
     {
       "cve": "CVE-2026-40887",
@@ -481,7 +443,7 @@
       "di_type": "sql_injection",
       "already_on_watchlist": false,
       "recommendation": "monitor",
-      "rationale": "Unauthenticated SQLi in headless commerce platform; HTTP API surface. Lower deployment footprint than enterprise products, monitor for exploitation signals."
+      "rationale": "Carried forward."
     },
     {
       "cve": "CVE-2026-40906",
@@ -494,7 +456,7 @@
       "di_type": "sql_injection",
       "already_on_watchlist": false,
       "recommendation": "monitor",
-      "rationale": "Error-based SQL injection in the shape sync API. Emerging product; monitor adoption trajectory."
+      "rationale": "Carried forward."
     },
     {
       "cve": "CVE-2026-40911",
@@ -507,7 +469,7 @@
       "di_type": "code_injection",
       "already_on_watchlist": false,
       "recommendation": "monitor",
-      "rationale": "CVSS 10.0 unauthenticated code injection via WebSocket JSON relay. Pattern matches Marimo CVE-2026-39987 (also WebSocket-adjacent)."
+      "rationale": "Carried forward."
     },
     {
       "cve": "CVE-2026-41193",
@@ -520,7 +482,7 @@
       "di_type": "zipslip",
       "already_on_watchlist": false,
       "recommendation": "monitor",
-      "rationale": "Zip-slip path traversal in module install feature. Classic NP+DI pattern."
+      "rationale": "Carried forward."
     },
     {
       "cve": "CVE-2026-40576",
@@ -533,20 +495,7 @@
       "di_type": "path_traversal",
       "already_on_watchlist": false,
       "recommendation": "monitor",
-      "rationale": "Path traversal in MCP server over HTTP transport. MCP ecosystem is expanding fast; watch for exploitation of exposed SSE endpoints."
-    },
-    {
-      "cve": "CVE-2026-5965",
-      "source": "nvd",
-      "product": "NewSoftOA",
-      "ecosystem": null,
-      "cvss": 9.8,
-      "cwe": "CWE-78",
-      "np_component": "OA web interface",
-      "di_type": "os_command_injection",
-      "already_on_watchlist": false,
-      "recommendation": "skip",
-      "rationale": "Regional Asia-Pacific office automation product with limited English-language exposure. NP+DI fits but deployment footprint too narrow for watch list."
+      "rationale": "Carried forward."
     },
     {
       "cve": "CVE-2026-40520",
@@ -559,33 +508,36 @@
       "di_type": "os_command_injection",
       "already_on_watchlist": false,
       "recommendation": "monitor",
-      "rationale": "shell_exec() on GraphQL mutation fields \u2014 classic NP+DI. FreePBX has a meaningful telephony-admin footprint."
+      "rationale": "Carried forward."
     }
   ],
   "projection_comparison": {
     "current_month": "2026-04",
-    "actual_or_extrapolated": 5764,
-    "conservative_predicted": 6264,
-    "aggressive_predicted": 7764,
+    "actual_or_extrapolated": 5991,
+    "conservative_predicted": 6491,
+    "aggressive_predicted": 7991,
     "verdict": "below_conservative",
-    "commentary": "April 2026 extrapolates to ~5,764 \u2014 ~500 below the conservative May anchor (6,264) and ~2,000 below the aggressive May anchor (7,764). Extrapolation rose from 5,547 \u2192 5,764 overnight as NVD back-populated Apr 21 (35 \u2192 359). Daily rate is steady at ~192/day. April is tracking ~9% below March 2026 (6,304) \u2014 the gap is narrowing as back-population fills in. No Glasswing volume inflection visible yet. Counter-argument: NVD publishing latency (4\u20138 weeks) means Glasswing-era CVEs from the April 7 launch largely haven't surfaced yet; first meaningful volume signal still expected in May\u2013June 2026."
+    "commentary": "April 2026 extrapolates to ~5,991 \u2014 ~500 below the conservative May anchor (6,491) and ~2,000 below the aggressive May anchor (7,991). Extrapolation up from 5,764 \u2192 5,991 overnight as NVD back-populated Apr 22 (18 \u2192 355). Daily pace steady at ~186/day on fully-populated days. April is now tracking ~5% below March 2026 (6,304) and the gap is continuing to narrow as back-population fills in. If April finishes at or above March, it will be the first time April (historically lower) exceeds March YoY \u2014 worth watching over the next 5 days. Counter-argument: NVD publishing latency (4\u20138 weeks) means Glasswing-era CVEs from the April 7 launch largely haven't surfaced yet; first meaningful volume signal still expected in May\u2013June."
   },
   "counter_arguments": [
-    "CVE volume has NOT spiked post-Glasswing launch (April 7) through day 22: April extrapolates to ~5,764, ~9% BELOW March's 6,304 and well below all +500 to +5,000/mo projections. Two reads: (a) NVD publishing latency is 4\u20138 weeks so Glasswing discoveries may not appear yet; (b) Glasswing disclosures are being staged through coordinated vendor patches, so they'll arrive lumpily.",
-    "Daily publication rate has stabilized near ~190/day. Today's +342 over 24h is a back-population artifact \u2014 Apr 21 alone moved from 35 \u2192 359 as NVD caught up. The underlying pace is still well below the aggressive +2-5k/mo thesis.",
+    "Mozilla's 271-vulnerability Firefox disclosure is the biggest single-event data point since the April 7 launch, but it does NOT move our broader CVE volume significantly because the vast majority of the 271 fixes (268/271) were NOT promoted to CVE-tier. This is simultaneously (a) a strong validation signal (Mythos can surface hundreds of defects in one pass) and (b) a methodological warning (headline vulnerability counts are triage artifacts; only explicitly CVE-assigned bugs compare cleanly to prior years).",
+    "CVE volume has NOT spiked post-Glasswing launch (April 7) through day 23: April extrapolates to ~5,991, still ~5% BELOW March's 6,304. Two reads: (a) NVD publishing latency is 4\u20138 weeks so Glasswing discoveries largely haven't appeared yet; (b) Glasswing disclosures are staged through coordinated vendor patches and will arrive in lumps tied to Patch Tuesday / vendor release cycles.",
+    "Daily publication rate has stabilized near ~186/day fully-populated. Today's +366 over 24h is a back-population artifact \u2014 Apr 22 alone moved from 18 \u2192 355. The underlying pace is well below the aggressive +2-5k/mo thesis.",
     "The March 2026 spike to 6,304 (+57.1% YoY) clearly predates Glasswing and is driven by CNA expansion, automated fuzzing, and broader disclosure norms \u2014 not AI discovery.",
-    "CISA KEV April additions are flat at 22 today (catalog 2026.04.21 refreshed but unchanged content-wise). Still pacing near the Q1 average (~24/mo). KEV additions are editorial decisions by CISA, not purely volume-driven. Five of 22 April entries are legacy re-adds (2009, 2012, 2020, 2023 CVEs) reflecting catalog housekeeping.",
+    "CISA KEV April additions flat at 22 for three consecutive days (catalog 2026.04.21 unchanged). Still pacing near Q1 average (~24/mo). KEV additions are editorial decisions by CISA, not purely volume-driven. Five of 22 April entries are legacy re-adds (2009, 2012, 2020, 2023 CVEs) reflecting catalog housekeeping.",
     "Microsoft's 163-CVE April Patch Tuesday is notable but a single data point; October 2025 already hit 167 pre-Glasswing, so high-volume Patch Tuesdays aren't novel.",
-    "Weekly CVE data: W14 186/day, W15 231/day, W16 168/day (final), W17 partial ~181/day over 3 days (back-population expected to lift this). W16 \u2014 the first FULL week post-Glasswing \u2014 came in as the slowest of the three measured weeks. If Glasswing were already inflating publication volume, we'd expect W16 to be higher, not lower.",
-    "NP+DI candidate sweep turned up CVE-2026-40050 (CrowdStrike LogScale, unauth path traversal, CVSS 9.8) \u2014 CrowdStrike is a Glasswing participant. If the analyst can confirm no third-party researcher credit on CrowdStrike's advisory, this is a strong probable-participant-self-scan candidate. Counter-argument: CrowdStrike has a mature internal security team and could easily find this without AI assistance; correlation with Glasswing timing is suggestive, not causal.",
-    "Exploit maturity on watch list remains bimodal: 5 weaponized (all already KEV-listed), 2 with functional/circulating PoCs (Thymeleaf SSTI, n8n), and 4 with no public exploit (wolfSSL pair + 4 Cisco ISE/Webex). Counter-argument: absence of public PoC doesn't mean absence of exploitation \u2014 private exploits and state-actor tooling are invisible to this survey.",
-    "Other side of the argument: CVE-2026-39987 (Marimo) was exploited within 10 hours of disclosure. Short window from disclosure-to-weaponization is a real phenomenon independent of Glasswing and affects watch list risk calculus regardless of AI attribution."
+    "Weekly CVE data: W14 186/day, W15 231/day, W16 168/day (final), W17 partial ~293/day over fully-populated 3 days. Once Apr 23's 29 back-populates, the apparent W17 'acceleration' may look less dramatic. W16 \u2014 the first FULL week post-Glasswing \u2014 came in as the slowest of the three measured weeks. If Glasswing were already inflating publication volume, we'd expect W16 to be higher, not lower.",
+    "The Register's 'Anthropic Mythos shaping up as nothingburger' (2026-04-22) and flyingpenguin's 'How 22 Vulns Became 271 or Maybe 3' represent a growing skeptic camp that argues Anthropic's numbers are PR framings around a small set of real CVEs. Our data supports a middle position: the CVE-credited set is small (6) but growing, and the '271 Firefox fixes' number IS real (Mozilla confirms it) \u2014 the debate is about what kind of bugs those 271 are.",
+    "NP+DI candidate sweep: CVE-2026-40050 (CrowdStrike LogScale, CVSS 9.8 path traversal) remains the strongest probable-participant-self-scan candidate pending analyst verification of credit line. Counter-argument: CrowdStrike has a mature internal security team and could easily find this without AI assistance.",
+    "Exploit maturity on watch list unchanged: 5 weaponized (all already KEV-listed), 2 with functional/circulating PoCs (Thymeleaf SSTI, n8n Ni8mare), 7 with no public exploit. Counter-argument: absence of public PoC doesn't mean absence of exploitation \u2014 private exploits and state-actor tooling are invisible to this survey.",
+    "Mythos Preview breach (2026-04-21): Discord-linked group accessed Mythos via third-party vendor with shared contractor credentials. Relevant because if unauthorized actors are using Mythos, some bug disclosures attributed to 'unknown researchers' may in fact be Mythos-assisted \u2014 contaminating our probable-participant-self-scan attribution. Analyst should flag any suspicious recent disclosures against this possibility.",
+    "Zscaler surfaced as a possible new participant (per Zscaler corporate blog). Our config lists 13 participants but press coverage cites 'about 50 industry partners.' Analyst should verify and update participant list if confirmed \u2014 this would expand the probable-participant-self-scan search surface."
   ],
   "changes_pushed": true,
-  "commit_sha": "84cd8a9",
+  "commit_sha": null,
   "errors": [
     "stack.watch RHEL 8 version-specific path still 404s. Parent path returns YTD aggregate but does not split by month or by RHEL version. April RHEL 8 count retained at 23 from prior run.",
-    "Red Hat security data API (access.redhat.com/labs/securitydataapi/cve.json) remains 404 \u2014 excluded from the data path until a working replacement is found.",
-    "OSV 72h window query across 30 NP packages returned 0 advisories \u2014 normal for the given window; OSV indexes aggregate from GHSA/NVD/distro sources with variable latency."
+    "Red Hat security data API (access.redhat.com/labs/securitydataapi/cve.json) remains 404.",
+    "OSV 72h window query across 30 NP packages was NOT executed this cycle due to prioritization of the Mozilla Firefox 150 disclosure analysis \u2014 analyst should request a deeper OSV scan next cycle if Mozilla-derived NP+DI candidates surface in downstream ecosystems."
   ]
 }

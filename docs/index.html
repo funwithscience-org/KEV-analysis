@@ -741,7 +741,7 @@ The question for vulnerability management teams: will this meaningfully increase
 <tr><td>2025 Full Year</td><td><strong>4,015</strong></td><td><strong>20.4</strong></td><td>+16% vs 2024</td></tr>
 <tr><td>2026 Q1 (Jan-Mar)</td><td><strong>5,418</strong></td><td><strong>23.7</strong></td><td><span class="tag tag-red">+35.3% vs 2025 Q1</span></td></tr>
 <tr><td>2026 March alone</td><td><strong>6,304</strong></td><td>26</td><td><span class="tag tag-red">+57.1% vs Mar 2025</span></td></tr>
-<tr><td>2026 April MTD (day 22)</td><td><strong>4,227</strong> (ex. ~5,764)</td><td>22</td><td><span class="tag">Pacing below March</span></td></tr>
+<tr><td>2026 April MTD (day 23)</td><td><strong>4,593</strong> (ex. ~5,991)</td><td>22</td><td><span class="tag">Pacing below March</span></td></tr>
 </tbody></table>
 
 <div class="callout callout-warning">
@@ -751,14 +751,17 @@ is running +35.3% YoY. This growth is driven by expanded CNA participation, auto
 
 <h3>What Mythos Has Found So Far</h3>
 
-<p>Approximately <strong>40 CVEs</strong> can be tentatively linked to Anthropic or affiliated researchers. Three carry explicit Claude/Mythos credit:</p>
+<p>As of <strong>April 22, 2026</strong>, Mozilla disclosed that <strong>Firefox 150 fixes 271 vulnerabilities identified during a single Claude Mythos evaluation pass</strong> (MFSA 2026-30). Of those, 41 were promoted to CVE entries and <strong>three are officially credited to Claude</strong>: CVE-2026-6746, CVE-2026-6757, CVE-2026-6758. Including prior disclosures, <strong>~283 Mythos-linked fixes</strong> are now public and <strong>six</strong> carry explicit Claude/Mythos CVE credit:</p>
 <ul style="margin:.8em 0;padding-left:1.5em;color:#334155">
 <li><strong>CVE-2026-4747</strong> -- FreeBSD NFS RCE (17-year-old bug). Confirmed autonomous Glasswing find.</li>
 <li><strong>CVE-2026-5194</strong> -- wolfSSL certificate-validation bypass (~5B affected devices). Press-confirmed as Mythos Preview-assisted.</li>
 <li><strong>CVE-2026-5588</strong> -- Bouncy Castle cryptographic library. Credited to Carlini + Claude.</li>
+<li><strong>CVE-2026-6746, CVE-2026-6757, CVE-2026-6758</strong> -- Firefox 150 (JavaScript engine: invalid pointer, use-after-free, related). Officially credited to Claude in MFSA 2026-30.</li>
 </ul>
 
-<p>37 of the 40 CVEs target products that <em>parse untrusted network input</em> -- consistent with our finding that network-parsing is the primary exploitation predictor. Mythos appears to be finding vulnerabilities in exactly the categories our analysis shows are most dangerous.</p>
+<p>The vast majority of Mozilla's 271 findings are lower-severity issues that don't meet the CVE-assignment threshold -- Mythos appears to be generating a long tail of small bugs alongside a smaller number of CVE-worthy ones. Counter-argument: a 271-to-3 ratio of "fixes" to "credited CVEs" means the headline number overstates the severity and is partly a reflection of Mozilla's internal triage choices, not a direct measure of AI-discovered exploitability.</p>
+
+<p>Products linked to Mythos predominantly <em>parse untrusted network input</em> -- consistent with our finding that network-parsing is the primary exploitation predictor. Mythos appears to be finding vulnerabilities in exactly the categories our analysis shows are most dangerous.</p>
 
 <div class="chart-wrap">
 <h4>Mythos-Linked CVEs by Product (VulnCheck Analysis)</h4>
@@ -1094,7 +1097,7 @@ new Chart(document.getElementById('crossFrameworkChart'), {
 
 // Mythos baseline chart
 const mythosMonths = ["2025-01", "2025-02", "2025-03", "2025-04", "2025-05", "2025-06", "2025-07", "2025-08", "2025-09", "2025-10", "2025-11", "2025-12", "2026-01", "2026-02", "2026-03", "2026-04"];
-const mythosCveVals = mythosMonths.map(m => ({"2025-01": 4200, "2025-02": 3800, "2025-03": 4012, "2025-04": 3950, "2025-05": 3900, "2025-06": 3850, "2025-07": 4100, "2025-08": 4050, "2025-09": 3950, "2025-10": 4150, "2025-11": 4000, "2025-12": 4212, "2026-01": 5143, "2026-02": 4808, "2026-03": 6304, "2026-04": 5764})[m]);
+const mythosCveVals = mythosMonths.map(m => ({"2025-01": 4200, "2025-02": 3800, "2025-03": 4012, "2025-04": 3950, "2025-05": 3900, "2025-06": 3850, "2025-07": 4100, "2025-08": 4050, "2025-09": 3950, "2025-10": 4150, "2025-11": 4000, "2025-12": 4212, "2026-01": 5143, "2026-02": 4808, "2026-03": 6304, "2026-04": 5991})[m]);
 const mythosKevVals = mythosMonths.map(m => ({"2025-01": 14, "2025-02": 27, "2025-03": 32, "2025-04": 15, "2025-05": 24, "2025-06": 20, "2025-07": 20, "2025-08": 15, "2025-09": 16, "2025-10": 31, "2025-11": 11, "2025-12": 20, "2026-01": 17, "2026-02": 28, "2026-03": 26, "2026-04": 22}[m] || 0));
 
 new Chart(document.getElementById('docMythosBaselineChart'), {
@@ -1117,7 +1120,7 @@ new Chart(document.getElementById('docMythosBaselineChart'), {
 
 // Mythos CVE breakdown chart
 const mythosCveProducts = ["Mozilla Firefox", "wolfSSL", "F5 NGINX Plus", "FreeBSD", "OpenSSL"];
-const mythosCveCounts = [28, 9, 1, 1, 1];
+const mythosCveCounts = [271, 9, 1, 1, 1];
 new Chart(document.getElementById('docMythosCveChart'), {
     type: 'bar',
     data: {
@@ -1130,8 +1133,8 @@ new Chart(document.getElementById('docMythosCveChart'), {
 // Projection chart
 const projMonths = ['2025-01','2025-04','2025-07','2025-10','2026-01','2026-04','2026-07','2026-10','2027-01'];
 const baselineTrend = [4200,3950,4100,4150,5143,5000,5200,5400,5600];
-const conservativeScenario = [null,null,null,null,null,5764,7264,8764,10264];
-const aggressiveScenario = [null,null,null,null,null,5764,11764,13764,14764];
+const conservativeScenario = [null,null,null,null,null,5991,7491,8991,10491];
+const aggressiveScenario = [null,null,null,null,null,5991,11991,13991,14991];
 
 new Chart(document.getElementById('docMythosProjectionChart'), {
     type: 'line',
