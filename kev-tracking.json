@@ -534,7 +534,7 @@
     "Zscaler surfaced as a possible new participant (per Zscaler corporate blog). Our config lists 13 participants but press coverage cites 'about 50 industry partners.' Analyst should verify and update participant list if confirmed \u2014 this would expand the probable-participant-self-scan search surface."
   ],
   "changes_pushed": true,
-  "commit_sha": null,
+  "commit_sha": "734c2b3",
   "errors": [
     "stack.watch RHEL 8 version-specific path still 404s. Parent path returns YTD aggregate but does not split by month or by RHEL version. April RHEL 8 count retained at 23 from prior run.",
     "Red Hat security data API (access.redhat.com/labs/securitydataapi/cve.json) remains 404.",
