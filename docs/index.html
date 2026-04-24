@@ -742,7 +742,7 @@ The question for vulnerability management teams: will this meaningfully increase
 <tr><td>2025 Full Year</td><td><strong>4,015</strong></td><td><strong>20.4</strong></td><td>+16% vs 2024</td></tr>
 <tr><td>2026 Q1 (Jan-Mar)</td><td><strong>5,418</strong></td><td><strong>23.7</strong></td><td><span class="tag tag-red">+35.3% vs 2025 Q1</span></td></tr>
 <tr><td>2026 March alone</td><td><strong>6,304</strong></td><td>26</td><td><span class="tag tag-red">+57.1% vs Mar 2025</span></td></tr>
-<tr><td>2026 April MTD (day 23)</td><td><strong>4,593</strong> (ex. ~5,991)</td><td>22</td><td><span class="tag">Pacing below March</span></td></tr>
+<tr><td>2026 April MTD (day 24)</td><td><strong>4,772</strong> (ex. ~5,965)</td><td>24</td><td><span class="tag">Pacing below March</span></td></tr>
 </tbody></table>
 
 <div class="callout callout-warning">
@@ -856,7 +856,7 @@ The aggressive scenario could add 2,000-5,000 CVEs/month. This makes the NP+DI f
 <tr><td><code>CVE-2026-5194</code></td><td>wolfSSL cert validation</td><td><strong style="color:#dc2626">9.1</strong></td><td>Forged certs across ECDSA/DSA/Ed25519. ~5B affected devices. Mythos-attributed.</td><td style="color:#d97706;font-weight:600">WATCHING</td></tr>
 <tr><td><code>CVE-2026-5501</code></td><td>wolfSSL OpenSSL compat</td><td><strong style="color:#d97706">8.1</strong></td><td>Impacts NGINX/haproxy via wolfSSL compat shim.</td><td style="color:#d97706;font-weight:600">WATCHING</td></tr>
 <tr><td><code>CVE-2026-21858</code></td><td>n8n ("Ni8mare")</td><td><strong style="color:#dc2626">10.0</strong></td><td>Unauthenticated RCE via Content-Type confusion. Public PoC; ~100K exposed instances.</td><td style="color:#d97706;font-weight:600">WATCHING</td></tr>
-<tr><td><code>CVE-2026-39987</code></td><td>Marimo</td><td><strong style="color:#dc2626">9.3</strong></td><td>Missing auth on WebSocket endpoint. 662 exploit events observed Apr 11-14.</td><td style="color:#d97706;font-weight:600">WATCHING</td></tr>
+<tr><td><code>CVE-2026-39987</code></td><td>Marimo</td><td><strong style="color:#dc2626">9.3</strong></td><td>Missing auth on WebSocket endpoint. 662 exploit events observed Apr 11-14.</td><td style="color:#059669;font-weight:600">CONFIRMED -- KEV 2026-04-23</td></tr>
 <tr><td><code>CVE-2026-20180</code></td><td>Cisco ISE</td><td><strong style="color:#dc2626">9.9</strong></td><td>Authenticated RCE via crafted HTTP request. Broad enterprise footprint.</td><td style="color:#d97706;font-weight:600">WATCHING</td></tr>
 <tr><td><code>CVE-2026-32201</code></td><td>SharePoint</td><td><strong style="color:#d97706">6.5</strong></td><td>HTTP endpoint auth bypass, actively exploited as zero-day.</td><td style="color:#059669;font-weight:600">CONFIRMED -- KEV 2026-04-14</td></tr>
 <tr><td><code>CVE-2026-34197</code></td><td>Apache ActiveMQ</td><td><strong style="color:#dc2626">9.8</strong></td><td>HTTP admin console deserialization. Pattern consistent with prior ActiveMQ KEV entries.</td><td style="color:#059669;font-weight:600">CONFIRMED -- KEV 2026-04-16</td></tr>
@@ -869,7 +869,7 @@ The aggressive scenario could add 2,000-5,000 CVEs/month. This makes the NP+DI f
 <thead><tr><th>CVE</th><th>Product</th><th>CVSS</th><th>Rationale</th><th>Status</th></tr></thead>
 <tbody>
 <tr><td><code>CVE-2026-34621</code></td><td>Adobe Acrobat</td><td><strong style="color:#d97706">7.8</strong></td><td>Prototype pollution via crafted PDF. Delivery via HTTP.</td><td style="color:#059669;font-weight:600">CONFIRMED -- KEV 2026-04-15</td></tr>
-<tr><td><code>CVE-2026-33825</code></td><td>Windows Defender (BlueHammer)</td><td><strong style="color:#d97706">7.8</strong></td><td>EoP with public PoC. Browser-delivered exploit chain component.</td><td style="color:#d97706;font-weight:600">WATCHING</td></tr>
+<tr><td><code>CVE-2026-33825</code></td><td>Windows Defender (BlueHammer)</td><td><strong style="color:#d97706">7.8</strong></td><td>EoP with public PoC. Browser-delivered exploit chain component.</td><td style="color:#059669;font-weight:600">CONFIRMED -- KEV 2026-04-22</td></tr>
 </tbody>
 </table>
 
@@ -1098,8 +1098,8 @@ new Chart(document.getElementById('crossFrameworkChart'), {
 
 // Mythos baseline chart
 const mythosMonths = ["2025-01", "2025-02", "2025-03", "2025-04", "2025-05", "2025-06", "2025-07", "2025-08", "2025-09", "2025-10", "2025-11", "2025-12", "2026-01", "2026-02", "2026-03", "2026-04"];
-const mythosCveVals = mythosMonths.map(m => ({"2025-01": 4200, "2025-02": 3800, "2025-03": 4012, "2025-04": 3950, "2025-05": 3900, "2025-06": 3850, "2025-07": 4100, "2025-08": 4050, "2025-09": 3950, "2025-10": 4150, "2025-11": 4000, "2025-12": 4212, "2026-01": 5143, "2026-02": 4808, "2026-03": 6304, "2026-04": 5991})[m]);
-const mythosKevVals = mythosMonths.map(m => ({"2025-01": 14, "2025-02": 27, "2025-03": 32, "2025-04": 15, "2025-05": 24, "2025-06": 20, "2025-07": 20, "2025-08": 15, "2025-09": 16, "2025-10": 31, "2025-11": 11, "2025-12": 20, "2026-01": 17, "2026-02": 28, "2026-03": 26, "2026-04": 22}[m] || 0));
+const mythosCveVals = mythosMonths.map(m => ({"2025-01": 4200, "2025-02": 3800, "2025-03": 4012, "2025-04": 3950, "2025-05": 3900, "2025-06": 3850, "2025-07": 4100, "2025-08": 4050, "2025-09": 3950, "2025-10": 4150, "2025-11": 4000, "2025-12": 4212, "2026-01": 5143, "2026-02": 4808, "2026-03": 6304, "2026-04": 5965})[m]);
+const mythosKevVals = mythosMonths.map(m => ({"2025-01": 14, "2025-02": 27, "2025-03": 32, "2025-04": 15, "2025-05": 24, "2025-06": 20, "2025-07": 20, "2025-08": 15, "2025-09": 16, "2025-10": 31, "2025-11": 11, "2025-12": 20, "2026-01": 17, "2026-02": 28, "2026-03": 26, "2026-04": 24}[m] || 0));
 
 new Chart(document.getElementById('docMythosBaselineChart'), {
     type: 'bar',
@@ -1134,8 +1134,8 @@ new Chart(document.getElementById('docMythosCveChart'), {
 // Projection chart
 const projMonths = ['2025-01','2025-04','2025-07','2025-10','2026-01','2026-04','2026-07','2026-10','2027-01'];
 const baselineTrend = [4200,3950,4100,4150,5143,5000,5200,5400,5600];
-const conservativeScenario = [null,null,null,null,null,5991,7491,8991,10491];
-const aggressiveScenario = [null,null,null,null,null,5991,11991,13991,14991];
+const conservativeScenario = [null,null,null,null,null,5965,7465,8965,10465];
+const aggressiveScenario = [null,null,null,null,null,5965,11965,13965,14965];
 
 new Chart(document.getElementById('docMythosProjectionChart'), {
     type: 'line',

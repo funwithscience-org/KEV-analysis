@@ -56,7 +56,7 @@
       "CVE-2026-6757": "Firefox 150 JavaScript invalid pointer \u2014 officially credited to Claude in MFSA 2026-30",
       "CVE-2026-6758": "Firefox 150 JavaScript use-after-free \u2014 officially credited to Claude in MFSA 2026-30"
     },
-    "last_verified": "2026-04-23T05:05Z",
+    "last_verified": "2026-04-24T03:00Z",
     "participants": [
       "AWS",
       "Anthropic",
@@ -165,17 +165,17 @@
       "2026-01": 5143,
       "2026-02": 4808,
       "2026-03": 6304,
-      "2026-04": 4593
+      "2026-04": 4772
     },
     "monthly_cve_2026_notes": {
-      "2026-04": "MTD through 2026-04-23 (23 days); extrapolated full-month ~5991 (4593 * 30/23). +366 net CVEs between day 22 and day 23 snapshots. Bulk of the move was NVD back-population of 2026-04-22 (finalized at 355 entries vs the 18 we saw 24h earlier) \u2014 same 24h catch-up pattern as Apr 21 did yesterday. Apr 21 has stabilized at 359. Apr 23 same-day is 29, and will grow. Daily rate through fully-populated days is ~186/day; extrapolation up from 5764 \u2192 5991 (+3.9%). Still tracking below March (6304) and below the conservative Glasswing anchor, though the gap to March has narrowed to ~5%.",
-      "prior_months_unchanged": "2026-01 = 5143, 2026-02 = 4808, 2026-03 = 6304 \u2014 re-confirmed on 2026-04-23."
+      "2026-04": "MTD through 2026-04-24 (24 days); extrapolated full-month ~5965 (4772 * 30/24). +179 net CVEs between day 23 and day 24 snapshots. NVD back-population pattern continuing: Apr 23 moved from 29 \u2192 187 overnight (+158); Apr 22 stable at 355; Apr 21 adjusted 359 \u2192 357; Apr 20 stable at 166. Apr 24 same-day is 23 and will grow. Fully-populated days Apr 20-22 pace ~293/day; MTD average ~199/day. Extrapolation basically flat (5991 \u2192 5965, -0.4%) \u2014 April full-month estimate continues to stabilize in the 5.9-6.0k range, still slightly below March (6304) and on-track with the conservative Glasswing anchor.",
+      "prior_months_unchanged": "2026-01 = 5143, 2026-02 = 4808, 2026-03 = 6304 \u2014 re-confirmed on 2026-04-24."
     },
     "weekly_cve_2026": {
       "2026-W14_Mar30_Apr05": 1304,
       "2026-W15_Apr06_Apr12": 1615,
       "2026-W16_Apr13_Apr19": 1178,
-      "2026-W17_Apr20_Apr26_partial": 909
+      "2026-W17_Apr20_Apr26_partial": 1088
     },
     "ms_patch_tuesday": {
       "2025-01": 157,
@@ -207,10 +207,10 @@
       "2026-01": 17,
       "2026-02": 28,
       "2026-03": 26,
-      "2026-04": 22
+      "2026-04": 24
     },
     "kev_monthly_2026_notes": {
-      "2026-04": "22 entries added 2026-04-01..2026-04-20 (per CISA KEV catalog version 2026.04.21 released 2026-04-21T17:10Z). No new KEV additions between 2026-04-20 and 2026-04-23 \u2014 catalog unchanged for three consecutive days. April total holding at 22 (ahead of Q1 monthly average ~24). Notable 2026-04-20 batch: Cisco Catalyst SD-WAN Manager cluster (CVE-2026-20122, -20128, -20133) \u2014 Cisco (Glasswing participant), HTTP-adjacent management-plane bugs; plus CVE-2025-2749 (Kentico Xperience), CVE-2023-27351 (PaperCut NG/MF), CVE-2025-48700 (Zimbra), CVE-2025-32975 (Quest KACE SMA), CVE-2024-27199 (JetBrains TeamCity). Earlier-April entries unchanged: CVE-2026-34197 (Apache ActiveMQ 2026-04-16), CVE-2026-32201 (SharePoint 0-day 2026-04-14), CVE-2026-21643 (Fortinet FortiClient EMS SQLi 2026-04-13), CVE-2026-34621 (Adobe Acrobat prototype pollution 2026-04-13), CVE-2026-1340 (Ivanti EPMM 2026-04-08), CVE-2026-35616 (Fortinet FortiClient EMS 2026-04-06), CVE-2026-3502 (TrueConf Client 2026-04-02), CVE-2026-5281 (Google Dawn 2026-04-01); plus 5 legacy re-adds on 2026-04-13/14 (CVE-2009-0238, CVE-2012-1854, CVE-2020-9715, CVE-2023-21529, CVE-2023-36424) and CVE-2025-60710 Microsoft Windows."
+      "2026-04": "24 entries added 2026-04-01..2026-04-23 (per CISA KEV catalog version 2026.04.23 released 2026-04-23T17:00Z). Two new entries since yesterday, both from the exploit_watch_list: CVE-2026-33825 Microsoft Defender 'BlueHammer' LPE added 2026-04-22 (our watch list prediction confirmed \u2014 was flagged as 'watching' since 2026-04-18 with maturity 'weaponized' due to pre-patch PoC leak on Apr 3 and ITW exploitation from Apr 10); CVE-2026-39987 Marimo pre-auth RCE added 2026-04-23 (our watch list prediction confirmed \u2014 flagged 'watching' since 2026-04-19, maturity 'weaponized' based on Sysdig honeypot data showing 662 exploit events Apr 11-14). Both moved to 'confirmed' status in config.json. April total now 24 (at Q1 2026 monthly average of ~24). Previous 2026-04-20 batch still present: Cisco Catalyst SD-WAN Manager cluster (CVE-2026-20122, -20128, -20133), plus CVE-2025-2749 (Kentico Xperience), CVE-2023-27351 (PaperCut NG/MF), CVE-2025-48700 (Zimbra), CVE-2025-32975 (Quest KACE SMA), CVE-2024-27199 (JetBrains TeamCity). Earlier-April entries unchanged."
     }
   },
   "exploit_watch_list": {
@@ -262,9 +262,9 @@
       {
         "cve": "CVE-2026-39987",
         "product": "Marimo terminal WebSocket",
-        "status": "watching",
+        "status": "confirmed",
         "added": "2026-04-19",
-        "kevDate": null
+        "kevDate": "2026-04-23"
       },
       {
         "cve": "CVE-2026-20180",
@@ -320,9 +320,9 @@
       {
         "cve": "CVE-2026-33825",
         "product": "Windows Defender (BlueHammer)",
-        "status": "watching",
+        "status": "confirmed",
         "added": "2026-04-18",
-        "kevDate": null
+        "kevDate": "2026-04-22"
       }
     ]
   },
@@ -334,7 +334,7 @@
       "functional",
       "weaponized"
     ],
-    "last_full_scan": "2026-04-23T05:05Z",
+    "last_full_scan": "2026-04-24T03:00Z",
     "cve_status": {
       "CVE-2026-40477": {
         "exploitdb": {
@@ -432,10 +432,15 @@
         "github_poc": {
           "found": true,
           "repo_count": null,
-          "notes": "Sysdig Threat Research observed ITW exploitation within 9h 41m of disclosure WITHOUT public exploit code. Technical writeups (Resecurity, Security Affairs) contain sufficient detail for ad-hoc PoC reconstruction. Weaponized classification based on active ITW, not a published PoC."
+          "notes": "Sysdig Threat Research observed ITW exploitation within 9h 41m of disclosure WITHOUT public exploit code. Technical writeups (Resecurity, Security Affairs, Endor Labs, CSA Lab Space) contain sufficient detail for ad-hoc PoC reconstruction. Weaponized classification based on active ITW, not a published PoC."
         },
         "overall_maturity": "weaponized",
-        "last_checked": "2026-04-22T03:10Z"
+        "kev_promotion": {
+          "date": "2026-04-23",
+          "catalog_version": "2026.04.23",
+          "note": "Moved from watching \u2192 confirmed. CISA KEV-listed 2026-04-23 based on Sysdig Threat Research evidence of 662 exploit events Apr 11-14 delivering NKAbuse variant. Our watch list prediction (flagged 2026-04-19) confirmed."
+        },
+        "last_checked": "2026-04-24T03:00Z"
       },
       "CVE-2026-20180": {
         "exploitdb": {
@@ -572,10 +577,16 @@
         "github_poc": {
           "found": true,
           "repo_count": 3,
-          "notes": "Three Defender 0-days disclosed in a 13-day window; KEV-eligible"
+          "notes": "Three Defender 0-days disclosed in a 13-day window; KEV-eligible (now KEV-listed)"
         },
         "overall_maturity": "weaponized",
-        "last_checked": "2026-04-22T03:10Z"
+        "kev_promotion": {
+          "date": "2026-04-22",
+          "catalog_version": "2026.04.22",
+          "remediation_due": "2026-05-06",
+          "note": "Moved from watching \u2192 confirmed. CISA KEV-listed 2026-04-22 after evidence of first attacks Apr 10, additional activity Apr 16. Our watch list prediction (flagged 2026-04-18) confirmed. RedSun and UnDefend (the two related Defender 0-days) remain unpatched and not yet KEV-listed."
+        },
+        "last_checked": "2026-04-24T03:00Z"
       }
     }
   }
