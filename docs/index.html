@@ -1098,7 +1098,7 @@ new Chart(document.getElementById('crossFrameworkChart'), {
 
 // Mythos baseline chart
 const mythosMonths = ["2025-01", "2025-02", "2025-03", "2025-04", "2025-05", "2025-06", "2025-07", "2025-08", "2025-09", "2025-10", "2025-11", "2025-12", "2026-01", "2026-02", "2026-03", "2026-04"];
-const mythosCveVals = mythosMonths.map(m => ({"2025-01": 4200, "2025-02": 3800, "2025-03": 4012, "2025-04": 3950, "2025-05": 3900, "2025-06": 3850, "2025-07": 4100, "2025-08": 4050, "2025-09": 3950, "2025-10": 4150, "2025-11": 4000, "2025-12": 4212, "2026-01": 5143, "2026-02": 4808, "2026-03": 6304, "2026-04": 5965})[m]);
+const mythosCveVals = mythosMonths.map(m => ({"2025-01": 4200, "2025-02": 3800, "2025-03": 4012, "2025-04": 3950, "2025-05": 3900, "2025-06": 3850, "2025-07": 4100, "2025-08": 4050, "2025-09": 3950, "2025-10": 4150, "2025-11": 4000, "2025-12": 4212, "2026-01": 5143, "2026-02": 4808, "2026-03": 6304, "2026-04": 6214})[m]);
 const mythosKevVals = mythosMonths.map(m => ({"2025-01": 14, "2025-02": 27, "2025-03": 32, "2025-04": 15, "2025-05": 24, "2025-06": 20, "2025-07": 20, "2025-08": 15, "2025-09": 16, "2025-10": 31, "2025-11": 11, "2025-12": 20, "2026-01": 17, "2026-02": 28, "2026-03": 26, "2026-04": 24}[m] || 0));
 
 new Chart(document.getElementById('docMythosBaselineChart'), {
@@ -1134,8 +1134,8 @@ new Chart(document.getElementById('docMythosCveChart'), {
 // Projection chart
 const projMonths = ['2025-01','2025-04','2025-07','2025-10','2026-01','2026-04','2026-07','2026-10','2027-01'];
 const baselineTrend = [4200,3950,4100,4150,5143,5000,5200,5400,5600];
-const conservativeScenario = [null,null,null,null,null,5965,7465,8965,10465];
-const aggressiveScenario = [null,null,null,null,null,5965,11965,13965,14965];
+const conservativeScenario = [null,null,null,null,null,6214,7714,9214,10714];
+const aggressiveScenario = [null,null,null,null,null,6214,12214,14214,15214];
 
 new Chart(document.getElementById('docMythosProjectionChart'), {
     type: 'line',

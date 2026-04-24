@@ -56,7 +56,7 @@
       "CVE-2026-6757": "Firefox 150 JavaScript invalid pointer \u2014 officially credited to Claude in MFSA 2026-30",
       "CVE-2026-6758": "Firefox 150 JavaScript use-after-free \u2014 officially credited to Claude in MFSA 2026-30"
     },
-    "last_verified": "2026-04-24T03:00Z",
+    "last_verified": "2026-04-24T16:40Z",
     "participants": [
       "AWS",
       "Anthropic",
@@ -165,17 +165,17 @@
       "2026-01": 5143,
       "2026-02": 4808,
       "2026-03": 6304,
-      "2026-04": 4772
+      "2026-04": 4971
     },
     "monthly_cve_2026_notes": {
-      "2026-04": "MTD through 2026-04-24 (24 days); extrapolated full-month ~5965 (4772 * 30/24). +179 net CVEs between day 23 and day 24 snapshots. NVD back-population pattern continuing: Apr 23 moved from 29 \u2192 187 overnight (+158); Apr 22 stable at 355; Apr 21 adjusted 359 \u2192 357; Apr 20 stable at 166. Apr 24 same-day is 23 and will grow. Fully-populated days Apr 20-22 pace ~293/day; MTD average ~199/day. Extrapolation basically flat (5991 \u2192 5965, -0.4%) \u2014 April full-month estimate continues to stabilize in the 5.9-6.0k range, still slightly below March (6304) and on-track with the conservative Glasswing anchor.",
-      "prior_months_unchanged": "2026-01 = 5143, 2026-02 = 4808, 2026-03 = 6304 \u2014 re-confirmed on 2026-04-24."
+      "2026-04": "MTD through 2026-04-24T16:40Z (24 days); extrapolated full-month ~6214 (4971 * 30/24). +199 net CVEs between day 23 and day 24 snapshots (4772 \u2192 4971). NVD back-population continuing across recent days. Fully-populated days Apr 20-22 pace ~293/day; MTD average ~207/day. Extrapolation up ~4.2% from prior run (5965 \u2192 6214) \u2014 April now projecting marginally below March (6304) rather than meaningfully below. Consistent with continued tracking on the conservative Glasswing anchor, not the aggressive. Counter-argument: NVD publishing latency (4-8 weeks) means Glasswing disclosures from early April may still be arriving; the observed drift could reflect that arrival rather than a true volume uptick.",
+      "prior_months_unchanged": "2026-01 = 5143, 2026-02 = 4808, 2026-03 = 6304 \u2014 re-confirmed on 2026-04-24T16:40Z."
     },
     "weekly_cve_2026": {
       "2026-W14_Mar30_Apr05": 1304,
       "2026-W15_Apr06_Apr12": 1615,
       "2026-W16_Apr13_Apr19": 1178,
-      "2026-W17_Apr20_Apr26_partial": 1088
+      "2026-W17_Apr20_Apr26_partial": 1287
     },
     "ms_patch_tuesday": {
       "2025-01": 157,
@@ -210,7 +210,7 @@
       "2026-04": 24
     },
     "kev_monthly_2026_notes": {
-      "2026-04": "24 entries added 2026-04-01..2026-04-23 (per CISA KEV catalog version 2026.04.23 released 2026-04-23T17:00Z). Two new entries since yesterday, both from the exploit_watch_list: CVE-2026-33825 Microsoft Defender 'BlueHammer' LPE added 2026-04-22 (our watch list prediction confirmed \u2014 was flagged as 'watching' since 2026-04-18 with maturity 'weaponized' due to pre-patch PoC leak on Apr 3 and ITW exploitation from Apr 10); CVE-2026-39987 Marimo pre-auth RCE added 2026-04-23 (our watch list prediction confirmed \u2014 flagged 'watching' since 2026-04-19, maturity 'weaponized' based on Sysdig honeypot data showing 662 exploit events Apr 11-14). Both moved to 'confirmed' status in config.json. April total now 24 (at Q1 2026 monthly average of ~24). Previous 2026-04-20 batch still present: Cisco Catalyst SD-WAN Manager cluster (CVE-2026-20122, -20128, -20133), plus CVE-2025-2749 (Kentico Xperience), CVE-2023-27351 (PaperCut NG/MF), CVE-2025-48700 (Zimbra), CVE-2025-32975 (Quest KACE SMA), CVE-2024-27199 (JetBrains TeamCity). Earlier-April entries unchanged."
+      "2026-04": "24 entries added 2026-04-01..2026-04-23 (per CISA KEV catalog version 2026.04.23 released 2026-04-23T17:00Z). No new KEV entries between prior run and 2026-04-24T16:40Z \u2014 catalog version unchanged. Watch-list promotions yesterday: CVE-2026-33825 Microsoft Defender 'BlueHammer' LPE (2026-04-22, confirmed); CVE-2026-39987 Marimo pre-auth RCE (2026-04-23, confirmed). April total holds at 24 (exactly at Q1 2026 monthly average ~24). No escalations in watch-list exploit maturity detected today."
     }
   },
   "exploit_watch_list": {
@@ -334,7 +334,7 @@
       "functional",
       "weaponized"
     ],
-    "last_full_scan": "2026-04-24T03:00Z",
+    "last_full_scan": "2026-04-24T16:40Z",
     "cve_status": {
       "CVE-2026-40477": {
         "exploitdb": {
