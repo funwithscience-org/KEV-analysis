@@ -12,7 +12,7 @@
         "2026-02": 4808,
         "2026-03": 6304
       },
-      "delta_vs_prior_run": "April MTD moved 4593 (day 23) \u2192 4772 (day 24): +179 CVEs net over 24h. Back-population dominated by Apr 23 overnight: 29 \u2192 187 (+158). Apr 22 stable at 355. Apr 21 micro-adjusted 359 \u2192 357. Apr 20 stable at 166. Apr 24 same-day 23 and will grow. Fully-populated-day average (Apr 20-22) is ~293/day. Full-month extrapolation down slightly from 5991 \u2192 5965 (-0.4%). April continues tracking 5-5.5% below March (6304) and on-pace with the conservative Glasswing anchor (not the aggressive one). Counter-argument: 2-8 week NVD publishing latency means Glasswing-disclosed CVEs may not yet be visible in April totals; mid-to-late May is when a Mythos-attributable inflection would first be measurable."
+      "delta_vs_prior_run": "April MTD moved 4593 (day 23) → 4772 (day 24): +179 CVEs net over 24h. Back-population dominated by Apr 23 overnight: 29 → 187 (+158). Apr 22 stable at 355. Apr 21 micro-adjusted 359 → 357. Apr 20 stable at 166. Apr 24 same-day 23 and will grow. Fully-populated-day average (Apr 20-22) is ~293/day. Full-month extrapolation down slightly from 5991 → 5965 (-0.4%). April continues tracking 5-5.5% below March (6304) and on-pace with the conservative Glasswing anchor (not the aggressive one). Counter-argument: 2-8 week NVD publishing latency means Glasswing-disclosed CVEs may not yet be visible in April totals; mid-to-late May is when a Mythos-attributable inflection would first be measurable."
     },
     "kev_additions": {
       "month": "2026-04",
@@ -20,17 +20,17 @@
       "catalog_version": "2026.04.23",
       "date_released": "2026-04-23T17:00:03.832Z",
       "source": "CISA KEV feed",
-      "reconciliation_note": "Two new KEV entries since prior run \u2014 both were already on our exploit_watch_list as 'watching' with 'weaponized' maturity: CVE-2026-33825 (Microsoft Defender 'BlueHammer' LPE, added 2026-04-22) and CVE-2026-39987 (Marimo pre-auth RCE, added 2026-04-23). Both moved to 'confirmed' status in config.json with kevDate recorded. April total now 24 (exactly at Q1 2026 monthly average of ~24). Two consecutive days of additions after the 3-day quiet period (Apr 20-22).",
+      "reconciliation_note": "Two new KEV entries since prior run — both were already on our exploit_watch_list as 'watching' with 'weaponized' maturity: CVE-2026-33825 (Microsoft Defender 'BlueHammer' LPE, added 2026-04-22) and CVE-2026-39987 (Marimo pre-auth RCE, added 2026-04-23). Both moved to 'confirmed' status in config.json with kevDate recorded. April total now 24 (exactly at Q1 2026 monthly average of ~24). Two consecutive days of additions after the 3-day quiet period (Apr 20-22).",
       "new_since_prior_run": [
-        "CVE-2026-33825 Microsoft Defender (BlueHammer) \u2014 2026-04-22",
-        "CVE-2026-39987 Marimo \u2014 2026-04-23"
+        "CVE-2026-33825 Microsoft Defender (BlueHammer) — 2026-04-22",
+        "CVE-2026-39987 Marimo — 2026-04-23"
       ],
       "watch_list_kev_promotions_this_run": [
         {
           "cve": "CVE-2026-33825",
           "list": "desktop",
           "days_on_watch": 4,
-          "prediction_rationale": "Pre-patch PoC leak on 2026-04-03 + first ITW attacks 2026-04-10 + Apr 16 additional activity \u2014 clear KEV-eligibility profile",
+          "prediction_rationale": "Pre-patch PoC leak on 2026-04-03 + first ITW attacks 2026-04-10 + Apr 16 additional activity — clear KEV-eligibility profile",
           "kev_date": "2026-04-22",
           "remediation_due": "2026-05-06"
         },
@@ -43,17 +43,17 @@
         }
       ],
       "notable_entries": [
-        "CVE-2026-33825 \u2014 Microsoft Defender 'BlueHammer' LPE (2026-04-22). Watch list confirmation; weaponized since Apr 3 PoC leak; Microsoft (Glasswing participant). Sister 0-days RedSun and UnDefend still unpatched and not KEV-listed.",
-        "CVE-2026-39987 \u2014 Marimo pre-auth RCE (2026-04-23). Watch list confirmation; ITW within 9h 41m of disclosure; Sysdig documented NKAbuse delivery.",
-        "CVE-2026-20122 / 20128 / 20133 \u2014 Cisco Catalyst SD-WAN Manager cluster (2026-04-20). Cisco (Glasswing participant).",
-        "CVE-2026-34197 \u2014 Apache ActiveMQ (2026-04-16).",
-        "CVE-2026-32201 \u2014 Microsoft SharePoint Server 0-day (2026-04-14)",
-        "CVE-2026-21643 \u2014 Fortinet FortiClient EMS SQLi (2026-04-13)",
-        "CVE-2026-34621 \u2014 Adobe Acrobat/Reader Prototype Pollution (2026-04-13)",
-        "CVE-2026-1340 \u2014 Ivanti EPMM (2026-04-08)",
-        "CVE-2026-35616 \u2014 Fortinet FortiClient EMS (2026-04-06)",
-        "CVE-2026-3502 \u2014 TrueConf Client (2026-04-02)",
-        "CVE-2026-5281 \u2014 Google Dawn (2026-04-01)"
+        "CVE-2026-33825 — Microsoft Defender 'BlueHammer' LPE (2026-04-22). Watch list confirmation; weaponized since Apr 3 PoC leak; Microsoft (Glasswing participant). Sister 0-days RedSun and UnDefend still unpatched and not KEV-listed.",
+        "CVE-2026-39987 — Marimo pre-auth RCE (2026-04-23). Watch list confirmation; ITW within 9h 41m of disclosure; Sysdig documented NKAbuse delivery.",
+        "CVE-2026-20122 / 20128 / 20133 — Cisco Catalyst SD-WAN Manager cluster (2026-04-20). Cisco (Glasswing participant).",
+        "CVE-2026-34197 — Apache ActiveMQ (2026-04-16).",
+        "CVE-2026-32201 — Microsoft SharePoint Server 0-day (2026-04-14)",
+        "CVE-2026-21643 — Fortinet FortiClient EMS SQLi (2026-04-13)",
+        "CVE-2026-34621 — Adobe Acrobat/Reader Prototype Pollution (2026-04-13)",
+        "CVE-2026-1340 — Ivanti EPMM (2026-04-08)",
+        "CVE-2026-35616 — Fortinet FortiClient EMS (2026-04-06)",
+        "CVE-2026-3502 — TrueConf Client (2026-04-02)",
+        "CVE-2026-5281 — Google Dawn (2026-04-01)"
       ]
     },
     "glasswing_cves": {
@@ -67,7 +67,7 @@
       },
       "new_since_last": 0,
       "confirmed_glasswing": [
-        "CVE-2026-4747 (FreeBSD NFS RCE \u2014 Anthropic/Carlini autonomous find)"
+        "CVE-2026-4747 (FreeBSD NFS RCE — Anthropic/Carlini autonomous find)"
       ],
       "adjacent_claude_credited": [
         "CVE-2026-5194 (wolfSSL cert validation)",
@@ -77,7 +77,7 @@
         "CVE-2026-6758 (Firefox 150 JavaScript use-after-free)"
       ],
       "claude_assisted_non_anthropic": [
-        "CVE-2026-34197 (Apache ActiveMQ \u2014 Horizon3.ai / Naveen Sunkavally using Claude as tool; NOT direct Anthropic credit)"
+        "CVE-2026-34197 (Apache ActiveMQ — Horizon3.ai / Naveen Sunkavally using Claude as tool; NOT direct Anthropic credit)"
       ],
       "source": "Web searches 2026-04-24 against 'Mythos vulnerability', 'Glasswing CVE', 'Claude vulnerability discovery', 'Carlini CVE': no new Claude-credited CVE disclosures surfaced between 2026-04-23 and 2026-04-24. Firefox 150 MFSA 2026-30 credit set unchanged (3 Claude-credited CVEs out of 41 CVE-tier fixes, out of 271 total Mythos-pass identified). Glasswing total holding at 283 Mythos-linked fixes, 6 explicit-credit CVEs.",
       "notes": "Counter-argument: 24-hour window is narrow; AI-attributed disclosures often appear in press follow-on reporting 3-7 days after the initial advisory. A quiet day is not evidence of a slowdown."
@@ -88,7 +88,7 @@
       "source": "Tenable blog, Krebs on Security, MSRC (value unchanged since 2026-04-14 release)",
       "zero_days_actively_exploited": [
         "CVE-2026-32201 (SharePoint, KEV 2026-04-14)",
-        "CVE-2026-33825 (Windows Defender 'BlueHammer', KEV 2026-04-22 \u2014 now confirmed)"
+        "CVE-2026-33825 (Windows Defender 'BlueHammer', KEV 2026-04-22 — now confirmed)"
       ],
       "ranking": "Second-largest Patch Tuesday ever; shy of October 2025 (167)."
     },
@@ -96,7 +96,7 @@
       "latest_month": "2026-04",
       "count": 23,
       "source": "Estimate retained from prior run. stack.watch parent page continues to return only YTD aggregate. Red Hat security data API still 404s.",
-      "confidence": "low \u2014 placeholder; true April count likely 20-30 but not precisely determinable from available sources"
+      "confidence": "low — placeholder; true April count likely 20-30 but not precisely determinable from available sources"
     },
     "weekly_cve": {
       "2026-W14_Mar30_Apr05": 1304,
@@ -110,29 +110,218 @@
         "W17_so_far_5days": 217,
         "W17_fully_populated_days_only": 293
       },
-      "observation": "W17 at 1088 through Apr 24 (5 partial days), with Apr 20-22 fully populated at 293/day. Extrapolating 293/day across 7 days \u2192 2,051; but likely W17 final lands 1,400-1,700 after back-population stabilizes. W16 still the slowest measured week at 168/day. Still too early to call a post-Glasswing inflection either way; expected earliest-detectable window is mid-May."
+      "observation": "W17 at 1088 through Apr 24 (5 partial days), with Apr 20-22 fully populated at 293/day. Extrapolating 293/day across 7 days → 2,051; but likely W17 final lands 1,400-1,700 after back-population stabilizes. W16 still the slowest measured week at 168/day. Still too early to call a post-Glasswing inflection either way; expected earliest-detectable window is mid-May."
     }
   },
   "exploit_intelligence": {
     "watch_list_status": {
-      "CVE-2026-40477": {"exploitdb": {"found": false}, "metasploit": {"found": false}, "github_poc": {"found": true, "repo_count": null, "note": "Thymeleaf cluster PoCs circulating in researcher communities"}, "overall_maturity": "poc", "last_checked": "2026-04-24T03:00Z"},
-      "CVE-2026-40478": {"exploitdb": {"found": false}, "metasploit": {"found": false}, "github_poc": {"found": true, "repo_count": null, "note": "Paired with -40477 Thymeleaf cluster"}, "overall_maturity": "poc", "last_checked": "2026-04-24T03:00Z"},
-      "CVE-2026-5194": {"exploitdb": {"found": false}, "metasploit": {"found": false}, "github_poc": {"found": false, "repo_count": 0}, "overall_maturity": "none", "last_checked": "2026-04-24T03:00Z"},
-      "CVE-2026-5501": {"exploitdb": {"found": false}, "metasploit": {"found": false}, "github_poc": {"found": false, "repo_count": 0}, "overall_maturity": "none", "last_checked": "2026-04-24T03:00Z"},
-      "CVE-2026-21858": {"exploitdb": {"found": false}, "metasploit": {"found": false}, "github_poc": {"found": true, "repo_count": null}, "overall_maturity": "functional", "last_checked": "2026-04-24T03:00Z"},
-      "CVE-2026-39987": {"exploitdb": {"found": false}, "metasploit": {"found": false}, "github_poc": {"found": true, "repo_count": null}, "overall_maturity": "weaponized", "kev_listed": "2026-04-23", "last_checked": "2026-04-24T03:00Z"},
-      "CVE-2026-20180": {"exploitdb": {"found": false}, "metasploit": {"found": false}, "github_poc": {"found": false, "repo_count": 0}, "overall_maturity": "none", "last_checked": "2026-04-24T03:00Z"},
-      "CVE-2026-20186": {"exploitdb": {"found": false}, "metasploit": {"found": false}, "github_poc": {"found": false, "repo_count": 0}, "overall_maturity": "none", "last_checked": "2026-04-24T03:00Z"},
-      "CVE-2026-20147": {"exploitdb": {"found": false}, "metasploit": {"found": false}, "github_poc": {"found": false, "repo_count": 0}, "overall_maturity": "none", "last_checked": "2026-04-24T03:00Z"},
-      "CVE-2026-20184": {"exploitdb": {"found": false}, "metasploit": {"found": false}, "github_poc": {"found": false, "repo_count": 0}, "overall_maturity": "none", "last_checked": "2026-04-24T03:00Z"},
-      "CVE-2026-32201": {"exploitdb": {"found": false}, "metasploit": {"found": false}, "github_poc": {"found": true, "repo_count": null}, "overall_maturity": "weaponized", "kev_listed": "2026-04-14", "last_checked": "2026-04-24T03:00Z"},
-      "CVE-2026-34197": {"exploitdb": {"found": false}, "metasploit": {"found": false}, "github_poc": {"found": true, "repo_count": null}, "overall_maturity": "weaponized", "kev_listed": "2026-04-16", "last_checked": "2026-04-24T03:00Z"},
-      "CVE-2026-34621": {"exploitdb": {"found": false}, "metasploit": {"found": false}, "github_poc": {"found": true, "repo_count": null}, "overall_maturity": "weaponized", "kev_listed": "2026-04-15", "last_checked": "2026-04-24T03:00Z"},
-      "CVE-2026-33825": {"exploitdb": {"found": true}, "metasploit": {"found": false}, "github_poc": {"found": true, "repo_count": 3}, "overall_maturity": "weaponized", "kev_listed": "2026-04-22", "last_checked": "2026-04-24T03:00Z"}
+      "CVE-2026-40477": {
+        "exploitdb": {
+          "found": false
+        },
+        "metasploit": {
+          "found": false
+        },
+        "github_poc": {
+          "found": true,
+          "repo_count": null,
+          "note": "Thymeleaf cluster PoCs circulating in researcher communities"
+        },
+        "overall_maturity": "poc",
+        "last_checked": "2026-04-24T03:00Z"
+      },
+      "CVE-2026-40478": {
+        "exploitdb": {
+          "found": false
+        },
+        "metasploit": {
+          "found": false
+        },
+        "github_poc": {
+          "found": true,
+          "repo_count": null,
+          "note": "Paired with -40477 Thymeleaf cluster"
+        },
+        "overall_maturity": "poc",
+        "last_checked": "2026-04-24T03:00Z"
+      },
+      "CVE-2026-5194": {
+        "exploitdb": {
+          "found": false
+        },
+        "metasploit": {
+          "found": false
+        },
+        "github_poc": {
+          "found": false,
+          "repo_count": 0
+        },
+        "overall_maturity": "none",
+        "last_checked": "2026-04-24T03:00Z"
+      },
+      "CVE-2026-5501": {
+        "exploitdb": {
+          "found": false
+        },
+        "metasploit": {
+          "found": false
+        },
+        "github_poc": {
+          "found": false,
+          "repo_count": 0
+        },
+        "overall_maturity": "none",
+        "last_checked": "2026-04-24T03:00Z"
+      },
+      "CVE-2026-21858": {
+        "exploitdb": {
+          "found": false
+        },
+        "metasploit": {
+          "found": false
+        },
+        "github_poc": {
+          "found": true,
+          "repo_count": null
+        },
+        "overall_maturity": "functional",
+        "last_checked": "2026-04-24T03:00Z"
+      },
+      "CVE-2026-39987": {
+        "exploitdb": {
+          "found": false
+        },
+        "metasploit": {
+          "found": false
+        },
+        "github_poc": {
+          "found": true,
+          "repo_count": null
+        },
+        "overall_maturity": "weaponized",
+        "kev_listed": "2026-04-23",
+        "last_checked": "2026-04-24T03:00Z"
+      },
+      "CVE-2026-20180": {
+        "exploitdb": {
+          "found": false
+        },
+        "metasploit": {
+          "found": false
+        },
+        "github_poc": {
+          "found": false,
+          "repo_count": 0
+        },
+        "overall_maturity": "none",
+        "last_checked": "2026-04-24T03:00Z"
+      },
+      "CVE-2026-20186": {
+        "exploitdb": {
+          "found": false
+        },
+        "metasploit": {
+          "found": false
+        },
+        "github_poc": {
+          "found": false,
+          "repo_count": 0
+        },
+        "overall_maturity": "none",
+        "last_checked": "2026-04-24T03:00Z"
+      },
+      "CVE-2026-20147": {
+        "exploitdb": {
+          "found": false
+        },
+        "metasploit": {
+          "found": false
+        },
+        "github_poc": {
+          "found": false,
+          "repo_count": 0
+        },
+        "overall_maturity": "none",
+        "last_checked": "2026-04-24T03:00Z"
+      },
+      "CVE-2026-20184": {
+        "exploitdb": {
+          "found": false
+        },
+        "metasploit": {
+          "found": false
+        },
+        "github_poc": {
+          "found": false,
+          "repo_count": 0
+        },
+        "overall_maturity": "none",
+        "last_checked": "2026-04-24T03:00Z"
+      },
+      "CVE-2026-32201": {
+        "exploitdb": {
+          "found": false
+        },
+        "metasploit": {
+          "found": false
+        },
+        "github_poc": {
+          "found": true,
+          "repo_count": null
+        },
+        "overall_maturity": "weaponized",
+        "kev_listed": "2026-04-14",
+        "last_checked": "2026-04-24T03:00Z"
+      },
+      "CVE-2026-34197": {
+        "exploitdb": {
+          "found": false
+        },
+        "metasploit": {
+          "found": false
+        },
+        "github_poc": {
+          "found": true,
+          "repo_count": null
+        },
+        "overall_maturity": "weaponized",
+        "kev_listed": "2026-04-16",
+        "last_checked": "2026-04-24T03:00Z"
+      },
+      "CVE-2026-34621": {
+        "exploitdb": {
+          "found": false
+        },
+        "metasploit": {
+          "found": false
+        },
+        "github_poc": {
+          "found": true,
+          "repo_count": null
+        },
+        "overall_maturity": "weaponized",
+        "kev_listed": "2026-04-15",
+        "last_checked": "2026-04-24T03:00Z"
+      },
+      "CVE-2026-33825": {
+        "exploitdb": {
+          "found": true
+        },
+        "metasploit": {
+          "found": false
+        },
+        "github_poc": {
+          "found": true,
+          "repo_count": 3
+        },
+        "overall_maturity": "weaponized",
+        "kev_listed": "2026-04-22",
+        "last_checked": "2026-04-24T03:00Z"
+      }
     },
     "newly_escalated": [
-      "CVE-2026-33825: already weaponized maturity; promoted from 'watching' \u2192 'confirmed' (KEV 2026-04-22)",
-      "CVE-2026-39987: already weaponized maturity; promoted from 'watching' \u2192 'confirmed' (KEV 2026-04-23)"
+      "CVE-2026-33825: already weaponized maturity; promoted from 'watching' → 'confirmed' (KEV 2026-04-22)",
+      "CVE-2026-39987: already weaponized maturity; promoted from 'watching' → 'confirmed' (KEV 2026-04-23)"
     ],
     "summary": "6 of 14 watch list CVEs are weaponized (all 6 KEV-listed). 1 is functional (CVE-2026-21858 Ni8mare). 2 are PoC-available (Thymeleaf cluster). 5 are at maturity 'none'. Two new KEV confirmations this run, both correctly predicted by the watch list.",
     "watch_list_precision_metric": {
@@ -149,8 +338,12 @@
         "headline": "Three Microsoft Defender Zero-Days Actively Exploited; Two Still Unpatched",
         "source": "The Hacker News",
         "date": "2026-04-22/23",
-        "cves": ["CVE-2026-33825"],
-        "products": ["Microsoft Defender"],
+        "cves": [
+          "CVE-2026-33825"
+        ],
+        "products": [
+          "Microsoft Defender"
+        ],
         "new_since_prior_run": false,
         "note": "Reiterates the BlueHammer/RedSun/UnDefend cluster context around the KEV addition of -33825."
       },
@@ -158,8 +351,12 @@
         "headline": "CISA orders feds to patch BlueHammer flaw exploited as zero-day",
         "source": "Bleeping Computer",
         "date": "2026-04-22",
-        "cves": ["CVE-2026-33825"],
-        "products": ["Microsoft Defender"],
+        "cves": [
+          "CVE-2026-33825"
+        ],
+        "products": [
+          "Microsoft Defender"
+        ],
         "new_since_prior_run": true,
         "note": "Confirms 2026-05-06 remediation deadline for FCEB agencies."
       },
@@ -167,8 +364,12 @@
         "headline": "Marimo RCE Flaw CVE-2026-39987 Exploited Within 10 Hours of Disclosure",
         "source": "The Hacker News / Security Affairs / Endor Labs / CSA Lab Space",
         "date": "2026-04-22/23",
-        "cves": ["CVE-2026-39987"],
-        "products": ["Marimo"],
+        "cves": [
+          "CVE-2026-39987"
+        ],
+        "products": [
+          "Marimo"
+        ],
         "new_since_prior_run": true,
         "note": "Additional coverage preceding the Apr 23 KEV listing."
       },
@@ -176,8 +377,14 @@
         "headline": "Claude Mythos Finds 271 Firefox Vulnerabilities",
         "source": "SecurityWeek / Help Net Security / Slashdot / Engadget / TheNextWeb / Cyberinsider",
         "date": "2026-04-21/22",
-        "cves": ["CVE-2026-6746", "CVE-2026-6757", "CVE-2026-6758"],
-        "products": ["Mozilla Firefox 150"],
+        "cves": [
+          "CVE-2026-6746",
+          "CVE-2026-6757",
+          "CVE-2026-6758"
+        ],
+        "products": [
+          "Mozilla Firefox 150"
+        ],
         "new_since_prior_run": false,
         "note": "Mozilla MFSA 2026-30; credit set unchanged at 3 Claude-credited CVEs out of 41 CVE-tier fixes (out of 271 total identified in the Mythos pass)."
       }
@@ -193,7 +400,7 @@
       }
     ],
     "new_participant_products": [],
-    "search_coverage_note": "Google News searches run on 2026-04-24 covered Mythos, Glasswing, Claude-credited CVEs, Firefox 150, Cisco advisories, and Marimo/Defender KEV confirmations. Intel/Palo Alto/Apple/Broadcom/Chrome-releases advisory searches not run this pass due to rate-limiting; will re-run at next cadence. Counter-argument: 24-hour gap is small and skipping these vendors risks missing self-scan candidates \u2014 flagged for follow-up."
+    "search_coverage_note": "Google News searches run on 2026-04-24 covered Mythos, Glasswing, Claude-credited CVEs, Firefox 150, Cisco advisories, and Marimo/Defender KEV confirmations. Intel/Palo Alto/Apple/Broadcom/Chrome-releases advisory searches not run this pass due to rate-limiting; will re-run at next cadence. Counter-argument: 24-hour gap is small and skipping these vendors risks missing self-scan candidates — flagged for follow-up."
   },
   "np_di_candidates": [
     {
@@ -229,10 +436,10 @@
     "actual_or_extrapolated": 5965,
     "conservative_predicted": 5965,
     "aggressive_predicted": 5965,
-    "verdict": "on_track_conservative \u2014 April extrapolation (~5965) is exactly at the conservative-anchor value and ~2x below the aggressive scenario's eventual trajectory. March (6304) remains the highest month on record; April is tracking to land ~5.4% below March.",
+    "verdict": "on_track_conservative — April extrapolation (~5965) is exactly at the conservative-anchor value and ~2x below the aggressive scenario's eventual trajectory. March (6304) remains the highest month on record; April is tracking to land ~5.4% below March.",
     "counter_argument": "Conservative matching is partly an artifact of the anchor methodology: we set the anchor equal to the current extrapolation. The real test is May-June, when Glasswing-triggered disclosures should start appearing in NVD data after the typical 2-8 week publishing latency. A steady April does not prove Glasswing has zero effect."
   },
-  "changes_pushed": false,
-  "commit_sha": null,
+  "changes_pushed": true,
+  "commit_sha": "43ad98dfd0d35aff51b135d082408be74a3b4019",
   "errors": []
 }
