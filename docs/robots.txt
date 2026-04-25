@@ -1,8 +1,10 @@
 # Allow all crawlers. The canonical robots.txt for github.io is
 # controlled by GitHub; this file documents project intent and
-# points to the LLM-friendly summary.
+# points to the LLM-friendly summary and the project sitemap.
 User-agent: *
 Allow: /
+
+Sitemap: https://funwithscience-org.github.io/KEV-analysis/sitemap.xml
 
 # Machine-readable summary intended for LLMs:
 # https://funwithscience-org.github.io/KEV-analysis/llms.txt

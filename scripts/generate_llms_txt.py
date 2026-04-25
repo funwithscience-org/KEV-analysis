@@ -253,13 +253,53 @@ def render_robots_txt() -> str:
     return (
         "# Allow all crawlers. The canonical robots.txt for github.io is\n"
         "# controlled by GitHub; this file documents project intent and\n"
-        "# points to the LLM-friendly summary.\n"
+        "# points to the LLM-friendly summary and the project sitemap.\n"
         "User-agent: *\n"
         "Allow: /\n"
+        "\n"
+        f"Sitemap: {SITE}/sitemap.xml\n"
         "\n"
         f"# Machine-readable summary intended for LLMs:\n"
         f"# {SITE}/llms.txt\n"
     )
+
+
+# --------------------------------------------------------------------------- #
+# sitemap.xml
+# --------------------------------------------------------------------------- #
+# Pages to include in the sitemap. Order is intentional (most-important first).
+# Skip v2 dead-draft files. Evergreen is a scratch/exploration page; included
+# because it's linked from the main analysis and worth indexing for archive.
+SITEMAP_PAGES: list[tuple[str, str, float]] = [
+    # (path, changefreq, priority)
+    ("index.html",            "weekly",  1.0),  # walkthrough — primary entry point
+    ("dashboard.html",        "daily",   0.9),  # interactive dashboard, refresh agent updates daily
+    ("periodicity.html",      "weekly",  0.9),
+    ("build-mechanics.html",  "monthly", 0.8),
+    ("cve-reference.html",    "weekly",  0.7),
+    ("glasswing.html",        "weekly",  0.7),
+    ("osv-exploitation.html", "monthly", 0.6),
+    ("evergreen.html",        "monthly", 0.5),
+    ("llms.txt",              "weekly",  0.4),
+]
+
+
+def render_sitemap_xml() -> str:
+    today = dt.date.today().isoformat()
+    parts = ['<?xml version="1.0" encoding="UTF-8"?>',
+             '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">']
+    for path, changefreq, priority in SITEMAP_PAGES:
+        parts.append("  <url>")
+        # Trailing slash for root index, no slash for sub-pages.
+        loc = f"{SITE}/" if path == "index.html" else f"{SITE}/{path}"
+        parts.append(f"    <loc>{loc}</loc>")
+        parts.append(f"    <lastmod>{today}</lastmod>")
+        parts.append(f"    <changefreq>{changefreq}</changefreq>")
+        parts.append(f"    <priority>{priority}</priority>")
+        parts.append("  </url>")
+    parts.append("</urlset>")
+    parts.append("")
+    return "\n".join(parts)
 
 
 # --------------------------------------------------------------------------- #
@@ -279,28 +319,40 @@ def main() -> int:
 
     llms_path = REPO / "docs" / "llms.txt"
     robots_path = REPO / "docs" / "robots.txt"
+    sitemap_path = REPO / "docs" / "sitemap.xml"
 
     new_llms = render_llms_txt(data, classif)
     new_robots = render_robots_txt()
+    new_sitemap = render_sitemap_xml()
 
     if args.check:
+        # The sitemap embeds today's date as <lastmod>, which makes byte-equal
+        # comparison too brittle (every day would report drift even when nothing
+        # else changed). Compare structure instead: ignore the lastmod lines.
+        def strip_lastmod(s: str) -> str:
+            return "\n".join(l for l in s.splitlines() if "<lastmod>" not in l)
         old_llms = llms_path.read_text() if llms_path.exists() else ""
         old_robots = robots_path.read_text() if robots_path.exists() else ""
+        old_sitemap = sitemap_path.read_text() if sitemap_path.exists() else ""
         drift = []
         if old_llms != new_llms:
             drift.append(str(llms_path.relative_to(REPO)))
         if old_robots != new_robots:
             drift.append(str(robots_path.relative_to(REPO)))
+        if strip_lastmod(old_sitemap) != strip_lastmod(new_sitemap):
+            drift.append(str(sitemap_path.relative_to(REPO)))
         if drift:
             print(f"DRIFT: regenerating would change: {', '.join(drift)}")
             return 1
-        print("OK: llms.txt and robots.txt are up to date")
+        print("OK: llms.txt, robots.txt, and sitemap.xml are up to date")
         return 0
 
     llms_path.write_text(new_llms)
     robots_path.write_text(new_robots)
+    sitemap_path.write_text(new_sitemap)
     print(f"wrote {llms_path.relative_to(REPO)} ({len(new_llms):,} bytes)")
     print(f"wrote {robots_path.relative_to(REPO)} ({len(new_robots):,} bytes)")
+    print(f"wrote {sitemap_path.relative_to(REPO)} ({len(new_sitemap):,} bytes)")
     return 0
 
 
