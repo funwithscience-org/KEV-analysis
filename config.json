@@ -165,17 +165,14 @@
       "2026-01": 5143,
       "2026-02": 4808,
       "2026-03": 6304,
-      "2026-04": 4971
+      "2026-04": 5037
     },
-    "monthly_cve_2026_notes": {
-      "2026-04": "MTD through 2026-04-24T16:40Z (24 days); extrapolated full-month ~6214 (4971 * 30/24). +199 net CVEs between day 23 and day 24 snapshots (4772 \u2192 4971). NVD back-population continuing across recent days. Fully-populated days Apr 20-22 pace ~293/day; MTD average ~207/day. Extrapolation up ~4.2% from prior run (5965 \u2192 6214) \u2014 April now projecting marginally below March (6304) rather than meaningfully below. Consistent with continued tracking on the conservative Glasswing anchor, not the aggressive. Counter-argument: NVD publishing latency (4-8 weeks) means Glasswing disclosures from early April may still be arriving; the observed drift could reflect that arrival rather than a true volume uptick.",
-      "prior_months_unchanged": "2026-01 = 5143, 2026-02 = 4808, 2026-03 = 6304 \u2014 re-confirmed on 2026-04-24T16:40Z."
-    },
+    "monthly_cve_2026_notes": "April MTD = 5037 as of 2026-04-25 23:59Z (NVD totalResults). Extrapolated full-month: 5037/25*30 = 6044 (rounded). Q1-2026 actuals: 5143 / 4808 / 6304 \u2014 re-verified against NVD this run. Day-over-day delta: 4971 \u2192 5037 (+66 CVEs in last 24h). Counter-argument: NVD publishing latency is 4-8 weeks; the post-Glasswing Mythos disclosures may not yet have reached NVD assignment. Even at 6044, April lands marginally below March (6304) and consistent with normal Q1 churn.",
     "weekly_cve_2026": {
       "2026-W14_Mar30_Apr05": 1304,
       "2026-W15_Apr06_Apr12": 1615,
       "2026-W16_Apr13_Apr19": 1178,
-      "2026-W17_Apr20_Apr26_partial": 1287
+      "2026-W17_Apr20_Apr26_partial": 1353
     },
     "ms_patch_tuesday": {
       "2025-01": 157,
@@ -199,9 +196,10 @@
       "2025_annual": 204,
       "2025_monthly_avg": 17,
       "2026_q1_total": 98,
-      "2026_monthly_avg": 25,
-      "2026-04_estimated": 23,
-      "note": "stack.watch dropped the /8.0 version-specific path; use parent URL (covers all RHEL versions). 2026 YTD: 99 per stack.watch as of 2026-04-18. Red Hat security data API also 404s \u2014 stack.watch is the best available source."
+      "2026_monthly_avg": 23,
+      "2026-04_actual": 17,
+      "2026_ytd_total": 115,
+      "note": "stack.watch dropped the /8.0 version-specific path; use parent URL (covers all RHEL versions). 2026 YTD: 115 per stack.watch as of 2026-04-25 (Q1 = 98, April = 17). April 2026 RHEL count of 17 is below the 23-25/month Q1 pace."
     },
     "kev_monthly_2026": {
       "2026-01": 17,
@@ -209,9 +207,7 @@
       "2026-03": 26,
       "2026-04": 24
     },
-    "kev_monthly_2026_notes": {
-      "2026-04": "24 entries added 2026-04-01..2026-04-23 (per CISA KEV catalog version 2026.04.23 released 2026-04-23T17:00Z). No new KEV entries between prior run and 2026-04-24T16:40Z \u2014 catalog version unchanged. Watch-list promotions yesterday: CVE-2026-33825 Microsoft Defender 'BlueHammer' LPE (2026-04-22, confirmed); CVE-2026-39987 Marimo pre-auth RCE (2026-04-23, confirmed). April total holds at 24 (exactly at Q1 2026 monthly average ~24). No escalations in watch-list exploit maturity detected today."
-    }
+    "kev_monthly_2026_notes": "April KEV total holds at 24 (catalogVersion 2026.04.23, no new release since 2026-04-23T17:00Z). Q1-2026 KEV monthly avg = (17+28+26)/3 = 23.7. April pacing: 24 entries already meets that average with 5 days remaining. Notable April 2026 KEV entries: SharePoint 2026-04-14, ActiveMQ 2026-04-16, Adobe Acrobat 2026-04-13, Defender BlueHammer 2026-04-22, Marimo 2026-04-23, Cisco SD-WAN cluster 2026-04-20."
   },
   "exploit_watch_list": {
     "description": "HTTP-parsing-adjacent CVEs predicted to be actively exploited. Analyst adds entries; refresh agent checks KEV status.",
@@ -334,7 +330,7 @@
       "functional",
       "weaponized"
     ],
-    "last_full_scan": "2026-04-24T16:40Z",
+    "last_full_scan": "2026-04-25T04:05Z",
     "cve_status": {
       "CVE-2026-40477": {
         "exploitdb": {
@@ -524,11 +520,12 @@
         },
         "github_poc": {
           "found": true,
-          "repo_count": null,
-          "notes": "KEV-listed 2026-04-14 \u2014 active zero-day exploitation against SharePoint"
+          "repo_count": 1,
+          "earliest": "2026-04-15",
+          "notes": "B1tBit/CVE-2026-32201-exploit GitHub repo published shortly after Patch Tuesday; KEV-listed 2026-04-14 with active zero-day exploitation. Exploit code is now public, not just ITW intelligence."
         },
         "overall_maturity": "weaponized",
-        "last_checked": "2026-04-22T03:10Z"
+        "last_checked": "2026-04-25T04:05Z"
       },
       "CVE-2026-34197": {
         "exploitdb": {

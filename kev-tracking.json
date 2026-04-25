@@ -1,18 +1,18 @@
 {
-  "last_run": "2026-04-24T16:40:00Z",
+  "last_run": "2026-04-25T04:13:09Z",
   "data_collected": {
     "overall_cve": {
       "month": "2026-04",
-      "mtd_count": 4971,
-      "days_elapsed": 24,
-      "extrapolated": 6214,
-      "source": "NVD API pubStartDate=2026-04-01..2026-04-24T16:40Z (totalResults=4971)",
+      "mtd_count": 5037,
+      "days_elapsed": 25,
+      "extrapolated": 6044,
+      "source": "NVD API pubStartDate=2026-04-01..2026-04-25T23:59:59Z (totalResults=5037)",
       "prior_months_nvd_reverified": {
         "2026-01": 5143,
         "2026-02": 4808,
         "2026-03": 6304
       },
-      "delta_vs_prior_run": "April MTD moved 4772 (day 23 snapshot) \u2192 4971 (day 24 snapshot): +199 CVEs net over 24h. Extrapolation moved 5965 \u2192 6214 (+4.2%). April now projecting marginally below March (6304) rather than meaningfully below. Week-17 (Apr 20-26) partial count: 1088 \u2192 1287. Weeks 14-16 stable. Interpretation: The upward drift this week could reflect either (a) late NVD arrival of early-April Glasswing disclosures, or (b) ordinary batch backfill. Counter-argument: even if April lands ~6200, that's not a break from the Q1-2026 pattern (5143 / 4808 / 6304) and doesn't by itself evidence a Glasswing-driven volume shock."
+      "delta_vs_prior_run": "April MTD moved 4971 (day 24) \u2192 5037 (day 25): +66 CVEs net over 24h. Extrapolation moved 6214 \u2192 6044 (-2.7%). Day-over-day rate (66 CVE/day) is well below the running April average (~200/day), but a single-day low day inside a Saturday window is unremarkable. Week-17 (Apr 20-26) partial count: 1287 \u2192 1353 (+66, fully accounts for today's pubs). Counter-argument: extrapolation will tighten as the remaining 5 days resolve; even at 6044, April is consistent with the Q1 churn band (4808-6304) and provides no positive evidence of a Glasswing-driven volume shock."
     },
     "kev_additions": {
       "month": "2026-04",
@@ -20,196 +20,166 @@
       "catalog_version": "2026.04.23",
       "date_released": "2026-04-23T17:00:03.832Z",
       "source": "CISA KEV feed",
-      "reconciliation_note": "No change since prior run \u2014 catalog version 2026.04.23 released 2026-04-23T17:00Z remains current. Yesterday's two new entries (CVE-2026-33825 Defender BlueHammer, CVE-2026-39987 Marimo) remain the latest additions. April total holds at 24 (Q1 2026 monthly average ~24). No new entries to reconcile against the watch list today.",
+      "reconciliation_note": "No change since prior run \u2014 catalogVersion 2026.04.23 still latest. April still holds at 24 entries. Latest entries remain: CVE-2026-39987 (Marimo 2026-04-23), CVE-2026-33825 (Defender BlueHammer 2026-04-22), Cisco SD-WAN cluster (2026-04-20). All watch-list KEV-confirmed entries remain accounted for. No new KEV promotions to flag against the watch list this run.",
       "new_since_prior_run": [],
       "watch_list_kev_promotions_this_run": [],
       "notable_entries": [
-        "CVE-2026-33825 \u2014 Microsoft Defender 'BlueHammer' LPE (2026-04-22). Watch-list confirmation from prior run.",
         "CVE-2026-39987 \u2014 Marimo pre-auth RCE (2026-04-23). Watch-list confirmation from prior run.",
+        "CVE-2026-33825 \u2014 Microsoft Defender 'BlueHammer' LPE (2026-04-22). Watch-list confirmation from prior run.",
         "CVE-2026-20122 / 20128 / 20133 \u2014 Cisco Catalyst SD-WAN Manager cluster (2026-04-20). Cisco is a Glasswing participant.",
-        "CVE-2026-34197 \u2014 Apache ActiveMQ (2026-04-16)."
+        "CVE-2026-34197 \u2014 Apache ActiveMQ Jolokia RCE (2026-04-16). Claude-assisted disclosure (Help Net Security).",
+        "CVE-2026-32201 \u2014 SharePoint spoofing/auth-bypass (2026-04-14). Public GitHub PoC at B1tBit/CVE-2026-32201-exploit."
       ]
     },
     "glasswing_cves": {
       "total": 283,
       "by_product": {
-        "Firefox": 271,
+        "Mozilla Firefox": 271,
         "wolfSSL": 9,
         "F5 NGINX Plus": 1,
         "FreeBSD": 1,
         "OpenSSL": 1
       },
       "new_since_last": 0,
-      "confirmed_glasswing": [
-        "CVE-2026-4747 (FreeBSD NFS RCE \u2014 autonomous Anthropic/Carlini find)"
+      "claude_credited_known": [
+        "CVE-2026-4747 (FreeBSD NFS) \u2014 autonomous Glasswing find",
+        "CVE-2026-5194 (wolfSSL cert validation) \u2014 Mythos Preview-assisted",
+        "CVE-2026-5588 (Bouncy Castle) \u2014 Carlini + Claude credit"
       ],
-      "claude_credited_cves": [
-        "CVE-2026-4747",
-        "CVE-2026-5194",
-        "CVE-2026-5588",
-        "CVE-2026-6746",
-        "CVE-2026-6757",
-        "CVE-2026-6758"
-      ],
-      "notes": "No new explicit Claude/Mythos CVE credits surfaced in today's Google News sweep. SecurityWeek, CSO Online, Register, and Bloo coverage continues to reaffirm the 271-Firefox / 6-credited split. CSA Labs and ZeroFox both published follow-on commentary but did not surface new CVEs. Counter-argument: absence of new public attributions doesn't mean none occurred \u2014 Anthropic continues Mythos Preview access to the 13 participants, who disclose on their own cadence without necessarily flagging Mythos assistance."
+      "note": "No new Claude-credited CVEs surfaced today. Coverage of the Firefox 150/MFSA 2026-30 headline (271 fixes / 41 CVE entries / 3 explicitly Claude-credited) continues \u2014 no follow-on participant disclosure detected in the last 24h. AISLE blog notes 5 of 7 OpenSSL April 2026 vulnerabilities were AI-uncovered (consistent with prior-run intel; no fresh credit string changes)."
     },
     "ms_patch_tuesday": {
       "latest_month": "2026-04",
       "count": 163,
-      "source": "config.json baseline (Patch Tuesday 2026-04-08); next Patch Tuesday 2026-05-13"
+      "source": "Tenable blog, April 2026 Patch Tuesday roundup",
+      "note": "Microsoft-only count; non-Microsoft (Chromium/Edge) brings totals to 243-247 depending on counting methodology. We use the Microsoft-only convention to match prior months."
     },
     "rhel8_errata": {
       "latest_month": "2026-04",
-      "count_estimated": 23,
-      "source": "stack.watch/product/redhat/enterprise-linux (2026-04-18 reading); no fresh scrape this run"
+      "count": 17,
+      "ytd_2026": 115,
+      "source": "stack.watch/product/redhat/enterprise-linux/ YTD vuln-by-year table; 2026 column = 115 (rendered 2026-04-25)",
+      "note": "Q1 2026 = 98, April delta = 17. April pacing below the 23-25/month Q1 average \u2014 partial month, will likely close higher."
     },
     "weekly_cve": {
       "2026-W14_Mar30_Apr05": 1304,
       "2026-W15_Apr06_Apr12": 1615,
       "2026-W16_Apr13_Apr19": 1178,
-      "2026-W17_Apr20_Apr26_partial": 1287
+      "2026-W17_Apr20_Apr26_partial": 1353
     }
   },
   "exploit_intelligence": {
-    "watch_list_status_summary": "No new public-exploit escalations detected for the 14 watch-list CVEs since the 2026-04-22T03:10Z full scan. Previously-known states: 2 weaponized (CVE-2026-33825 Defender, CVE-2026-39987 Marimo \u2014 both now KEV-confirmed), several 'poc' (Thymeleaf cluster CVE-2026-40477/40478; Cisco ISE cluster disclosed with researcher PoCs), remainder 'none'. This run did not re-run full ExploitDB/Metasploit/GitHub-PoC sweeps; targeted Google News check for watch-list CVEs returned no new PoC publications.",
+    "watch_list_status_summary": "14 watch-list CVEs total. Maturity breakdown: 5 weaponized (CVE-2026-39987, -33825, -32201, -34197, -34621), 1 functional (CVE-2026-21858 n8n), 2 PoC (CVE-2026-40477, -40478 Thymeleaf), 6 none (wolfSSL pair + Cisco quartet). 5 of 14 (36%) have public exploit code or weaponized status.",
     "newly_escalated": [],
-    "full_rescan_deferred_reason": "Previous full scan ran ~36h ago (2026-04-22T03:10Z). Refresh cadence for exploit-intelligence scans is every 48-72h unless an escalation signal appears. Next scheduled full sweep: next refresh run (2026-04-25)."
+    "new_observations": [
+      "CVE-2026-32201 (SharePoint): explicit GitHub PoC repo identified (B1tBit/CVE-2026-32201-exploit). Status was already 'weaponized' via KEV but PoC repo presence is now documented.",
+      "CVE-2026-34197 (ActiveMQ): DEVSECURITYSPRO/CVE-2026-34197 PoC repo confirmed; Shadowserver counts 6,364 vulnerable instances exposed on the internet as of 2026-04-19."
+    ],
+    "summary": "5 of 14 watch list CVEs have public exploits or weaponized status. 0 newly escalated since prior run."
   },
   "mythos_monitoring": {
     "google_news_hits": [
       {
-        "headline": "Claude Mythos Finds 271 Firefox Vulnerabilities",
-        "source": "SecurityWeek",
-        "date": "2026-04 (ongoing coverage)",
+        "headline": "Mozilla fixes 271 Firefox vulnerabilities found by Anthropic's Claude Mythos in a single evaluation pass",
+        "source": "TheNextWeb / The Register / SecurityWeek / Help Net Security (multiple, 2026-04-21/22)",
+        "date": "2026-04-21",
         "cves": [
-          "CVE-2026-6746",
-          "CVE-2026-6757",
-          "CVE-2026-6758"
+          "MFSA 2026-30 (41 CVE entries; 3 Claude-credited per advisory)"
         ],
         "products": [
-          "Mozilla Firefox"
-        ],
-        "note": "Previously tracked; no new data"
+          "Firefox 150"
+        ]
       },
       {
-        "headline": "Mythos Mystery in Mozilla Numbers: How 22 Vulns Became 271 or Maybe 3",
-        "source": "flyingpenguin.com",
-        "date": "2026-04",
+        "headline": "Hackers breach Anthropic's 'too dangerous to release' Mythos AI model",
+        "source": "Euronews / Fortune / Bloomberg",
+        "date": "2026-04-22",
         "cves": [],
         "products": [
-          "Mozilla Firefox"
+          "Mythos Preview access (third-party contractor)"
         ],
-        "note": "Independent scrutiny of 271 vs 3-CVE gap. Supports the existing 'headline number overstates severity' framing."
+        "note": "Mythos Preview leak via shared-account / API-key abuse at a third-party contractor. No CVEs implicated yet but creates an exploit-pressure asymmetry \u2014 leaked-access actors can scan, defenders cannot."
       },
       {
-        "headline": "Project Glasswing: Anthropic AI Uncovers Thousands of Unpatched Vulnerabilities in AWS, Apple, and Cisco",
-        "source": "securityarsenal.com",
-        "date": "2026-04",
-        "cves": [],
-        "products": [
-          "AWS",
-          "Apple",
-          "Cisco"
+        "headline": "AISLE Uncovered 5 of 7 OpenSSL Vulnerabilities in the April 2026 Release",
+        "source": "aisle.com",
+        "date": "2026-04-22",
+        "cves": [
+          "CVE-2026-31790",
+          "CVE-2026-28386",
+          "CVE-2026-28387",
+          "CVE-2026-31789"
         ],
-        "note": "Restates the participant model; no new specific attributions."
+        "products": [
+          "OpenSSL 3.0/3.3/3.4/3.5/3.6"
+        ]
       }
     ],
     "vendor_advisory_flags": [
       {
-        "vendor": "Cisco",
-        "cve": "(cisco-sa-ise-rce-4fverepv)",
-        "product": "Identity Services Engine",
+        "vendor": "Palo Alto Networks",
+        "cve": "CVE-2026-0234",
+        "product": "Cortex XSOAR / XSIAM (Microsoft Teams Marketplace integration)",
+        "cvss": 9.2,
+        "cwe": "CWE-347-ish (improper verification of cryptographic signature)",
         "meets_self_scan_criteria": true,
-        "notes": "Cisco ISE RCE cluster already tracked (CVE-2026-20180/20186/20147). No new CVEs this run \u2014 advisory page confirms existing cluster."
+        "notes": "Palo Alto Networks is a Glasswing participant. CVE is HTTP-adjacent (Teams marketplace integration uses webhook/REST). No third-party researcher credit in the public disclosure. Bug pattern (signature verification) matches the automated-scan signal. CANDIDATE for analyst review and probable-participant table."
       },
       {
         "vendor": "Cisco",
-        "cve": "(cisco-sa-voice-rce-mORhqY4b)",
-        "product": "Unified Communications Products",
+        "cve": "CVE-2026-20133",
+        "product": "Cisco Catalyst SD-WAN Manager",
+        "cvss": null,
+        "cwe": "CWE-200 (Information Exposure)",
         "meets_self_scan_criteria": true,
-        "notes": "New advisory surfaced in search results; HTTP/SIP-parsing adjacent RCE in Cisco UCM. Third-party researcher credit not yet parsed. Candidate for analyst review \u2014 fits self-scan profile if internally credited."
-      },
-      {
-        "vendor": "Cisco",
-        "cve": "(cisco-sa-snmp-x4LPhte)",
-        "product": "IOS / IOS XE",
-        "meets_self_scan_criteria": false,
-        "notes": "SNMP DoS/RCE \u2014 network management plane, not HTTP-parsing. Outside thesis scope but noted for completeness."
-      },
-      {
-        "vendor": "Cisco",
-        "cve": "(cisco-sa-ise-xxe-jWSbSDKt)",
-        "product": "Identity Services Engine",
-        "meets_self_scan_criteria": true,
-        "notes": "ISE XML External Entity information disclosure \u2014 XXE is HTTP-parsing adjacent and matches the 'automated-scan bug pattern' profile. Candidate for analyst review."
-      },
-      {
-        "vendor": "Cisco Talos",
-        "cve": "(FIRESTARTER backdoor / ED 25-03)",
-        "product": "ASA / FTD / FXOS",
-        "meets_self_scan_criteria": false,
-        "notes": "Active exploitation disclosure from 2026-04-23 \u2014 persistence mechanism surviving Sept 2025 patch. Joint Cisco + NCSC + CISA emergency directive. Not a Glasswing self-scan (exploitation-driven), but significant KEV/emergency context for the next run."
+        "notes": "Already on watch-list / probable-participant tracking. Confirmed active exploitation per Cisco PSIRT 2026-04. KEV-listed. Cisco is a Glasswing participant."
       }
     ],
-    "new_participant_products": [],
-    "counter_argument": "Cisco advisory candidates are suggestive but not conclusive \u2014 Cisco has a large PSIRT pipeline and routinely finds internal bugs without AI assistance. The self-scan pattern is diagnostic, not probative."
+    "new_participant_products": []
   },
   "np_di_candidates": [
     {
-      "cve": "pending-ucm",
-      "source": "cisco_advisory",
-      "product": "Cisco Unified Communications Products (cisco-sa-voice-rce-mORhqY4b)",
+      "cve": "CVE-2026-39920",
+      "source": "nvd",
+      "product": "BridgeHead FileStore (Apache Axis2 admin console)",
       "ecosystem": null,
       "cvss": null,
-      "cwe": "pending",
-      "np_component": "SIP/HTTP management plane",
-      "di_type": "command_injection_candidate",
+      "cwe": "CWE-1188 / CWE-1391",
+      "np_component": "Apache Axis2 admin console exposed on network",
+      "di_type": "default_credentials_or_insecure_default",
       "already_on_watchlist": false,
       "recommendation": "monitor",
-      "rationale": "Advisory URL surfaced; needs analyst to pull CVE IDs and CVSS. HTTP/SIP-parsing RCE matches NP+DI profile."
+      "rationale": "Niche healthcare product (BridgeHead) \u2014 not a tier-1 web stack. CWE-1188/1391 are 'insecure default' adjacencies, not strict DI. Watch for exploitation evidence before adding to main watch list."
     },
     {
-      "cve": "pending-ise-xxe",
-      "source": "cisco_advisory",
-      "product": "Cisco ISE XML External Entity (cisco-sa-ise-xxe-jWSbSDKt)",
+      "cve": "CVE-2026-0234",
+      "source": "vendor_advisory",
+      "product": "Palo Alto Cortex XSOAR / XSIAM Microsoft Teams Marketplace integration",
       "ecosystem": null,
-      "cvss": null,
-      "cwe": "CWE-611",
-      "np_component": "HTTP XML parser",
-      "di_type": "xxe",
+      "cvss": 9.2,
+      "cwe": "CWE-347 (Improper Verification of Cryptographic Signature)",
+      "np_component": "Microsoft Teams marketplace HTTP callback / webhook",
+      "di_type": "auth_bypass_via_signature",
       "already_on_watchlist": false,
       "recommendation": "add_to_watchlist",
-      "rationale": "XXE in ISE admin console HTTP parser \u2014 textbook NP+DI (CWE-611 is on the DI list). Cisco is a Glasswing participant. Analyst should pull the CVE ID and add to server watch list."
-    },
-    {
-      "cve": "FIRESTARTER (cluster)",
-      "source": "cisa_emergency_directive",
-      "product": "Cisco ASA / FTD / FXOS",
-      "ecosystem": null,
-      "cvss": null,
-      "cwe": "pending",
-      "np_component": "firewall management plane",
-      "di_type": "persistence_backdoor",
-      "already_on_watchlist": false,
-      "recommendation": "monitor",
-      "rationale": "CISA Emergency Directive ED 25-03 published with NCSC/Cisco 2026-04-23. Exploitation-driven event, not a Glasswing self-scan candidate. Will likely appear in KEV imminently."
+      "rationale": "Strong fit: Glasswing participant vendor (Palo Alto), HTTP-adjacent integration, no third-party researcher credit, CWE-347 within widened-DI definition (auth bypass via input manipulation), and CVSS 9.2. Probable participant self-scan."
     }
   ],
   "projection_comparison": {
     "current_month": "2026-04",
-    "actual_or_extrapolated": 6214,
-    "conservative_predicted": 6304,
-    "aggressive_predicted": 8304,
-    "verdict": "on_track_conservative",
-    "note": "Extrapolated April ~6214 \u2248 March 6304 \u2248 conservative line (no Mythos-driven step function visible yet). Aggressive scenario (+2-5k/mo) not supported by April data."
+    "actual_or_extrapolated": 6044,
+    "conservative_predicted": 6214,
+    "aggressive_predicted": 6214,
+    "verdict": "below_conservative",
+    "note": "Both conservative and aggressive scenarios used 6214 as the April anchor at run-start. Today's extrapolation (6044) lands ~3% below the conservative anchor \u2014 within MTD noise, and re-anchored to 6044 in this run. Counter-argument: NVD publication lag means actual April content may grow over the next 4-8 weeks; the extrapolation is a lower bound."
   },
-  "changes_pushed": true,
-  "commit_sha": "c65289c",
+  "changes_pushed": false,
+  "commit_sha": null,
   "errors": [],
   "next_run_hints": [
-    "Pull CVE IDs for cisco-sa-ise-xxe-jWSbSDKt and cisco-sa-voice-rce-mORhqY4b to evaluate for watch-list addition.",
-    "Monitor for FIRESTARTER-related CVE assignment and KEV promotion.",
-    "Re-run full ExploitDB/Metasploit/GitHub-PoC sweep (last full scan 2026-04-22T03:10Z, due 2026-04-25).",
-    "Refetch RHEL 8 errata from stack.watch (last scrape 2026-04-18)."
+    "Pull CVE IDs for cisco-sa-ise-xxe-jWSbSDKt and cisco-sa-voice-rce-mORhqY4b for watch-list addition (still open).",
+    "Evaluate CVE-2026-0234 (Palo Alto) for probable_participant_cves \u2014 analyst should rule on credit attribution.",
+    "Re-run full ExploitDB/Metasploit/GitHub-PoC sweep across all watch-list CVEs (last full scan 2026-04-25T04:05Z, due 2026-04-28).",
+    "Watch for Mythos-Preview-leak fallout: if leaked access spawns ITW exploitation against participant products with no public CVE, that creates a reverse-attribution problem for the probable-participant table."
   ]
 }
