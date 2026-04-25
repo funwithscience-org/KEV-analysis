@@ -24,7 +24,11 @@ With the widened DI (CWE-345 and CWE-863 are in the auth bypass DI set), this ev
 
 And yes, this means JWT libraries in other ecosystems should also be NP: `jjwt` (Java), `jose`/`jsonwebtoken` (Node), `python-jose` (Python). The rule is about what the package *does* (parse untrusted network input), not what ecosystem it's in.
 
-**What needs fixing:** The NP classification rule should be documented explicitly somewhere — it's currently implicit in the manifest annotations and in our heads. A one-paragraph definition in the periodicity page methodology section would make audits much easier.
+**Correction (from current-session feedback):** The 14 → 5 vs 14 → 6 gap is NOT about pyjwt — pyjwt is already `is_np: true` in the cache and both sessions agree on that. The actual gap is about **`cryptography`** (the Python cryptography package). It has `is_np: false` in the cache, but its CVE (`CVE-2026-r6ph-v2qm-q3c2`, CWE-345 signature verification) is DI under the widened definition. If `cryptography` is NP under the auth-chain rule — and it should be, because signature verification on untrusted certificates is exactly "processing untrusted input that drives a security decision" — then that's the 6th NP+DI event.
+
+This means the NP classification needs a slight expansion: **auth-boundary cryptographic libraries** (Python `cryptography`, Java `bouncycastle`, etc.) should be NP when they're making verification decisions on untrusted input. Same logic as spring-security and pyjwt — the package sits on the trust boundary. The cached `is_np` flag for `cryptography` should be `true`.
+
+**What needs fixing:** Two things. (1) Update the `cryptography` package to `is_np: true` in the Django manifest/cache. (2) The NP classification rule should be documented explicitly — it's currently implicit in the manifest annotations and in our heads. A one-paragraph definition in the periodicity page methodology section would make audits much easier. The rule should explicitly include "auth-boundary crypto libraries that verify untrusted signatures/certificates/tokens."
 
 ---
 
@@ -181,8 +185,8 @@ The refresh agent reads config.json, fetches fresh NVD/KEV data, updates the bas
 
 | Q | Topic | Answer | Action Item |
 |---|---|---|---|
-| 1a | pyjwt NP classification | Yes, pyjwt is NP (package-level) | Check which cache you're reading; the original has `is_np: true` |
-| 1b | NP classification rule | "Processes untrusted network input or drives security decisions" | Document explicitly in periodicity methodology section |
+| 1a | pyjwt NP classification | Yes, pyjwt is NP (package-level) — but the 6th event gap is actually about `cryptography`, not pyjwt | Update `cryptography` to `is_np: true` in Django cache |
+| 1b | NP classification rule | "Processes untrusted network input or drives security decisions" — includes auth-boundary crypto libs | Document explicitly in periodicity methodology section |
 | 2 | Netty manifest | ~6-7 Netty packages, no cached data | Define formally, query OSV, cache, verify 3→1 |
 | 3a | Quarter alignment | Calendar quarters confirmed | Document in generator/comment |
 | 3b | Dedup rule | Per-CVE (raw count), not deduped to dates | Document; note difference from summary table's "patch events" |
