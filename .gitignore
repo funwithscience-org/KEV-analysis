@@ -5,3 +5,4 @@
 # Python
 __pycache__/
 *.pyc
+data/_nvd-cwe-cache/

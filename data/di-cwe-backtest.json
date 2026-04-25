@@ -1,0 +1,350 @@
+{
+  "generated_at": "2026-04-25T15:07:42Z",
+  "scope": "C/H severity, published 2022+, exploitation = KEV \u222a MSF \u222a EDB",
+  "di_cwes": [
+    {
+      "cwe": 917,
+      "total_ch_2022plus": 18,
+      "exploited": 3,
+      "rate_pct": 16.67,
+      "in_kev": 3,
+      "in_metasploit": 3,
+      "in_exploitdb": 3
+    },
+    {
+      "cwe": 91,
+      "total_ch_2022plus": 13,
+      "exploited": 2,
+      "rate_pct": 15.38,
+      "in_kev": 0,
+      "in_metasploit": 2,
+      "in_exploitdb": 1
+    },
+    {
+      "cwe": 444,
+      "total_ch_2022plus": 34,
+      "exploited": 3,
+      "rate_pct": 8.82,
+      "in_kev": 3,
+      "in_metasploit": 0,
+      "in_exploitdb": 1
+    },
+    {
+      "cwe": 94,
+      "total_ch_2022plus": 566,
+      "exploited": 37,
+      "rate_pct": 6.54,
+      "in_kev": 18,
+      "in_metasploit": 24,
+      "in_exploitdb": 14
+    },
+    {
+      "cwe": 306,
+      "total_ch_2022plus": 442,
+      "exploited": 23,
+      "rate_pct": 5.2,
+      "in_kev": 18,
+      "in_metasploit": 12,
+      "in_exploitdb": 8
+    },
+    {
+      "cwe": 287,
+      "total_ch_2022plus": 492,
+      "exploited": 24,
+      "rate_pct": 4.88,
+      "in_kev": 8,
+      "in_metasploit": 13,
+      "in_exploitdb": 8
+    },
+    {
+      "cwe": 22,
+      "total_ch_2022plus": 1245,
+      "exploited": 59,
+      "rate_pct": 4.74,
+      "in_kev": 22,
+      "in_metasploit": 26,
+      "in_exploitdb": 24
+    },
+    {
+      "cwe": 78,
+      "total_ch_2022plus": 1437,
+      "exploited": 65,
+      "rate_pct": 4.52,
+      "in_kev": 29,
+      "in_metasploit": 27,
+      "in_exploitdb": 30
+    },
+    {
+      "cwe": 116,
+      "total_ch_2022plus": 68,
+      "exploited": 3,
+      "rate_pct": 4.41,
+      "in_kev": 1,
+      "in_metasploit": 2,
+      "in_exploitdb": 2
+    },
+    {
+      "cwe": 77,
+      "total_ch_2022plus": 887,
+      "exploited": 34,
+      "rate_pct": 3.83,
+      "in_kev": 11,
+      "in_metasploit": 22,
+      "in_exploitdb": 12
+    },
+    {
+      "cwe": 863,
+      "total_ch_2022plus": 385,
+      "exploited": 12,
+      "rate_pct": 3.12,
+      "in_kev": 5,
+      "in_metasploit": 6,
+      "in_exploitdb": 5
+    },
+    {
+      "cwe": 918,
+      "total_ch_2022plus": 390,
+      "exploited": 9,
+      "rate_pct": 2.31,
+      "in_kev": 2,
+      "in_metasploit": 6,
+      "in_exploitdb": 3
+    },
+    {
+      "cwe": 345,
+      "total_ch_2022plus": 90,
+      "exploited": 2,
+      "rate_pct": 2.22,
+      "in_kev": 2,
+      "in_metasploit": 1,
+      "in_exploitdb": 0
+    },
+    {
+      "cwe": 611,
+      "total_ch_2022plus": 162,
+      "exploited": 3,
+      "rate_pct": 1.85,
+      "in_kev": 1,
+      "in_metasploit": 1,
+      "in_exploitdb": 1
+    },
+    {
+      "cwe": 89,
+      "total_ch_2022plus": 4276,
+      "exploited": 66,
+      "rate_pct": 1.54,
+      "in_kev": 6,
+      "in_metasploit": 12,
+      "in_exploitdb": 53
+    },
+    {
+      "cwe": 74,
+      "total_ch_2022plus": 451,
+      "exploited": 6,
+      "rate_pct": 1.33,
+      "in_kev": 3,
+      "in_metasploit": 5,
+      "in_exploitdb": 1
+    },
+    {
+      "cwe": 1321,
+      "total_ch_2022plus": 137,
+      "exploited": 1,
+      "rate_pct": 0.73,
+      "in_kev": 0,
+      "in_metasploit": 1,
+      "in_exploitdb": 0
+    },
+    {
+      "cwe": 95,
+      "total_ch_2022plus": 14,
+      "exploited": 0,
+      "rate_pct": 0.0,
+      "in_kev": 0,
+      "in_metasploit": 0,
+      "in_exploitdb": 0
+    },
+    {
+      "cwe": 1336,
+      "total_ch_2022plus": 30,
+      "exploited": 0,
+      "rate_pct": 0.0,
+      "in_kev": 0,
+      "in_metasploit": 0,
+      "in_exploitdb": 0
+    },
+    {
+      "cwe": 90,
+      "total_ch_2022plus": 8,
+      "exploited": 0,
+      "rate_pct": 0.0,
+      "in_kev": 0,
+      "in_metasploit": 0,
+      "in_exploitdb": 0
+    },
+    {
+      "cwe": 776,
+      "total_ch_2022plus": 12,
+      "exploited": 0,
+      "rate_pct": 0.0,
+      "in_kev": 0,
+      "in_metasploit": 0,
+      "in_exploitdb": 0
+    },
+    {
+      "cwe": 113,
+      "total_ch_2022plus": 1,
+      "exploited": 0,
+      "rate_pct": 0.0,
+      "in_kev": 0,
+      "in_metasploit": 0,
+      "in_exploitdb": 0
+    },
+    {
+      "cwe": 23,
+      "total_ch_2022plus": 18,
+      "exploited": 0,
+      "rate_pct": 0.0,
+      "in_kev": 0,
+      "in_metasploit": 0,
+      "in_exploitdb": 0
+    },
+    {
+      "cwe": 36,
+      "total_ch_2022plus": 6,
+      "exploited": 0,
+      "rate_pct": 0.0,
+      "in_kev": 0,
+      "in_metasploit": 0,
+      "in_exploitdb": 0
+    },
+    {
+      "cwe": 98,
+      "total_ch_2022plus": 47,
+      "exploited": 0,
+      "rate_pct": 0.0,
+      "in_kev": 0,
+      "in_metasploit": 0,
+      "in_exploitdb": 0
+    },
+    {
+      "cwe": 93,
+      "total_ch_2022plus": 10,
+      "exploited": 0,
+      "rate_pct": 0.0,
+      "in_kev": 0,
+      "in_metasploit": 0,
+      "in_exploitdb": 0
+    },
+    {
+      "cwe": 96,
+      "total_ch_2022plus": 1,
+      "exploited": 0,
+      "rate_pct": 0.0,
+      "in_kev": 0,
+      "in_metasploit": 0,
+      "in_exploitdb": 0
+    },
+    {
+      "cwe": 97,
+      "total_ch_2022plus": 1,
+      "exploited": 0,
+      "rate_pct": 0.0,
+      "in_kev": 0,
+      "in_metasploit": 0,
+      "in_exploitdb": 0
+    },
+    {
+      "cwe": 1236,
+      "total_ch_2022plus": 49,
+      "exploited": 0,
+      "rate_pct": 0.0,
+      "in_kev": 0,
+      "in_metasploit": 0,
+      "in_exploitdb": 0
+    },
+    {
+      "cwe": 289,
+      "total_ch_2022plus": 2,
+      "exploited": 0,
+      "rate_pct": 0.0,
+      "in_kev": 0,
+      "in_metasploit": 0,
+      "in_exploitdb": 0
+    },
+    {
+      "cwe": 693,
+      "total_ch_2022plus": 15,
+      "exploited": 0,
+      "rate_pct": 0.0,
+      "in_kev": 0,
+      "in_metasploit": 0,
+      "in_exploitdb": 0
+    }
+  ],
+  "control_cwes": [
+    {
+      "cwe": 502,
+      "total_ch_2022plus": 511,
+      "exploited": 22,
+      "rate_pct": 4.31,
+      "in_kev": 14,
+      "in_metasploit": 14,
+      "in_exploitdb": 6
+    },
+    {
+      "cwe": 434,
+      "total_ch_2022plus": 1014,
+      "exploited": 42,
+      "rate_pct": 4.14,
+      "in_kev": 3,
+      "in_metasploit": 16,
+      "in_exploitdb": 26
+    },
+    {
+      "cwe": 269,
+      "total_ch_2022plus": 263,
+      "exploited": 6,
+      "rate_pct": 2.28,
+      "in_kev": 0,
+      "in_metasploit": 4,
+      "in_exploitdb": 5
+    },
+    {
+      "cwe": 79,
+      "total_ch_2022plus": 1006,
+      "exploited": 12,
+      "rate_pct": 1.19,
+      "in_kev": 3,
+      "in_metasploit": 1,
+      "in_exploitdb": 9
+    },
+    {
+      "cwe": 787,
+      "total_ch_2022plus": 4771,
+      "exploited": 56,
+      "rate_pct": 1.17,
+      "in_kev": 44,
+      "in_metasploit": 11,
+      "in_exploitdb": 10
+    },
+    {
+      "cwe": 20,
+      "total_ch_2022plus": 521,
+      "exploited": 6,
+      "rate_pct": 1.15,
+      "in_kev": 3,
+      "in_metasploit": 4,
+      "in_exploitdb": 0
+    },
+    {
+      "cwe": 200,
+      "total_ch_2022plus": 92,
+      "exploited": 0,
+      "rate_pct": 0.0,
+      "in_kev": 0,
+      "in_metasploit": 0,
+      "in_exploitdb": 0
+    }
+  ]
+}
