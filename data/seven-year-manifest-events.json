@@ -1,60 +1,58 @@
 {
-  "generated_at": "2026-04-25T07:02:27Z",
-  "description": "Seven-year backtest of the NP+DI filter against the enterprise Spring Boot manifest (54 packages including the script's 48 + log4j-core, log4j-api, xstream, and the activemq trio for fidelity with the doc's broader manifest). All Critical/High vulnerabilities published 2018-01 through 2026-06 are recorded with their CWE classification, NP+DI classifier output, and CISA KEV outcome flag. Deduped by CVE.",
+  "generated_at": "2026-04-25T07:09:16Z",
+  "description": "Seven-year backtest of the NP+DI filter against the enterprise Spring Boot manifest (54 Maven packages: 48 from spring_manifest_analysis.py + 6 added for parity with the doc's broader manifest -- log4j-{core,api}, xstream, activemq-{core,broker,client}). All Critical/High vulns published 2018-01 to 2026-06, deduped by CVE. The 'exploited' flag is the union of CISA KEV, Metasploit module presence, and ExploitDB entry -- KEV alone undercounts library exploitation per the project's framing.",
   "methodology": {
-    "scope": "Spring Boot enterprise manifest, 54 Maven packages",
-    "time_window": "2018-01-01 through 2026-06-30 (CVE published date)",
-    "severity_filter": "OSV database_specific.severity == CRITICAL or HIGH",
-    "np_filter": "CWE present in PARSING_CWES set (29 CWEs)",
-    "di_filter": "CWE present in DI_CWES set (32 CWEs)",
-    "outcome_source": "CISA KEV catalog (data/kev-snapshot-2026-04-23.json)",
-    "note_on_kev_only": "in_kev tracks ONLY CISA KEV. The companion periodicity page also considers Metasploit/ExploitDB exploitation evidence (e.g. CVE-2019-0232 Tomcat CGI is in this dataset, classifier says NP+DI, but is exploited per Metasploit, not yet in CISA KEV).",
-    "manifest_source": "analysis-scripts/spring_manifest_analysis.py (48 pkgs) + 6 added to align with the doc's 7-year backtest finding 8 in-scope exploited CVEs (log4j-core, log4j-api, xstream, activemq-{core,broker,client})"
+    "scope": "54 Maven packages",
+    "time_window": "2018-01-01 through 2026-06-30",
+    "severity": "OSV CRITICAL or HIGH",
+    "np_filter": "CWE in PARSING_CWES (29 CWEs from osv_cwe_analysis.py)",
+    "di_filter": "CWE in DI_CWES (32 CWEs)",
+    "exploitation_sources": {
+      "in_kev": "data/kev-snapshot-2026-04-23.json",
+      "in_metasploit": "data/_metasploit-cves.json (rapid7/metasploit-framework modules_metadata_base.json, ~3,108 CVEs)",
+      "in_exploitdb": "data/_exploitdb-cves.json (gitlab.com/exploit-database files_exploits.csv, ~24,941 CVEs)"
+    },
+    "exploited_definition": "in_kev OR in_metasploit OR in_exploitdb"
   },
   "input_sources": {
-    "manifest_cache": "data/_manifest-osv-cache.json",
-    "manifest_cache_sha256_16": "5cc4558f8fb9cd54",
-    "kev_snapshot": "data/kev-snapshot-2026-04-23.json",
-    "kev_snapshot_sha256_16": "5e09ac07972f5339"
+    "manifest_cache_sha256_16": "5cc4558f8fb9cd54"
   },
   "summary": {
     "total_ch_events": 208,
     "npdi_events": 47,
-    "kev_events_total": 11,
-    "kev_npdi_events": 4,
-    "kev_npdi_missed_events": 7,
-    "by_package_count": {
-      "com.fasterxml.jackson.core:jackson-databind": 67,
-      "org.apache.tomcat.embed:tomcat-embed-core": 35,
-      "com.thoughtworks.xstream:xstream": 24,
-      "org.springframework.security:spring-security-core": 15,
-      "org.springframework:spring-webmvc": 8,
-      "org.apache.activemq:activemq-client": 8,
-      "org.springframework:spring-core": 8,
-      "org.postgresql:postgresql": 6,
-      "org.apache.logging.log4j:log4j-core": 5,
-      "org.springframework:spring-web": 5,
-      "org.apache.activemq:activemq-broker": 4,
-      "org.springframework.security:spring-security-web": 4,
-      "ch.qos.logback:logback-core": 3,
-      "org.yaml:snakeyaml": 3,
-      "org.springframework:spring-beans": 2,
-      "org.thymeleaf:thymeleaf": 2,
-      "org.thymeleaf:thymeleaf-spring6": 2,
-      "org.springframework.boot:spring-boot": 2,
-      "ch.qos.logback:logback-classic": 2,
-      "org.springframework.security:spring-security-config": 2,
-      "org.springframework.amqp:spring-amqp": 2,
-      "org.apache.commons:commons-collections4": 2,
-      "com.fasterxml.jackson.core:jackson-core": 1,
-      "org.apache.httpcomponents.client5:httpclient5": 1,
-      "commons-io:commons-io": 1,
-      "org.springframework.boot:spring-boot-autoconfigure": 1,
-      "org.apache.commons:commons-text": 1,
-      "org.springframework:spring-context": 1
-    }
+    "exploited_total": 15,
+    "exploited_npdi": 7,
+    "exploited_missed_by_npdi": 8,
+    "in_kev_only": 11,
+    "in_metasploit_only": 12,
+    "in_exploitdb_only": 9
   },
   "events": [
+    {
+      "cve": "CVE-2022-42889",
+      "osv_id": "GHSA-599f-7c49-w659",
+      "packages": [
+        "org.apache.commons:commons-text"
+      ],
+      "package_roles": [
+        "OTHER"
+      ],
+      "cwes": [
+        "CWE-94"
+      ],
+      "cwe_nums": [
+        94
+      ],
+      "severity": "CRITICAL",
+      "published": "2022-10-13",
+      "summary": "Arbitrary code execution in Apache Commons Text",
+      "is_np": true,
+      "is_di": true,
+      "in_kev": false,
+      "in_metasploit": true,
+      "in_exploitdb": true,
+      "exploited": true
+    },
     {
       "cve": "CVE-2022-22965",
       "osv_id": "GHSA-36p3-wjmg-h94x",
@@ -79,7 +77,10 @@
       "summary": "Remote Code Execution in Spring Framework",
       "is_np": true,
       "is_di": true,
-      "in_kev": true
+      "in_kev": true,
+      "in_metasploit": true,
+      "in_exploitdb": false,
+      "exploited": true
     },
     {
       "cve": "CVE-2021-45046",
@@ -103,7 +104,10 @@
       "summary": "Incomplete fix for Apache Log4j vulnerability",
       "is_np": true,
       "is_di": true,
-      "in_kev": true
+      "in_kev": true,
+      "in_metasploit": true,
+      "in_exploitdb": false,
+      "exploited": true
     },
     {
       "cve": "CVE-2021-44228",
@@ -131,7 +135,10 @@
       "summary": "Remote code injection in Log4j",
       "is_np": true,
       "is_di": true,
-      "in_kev": true
+      "in_kev": true,
+      "in_metasploit": true,
+      "in_exploitdb": true,
+      "exploited": true
     },
     {
       "cve": "CVE-2021-39144",
@@ -157,7 +164,62 @@
       "summary": "XStream is vulnerable to a Remote Command Execution attack",
       "is_np": true,
       "is_di": true,
-      "in_kev": true
+      "in_kev": true,
+      "in_metasploit": true,
+      "in_exploitdb": false,
+      "exploited": true
+    },
+    {
+      "cve": "CVE-2013-7285",
+      "osv_id": "GHSA-f554-x222-wgf7",
+      "packages": [
+        "com.thoughtworks.xstream:xstream"
+      ],
+      "package_roles": [
+        "XML serialization (Spring uses for OXM)"
+      ],
+      "cwes": [
+        "CWE-77",
+        "CWE-78"
+      ],
+      "cwe_nums": [
+        77,
+        78
+      ],
+      "severity": "CRITICAL",
+      "published": "2019-05-29",
+      "summary": "Command Injection in Xstream",
+      "is_np": true,
+      "is_di": true,
+      "in_kev": false,
+      "in_metasploit": false,
+      "in_exploitdb": true,
+      "exploited": true
+    },
+    {
+      "cve": "CVE-2019-0232",
+      "osv_id": "GHSA-8vmx-qmch-mpqg",
+      "packages": [
+        "org.apache.tomcat.embed:tomcat-embed-core"
+      ],
+      "package_roles": [
+        "NP"
+      ],
+      "cwes": [
+        "CWE-78"
+      ],
+      "cwe_nums": [
+        78
+      ],
+      "severity": "HIGH",
+      "published": "2019-04-18",
+      "summary": "Apache Tomcat OS Command Injection vulnerability",
+      "is_np": true,
+      "is_di": true,
+      "in_kev": false,
+      "in_metasploit": true,
+      "in_exploitdb": true,
+      "exploited": true
     },
     {
       "cve": "CVE-2026-34197",
@@ -179,7 +241,10 @@
       "summary": "Authenticated Apache ActiveMQ Broker and Apache ActiveMQ users could perform RCE via Jolokia MBeans",
       "is_np": false,
       "is_di": false,
-      "in_kev": true
+      "in_kev": true,
+      "in_metasploit": false,
+      "in_exploitdb": false,
+      "exploited": true
     },
     {
       "cve": "CVE-2025-24813",
@@ -203,7 +268,10 @@
       "summary": "Apache Tomcat: Potential RCE and/or information disclosure and/or information corruption with partial PUT",
       "is_np": true,
       "is_di": false,
-      "in_kev": true
+      "in_kev": true,
+      "in_metasploit": true,
+      "in_exploitdb": true,
+      "exploited": true
     },
     {
       "cve": "CVE-2023-46604",
@@ -225,7 +293,37 @@
       "summary": "Apache ActiveMQ is vulnerable to Remote Code Execution",
       "is_np": true,
       "is_di": false,
-      "in_kev": true
+      "in_kev": true,
+      "in_metasploit": true,
+      "in_exploitdb": false,
+      "exploited": true
+    },
+    {
+      "cve": "CVE-2022-1471",
+      "osv_id": "GHSA-mjmj-j48q-9wg2",
+      "packages": [
+        "org.yaml:snakeyaml"
+      ],
+      "package_roles": [
+        "OTHER"
+      ],
+      "cwes": [
+        "CWE-20",
+        "CWE-502"
+      ],
+      "cwe_nums": [
+        20,
+        502
+      ],
+      "severity": "HIGH",
+      "published": "2022-12-12",
+      "summary": "SnakeYaml Constructor Deserialization Remote Code Execution",
+      "is_np": true,
+      "is_di": false,
+      "in_kev": false,
+      "in_metasploit": true,
+      "in_exploitdb": false,
+      "exploited": true
     },
     {
       "cve": "CVE-2016-3088",
@@ -249,7 +347,10 @@
       "summary": "Improper Input Validation in Apache ActiveMQ",
       "is_np": false,
       "is_di": true,
-      "in_kev": true
+      "in_kev": true,
+      "in_metasploit": true,
+      "in_exploitdb": true,
+      "exploited": true
     },
     {
       "cve": "CVE-2017-12617",
@@ -271,7 +372,10 @@
       "summary": "Unrestricted Upload of File with Dangerous Type Apache Tomcat",
       "is_np": false,
       "is_di": true,
-      "in_kev": true
+      "in_kev": true,
+      "in_metasploit": true,
+      "in_exploitdb": true,
+      "exploited": true
     },
     {
       "cve": "CVE-2020-1938",
@@ -293,7 +397,10 @@
       "summary": "Improper Privilege Management in Tomcat",
       "is_np": false,
       "is_di": false,
-      "in_kev": true
+      "in_kev": true,
+      "in_metasploit": true,
+      "in_exploitdb": true,
+      "exploited": true
     },
     {
       "cve": "CVE-2017-12615",
@@ -315,7 +422,10 @@
       "summary": "When running Apache Tomcat on Windows with HTTP PUTs enabled it was possible to upload a JSP file to the server",
       "is_np": false,
       "is_di": true,
-      "in_kev": true
+      "in_kev": true,
+      "in_metasploit": false,
+      "in_exploitdb": true,
+      "exploited": true
     },
     {
       "cve": "CVE-2026-40477",
@@ -340,7 +450,10 @@
       "summary": "Improper restriction of the scope of accessible objects in Thymeleaf expressions",
       "is_np": true,
       "is_di": true,
-      "in_kev": false
+      "in_kev": false,
+      "in_metasploit": false,
+      "in_exploitdb": false,
+      "exploited": false
     },
     {
       "cve": "CVE-2026-40478",
@@ -365,7 +478,10 @@
       "summary": "Improper neutralization of specific syntax patterns for unauthorized expressions in Thymeleaf",
       "is_np": true,
       "is_di": true,
-      "in_kev": false
+      "in_kev": false,
+      "in_metasploit": false,
+      "in_exploitdb": false,
+      "exploited": false
     },
     {
       "cve": "CVE-2026-39304",
@@ -389,7 +505,10 @@
       "summary": " Apache ActiveMQ: Denial of Service via Out of Memory vulnerability",
       "is_np": false,
       "is_di": false,
-      "in_kev": false
+      "in_kev": false,
+      "in_metasploit": false,
+      "in_exploitdb": false,
+      "exploited": false
     },
     {
       "cve": "CVE-2026-29129",
@@ -411,7 +530,10 @@
       "summary": "Apache Tomcat: Configured cipher preference order not preserved",
       "is_np": false,
       "is_di": false,
-      "in_kev": false
+      "in_kev": false,
+      "in_metasploit": false,
+      "in_exploitdb": false,
+      "exploited": false
     },
     {
       "cve": "CVE-2026-29145",
@@ -433,7 +555,10 @@
       "summary": "Apache Tomcat: CLIENT_CERT authentication does not fail as expected",
       "is_np": true,
       "is_di": true,
-      "in_kev": false
+      "in_kev": false,
+      "in_metasploit": false,
+      "in_exploitdb": false,
+      "exploited": false
     },
     {
       "cve": "CVE-2026-34483",
@@ -455,7 +580,10 @@
       "summary": "Apache Tomcat has an Improper Encoding or Escaping of Output vulnerability in the JsonAccessLogValve",
       "is_np": true,
       "is_di": true,
-      "in_kev": false
+      "in_kev": false,
+      "in_metasploit": false,
+      "in_exploitdb": false,
+      "exploited": false
     },
     {
       "cve": "CVE-2026-34487",
@@ -477,7 +605,10 @@
       "summary": "Apache Tomcat vulnerable to Insertion of Sensitive Information into Log File",
       "is_np": false,
       "is_di": false,
-      "in_kev": false
+      "in_kev": false,
+      "in_metasploit": false,
+      "in_exploitdb": false,
+      "exploited": false
     },
     {
       "cve": "CVE-2026-22732",
@@ -499,7 +630,10 @@
       "summary": "Spring Security HTTP Headers Are not Written Under Some Conditions",
       "is_np": false,
       "is_di": false,
-      "in_kev": false
+      "in_kev": false,
+      "in_metasploit": false,
+      "in_exploitdb": false,
+      "exploited": false
     },
     {
       "cve": "CVE-2026-24734",
@@ -521,7 +655,10 @@
       "summary": "Apache Tomcat has an Improper Input Validation vulnerability",
       "is_np": false,
       "is_di": false,
-      "in_kev": false
+      "in_kev": false,
+      "in_metasploit": false,
+      "in_exploitdb": false,
+      "exploited": false
     },
     {
       "cve": "CVE-2025-55752",
@@ -543,7 +680,10 @@
       "summary": "Apache Tomcat Vulnerable to Relative Path Traversal",
       "is_np": true,
       "is_di": true,
-      "in_kev": false
+      "in_kev": false,
+      "in_metasploit": false,
+      "in_exploitdb": false,
+      "exploited": false
     },
     {
       "cve": "CVE-2025-41248",
@@ -567,7 +707,10 @@
       "summary": "Spring Security annotation detection mechanism has authorization bypass",
       "is_np": false,
       "is_di": true,
-      "in_kev": false
+      "in_kev": false,
+      "in_metasploit": false,
+      "in_exploitdb": false,
+      "exploited": false
     },
     {
       "cve": "CVE-2025-41249",
@@ -591,7 +734,10 @@
       "summary": "Spring Framework annotation detection mechanism may result in improper authorization",
       "is_np": false,
       "is_di": true,
-      "in_kev": false
+      "in_kev": false,
+      "in_metasploit": false,
+      "in_exploitdb": false,
+      "exploited": false
     },
     {
       "cve": "CVE-2025-48989",
@@ -613,7 +759,10 @@
       "summary": "Apache Tomcat Improper Resource Shutdown or Release vulnerability",
       "is_np": false,
       "is_di": false,
-      "in_kev": false
+      "in_kev": false,
+      "in_metasploit": false,
+      "in_exploitdb": false,
+      "exploited": false
     },
     {
       "cve": "CVE-2025-53506",
@@ -635,7 +784,10 @@
       "summary": "Apache Tomcat Coyote vulnerable to Denial of Service via excessive HTTP/2 streams",
       "is_np": false,
       "is_di": false,
-      "in_kev": false
+      "in_kev": false,
+      "in_metasploit": false,
+      "in_exploitdb": false,
+      "exploited": false
     },
     {
       "cve": "CVE-2025-52520",
@@ -657,7 +809,10 @@
       "summary": "Apache Tomcat Catalina is vulnerable to DoS attack through bypassing of size limits",
       "is_np": false,
       "is_di": false,
-      "in_kev": false
+      "in_kev": false,
+      "in_metasploit": false,
+      "in_exploitdb": false,
+      "exploited": false
     },
     {
       "cve": "CVE-2025-52999",
@@ -679,7 +834,10 @@
       "summary": "jackson-core can throw a StackoverflowError when processing deeply nested data",
       "is_np": false,
       "is_di": false,
-      "in_kev": false
+      "in_kev": false,
+      "in_metasploit": false,
+      "in_exploitdb": false,
+      "exploited": false
     },
     {
       "cve": "CVE-2025-48988",
@@ -701,7 +859,10 @@
       "summary": "Apache Tomcat - DoS in multipart upload",
       "is_np": false,
       "is_di": false,
-      "in_kev": false
+      "in_kev": false,
+      "in_metasploit": false,
+      "in_exploitdb": false,
+      "exploited": false
     },
     {
       "cve": "CVE-2025-49146",
@@ -723,7 +884,10 @@
       "summary": "pgjdbc Client Allows Fallback to Insecure Authentication Despite channelBinding=require Configuration",
       "is_np": true,
       "is_di": true,
-      "in_kev": false
+      "in_kev": false,
+      "in_metasploit": false,
+      "in_exploitdb": false,
+      "exploited": false
     },
     {
       "cve": "CVE-2025-41232",
@@ -745,7 +909,10 @@
       "summary": "Spring Security authorization bypass for method security annotations on private methods",
       "is_np": false,
       "is_di": true,
-      "in_kev": false
+      "in_kev": false,
+      "in_metasploit": false,
+      "in_exploitdb": false,
+      "exploited": false
     },
     {
       "cve": "CVE-2025-22235",
@@ -769,7 +936,10 @@
       "summary": "Spring Boot EndpointRequest.to() creates wrong matcher if actuator endpoint is not exposed",
       "is_np": false,
       "is_di": false,
-      "in_kev": false
+      "in_kev": false,
+      "in_metasploit": false,
+      "in_exploitdb": false,
+      "exploited": false
     },
     {
       "cve": "CVE-2025-27820",
@@ -791,7 +961,10 @@
       "summary": "Apache HttpClient disables domain checks",
       "is_np": false,
       "is_di": false,
-      "in_kev": false
+      "in_kev": false,
+      "in_metasploit": false,
+      "in_exploitdb": false,
+      "exploited": false
     },
     {
       "cve": "CVE-2024-56337",
@@ -813,7 +986,10 @@
       "summary": "Apache Tomcat Time-of-check Time-of-use (TOCTOU) Race Condition vulnerability",
       "is_np": false,
       "is_di": false,
-      "in_kev": false
+      "in_kev": false,
+      "in_metasploit": false,
+      "in_exploitdb": false,
+      "exploited": false
     },
     {
       "cve": "CVE-2024-38819",
@@ -835,7 +1011,10 @@
       "summary": "Spring Framework Path Traversal vulnerability",
       "is_np": true,
       "is_di": true,
-      "in_kev": false
+      "in_kev": false,
+      "in_metasploit": false,
+      "in_exploitdb": false,
+      "exploited": false
     },
     {
       "cve": "CVE-2024-50379",
@@ -857,7 +1036,10 @@
       "summary": "Apache Tomcat Time-of-check Time-of-use (TOCTOU) Race Condition vulnerability",
       "is_np": false,
       "is_di": false,
-      "in_kev": false
+      "in_kev": false,
+      "in_metasploit": false,
+      "in_exploitdb": false,
+      "exploited": false
     },
     {
       "cve": "CVE-2024-47072",
@@ -881,7 +1063,10 @@
       "summary": "XStream is vulnerable to a Denial of Service attack due to stack overflow from a manipulated binary input stream",
       "is_np": true,
       "is_di": false,
-      "in_kev": false
+      "in_kev": false,
+      "in_metasploit": false,
+      "in_exploitdb": false,
+      "exploited": false
     },
     {
       "cve": "CVE-2024-38821",
@@ -905,7 +1090,10 @@
       "summary": "Spring Security vulnerable to Authorization Bypass of Static Resources in WebFlux Applications",
       "is_np": false,
       "is_di": false,
-      "in_kev": false
+      "in_kev": false,
+      "in_metasploit": false,
+      "in_exploitdb": false,
+      "exploited": false
     },
     {
       "cve": "CVE-2024-47554",
@@ -927,7 +1115,10 @@
       "summary": "Apache Commons IO: Possible denial of service attack on untrusted input to XmlStreamReader",
       "is_np": false,
       "is_di": false,
-      "in_kev": false
+      "in_kev": false,
+      "in_metasploit": false,
+      "in_exploitdb": false,
+      "exploited": false
     },
     {
       "cve": "CVE-2024-38816",
@@ -949,7 +1140,10 @@
       "summary": "Path traversal vulnerability in functional web frameworks",
       "is_np": true,
       "is_di": true,
-      "in_kev": false
+      "in_kev": false,
+      "in_metasploit": false,
+      "in_exploitdb": false,
+      "exploited": false
     },
     {
       "cve": "CVE-2024-34750",
@@ -973,7 +1167,10 @@
       "summary": "Apache Tomcat - Denial of Service",
       "is_np": false,
       "is_di": false,
-      "in_kev": false
+      "in_kev": false,
+      "in_metasploit": false,
+      "in_exploitdb": false,
+      "exploited": false
     },
     {
       "cve": "CVE-2024-22262",
@@ -995,7 +1192,10 @@
       "summary": "Spring Framework URL Parsing with Host Validation",
       "is_np": false,
       "is_di": false,
-      "in_kev": false
+      "in_kev": false,
+      "in_metasploit": false,
+      "in_exploitdb": false,
+      "exploited": false
     },
     {
       "cve": "CVE-2024-22257",
@@ -1019,7 +1219,10 @@
       "summary": "Erroneous authentication pass in Spring Security",
       "is_np": true,
       "is_di": true,
-      "in_kev": false
+      "in_kev": false,
+      "in_metasploit": false,
+      "in_exploitdb": false,
+      "exploited": false
     },
     {
       "cve": "CVE-2024-22259",
@@ -1041,7 +1244,10 @@
       "summary": "Spring Framework URL Parsing with Host Validation Vulnerability",
       "is_np": false,
       "is_di": false,
-      "in_kev": false
+      "in_kev": false,
+      "in_metasploit": false,
+      "in_exploitdb": false,
+      "exploited": false
     },
     {
       "cve": "CVE-2024-22243",
@@ -1063,7 +1269,10 @@
       "summary": "Spring Web vulnerable to Open Redirect or Server Side Request Forgery",
       "is_np": false,
       "is_di": false,
-      "in_kev": false
+      "in_kev": false,
+      "in_metasploit": false,
+      "in_exploitdb": false,
+      "exploited": false
     },
     {
       "cve": "CVE-2024-1597",
@@ -1085,7 +1294,10 @@
       "summary": "org.postgresql:postgresql vulnerable to SQL Injection via line comment generation",
       "is_np": true,
       "is_di": true,
-      "in_kev": false
+      "in_kev": false,
+      "in_metasploit": false,
+      "in_exploitdb": false,
+      "exploited": false
     },
     {
       "cve": "CVE-2024-22234",
@@ -1107,7 +1319,10 @@
       "summary": "Broken Access Control in Spring Security With Direct Use of isFullyAuthenticated",
       "is_np": false,
       "is_di": false,
-      "in_kev": false
+      "in_kev": false,
+      "in_metasploit": false,
+      "in_exploitdb": false,
+      "exploited": false
     },
     {
       "cve": "CVE-2024-22233",
@@ -1129,7 +1344,10 @@
       "summary": "Spring Framework server Web DoS Vulnerability",
       "is_np": false,
       "is_di": false,
-      "in_kev": false
+      "in_kev": false,
+      "in_metasploit": false,
+      "in_exploitdb": false,
+      "exploited": false
     },
     {
       "cve": "CVE-2023-6481",
@@ -1147,7 +1365,10 @@
       "summary": "Logback is vulnerable to an attacker mounting a Denial-Of-Service attack by sending poisoned data",
       "is_np": false,
       "is_di": false,
-      "in_kev": false
+      "in_kev": false,
+      "in_metasploit": false,
+      "in_exploitdb": false,
+      "exploited": false
     },
     {
       "cve": "CVE-2023-6378",
@@ -1170,7 +1391,10 @@
       "summary": "logback serialization vulnerability",
       "is_np": true,
       "is_di": false,
-      "in_kev": false
+      "in_kev": false,
+      "in_metasploit": false,
+      "in_exploitdb": false,
+      "exploited": false
     },
     {
       "cve": "CVE-2023-46589",
@@ -1194,7 +1418,10 @@
       "summary": "Apache Tomcat Improper Input Validation vulnerability",
       "is_np": true,
       "is_di": true,
-      "in_kev": false
+      "in_kev": false,
+      "in_metasploit": false,
+      "in_exploitdb": false,
+      "exploited": false
     },
     {
       "cve": "CVE-2023-34053",
@@ -1212,7 +1439,10 @@
       "summary": "Spring Framework vulnerable to denial of service",
       "is_np": false,
       "is_di": false,
-      "in_kev": false
+      "in_kev": false,
+      "in_metasploit": false,
+      "in_exploitdb": false,
+      "exploited": false
     },
     {
       "cve": "CVE-2023-34034",
@@ -1236,7 +1466,10 @@
       "summary": "Access Control Bypass in Spring Security",
       "is_np": false,
       "is_di": false,
-      "in_kev": false
+      "in_kev": false,
+      "in_metasploit": false,
+      "in_exploitdb": false,
+      "exploited": false
     },
     {
       "cve": "CVE-2023-34035",
@@ -1258,7 +1491,10 @@
       "summary": "Spring Security's authorization rules can be misconfigured when using multiple servlets",
       "is_np": false,
       "is_di": true,
-      "in_kev": false
+      "in_kev": false,
+      "in_metasploit": false,
+      "in_exploitdb": false,
+      "exploited": false
     },
     {
       "cve": "CVE-2023-28709",
@@ -1280,7 +1516,10 @@
       "summary": "Apache Tomcat - Fix for CVE-2023-24998 was incomplete",
       "is_np": false,
       "is_di": false,
-      "in_kev": false
+      "in_kev": false,
+      "in_metasploit": false,
+      "in_exploitdb": false,
+      "exploited": false
     },
     {
       "cve": "CVE-2023-34981",
@@ -1302,7 +1541,10 @@
       "summary": "Apache Tomcat vulnerable to information leak",
       "is_np": false,
       "is_di": false,
-      "in_kev": false
+      "in_kev": false,
+      "in_metasploit": false,
+      "in_exploitdb": false,
+      "exploited": false
     },
     {
       "cve": "CVE-2023-20883",
@@ -1324,7 +1566,10 @@
       "summary": "Spring Boot Welcome Page Denial of Service",
       "is_np": false,
       "is_di": false,
-      "in_kev": false
+      "in_kev": false,
+      "in_metasploit": false,
+      "in_exploitdb": false,
+      "exploited": false
     },
     {
       "cve": "CVE-2023-20860",
@@ -1342,7 +1587,10 @@
       "summary": "Spring Framework is vulnerable to security bypass via mvcRequestMatcher pattern mismatch",
       "is_np": false,
       "is_di": false,
-      "in_kev": false
+      "in_kev": false,
+      "in_metasploit": false,
+      "in_exploitdb": false,
+      "exploited": false
     },
     {
       "cve": "CVE-2021-46877",
@@ -1364,7 +1612,10 @@
       "summary": "jackson-databind possible Denial of Service if using JDK serialization to serialize JsonNode",
       "is_np": false,
       "is_di": false,
-      "in_kev": false
+      "in_kev": false,
+      "in_metasploit": false,
+      "in_exploitdb": false,
+      "exploited": false
     },
     {
       "cve": "CVE-2023-26464",
@@ -1388,7 +1639,10 @@
       "summary": "Apache Log4j 1.x (EOL) allows Denial of Service (DoS)",
       "is_np": true,
       "is_di": false,
-      "in_kev": false
+      "in_kev": false,
+      "in_metasploit": false,
+      "in_exploitdb": false,
+      "exploited": false
     },
     {
       "cve": "CVE-2023-24998",
@@ -1410,7 +1664,10 @@
       "summary": "Apache Commons FileUpload denial of service vulnerability",
       "is_np": false,
       "is_di": false,
-      "in_kev": false
+      "in_kev": false,
+      "in_metasploit": false,
+      "in_exploitdb": false,
+      "exploited": false
     },
     {
       "cve": "CVE-2022-45143",
@@ -1434,7 +1691,10 @@
       "summary": "Apache Tomcat improperly escapes input from JsonErrorReportValve",
       "is_np": true,
       "is_di": true,
-      "in_kev": false
+      "in_kev": false,
+      "in_metasploit": false,
+      "in_exploitdb": false,
+      "exploited": false
     },
     {
       "cve": "CVE-2022-40151",
@@ -1460,7 +1720,10 @@
       "summary": "XStream can cause a Denial of Service by injecting deeply nested objects raising a stack overflow",
       "is_np": true,
       "is_di": false,
-      "in_kev": false
+      "in_kev": false,
+      "in_metasploit": false,
+      "in_exploitdb": false,
+      "exploited": false
     },
     {
       "cve": "CVE-2022-41966",
@@ -1488,31 +1751,10 @@
       "summary": "XStream can cause Denial of Service via stack overflow",
       "is_np": true,
       "is_di": false,
-      "in_kev": false
-    },
-    {
-      "cve": "CVE-2022-1471",
-      "osv_id": "GHSA-mjmj-j48q-9wg2",
-      "packages": [
-        "org.yaml:snakeyaml"
-      ],
-      "package_roles": [
-        "OTHER"
-      ],
-      "cwes": [
-        "CWE-20",
-        "CWE-502"
-      ],
-      "cwe_nums": [
-        20,
-        502
-      ],
-      "severity": "HIGH",
-      "published": "2022-12-12",
-      "summary": "SnakeYaml Constructor Deserialization Remote Code Execution",
-      "is_np": true,
-      "is_di": false,
-      "in_kev": false
+      "in_kev": false,
+      "in_metasploit": false,
+      "in_exploitdb": false,
+      "exploited": false
     },
     {
       "cve": "CVE-2022-42252",
@@ -1536,7 +1778,10 @@
       "summary": "Apache Tomcat may reject request containing invalid Content-Length header",
       "is_np": true,
       "is_di": true,
-      "in_kev": false
+      "in_kev": false,
+      "in_metasploit": false,
+      "in_exploitdb": false,
+      "exploited": false
     },
     {
       "cve": "CVE-2022-31692",
@@ -1558,29 +1803,10 @@
       "summary": "Spring Security authorization rules can be bypassed via forward or include dispatcher types",
       "is_np": false,
       "is_di": true,
-      "in_kev": false
-    },
-    {
-      "cve": "CVE-2022-42889",
-      "osv_id": "GHSA-599f-7c49-w659",
-      "packages": [
-        "org.apache.commons:commons-text"
-      ],
-      "package_roles": [
-        "OTHER"
-      ],
-      "cwes": [
-        "CWE-94"
-      ],
-      "cwe_nums": [
-        94
-      ],
-      "severity": "CRITICAL",
-      "published": "2022-10-13",
-      "summary": "Arbitrary code execution in Apache Commons Text",
-      "is_np": true,
-      "is_di": true,
-      "in_kev": false
+      "in_kev": false,
+      "in_metasploit": false,
+      "in_exploitdb": false,
+      "exploited": false
     },
     {
       "cve": "CVE-2022-42003",
@@ -1604,7 +1830,10 @@
       "summary": "Uncontrolled Resource Consumption in Jackson-databind",
       "is_np": true,
       "is_di": false,
-      "in_kev": false
+      "in_kev": false,
+      "in_metasploit": false,
+      "in_exploitdb": false,
+      "exploited": false
     },
     {
       "cve": "CVE-2022-42004",
@@ -1628,7 +1857,10 @@
       "summary": "Uncontrolled Resource Consumption in FasterXML jackson-databind",
       "is_np": true,
       "is_di": false,
-      "in_kev": false
+      "in_kev": false,
+      "in_metasploit": false,
+      "in_exploitdb": false,
+      "exploited": false
     },
     {
       "cve": "CVE-2022-25857",
@@ -1652,7 +1884,10 @@
       "summary": "Uncontrolled Resource Consumption in snakeyaml",
       "is_np": true,
       "is_di": true,
-      "in_kev": false
+      "in_kev": false,
+      "in_metasploit": false,
+      "in_exploitdb": false,
+      "exploited": false
     },
     {
       "cve": "CVE-2022-31197",
@@ -1674,7 +1909,10 @@
       "summary": "PostgreSQL JDBC Driver SQL Injection in ResultSet.refreshRow() with malicious column names",
       "is_np": true,
       "is_di": true,
-      "in_kev": false
+      "in_kev": false,
+      "in_metasploit": false,
+      "in_exploitdb": false,
+      "exploited": false
     },
     {
       "cve": "CVE-2020-10650",
@@ -1696,7 +1934,10 @@
       "summary": "jackson-databind vulnerable to unsafe deserialization",
       "is_np": true,
       "is_di": false,
-      "in_kev": false
+      "in_kev": false,
+      "in_metasploit": false,
+      "in_exploitdb": false,
+      "exploited": false
     },
     {
       "cve": "CVE-2022-27772",
@@ -1722,7 +1963,10 @@
       "summary": "Temporary Directory Hijacking to Local Privilege Escalation Vulnerability in org.springframework.boot:spring-boot",
       "is_np": false,
       "is_di": false,
-      "in_kev": false
+      "in_kev": false,
+      "in_metasploit": false,
+      "in_exploitdb": false,
+      "exploited": false
     },
     {
       "cve": "CVE-2016-1000027",
@@ -1744,7 +1988,10 @@
       "summary": "Pivotal Spring Framework contains unsafe Java deserialization methods",
       "is_np": true,
       "is_di": false,
-      "in_kev": false
+      "in_kev": false,
+      "in_metasploit": false,
+      "in_exploitdb": false,
+      "exploited": false
     },
     {
       "cve": "CVE-2021-22118",
@@ -1768,7 +2015,10 @@
       "summary": "Improper Privilege Management in Spring Framework",
       "is_np": false,
       "is_di": false,
-      "in_kev": false
+      "in_kev": false,
+      "in_metasploit": false,
+      "in_exploitdb": false,
+      "exploited": false
     },
     {
       "cve": "CVE-2022-22978",
@@ -1793,7 +2043,10 @@
       "summary": "Authorization bypass in Spring Security",
       "is_np": false,
       "is_di": true,
-      "in_kev": false
+      "in_kev": false,
+      "in_metasploit": false,
+      "in_exploitdb": false,
+      "exploited": false
     },
     {
       "cve": "CVE-2012-1618",
@@ -1811,7 +2064,10 @@
       "summary": "Unescaped parameters in the PostgreSQL JDBC driver",
       "is_np": false,
       "is_di": false,
-      "in_kev": false
+      "in_kev": false,
+      "in_metasploit": false,
+      "in_exploitdb": false,
+      "exploited": false
     },
     {
       "cve": "CVE-2017-8045",
@@ -1833,7 +2089,10 @@
       "summary": "Deserialization of Untrusted Data in Spring AMQP",
       "is_np": true,
       "is_di": false,
-      "in_kev": false
+      "in_kev": false,
+      "in_metasploit": false,
+      "in_exploitdb": false,
+      "exploited": false
     },
     {
       "cve": "CVE-2011-2730",
@@ -1851,7 +2110,10 @@
       "summary": "Improper Neutralization of Directives in Dynamically Evaluated Code in Spring Framework",
       "is_np": false,
       "is_di": false,
-      "in_kev": false
+      "in_kev": false,
+      "in_metasploit": false,
+      "in_exploitdb": false,
+      "exploited": false
     },
     {
       "cve": "CVE-2014-3600",
@@ -1875,7 +2137,10 @@
       "summary": "Improper Restriction of XML External Entity Reference in Apache ActiveMQ",
       "is_np": true,
       "is_di": true,
-      "in_kev": false
+      "in_kev": false,
+      "in_metasploit": false,
+      "in_exploitdb": false,
+      "exploited": false
     },
     {
       "cve": "CVE-2014-3612",
@@ -1897,7 +2162,10 @@
       "summary": "Improper Authentication in Apache WSS4J",
       "is_np": true,
       "is_di": true,
-      "in_kev": false
+      "in_kev": false,
+      "in_metasploit": false,
+      "in_exploitdb": false,
+      "exploited": false
     },
     {
       "cve": "CVE-2014-3576",
@@ -1919,7 +2187,10 @@
       "summary": "Improper Neutralization of Special Elements used in an OS Command in Apache ActiveMQ",
       "is_np": true,
       "is_di": true,
-      "in_kev": false
+      "in_kev": false,
+      "in_metasploit": false,
+      "in_exploitdb": false,
+      "exploited": false
     },
     {
       "cve": "CVE-2015-5254",
@@ -1941,7 +2212,10 @@
       "summary": "Improper Input Validation in Apache ActiveMQ",
       "is_np": false,
       "is_di": false,
-      "in_kev": false
+      "in_kev": false,
+      "in_metasploit": false,
+      "in_exploitdb": false,
+      "exploited": false
     },
     {
       "cve": "CVE-2015-7501",
@@ -1963,7 +2237,10 @@
       "summary": "Deserialization of Untrusted Data in Apache commons collections",
       "is_np": true,
       "is_di": false,
-      "in_kev": false
+      "in_kev": false,
+      "in_metasploit": false,
+      "in_exploitdb": false,
+      "exploited": false
     },
     {
       "cve": "CVE-2017-5648",
@@ -1985,7 +2262,10 @@
       "summary": "Exposure of Resource to Wrong Sphere in Apache Tomcat",
       "is_np": false,
       "is_di": false,
-      "in_kev": false
+      "in_kev": false,
+      "in_metasploit": false,
+      "in_exploitdb": false,
+      "exploited": false
     },
     {
       "cve": "CVE-2017-5651",
@@ -2007,7 +2287,10 @@
       "summary": "Expected Behavior Violation in Apache Tomcat",
       "is_np": false,
       "is_di": false,
-      "in_kev": false
+      "in_kev": false,
+      "in_metasploit": false,
+      "in_exploitdb": false,
+      "exploited": false
     },
     {
       "cve": "CVE-2016-2173",
@@ -2029,7 +2312,10 @@
       "summary": "Improper Input Validation in Spring AMQP",
       "is_np": false,
       "is_di": false,
-      "in_kev": false
+      "in_kev": false,
+      "in_metasploit": false,
+      "in_exploitdb": false,
+      "exploited": false
     },
     {
       "cve": "CVE-2014-0097",
@@ -2051,7 +2337,10 @@
       "summary": "Improper Authentication in Spring Security",
       "is_np": true,
       "is_di": true,
-      "in_kev": false
+      "in_kev": false,
+      "in_metasploit": false,
+      "in_exploitdb": false,
+      "exploited": false
     },
     {
       "cve": "CVE-2017-4995",
@@ -2073,7 +2362,10 @@
       "summary": "Deserialization of Untrusted Data in Spring Security",
       "is_np": true,
       "is_di": false,
-      "in_kev": false
+      "in_kev": false,
+      "in_metasploit": false,
+      "in_exploitdb": false,
+      "exploited": false
     },
     {
       "cve": "CVE-2022-22970",
@@ -2095,7 +2387,10 @@
       "summary": "Denial of service in Spring Framework",
       "is_np": false,
       "is_di": false,
-      "in_kev": false
+      "in_kev": false,
+      "in_metasploit": false,
+      "in_exploitdb": false,
+      "exploited": false
     },
     {
       "cve": "CVE-2014-0225",
@@ -2117,7 +2412,10 @@
       "summary": "Improper Restriction of XML External Entity Reference in Spring Framework",
       "is_np": true,
       "is_di": true,
-      "in_kev": false
+      "in_kev": false,
+      "in_metasploit": false,
+      "in_exploitdb": false,
+      "exploited": false
     },
     {
       "cve": "CVE-2022-22968",
@@ -2139,7 +2437,10 @@
       "summary": "Improper handling of case sensitivity in Spring Framework",
       "is_np": false,
       "is_di": false,
-      "in_kev": false
+      "in_kev": false,
+      "in_metasploit": false,
+      "in_exploitdb": false,
+      "exploited": false
     },
     {
       "cve": "CVE-2020-36518",
@@ -2161,7 +2462,10 @@
       "summary": "Deeply nested json in jackson-databind",
       "is_np": true,
       "is_di": false,
-      "in_kev": false
+      "in_kev": false,
+      "in_metasploit": false,
+      "in_exploitdb": false,
+      "exploited": false
     },
     {
       "cve": "CVE-2020-13692",
@@ -2183,7 +2487,10 @@
       "summary": "Improper Restriction of XML External Entity Reference",
       "is_np": true,
       "is_di": true,
-      "in_kev": false
+      "in_kev": false,
+      "in_metasploit": false,
+      "in_exploitdb": false,
+      "exploited": false
     },
     {
       "cve": "CVE-2022-21724",
@@ -2209,7 +2516,10 @@
       "summary": "pgjdbc Does Not Check Class Instantiation when providing Plugin Classes",
       "is_np": true,
       "is_di": true,
-      "in_kev": false
+      "in_kev": false,
+      "in_metasploit": false,
+      "in_exploitdb": false,
+      "exploited": false
     },
     {
       "cve": "CVE-2021-43859",
@@ -2233,7 +2543,10 @@
       "summary": "Denial of Service by injecting highly recursive collections or maps in XStream",
       "is_np": true,
       "is_di": false,
-      "in_kev": false
+      "in_kev": false,
+      "in_metasploit": false,
+      "in_exploitdb": false,
+      "exploited": false
     },
     {
       "cve": "CVE-2021-45105",
@@ -2257,7 +2570,10 @@
       "summary": "Apache Log4j2 vulnerable to Improper Input Validation and Uncontrolled Recursion",
       "is_np": false,
       "is_di": false,
-      "in_kev": false
+      "in_kev": false,
+      "in_metasploit": false,
+      "in_exploitdb": false,
+      "exploited": false
     },
     {
       "cve": "CVE-2020-35728",
@@ -2279,7 +2595,10 @@
       "summary": "Serialization gadget exploit in jackson-databind",
       "is_np": true,
       "is_di": false,
-      "in_kev": false
+      "in_kev": false,
+      "in_metasploit": false,
+      "in_exploitdb": false,
+      "exploited": false
     },
     {
       "cve": "CVE-2020-36182",
@@ -2301,7 +2620,10 @@
       "summary": "Unsafe Deserialization in jackson-databind",
       "is_np": true,
       "is_di": false,
-      "in_kev": false
+      "in_kev": false,
+      "in_metasploit": false,
+      "in_exploitdb": false,
+      "exploited": false
     },
     {
       "cve": "CVE-2020-36180",
@@ -2323,7 +2645,10 @@
       "summary": "Unsafe Deserialization in jackson-databind",
       "is_np": true,
       "is_di": false,
-      "in_kev": false
+      "in_kev": false,
+      "in_metasploit": false,
+      "in_exploitdb": false,
+      "exploited": false
     },
     {
       "cve": "CVE-2020-36185",
@@ -2345,7 +2670,10 @@
       "summary": "Unsafe Deserialization in jackson-databind",
       "is_np": true,
       "is_di": false,
-      "in_kev": false
+      "in_kev": false,
+      "in_metasploit": false,
+      "in_exploitdb": false,
+      "exploited": false
     },
     {
       "cve": "CVE-2020-36179",
@@ -2367,7 +2695,10 @@
       "summary": "Unsafe Deserialization in jackson-databind",
       "is_np": true,
       "is_di": false,
-      "in_kev": false
+      "in_kev": false,
+      "in_metasploit": false,
+      "in_exploitdb": false,
+      "exploited": false
     },
     {
       "cve": "CVE-2020-36183",
@@ -2389,7 +2720,10 @@
       "summary": "Unsafe Deserialization in jackson-databind",
       "is_np": true,
       "is_di": false,
-      "in_kev": false
+      "in_kev": false,
+      "in_metasploit": false,
+      "in_exploitdb": false,
+      "exploited": false
     },
     {
       "cve": "CVE-2020-36181",
@@ -2411,7 +2745,10 @@
       "summary": "Unsafe Deserialization in jackson-databind",
       "is_np": true,
       "is_di": false,
-      "in_kev": false
+      "in_kev": false,
+      "in_metasploit": false,
+      "in_exploitdb": false,
+      "exploited": false
     },
     {
       "cve": "CVE-2020-36188",
@@ -2433,7 +2770,10 @@
       "summary": "Unsafe Deserialization in jackson-databind",
       "is_np": true,
       "is_di": false,
-      "in_kev": false
+      "in_kev": false,
+      "in_metasploit": false,
+      "in_exploitdb": false,
+      "exploited": false
     },
     {
       "cve": "CVE-2020-24616",
@@ -2457,7 +2797,10 @@
       "summary": "Code Injection in jackson-databind",
       "is_np": true,
       "is_di": true,
-      "in_kev": false
+      "in_kev": false,
+      "in_metasploit": false,
+      "in_exploitdb": false,
+      "exploited": false
     },
     {
       "cve": "CVE-2020-36184",
@@ -2479,7 +2822,10 @@
       "summary": "Unsafe Deserialization in jackson-databind",
       "is_np": true,
       "is_di": false,
-      "in_kev": false
+      "in_kev": false,
+      "in_metasploit": false,
+      "in_exploitdb": false,
+      "exploited": false
     },
     {
       "cve": "CVE-2020-24750",
@@ -2501,7 +2847,10 @@
       "summary": "Unsafe Deserialization in jackson-databind",
       "is_np": true,
       "is_di": false,
-      "in_kev": false
+      "in_kev": false,
+      "in_metasploit": false,
+      "in_exploitdb": false,
+      "exploited": false
     },
     {
       "cve": "CVE-2020-35491",
@@ -2525,7 +2874,10 @@
       "summary": "Serialization gadgets exploit in jackson-databind",
       "is_np": true,
       "is_di": false,
-      "in_kev": false
+      "in_kev": false,
+      "in_metasploit": false,
+      "in_exploitdb": false,
+      "exploited": false
     },
     {
       "cve": "CVE-2020-36187",
@@ -2547,7 +2899,10 @@
       "summary": "Unsafe Deserialization in jackson-databind",
       "is_np": true,
       "is_di": false,
-      "in_kev": false
+      "in_kev": false,
+      "in_metasploit": false,
+      "in_exploitdb": false,
+      "exploited": false
     },
     {
       "cve": "CVE-2020-36189",
@@ -2569,7 +2924,10 @@
       "summary": "Unsafe Deserialization in jackson-databind",
       "is_np": true,
       "is_di": false,
-      "in_kev": false
+      "in_kev": false,
+      "in_metasploit": false,
+      "in_exploitdb": false,
+      "exploited": false
     },
     {
       "cve": "CVE-2020-35490",
@@ -2591,7 +2949,10 @@
       "summary": "Serialization gadgets exploit in jackson-databind",
       "is_np": true,
       "is_di": false,
-      "in_kev": false
+      "in_kev": false,
+      "in_metasploit": false,
+      "in_exploitdb": false,
+      "exploited": false
     },
     {
       "cve": "CVE-2020-36186",
@@ -2613,7 +2974,10 @@
       "summary": "Unsafe Deserialization in jackson-databind",
       "is_np": true,
       "is_di": false,
-      "in_kev": false
+      "in_kev": false,
+      "in_metasploit": false,
+      "in_exploitdb": false,
+      "exploited": false
     },
     {
       "cve": "CVE-2021-39153",
@@ -2635,7 +2999,10 @@
       "summary": "XStream is vulnerable to an Arbitrary Code Execution attack",
       "is_np": true,
       "is_di": false,
-      "in_kev": false
+      "in_kev": false,
+      "in_metasploit": false,
+      "in_exploitdb": false,
+      "exploited": false
     },
     {
       "cve": "CVE-2021-39149",
@@ -2659,7 +3026,10 @@
       "summary": "XStream is vulnerable to an Arbitrary Code Execution attack",
       "is_np": true,
       "is_di": true,
-      "in_kev": false
+      "in_kev": false,
+      "in_metasploit": false,
+      "in_exploitdb": false,
+      "exploited": false
     },
     {
       "cve": "CVE-2021-39139",
@@ -2681,7 +3051,10 @@
       "summary": "XStream is vulnerable to an Arbitrary Code Execution attack",
       "is_np": true,
       "is_di": false,
-      "in_kev": false
+      "in_kev": false,
+      "in_metasploit": false,
+      "in_exploitdb": false,
+      "exploited": false
     },
     {
       "cve": "CVE-2021-39154",
@@ -2705,7 +3078,10 @@
       "summary": "XStream is vulnerable to an Arbitrary Code Execution attack",
       "is_np": true,
       "is_di": true,
-      "in_kev": false
+      "in_kev": false,
+      "in_metasploit": false,
+      "in_exploitdb": false,
+      "exploited": false
     },
     {
       "cve": "CVE-2021-39145",
@@ -2727,7 +3103,10 @@
       "summary": "XStream is vulnerable to an Arbitrary Code Execution attack",
       "is_np": true,
       "is_di": false,
-      "in_kev": false
+      "in_kev": false,
+      "in_metasploit": false,
+      "in_exploitdb": false,
+      "exploited": false
     },
     {
       "cve": "CVE-2021-39150",
@@ -2751,7 +3130,10 @@
       "summary": "A Server-Side Forgery Request can be activated unmarshalling with XStream to access data streams from an arbitrary URL referencing a resource in an intranet or the local host",
       "is_np": true,
       "is_di": true,
-      "in_kev": false
+      "in_kev": false,
+      "in_metasploit": false,
+      "in_exploitdb": false,
+      "exploited": false
     },
     {
       "cve": "CVE-2021-39141",
@@ -2773,7 +3155,10 @@
       "summary": "XStream is vulnerable to an Arbitrary Code Execution attack",
       "is_np": true,
       "is_di": false,
-      "in_kev": false
+      "in_kev": false,
+      "in_metasploit": false,
+      "in_exploitdb": false,
+      "exploited": false
     },
     {
       "cve": "CVE-2021-39147",
@@ -2795,7 +3180,10 @@
       "summary": "XStream is vulnerable to an Arbitrary Code Execution attack",
       "is_np": true,
       "is_di": false,
-      "in_kev": false
+      "in_kev": false,
+      "in_metasploit": false,
+      "in_exploitdb": false,
+      "exploited": false
     },
     {
       "cve": "CVE-2021-39151",
@@ -2819,7 +3207,10 @@
       "summary": "XStream is vulnerable to an Arbitrary Code Execution attack",
       "is_np": true,
       "is_di": true,
-      "in_kev": false
+      "in_kev": false,
+      "in_metasploit": false,
+      "in_exploitdb": false,
+      "exploited": false
     },
     {
       "cve": "CVE-2021-39146",
@@ -2841,7 +3232,10 @@
       "summary": "XStream is vulnerable to an Arbitrary Code Execution attack",
       "is_np": true,
       "is_di": false,
-      "in_kev": false
+      "in_kev": false,
+      "in_metasploit": false,
+      "in_exploitdb": false,
+      "exploited": false
     },
     {
       "cve": "CVE-2021-39148",
@@ -2863,7 +3257,10 @@
       "summary": "XStream is vulnerable to an Arbitrary Code Execution attack",
       "is_np": true,
       "is_di": false,
-      "in_kev": false
+      "in_kev": false,
+      "in_metasploit": false,
+      "in_exploitdb": false,
+      "exploited": false
     },
     {
       "cve": "CVE-2021-39152",
@@ -2887,7 +3284,10 @@
       "summary": "A Server-Side Forgery Request can be activated unmarshalling with XStream to access data streams from an arbitrary URL referencing a resource in an intranet or the local host",
       "is_np": true,
       "is_di": true,
-      "in_kev": false
+      "in_kev": false,
+      "in_metasploit": false,
+      "in_exploitdb": false,
+      "exploited": false
     },
     {
       "cve": "CVE-2021-22119",
@@ -2911,7 +3311,10 @@
       "summary": "Resource Exhaustion in Spring Security",
       "is_np": false,
       "is_di": true,
-      "in_kev": false
+      "in_kev": false,
+      "in_metasploit": false,
+      "in_exploitdb": false,
+      "exploited": false
     },
     {
       "cve": "CVE-2021-25122",
@@ -2933,7 +3336,10 @@
       "summary": "Exposure of Sensitive Information to an Unauthorized Actor in Apache Tomcat",
       "is_np": false,
       "is_di": false,
-      "in_kev": false
+      "in_kev": false,
+      "in_metasploit": false,
+      "in_exploitdb": false,
+      "exploited": false
     },
     {
       "cve": "CVE-2017-5929",
@@ -2956,7 +3362,10 @@
       "summary": "QOS.ch Logback vulnerable to Deserialization of Untrusted Data",
       "is_np": true,
       "is_di": false,
-      "in_kev": false
+      "in_kev": false,
+      "in_metasploit": false,
+      "in_exploitdb": false,
+      "exploited": false
     },
     {
       "cve": "CVE-2017-18640",
@@ -2978,7 +3387,10 @@
       "summary": "SnakeYAML Entity Expansion during load operation",
       "is_np": true,
       "is_di": true,
-      "in_kev": false
+      "in_kev": false,
+      "in_metasploit": false,
+      "in_exploitdb": false,
+      "exploited": false
     },
     {
       "cve": "CVE-2021-29505",
@@ -3004,7 +3416,10 @@
       "summary": "XStream is vulnerable to a Remote Command Execution attack",
       "is_np": true,
       "is_di": true,
-      "in_kev": false
+      "in_kev": false,
+      "in_metasploit": false,
+      "in_exploitdb": false,
+      "exploited": false
     },
     {
       "cve": "CVE-2021-22112",
@@ -3026,7 +3441,10 @@
       "summary": "Privilege escalation in spring security",
       "is_np": false,
       "is_di": false,
-      "in_kev": false
+      "in_kev": false,
+      "in_metasploit": false,
+      "in_exploitdb": false,
+      "exploited": false
     },
     {
       "cve": "CVE-2021-21341",
@@ -3052,7 +3470,10 @@
       "summary": "XStream can cause a Denial of Service.",
       "is_np": true,
       "is_di": false,
-      "in_kev": false
+      "in_kev": false,
+      "in_metasploit": false,
+      "in_exploitdb": false,
+      "exploited": false
     },
     {
       "cve": "CVE-2021-25329",
@@ -3074,7 +3495,10 @@
       "summary": "Potential remote code execution in Apache Tomcat",
       "is_np": true,
       "is_di": false,
-      "in_kev": false
+      "in_kev": false,
+      "in_metasploit": false,
+      "in_exploitdb": false,
+      "exploited": false
     },
     {
       "cve": "CVE-2020-25649",
@@ -3096,7 +3520,10 @@
       "summary": "XML External Entity (XXE) Injection in Jackson Databind",
       "is_np": true,
       "is_di": true,
-      "in_kev": false
+      "in_kev": false,
+      "in_metasploit": false,
+      "in_exploitdb": false,
+      "exploited": false
     },
     {
       "cve": "CVE-2021-20190",
@@ -3118,7 +3545,10 @@
       "summary": "Deserialization of untrusted data in jackson-databind",
       "is_np": true,
       "is_di": false,
-      "in_kev": false
+      "in_kev": false,
+      "in_metasploit": false,
+      "in_exploitdb": false,
+      "exploited": false
     },
     {
       "cve": "CVE-2020-26217",
@@ -3140,7 +3570,10 @@
       "summary": "XStream can be used for Remote Code Execution",
       "is_np": true,
       "is_di": true,
-      "in_kev": false
+      "in_kev": false,
+      "in_metasploit": false,
+      "in_exploitdb": false,
+      "exploited": false
     },
     {
       "cve": "CVE-2016-9879",
@@ -3158,7 +3591,10 @@
       "summary": "Security Constraint Bypass in Spring Security",
       "is_np": false,
       "is_di": false,
-      "in_kev": false
+      "in_kev": false,
+      "in_metasploit": false,
+      "in_exploitdb": false,
+      "exploited": false
     },
     {
       "cve": "CVE-2014-3527",
@@ -3180,7 +3616,10 @@
       "summary": "Authorization Bypass in Spring Security",
       "is_np": true,
       "is_di": true,
-      "in_kev": false
+      "in_kev": false,
+      "in_metasploit": false,
+      "in_exploitdb": false,
+      "exploited": false
     },
     {
       "cve": "CVE-2018-5968",
@@ -3204,7 +3643,10 @@
       "summary": "Deserialization of Untrusted Data in jackson-databind",
       "is_np": true,
       "is_di": false,
-      "in_kev": false
+      "in_kev": false,
+      "in_metasploit": false,
+      "in_exploitdb": false,
+      "exploited": false
     },
     {
       "cve": "CVE-2017-7957",
@@ -3226,7 +3668,10 @@
       "summary": "Denial of service in XStream",
       "is_np": false,
       "is_di": false,
-      "in_kev": false
+      "in_kev": false,
+      "in_metasploit": false,
+      "in_exploitdb": false,
+      "exploited": false
     },
     {
       "cve": "CVE-2016-3674",
@@ -3248,7 +3693,10 @@
       "summary": "XML External Entity Injection in XStream",
       "is_np": false,
       "is_di": false,
-      "in_kev": false
+      "in_kev": false,
+      "in_metasploit": false,
+      "in_exploitdb": false,
+      "exploited": false
     },
     {
       "cve": "CVE-2020-14062",
@@ -3270,7 +3718,10 @@
       "summary": "Deserialization of untrusted data in Jackson Databind",
       "is_np": true,
       "is_di": false,
-      "in_kev": false
+      "in_kev": false,
+      "in_metasploit": false,
+      "in_exploitdb": false,
+      "exploited": false
     },
     {
       "cve": "CVE-2020-14061",
@@ -3292,7 +3743,10 @@
       "summary": "Deserialization of untrusted data in Jackson Databind",
       "is_np": true,
       "is_di": false,
-      "in_kev": false
+      "in_kev": false,
+      "in_metasploit": false,
+      "in_exploitdb": false,
+      "exploited": false
     },
     {
       "cve": "CVE-2020-14060",
@@ -3314,7 +3768,10 @@
       "summary": "Deserialization of untrusted data in Jackson Databind",
       "is_np": true,
       "is_di": false,
-      "in_kev": false
+      "in_kev": false,
+      "in_metasploit": false,
+      "in_exploitdb": false,
+      "exploited": false
     },
     {
       "cve": "CVE-2020-14195",
@@ -3336,7 +3793,10 @@
       "summary": "Deserialization of untrusted data in Jackson Databind",
       "is_np": true,
       "is_di": false,
-      "in_kev": false
+      "in_kev": false,
+      "in_metasploit": false,
+      "in_exploitdb": false,
+      "exploited": false
     },
     {
       "cve": "CVE-2018-12023",
@@ -3358,7 +3818,10 @@
       "summary": "Deserialization of Untrusted Data",
       "is_np": true,
       "is_di": false,
-      "in_kev": false
+      "in_kev": false,
+      "in_metasploit": false,
+      "in_exploitdb": false,
+      "exploited": false
     },
     {
       "cve": "CVE-2019-17267",
@@ -3380,7 +3843,10 @@
       "summary": "Improper Input Validation in jackson-databind",
       "is_np": true,
       "is_di": false,
-      "in_kev": false
+      "in_kev": false,
+      "in_metasploit": false,
+      "in_exploitdb": false,
+      "exploited": false
     },
     {
       "cve": "CVE-2015-6420",
@@ -3402,7 +3868,10 @@
       "summary": "Insecure Deserialization in Apache Commons Collection",
       "is_np": true,
       "is_di": false,
-      "in_kev": false
+      "in_kev": false,
+      "in_metasploit": false,
+      "in_exploitdb": false,
+      "exploited": false
     },
     {
       "cve": "CVE-2019-0199",
@@ -3424,7 +3893,10 @@
       "summary": "Apache Tomcat Denial of Service vulnerability",
       "is_np": false,
       "is_di": false,
-      "in_kev": false
+      "in_kev": false,
+      "in_metasploit": false,
+      "in_exploitdb": false,
+      "exploited": false
     },
     {
       "cve": "CVE-2018-15756",
@@ -3442,7 +3914,10 @@
       "summary": "Denial of Service in Spring Framework",
       "is_np": false,
       "is_di": false,
-      "in_kev": false
+      "in_kev": false,
+      "in_metasploit": false,
+      "in_exploitdb": false,
+      "exploited": false
     },
     {
       "cve": "CVE-2020-11112",
@@ -3464,7 +3939,10 @@
       "summary": "jackson-databind mishandles the interaction between serialization gadgets and typing",
       "is_np": true,
       "is_di": false,
-      "in_kev": false
+      "in_kev": false,
+      "in_metasploit": false,
+      "in_exploitdb": false,
+      "exploited": false
     },
     {
       "cve": "CVE-2020-5407",
@@ -3486,7 +3964,10 @@
       "summary": "Signature wrapping vulnerability in Spring Security",
       "is_np": false,
       "is_di": false,
-      "in_kev": false
+      "in_kev": false,
+      "in_metasploit": false,
+      "in_exploitdb": false,
+      "exploited": false
     },
     {
       "cve": "CVE-2020-11619",
@@ -3508,7 +3989,10 @@
       "summary": "jackson-databind mishandles the interaction between serialization gadgets and typing",
       "is_np": true,
       "is_di": false,
-      "in_kev": false
+      "in_kev": false,
+      "in_metasploit": false,
+      "in_exploitdb": false,
+      "exploited": false
     },
     {
       "cve": "CVE-2020-11113",
@@ -3530,7 +4014,10 @@
       "summary": "jackson-databind mishandles the interaction between serialization gadgets and typing",
       "is_np": true,
       "is_di": false,
-      "in_kev": false
+      "in_kev": false,
+      "in_metasploit": false,
+      "in_exploitdb": false,
+      "exploited": false
     },
     {
       "cve": "CVE-2019-14892",
@@ -3554,7 +4041,10 @@
       "summary": "Polymorphic deserialization of malicious object in jackson-databind",
       "is_np": true,
       "is_di": false,
-      "in_kev": false
+      "in_kev": false,
+      "in_metasploit": false,
+      "in_exploitdb": false,
+      "exploited": false
     },
     {
       "cve": "CVE-2020-10673",
@@ -3576,7 +4066,10 @@
       "summary": "jackson-databind mishandles the interaction between serialization gadgets and typing",
       "is_np": true,
       "is_di": false,
-      "in_kev": false
+      "in_kev": false,
+      "in_metasploit": false,
+      "in_exploitdb": false,
+      "exploited": false
     },
     {
       "cve": "CVE-2020-9548",
@@ -3598,7 +4091,10 @@
       "summary": "jackson-databind mishandles the interaction between serialization gadgets and typing",
       "is_np": true,
       "is_di": false,
-      "in_kev": false
+      "in_kev": false,
+      "in_metasploit": false,
+      "in_exploitdb": false,
+      "exploited": false
     },
     {
       "cve": "CVE-2020-9547",
@@ -3620,7 +4116,10 @@
       "summary": "jackson-databind mishandles the interaction between serialization gadgets and typing",
       "is_np": true,
       "is_di": false,
-      "in_kev": false
+      "in_kev": false,
+      "in_metasploit": false,
+      "in_exploitdb": false,
+      "exploited": false
     },
     {
       "cve": "CVE-2019-14893",
@@ -3642,7 +4141,10 @@
       "summary": "Polymorphic deserialization of malicious object in jackson-databind",
       "is_np": true,
       "is_di": false,
-      "in_kev": false
+      "in_kev": false,
+      "in_metasploit": false,
+      "in_exploitdb": false,
+      "exploited": false
     },
     {
       "cve": "CVE-2020-10968",
@@ -3664,7 +4166,10 @@
       "summary": "jackson-databind mishandles the interaction between serialization gadgets and typing",
       "is_np": true,
       "is_di": false,
-      "in_kev": false
+      "in_kev": false,
+      "in_metasploit": false,
+      "in_exploitdb": false,
+      "exploited": false
     },
     {
       "cve": "CVE-2020-11111",
@@ -3686,7 +4191,10 @@
       "summary": "jackson-databind mishandles the interaction between serialization gadgets and typing",
       "is_np": true,
       "is_di": false,
-      "in_kev": false
+      "in_kev": false,
+      "in_metasploit": false,
+      "in_exploitdb": false,
+      "exploited": false
     },
     {
       "cve": "CVE-2020-9546",
@@ -3708,7 +4216,10 @@
       "summary": "jackson-databind mishandles the interaction between serialization gadgets and typing",
       "is_np": true,
       "is_di": false,
-      "in_kev": false
+      "in_kev": false,
+      "in_metasploit": false,
+      "in_exploitdb": false,
+      "exploited": false
     },
     {
       "cve": "CVE-2020-10969",
@@ -3730,7 +4241,10 @@
       "summary": "jackson-databind mishandles the interaction between serialization gadgets and typing",
       "is_np": true,
       "is_di": false,
-      "in_kev": false
+      "in_kev": false,
+      "in_metasploit": false,
+      "in_exploitdb": false,
+      "exploited": false
     },
     {
       "cve": "CVE-2020-10672",
@@ -3752,7 +4266,10 @@
       "summary": "jackson-databind mishandles the interaction between serialization gadgets and typing",
       "is_np": true,
       "is_di": false,
-      "in_kev": false
+      "in_kev": false,
+      "in_metasploit": false,
+      "in_exploitdb": false,
+      "exploited": false
     },
     {
       "cve": "CVE-2020-11620",
@@ -3774,7 +4291,10 @@
       "summary": "jackson-databind mishandles the interaction between serialization gadgets and typing",
       "is_np": true,
       "is_di": false,
-      "in_kev": false
+      "in_kev": false,
+      "in_metasploit": false,
+      "in_exploitdb": false,
+      "exploited": false
     },
     {
       "cve": "CVE-2020-8840",
@@ -3796,7 +4316,10 @@
       "summary": "Deserialization of Untrusted Data in jackson-databind",
       "is_np": true,
       "is_di": false,
-      "in_kev": false
+      "in_kev": false,
+      "in_metasploit": false,
+      "in_exploitdb": false,
+      "exploited": false
     },
     {
       "cve": "CVE-2019-20330",
@@ -3818,7 +4341,10 @@
       "summary": "Deserialization of Untrusted Data in jackson-databind",
       "is_np": true,
       "is_di": false,
-      "in_kev": false
+      "in_kev": false,
+      "in_metasploit": false,
+      "in_exploitdb": false,
+      "exploited": false
     },
     {
       "cve": "CVE-2020-5398",
@@ -3842,7 +4368,10 @@
       "summary": "RFD attack via Content-Disposition header sourced from request input by Spring MVC or Spring WebFlux Application",
       "is_np": false,
       "is_di": false,
-      "in_kev": false
+      "in_kev": false,
+      "in_metasploit": false,
+      "in_exploitdb": false,
+      "exploited": false
     },
     {
       "cve": "CVE-2017-5645",
@@ -3864,7 +4393,10 @@
       "summary": "Deserialization of Untrusted Data in Log4j",
       "is_np": true,
       "is_di": false,
-      "in_kev": false
+      "in_kev": false,
+      "in_metasploit": false,
+      "in_exploitdb": false,
+      "exploited": false
     },
     {
       "cve": "CVE-2019-17563",
@@ -3886,7 +4418,10 @@
       "summary": "In Apache Tomcat, when using FORM authentication there was a narrow window where an attacker could perform a session fixation attack",
       "is_np": false,
       "is_di": false,
-      "in_kev": false
+      "in_kev": false,
+      "in_metasploit": false,
+      "in_exploitdb": false,
+      "exploited": false
     },
     {
       "cve": "CVE-2019-12418",
@@ -3908,7 +4443,10 @@
       "summary": "Insufficiently Protected Credentials in Apache Tomcat",
       "is_np": false,
       "is_di": false,
-      "in_kev": false
+      "in_kev": false,
+      "in_metasploit": false,
+      "in_exploitdb": false,
+      "exploited": false
     },
     {
       "cve": "CVE-2019-16943",
@@ -3930,7 +4468,10 @@
       "summary": "jackson-databind polymorphic typing issue",
       "is_np": true,
       "is_di": false,
-      "in_kev": false
+      "in_kev": false,
+      "in_metasploit": false,
+      "in_exploitdb": false,
+      "exploited": false
     },
     {
       "cve": "CVE-2019-17531",
@@ -3952,7 +4493,10 @@
       "summary": "jackson-databind polymorphic typing issue",
       "is_np": true,
       "is_di": false,
-      "in_kev": false
+      "in_kev": false,
+      "in_metasploit": false,
+      "in_exploitdb": false,
+      "exploited": false
     },
     {
       "cve": "CVE-2019-16942",
@@ -3974,7 +4518,10 @@
       "summary": "Polymorphic Typing in FasterXML jackson-databind",
       "is_np": true,
       "is_di": false,
-      "in_kev": false
+      "in_kev": false,
+      "in_metasploit": false,
+      "in_exploitdb": false,
+      "exploited": false
     },
     {
       "cve": "CVE-2019-16335",
@@ -3996,7 +4543,10 @@
       "summary": "Polymorphic Typing issue in FasterXML jackson-databind",
       "is_np": true,
       "is_di": false,
-      "in_kev": false
+      "in_kev": false,
+      "in_metasploit": false,
+      "in_exploitdb": false,
+      "exploited": false
     },
     {
       "cve": "CVE-2019-14540",
@@ -4018,7 +4568,10 @@
       "summary": "Polymorphic Typing issue in FasterXML jackson-databind",
       "is_np": true,
       "is_di": false,
-      "in_kev": false
+      "in_kev": false,
+      "in_metasploit": false,
+      "in_exploitdb": false,
+      "exploited": false
     },
     {
       "cve": "CVE-2019-14379",
@@ -4042,7 +4595,10 @@
       "summary": "Deserialization of untrusted data in FasterXML jackson-databind",
       "is_np": true,
       "is_di": true,
-      "in_kev": false
+      "in_kev": false,
+      "in_metasploit": false,
+      "in_exploitdb": false,
+      "exploited": false
     },
     {
       "cve": "CVE-2019-14439",
@@ -4064,7 +4620,10 @@
       "summary": "Deserialization of untrusted data in FasterXML jackson-databind",
       "is_np": true,
       "is_di": false,
-      "in_kev": false
+      "in_kev": false,
+      "in_metasploit": false,
+      "in_exploitdb": false,
+      "exploited": false
     },
     {
       "cve": "CVE-2019-10173",
@@ -4088,7 +4647,10 @@
       "summary": "Deserialization of Untrusted Data and Code Injection in xstream",
       "is_np": true,
       "is_di": true,
-      "in_kev": false
+      "in_kev": false,
+      "in_metasploit": false,
+      "in_exploitdb": false,
+      "exploited": false
     },
     {
       "cve": "CVE-2018-11307",
@@ -4110,7 +4672,10 @@
       "summary": "Deserialization of Untrusted Data in jackson-databind",
       "is_np": true,
       "is_di": false,
-      "in_kev": false
+      "in_kev": false,
+      "in_metasploit": false,
+      "in_exploitdb": false,
+      "exploited": false
     },
     {
       "cve": "CVE-2019-11272",
@@ -4134,7 +4699,10 @@
       "summary": "Insufficiently Protected Credentials and Improper Authentication in Spring Security",
       "is_np": true,
       "is_di": true,
-      "in_kev": false
+      "in_kev": false,
+      "in_metasploit": false,
+      "in_exploitdb": false,
+      "exploited": false
     },
     {
       "cve": "CVE-2019-10072",
@@ -4156,31 +4724,10 @@
       "summary": "Improper Locking in Apache Tomcat",
       "is_np": false,
       "is_di": false,
-      "in_kev": false
-    },
-    {
-      "cve": "CVE-2013-7285",
-      "osv_id": "GHSA-f554-x222-wgf7",
-      "packages": [
-        "com.thoughtworks.xstream:xstream"
-      ],
-      "package_roles": [
-        "XML serialization (Spring uses for OXM)"
-      ],
-      "cwes": [
-        "CWE-77",
-        "CWE-78"
-      ],
-      "cwe_nums": [
-        77,
-        78
-      ],
-      "severity": "CRITICAL",
-      "published": "2019-05-29",
-      "summary": "Command Injection in Xstream",
-      "is_np": true,
-      "is_di": true,
-      "in_kev": false
+      "in_kev": false,
+      "in_metasploit": false,
+      "in_exploitdb": false,
+      "exploited": false
     },
     {
       "cve": "CVE-2019-12086",
@@ -4202,29 +4749,10 @@
       "summary": "Information exposure in FasterXML jackson-databind",
       "is_np": true,
       "is_di": false,
-      "in_kev": false
-    },
-    {
-      "cve": "CVE-2019-0232",
-      "osv_id": "GHSA-8vmx-qmch-mpqg",
-      "packages": [
-        "org.apache.tomcat.embed:tomcat-embed-core"
-      ],
-      "package_roles": [
-        "NP"
-      ],
-      "cwes": [
-        "CWE-78"
-      ],
-      "cwe_nums": [
-        78
-      ],
-      "severity": "HIGH",
-      "published": "2019-04-18",
-      "summary": "Apache Tomcat OS Command Injection vulnerability",
-      "is_np": true,
-      "is_di": true,
-      "in_kev": false
+      "in_kev": false,
+      "in_metasploit": false,
+      "in_exploitdb": false,
+      "exploited": false
     },
     {
       "cve": "CVE-2019-0222",
@@ -4246,7 +4774,10 @@
       "summary": "Improper Control of Generation of Code ('Code Injection') in org.apache.activemq:activemq-client",
       "is_np": true,
       "is_di": true,
-      "in_kev": false
+      "in_kev": false,
+      "in_metasploit": false,
+      "in_exploitdb": false,
+      "exploited": false
     },
     {
       "cve": "CVE-2018-12022",
@@ -4268,7 +4799,10 @@
       "summary": "jackson-databind Deserialization of Untrusted Data vulnerability",
       "is_np": true,
       "is_di": false,
-      "in_kev": false
+      "in_kev": false,
+      "in_metasploit": false,
+      "in_exploitdb": false,
+      "exploited": false
     },
     {
       "cve": "CVE-2018-14719",
@@ -4290,7 +4824,10 @@
       "summary": "Arbitrary Code Execution in jackson-databind",
       "is_np": true,
       "is_di": false,
-      "in_kev": false
+      "in_kev": false,
+      "in_metasploit": false,
+      "in_exploitdb": false,
+      "exploited": false
     },
     {
       "cve": "CVE-2018-14718",
@@ -4312,7 +4849,10 @@
       "summary": "Arbitrary Code Execution in jackson-databind",
       "is_np": true,
       "is_di": false,
-      "in_kev": false
+      "in_kev": false,
+      "in_metasploit": false,
+      "in_exploitdb": false,
+      "exploited": false
     },
     {
       "cve": "CVE-2018-14721",
@@ -4334,7 +4874,10 @@
       "summary": "Server-Side Request Forgery (SSRF) in jackson-databind",
       "is_np": true,
       "is_di": true,
-      "in_kev": false
+      "in_kev": false,
+      "in_metasploit": false,
+      "in_exploitdb": false,
+      "exploited": false
     },
     {
       "cve": "CVE-2018-19362",
@@ -4356,7 +4899,10 @@
       "summary": "com.fasterxml.jackson.core:jackson-databind vulnerable to Deserialization of Untrusted Data",
       "is_np": true,
       "is_di": false,
-      "in_kev": false
+      "in_kev": false,
+      "in_metasploit": false,
+      "in_exploitdb": false,
+      "exploited": false
     },
     {
       "cve": "CVE-2018-19360",
@@ -4378,7 +4924,10 @@
       "summary": "Deserialization of Untrusted Data in jackson-databind due to polymorphic deserialization",
       "is_np": true,
       "is_di": false,
-      "in_kev": false
+      "in_kev": false,
+      "in_metasploit": false,
+      "in_exploitdb": false,
+      "exploited": false
     },
     {
       "cve": "CVE-2018-19361",
@@ -4400,7 +4949,10 @@
       "summary": "Deserialization of Untrusted Data in jackson-databind",
       "is_np": true,
       "is_di": false,
-      "in_kev": false
+      "in_kev": false,
+      "in_metasploit": false,
+      "in_exploitdb": false,
+      "exploited": false
     },
     {
       "cve": "CVE-2018-14720",
@@ -4424,7 +4976,10 @@
       "summary": "XML External Entity Reference (XXE) in jackson-databind",
       "is_np": true,
       "is_di": true,
-      "in_kev": false
+      "in_kev": false,
+      "in_metasploit": false,
+      "in_exploitdb": false,
+      "exploited": false
     },
     {
       "cve": "CVE-2018-15801",
@@ -4446,7 +5001,10 @@
       "summary": "Spring Security vulnerable to Authorization Bypass",
       "is_np": false,
       "is_di": true,
-      "in_kev": false
+      "in_kev": false,
+      "in_metasploit": false,
+      "in_exploitdb": false,
+      "exploited": false
     },
     {
       "cve": "CVE-2018-11775",
@@ -4468,7 +5026,10 @@
       "summary": "Improper Certificate Validation in Apache activemq-client",
       "is_np": false,
       "is_di": false,
-      "in_kev": false
+      "in_kev": false,
+      "in_metasploit": false,
+      "in_exploitdb": false,
+      "exploited": false
     },
     {
       "cve": "CVE-2017-15095",
@@ -4492,7 +5053,10 @@
       "summary": "jackson-databind vulnerable to deserialization flaw leading to unauthenticated remote code execution",
       "is_np": true,
       "is_di": false,
-      "in_kev": false
+      "in_kev": false,
+      "in_metasploit": false,
+      "in_exploitdb": false,
+      "exploited": false
     },
     {
       "cve": "CVE-2017-17485",
@@ -4514,7 +5078,10 @@
       "summary": "jackson-databind vulnerable to remote code execution due to incorrect deserialization and blocklist bypass",
       "is_np": true,
       "is_di": false,
-      "in_kev": false
+      "in_kev": false,
+      "in_metasploit": false,
+      "in_exploitdb": false,
+      "exploited": false
     },
     {
       "cve": "CVE-2018-8034",
@@ -4536,7 +5103,10 @@
       "summary": "The host name verification missing in Apache Tomcat",
       "is_np": false,
       "is_di": false,
-      "in_kev": false
+      "in_kev": false,
+      "in_metasploit": false,
+      "in_exploitdb": false,
+      "exploited": false
     },
     {
       "cve": "CVE-2018-1336",
@@ -4558,7 +5128,10 @@
       "summary": "In Apache Tomcat there is an improper handing of overflow in the UTF-8 decoder ",
       "is_np": false,
       "is_di": false,
-      "in_kev": false
+      "in_kev": false,
+      "in_metasploit": false,
+      "in_exploitdb": false,
+      "exploited": false
     },
     {
       "cve": "CVE-2018-8014",
@@ -4580,7 +5153,10 @@
       "summary": "The defaults settings for the CORS filter provided in Apache Tomcat are insecure and enable 'supportsCredentials' for all origins",
       "is_np": false,
       "is_di": false,
-      "in_kev": false
+      "in_kev": false,
+      "in_metasploit": false,
+      "in_exploitdb": false,
+      "exploited": false
     },
     {
       "cve": "CVE-2018-1272",
@@ -4598,7 +5174,10 @@
       "summary": "Possible privilege escalation in org.springframework:spring-core",
       "is_np": false,
       "is_di": false,
-      "in_kev": false
+      "in_kev": false,
+      "in_metasploit": false,
+      "in_exploitdb": false,
+      "exploited": false
     },
     {
       "cve": "CVE-2016-5007",
@@ -4618,7 +5197,10 @@
       "summary": "Spring Security and Spring Framework may not recognize certain paths that should be protected",
       "is_np": false,
       "is_di": false,
-      "in_kev": false
+      "in_kev": false,
+      "in_metasploit": false,
+      "in_exploitdb": false,
+      "exploited": false
     },
     {
       "cve": "CVE-2018-1258",
@@ -4640,7 +5222,10 @@
       "summary": "Spring Framework when used in combination with any versions of Spring Security contains an authorization bypass",
       "is_np": false,
       "is_di": true,
-      "in_kev": false
+      "in_kev": false,
+      "in_metasploit": false,
+      "in_exploitdb": false,
+      "exploited": false
     },
     {
       "cve": "CVE-2015-5211",
@@ -4664,7 +5249,10 @@
       "summary": "Files or Directories Accessible to External Parties in org.springframework:spring-core",
       "is_np": false,
       "is_di": false,
-      "in_kev": false
+      "in_kev": false,
+      "in_metasploit": false,
+      "in_exploitdb": false,
+      "exploited": false
     },
     {
       "cve": "CVE-2018-7489",
@@ -4688,7 +5276,10 @@
       "summary": "FasterXML jackson-databind allows unauthenticated remote code execution ",
       "is_np": true,
       "is_di": false,
-      "in_kev": false
+      "in_kev": false,
+      "in_metasploit": false,
+      "in_exploitdb": false,
+      "exploited": false
     },
     {
       "cve": "CVE-2017-7525",
@@ -4712,7 +5303,10 @@
       "summary": "jackson-databind is vulnerable to a deserialization flaw",
       "is_np": true,
       "is_di": false,
-      "in_kev": false
+      "in_kev": false,
+      "in_metasploit": false,
+      "in_exploitdb": false,
+      "exploited": false
     },
     {
       "cve": "CVE-2016-9878",
@@ -4734,7 +5328,10 @@
       "summary": "Pivotal Spring Framework Paths provided to the ResourceServlet were not properly sanitized",
       "is_np": true,
       "is_di": true,
-      "in_kev": false
+      "in_kev": false,
+      "in_metasploit": false,
+      "in_exploitdb": false,
+      "exploited": false
     }
   ]
 }

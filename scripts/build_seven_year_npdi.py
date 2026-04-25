@@ -70,23 +70,29 @@ def load_kev_cve_set() -> set[str]:
 
 
 def load_metasploit_cves() -> set[str]:
-    """CVEs the cached Metasploit search matched."""
+    """Full Metasploit module CVE list, cached in data/_metasploit-cves.json
+    (~3,100 CVEs from rapid7/metasploit-framework's modules_metadata_base.json).
+    Falls back to the small 12-month cache if the full one isn't present."""
+    p = REPO / "data" / "_metasploit-cves.json"
+    if p.exists():
+        return set(json.load(open(p)).get("cves", []))
     p = CACHE / "epss" / "metasploit_results.json"
-    if not p.exists():
-        return set()
-    with open(p) as f:
-        d = json.load(f)
-    return set(d.get("our_matches", []))
+    if p.exists():
+        return set(json.load(open(p)).get("our_matches", []))
+    return set()
 
 
 def load_exploitdb_cves() -> set[str]:
-    """CVEs present in the cached ExploitDB list (12-month scope)."""
+    """Full ExploitDB CVE list, cached in data/_exploitdb-cves.json
+    (~25,000 CVEs from gitlab.com/exploit-database/exploitdb files_exploits.csv).
+    Falls back to the small 12-month cache if the full one isn't present."""
+    p = REPO / "data" / "_exploitdb-cves.json"
+    if p.exists():
+        return set(json.load(open(p)).get("cves", []))
     p = CACHE / "epss" / "exploitdb_results.json"
-    if not p.exists():
-        return set()
-    with open(p) as f:
-        d = json.load(f)
-    return set(d.get("our_matches", []))
+    if p.exists():
+        return set(json.load(open(p)).get("our_matches", []))
+    return set()
 
 
 def load_epss_lookup() -> dict[str, float]:
@@ -165,6 +171,9 @@ def build_events() -> list[dict]:
             summary = ev.get("summary", "") or ""
             cve = extract_cve(osv_id, summary, alias_cache)
             published = extract_published(osv_id, alias_cache)
+            in_kev_flag = bool(cve and cve in kev_cves)
+            in_msf_flag = bool(cve and cve in msf_cves)
+            in_edb_flag = bool(cve and cve in edb_cves)
             events.append({
                 "osv_id": osv_id,
                 "cve": cve,
@@ -176,9 +185,12 @@ def build_events() -> list[dict]:
                 "summary": summary[:240],
                 "is_np": True,
                 "is_di": True,
-                "in_kev":      bool(cve and cve in kev_cves),
-                "in_metasploit": bool(cve and cve in msf_cves),
-                "in_exploitdb":  bool(cve and cve in edb_cves),
+                # Per-source flags
+                "in_kev":      in_kev_flag,
+                "in_metasploit": in_msf_flag,
+                "in_exploitdb":  in_edb_flag,
+                # Union: any exploitation evidence
+                "exploited":   in_kev_flag or in_msf_flag or in_edb_flag,
                 "epss": epss.get(cve) if cve else None,
             })
     return events
@@ -190,14 +202,23 @@ def build_summary(events: list[dict]) -> dict:
     by_cwe = Counter(f"CWE-{e['cwe']}" for e in events)
     in_manifest = [e for e in events if e["in_manifest"]]
     in_kev = [e for e in events if e["in_kev"]]
+    in_msf = [e for e in events if e["in_metasploit"]]
+    in_edb = [e for e in events if e["in_exploitdb"]]
+    exploited = [e for e in events if e["exploited"]]
     in_kev_manifest = [e for e in events if e["in_kev"] and e["in_manifest"]]
     return {
         "total_events": len(events),
         "in_manifest_count": len(in_manifest),
+        # Per-source exploitation counts
         "in_kev_count": len(in_kev),
+        "in_metasploit_count": len(in_msf),
+        "in_exploitdb_count": len(in_edb),
+        # Union -- this is the "exploited" denominator that should be used
+        # for any high-vs-low analysis. KEV alone undercounts library
+        # exploitation; the project explicitly pivoted to OSV+Metasploit
+        # for library-scope exploitation evidence.
+        "exploited_count": len(exploited),
         "in_kev_and_manifest_count": len(in_kev_manifest),
-        "in_metasploit_count": sum(1 for e in events if e["in_metasploit"]),
-        "in_exploitdb_count": sum(1 for e in events if e["in_exploitdb"]),
         "by_ecosystem": dict(by_eco),
         "by_package": dict(by_pkg.most_common()),
         "by_cwe": dict(by_cwe.most_common()),
@@ -216,12 +237,13 @@ def render_dataset() -> dict:
     kev_path = REPO / "data" / "kev-snapshot-2026-04-23.json"
     kev_sha = hashlib.sha256(kev_path.read_bytes()).hexdigest()[:16]
 
-    # Sort: in-KEV first (the discriminator the dataset is built to study),
-    # then by published date desc within each group. Stable for diffing.
+    # Sort: exploited first (any source), then by published date desc.
+    # 'exploited' is the union (KEV ∪ Metasploit ∪ ExploitDB) -- using KEV
+    # alone undercounts library exploitation per the project's framing.
     def date_key(e):
         d = e["published"] or "0000-00-00"
         return -int(d.replace("-", ""))
-    events.sort(key=lambda e: (not e["in_kev"], date_key(e), e["package"], e["cwe"] or 0))
+    events.sort(key=lambda e: (not e["exploited"], date_key(e), e["package"], e["cwe"] or 0))
 
     return {
         "generated_at": dt.datetime.utcnow().isoformat(timespec="seconds") + "Z",

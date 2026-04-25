@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-04-25T06:44:54Z",
+  "generated_at": "2026-04-25T07:08:10Z",
   "description": "Seven-year network-parser + direct-injection (NP+DI) events dataset. Built from the cached OSV CWE-classification dump for 24 popular network-parsing libraries, intersected with the project's DI CWE set (including the April 2026 auth-bypass widening). KEV / Metasploit / ExploitDB outcome flags come from cross-referencing CISA KEV catalog and the cached exploit-source caches.",
   "methodology": {
     "np_filter": "OSV CWE classifier output 'parsing' (vs 'non_parsing' or 'ambiguous')",
@@ -27,9 +27,10 @@
     "total_events": 101,
     "in_manifest_count": 16,
     "in_kev_count": 8,
+    "in_metasploit_count": 13,
+    "in_exploitdb_count": 12,
+    "exploited_count": 16,
     "in_kev_and_manifest_count": 1,
-    "in_metasploit_count": 0,
-    "in_exploitdb_count": 1,
     "by_ecosystem": {
       "PyPI": 30,
       "Maven": 36,
@@ -78,6 +79,74 @@
   },
   "events": [
     {
+      "osv_id": "GHSA-frmv-pr5f-9mcr",
+      "cve": "CVE-2025-64459",
+      "published": "2025-11-05",
+      "package": "django",
+      "ecosystem": "PyPI",
+      "in_manifest": false,
+      "cwe": 89,
+      "summary": "Django vulnerable to SQL injection via _connector keyword argument in QuerySet a",
+      "is_np": true,
+      "is_di": true,
+      "in_kev": false,
+      "in_metasploit": false,
+      "in_exploitdb": true,
+      "exploited": true,
+      "epss": 0.00256
+    },
+    {
+      "osv_id": "GHSA-8c6j-ffmf-q6vm",
+      "cve": "CVE-2016-3081",
+      "published": "2022-05-14",
+      "package": "org.apache.struts:struts2-core",
+      "ecosystem": "Maven",
+      "in_manifest": false,
+      "cwe": 77,
+      "summary": "Apache Struts RCE Vulnerability",
+      "is_np": true,
+      "is_di": true,
+      "in_kev": false,
+      "in_metasploit": true,
+      "in_exploitdb": true,
+      "exploited": true,
+      "epss": null
+    },
+    {
+      "osv_id": "GHSA-737w-mh58-cxjp",
+      "cve": "CVE-2013-1966",
+      "published": "2022-05-14",
+      "package": "org.apache.struts:struts2-core",
+      "ecosystem": "Maven",
+      "in_manifest": false,
+      "cwe": 94,
+      "summary": "Arbitrary code execution in Apache Struts",
+      "is_np": true,
+      "is_di": true,
+      "in_kev": false,
+      "in_metasploit": true,
+      "in_exploitdb": true,
+      "exploited": true,
+      "epss": null
+    },
+    {
+      "osv_id": "GHSA-gqqm-564f-vvxq",
+      "cve": "CVE-2013-2134",
+      "published": "2022-05-14",
+      "package": "org.apache.struts:struts2-core",
+      "ecosystem": "Maven",
+      "in_manifest": false,
+      "cwe": 94,
+      "summary": "Arbitrary code execution in Apache Struts 2",
+      "is_np": true,
+      "is_di": true,
+      "in_kev": false,
+      "in_metasploit": false,
+      "in_exploitdb": true,
+      "exploited": true,
+      "epss": null
+    },
+    {
       "osv_id": "GHSA-47qp-8v9g-39hp",
       "cve": "CVE-2013-2251",
       "published": "2022-05-13",
@@ -89,8 +158,26 @@
       "is_np": true,
       "is_di": true,
       "in_kev": true,
-      "in_metasploit": false,
-      "in_exploitdb": false,
+      "in_metasploit": true,
+      "in_exploitdb": true,
+      "exploited": true,
+      "epss": null
+    },
+    {
+      "osv_id": "GHSA-7ghm-rpc7-p7g5",
+      "cve": "CVE-2013-2115",
+      "published": "2022-05-13",
+      "package": "org.apache.struts:struts2-core",
+      "ecosystem": "Maven",
+      "in_manifest": false,
+      "cwe": 94,
+      "summary": "Code injection in Apache Struts",
+      "is_np": true,
+      "is_di": true,
+      "in_kev": false,
+      "in_metasploit": true,
+      "in_exploitdb": true,
+      "exploited": true,
       "epss": null
     },
     {
@@ -105,8 +192,26 @@
       "is_np": true,
       "is_di": true,
       "in_kev": true,
-      "in_metasploit": false,
-      "in_exploitdb": false,
+      "in_metasploit": true,
+      "in_exploitdb": true,
+      "exploited": true,
+      "epss": null
+    },
+    {
+      "osv_id": "GHSA-j68f-8h6p-9h5q",
+      "cve": "CVE-2011-3923",
+      "published": "2022-04-22",
+      "package": "org.apache.struts:struts2-core",
+      "ecosystem": "Maven",
+      "in_manifest": false,
+      "cwe": 94,
+      "summary": "Struts ParameterInterceptor vulnerability allows remote command execution",
+      "is_np": true,
+      "is_di": true,
+      "in_kev": false,
+      "in_metasploit": true,
+      "in_exploitdb": true,
+      "exploited": true,
       "epss": null
     },
     {
@@ -121,8 +226,9 @@
       "is_np": true,
       "is_di": true,
       "in_kev": true,
-      "in_metasploit": false,
+      "in_metasploit": true,
       "in_exploitdb": false,
+      "exploited": true,
       "epss": null
     },
     {
@@ -137,8 +243,9 @@
       "is_np": true,
       "is_di": true,
       "in_kev": true,
-      "in_metasploit": false,
+      "in_metasploit": true,
       "in_exploitdb": false,
+      "exploited": true,
       "epss": null
     },
     {
@@ -153,8 +260,9 @@
       "is_np": true,
       "is_di": true,
       "in_kev": true,
-      "in_metasploit": false,
+      "in_metasploit": true,
       "in_exploitdb": false,
+      "exploited": true,
       "epss": null
     },
     {
@@ -169,8 +277,43 @@
       "is_np": true,
       "is_di": true,
       "in_kev": true,
-      "in_metasploit": false,
-      "in_exploitdb": false,
+      "in_metasploit": true,
+      "in_exploitdb": true,
+      "exploited": true,
+      "epss": null
+    },
+    {
+      "osv_id": "GHSA-wp4h-pvgw-5727",
+      "cve": "CVE-2019-0230",
+      "published": "2021-12-02",
+      "package": "org.apache.struts:struts2-core",
+      "ecosystem": "Maven",
+      "in_manifest": false,
+      "cwe": 1321,
+      "summary": "Improperly Controlled Modification of Dynamically-Determined Object Attributes i",
+      "is_np": true,
+      "is_di": true,
+      "in_kev": false,
+      "in_metasploit": true,
+      "in_exploitdb": true,
+      "exploited": true,
+      "epss": null
+    },
+    {
+      "osv_id": "GHSA-8vmx-qmch-mpqg",
+      "cve": "CVE-2019-0232",
+      "published": "2019-04-18",
+      "package": "org.apache.tomcat.embed:tomcat-embed-core",
+      "ecosystem": "Maven",
+      "in_manifest": true,
+      "cwe": 78,
+      "summary": "Apache Tomcat OS Command Injection vulnerability",
+      "is_np": true,
+      "is_di": true,
+      "in_kev": false,
+      "in_metasploit": true,
+      "in_exploitdb": true,
+      "exploited": true,
       "epss": null
     },
     {
@@ -187,6 +330,7 @@
       "in_kev": true,
       "in_metasploit": false,
       "in_exploitdb": false,
+      "exploited": true,
       "epss": null
     },
     {
@@ -201,8 +345,9 @@
       "is_np": true,
       "is_di": true,
       "in_kev": true,
-      "in_metasploit": false,
-      "in_exploitdb": false,
+      "in_metasploit": true,
+      "in_exploitdb": true,
+      "exploited": true,
       "epss": null
     },
     {
@@ -219,6 +364,7 @@
       "in_kev": false,
       "in_metasploit": false,
       "in_exploitdb": false,
+      "exploited": false,
       "epss": 0.0012
     },
     {
@@ -235,6 +381,7 @@
       "in_kev": false,
       "in_metasploit": false,
       "in_exploitdb": false,
+      "exploited": false,
       "epss": 0.00426
     },
     {
@@ -251,6 +398,7 @@
       "in_kev": false,
       "in_metasploit": false,
       "in_exploitdb": false,
+      "exploited": false,
       "epss": 0.00086
     },
     {
@@ -267,6 +415,7 @@
       "in_kev": false,
       "in_metasploit": false,
       "in_exploitdb": false,
+      "exploited": false,
       "epss": 0.00058
     },
     {
@@ -283,6 +432,7 @@
       "in_kev": false,
       "in_metasploit": false,
       "in_exploitdb": false,
+      "exploited": false,
       "epss": 0.00019
     },
     {
@@ -299,6 +449,7 @@
       "in_kev": false,
       "in_metasploit": false,
       "in_exploitdb": false,
+      "exploited": false,
       "epss": null
     },
     {
@@ -315,6 +466,7 @@
       "in_kev": false,
       "in_metasploit": false,
       "in_exploitdb": false,
+      "exploited": false,
       "epss": 0.00011
     },
     {
@@ -331,6 +483,7 @@
       "in_kev": false,
       "in_metasploit": false,
       "in_exploitdb": false,
+      "exploited": false,
       "epss": 0.04424
     },
     {
@@ -347,23 +500,8 @@
       "in_kev": false,
       "in_metasploit": false,
       "in_exploitdb": false,
+      "exploited": false,
       "epss": null
-    },
-    {
-      "osv_id": "GHSA-frmv-pr5f-9mcr",
-      "cve": "CVE-2025-64459",
-      "published": "2025-11-05",
-      "package": "django",
-      "ecosystem": "PyPI",
-      "in_manifest": false,
-      "cwe": 89,
-      "summary": "Django vulnerable to SQL injection via _connector keyword argument in QuerySet a",
-      "is_np": true,
-      "is_di": true,
-      "in_kev": false,
-      "in_metasploit": false,
-      "in_exploitdb": true,
-      "epss": 0.00256
     },
     {
       "osv_id": "GHSA-wmwf-9ccg-fff5",
@@ -379,6 +517,7 @@
       "in_kev": false,
       "in_metasploit": false,
       "in_exploitdb": false,
+      "exploited": false,
       "epss": 0.00167
     },
     {
@@ -395,6 +534,7 @@
       "in_kev": false,
       "in_metasploit": false,
       "in_exploitdb": false,
+      "exploited": false,
       "epss": 0.00013
     },
     {
@@ -411,6 +551,7 @@
       "in_kev": false,
       "in_metasploit": false,
       "in_exploitdb": false,
+      "exploited": false,
       "epss": 0.00021
     },
     {
@@ -427,6 +568,7 @@
       "in_kev": false,
       "in_metasploit": false,
       "in_exploitdb": false,
+      "exploited": false,
       "epss": null
     },
     {
@@ -443,6 +585,7 @@
       "in_kev": false,
       "in_metasploit": false,
       "in_exploitdb": false,
+      "exploited": false,
       "epss": null
     },
     {
@@ -459,6 +602,7 @@
       "in_kev": false,
       "in_metasploit": false,
       "in_exploitdb": false,
+      "exploited": false,
       "epss": null
     },
     {
@@ -475,6 +619,7 @@
       "in_kev": false,
       "in_metasploit": false,
       "in_exploitdb": false,
+      "exploited": false,
       "epss": null
     },
     {
@@ -491,6 +636,7 @@
       "in_kev": false,
       "in_metasploit": false,
       "in_exploitdb": false,
+      "exploited": false,
       "epss": null
     },
     {
@@ -507,6 +653,7 @@
       "in_kev": false,
       "in_metasploit": false,
       "in_exploitdb": false,
+      "exploited": false,
       "epss": null
     },
     {
@@ -523,6 +670,7 @@
       "in_kev": false,
       "in_metasploit": false,
       "in_exploitdb": false,
+      "exploited": false,
       "epss": null
     },
     {
@@ -539,6 +687,7 @@
       "in_kev": false,
       "in_metasploit": false,
       "in_exploitdb": false,
+      "exploited": false,
       "epss": null
     },
     {
@@ -555,6 +704,7 @@
       "in_kev": false,
       "in_metasploit": false,
       "in_exploitdb": false,
+      "exploited": false,
       "epss": null
     },
     {
@@ -571,6 +721,7 @@
       "in_kev": false,
       "in_metasploit": false,
       "in_exploitdb": false,
+      "exploited": false,
       "epss": null
     },
     {
@@ -587,6 +738,7 @@
       "in_kev": false,
       "in_metasploit": false,
       "in_exploitdb": false,
+      "exploited": false,
       "epss": null
     },
     {
@@ -603,6 +755,7 @@
       "in_kev": false,
       "in_metasploit": false,
       "in_exploitdb": false,
+      "exploited": false,
       "epss": null
     },
     {
@@ -619,6 +772,7 @@
       "in_kev": false,
       "in_metasploit": false,
       "in_exploitdb": false,
+      "exploited": false,
       "epss": null
     },
     {
@@ -635,6 +789,7 @@
       "in_kev": false,
       "in_metasploit": false,
       "in_exploitdb": false,
+      "exploited": false,
       "epss": null
     },
     {
@@ -651,6 +806,7 @@
       "in_kev": false,
       "in_metasploit": false,
       "in_exploitdb": false,
+      "exploited": false,
       "epss": null
     },
     {
@@ -667,6 +823,7 @@
       "in_kev": false,
       "in_metasploit": false,
       "in_exploitdb": false,
+      "exploited": false,
       "epss": null
     },
     {
@@ -683,6 +840,7 @@
       "in_kev": false,
       "in_metasploit": false,
       "in_exploitdb": false,
+      "exploited": false,
       "epss": null
     },
     {
@@ -699,6 +857,7 @@
       "in_kev": false,
       "in_metasploit": false,
       "in_exploitdb": false,
+      "exploited": false,
       "epss": null
     },
     {
@@ -715,6 +874,7 @@
       "in_kev": false,
       "in_metasploit": false,
       "in_exploitdb": false,
+      "exploited": false,
       "epss": null
     },
     {
@@ -731,6 +891,7 @@
       "in_kev": false,
       "in_metasploit": false,
       "in_exploitdb": false,
+      "exploited": false,
       "epss": null
     },
     {
@@ -747,6 +908,7 @@
       "in_kev": false,
       "in_metasploit": false,
       "in_exploitdb": false,
+      "exploited": false,
       "epss": null
     },
     {
@@ -763,6 +925,7 @@
       "in_kev": false,
       "in_metasploit": false,
       "in_exploitdb": false,
+      "exploited": false,
       "epss": null
     },
     {
@@ -779,6 +942,7 @@
       "in_kev": false,
       "in_metasploit": false,
       "in_exploitdb": false,
+      "exploited": false,
       "epss": null
     },
     {
@@ -795,6 +959,7 @@
       "in_kev": false,
       "in_metasploit": false,
       "in_exploitdb": false,
+      "exploited": false,
       "epss": null
     },
     {
@@ -811,6 +976,7 @@
       "in_kev": false,
       "in_metasploit": false,
       "in_exploitdb": false,
+      "exploited": false,
       "epss": null
     },
     {
@@ -827,54 +993,7 @@
       "in_kev": false,
       "in_metasploit": false,
       "in_exploitdb": false,
-      "epss": null
-    },
-    {
-      "osv_id": "GHSA-8c6j-ffmf-q6vm",
-      "cve": "CVE-2016-3081",
-      "published": "2022-05-14",
-      "package": "org.apache.struts:struts2-core",
-      "ecosystem": "Maven",
-      "in_manifest": false,
-      "cwe": 77,
-      "summary": "Apache Struts RCE Vulnerability",
-      "is_np": true,
-      "is_di": true,
-      "in_kev": false,
-      "in_metasploit": false,
-      "in_exploitdb": false,
-      "epss": null
-    },
-    {
-      "osv_id": "GHSA-737w-mh58-cxjp",
-      "cve": "CVE-2013-1966",
-      "published": "2022-05-14",
-      "package": "org.apache.struts:struts2-core",
-      "ecosystem": "Maven",
-      "in_manifest": false,
-      "cwe": 94,
-      "summary": "Arbitrary code execution in Apache Struts",
-      "is_np": true,
-      "is_di": true,
-      "in_kev": false,
-      "in_metasploit": false,
-      "in_exploitdb": false,
-      "epss": null
-    },
-    {
-      "osv_id": "GHSA-gqqm-564f-vvxq",
-      "cve": "CVE-2013-2134",
-      "published": "2022-05-14",
-      "package": "org.apache.struts:struts2-core",
-      "ecosystem": "Maven",
-      "in_manifest": false,
-      "cwe": 94,
-      "summary": "Arbitrary code execution in Apache Struts 2",
-      "is_np": true,
-      "is_di": true,
-      "in_kev": false,
-      "in_metasploit": false,
-      "in_exploitdb": false,
+      "exploited": false,
       "epss": null
     },
     {
@@ -891,6 +1010,7 @@
       "in_kev": false,
       "in_metasploit": false,
       "in_exploitdb": false,
+      "exploited": false,
       "epss": null
     },
     {
@@ -907,22 +1027,7 @@
       "in_kev": false,
       "in_metasploit": false,
       "in_exploitdb": false,
-      "epss": null
-    },
-    {
-      "osv_id": "GHSA-7ghm-rpc7-p7g5",
-      "cve": "CVE-2013-2115",
-      "published": "2022-05-13",
-      "package": "org.apache.struts:struts2-core",
-      "ecosystem": "Maven",
-      "in_manifest": false,
-      "cwe": 94,
-      "summary": "Code injection in Apache Struts",
-      "is_np": true,
-      "is_di": true,
-      "in_kev": false,
-      "in_metasploit": false,
-      "in_exploitdb": false,
+      "exploited": false,
       "epss": null
     },
     {
@@ -939,6 +1044,7 @@
       "in_kev": false,
       "in_metasploit": false,
       "in_exploitdb": false,
+      "exploited": false,
       "epss": null
     },
     {
@@ -955,6 +1061,7 @@
       "in_kev": false,
       "in_metasploit": false,
       "in_exploitdb": false,
+      "exploited": false,
       "epss": null
     },
     {
@@ -971,22 +1078,7 @@
       "in_kev": false,
       "in_metasploit": false,
       "in_exploitdb": false,
-      "epss": null
-    },
-    {
-      "osv_id": "GHSA-j68f-8h6p-9h5q",
-      "cve": "CVE-2011-3923",
-      "published": "2022-04-22",
-      "package": "org.apache.struts:struts2-core",
-      "ecosystem": "Maven",
-      "in_manifest": false,
-      "cwe": 94,
-      "summary": "Struts ParameterInterceptor vulnerability allows remote command execution",
-      "is_np": true,
-      "is_di": true,
-      "in_kev": false,
-      "in_metasploit": false,
-      "in_exploitdb": false,
+      "exploited": false,
       "epss": null
     },
     {
@@ -1003,6 +1095,7 @@
       "in_kev": false,
       "in_metasploit": false,
       "in_exploitdb": false,
+      "exploited": false,
       "epss": null
     },
     {
@@ -1019,6 +1112,7 @@
       "in_kev": false,
       "in_metasploit": false,
       "in_exploitdb": false,
+      "exploited": false,
       "epss": null
     },
     {
@@ -1035,6 +1129,7 @@
       "in_kev": false,
       "in_metasploit": false,
       "in_exploitdb": false,
+      "exploited": false,
       "epss": null
     },
     {
@@ -1051,6 +1146,7 @@
       "in_kev": false,
       "in_metasploit": false,
       "in_exploitdb": false,
+      "exploited": false,
       "epss": null
     },
     {
@@ -1067,6 +1163,7 @@
       "in_kev": false,
       "in_metasploit": false,
       "in_exploitdb": false,
+      "exploited": false,
       "epss": null
     },
     {
@@ -1083,6 +1180,7 @@
       "in_kev": false,
       "in_metasploit": false,
       "in_exploitdb": false,
+      "exploited": false,
       "epss": null
     },
     {
@@ -1099,6 +1197,7 @@
       "in_kev": false,
       "in_metasploit": false,
       "in_exploitdb": false,
+      "exploited": false,
       "epss": null
     },
     {
@@ -1115,6 +1214,7 @@
       "in_kev": false,
       "in_metasploit": false,
       "in_exploitdb": false,
+      "exploited": false,
       "epss": null
     },
     {
@@ -1131,22 +1231,7 @@
       "in_kev": false,
       "in_metasploit": false,
       "in_exploitdb": false,
-      "epss": null
-    },
-    {
-      "osv_id": "GHSA-wp4h-pvgw-5727",
-      "cve": "CVE-2019-0230",
-      "published": "2021-12-02",
-      "package": "org.apache.struts:struts2-core",
-      "ecosystem": "Maven",
-      "in_manifest": false,
-      "cwe": 1321,
-      "summary": "Improperly Controlled Modification of Dynamically-Determined Object Attributes i",
-      "is_np": true,
-      "is_di": true,
-      "in_kev": false,
-      "in_metasploit": false,
-      "in_exploitdb": false,
+      "exploited": false,
       "epss": null
     },
     {
@@ -1163,6 +1248,7 @@
       "in_kev": false,
       "in_metasploit": false,
       "in_exploitdb": false,
+      "exploited": false,
       "epss": null
     },
     {
@@ -1179,6 +1265,7 @@
       "in_kev": false,
       "in_metasploit": false,
       "in_exploitdb": false,
+      "exploited": false,
       "epss": null
     },
     {
@@ -1195,6 +1282,7 @@
       "in_kev": false,
       "in_metasploit": false,
       "in_exploitdb": false,
+      "exploited": false,
       "epss": null
     },
     {
@@ -1211,6 +1299,7 @@
       "in_kev": false,
       "in_metasploit": false,
       "in_exploitdb": false,
+      "exploited": false,
       "epss": null
     },
     {
@@ -1227,6 +1316,7 @@
       "in_kev": false,
       "in_metasploit": false,
       "in_exploitdb": false,
+      "exploited": false,
       "epss": null
     },
     {
@@ -1243,6 +1333,7 @@
       "in_kev": false,
       "in_metasploit": false,
       "in_exploitdb": false,
+      "exploited": false,
       "epss": null
     },
     {
@@ -1259,6 +1350,7 @@
       "in_kev": false,
       "in_metasploit": false,
       "in_exploitdb": false,
+      "exploited": false,
       "epss": null
     },
     {
@@ -1275,6 +1367,7 @@
       "in_kev": false,
       "in_metasploit": false,
       "in_exploitdb": false,
+      "exploited": false,
       "epss": null
     },
     {
@@ -1291,6 +1384,7 @@
       "in_kev": false,
       "in_metasploit": false,
       "in_exploitdb": false,
+      "exploited": false,
       "epss": null
     },
     {
@@ -1307,6 +1401,7 @@
       "in_kev": false,
       "in_metasploit": false,
       "in_exploitdb": false,
+      "exploited": false,
       "epss": null
     },
     {
@@ -1323,6 +1418,7 @@
       "in_kev": false,
       "in_metasploit": false,
       "in_exploitdb": false,
+      "exploited": false,
       "epss": null
     },
     {
@@ -1339,6 +1435,7 @@
       "in_kev": false,
       "in_metasploit": false,
       "in_exploitdb": false,
+      "exploited": false,
       "epss": null
     },
     {
@@ -1355,6 +1452,7 @@
       "in_kev": false,
       "in_metasploit": false,
       "in_exploitdb": false,
+      "exploited": false,
       "epss": null
     },
     {
@@ -1371,6 +1469,7 @@
       "in_kev": false,
       "in_metasploit": false,
       "in_exploitdb": false,
+      "exploited": false,
       "epss": null
     },
     {
@@ -1387,6 +1486,7 @@
       "in_kev": false,
       "in_metasploit": false,
       "in_exploitdb": false,
+      "exploited": false,
       "epss": null
     },
     {
@@ -1403,6 +1503,7 @@
       "in_kev": false,
       "in_metasploit": false,
       "in_exploitdb": false,
+      "exploited": false,
       "epss": null
     },
     {
@@ -1419,22 +1520,7 @@
       "in_kev": false,
       "in_metasploit": false,
       "in_exploitdb": false,
-      "epss": null
-    },
-    {
-      "osv_id": "GHSA-8vmx-qmch-mpqg",
-      "cve": "CVE-2019-0232",
-      "published": "2019-04-18",
-      "package": "org.apache.tomcat.embed:tomcat-embed-core",
-      "ecosystem": "Maven",
-      "in_manifest": true,
-      "cwe": 78,
-      "summary": "Apache Tomcat OS Command Injection vulnerability",
-      "is_np": true,
-      "is_di": true,
-      "in_kev": false,
-      "in_metasploit": false,
-      "in_exploitdb": false,
+      "exploited": false,
       "epss": null
     },
     {
@@ -1451,6 +1537,7 @@
       "in_kev": false,
       "in_metasploit": false,
       "in_exploitdb": false,
+      "exploited": false,
       "epss": null
     },
     {
@@ -1467,6 +1554,7 @@
       "in_kev": false,
       "in_metasploit": false,
       "in_exploitdb": false,
+      "exploited": false,
       "epss": null
     },
     {
@@ -1483,6 +1571,7 @@
       "in_kev": false,
       "in_metasploit": false,
       "in_exploitdb": false,
+      "exploited": false,
       "epss": null
     },
     {
@@ -1499,6 +1588,7 @@
       "in_kev": false,
       "in_metasploit": false,
       "in_exploitdb": false,
+      "exploited": false,
       "epss": null
     },
     {
@@ -1515,6 +1605,7 @@
       "in_kev": false,
       "in_metasploit": false,
       "in_exploitdb": false,
+      "exploited": false,
       "epss": null
     },
     {
@@ -1531,6 +1622,7 @@
       "in_kev": false,
       "in_metasploit": false,
       "in_exploitdb": false,
+      "exploited": false,
       "epss": null
     },
     {
@@ -1547,6 +1639,7 @@
       "in_kev": false,
       "in_metasploit": false,
       "in_exploitdb": false,
+      "exploited": false,
       "epss": null
     },
     {
@@ -1563,6 +1656,7 @@
       "in_kev": false,
       "in_metasploit": false,
       "in_exploitdb": false,
+      "exploited": false,
       "epss": null
     },
     {
@@ -1579,6 +1673,7 @@
       "in_kev": false,
       "in_metasploit": false,
       "in_exploitdb": false,
+      "exploited": false,
       "epss": null
     },
     {
@@ -1595,6 +1690,7 @@
       "in_kev": false,
       "in_metasploit": false,
       "in_exploitdb": false,
+      "exploited": false,
       "epss": null
     },
     {
@@ -1611,6 +1707,7 @@
       "in_kev": false,
       "in_metasploit": false,
       "in_exploitdb": false,
+      "exploited": false,
       "epss": null
     },
     {
@@ -1627,6 +1724,7 @@
       "in_kev": false,
       "in_metasploit": false,
       "in_exploitdb": false,
+      "exploited": false,
       "epss": null
     },
     {
@@ -1643,6 +1741,7 @@
       "in_kev": false,
       "in_metasploit": false,
       "in_exploitdb": false,
+      "exploited": false,
       "epss": null
     },
     {
@@ -1659,6 +1758,7 @@
       "in_kev": false,
       "in_metasploit": false,
       "in_exploitdb": false,
+      "exploited": false,
       "epss": null
     },
     {
@@ -1675,6 +1775,7 @@
       "in_kev": false,
       "in_metasploit": false,
       "in_exploitdb": false,
+      "exploited": false,
       "epss": null
     },
     {
@@ -1691,6 +1792,7 @@
       "in_kev": false,
       "in_metasploit": false,
       "in_exploitdb": false,
+      "exploited": false,
       "epss": null
     }
   ]
