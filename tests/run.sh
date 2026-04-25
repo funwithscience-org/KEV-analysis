@@ -41,6 +41,7 @@ run "DATA blob invariants"       tests/test_data_invariants.py
 run "http lift table"            tests/test_http_data.py
 run "classifications JSON"       tests/test_classifications.py
 run "llms.txt freshness"         tests/test_llms_txt.py
+run "7-year NP+DI dataset"       tests/test_seven_year_npdi.py
 
 echo
 echo "${GREEN}${BOLD}All tests passed.${RESET}"
