@@ -1,0 +1,45 @@
+#!/usr/bin/env bash
+#
+# KEV-analysis numeric regression suite.
+#
+#   tests/run.sh               # fast suite (canonical classifier cases only)
+#   tests/run.sh --full        # also re-classify the pinned snapshot
+#
+# Exits 1 on the first failing test. All test scripts are fail-loud — they
+# print each failed check before exiting non-zero.
+
+set -u
+
+HERE="$(cd "$(dirname "$0")" && pwd)"
+REPO="$(dirname "$HERE")"
+cd "$REPO"
+
+FULL=""
+if [[ "${1:-}" == "--full" ]]; then
+    FULL="--full"
+fi
+
+# Simple colors if the terminal supports them.
+if [[ -t 1 ]]; then
+    BOLD=$'\033[1m'; GREEN=$'\033[32m'; RED=$'\033[31m'; DIM=$'\033[2m'; RESET=$'\033[0m'
+else
+    BOLD=""; GREEN=""; RED=""; DIM=""; RESET=""
+fi
+
+run() {
+    local name="$1"; shift
+    echo
+    echo "${BOLD}== $name ==${RESET}"
+    if ! python3 "$@"; then
+        echo "${RED}${BOLD}FAILED:${RESET} $name"
+        exit 1
+    fi
+}
+
+run "classifier regression"      tests/test_kev_classifier.py $FULL
+run "DATA blob invariants"       tests/test_data_invariants.py
+run "http lift table"            tests/test_http_data.py
+run "classifications JSON"       tests/test_classifications.py
+
+echo
+echo "${GREEN}${BOLD}All tests passed.${RESET}"

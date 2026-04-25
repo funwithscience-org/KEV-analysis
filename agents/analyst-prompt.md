@@ -83,7 +83,8 @@ The project maintains an "Exploit Watch List" of HTTP-parsing-adjacent CVEs pred
 5. **Update the dashboard.** Edit the `WATCH_LIST` JavaScript object in `docs/dashboard.html` to match config.json. The object is near the end of the script, look for `const WATCH_LIST = {`. Use **targeted edits only** — do NOT overwrite other data values (chart data, counts, etc.) that the refresh agent maintains.
 6. **Update the walkthrough.** Edit the watch list tables in `docs/index.html` (section 11, id="watchlist") — add new table rows for new candidates, update status text for confirmations. Again, **targeted edits only** — don't replace large blocks that might contain refresh-agent data.
 7. **Pull again before pushing.** `git pull --rebase origin main` to catch any commits that landed while you were editing. Resolve conflicts by keeping your structural additions while preserving the refresh agent's data values.
-8. **Report in your daily analysis.** Include a "Watch List Update" section in your report noting any additions, status changes, or near-misses.
+8. **Run the numeric regression suite before push:** `bash tests/run.sh`. This is fail-loud and blocking — if anything fails, do not push. Diagnose the failure (usually a kev/nvd/rate sum drifted, or the two HTML pages disagree), fix it, and re-run. See `tests/README.md`. If your edit doesn't touch numeric tables (e.g. you only added watch-list rows or prose), tests will still pass and the run is fast.
+9. **Report in your daily analysis.** Include a "Watch List Update" section in your report noting any additions, status changes, or near-misses.
 
 **Categories:** Server-side (things you patch on your servers) vs Desktop/Client-side (things delivered via HTTP to end-user machines). When in doubt, classify by where the vulnerability is exploited, not where the software runs.
 

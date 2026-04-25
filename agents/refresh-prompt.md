@@ -220,9 +220,11 @@ You already cloned the repo in the SETUP step. Steps:
 4. Edit `kev-repo/docs/index.html` (walkthrough) — update corresponding data in the Mythos section prose and any inline data
 5. Update `kev-repo/config.json` baseline_data section with new values (so the next run has accurate priors)
 6. Update `kev-repo/config.json` exploit_intelligence section with exploit check results
-7. Commit with a descriptive message including the date and what changed
-8. **Pull again before pushing:** `git pull --rebase origin main` to catch any commits that landed while you were working. If there's a merge conflict, resolve it by keeping YOUR new data values (you just fetched them fresh) while preserving any structural changes (new HTML sections, new JS objects) from the other commit.
-9. Push to main branch
+7. **Run the numeric regression suite:** `bash tests/run.sh`. If anything fails, STOP — do not commit. Read the failure, diagnose the cause, fix it. The suite is fail-loud and blocking. Common failures: a rate that no longer matches kev/nvd math; a sum that drifted from the classifications JSON; the two HTML pages disagreeing. See `tests/README.md`.
+8. Commit with a descriptive message including the date and what changed
+9. **Pull again before pushing:** `git pull --rebase origin main` to catch any commits that landed while you were working. If there's a merge conflict, resolve it by keeping YOUR new data values (you just fetched them fresh) while preserving any structural changes (new HTML sections, new JS objects) from the other commit.
+10. **Re-run `bash tests/run.sh`** after the rebase — a merge could re-introduce drift.
+11. Push to main branch
 
 IMPORTANT: The HTML files are ~300KB each with inline JSON DATA blobs. Do NOT try to rewrite the whole file. Use targeted sed/python replacements on the specific data lines.
 
