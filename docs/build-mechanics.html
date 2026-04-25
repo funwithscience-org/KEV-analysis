@@ -89,6 +89,7 @@ This page sits underneath the main analysis. It's about the operational layer: h
 <li><a href="#wafs">WAFs as spackle</a></li>
 <li><a href="#filter-value">Filter value depends on response shape</a></li>
 <li><a href="#reduction">What this means for the 64–86% reduction claim</a></li>
+<li><a href="#enterprise-rules">Practical implications for the enterprise</a></li>
 </ol>
 </div>
 
@@ -281,7 +282,140 @@ The 1/3 - 1/3 - 1/3 split isn't a recommendation or a typical case &mdash; it's 
 Both readings are honest; the value to any specific organization sits somewhere on the spectrum between them. The framework on this page is meant to help locate where on the spectrum a given estate actually lives, which depends on the cat 1 / 2 / 3 distribution, the WAF maturity, and the political ability to interrupt teams that aren't on auto-rebuild.
 </div>
 
-<p>That's the framework. The main page applies it implicitly throughout. This page is the explicit version, useful when the framing in the main analysis raises operational questions like "okay, but how does this actually work in <em>my</em> environment?"</p>
+<p>That's the framework. The next section translates it into concrete operational rules &mdash; the metadata you need to track, how triage scope changes by auth posture, where the worst surfaces hide, and how all of this composes into a triage decision flow when a critical CVE lands.</p>
+
+<h2 id="enterprise-rules">12. Practical implications for the enterprise</h2>
+
+<p>The framework so far has been about category structure (cat 1 / 2 / 3 estate maturity, the value of routine rebuild, where WAFs help) and filter mechanics (NP+DI as triage discriminator). This section is about the operational rules that fall out when you actually try to apply this in a real organization.</p>
+
+<p>The pivotal insight is one the filter relies on implicitly: <strong>NP+DI assumes the system has meaningful authentication that attackers need to bypass.</strong> The filter narrows because most exploitable surface lives behind auth, so we focus on the parts that fire <em>before</em> auth completes. When that assumption breaks &mdash; for unauthenticated services, for misconfigured management endpoints, for surfaces that grew without anyone deciding they should be public &mdash; the filter still works in principle, but its scope has to widen. The auth posture of an endpoint determines which filter to apply to its dependency stack.</p>
+
+<p>This makes auth posture itself a first-class operational artifact. Most enterprises don't track it formally. They should.</p>
+
+<h3>12.1 Track API auth posture as first-class metadata</h3>
+
+<p>When a critical CVE drops in a widely-deployed library, the question that determines emergency response isn't "do we use this library?" &mdash; for popular libraries the answer is always yes. The question is <strong>which of our API endpoints reach the affected code path before our authentication filter has run.</strong> That's a question about endpoint metadata, not library SBOM data.</p>
+
+<p>Most enterprises can answer "which apps use Spring?" in minutes. Most can answer "which APIs are exposed externally?" in hours. Almost none can answer "which API endpoints, in which apps, hit Spring's parameter binder before the auth filter runs?" in less than days. That gap is the operational difference between containing Spring4Shell in 24 hours and containing it in two weeks.</p>
+
+<p>The metadata fields that matter for vulnerability triage:</p>
+
+<ul>
+<li><strong>Auth posture</strong> &mdash; pre-auth, post-auth, admin-only, privileged-only. <em>Per endpoint, not per app.</em></li>
+<li><strong>Internet exposure</strong> &mdash; public DNS, internal-only, VPN-only, partner-network. Per endpoint or per service tier.</li>
+<li><strong>Tenant boundary</strong> &mdash; single-tenant, multi-tenant, control-plane. Determines blast radius if compromised.</li>
+<li><strong>Stack composition</strong> &mdash; which dependencies are in the request path. Per endpoint or per service.</li>
+<li><strong>Build category</strong> &mdash; cat 1 / cat 2 / cat 3 (from &sect;5). Determines how fast you can patch.</li>
+<li><strong>WAF coverage</strong> &mdash; yes / partial / no. Determines bridging time.</li>
+</ul>
+
+<p>Some of this exists in modern enterprises &mdash; SBOM tooling, ASPM platforms, service catalogs. Most of it doesn't, or exists in scattered systems that don't talk to each other. The minimum viable inventory is a wiki page per service that lists pre-auth endpoints; even that is enough to triage 80% of incidents at speed. Without it, you're reduced to grep-and-pray when a Log4Shell-class event lands.</p>
+
+<h3>12.2 Filter scope follows auth posture</h3>
+
+<p>The NP+DI filter is calibrated for systems with strong auth boundaries. It catches the parts that fire before auth completes &mdash; exactly the things attackers can reach without credentials. For services where most of the API is post-auth, NP+DI is the right scope.</p>
+
+<p>For services where most of the API is <em>unauthenticated by design</em> &mdash; public APIs, IoT devices, edge services, marketing sites, sign-up flows &mdash; the filter has to widen because there's no auth boundary doing the work. Several CWE families that NP+DI deliberately excludes become first-tier threats:</p>
+
+<ul>
+<li><strong>DoS (CWE-400, 770, 1333)</strong> &mdash; in authed systems you rate-limit per user; unauthed means anyone with internet can DoS you with no defense beyond network-level limits.</li>
+<li><strong>Information disclosure (CWE-200, 209, 532)</strong> &mdash; in authed systems leaks usually reach data the user already has access to; unauthed means leaks reach the whole internet.</li>
+<li><strong>SSRF (CWE-918)</strong> &mdash; pre-auth SSRF is materially worse than post-auth SSRF and deserves emergency treatment.</li>
+<li><strong>Auth bypass CWEs</strong> &mdash; irrelevant when there's no auth, but emergency-grade if there's any partial auth boundary (admin section, premium tier, internal endpoints behind a login).</li>
+</ul>
+
+<p>Which suggests a layered triage rule:</p>
+
+<table>
+<thead><tr><th>Auth posture</th><th>Filter scope</th></tr></thead>
+<tbody>
+<tr><td>Strong auth, deliberate unauthed surface (sign-up, password reset, marketing)</td><td>NP+DI strict &mdash; these surfaces should already have minimal stack</td></tr>
+<tr><td>Mostly authed API</td><td>NP+DI strict</td></tr>
+<tr><td>Mostly unauthed (public API, edge service, IoT)</td><td>NP+DI + DoS + info-disclosure + SSRF &mdash; widen the CWE set</td></tr>
+<tr><td><strong>Unauthenticated by accident</strong> (exposed actuator, default-creds-on-internet, misconfigured origin)</td><td><strong>Worst case</strong> &mdash; broadest filter + WAF + emergency cat-3 conversion priority</td></tr>
+</tbody>
+</table>
+
+<p>The last row is the dangerous one because most enterprises have surfaces in that bucket they don't know about. The next subsection is a worked example of how this happens.</p>
+
+<h3>12.3 The framework-management-endpoint pattern: Spring Boot Actuator and Jolokia</h3>
+
+<p>A specific worked example of "unauthenticated by accident" that's so common it deserves its own callout.</p>
+
+<p>Modern application frameworks ship a built-in operational layer for ops automation. Spring Boot Actuator. Express middleware. Django admin. Quarkus health. These exist for a legitimate reason: k8s liveness probes, load balancer health checks, and APM tools need an unauthenticated way to ask "are you alive?" That's the basic <code>/health</code> endpoint pattern, and it's fine.</p>
+
+<p>The problem is the <em>adjacent</em> endpoints the framework also ships, often default-enabled, often default-unauthenticated:</p>
+
+<ul>
+<li><code>/actuator/env</code> &mdash; exposes resolved environment variables, including secrets</li>
+<li><code>/actuator/configprops</code> &mdash; exposes the resolved config tree</li>
+<li><code>/actuator/heapdump</code> &mdash; downloads a JVM heap dump (often containing credentials in memory)</li>
+<li><code>/actuator/jolokia</code> &mdash; JMX-over-HTTP bridge that lets you invoke arbitrary MBean operations, including ones that execute shell commands</li>
+</ul>
+
+<p>If the management surface is on the same port as the application (which is the default), and there's no separate ACL on the actuator paths (which is common), and Jolokia is enabled (which it often is in older Spring Boot setups or when ActiveMQ is involved), you have <strong>remote code execution as a service</strong> waiting to be discovered.</p>
+
+<div class="insight danger">
+<strong>The recent ActiveMQ Jolokia KEV entries (CVE-2026-34197, CVE-2023-46604) are exactly this pattern.</strong> The named CVE is "Jolokia accepts auth bypass via X" or "ActiveMQ broker MBean does Y," but the actual vulnerability is the architectural decision to expose Jolokia at all. The CVE just turns a config mistake into an active attack.
+</div>
+
+<p>The fix is well-known and architecturally cheap, but operationally annoying:</p>
+
+<ul>
+<li><strong>Move actuator to a separate management port</strong> (<code>management.server.port=9090</code>), bind that port to localhost or a management VPC only, never expose externally.</li>
+<li><strong>Disable every actuator endpoint that isn't strictly needed.</strong> Production almost never needs <code>/actuator/jolokia</code>, <code>/actuator/heapdump</code>, or <code>/actuator/env</code>. Period.</li>
+<li><strong>Keep <code>/actuator/health</code> minimal.</strong> Return UP/DOWN. Don't include nested DB connectivity info, queue depths, or version strings &mdash; those are reconnaissance fuel.</li>
+<li><strong>If you need rich health info for debugging,</strong> put it on <code>/actuator/health/detailed</code> behind basic auth or management-port-only ACL.</li>
+</ul>
+
+<p>The real diagnostic is <strong>how many of your services have ever audited their actuator surface</strong>. Most haven't. The default Spring Boot starter still exposes <code>/actuator/health</code> and <code>/actuator/info</code> in 2.x; the latter leaks build/git/env info that's reconnaissance fuel for an attacker who's already mapped your attack surface. The gap between "knows about it" and "actually does it" on actuator hygiene is itself a maturity diagnostic &mdash; arguably a better one than CVE response time, because actuator hygiene is something you can audit at any time without waiting for a CVE.</p>
+
+<h3>12.4 Hygiene rules that follow from the auth-chain framing</h3>
+
+<p>Two rules that work together to keep the unauth-surface problem from compounding.</p>
+
+<p><strong>Rule 1: every pre-auth endpoint should be a deliberate architectural decision.</strong> Most pre-auth surfaces grew by accident &mdash; health checks, OAuth callbacks, sign-up flows, password reset pages, public marketing assets, framework management endpoints. Each one is an attacker entry point. A "pre-auth surface inventory" isn't just for triage when CVEs drop; it's for <em>driving down the count</em>. If your enterprise has 200 pre-auth endpoints and you can't justify why each one needs to be pre-auth, that's a security debt metric, separate from any CVE response metric.</p>
+
+<p><strong>Rule 2: unauthenticated public APIs should be the most architecturally constrained code in the enterprise.</strong> Minimal libraries, no general-purpose deserialization (no jackson-databind, no snakeyaml, no commons-text on these surfaces unless deliberately reviewed), hand-crafted input validation, ideally a separate deploy unit that can rebuild on its own cadence. The right shape for a public API is nginx + 200 lines of Go, not Spring Boot with 200 transitives. When unauth APIs run on full enterprise framework stacks, that's the actual security debt &mdash; not the CVE list.</p>
+
+<p>The two rules reinforce each other. Small unauth surface + broad filter = manageable rebuild cadence. Large unauth surface + broad filter = unsustainable. The unsustainability is itself a signal that too much functionality has been put in front of no authentication.</p>
+
+<div class="insight">
+<strong>The corollary worth flagging.</strong> When the filter scope rules in &sect;12.2 produce too many emergency events, the answer is usually <em>not</em> "loosen the filter." It's "reduce the unauth surface that the broader filter is firing on." The filter is just measuring what's already wrong.
+</div>
+
+<h3>12.5 Putting it together: the triage decision flow</h3>
+
+<p>When a critical CVE drops, the decision tree based on the rules above:</p>
+
+<ol>
+<li><strong>Is the affected library/component in our stack at all?</strong> SBOM lookup. If no, done.</li>
+<li><strong>Which endpoints in which apps reach the affected code path?</strong> Stack-composition metadata.</li>
+<li><strong>Of those endpoints, which are pre-auth?</strong> Auth-posture metadata.</li>
+<li><strong>Of the pre-auth endpoints, which are internet-exposed?</strong> Internet-exposure metadata.</li>
+<li><strong>What's the build category for each affected service?</strong> Determines patch SLA (cat 1 absorbs in BAU, cat 2 needs trigger fired, cat 3 needs floor sweep coordination).</li>
+<li><strong>What WAF coverage exists for the specific CVE pattern?</strong> Determines bridging time during patch window.</li>
+</ol>
+
+<p>The output is a prioritized list:</p>
+
+<table>
+<thead><tr><th>Combination</th><th>Triage tier</th></tr></thead>
+<tbody>
+<tr><td>Pre-auth + internet-exposed + cat 2 or 3 + WAF doesn't cover</td><td><strong>Emergency.</strong> Wake people up.</td></tr>
+<tr><td>Pre-auth + internet-exposed + cat 1 (will absorb in next BAU build) OR WAF covers (bridges to next BAU)</td><td>Important, not emergency.</td></tr>
+<tr><td>Post-auth + cat 1 or 2</td><td>Normal cycle.</td></tr>
+<tr><td>Post-auth + cat 3</td><td>Normal cycle, monitor. Will get patched eventually; not urgent because attacker needs creds first.</td></tr>
+</tbody>
+</table>
+
+<p>Most enterprises today can't run this decision tree because they don't have the metadata. They run a different (worse) tree: <em>"is this CVE famous? if yes, panic."</em> That tree treats every Log4Shell-class event as identical even though the actual blast radius depends on which specific endpoints in your specific apps were reachable pre-auth &mdash; and it ignores half the legitimate emergencies because they didn't trend on Twitter.</p>
+
+<div class="callout">
+The metadata-driven approach has real cost (an inventory that needs maintenance and won't be perfect on day one). But it converts panic-driven response into evidence-driven response. Once it exists, you stop reacting to news cycles and start reacting to actual exposure. That shift is worth more than any single CVE response improvement, because it compounds across every future incident.
+</div>
+
+<p>The honest pre-condition: this only works if the upstream rules have been applied. You need the cat 1/2/3 distribution from &sect;5 to be tracked. You need the auth-posture inventory from &sect;12.1. You need WAF coverage from &sect;9 to be real and current, not aspirational. Without those, the decision flow is theoretical. With them, it converts an entire category of organizational chaos into a routine triage ticket.</p>
 
 <div class="footer">
 KEV Analysis &mdash; Build Mechanics page. See <a href="index.html" style="color:#6366f1">Walkthrough</a> for the main analysis and <a href="dashboard.html" style="color:#6366f1">Dashboard</a> for interactive charts.
