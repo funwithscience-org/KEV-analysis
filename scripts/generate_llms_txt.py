@@ -183,6 +183,7 @@ def render_llms_txt(data: dict, classif: dict) -> str:
     parts.append(f"- [Walkthrough]({SITE}/index.html): long-form analysis with sidebar navigation")
     parts.append(f"- [Dashboard]({SITE}/dashboard.html): interactive Chart.js dashboard")
     parts.append(f"- [Periodicity]({SITE}/periodicity.html): cross-framework backtest of the NP+DI filter")
+    parts.append(f"- [Build Mechanics]({SITE}/build-mechanics.html): operational layer — BAU vs floor sweeps, the cat 1/2/3 estate-maturity model, WAFs as spackle, and how filter value depends on response shape")
     parts.append(f"- [CVE Reference]({SITE}/cve-reference.html): per-CVE classification table")
     parts.append(f"- [Glasswing]({SITE}/glasswing.html): speculative analysis of AI-discovered CVEs (intelligence assessment, not data)")
     parts.append(f"- [OSV Exploitation]({SITE}/osv-exploitation.html): open-source library exploitation analysis using OSV.dev")
