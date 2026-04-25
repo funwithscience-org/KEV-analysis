@@ -171,8 +171,17 @@ def main() -> int:
                 f"Run scripts/compute_top_products.py and update DATA blob.",
             )
 
-        # --- 8d. tte_data structural invariants (no generator yet) ---
-        if "tte_data" in data:
+        # --- 8d. tte_data must match data/tte.json output ---
+        tte_path = REPO / "data" / "tte.json"
+        if tte_path.exists() and "tte_data" in data:
+            generator_tte = json.load(open(tte_path))["tte_data"]
+            r.check(
+                data["tte_data"] == generator_tte,
+                f"{tag}: DATA.tte_data drifted from data/tte.json. "
+                f"Run scripts/compute_tte.py and update DATA blob.",
+            )
+
+            # Plus structural invariants on whatever's in DATA
             tte = data["tte_data"]
             r.check(
                 isinstance(tte, list) and len(tte) >= 1,
@@ -191,7 +200,6 @@ def main() -> int:
                         f"out of order: p25={row['p25']} median={row['median']} "
                         f"p75={row['p75']}",
                     )
-            # Years should be ascending
             years = [r2["year"] for r2 in tte if "year" in r2]
             r.check(
                 years == sorted(years),

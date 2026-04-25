@@ -1,0 +1,65 @@
+{
+  "generated_at": "2026-04-25T10:08:49Z",
+  "description": "Time-to-exploit per CVE-publication year, backing the tteChart on docs/dashboard.html. TTE = dateAdded (CISA KEV) - cve_published_date (NVD/OSV).",
+  "methodology": {
+    "kev_source": "data/kev-snapshot-2026-04-23.json",
+    "publication_date_source": "data/_kev-publication-dates.json (OSV)",
+    "include_years": [
+      2021,
+      2022,
+      2023,
+      2024
+    ],
+    "exclusion_rationale": "2025/2026 excluded due to insufficient N and right-censoring \u2014 recently-published CVEs that haven't been added to KEV yet might still be added later, biasing current-year medians artificially low.",
+    "negative_tte_skipped": "rare data anomalies where dateAdded < published"
+  },
+  "summary": {
+    "coverage_per_year": {
+      "2023": 163,
+      "2024": 159,
+      "2021": 213,
+      "2022": 130
+    },
+    "missing_pubdate_per_year": {
+      "2024": 9,
+      "2023": 6,
+      "2022": 2,
+      "2021": 10
+    },
+    "total_with_tte": 586
+  },
+  "tte_data": [
+    {
+      "year": 2021,
+      "n": 198,
+      "median": 205,
+      "p25": 112,
+      "p75": 360,
+      "mean": 363
+    },
+    {
+      "year": 2022,
+      "n": 98,
+      "median": 49,
+      "p25": 9,
+      "p75": 189,
+      "mean": 190
+    },
+    {
+      "year": 2023,
+      "n": 145,
+      "median": 8,
+      "p25": 1,
+      "p75": 118,
+      "mean": 116
+    },
+    {
+      "year": 2024,
+      "n": 145,
+      "median": 17,
+      "p25": 1,
+      "p75": 91,
+      "mean": 72
+    }
+  ]
+}
