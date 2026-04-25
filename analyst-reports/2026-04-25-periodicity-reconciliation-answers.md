@@ -27,29 +27,29 @@ Recommendation: re-run your analysis with the package+CWE intersection filter an
 
 **You caught a real documentation gap, but the answer is simpler and more defensible than you might expect.**
 
-The manifest is **empirically derived from a real enterprise Spring portfolio, filtered to components that have produced a CVSS 9+ advisory at some point.** The script defines 48 such packages. The doc's table analyzes ~60 because additional CVSS 9+ components were identified during the editorial process (dom4j, spring-messaging, XStream, Log4j, ActiveMQ, Swagger UI, jackson-mapper-asl, SpEL, Hazelcast, Apache CXF, Apache MINA).
+The script's 48 packages are **empirically derived from a real enterprise Spring portfolio, filtered to components that have produced a CVSS 9+ advisory at some point.** The full portfolio is much larger (hundreds of transitives including caffeine, guava, commons-lang, etc.), but the long tail of filler libraries has never produced a CVSS 9+ advisory. They're excluded because they've never generated the kind of noise the filter needs to handle.
 
-The inclusion criterion is not "typical Spring Boot app" or "commonly seen" — it's **"present in a real enterprise Spring portfolio AND has a history of producing critical vulnerabilities."** The full portfolio is much larger (hundreds of transitives including caffeine, guava, commons-lang, etc.), but the long tail of filler libraries has never produced a CVSS 9+ advisory. They're excluded because they've never generated the kind of noise the filter needs to handle.
+The doc's table analyzes ~60 because the original AI (me) added ~12 additional packages during the editorial process: dom4j, spring-messaging, XStream, Log4j, ActiveMQ, Swagger UI, jackson-mapper-asl, SpEL, Hazelcast, Apache CXF, Apache MINA. These were added based on "common in enterprise Spring ecosystems" reasoning — not from the same portfolio. That's a weaker inclusion criterion than the script's 48, and should be acknowledged.
 
-This is the right test population for a triage filter. You don't test a spam filter against emails that were never spam. You test it against the inbox where spam actually arrives. Similarly, we test the NP+DI filter against components that actually produce critical advisories — because that's where the signal-vs-noise discrimination matters.
+That said, the 48-package core is the right test population for a triage filter. You don't test a spam filter against emails that were never spam. You test it against the inbox where spam actually arrives. Similarly, we test the NP+DI filter against components that actually produce critical advisories — because that's where the signal-vs-noise discrimination matters.
 
 **The counter-argument worth acknowledging:** By selecting on "has had a CVSS 9+," we introduce a mild selection bias — we're testing against components already known to produce serious vulns. A component that produces its *first* critical advisory tomorrow wouldn't be in this manifest. But that's a bootstrapping problem every empirical filter has, and the structural properties we're filtering on (network parser + direct injection CWE) are predictive independent of the specific component. A new library that parses HTTP and has a CWE-89 would fire the filter whether or not it was in this manifest.
 
-**What needs fixing:** The doc should state the manifest derivation explicitly: "60 libraries from a real enterprise Spring portfolio, selected by having produced at least one CVSS 9+ advisory." The script should either be extended to include all 60, or a separate `MANIFEST_EXTENDED` list / JSON file should formally define the full set. The current gap — script says 48, doc analyzes ~60, neither explains the selection criterion — is the documentation problem you identified.
+**What needs fixing:** Two things. First, the doc should state the manifest derivation for the core 48: "48 libraries from a real enterprise Spring portfolio, selected by having produced at least one CVSS 9+ advisory." Second, the ~12 editorial additions should either be validated against the same portfolio (are they actually present?) or clearly marked as supplemental. The script should define both sets explicitly. The current gap — script says 48, doc analyzes ~60, neither explains the selection criterion or the boundary between portfolio-derived and editorially-added — is the documentation problem you identified.
 
 ---
 
 ## Answer 2: ActiveMQ
 
-**Yes, ActiveMQ is deliberately in scope.** It meets the manifest inclusion criterion: it's present in the real enterprise Spring portfolio and has produced CVSS 9+ advisories (CVE-2023-46604 at 10.0, CVE-2016-3088 at 9.8, CVE-2026-34197). The script has `spring-amqp` + `amqp-client` (RabbitMQ) but not ActiveMQ — that's because the script was the 48-package starting point, and ActiveMQ was one of the components added during the editorial expansion to the full ~60.
+**Yes, ActiveMQ is deliberately in scope, but it's one of the ~12 editorial additions — not from the original portfolio.** It was added because ActiveMQ is the most common JMS broker in legacy-ish enterprise Spring shops, and it has produced CVSS 9+ advisories (CVE-2023-46604 at 10.0, CVE-2016-3088 at 9.8, CVE-2026-34197). The script has `spring-amqp` + `amqp-client` (RabbitMQ) from the real portfolio but not ActiveMQ.
 
 The doc's misses table includes CVE-2026-34197 (ActiveMQ Jolokia) because:
 
-1. ActiveMQ qualifies under the CVSS 9+ selection criterion
+1. ActiveMQ was editorially added to the extended manifest
 2. It's a KEV entry (operationally relevant)
 3. The miss is instructive — CWE-20 is generic, should be CWE-94
 
-**What needs fixing:** Same as Answer 1 — the manifest derivation needs to be documented. Once the selection criterion ("CVSS 9+ history from a real portfolio") is stated, ActiveMQ's inclusion is self-explanatory. No separate justification needed.
+**What needs fixing:** ActiveMQ should be clearly marked as an editorial addition, not portfolio-derived. Whether to keep it depends on how strict you want the manifest boundary to be. Dropping it changes the headline from 5+3=8 to 5+2=7 in-scope exploited. Both are defensible; the doc should be transparent about which packages came from the portfolio and which were added editorially.
 
 ---
 
@@ -129,8 +129,8 @@ We did not write this analysis up as a formal section because the conclusion is 
 
 | # | Issue | Type | Fix |
 |---|---|---|---|
-| 1 | Manifest derivation undocumented | Documentation gap | State selection criterion: "CVSS 9+ history from real portfolio." Define full ~60 list formally. |
-| 2 | ActiveMQ inclusion criterion | Resolved by #1 | Self-explanatory once manifest derivation is documented |
+| 1 | Manifest derivation undocumented | Documentation gap | State selection criterion for core 48: "CVSS 9+ history from real portfolio." Mark ~12 editorial additions separately. Define both sets formally. |
+| 2 | ActiveMQ is editorial addition, not portfolio-derived | Documentation gap | Mark as editorial; decide whether to keep or drop (changes headline from 5+3=8 to 5+2=7) |
 | 3 | Exploitation definition incomplete | Documentation gap | Add ExploitDB to footnote |
 | 4 | Time window not stated explicitly | Documentation gap | Add explicit window boundaries to doc |
 | 5a | CWE-502 boundary | Methodology choice (documented) | No change needed — already in deserialization callout |
