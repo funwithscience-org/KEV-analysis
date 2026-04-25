@@ -1,0 +1,9136 @@
+{
+  "scope": "All NVD CWE-434 CVEs published 2022+ with severity CRITICAL or HIGH",
+  "total": 1014,
+  "exploited_count": 42,
+  "in_kev_count": 3,
+  "in_metasploit_count": 16,
+  "in_exploitdb_count": 26,
+  "events": [
+    {
+      "cve": "CVE-2021-46076",
+      "year": 2022,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2021-46079",
+      "year": 2022,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2021-43973",
+      "year": 2022,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2021-44651",
+      "year": 2022,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2021-45411",
+      "year": 2022,
+      "severity": "CRITICAL",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2021-34995",
+      "year": 2022,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2021-34997",
+      "year": 2022,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2021-33828",
+      "year": 2022,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2021-38697",
+      "year": 2022,
+      "severity": "CRITICAL",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2021-41550",
+      "year": 2022,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2021-46013",
+      "year": 2022,
+      "severity": "CRITICAL",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2021-45808",
+      "year": 2022,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2022-22929",
+      "year": 2022,
+      "severity": "CRITICAL",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2022-23315",
+      "year": 2022,
+      "severity": "CRITICAL",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2021-46113",
+      "year": 2022,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2021-46033",
+      "year": 2022,
+      "severity": "CRITICAL",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2021-44123",
+      "year": 2022,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2021-46115",
+      "year": 2022,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2021-46116",
+      "year": 2022,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2021-46386",
+      "year": 2022,
+      "severity": "CRITICAL",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2021-46097",
+      "year": 2022,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2021-46428",
+      "year": 2022,
+      "severity": "CRITICAL",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2022-24262",
+      "year": 2022,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2022-23329",
+      "year": 2022,
+      "severity": "CRITICAL",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2022-24676",
+      "year": 2022,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2021-46360",
+      "year": 2022,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": true,
+      "exploited": true
+    },
+    {
+      "cve": "CVE-2021-37194",
+      "year": 2022,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2022-23048",
+      "year": 2022,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2020-13675",
+      "year": 2022,
+      "severity": "CRITICAL",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2022-23390",
+      "year": 2022,
+      "severity": "CRITICAL",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2022-24984",
+      "year": 2022,
+      "severity": "CRITICAL",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2021-46036",
+      "year": 2022,
+      "severity": "CRITICAL",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2022-23375",
+      "year": 2022,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2022-24553",
+      "year": 2022,
+      "severity": "CRITICAL",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2021-44967",
+      "year": 2022,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2022-23043",
+      "year": 2022,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2022-25360",
+      "year": 2022,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2021-44664",
+      "year": 2022,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": true,
+      "exploited": true
+    },
+    {
+      "cve": "CVE-2022-26149",
+      "year": 2022,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": true,
+      "exploited": true
+    },
+    {
+      "cve": "CVE-2022-23906",
+      "year": 2022,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2022-25411",
+      "year": 2022,
+      "severity": "CRITICAL",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2022-24251",
+      "year": 2022,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2022-24252",
+      "year": 2022,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2022-24253",
+      "year": 2022,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2022-24254",
+      "year": 2022,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2022-25016",
+      "year": 2022,
+      "severity": "CRITICAL",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2022-25115",
+      "year": 2022,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2021-24216",
+      "year": 2022,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2021-43970",
+      "year": 2022,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2022-24651",
+      "year": 2022,
+      "severity": "CRITICAL",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2022-24652",
+      "year": 2022,
+      "severity": "CRITICAL",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2022-26521",
+      "year": 2022,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": true,
+      "exploited": true
+    },
+    {
+      "cve": "CVE-2021-44673",
+      "year": 2022,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": true,
+      "exploited": true
+    },
+    {
+      "cve": "CVE-2022-24387",
+      "year": 2022,
+      "severity": "CRITICAL",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2021-25003",
+      "year": 2022,
+      "severity": "CRITICAL",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2021-42171",
+      "year": 2022,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2022-25487",
+      "year": 2022,
+      "severity": "CRITICAL",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2022-25495",
+      "year": 2022,
+      "severity": "CRITICAL",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2021-45040",
+      "year": 2022,
+      "severity": "CRITICAL",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2022-26965",
+      "year": 2022,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": true,
+      "exploited": true
+    },
+    {
+      "cve": "CVE-2021-45834",
+      "year": 2022,
+      "severity": "CRITICAL",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2021-45835",
+      "year": 2022,
+      "severity": "CRITICAL",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2022-25602",
+      "year": 2022,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2022-25581",
+      "year": 2022,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2020-26007",
+      "year": 2022,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2020-26008",
+      "year": 2022,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2021-39384",
+      "year": 2022,
+      "severity": "CRITICAL",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2022-0415",
+      "year": 2022,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2022-23346",
+      "year": 2022,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2022-1034",
+      "year": 2022,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2022-1033",
+      "year": 2022,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2021-27428",
+      "year": 2022,
+      "severity": "CRITICAL",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2022-0888",
+      "year": 2022,
+      "severity": "CRITICAL",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2022-22952",
+      "year": 2022,
+      "severity": "CRITICAL",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2022-23880",
+      "year": 2022,
+      "severity": "CRITICAL",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2021-40905",
+      "year": 2022,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2021-43098",
+      "year": 2022,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2021-43100",
+      "year": 2022,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2021-43101",
+      "year": 2022,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2021-43102",
+      "year": 2022,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2021-43103",
+      "year": 2022,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2021-45865",
+      "year": 2022,
+      "severity": "CRITICAL",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2022-28223",
+      "year": 2022,
+      "severity": "CRITICAL",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2022-26645",
+      "year": 2022,
+      "severity": "CRITICAL",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2022-24136",
+      "year": 2022,
+      "severity": "CRITICAL",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2021-34257",
+      "year": 2022,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2022-23155",
+      "year": 2022,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2021-32961",
+      "year": 2022,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2022-27249",
+      "year": 2022,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2022-27435",
+      "year": 2022,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2022-28062",
+      "year": 2022,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2020-28062",
+      "year": 2022,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2022-26619",
+      "year": 2022,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2021-28428",
+      "year": 2022,
+      "severity": "CRITICAL",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2022-26630",
+      "year": 2022,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2022-26605",
+      "year": 2022,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2022-26607",
+      "year": 2022,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2022-26627",
+      "year": 2022,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2021-43421",
+      "year": 2022,
+      "severity": "CRITICAL",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2021-43430",
+      "year": 2022,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2022-27061",
+      "year": 2022,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2022-27064",
+      "year": 2022,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2022-27346",
+      "year": 2022,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2022-27349",
+      "year": 2022,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2022-27351",
+      "year": 2022,
+      "severity": "CRITICAL",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2022-27352",
+      "year": 2022,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2022-27357",
+      "year": 2022,
+      "severity": "CRITICAL",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2021-46367",
+      "year": 2022,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2022-27047",
+      "year": 2022,
+      "severity": "CRITICAL",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2022-27129",
+      "year": 2022,
+      "severity": "CRITICAL",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2022-27131",
+      "year": 2022,
+      "severity": "CRITICAL",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2022-27477",
+      "year": 2022,
+      "severity": "CRITICAL",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2022-27115",
+      "year": 2022,
+      "severity": "CRITICAL",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2022-27139",
+      "year": 2022,
+      "severity": "CRITICAL",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2022-27140",
+      "year": 2022,
+      "severity": "CRITICAL",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2022-27260",
+      "year": 2022,
+      "severity": "CRITICAL",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2022-27261",
+      "year": 2022,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2022-27262",
+      "year": 2022,
+      "severity": "CRITICAL",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2022-27263",
+      "year": 2022,
+      "severity": "CRITICAL",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2022-27952",
+      "year": 2022,
+      "severity": "CRITICAL",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2022-28397",
+      "year": 2022,
+      "severity": "CRITICAL",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2022-27478",
+      "year": 2022,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2022-28021",
+      "year": 2022,
+      "severity": "CRITICAL",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2022-28440",
+      "year": 2022,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2022-28053",
+      "year": 2022,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2021-39040",
+      "year": 2022,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2022-22392",
+      "year": 2022,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2022-27468",
+      "year": 2022,
+      "severity": "CRITICAL",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2022-28525",
+      "year": 2022,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2022-28528",
+      "year": 2022,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2021-41921",
+      "year": 2022,
+      "severity": "CRITICAL",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2022-29001",
+      "year": 2022,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2022-28568",
+      "year": 2022,
+      "severity": "CRITICAL",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2022-29347",
+      "year": 2022,
+      "severity": "CRITICAL",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2022-28120",
+      "year": 2022,
+      "severity": "CRITICAL",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2022-28606",
+      "year": 2022,
+      "severity": "CRITICAL",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2021-42645",
+      "year": 2022,
+      "severity": "CRITICAL",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2020-19228",
+      "year": 2022,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2022-29318",
+      "year": 2022,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2022-29655",
+      "year": 2022,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2022-30448",
+      "year": 2022,
+      "severity": "CRITICAL",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2022-21809",
+      "year": 2022,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2021-27771",
+      "year": 2022,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2021-42967",
+      "year": 2022,
+      "severity": "CRITICAL",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2022-29351",
+      "year": 2022,
+      "severity": "CRITICAL",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2022-29353",
+      "year": 2022,
+      "severity": "CRITICAL",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2022-29354",
+      "year": 2022,
+      "severity": "CRITICAL",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2022-29622",
+      "year": 2022,
+      "severity": "CRITICAL",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2022-29623",
+      "year": 2022,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2022-30007",
+      "year": 2022,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2021-41938",
+      "year": 2022,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2022-28927",
+      "year": 2022,
+      "severity": "CRITICAL",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2022-28104",
+      "year": 2022,
+      "severity": "CRITICAL",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2022-30887",
+      "year": 2022,
+      "severity": "CRITICAL",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2022-1752",
+      "year": 2022,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2021-42654",
+      "year": 2022,
+      "severity": "CRITICAL",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2022-29651",
+      "year": 2022,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2022-29632",
+      "year": 2022,
+      "severity": "CRITICAL",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2022-29637",
+      "year": 2022,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2021-26634",
+      "year": 2022,
+      "severity": "CRITICAL",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2021-33615",
+      "year": 2022,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2022-24239",
+      "year": 2022,
+      "severity": "CRITICAL",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2022-24581",
+      "year": 2022,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2022-29624",
+      "year": 2022,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2022-29725",
+      "year": 2022,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2022-30423",
+      "year": 2022,
+      "severity": "CRITICAL",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2022-30506",
+      "year": 2022,
+      "severity": "CRITICAL",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2022-30808",
+      "year": 2022,
+      "severity": "CRITICAL",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2022-30819",
+      "year": 2022,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2022-30820",
+      "year": 2022,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2022-30821",
+      "year": 2022,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2022-30822",
+      "year": 2022,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2021-45982",
+      "year": 2022,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2022-32019",
+      "year": 2022,
+      "severity": "CRITICAL",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2022-30860",
+      "year": 2022,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2021-42675",
+      "year": 2022,
+      "severity": "CRITICAL",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2021-40940",
+      "year": 2022,
+      "severity": "CRITICAL",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2022-32433",
+      "year": 2022,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2022-31374",
+      "year": 2022,
+      "severity": "CRITICAL",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2021-40954",
+      "year": 2022,
+      "severity": "CRITICAL",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2022-31362",
+      "year": 2022,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2013-1916",
+      "year": 2022,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": true,
+      "exploited": true
+    },
+    {
+      "cve": "CVE-2022-2102",
+      "year": 2022,
+      "severity": "CRITICAL",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2021-38945",
+      "year": 2022,
+      "severity": "CRITICAL",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2022-31086",
+      "year": 2022,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2022-32994",
+      "year": 2022,
+      "severity": "CRITICAL",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2021-37770",
+      "year": 2022,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2022-31943",
+      "year": 2022,
+      "severity": "CRITICAL",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2022-32413",
+      "year": 2022,
+      "severity": "CRITICAL",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2015-1784",
+      "year": 2022,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2022-31854",
+      "year": 2022,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": true,
+      "exploited": true
+    },
+    {
+      "cve": "CVE-2021-29281",
+      "year": 2022,
+      "severity": "CRITICAL",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2022-30216",
+      "year": 2022,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2022-32114",
+      "year": 2022,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2022-28369",
+      "year": 2022,
+      "severity": "CRITICAL",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2022-28372",
+      "year": 2022,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2022-2418",
+      "year": 2022,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2022-2419",
+      "year": 2022,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2022-2420",
+      "year": 2022,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2021-36461",
+      "year": 2022,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2022-32119",
+      "year": 2022,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2022-31161",
+      "year": 2022,
+      "severity": "CRITICAL",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": true,
+      "exploited": true
+    },
+    {
+      "cve": "CVE-2021-36711",
+      "year": 2022,
+      "severity": "CRITICAL",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": true,
+      "exploited": true
+    },
+    {
+      "cve": "CVE-2022-24688",
+      "year": 2022,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2022-1565",
+      "year": 2022,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": true,
+      "exploited": true
+    },
+    {
+      "cve": "CVE-2022-34024",
+      "year": 2022,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2022-28700",
+      "year": 2022,
+      "severity": "CRITICAL",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2022-34115",
+      "year": 2022,
+      "severity": "CRITICAL",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2022-34965",
+      "year": 2022,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2022-34971",
+      "year": 2022,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2022-34549",
+      "year": 2022,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2022-34120",
+      "year": 2022,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2022-34578",
+      "year": 2022,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2022-34496",
+      "year": 2022,
+      "severity": "CRITICAL",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2022-34154",
+      "year": 2022,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2022-34613",
+      "year": 2022,
+      "severity": "CRITICAL",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2022-2647",
+      "year": 2022,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2022-36264",
+      "year": 2022,
+      "severity": "CRITICAL",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2022-35426",
+      "year": 2022,
+      "severity": "CRITICAL",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2022-2594",
+      "year": 2022,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2022-35150",
+      "year": 2022,
+      "severity": "CRITICAL",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2022-37181",
+      "year": 2022,
+      "severity": "CRITICAL",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2022-37159",
+      "year": 2022,
+      "severity": "CRITICAL",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2022-36557",
+      "year": 2022,
+      "severity": "CRITICAL",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2022-37184",
+      "year": 2022,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2022-36580",
+      "year": 2022,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2022-36582",
+      "year": 2022,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2020-21516",
+      "year": 2022,
+      "severity": "CRITICAL",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2021-44426",
+      "year": 2022,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2022-38296",
+      "year": 2022,
+      "severity": "CRITICAL",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2022-38305",
+      "year": 2022,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2022-36667",
+      "year": 2022,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2022-37140",
+      "year": 2022,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2022-38323",
+      "year": 2022,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2022-38843",
+      "year": 2022,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2022-38877",
+      "year": 2022,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2022-38881",
+      "year": 2022,
+      "severity": "CRITICAL",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2022-38882",
+      "year": 2022,
+      "severity": "CRITICAL",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2022-38883",
+      "year": 2022,
+      "severity": "CRITICAL",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2022-38884",
+      "year": 2022,
+      "severity": "CRITICAL",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2022-38885",
+      "year": 2022,
+      "severity": "CRITICAL",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2022-38886",
+      "year": 2022,
+      "severity": "CRITICAL",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2022-38887",
+      "year": 2022,
+      "severity": "CRITICAL",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2022-40431",
+      "year": 2022,
+      "severity": "CRITICAL",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2022-40432",
+      "year": 2022,
+      "severity": "CRITICAL",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2022-38916",
+      "year": 2022,
+      "severity": "CRITICAL",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2022-36386",
+      "year": 2022,
+      "severity": "CRITICAL",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2022-40932",
+      "year": 2022,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2022-40087",
+      "year": 2022,
+      "severity": "CRITICAL",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2022-40924",
+      "year": 2022,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2022-40925",
+      "year": 2022,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2022-40050",
+      "year": 2022,
+      "severity": "CRITICAL",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2022-37346",
+      "year": 2022,
+      "severity": "CRITICAL",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2022-40878",
+      "year": 2022,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2022-40048",
+      "year": 2022,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2021-45790",
+      "year": 2022,
+      "severity": "CRITICAL",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2022-40407",
+      "year": 2022,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2022-41437",
+      "year": 2022,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2022-40341",
+      "year": 2022,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2022-40886",
+      "year": 2022,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2022-40721",
+      "year": 2022,
+      "severity": "CRITICAL",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2022-41512",
+      "year": 2022,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2022-42092",
+      "year": 2022,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2022-41379",
+      "year": 2022,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2022-42034",
+      "year": 2022,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2022-42229",
+      "year": 2022,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2022-41380",
+      "year": 2022,
+      "severity": "CRITICAL",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2022-41381",
+      "year": 2022,
+      "severity": "CRITICAL",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2022-41382",
+      "year": 2022,
+      "severity": "CRITICAL",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2022-41383",
+      "year": 2022,
+      "severity": "CRITICAL",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2022-41384",
+      "year": 2022,
+      "severity": "CRITICAL",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2022-41385",
+      "year": 2022,
+      "severity": "CRITICAL",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2022-41386",
+      "year": 2022,
+      "severity": "CRITICAL",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2022-41387",
+      "year": 2022,
+      "severity": "CRITICAL",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2022-42036",
+      "year": 2022,
+      "severity": "CRITICAL",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2022-42037",
+      "year": 2022,
+      "severity": "CRITICAL",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2022-42038",
+      "year": 2022,
+      "severity": "CRITICAL",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2022-42039",
+      "year": 2022,
+      "severity": "CRITICAL",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2022-42040",
+      "year": 2022,
+      "severity": "CRITICAL",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2022-42043",
+      "year": 2022,
+      "severity": "CRITICAL",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2022-42044",
+      "year": 2022,
+      "severity": "CRITICAL",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2022-40777",
+      "year": 2022,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2022-40921",
+      "year": 2022,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2022-41406",
+      "year": 2022,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2022-41533",
+      "year": 2022,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2022-41534",
+      "year": 2022,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2022-41538",
+      "year": 2022,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2022-41539",
+      "year": 2022,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2022-32177",
+      "year": 2022,
+      "severity": "CRITICAL",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2022-42154",
+      "year": 2022,
+      "severity": "CRITICAL",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2022-42029",
+      "year": 2022,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2022-32176",
+      "year": 2022,
+      "severity": "CRITICAL",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2020-8974",
+      "year": 2022,
+      "severity": "CRITICAL",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2022-41504",
+      "year": 2022,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2022-41537",
+      "year": 2022,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2022-39301",
+      "year": 2022,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2022-31366",
+      "year": 2022,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2022-42198",
+      "year": 2022,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2022-42201",
+      "year": 2022,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2022-42189",
+      "year": 2022,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2022-39305",
+      "year": 2022,
+      "severity": "CRITICAL",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2022-36452",
+      "year": 2022,
+      "severity": "CRITICAL",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2022-41711",
+      "year": 2022,
+      "severity": "CRITICAL",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2022-39977",
+      "year": 2022,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2022-39978",
+      "year": 2022,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2021-38397",
+      "year": 2022,
+      "severity": "CRITICAL",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2022-33859",
+      "year": 2022,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2022-43275",
+      "year": 2022,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2022-43231",
+      "year": 2022,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2022-40471",
+      "year": 2022,
+      "severity": "CRITICAL",
+      "in_kev": false,
+      "in_msf": true,
+      "in_edb": false,
+      "exploited": true
+    },
+    {
+      "cve": "CVE-2022-41681",
+      "year": 2022,
+      "severity": "CRITICAL",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2022-42925",
+      "year": 2022,
+      "severity": "CRITICAL",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2022-43083",
+      "year": 2022,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2022-43085",
+      "year": 2022,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2022-43061",
+      "year": 2022,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2022-43303",
+      "year": 2022,
+      "severity": "CRITICAL",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2022-43304",
+      "year": 2022,
+      "severity": "CRITICAL",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2022-43305",
+      "year": 2022,
+      "severity": "CRITICAL",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2022-43306",
+      "year": 2022,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2022-44048",
+      "year": 2022,
+      "severity": "CRITICAL",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2022-44049",
+      "year": 2022,
+      "severity": "CRITICAL",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2022-44050",
+      "year": 2022,
+      "severity": "CRITICAL",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2022-44051",
+      "year": 2022,
+      "severity": "CRITICAL",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2022-44052",
+      "year": 2022,
+      "severity": "CRITICAL",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2022-44053",
+      "year": 2022,
+      "severity": "CRITICAL",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2022-44054",
+      "year": 2022,
+      "severity": "CRITICAL",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2022-43050",
+      "year": 2022,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2022-40797",
+      "year": 2022,
+      "severity": "CRITICAL",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2022-43277",
+      "year": 2022,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2022-39036",
+      "year": 2022,
+      "severity": "CRITICAL",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2022-43074",
+      "year": 2022,
+      "severity": "CRITICAL",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2022-43146",
+      "year": 2022,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2022-43265",
+      "year": 2022,
+      "severity": "CRITICAL",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2022-43234",
+      "year": 2022,
+      "severity": "CRITICAL",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2022-44384",
+      "year": 2022,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": true,
+      "in_edb": false,
+      "exploited": true
+    },
+    {
+      "cve": "CVE-2022-40200",
+      "year": 2022,
+      "severity": "CRITICAL",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2022-42698",
+      "year": 2022,
+      "severity": "CRITICAL",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2022-30529",
+      "year": 2022,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2020-23591",
+      "year": 2022,
+      "severity": "CRITICAL",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2021-43258",
+      "year": 2022,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": true,
+      "in_edb": false,
+      "exploited": true
+    },
+    {
+      "cve": "CVE-2022-45039",
+      "year": 2022,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2022-41705",
+      "year": 2022,
+      "severity": "CRITICAL",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2022-45476",
+      "year": 2022,
+      "severity": "CRITICAL",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2022-44400",
+      "year": 2022,
+      "severity": "CRITICAL",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2022-44401",
+      "year": 2022,
+      "severity": "CRITICAL",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2022-44354",
+      "year": 2022,
+      "severity": "CRITICAL",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2022-36431",
+      "year": 2022,
+      "severity": "CRITICAL",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2022-4273",
+      "year": 2022,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2022-45912",
+      "year": 2022,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2022-44289",
+      "year": 2022,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2022-45548",
+      "year": 2022,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2022-45009",
+      "year": 2022,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2022-45759",
+      "year": 2022,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2022-45968",
+      "year": 2022,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2022-3912",
+      "year": 2022,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2022-45275",
+      "year": 2022,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2022-41267",
+      "year": 2022,
+      "severity": "CRITICAL",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2020-20588",
+      "year": 2022,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2022-45338",
+      "year": 2022,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2022-46135",
+      "year": 2022,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2022-46020",
+      "year": 2022,
+      "severity": "CRITICAL",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2022-45966",
+      "year": 2022,
+      "severity": "CRITICAL",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2022-46102",
+      "year": 2022,
+      "severity": "CRITICAL",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2022-0517",
+      "year": 2022,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2022-46493",
+      "year": 2022,
+      "severity": "CRITICAL",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2022-45896",
+      "year": 2022,
+      "severity": "CRITICAL",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2022-45427",
+      "year": 2022,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2022-48194",
+      "year": 2022,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": true,
+      "exploited": true
+    },
+    {
+      "cve": "CVE-2022-43436",
+      "year": 2023,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2022-44036",
+      "year": 2023,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2022-46610",
+      "year": 2023,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2023-22851",
+      "year": 2023,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2022-47766",
+      "year": 2023,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2021-26642",
+      "year": 2023,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2022-40035",
+      "year": 2023,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2022-40037",
+      "year": 2023,
+      "severity": "CRITICAL",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2022-47042",
+      "year": 2023,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2022-47615",
+      "year": 2023,
+      "severity": "CRITICAL",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2022-48008",
+      "year": 2023,
+      "severity": "CRITICAL",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2021-41231",
+      "year": 2023,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2022-48006",
+      "year": 2023,
+      "severity": "CRITICAL",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2022-47854",
+      "year": 2023,
+      "severity": "CRITICAL",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2022-47769",
+      "year": 2023,
+      "severity": "CRITICAL",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2023-0587",
+      "year": 2023,
+      "severity": "CRITICAL",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2022-42971",
+      "year": 2023,
+      "severity": "CRITICAL",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2023-24610",
+      "year": 2023,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2023-23135",
+      "year": 2023,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2022-46604",
+      "year": 2023,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": true,
+      "exploited": true
+    },
+    {
+      "cve": "CVE-2021-36426",
+      "year": 2023,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2023-24202",
+      "year": 2023,
+      "severity": "CRITICAL",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2022-45527",
+      "year": 2023,
+      "severity": "CRITICAL",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2023-0255",
+      "year": 2023,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2023-24646",
+      "year": 2023,
+      "severity": "CRITICAL",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2021-35261",
+      "year": 2023,
+      "severity": "CRITICAL",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2022-2883",
+      "year": 2023,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2022-41217",
+      "year": 2023,
+      "severity": "CRITICAL",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2022-39983",
+      "year": 2023,
+      "severity": "CRITICAL",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2023-24317",
+      "year": 2023,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2021-33224",
+      "year": 2023,
+      "severity": "CRITICAL",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2021-35290",
+      "year": 2023,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2023-26762",
+      "year": 2023,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2023-24249",
+      "year": 2023,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2023-25402",
+      "year": 2023,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2023-26949",
+      "year": 2023,
+      "severity": "CRITICAL",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2021-4330",
+      "year": 2023,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2023-22890",
+      "year": 2023,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2021-33352",
+      "year": 2023,
+      "severity": "CRITICAL",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2023-23328",
+      "year": 2023,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2023-0477",
+      "year": 2023,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2023-26262",
+      "year": 2023,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2023-27757",
+      "year": 2023,
+      "severity": "CRITICAL",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2023-27235",
+      "year": 2023,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2023-28337",
+      "year": 2023,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2023-28725",
+      "year": 2023,
+      "severity": "CRITICAL",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2020-19786",
+      "year": 2023,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2023-25655",
+      "year": 2023,
+      "severity": "CRITICAL",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2023-25909",
+      "year": 2023,
+      "severity": "CRITICAL",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2023-25828",
+      "year": 2023,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2022-3682",
+      "year": 2023,
+      "severity": "CRITICAL",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2023-27246",
+      "year": 2023,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2023-26968",
+      "year": 2023,
+      "severity": "CRITICAL",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2023-28731",
+      "year": 2023,
+      "severity": "CRITICAL",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2023-1734",
+      "year": 2023,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2023-26830",
+      "year": 2023,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2022-47190",
+      "year": 2023,
+      "severity": "CRITICAL",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2023-1800",
+      "year": 2023,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2021-31707",
+      "year": 2023,
+      "severity": "CRITICAL",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2021-3267",
+      "year": 2023,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2023-26775",
+      "year": 2023,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2023-0265",
+      "year": 2023,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2023-26857",
+      "year": 2023,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2023-0670",
+      "year": 2023,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2023-24720",
+      "year": 2023,
+      "severity": "CRITICAL",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2023-27033",
+      "year": 2023,
+      "severity": "CRITICAL",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2023-1406",
+      "year": 2023,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2023-29375",
+      "year": 2023,
+      "severity": "CRITICAL",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2023-27178",
+      "year": 2023,
+      "severity": "CRITICAL",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2023-27179",
+      "year": 2023,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": true,
+      "exploited": true
+    },
+    {
+      "cve": "CVE-2020-19802",
+      "year": 2023,
+      "severity": "CRITICAL",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2023-26852",
+      "year": 2023,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2023-2034",
+      "year": 2023,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2023-29621",
+      "year": 2023,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2023-29625",
+      "year": 2023,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2023-29627",
+      "year": 2023,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2022-34128",
+      "year": 2023,
+      "severity": "CRITICAL",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": true,
+      "exploited": true
+    },
+    {
+      "cve": "CVE-2023-27755",
+      "year": 2023,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2023-25132",
+      "year": 2023,
+      "severity": "CRITICAL",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2023-30613",
+      "year": 2023,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2023-26098",
+      "year": 2023,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2022-36769",
+      "year": 2023,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2023-30266",
+      "year": 2023,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2022-25277",
+      "year": 2023,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2023-29268",
+      "year": 2023,
+      "severity": "CRITICAL",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2023-24269",
+      "year": 2023,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2023-29635",
+      "year": 2023,
+      "severity": "CRITICAL",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2022-47878",
+      "year": 2023,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": true,
+      "exploited": true
+    },
+    {
+      "cve": "CVE-2023-2523",
+      "year": 2023,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2023-30264",
+      "year": 2023,
+      "severity": "CRITICAL",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2023-30122",
+      "year": 2023,
+      "severity": "CRITICAL",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2023-30090",
+      "year": 2023,
+      "severity": "CRITICAL",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2023-30185",
+      "year": 2023,
+      "severity": "CRITICAL",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2020-22755",
+      "year": 2023,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2021-27280",
+      "year": 2023,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2021-28998",
+      "year": 2023,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2023-24507",
+      "year": 2023,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2023-28128",
+      "year": 2023,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": true,
+      "in_edb": false,
+      "exploited": true
+    },
+    {
+      "cve": "CVE-2023-29930",
+      "year": 2023,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2021-34076",
+      "year": 2023,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2023-29657",
+      "year": 2023,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2023-30247",
+      "year": 2023,
+      "severity": "CRITICAL",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2023-31576",
+      "year": 2023,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2023-31857",
+      "year": 2023,
+      "severity": "CRITICAL",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2023-31903",
+      "year": 2023,
+      "severity": "CRITICAL",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2023-30333",
+      "year": 2023,
+      "severity": "CRITICAL",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2023-31689",
+      "year": 2023,
+      "severity": "CRITICAL",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2023-27397",
+      "year": 2023,
+      "severity": "CRITICAL",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2023-28409",
+      "year": 2023,
+      "severity": "CRITICAL",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2023-29721",
+      "year": 2023,
+      "severity": "CRITICAL",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2023-28353",
+      "year": 2023,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2023-33508",
+      "year": 2023,
+      "severity": "CRITICAL",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2023-3032",
+      "year": 2023,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2023-33386",
+      "year": 2023,
+      "severity": "CRITICAL",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2020-19028",
+      "year": 2023,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2023-29631",
+      "year": 2023,
+      "severity": "CRITICAL",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2023-33569",
+      "year": 2023,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2016-15033",
+      "year": 2023,
+      "severity": "CRITICAL",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2019-25138",
+      "year": 2023,
+      "severity": "CRITICAL",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2020-36701",
+      "year": 2023,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2021-4354",
+      "year": 2023,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2021-4382",
+      "year": 2023,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2022-4949",
+      "year": 2023,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2023-33601",
+      "year": 2023,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2020-36705",
+      "year": 2023,
+      "severity": "CRITICAL",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2023-33498",
+      "year": 2023,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2023-33253",
+      "year": 2023,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2023-31541",
+      "year": 2023,
+      "severity": "CRITICAL",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2023-34944",
+      "year": 2023,
+      "severity": "CRITICAL",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2023-34747",
+      "year": 2023,
+      "severity": "CRITICAL",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2022-33166",
+      "year": 2023,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2023-3295",
+      "year": 2023,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2023-35808",
+      "year": 2023,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2020-20067",
+      "year": 2023,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2020-20718",
+      "year": 2023,
+      "severity": "CRITICAL",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2020-20735",
+      "year": 2023,
+      "severity": "CRITICAL",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2020-20919",
+      "year": 2023,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2020-20969",
+      "year": 2023,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": true,
+      "exploited": true
+    },
+    {
+      "cve": "CVE-2020-21174",
+      "year": 2023,
+      "severity": "CRITICAL",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2020-21325",
+      "year": 2023,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2020-21474",
+      "year": 2023,
+      "severity": "CRITICAL",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2020-21489",
+      "year": 2023,
+      "severity": "CRITICAL",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2023-36097",
+      "year": 2023,
+      "severity": "CRITICAL",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2023-27083",
+      "year": 2023,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2023-1721",
+      "year": 2023,
+      "severity": "CRITICAL",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2023-36630",
+      "year": 2023,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2020-20210",
+      "year": 2023,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2023-33404",
+      "year": 2023,
+      "severity": "CRITICAL",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2022-44276",
+      "year": 2023,
+      "severity": "CRITICAL",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2023-34736",
+      "year": 2023,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2023-34738",
+      "year": 2023,
+      "severity": "CRITICAL",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2020-18432",
+      "year": 2023,
+      "severity": "CRITICAL",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2023-32621",
+      "year": 2023,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2020-22153",
+      "year": 2023,
+      "severity": "CRITICAL",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2020-21861",
+      "year": 2023,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2023-36969",
+      "year": 2023,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": true,
+      "in_edb": false,
+      "exploited": true
+    },
+    {
+      "cve": "CVE-2023-34193",
+      "year": 2023,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2023-37152",
+      "year": 2023,
+      "severity": "CRITICAL",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2023-37656",
+      "year": 2023,
+      "severity": "CRITICAL",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2023-37629",
+      "year": 2023,
+      "severity": "CRITICAL",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": true,
+      "exploited": true
+    },
+    {
+      "cve": "CVE-2023-34126",
+      "year": 2023,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2023-34136",
+      "year": 2023,
+      "severity": "CRITICAL",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2023-3342",
+      "year": 2023,
+      "severity": "CRITICAL",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2023-37839",
+      "year": 2023,
+      "severity": "CRITICAL",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2023-30791",
+      "year": 2023,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2023-38404",
+      "year": 2023,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2020-22159",
+      "year": 2023,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2023-3722",
+      "year": 2023,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2023-34394",
+      "year": 2023,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2022-28863",
+      "year": 2023,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2023-32637",
+      "year": 2023,
+      "severity": "CRITICAL",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2023-3486",
+      "year": 2023,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2022-46899",
+      "year": 2023,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2023-34798",
+      "year": 2023,
+      "severity": "CRITICAL",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2023-37677",
+      "year": 2023,
+      "severity": "CRITICAL",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2023-32225",
+      "year": 2023,
+      "severity": "CRITICAL",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2023-33493",
+      "year": 2023,
+      "severity": "CRITICAL",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2023-39147",
+      "year": 2023,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": true,
+      "exploited": true
+    },
+    {
+      "cve": "CVE-2023-36212",
+      "year": 2023,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2023-36298",
+      "year": 2023,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2023-36299",
+      "year": 2023,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2023-38947",
+      "year": 2023,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2020-23564",
+      "year": 2023,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2023-39776",
+      "year": 2023,
+      "severity": "CRITICAL",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2023-32562",
+      "year": 2023,
+      "severity": "CRITICAL",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2023-32564",
+      "year": 2023,
+      "severity": "CRITICAL",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2020-36082",
+      "year": 2023,
+      "severity": "CRITICAL",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2023-38915",
+      "year": 2023,
+      "severity": "CRITICAL",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2023-39115",
+      "year": 2023,
+      "severity": "CRITICAL",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": true,
+      "exploited": true
+    },
+    {
+      "cve": "CVE-2023-31941",
+      "year": 2023,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2023-31946",
+      "year": 2023,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2023-39970",
+      "year": 2023,
+      "severity": "CRITICAL",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2023-38836",
+      "year": 2023,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": true,
+      "in_edb": true,
+      "exploited": true
+    },
+    {
+      "cve": "CVE-2023-40825",
+      "year": 2023,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2020-18912",
+      "year": 2023,
+      "severity": "CRITICAL",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2023-4596",
+      "year": 2023,
+      "severity": "CRITICAL",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2023-41637",
+      "year": 2023,
+      "severity": "CRITICAL",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2023-41638",
+      "year": 2023,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2023-40980",
+      "year": 2023,
+      "severity": "CRITICAL",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2023-41108",
+      "year": 2023,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2023-3375",
+      "year": 2023,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2023-41009",
+      "year": 2023,
+      "severity": "CRITICAL",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2023-39424",
+      "year": 2023,
+      "severity": "CRITICAL",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2023-2071",
+      "year": 2023,
+      "severity": "CRITICAL",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2023-40784",
+      "year": 2023,
+      "severity": "CRITICAL",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2023-42180",
+      "year": 2023,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2023-36319",
+      "year": 2023,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2023-38887",
+      "year": 2023,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2023-41902",
+      "year": 2023,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2023-43478",
+      "year": 2023,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2023-43497",
+      "year": 2023,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2023-42331",
+      "year": 2023,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2023-42335",
+      "year": 2023,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2023-40219",
+      "year": 2023,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2023-42462",
+      "year": 2023,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2023-38874",
+      "year": 2023,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2022-47186",
+      "year": 2023,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2023-43226",
+      "year": 2023,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2023-5185",
+      "year": 2023,
+      "severity": "CRITICAL",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2023-44008",
+      "year": 2023,
+      "severity": "CRITICAL",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2023-44009",
+      "year": 2023,
+      "severity": "CRITICAL",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2023-4097",
+      "year": 2023,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2022-47893",
+      "year": 2023,
+      "severity": "CRITICAL",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2023-4817",
+      "year": 2023,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2023-44973",
+      "year": 2023,
+      "severity": "CRITICAL",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2023-44974",
+      "year": 2023,
+      "severity": "CRITICAL",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2023-43838",
+      "year": 2023,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2023-43321",
+      "year": 2023,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2023-43269",
+      "year": 2023,
+      "severity": "CRITICAL",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2023-44061",
+      "year": 2023,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2023-45353",
+      "year": 2023,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2023-43696",
+      "year": 2023,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2023-45856",
+      "year": 2023,
+      "severity": "CRITICAL",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2022-22375",
+      "year": 2023,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2023-34207",
+      "year": 2023,
+      "severity": "CRITICAL",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2023-44824",
+      "year": 2023,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2023-45952",
+      "year": 2023,
+      "severity": "CRITICAL",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2023-41631",
+      "year": 2023,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2023-46004",
+      "year": 2023,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2023-37502",
+      "year": 2023,
+      "severity": "CRITICAL",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2023-45384",
+      "year": 2023,
+      "severity": "CRITICAL",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2020-36706",
+      "year": 2023,
+      "severity": "CRITICAL",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2023-5524",
+      "year": 2023,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2023-26578",
+      "year": 2023,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2023-45554",
+      "year": 2023,
+      "severity": "CRITICAL",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2023-45555",
+      "year": 2023,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2023-46815",
+      "year": 2023,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2023-5360",
+      "year": 2023,
+      "severity": "CRITICAL",
+      "in_kev": false,
+      "in_msf": true,
+      "in_edb": true,
+      "exploited": true
+    },
+    {
+      "cve": "CVE-2023-1713",
+      "year": 2023,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2023-1720",
+      "year": 2023,
+      "severity": "CRITICAL",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2023-46428",
+      "year": 2023,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2023-5860",
+      "year": 2023,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2023-42802",
+      "year": 2023,
+      "severity": "CRITICAL",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2023-41357",
+      "year": 2023,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2023-41725",
+      "year": 2023,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2023-5601",
+      "year": 2023,
+      "severity": "CRITICAL",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2023-33480",
+      "year": 2023,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2023-42659",
+      "year": 2023,
+      "severity": "CRITICAL",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2023-47129",
+      "year": 2023,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2023-47621",
+      "year": 2023,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2023-48217",
+      "year": 2023,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2023-48031",
+      "year": 2023,
+      "severity": "CRITICAL",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2023-39548",
+      "year": 2023,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2023-6187",
+      "year": 2023,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2023-5822",
+      "year": 2023,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2023-41788",
+      "year": 2023,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2023-41998",
+      "year": 2023,
+      "severity": "CRITICAL",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2023-5604",
+      "year": 2023,
+      "severity": "CRITICAL",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2023-29770",
+      "year": 2023,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2023-6219",
+      "year": 2023,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2023-4220",
+      "year": 2023,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": true,
+      "in_edb": true,
+      "exploited": true
+    },
+    {
+      "cve": "CVE-2023-4223",
+      "year": 2023,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2023-4224",
+      "year": 2023,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2023-4225",
+      "year": 2023,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2023-4226",
+      "year": 2023,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2023-49052",
+      "year": 2023,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2023-48965",
+      "year": 2023,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2023-48966",
+      "year": 2023,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2023-5953",
+      "year": 2023,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2023-48930",
+      "year": 2023,
+      "severity": "CRITICAL",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2023-39538",
+      "year": 2023,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2023-39539",
+      "year": 2023,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2023-4122",
+      "year": 2023,
+      "severity": "CRITICAL",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2023-50564",
+      "year": 2023,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2023-48371",
+      "year": 2023,
+      "severity": "CRITICAL",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2023-48376",
+      "year": 2023,
+      "severity": "CRITICAL",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2023-6826",
+      "year": 2023,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2023-6827",
+      "year": 2023,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2023-48394",
+      "year": 2023,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2023-4311",
+      "year": 2023,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2023-46263",
+      "year": 2023,
+      "severity": "CRITICAL",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2023-46264",
+      "year": 2023,
+      "severity": "CRITICAL",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2023-6562",
+      "year": 2023,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2023-28170",
+      "year": 2023,
+      "severity": "CRITICAL",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2023-23970",
+      "year": 2023,
+      "severity": "CRITICAL",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2023-51034",
+      "year": 2023,
+      "severity": "CRITICAL",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2023-52086",
+      "year": 2023,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2023-5673",
+      "year": 2023,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2023-5931",
+      "year": 2023,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2023-50692",
+      "year": 2023,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2023-50038",
+      "year": 2023,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2023-50104",
+      "year": 2023,
+      "severity": "CRITICAL",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2023-51419",
+      "year": 2023,
+      "severity": "CRITICAL",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2023-45724",
+      "year": 2024,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2023-50922",
+      "year": 2024,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2023-50760",
+      "year": 2024,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2023-5957",
+      "year": 2024,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2023-6140",
+      "year": 2024,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2023-50982",
+      "year": 2024,
+      "severity": "CRITICAL",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2020-26629",
+      "year": 2024,
+      "severity": "CRITICAL",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2023-6220",
+      "year": 2024,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2023-6316",
+      "year": 2024,
+      "severity": "CRITICAL",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2023-6558",
+      "year": 2024,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2023-6636",
+      "year": 2024,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2023-6979",
+      "year": 2024,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2023-46474",
+      "year": 2024,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2023-50729",
+      "year": 2024,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2022-1538",
+      "year": 2024,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2023-4536",
+      "year": 2024,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2023-40051",
+      "year": 2024,
+      "severity": "CRITICAL",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2023-27168",
+      "year": 2024,
+      "severity": "CRITICAL",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2021-31314",
+      "year": 2024,
+      "severity": "CRITICAL",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2023-51928",
+      "year": 2024,
+      "severity": "CRITICAL",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2023-51924",
+      "year": 2024,
+      "severity": "CRITICAL",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2023-51925",
+      "year": 2024,
+      "severity": "CRITICAL",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2024-22895",
+      "year": 2024,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2023-52324",
+      "year": 2024,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2023-52221",
+      "year": 2024,
+      "severity": "CRITICAL",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2024-24399",
+      "year": 2024,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2024-23630",
+      "year": 2024,
+      "severity": "CRITICAL",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2024-1034",
+      "year": 2024,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2023-31505",
+      "year": 2024,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2024-1069",
+      "year": 2024,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2021-4436",
+      "year": 2024,
+      "severity": "CRITICAL",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2024-22567",
+      "year": 2024,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2023-6635",
+      "year": 2024,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2023-6925",
+      "year": 2024,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2024-24000",
+      "year": 2024,
+      "severity": "CRITICAL",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2024-22515",
+      "year": 2024,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2024-24024",
+      "year": 2024,
+      "severity": "CRITICAL",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2024-24025",
+      "year": 2024,
+      "severity": "CRITICAL",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2024-24026",
+      "year": 2024,
+      "severity": "CRITICAL",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2024-24350",
+      "year": 2024,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2024-24202",
+      "year": 2024,
+      "severity": "CRITICAL",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2023-25365",
+      "year": 2024,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2023-40265",
+      "year": 2024,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2024-24393",
+      "year": 2024,
+      "severity": "CRITICAL",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2024-25674",
+      "year": 2024,
+      "severity": "CRITICAL",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2024-23759",
+      "year": 2024,
+      "severity": "CRITICAL",
+      "in_kev": false,
+      "in_msf": true,
+      "in_edb": false,
+      "exploited": true
+    },
+    {
+      "cve": "CVE-2024-23762",
+      "year": 2024,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2024-25414",
+      "year": 2024,
+      "severity": "CRITICAL",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2024-25623",
+      "year": 2024,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2024-25636",
+      "year": 2024,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2024-25802",
+      "year": 2024,
+      "severity": "CRITICAL",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2024-25832",
+      "year": 2024,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": true,
+      "exploited": true
+    },
+    {
+      "cve": "CVE-2024-1468",
+      "year": 2024,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2024-0864",
+      "year": 2024,
+      "severity": "CRITICAL",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2024-1986",
+      "year": 2024,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2024-1311",
+      "year": 2024,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2023-41505",
+      "year": 2024,
+      "severity": "CRITICAL",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2024-1205",
+      "year": 2024,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2023-51444",
+      "year": 2024,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2024-27923",
+      "year": 2024,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2024-29859",
+      "year": 2024,
+      "severity": "CRITICAL",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2024-28105",
+      "year": 2024,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2023-46808",
+      "year": 2024,
+      "severity": "CRITICAL",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2024-3022",
+      "year": 2024,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2024-2125",
+      "year": 2024,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2024-2221",
+      "year": 2024,
+      "severity": "CRITICAL",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2024-31214",
+      "year": 2024,
+      "severity": "CRITICAL",
+      "in_kev": false,
+      "in_msf": true,
+      "in_edb": false,
+      "exploited": true
+    },
+    {
+      "cve": "CVE-2024-3962",
+      "year": 2024,
+      "severity": "CRITICAL",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2024-1567",
+      "year": 2024,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2024-2667",
+      "year": 2024,
+      "severity": "CRITICAL",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2024-4033",
+      "year": 2024,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2024-4345",
+      "year": 2024,
+      "severity": "CRITICAL",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2021-35002",
+      "year": 2024,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2024-4397",
+      "year": 2024,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2024-4560",
+      "year": 2024,
+      "severity": "CRITICAL",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2024-27943",
+      "year": 2024,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2024-27944",
+      "year": 2024,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2024-27945",
+      "year": 2024,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2024-5084",
+      "year": 2024,
+      "severity": "CRITICAL",
+      "in_kev": false,
+      "in_msf": true,
+      "in_edb": false,
+      "exploited": true
+    },
+    {
+      "cve": "CVE-2024-5247",
+      "year": 2024,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2022-45171",
+      "year": 2024,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2024-3412",
+      "year": 2024,
+      "severity": "CRITICAL",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2024-36858",
+      "year": 2024,
+      "severity": "CRITICAL",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2024-37273",
+      "year": 2024,
+      "severity": "CRITICAL",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2024-36774",
+      "year": 2024,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2024-36415",
+      "year": 2024,
+      "severity": "CRITICAL",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2024-1659",
+      "year": 2024,
+      "severity": "CRITICAL",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2024-2381",
+      "year": 2024,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2024-3229",
+      "year": 2024,
+      "severity": "CRITICAL",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2024-5853",
+      "year": 2024,
+      "severity": "CRITICAL",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2024-6132",
+      "year": 2024,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2023-45197",
+      "year": 2024,
+      "severity": "CRITICAL",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2024-4197",
+      "year": 2024,
+      "severity": "CRITICAL",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2024-5008",
+      "year": 2024,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2024-6054",
+      "year": 2024,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2024-6318",
+      "year": 2024,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2024-6319",
+      "year": 2024,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2024-27903",
+      "year": 2024,
+      "severity": "CRITICAL",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2024-5441",
+      "year": 2024,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2024-6161",
+      "year": 2024,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2024-6313",
+      "year": 2024,
+      "severity": "CRITICAL",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2024-6314",
+      "year": 2024,
+      "severity": "CRITICAL",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2023-7061",
+      "year": 2024,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2024-40545",
+      "year": 2024,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2024-40546",
+      "year": 2024,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2024-40548",
+      "year": 2024,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2024-40549",
+      "year": 2024,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2024-40550",
+      "year": 2024,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2024-40551",
+      "year": 2024,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2024-5080",
+      "year": 2024,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2024-5450",
+      "year": 2024,
+      "severity": "CRITICAL",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2024-5630",
+      "year": 2024,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2024-6220",
+      "year": 2024,
+      "severity": "CRITICAL",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2024-3242",
+      "year": 2024,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2024-6756",
+      "year": 2024,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2024-40318",
+      "year": 2024,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2024-6366",
+      "year": 2024,
+      "severity": "CRITICAL",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2024-38529",
+      "year": 2024,
+      "severity": "CRITICAL",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2024-40645",
+      "year": 2024,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2024-6117",
+      "year": 2024,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2024-7484",
+      "year": 2024,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2024-41913",
+      "year": 2024,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2024-38530",
+      "year": 2024,
+      "severity": "CRITICAL",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2024-6823",
+      "year": 2024,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2024-42676",
+      "year": 2024,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2023-0714",
+      "year": 2024,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2024-42777",
+      "year": 2024,
+      "severity": "CRITICAL",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2024-42778",
+      "year": 2024,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2024-42779",
+      "year": 2024,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2024-42780",
+      "year": 2024,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2024-7384",
+      "year": 2024,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2024-39717",
+      "year": 2024,
+      "severity": "HIGH",
+      "in_kev": true,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": true
+    },
+    {
+      "cve": "CVE-2024-7559",
+      "year": 2024,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2024-44871",
+      "year": 2024,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": true,
+      "exploited": true
+    },
+    {
+      "cve": "CVE-2024-27115",
+      "year": 2024,
+      "severity": "CRITICAL",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2024-40125",
+      "year": 2024,
+      "severity": "CRITICAL",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2024-37868",
+      "year": 2024,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2024-37869",
+      "year": 2024,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2024-47823",
+      "year": 2024,
+      "severity": "CRITICAL",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2024-9981",
+      "year": 2024,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2024-9985",
+      "year": 2024,
+      "severity": "CRITICAL",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2024-50623",
+      "year": 2024,
+      "severity": "CRITICAL",
+      "in_kev": true,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": true
+    },
+    {
+      "cve": "CVE-2024-50495",
+      "year": 2024,
+      "severity": "CRITICAL",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2024-50527",
+      "year": 2024,
+      "severity": "CRITICAL",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2024-51152",
+      "year": 2024,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2024-11311",
+      "year": 2024,
+      "severity": "CRITICAL",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2024-11312",
+      "year": 2024,
+      "severity": "CRITICAL",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2024-11313",
+      "year": 2024,
+      "severity": "CRITICAL",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2024-11314",
+      "year": 2024,
+      "severity": "CRITICAL",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2024-11315",
+      "year": 2024,
+      "severity": "CRITICAL",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2024-51208",
+      "year": 2024,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2024-52677",
+      "year": 2024,
+      "severity": "CRITICAL",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2024-40744",
+      "year": 2024,
+      "severity": "CRITICAL",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2024-12233",
+      "year": 2024,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2025-22389",
+      "year": 2025,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2025-0472",
+      "year": 2025,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2024-57968",
+      "year": 2025,
+      "severity": "CRITICAL",
+      "in_kev": true,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": true
+    },
+    {
+      "cve": "CVE-2024-57668",
+      "year": 2025,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2025-1355",
+      "year": 2025,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2025-1555",
+      "year": 2025,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2024-56897",
+      "year": 2025,
+      "severity": "CRITICAL",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2024-13359",
+      "year": 2025,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2025-2219",
+      "year": 2025,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2024-9920",
+      "year": 2025,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2025-32370",
+      "year": 2025,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": true,
+      "exploited": true
+    },
+    {
+      "cve": "CVE-2025-3914",
+      "year": 2025,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2025-4468",
+      "year": 2025,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2025-4923",
+      "year": 2025,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2025-4954",
+      "year": 2025,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2025-6161",
+      "year": 2025,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2021-4457",
+      "year": 2025,
+      "severity": "CRITICAL",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2025-6843",
+      "year": 2025,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2025-7114",
+      "year": 2025,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2025-0928",
+      "year": 2025,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2025-7470",
+      "year": 2025,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2025-34111",
+      "year": 2025,
+      "severity": "CRITICAL",
+      "in_kev": false,
+      "in_msf": true,
+      "in_edb": false,
+      "exploited": true
+    },
+    {
+      "cve": "CVE-2013-10032",
+      "year": 2025,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": true,
+      "in_edb": false,
+      "exploited": true
+    },
+    {
+      "cve": "CVE-2025-8255",
+      "year": 2025,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2013-10044",
+      "year": 2025,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": true,
+      "in_edb": false,
+      "exploited": true
+    },
+    {
+      "cve": "CVE-2012-10054",
+      "year": 2025,
+      "severity": "CRITICAL",
+      "in_kev": false,
+      "in_msf": true,
+      "in_edb": false,
+      "exploited": true
+    },
+    {
+      "cve": "CVE-2025-49408",
+      "year": 2025,
+      "severity": "CRITICAL",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2025-49410",
+      "year": 2025,
+      "severity": "CRITICAL",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2024-13986",
+      "year": 2025,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2025-58159",
+      "year": 2025,
+      "severity": "CRITICAL",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2025-9772",
+      "year": 2025,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2025-9775",
+      "year": 2025,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2025-58745",
+      "year": 2025,
+      "severity": "CRITICAL",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2025-10424",
+      "year": 2025,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2025-10425",
+      "year": 2025,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2025-10600",
+      "year": 2025,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2025-11318",
+      "year": 2025,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2025-11347",
+      "year": 2025,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2025-11656",
+      "year": 2025,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2025-11657",
+      "year": 2025,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2025-11658",
+      "year": 2025,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2025-11659",
+      "year": 2025,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2025-11660",
+      "year": 2025,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2025-12301",
+      "year": 2025,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2025-12378",
+      "year": 2025,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2025-64759",
+      "year": 2025,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2025-66255",
+      "year": 2025,
+      "severity": "CRITICAL",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2025-56704",
+      "year": 2025,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2025-61808",
+      "year": 2025,
+      "severity": "CRITICAL",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2025-67506",
+      "year": 2025,
+      "severity": "CRITICAL",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2025-65471",
+      "year": 2025,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2024-58313",
+      "year": 2025,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2025-34506",
+      "year": 2025,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2025-14583",
+      "year": 2025,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2023-53871",
+      "year": 2025,
+      "severity": "CRITICAL",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2025-68109",
+      "year": 2025,
+      "severity": "CRITICAL",
+      "in_kev": false,
+      "in_msf": true,
+      "in_edb": false,
+      "exploited": true
+    },
+    {
+      "cve": "CVE-2019-25229",
+      "year": 2025,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2025-14849",
+      "year": 2025,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2023-53950",
+      "year": 2025,
+      "severity": "CRITICAL",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2023-53952",
+      "year": 2025,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2023-53956",
+      "year": 2025,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2023-53971",
+      "year": 2025,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2023-53980",
+      "year": 2025,
+      "severity": "CRITICAL",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2025-2155",
+      "year": 2025,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2025-15226",
+      "year": 2025,
+      "severity": "CRITICAL",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2025-15228",
+      "year": 2025,
+      "severity": "CRITICAL",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2025-57460",
+      "year": 2025,
+      "severity": "CRITICAL",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2025-55061",
+      "year": 2025,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2024-25182",
+      "year": 2025,
+      "severity": "CRITICAL",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2024-27480",
+      "year": 2025,
+      "severity": "CRITICAL",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2025-15426",
+      "year": 2026,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2025-15240",
+      "year": 2026,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2023-50897",
+      "year": 2026,
+      "severity": "CRITICAL",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2026-0643",
+      "year": 2026,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2026-21877",
+      "year": 2026,
+      "severity": "CRITICAL",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2025-15503",
+      "year": 2026,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2025-15503",
+      "year": 2026,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2026-22783",
+      "year": 2026,
+      "severity": "CRITICAL",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2026-22783",
+      "year": 2026,
+      "severity": "CRITICAL",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2026-22786",
+      "year": 2026,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2022-50893",
+      "year": 2026,
+      "severity": "CRITICAL",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2022-50898",
+      "year": 2026,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2022-50912",
+      "year": 2026,
+      "severity": "CRITICAL",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2022-50936",
+      "year": 2026,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2021-47757",
+      "year": 2026,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2021-47758",
+      "year": 2026,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2021-47819",
+      "year": 2026,
+      "severity": "CRITICAL",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2026-1021",
+      "year": 2026,
+      "severity": "CRITICAL",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2025-14894",
+      "year": 2026,
+      "severity": "CRITICAL",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2026-21625",
+      "year": 2026,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2026-1222",
+      "year": 2026,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2025-33015",
+      "year": 2026,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2026-24010",
+      "year": 2026,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2026-1331",
+      "year": 2026,
+      "severity": "CRITICAL",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2025-10856",
+      "year": 2026,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2020-36942",
+      "year": 2026,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2026-24769",
+      "year": 2026,
+      "severity": "CRITICAL",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2026-24897",
+      "year": 2026,
+      "severity": "CRITICAL",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2020-37023",
+      "year": 2026,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2025-66480",
+      "year": 2026,
+      "severity": "CRITICAL",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2020-37113",
+      "year": 2026,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2025-69981",
+      "year": 2026,
+      "severity": "CRITICAL",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2020-37073",
+      "year": 2026,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2020-37090",
+      "year": 2026,
+      "severity": "CRITICAL",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2026-25510",
+      "year": 2026,
+      "severity": "CRITICAL",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2026-25510",
+      "year": 2026,
+      "severity": "CRITICAL",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2020-37084",
+      "year": 2026,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2026-20098",
+      "year": 2026,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2026-25056",
+      "year": 2026,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2020-37117",
+      "year": 2026,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2026-2113",
+      "year": 2026,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2026-2133",
+      "year": 2026,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2026-2164",
+      "year": 2026,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2026-25923",
+      "year": 2026,
+      "severity": "CRITICAL",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2026-2097",
+      "year": 2026,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2025-14014",
+      "year": 2026,
+      "severity": "CRITICAL",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2026-2550",
+      "year": 2026,
+      "severity": "CRITICAL",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2025-13689",
+      "year": 2026,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2026-2684",
+      "year": 2026,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2026-2684",
+      "year": 2026,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2026-26975",
+      "year": 2026,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2018-25158",
+      "year": 2026,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2026-25648",
+      "year": 2026,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2026-3025",
+      "year": 2026,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2026-3025",
+      "year": 2026,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2026-26984",
+      "year": 2026,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2026-28274",
+      "year": 2026,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2026-27947",
+      "year": 2026,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2025-14532",
+      "year": 2026,
+      "severity": "CRITICAL",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2026-21628",
+      "year": 2026,
+      "severity": "CRITICAL",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2026-21536",
+      "year": 2026,
+      "severity": "CRITICAL",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2026-28502",
+      "year": 2026,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2026-29041",
+      "year": 2026,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2018-25171",
+      "year": 2026,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2026-30821",
+      "year": 2026,
+      "severity": "CRITICAL",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2026-29186",
+      "year": 2026,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2026-29186",
+      "year": 2026,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2017-20224",
+      "year": 2026,
+      "severity": "CRITICAL",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2026-4191",
+      "year": 2026,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2026-4201",
+      "year": 2026,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2026-4220",
+      "year": 2026,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2026-4221",
+      "year": 2026,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2026-32756",
+      "year": 2026,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2026-32985",
+      "year": 2026,
+      "severity": "CRITICAL",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2026-32989",
+      "year": 2026,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2019-25580",
+      "year": 2026,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2026-4536",
+      "year": 2026,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2026-33647",
+      "year": 2026,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2026-33717",
+      "year": 2026,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2026-32278",
+      "year": 2026,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2019-25626",
+      "year": 2026,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2019-25627",
+      "year": 2026,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2019-25630",
+      "year": 2026,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2019-25647",
+      "year": 2026,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2026-33687",
+      "year": 2026,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2026-25099",
+      "year": 2026,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2026-5001",
+      "year": 2026,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2026-5261",
+      "year": 2026,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2026-2701",
+      "year": 2026,
+      "severity": "CRITICAL",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2026-2701",
+      "year": 2026,
+      "severity": "CRITICAL",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2025-59710",
+      "year": 2026,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2016-20052",
+      "year": 2026,
+      "severity": "CRITICAL",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2026-5573",
+      "year": 2026,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2019-25673",
+      "year": 2026,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2026-35047",
+      "year": 2026,
+      "severity": "CRITICAL",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2026-35174",
+      "year": 2026,
+      "severity": "CRITICAL",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2026-0740",
+      "year": 2026,
+      "severity": "CRITICAL",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2026-33273",
+      "year": 2026,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2026-3535",
+      "year": 2026,
+      "severity": "CRITICAL",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2026-4808",
+      "year": 2026,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2026-2942",
+      "year": 2026,
+      "severity": "CRITICAL",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2026-32931",
+      "year": 2026,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2026-33704",
+      "year": 2026,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2018-25258",
+      "year": 2026,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2026-40040",
+      "year": 2026,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2026-1555",
+      "year": 2026,
+      "severity": "CRITICAL",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2026-33435",
+      "year": 2026,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2026-40262",
+      "year": 2026,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2026-5718",
+      "year": 2026,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2026-40484",
+      "year": 2026,
+      "severity": "CRITICAL",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2026-6518",
+      "year": 2026,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2026-6596",
+      "year": 2026,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2026-6602",
+      "year": 2026,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2026-40488",
+      "year": 2026,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2026-6249",
+      "year": 2026,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2026-6257",
+      "year": 2026,
+      "severity": "CRITICAL",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2026-3844",
+      "year": 2026,
+      "severity": "CRITICAL",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2026-6885",
+      "year": 2026,
+      "severity": "CRITICAL",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2026-5364",
+      "year": 2026,
+      "severity": "HIGH",
+      "in_kev": false,
+      "in_msf": false,
+      "in_edb": false,
+      "exploited": false
+    }
+  ]
+}

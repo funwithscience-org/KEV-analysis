@@ -1,0 +1,248 @@
+{
+  "generated_at": "2026-04-25T14:43:28Z",
+  "description": "7-year-window per-framework backtest. Tests whether the 12-month 'perfect catch' claim holds when extended to 7 years. If small-N samples were over-promising, the 7-year view should show real catch-rate gaps.",
+  "frameworks": {
+    "spring": {
+      "framework": "spring",
+      "total_ch_7yr": 145,
+      "npdi_7yr": 25,
+      "exploited_7yr": 6,
+      "caught_7yr": 2,
+      "missed_7yr": 4,
+      "catch_rate_7yr_pct": 33.3,
+      "by_window": {
+        "2018-2019": {
+          "ch_total": 37,
+          "npdi": 6,
+          "exploited": 1,
+          "caught": 1,
+          "missed": 0,
+          "missed_details": []
+        },
+        "2020-2021": {
+          "ch_total": 47,
+          "npdi": 3,
+          "exploited": 1,
+          "caught": 0,
+          "missed": 1,
+          "missed_details": [
+            {
+              "cve": "CVE-2020-1938",
+              "package": "org.apache.tomcat.embed:tomcat-embed-core",
+              "cwes": [
+                269
+              ],
+              "is_np": true,
+              "is_di": false
+            }
+          ]
+        },
+        "2022-2023": {
+          "ch_total": 26,
+          "npdi": 6,
+          "exploited": 3,
+          "caught": 1,
+          "missed": 2,
+          "missed_details": [
+            {
+              "cve": "CVE-2022-1471",
+              "package": "org.yaml:snakeyaml",
+              "cwes": [
+                20,
+                502
+              ],
+              "is_np": false,
+              "is_di": false
+            },
+            {
+              "cve": "CVE-2022-42889",
+              "package": "org.apache.commons:commons-text",
+              "cwes": [
+                94
+              ],
+              "is_np": false,
+              "is_di": true
+            }
+          ]
+        },
+        "2024-2026": {
+          "ch_total": 35,
+          "npdi": 10,
+          "exploited": 1,
+          "caught": 0,
+          "missed": 1,
+          "missed_details": [
+            {
+              "cve": "CVE-2025-24813",
+              "package": "org.apache.tomcat.embed:tomcat-embed-core",
+              "cwes": [
+                44,
+                502
+              ],
+              "is_np": true,
+              "is_di": false
+            }
+          ]
+        }
+      }
+    },
+    "nodejs": {
+      "framework": "nodejs",
+      "total_ch_7yr": 70,
+      "npdi_7yr": 14,
+      "exploited_7yr": 0,
+      "caught_7yr": 0,
+      "missed_7yr": 0,
+      "catch_rate_7yr_pct": null,
+      "by_window": {
+        "2018-2019": {
+          "ch_total": 14,
+          "npdi": 2,
+          "exploited": 0,
+          "caught": 0,
+          "missed": 0,
+          "missed_details": []
+        },
+        "2020-2021": {
+          "ch_total": 8,
+          "npdi": 2,
+          "exploited": 0,
+          "caught": 0,
+          "missed": 0,
+          "missed_details": []
+        },
+        "2022-2023": {
+          "ch_total": 12,
+          "npdi": 1,
+          "exploited": 0,
+          "caught": 0,
+          "missed": 0,
+          "missed_details": []
+        },
+        "2024-2026": {
+          "ch_total": 29,
+          "npdi": 7,
+          "exploited": 0,
+          "caught": 0,
+          "missed": 0,
+          "missed_details": []
+        }
+      }
+    },
+    "django": {
+      "framework": "django",
+      "total_ch_7yr": 127,
+      "npdi_7yr": 25,
+      "exploited_7yr": 4,
+      "caught_7yr": 1,
+      "missed_7yr": 3,
+      "catch_rate_7yr_pct": 25.0,
+      "by_window": {
+        "2018-2019": {
+          "ch_total": 24,
+          "npdi": 3,
+          "exploited": 2,
+          "caught": 0,
+          "missed": 2,
+          "missed_details": [
+            {
+              "cve": "CVE-2019-19844",
+              "package": "django",
+              "cwes": [
+                640
+              ],
+              "is_np": true,
+              "is_di": false
+            },
+            {
+              "cve": "CVE-2018-7750",
+              "package": "paramiko",
+              "cwes": [
+                287
+              ],
+              "is_np": false,
+              "is_di": true
+            }
+          ]
+        },
+        "2020-2021": {
+          "ch_total": 46,
+          "npdi": 7,
+          "exploited": 0,
+          "caught": 0,
+          "missed": 0,
+          "missed_details": []
+        },
+        "2022-2023": {
+          "ch_total": 29,
+          "npdi": 3,
+          "exploited": 1,
+          "caught": 0,
+          "missed": 1,
+          "missed_details": [
+            {
+              "cve": "CVE-2023-4863",
+              "package": "pillow",
+              "cwes": [
+                787
+              ],
+              "is_np": false,
+              "is_di": false
+            }
+          ]
+        },
+        "2024-2026": {
+          "ch_total": 28,
+          "npdi": 12,
+          "exploited": 1,
+          "caught": 1,
+          "missed": 0,
+          "missed_details": []
+        }
+      }
+    },
+    "netty": {
+      "framework": "netty",
+      "total_ch_7yr": 10,
+      "npdi_7yr": 3,
+      "exploited_7yr": 0,
+      "caught_7yr": 0,
+      "missed_7yr": 0,
+      "catch_rate_7yr_pct": null,
+      "by_window": {
+        "2018-2019": {
+          "ch_total": 1,
+          "npdi": 1,
+          "exploited": 0,
+          "caught": 0,
+          "missed": 0,
+          "missed_details": []
+        },
+        "2020-2021": {
+          "ch_total": 4,
+          "npdi": 1,
+          "exploited": 0,
+          "caught": 0,
+          "missed": 0,
+          "missed_details": []
+        },
+        "2022-2023": {
+          "ch_total": 0,
+          "npdi": 0,
+          "exploited": 0,
+          "caught": 0,
+          "missed": 0,
+          "missed_details": []
+        },
+        "2024-2026": {
+          "ch_total": 4,
+          "npdi": 1,
+          "exploited": 0,
+          "caught": 0,
+          "missed": 0,
+          "missed_details": []
+        }
+      }
+    }
+  }
+}
