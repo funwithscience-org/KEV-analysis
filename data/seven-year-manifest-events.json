@@ -1,58 +1,86 @@
 {
-  "generated_at": "2026-04-25T07:09:16Z",
-  "description": "Seven-year backtest of the NP+DI filter against the enterprise Spring Boot manifest (54 Maven packages: 48 from spring_manifest_analysis.py + 6 added for parity with the doc's broader manifest -- log4j-{core,api}, xstream, activemq-{core,broker,client}). All Critical/High vulns published 2018-01 to 2026-06, deduped by CVE. The 'exploited' flag is the union of CISA KEV, Metasploit module presence, and ExploitDB entry -- KEV alone undercounts library exploitation per the project's framing.",
+  "generated_at": "2026-04-25T10:31:44Z",
+  "description": "Per-CVE event dataset for the 7-year manifest backtest. Built from data/_manifest-osv-cache.json with package-role-aware NP classification (a package is NP iff its role in the manifest is 'NP' OR its short name is in NP_OVERRIDES_TO_TRUE). DI is CWE-set based, excluding CWE-434 (file upload) per the doc's filter.",
   "methodology": {
-    "scope": "54 Maven packages",
+    "scope": "manifest from data/_manifest-osv-cache.json (54 packages)",
     "time_window": "2018-01-01 through 2026-06-30",
     "severity": "OSV CRITICAL or HIGH",
-    "np_filter": "CWE in PARSING_CWES (29 CWEs from osv_cwe_analysis.py)",
-    "di_filter": "CWE in DI_CWES (32 CWEs)",
-    "exploitation_sources": {
-      "in_kev": "data/kev-snapshot-2026-04-23.json",
-      "in_metasploit": "data/_metasploit-cves.json (rapid7/metasploit-framework modules_metadata_base.json, ~3,108 CVEs)",
-      "in_exploitdb": "data/_exploitdb-cves.json (gitlab.com/exploit-database files_exploits.csv, ~24,941 CVEs)"
-    },
+    "np_rule": "Package-role-aware: role=='NP' OR short-name in NP_OVERRIDES_TO_TRUE. Auth-boundary libraries (cryptography, bouncycastle, JWT libs) are NP via override.",
+    "np_overrides": [
+      "activemq-broker",
+      "activemq-client",
+      "activemq-core",
+      "bcprov-jdk18on",
+      "cryptography",
+      "jjwt",
+      "jose",
+      "jsonwebtoken",
+      "log4j-api",
+      "log4j-core",
+      "pyjwt",
+      "xstream"
+    ],
+    "di_cwes": [
+      22,
+      23,
+      36,
+      74,
+      77,
+      78,
+      89,
+      90,
+      91,
+      93,
+      94,
+      95,
+      96,
+      97,
+      98,
+      113,
+      116,
+      287,
+      289,
+      306,
+      345,
+      444,
+      611,
+      693,
+      776,
+      863,
+      917,
+      918,
+      1236,
+      1321,
+      1336
+    ],
+    "di_excludes": [
+      "CWE-434 (file upload)",
+      "CWE-502 (deserialization)"
+    ],
+    "exploitation_sources": [
+      "CISA KEV",
+      "Metasploit",
+      "ExploitDB"
+    ],
     "exploited_definition": "in_kev OR in_metasploit OR in_exploitdb"
   },
   "input_sources": {
-    "manifest_cache_sha256_16": "5cc4558f8fb9cd54"
+    "manifest_cache": "data/_manifest-osv-cache.json",
+    "manifest_cache_sha256_16": "5cc4558f8fb9cd54",
+    "kev_snapshot": "data/kev-snapshot-2026-04-23.json"
   },
   "summary": {
-    "total_ch_events": 208,
-    "npdi_events": 47,
-    "exploited_total": 15,
-    "exploited_npdi": 7,
-    "exploited_missed_by_npdi": 8,
-    "in_kev_only": 11,
-    "in_metasploit_only": 12,
-    "in_exploitdb_only": 9
+    "total_ch_events": 175,
+    "npdi_events": 34,
+    "exploited_total": 11,
+    "exploited_npdi": 5,
+    "exploited_np_not_di": 4,
+    "exploited_not_np": 2,
+    "in_kev_only": 8,
+    "in_metasploit_only": 10,
+    "in_exploitdb_only": 5
   },
   "events": [
-    {
-      "cve": "CVE-2022-42889",
-      "osv_id": "GHSA-599f-7c49-w659",
-      "packages": [
-        "org.apache.commons:commons-text"
-      ],
-      "package_roles": [
-        "OTHER"
-      ],
-      "cwes": [
-        "CWE-94"
-      ],
-      "cwe_nums": [
-        94
-      ],
-      "severity": "CRITICAL",
-      "published": "2022-10-13",
-      "summary": "Arbitrary code execution in Apache Commons Text",
-      "is_np": true,
-      "is_di": true,
-      "in_kev": false,
-      "in_metasploit": true,
-      "in_exploitdb": true,
-      "exploited": true
-    },
     {
       "cve": "CVE-2022-22965",
       "osv_id": "GHSA-36p3-wjmg-h94x",
@@ -61,8 +89,8 @@
         "org.springframework:spring-webmvc"
       ],
       "package_roles": [
-        "OTHER",
-        "NP"
+        "NP",
+        "OTHER"
       ],
       "cwes": [
         "CWE-74",
@@ -170,33 +198,6 @@
       "exploited": true
     },
     {
-      "cve": "CVE-2013-7285",
-      "osv_id": "GHSA-f554-x222-wgf7",
-      "packages": [
-        "com.thoughtworks.xstream:xstream"
-      ],
-      "package_roles": [
-        "XML serialization (Spring uses for OXM)"
-      ],
-      "cwes": [
-        "CWE-77",
-        "CWE-78"
-      ],
-      "cwe_nums": [
-        77,
-        78
-      ],
-      "severity": "CRITICAL",
-      "published": "2019-05-29",
-      "summary": "Command Injection in Xstream",
-      "is_np": true,
-      "is_di": true,
-      "in_kev": false,
-      "in_metasploit": false,
-      "in_exploitdb": true,
-      "exploited": true
-    },
-    {
       "cve": "CVE-2019-0232",
       "osv_id": "GHSA-8vmx-qmch-mpqg",
       "packages": [
@@ -239,7 +240,7 @@
       "severity": "HIGH",
       "published": "2026-04-07",
       "summary": "Authenticated Apache ActiveMQ Broker and Apache ActiveMQ users could perform RCE via Jolokia MBeans",
-      "is_np": false,
+      "is_np": true,
       "is_di": false,
       "in_kev": true,
       "in_metasploit": false,
@@ -318,7 +319,7 @@
       "severity": "HIGH",
       "published": "2022-12-12",
       "summary": "SnakeYaml Constructor Deserialization Remote Code Execution",
-      "is_np": true,
+      "is_np": false,
       "is_di": false,
       "in_kev": false,
       "in_metasploit": true,
@@ -326,53 +327,26 @@
       "exploited": true
     },
     {
-      "cve": "CVE-2016-3088",
-      "osv_id": "GHSA-rxqh-fc23-gxp2",
+      "cve": "CVE-2022-42889",
+      "osv_id": "GHSA-599f-7c49-w659",
       "packages": [
-        "org.apache.activemq:activemq-client"
+        "org.apache.commons:commons-text"
       ],
       "package_roles": [
-        "JMS client"
+        "OTHER"
       ],
       "cwes": [
-        "CWE-20",
-        "CWE-434"
+        "CWE-94"
       ],
       "cwe_nums": [
-        20,
-        434
+        94
       ],
       "severity": "CRITICAL",
-      "published": "2022-05-14",
-      "summary": "Improper Input Validation in Apache ActiveMQ",
+      "published": "2022-10-13",
+      "summary": "Arbitrary code execution in Apache Commons Text",
       "is_np": false,
       "is_di": true,
-      "in_kev": true,
-      "in_metasploit": true,
-      "in_exploitdb": true,
-      "exploited": true
-    },
-    {
-      "cve": "CVE-2017-12617",
-      "osv_id": "GHSA-xjgh-84hx-56c5",
-      "packages": [
-        "org.apache.tomcat.embed:tomcat-embed-core"
-      ],
-      "package_roles": [
-        "NP"
-      ],
-      "cwes": [
-        "CWE-434"
-      ],
-      "cwe_nums": [
-        434
-      ],
-      "severity": "HIGH",
-      "published": "2022-05-14",
-      "summary": "Unrestricted Upload of File with Dangerous Type Apache Tomcat",
-      "is_np": false,
-      "is_di": true,
-      "in_kev": true,
+      "in_kev": false,
       "in_metasploit": true,
       "in_exploitdb": true,
       "exploited": true
@@ -395,35 +369,10 @@
       "severity": "CRITICAL",
       "published": "2020-06-15",
       "summary": "Improper Privilege Management in Tomcat",
-      "is_np": false,
+      "is_np": true,
       "is_di": false,
       "in_kev": true,
       "in_metasploit": true,
-      "in_exploitdb": true,
-      "exploited": true
-    },
-    {
-      "cve": "CVE-2017-12615",
-      "osv_id": "GHSA-pjfr-qf3p-3q25",
-      "packages": [
-        "org.apache.tomcat.embed:tomcat-embed-core"
-      ],
-      "package_roles": [
-        "NP"
-      ],
-      "cwes": [
-        "CWE-434"
-      ],
-      "cwe_nums": [
-        434
-      ],
-      "severity": "HIGH",
-      "published": "2018-10-17",
-      "summary": "When running Apache Tomcat on Windows with HTTP PUTs enabled it was possible to upload a JSP file to the server",
-      "is_np": false,
-      "is_di": true,
-      "in_kev": true,
-      "in_metasploit": false,
       "in_exploitdb": true,
       "exploited": true
     },
@@ -491,8 +440,8 @@
         "org.apache.activemq:activemq-client"
       ],
       "package_roles": [
-        "JMS messaging broker",
-        "JMS client"
+        "JMS client",
+        "JMS messaging broker"
       ],
       "cwes": [
         "CWE-400"
@@ -503,7 +452,7 @@
       "severity": "HIGH",
       "published": "2026-04-10",
       "summary": " Apache ActiveMQ: Denial of Service via Out of Memory vulnerability",
-      "is_np": false,
+      "is_np": true,
       "is_di": false,
       "in_kev": false,
       "in_metasploit": false,
@@ -528,7 +477,7 @@
       "severity": "HIGH",
       "published": "2026-04-09",
       "summary": "Apache Tomcat: Configured cipher preference order not preserved",
-      "is_np": false,
+      "is_np": true,
       "is_di": false,
       "in_kev": false,
       "in_metasploit": false,
@@ -603,7 +552,7 @@
       "severity": "HIGH",
       "published": "2026-04-09",
       "summary": "Apache Tomcat vulnerable to Insertion of Sensitive Information into Log File",
-      "is_np": false,
+      "is_np": true,
       "is_di": false,
       "in_kev": false,
       "in_metasploit": false,
@@ -628,7 +577,7 @@
       "severity": "CRITICAL",
       "published": "2026-03-20",
       "summary": "Spring Security HTTP Headers Are not Written Under Some Conditions",
-      "is_np": false,
+      "is_np": true,
       "is_di": false,
       "in_kev": false,
       "in_metasploit": false,
@@ -653,7 +602,7 @@
       "severity": "HIGH",
       "published": "2026-02-17",
       "summary": "Apache Tomcat has an Improper Input Validation vulnerability",
-      "is_np": false,
+      "is_np": true,
       "is_di": false,
       "in_kev": false,
       "in_metasploit": false,
@@ -705,7 +654,7 @@
       "severity": "HIGH",
       "published": "2025-09-16",
       "summary": "Spring Security annotation detection mechanism has authorization bypass",
-      "is_np": false,
+      "is_np": true,
       "is_di": true,
       "in_kev": false,
       "in_metasploit": false,
@@ -757,7 +706,7 @@
       "severity": "HIGH",
       "published": "2025-08-13",
       "summary": "Apache Tomcat Improper Resource Shutdown or Release vulnerability",
-      "is_np": false,
+      "is_np": true,
       "is_di": false,
       "in_kev": false,
       "in_metasploit": false,
@@ -782,7 +731,7 @@
       "severity": "HIGH",
       "published": "2025-07-10",
       "summary": "Apache Tomcat Coyote vulnerable to Denial of Service via excessive HTTP/2 streams",
-      "is_np": false,
+      "is_np": true,
       "is_di": false,
       "in_kev": false,
       "in_metasploit": false,
@@ -807,7 +756,7 @@
       "severity": "HIGH",
       "published": "2025-07-10",
       "summary": "Apache Tomcat Catalina is vulnerable to DoS attack through bypassing of size limits",
-      "is_np": false,
+      "is_np": true,
       "is_di": false,
       "in_kev": false,
       "in_metasploit": false,
@@ -832,7 +781,7 @@
       "severity": "HIGH",
       "published": "2025-06-27",
       "summary": "jackson-core can throw a StackoverflowError when processing deeply nested data",
-      "is_np": false,
+      "is_np": true,
       "is_di": false,
       "in_kev": false,
       "in_metasploit": false,
@@ -857,7 +806,7 @@
       "severity": "HIGH",
       "published": "2025-06-16",
       "summary": "Apache Tomcat - DoS in multipart upload",
-      "is_np": false,
+      "is_np": true,
       "is_di": false,
       "in_kev": false,
       "in_metasploit": false,
@@ -882,7 +831,7 @@
       "severity": "HIGH",
       "published": "2025-06-11",
       "summary": "pgjdbc Client Allows Fallback to Insecure Authentication Despite channelBinding=require Configuration",
-      "is_np": true,
+      "is_np": false,
       "is_di": true,
       "in_kev": false,
       "in_metasploit": false,
@@ -907,7 +856,7 @@
       "severity": "CRITICAL",
       "published": "2025-05-21",
       "summary": "Spring Security authorization bypass for method security annotations on private methods",
-      "is_np": false,
+      "is_np": true,
       "is_di": true,
       "in_kev": false,
       "in_metasploit": false,
@@ -959,7 +908,7 @@
       "severity": "HIGH",
       "published": "2025-04-24",
       "summary": "Apache HttpClient disables domain checks",
-      "is_np": false,
+      "is_np": true,
       "is_di": false,
       "in_kev": false,
       "in_metasploit": false,
@@ -984,7 +933,7 @@
       "severity": "HIGH",
       "published": "2024-12-20",
       "summary": "Apache Tomcat Time-of-check Time-of-use (TOCTOU) Race Condition vulnerability",
-      "is_np": false,
+      "is_np": true,
       "is_di": false,
       "in_kev": false,
       "in_metasploit": false,
@@ -1034,7 +983,7 @@
       "severity": "HIGH",
       "published": "2024-12-17",
       "summary": "Apache Tomcat Time-of-check Time-of-use (TOCTOU) Race Condition vulnerability",
-      "is_np": false,
+      "is_np": true,
       "is_di": false,
       "in_kev": false,
       "in_metasploit": false,
@@ -1088,7 +1037,7 @@
       "severity": "CRITICAL",
       "published": "2024-10-28",
       "summary": "Spring Security vulnerable to Authorization Bypass of Static Resources in WebFlux Applications",
-      "is_np": false,
+      "is_np": true,
       "is_di": false,
       "in_kev": false,
       "in_metasploit": false,
@@ -1165,7 +1114,7 @@
       "severity": "HIGH",
       "published": "2024-07-03",
       "summary": "Apache Tomcat - Denial of Service",
-      "is_np": false,
+      "is_np": true,
       "is_di": false,
       "in_kev": false,
       "in_metasploit": false,
@@ -1190,7 +1139,7 @@
       "severity": "HIGH",
       "published": "2024-04-16",
       "summary": "Spring Framework URL Parsing with Host Validation",
-      "is_np": false,
+      "is_np": true,
       "is_di": false,
       "in_kev": false,
       "in_metasploit": false,
@@ -1242,7 +1191,7 @@
       "severity": "HIGH",
       "published": "2024-03-16",
       "summary": "Spring Framework URL Parsing with Host Validation Vulnerability",
-      "is_np": false,
+      "is_np": true,
       "is_di": false,
       "in_kev": false,
       "in_metasploit": false,
@@ -1267,7 +1216,7 @@
       "severity": "HIGH",
       "published": "2024-02-23",
       "summary": "Spring Web vulnerable to Open Redirect or Server Side Request Forgery",
-      "is_np": false,
+      "is_np": true,
       "is_di": false,
       "in_kev": false,
       "in_metasploit": false,
@@ -1292,7 +1241,7 @@
       "severity": "CRITICAL",
       "published": "2024-02-21",
       "summary": "org.postgresql:postgresql vulnerable to SQL Injection via line comment generation",
-      "is_np": true,
+      "is_np": false,
       "is_di": true,
       "in_kev": false,
       "in_metasploit": false,
@@ -1317,7 +1266,7 @@
       "severity": "HIGH",
       "published": "2024-02-20",
       "summary": "Broken Access Control in Spring Security With Direct Use of isFullyAuthenticated",
-      "is_np": false,
+      "is_np": true,
       "is_di": false,
       "in_kev": false,
       "in_metasploit": false,
@@ -1389,7 +1338,7 @@
       "severity": "HIGH",
       "published": "2023-11-29",
       "summary": "logback serialization vulnerability",
-      "is_np": true,
+      "is_np": false,
       "is_di": false,
       "in_kev": false,
       "in_metasploit": false,
@@ -1437,7 +1386,7 @@
       "severity": "HIGH",
       "published": "2023-11-28",
       "summary": "Spring Framework vulnerable to denial of service",
-      "is_np": false,
+      "is_np": true,
       "is_di": false,
       "in_kev": false,
       "in_metasploit": false,
@@ -1514,7 +1463,7 @@
       "severity": "HIGH",
       "published": "2023-07-06",
       "summary": "Apache Tomcat - Fix for CVE-2023-24998 was incomplete",
-      "is_np": false,
+      "is_np": true,
       "is_di": false,
       "in_kev": false,
       "in_metasploit": false,
@@ -1539,7 +1488,7 @@
       "severity": "HIGH",
       "published": "2023-06-21",
       "summary": "Apache Tomcat vulnerable to information leak",
-      "is_np": false,
+      "is_np": true,
       "is_di": false,
       "in_kev": false,
       "in_metasploit": false,
@@ -1585,7 +1534,7 @@
       "severity": "CRITICAL",
       "published": "2023-03-28",
       "summary": "Spring Framework is vulnerable to security bypass via mvcRequestMatcher pattern mismatch",
-      "is_np": false,
+      "is_np": true,
       "is_di": false,
       "in_kev": false,
       "in_metasploit": false,
@@ -1610,7 +1559,7 @@
       "severity": "HIGH",
       "published": "2023-03-19",
       "summary": "jackson-databind possible Denial of Service if using JDK serialization to serialize JsonNode",
-      "is_np": false,
+      "is_np": true,
       "is_di": false,
       "in_kev": false,
       "in_metasploit": false,
@@ -1662,7 +1611,7 @@
       "severity": "HIGH",
       "published": "2023-02-20",
       "summary": "Apache Commons FileUpload denial of service vulnerability",
-      "is_np": false,
+      "is_np": true,
       "is_di": false,
       "in_kev": false,
       "in_metasploit": false,
@@ -1801,7 +1750,7 @@
       "severity": "CRITICAL",
       "published": "2022-11-01",
       "summary": "Spring Security authorization rules can be bypassed via forward or include dispatcher types",
-      "is_np": false,
+      "is_np": true,
       "is_di": true,
       "in_kev": false,
       "in_metasploit": false,
@@ -1882,7 +1831,7 @@
       "severity": "HIGH",
       "published": "2022-08-31",
       "summary": "Uncontrolled Resource Consumption in snakeyaml",
-      "is_np": true,
+      "is_np": false,
       "is_di": true,
       "in_kev": false,
       "in_metasploit": false,
@@ -1907,7 +1856,7 @@
       "severity": "HIGH",
       "published": "2022-08-06",
       "summary": "PostgreSQL JDBC Driver SQL Injection in ResultSet.refreshRow() with malicious column names",
-      "is_np": true,
+      "is_np": false,
       "is_di": true,
       "in_kev": false,
       "in_metasploit": false,
@@ -1969,31 +1918,6 @@
       "exploited": false
     },
     {
-      "cve": "CVE-2016-1000027",
-      "osv_id": "GHSA-4wrc-f8pq-fpqp",
-      "packages": [
-        "org.springframework:spring-web"
-      ],
-      "package_roles": [
-        "NP"
-      ],
-      "cwes": [
-        "CWE-502"
-      ],
-      "cwe_nums": [
-        502
-      ],
-      "severity": "CRITICAL",
-      "published": "2022-05-24",
-      "summary": "Pivotal Spring Framework contains unsafe Java deserialization methods",
-      "is_np": true,
-      "is_di": false,
-      "in_kev": false,
-      "in_metasploit": false,
-      "in_exploitdb": false,
-      "exploited": false
-    },
-    {
       "cve": "CVE-2021-22118",
       "osv_id": "GHSA-gfwj-fwqj-fp3v",
       "packages": [
@@ -2013,7 +1937,7 @@
       "severity": "HIGH",
       "published": "2022-05-24",
       "summary": "Improper Privilege Management in Spring Framework",
-      "is_np": false,
+      "is_np": true,
       "is_di": false,
       "in_kev": false,
       "in_metasploit": false,
@@ -2041,327 +1965,8 @@
       "severity": "CRITICAL",
       "published": "2022-05-20",
       "summary": "Authorization bypass in Spring Security",
-      "is_np": false,
-      "is_di": true,
-      "in_kev": false,
-      "in_metasploit": false,
-      "in_exploitdb": false,
-      "exploited": false
-    },
-    {
-      "cve": "CVE-2012-1618",
-      "osv_id": "GHSA-h86w-m5rm-xr33",
-      "packages": [
-        "org.postgresql:postgresql"
-      ],
-      "package_roles": [
-        "OTHER"
-      ],
-      "cwes": [],
-      "cwe_nums": [],
-      "severity": "HIGH",
-      "published": "2022-05-17",
-      "summary": "Unescaped parameters in the PostgreSQL JDBC driver",
-      "is_np": false,
-      "is_di": false,
-      "in_kev": false,
-      "in_metasploit": false,
-      "in_exploitdb": false,
-      "exploited": false
-    },
-    {
-      "cve": "CVE-2017-8045",
-      "osv_id": "GHSA-vqqg-xgv7-cf68",
-      "packages": [
-        "org.springframework.amqp:spring-amqp"
-      ],
-      "package_roles": [
-        "OTHER"
-      ],
-      "cwes": [
-        "CWE-502"
-      ],
-      "cwe_nums": [
-        502
-      ],
-      "severity": "CRITICAL",
-      "published": "2022-05-17",
-      "summary": "Deserialization of Untrusted Data in Spring AMQP",
-      "is_np": true,
-      "is_di": false,
-      "in_kev": false,
-      "in_metasploit": false,
-      "in_exploitdb": false,
-      "exploited": false
-    },
-    {
-      "cve": "CVE-2011-2730",
-      "osv_id": "GHSA-wv88-pf73-x22p",
-      "packages": [
-        "org.springframework:spring-core"
-      ],
-      "package_roles": [
-        "OTHER"
-      ],
-      "cwes": [],
-      "cwe_nums": [],
-      "severity": "HIGH",
-      "published": "2022-05-17",
-      "summary": "Improper Neutralization of Directives in Dynamically Evaluated Code in Spring Framework",
-      "is_np": false,
-      "is_di": false,
-      "in_kev": false,
-      "in_metasploit": false,
-      "in_exploitdb": false,
-      "exploited": false
-    },
-    {
-      "cve": "CVE-2014-3600",
-      "osv_id": "GHSA-4vhf-2hv7-8mrx",
-      "packages": [
-        "org.apache.activemq:activemq-broker",
-        "org.apache.activemq:activemq-client"
-      ],
-      "package_roles": [
-        "JMS messaging broker",
-        "JMS client"
-      ],
-      "cwes": [
-        "CWE-611"
-      ],
-      "cwe_nums": [
-        611
-      ],
-      "severity": "CRITICAL",
-      "published": "2022-05-14",
-      "summary": "Improper Restriction of XML External Entity Reference in Apache ActiveMQ",
       "is_np": true,
       "is_di": true,
-      "in_kev": false,
-      "in_metasploit": false,
-      "in_exploitdb": false,
-      "exploited": false
-    },
-    {
-      "cve": "CVE-2014-3612",
-      "osv_id": "GHSA-72m6-23ff-7q26",
-      "packages": [
-        "org.apache.activemq:activemq-broker"
-      ],
-      "package_roles": [
-        "JMS messaging broker"
-      ],
-      "cwes": [
-        "CWE-287"
-      ],
-      "cwe_nums": [
-        287
-      ],
-      "severity": "HIGH",
-      "published": "2022-05-14",
-      "summary": "Improper Authentication in Apache WSS4J",
-      "is_np": true,
-      "is_di": true,
-      "in_kev": false,
-      "in_metasploit": false,
-      "in_exploitdb": false,
-      "exploited": false
-    },
-    {
-      "cve": "CVE-2014-3576",
-      "osv_id": "GHSA-3wfj-vh84-732p",
-      "packages": [
-        "org.apache.activemq:activemq-client"
-      ],
-      "package_roles": [
-        "JMS client"
-      ],
-      "cwes": [
-        "CWE-78"
-      ],
-      "cwe_nums": [
-        78
-      ],
-      "severity": "HIGH",
-      "published": "2022-05-14",
-      "summary": "Improper Neutralization of Special Elements used in an OS Command in Apache ActiveMQ",
-      "is_np": true,
-      "is_di": true,
-      "in_kev": false,
-      "in_metasploit": false,
-      "in_exploitdb": false,
-      "exploited": false
-    },
-    {
-      "cve": "CVE-2015-5254",
-      "osv_id": "GHSA-q9hr-3pg4-3jp4",
-      "packages": [
-        "org.apache.activemq:activemq-client"
-      ],
-      "package_roles": [
-        "JMS client"
-      ],
-      "cwes": [
-        "CWE-20"
-      ],
-      "cwe_nums": [
-        20
-      ],
-      "severity": "CRITICAL",
-      "published": "2022-05-13",
-      "summary": "Improper Input Validation in Apache ActiveMQ",
-      "is_np": false,
-      "is_di": false,
-      "in_kev": false,
-      "in_metasploit": false,
-      "in_exploitdb": false,
-      "exploited": false
-    },
-    {
-      "cve": "CVE-2015-7501",
-      "osv_id": "GHSA-fjq5-5j5f-mvxh",
-      "packages": [
-        "org.apache.commons:commons-collections4"
-      ],
-      "package_roles": [
-        "OTHER"
-      ],
-      "cwes": [
-        "CWE-502"
-      ],
-      "cwe_nums": [
-        502
-      ],
-      "severity": "CRITICAL",
-      "published": "2022-05-13",
-      "summary": "Deserialization of Untrusted Data in Apache commons collections",
-      "is_np": true,
-      "is_di": false,
-      "in_kev": false,
-      "in_metasploit": false,
-      "in_exploitdb": false,
-      "exploited": false
-    },
-    {
-      "cve": "CVE-2017-5648",
-      "osv_id": "GHSA-3vx3-xf6q-r5xp",
-      "packages": [
-        "org.apache.tomcat.embed:tomcat-embed-core"
-      ],
-      "package_roles": [
-        "NP"
-      ],
-      "cwes": [
-        "CWE-668"
-      ],
-      "cwe_nums": [
-        668
-      ],
-      "severity": "CRITICAL",
-      "published": "2022-05-13",
-      "summary": "Exposure of Resource to Wrong Sphere in Apache Tomcat",
-      "is_np": false,
-      "is_di": false,
-      "in_kev": false,
-      "in_metasploit": false,
-      "in_exploitdb": false,
-      "exploited": false
-    },
-    {
-      "cve": "CVE-2017-5651",
-      "osv_id": "GHSA-9hg2-395j-83rm",
-      "packages": [
-        "org.apache.tomcat.embed:tomcat-embed-core"
-      ],
-      "package_roles": [
-        "NP"
-      ],
-      "cwes": [
-        "CWE-440"
-      ],
-      "cwe_nums": [
-        440
-      ],
-      "severity": "CRITICAL",
-      "published": "2022-05-13",
-      "summary": "Expected Behavior Violation in Apache Tomcat",
-      "is_np": false,
-      "is_di": false,
-      "in_kev": false,
-      "in_metasploit": false,
-      "in_exploitdb": false,
-      "exploited": false
-    },
-    {
-      "cve": "CVE-2016-2173",
-      "osv_id": "GHSA-hrp3-8p5w-27gv",
-      "packages": [
-        "org.springframework.amqp:spring-amqp"
-      ],
-      "package_roles": [
-        "OTHER"
-      ],
-      "cwes": [
-        "CWE-20"
-      ],
-      "cwe_nums": [
-        20
-      ],
-      "severity": "CRITICAL",
-      "published": "2022-05-13",
-      "summary": "Improper Input Validation in Spring AMQP",
-      "is_np": false,
-      "is_di": false,
-      "in_kev": false,
-      "in_metasploit": false,
-      "in_exploitdb": false,
-      "exploited": false
-    },
-    {
-      "cve": "CVE-2014-0097",
-      "osv_id": "GHSA-gv9v-c375-hvmg",
-      "packages": [
-        "org.springframework.security:spring-security-core"
-      ],
-      "package_roles": [
-        "NP"
-      ],
-      "cwes": [
-        "CWE-287"
-      ],
-      "cwe_nums": [
-        287
-      ],
-      "severity": "HIGH",
-      "published": "2022-05-13",
-      "summary": "Improper Authentication in Spring Security",
-      "is_np": true,
-      "is_di": true,
-      "in_kev": false,
-      "in_metasploit": false,
-      "in_exploitdb": false,
-      "exploited": false
-    },
-    {
-      "cve": "CVE-2017-4995",
-      "osv_id": "GHSA-vhrg-v3cv-p247",
-      "packages": [
-        "org.springframework.security:spring-security-core"
-      ],
-      "package_roles": [
-        "NP"
-      ],
-      "cwes": [
-        "CWE-502"
-      ],
-      "cwe_nums": [
-        502
-      ],
-      "severity": "HIGH",
-      "published": "2022-05-13",
-      "summary": "Deserialization of Untrusted Data in Spring Security",
-      "is_np": true,
-      "is_di": false,
       "in_kev": false,
       "in_metasploit": false,
       "in_exploitdb": false,
@@ -2387,31 +1992,6 @@
       "summary": "Denial of service in Spring Framework",
       "is_np": false,
       "is_di": false,
-      "in_kev": false,
-      "in_metasploit": false,
-      "in_exploitdb": false,
-      "exploited": false
-    },
-    {
-      "cve": "CVE-2014-0225",
-      "osv_id": "GHSA-f93f-g33r-8pcp",
-      "packages": [
-        "org.springframework:spring-webmvc"
-      ],
-      "package_roles": [
-        "NP"
-      ],
-      "cwes": [
-        "CWE-611"
-      ],
-      "cwe_nums": [
-        611
-      ],
-      "severity": "HIGH",
-      "published": "2022-05-13",
-      "summary": "Improper Restriction of XML External Entity Reference in Spring Framework",
-      "is_np": true,
-      "is_di": true,
       "in_kev": false,
       "in_metasploit": false,
       "in_exploitdb": false,
@@ -2485,7 +2065,7 @@
       "severity": "HIGH",
       "published": "2022-02-10",
       "summary": "Improper Restriction of XML External Entity Reference",
-      "is_np": true,
+      "is_np": false,
       "is_di": true,
       "in_kev": false,
       "in_metasploit": false,
@@ -2514,7 +2094,7 @@
       "severity": "HIGH",
       "published": "2022-02-02",
       "summary": "pgjdbc Does Not Check Class Instantiation when providing Plugin Classes",
-      "is_np": true,
+      "is_np": false,
       "is_di": true,
       "in_kev": false,
       "in_metasploit": false,
@@ -2568,7 +2148,7 @@
       "severity": "HIGH",
       "published": "2021-12-18",
       "summary": "Apache Log4j2 vulnerable to Improper Input Validation and Uncontrolled Recursion",
-      "is_np": false,
+      "is_np": true,
       "is_di": false,
       "in_kev": false,
       "in_metasploit": false,
@@ -3025,7 +2605,7 @@
       "published": "2021-08-25",
       "summary": "XStream is vulnerable to an Arbitrary Code Execution attack",
       "is_np": true,
-      "is_di": true,
+      "is_di": false,
       "in_kev": false,
       "in_metasploit": false,
       "in_exploitdb": false,
@@ -3077,7 +2657,7 @@
       "published": "2021-08-25",
       "summary": "XStream is vulnerable to an Arbitrary Code Execution attack",
       "is_np": true,
-      "is_di": true,
+      "is_di": false,
       "in_kev": false,
       "in_metasploit": false,
       "in_exploitdb": false,
@@ -3206,7 +2786,7 @@
       "published": "2021-08-25",
       "summary": "XStream is vulnerable to an Arbitrary Code Execution attack",
       "is_np": true,
-      "is_di": true,
+      "is_di": false,
       "in_kev": false,
       "in_metasploit": false,
       "in_exploitdb": false,
@@ -3309,7 +2889,7 @@
       "severity": "HIGH",
       "published": "2021-07-02",
       "summary": "Resource Exhaustion in Spring Security",
-      "is_np": false,
+      "is_np": true,
       "is_di": true,
       "in_kev": false,
       "in_metasploit": false,
@@ -3334,59 +2914,8 @@
       "severity": "HIGH",
       "published": "2021-06-16",
       "summary": "Exposure of Sensitive Information to an Unauthorized Actor in Apache Tomcat",
-      "is_np": false,
-      "is_di": false,
-      "in_kev": false,
-      "in_metasploit": false,
-      "in_exploitdb": false,
-      "exploited": false
-    },
-    {
-      "cve": "CVE-2017-5929",
-      "osv_id": "GHSA-vmfg-rjjm-rjrj",
-      "packages": [
-        "ch.qos.logback:logback-classic",
-        "ch.qos.logback:logback-core"
-      ],
-      "package_roles": [
-        "OTHER"
-      ],
-      "cwes": [
-        "CWE-502"
-      ],
-      "cwe_nums": [
-        502
-      ],
-      "severity": "CRITICAL",
-      "published": "2021-06-07",
-      "summary": "QOS.ch Logback vulnerable to Deserialization of Untrusted Data",
       "is_np": true,
       "is_di": false,
-      "in_kev": false,
-      "in_metasploit": false,
-      "in_exploitdb": false,
-      "exploited": false
-    },
-    {
-      "cve": "CVE-2017-18640",
-      "osv_id": "GHSA-rvwf-54qp-4r6v",
-      "packages": [
-        "org.yaml:snakeyaml"
-      ],
-      "package_roles": [
-        "OTHER"
-      ],
-      "cwes": [
-        "CWE-776"
-      ],
-      "cwe_nums": [
-        776
-      ],
-      "severity": "HIGH",
-      "published": "2021-06-04",
-      "summary": "SnakeYAML Entity Expansion during load operation",
-      "is_np": true,
-      "is_di": true,
       "in_kev": false,
       "in_metasploit": false,
       "in_exploitdb": false,
@@ -3439,7 +2968,7 @@
       "severity": "HIGH",
       "published": "2021-05-10",
       "summary": "Privilege escalation in spring security",
-      "is_np": false,
+      "is_np": true,
       "is_di": false,
       "in_kev": false,
       "in_metasploit": false,
@@ -3576,52 +3105,6 @@
       "exploited": false
     },
     {
-      "cve": "CVE-2016-9879",
-      "osv_id": "GHSA-v35c-49j6-q8hq",
-      "packages": [
-        "org.springframework.security:spring-security-core"
-      ],
-      "package_roles": [
-        "NP"
-      ],
-      "cwes": [],
-      "cwe_nums": [],
-      "severity": "HIGH",
-      "published": "2020-09-15",
-      "summary": "Security Constraint Bypass in Spring Security",
-      "is_np": false,
-      "is_di": false,
-      "in_kev": false,
-      "in_metasploit": false,
-      "in_exploitdb": false,
-      "exploited": false
-    },
-    {
-      "cve": "CVE-2014-3527",
-      "osv_id": "GHSA-wmv4-5w76-vp9g",
-      "packages": [
-        "org.springframework.security:spring-security-core"
-      ],
-      "package_roles": [
-        "NP"
-      ],
-      "cwes": [
-        "CWE-287"
-      ],
-      "cwe_nums": [
-        287
-      ],
-      "severity": "CRITICAL",
-      "published": "2020-09-15",
-      "summary": "Authorization Bypass in Spring Security",
-      "is_np": true,
-      "is_di": true,
-      "in_kev": false,
-      "in_metasploit": false,
-      "in_exploitdb": false,
-      "exploited": false
-    },
-    {
       "cve": "CVE-2018-5968",
       "osv_id": "GHSA-w3f4-3q6j-rh82",
       "packages": [
@@ -3642,56 +3125,6 @@
       "published": "2020-06-30",
       "summary": "Deserialization of Untrusted Data in jackson-databind",
       "is_np": true,
-      "is_di": false,
-      "in_kev": false,
-      "in_metasploit": false,
-      "in_exploitdb": false,
-      "exploited": false
-    },
-    {
-      "cve": "CVE-2017-7957",
-      "osv_id": "GHSA-7hwc-46rm-65jh",
-      "packages": [
-        "com.thoughtworks.xstream:xstream"
-      ],
-      "package_roles": [
-        "XML serialization (Spring uses for OXM)"
-      ],
-      "cwes": [
-        "CWE-20"
-      ],
-      "cwe_nums": [
-        20
-      ],
-      "severity": "HIGH",
-      "published": "2020-06-30",
-      "summary": "Denial of service in XStream",
-      "is_np": false,
-      "is_di": false,
-      "in_kev": false,
-      "in_metasploit": false,
-      "in_exploitdb": false,
-      "exploited": false
-    },
-    {
-      "cve": "CVE-2016-3674",
-      "osv_id": "GHSA-rgh3-987h-wpmw",
-      "packages": [
-        "com.thoughtworks.xstream:xstream"
-      ],
-      "package_roles": [
-        "XML serialization (Spring uses for OXM)"
-      ],
-      "cwes": [
-        "CWE-200"
-      ],
-      "cwe_nums": [
-        200
-      ],
-      "severity": "HIGH",
-      "published": "2020-06-30",
-      "summary": "XML External Entity Injection in XStream",
-      "is_np": false,
       "is_di": false,
       "in_kev": false,
       "in_metasploit": false,
@@ -3849,31 +3282,6 @@
       "exploited": false
     },
     {
-      "cve": "CVE-2015-6420",
-      "osv_id": "GHSA-6hgm-866r-3cjv",
-      "packages": [
-        "org.apache.commons:commons-collections4"
-      ],
-      "package_roles": [
-        "OTHER"
-      ],
-      "cwes": [
-        "CWE-502"
-      ],
-      "cwe_nums": [
-        502
-      ],
-      "severity": "HIGH",
-      "published": "2020-06-15",
-      "summary": "Insecure Deserialization in Apache Commons Collection",
-      "is_np": true,
-      "is_di": false,
-      "in_kev": false,
-      "in_metasploit": false,
-      "in_exploitdb": false,
-      "exploited": false
-    },
-    {
       "cve": "CVE-2019-0199",
       "osv_id": "GHSA-qcxh-w3j9-58qr",
       "packages": [
@@ -3891,7 +3299,7 @@
       "severity": "HIGH",
       "published": "2020-06-15",
       "summary": "Apache Tomcat Denial of Service vulnerability",
-      "is_np": false,
+      "is_np": true,
       "is_di": false,
       "in_kev": false,
       "in_metasploit": false,
@@ -3962,7 +3370,7 @@
       "severity": "HIGH",
       "published": "2020-06-05",
       "summary": "Signature wrapping vulnerability in Spring Security",
-      "is_np": false,
+      "is_np": true,
       "is_di": false,
       "in_kev": false,
       "in_metasploit": false,
@@ -4366,31 +3774,6 @@
       "severity": "HIGH",
       "published": "2020-01-21",
       "summary": "RFD attack via Content-Disposition header sourced from request input by Spring MVC or Spring WebFlux Application",
-      "is_np": false,
-      "is_di": false,
-      "in_kev": false,
-      "in_metasploit": false,
-      "in_exploitdb": false,
-      "exploited": false
-    },
-    {
-      "cve": "CVE-2017-5645",
-      "osv_id": "GHSA-fxph-q3j8-mv87",
-      "packages": [
-        "org.apache.logging.log4j:log4j-core"
-      ],
-      "package_roles": [
-        "Logging (alternative to logback)"
-      ],
-      "cwes": [
-        "CWE-502"
-      ],
-      "cwe_nums": [
-        502
-      ],
-      "severity": "CRITICAL",
-      "published": "2020-01-06",
-      "summary": "Deserialization of Untrusted Data in Log4j",
       "is_np": true,
       "is_di": false,
       "in_kev": false,
@@ -4416,7 +3799,7 @@
       "severity": "HIGH",
       "published": "2019-12-26",
       "summary": "In Apache Tomcat, when using FORM authentication there was a narrow window where an attacker could perform a session fixation attack",
-      "is_np": false,
+      "is_np": true,
       "is_di": false,
       "in_kev": false,
       "in_metasploit": false,
@@ -4441,7 +3824,7 @@
       "severity": "HIGH",
       "published": "2019-12-26",
       "summary": "Insufficiently Protected Credentials in Apache Tomcat",
-      "is_np": false,
+      "is_np": true,
       "is_di": false,
       "in_kev": false,
       "in_metasploit": false,
@@ -4722,7 +4105,7 @@
       "severity": "HIGH",
       "published": "2019-06-26",
       "summary": "Improper Locking in Apache Tomcat",
-      "is_np": false,
+      "is_np": true,
       "is_di": false,
       "in_kev": false,
       "in_metasploit": false,
@@ -4999,7 +4382,7 @@
       "severity": "HIGH",
       "published": "2018-12-20",
       "summary": "Spring Security vulnerable to Authorization Bypass",
-      "is_np": false,
+      "is_np": true,
       "is_di": true,
       "in_kev": false,
       "in_metasploit": false,
@@ -5024,58 +4407,6 @@
       "severity": "HIGH",
       "published": "2018-10-19",
       "summary": "Improper Certificate Validation in Apache activemq-client",
-      "is_np": false,
-      "is_di": false,
-      "in_kev": false,
-      "in_metasploit": false,
-      "in_exploitdb": false,
-      "exploited": false
-    },
-    {
-      "cve": "CVE-2017-15095",
-      "osv_id": "GHSA-h592-38cm-4ggp",
-      "packages": [
-        "com.fasterxml.jackson.core:jackson-databind"
-      ],
-      "package_roles": [
-        "NP"
-      ],
-      "cwes": [
-        "CWE-184",
-        "CWE-502"
-      ],
-      "cwe_nums": [
-        184,
-        502
-      ],
-      "severity": "CRITICAL",
-      "published": "2018-10-18",
-      "summary": "jackson-databind vulnerable to deserialization flaw leading to unauthenticated remote code execution",
-      "is_np": true,
-      "is_di": false,
-      "in_kev": false,
-      "in_metasploit": false,
-      "in_exploitdb": false,
-      "exploited": false
-    },
-    {
-      "cve": "CVE-2017-17485",
-      "osv_id": "GHSA-rfx6-vp9g-rh7v",
-      "packages": [
-        "com.fasterxml.jackson.core:jackson-databind"
-      ],
-      "package_roles": [
-        "NP"
-      ],
-      "cwes": [
-        "CWE-502"
-      ],
-      "cwe_nums": [
-        502
-      ],
-      "severity": "CRITICAL",
-      "published": "2018-10-18",
-      "summary": "jackson-databind vulnerable to remote code execution due to incorrect deserialization and blocklist bypass",
       "is_np": true,
       "is_di": false,
       "in_kev": false,
@@ -5101,7 +4432,7 @@
       "severity": "HIGH",
       "published": "2018-10-17",
       "summary": "The host name verification missing in Apache Tomcat",
-      "is_np": false,
+      "is_np": true,
       "is_di": false,
       "in_kev": false,
       "in_metasploit": false,
@@ -5126,7 +4457,7 @@
       "severity": "HIGH",
       "published": "2018-10-17",
       "summary": "In Apache Tomcat there is an improper handing of overflow in the UTF-8 decoder ",
-      "is_np": false,
+      "is_np": true,
       "is_di": false,
       "in_kev": false,
       "in_metasploit": false,
@@ -5151,7 +4482,7 @@
       "severity": "CRITICAL",
       "published": "2018-10-17",
       "summary": "The defaults settings for the CORS filter provided in Apache Tomcat are insecure and enable 'supportsCredentials' for all origins",
-      "is_np": false,
+      "is_np": true,
       "is_di": false,
       "in_kev": false,
       "in_metasploit": false,
@@ -5172,29 +4503,6 @@
       "severity": "HIGH",
       "published": "2018-10-17",
       "summary": "Possible privilege escalation in org.springframework:spring-core",
-      "is_np": false,
-      "is_di": false,
-      "in_kev": false,
-      "in_metasploit": false,
-      "in_exploitdb": false,
-      "exploited": false
-    },
-    {
-      "cve": "CVE-2016-5007",
-      "osv_id": "GHSA-8crv-49fr-2h6j",
-      "packages": [
-        "org.springframework:spring-core",
-        "org.springframework.security:spring-security-core"
-      ],
-      "package_roles": [
-        "OTHER",
-        "NP"
-      ],
-      "cwes": [],
-      "cwe_nums": [],
-      "severity": "HIGH",
-      "published": "2018-10-17",
-      "summary": "Spring Security and Spring Framework may not recognize certain paths that should be protected",
       "is_np": false,
       "is_di": false,
       "in_kev": false,
@@ -5228,33 +4536,6 @@
       "exploited": false
     },
     {
-      "cve": "CVE-2015-5211",
-      "osv_id": "GHSA-pgf9-h69p-pcgf",
-      "packages": [
-        "org.springframework:spring-core"
-      ],
-      "package_roles": [
-        "OTHER"
-      ],
-      "cwes": [
-        "CWE-20",
-        "CWE-552"
-      ],
-      "cwe_nums": [
-        20,
-        552
-      ],
-      "severity": "HIGH",
-      "published": "2018-10-17",
-      "summary": "Files or Directories Accessible to External Parties in org.springframework:spring-core",
-      "is_np": false,
-      "is_di": false,
-      "in_kev": false,
-      "in_metasploit": false,
-      "in_exploitdb": false,
-      "exploited": false
-    },
-    {
       "cve": "CVE-2018-7489",
       "osv_id": "GHSA-cggj-fvv3-cqwv",
       "packages": [
@@ -5276,58 +4557,6 @@
       "summary": "FasterXML jackson-databind allows unauthenticated remote code execution ",
       "is_np": true,
       "is_di": false,
-      "in_kev": false,
-      "in_metasploit": false,
-      "in_exploitdb": false,
-      "exploited": false
-    },
-    {
-      "cve": "CVE-2017-7525",
-      "osv_id": "GHSA-qxxx-2pp7-5hmx",
-      "packages": [
-        "com.fasterxml.jackson.core:jackson-databind"
-      ],
-      "package_roles": [
-        "NP"
-      ],
-      "cwes": [
-        "CWE-184",
-        "CWE-502"
-      ],
-      "cwe_nums": [
-        184,
-        502
-      ],
-      "severity": "CRITICAL",
-      "published": "2018-10-16",
-      "summary": "jackson-databind is vulnerable to a deserialization flaw",
-      "is_np": true,
-      "is_di": false,
-      "in_kev": false,
-      "in_metasploit": false,
-      "in_exploitdb": false,
-      "exploited": false
-    },
-    {
-      "cve": "CVE-2016-9878",
-      "osv_id": "GHSA-2m8h-fgr8-2q9w",
-      "packages": [
-        "org.springframework:spring-webmvc"
-      ],
-      "package_roles": [
-        "NP"
-      ],
-      "cwes": [
-        "CWE-22"
-      ],
-      "cwe_nums": [
-        22
-      ],
-      "severity": "HIGH",
-      "published": "2018-10-04",
-      "summary": "Pivotal Spring Framework Paths provided to the ResourceServlet were not properly sanitized",
-      "is_np": true,
-      "is_di": true,
       "in_kev": false,
       "in_metasploit": false,
       "in_exploitdb": false,

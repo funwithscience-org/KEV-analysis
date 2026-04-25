@@ -1,9 +1,9 @@
 {
-  "generated_at": "2026-04-25T07:08:10Z",
+  "generated_at": "2026-04-25T10:31:54Z",
   "description": "Seven-year network-parser + direct-injection (NP+DI) events dataset. Built from the cached OSV CWE-classification dump for 24 popular network-parsing libraries, intersected with the project's DI CWE set (including the April 2026 auth-bypass widening). KEV / Metasploit / ExploitDB outcome flags come from cross-referencing CISA KEV catalog and the cached exploit-source caches.",
   "methodology": {
     "np_filter": "OSV CWE classifier output 'parsing' (vs 'non_parsing' or 'ambiguous')",
-    "di_filter": "CWE present in DI set of 32 CWEs (see scripts/build_seven_year_npdi.py)",
+    "di_filter": "CWE present in DI set of 31 CWEs (see scripts/build_seven_year_npdi.py)",
     "outcome_sources": [
       "CISA KEV",
       "Metasploit (via cached query)",
@@ -21,7 +21,7 @@
     "osv_cwe_results_sha256_16": "5c0c4a99c9adb2a5",
     "kev_snapshot": "data/kev-snapshot-2026-04-23.json",
     "kev_snapshot_sha256_16": "5e09ac07972f5339",
-    "di_cwe_count": 32
+    "di_cwe_count": 31
   },
   "summary": {
     "total_events": 101,

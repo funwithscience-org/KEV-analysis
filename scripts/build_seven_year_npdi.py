@@ -44,9 +44,12 @@ CACHE = Path("/sessions/bold-nice-euler/mnt/vulnerability analysis/cached-data")
 # Source: kev_cwe_backtest.py (analysis-scripts/) plus auth-bypass widening
 # from data/di-reclassification.json (April 2026).
 DI_CWES = {
-    # Original DI definition (network parser-style injection)
+    # Original DI definition (network parser-style injection).
+    # Excluded: CWE-434 (file upload) — deliberate, see periodicity doc's
+    # deserialization callout. Adding it would over-broaden the filter
+    # (Tomcat PUT events become NP+DI which contradicts the doc's framing).
     78, 77, 94, 95, 917, 1336, 74, 89, 90, 918, 611, 776, 444, 113, 22, 23,
-    36, 434, 98, 91, 116, 93, 96, 97, 1236,
+    36, 98, 91, 116, 93, 96, 97, 1236,
     # Auth-bypass widening (April 2026)
     287, 289, 306, 345, 693, 863, 1321,
 }

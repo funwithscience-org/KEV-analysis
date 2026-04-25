@@ -58,8 +58,11 @@ CACHE = Path("/sessions/bold-nice-euler/mnt/vulnerability analysis/cached-data")
 
 # DI CWE set (widened, per data/di-reclassification.json)
 DI_CWES = {
+    # Excluded: CWE-434 (file upload) — deliberate; see periodicity doc.
+    # Including it over-broadens the filter; doc treats Tomcat PUT events
+    # as misses precisely because CWE-434 is not in DI.
     78, 77, 94, 95, 917, 1336, 74, 89, 90, 918, 611, 776, 444, 113, 22, 23,
-    36, 434, 98, 91, 116, 93, 96, 97, 1236,
+    36, 98, 91, 116, 93, 96, 97, 1236,
     287, 289, 306, 345, 693, 863, 1321,
 }
 

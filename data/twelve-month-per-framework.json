@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-04-25T09:35:21Z",
+  "generated_at": "2026-04-25T10:32:00Z",
   "description": "Canonical 12-month per-framework dataset backing the crossFrameworkChart, periodicityChart, and monthly heatmaps on docs/periodicity.html.",
   "methodology": {
     "np_rule": "A package is NP if its primary purpose is processing untrusted input that arrives over the network OR drives security decisions. Cached is_np flags are correct except for known auth-boundary library overrides.",
@@ -28,7 +28,6 @@
       289,
       306,
       345,
-      434,
       444,
       611,
       693,
