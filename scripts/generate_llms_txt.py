@@ -25,7 +25,14 @@ import sys
 from pathlib import Path
 
 REPO = Path(__file__).resolve().parent.parent
-SITE = "https://funwithscience-org.github.io/KEV-analysis"
+# Canonical served URL. The site is on GitHub Pages but served via the
+# funwithscience.net custom domain (org-wide CNAME pattern; KEV-analysis is
+# a project subpath). The github.io URL still resolves but isn't canonical;
+# sitemap and llms.txt point at the funwithscience.net URLs so search-console
+# submissions match the verified property.
+SITE = "https://funwithscience.net/KEV-analysis"
+# GitHub repo URLs stay pointing at github.com — these reference the source
+# code, not the served site.
 GITHUB = "https://github.com/funwithscience-org/KEV-analysis/blob/main"
 RAW = "https://raw.githubusercontent.com/funwithscience-org/KEV-analysis/main"
 
@@ -251,9 +258,10 @@ def render_llms_txt(data: dict, classif: dict) -> str:
 # --------------------------------------------------------------------------- #
 def render_robots_txt() -> str:
     return (
-        "# Allow all crawlers. The canonical robots.txt for github.io is\n"
-        "# controlled by GitHub; this file documents project intent and\n"
-        "# points to the LLM-friendly summary and the project sitemap.\n"
+        "# Allow all crawlers. The canonical robots.txt for the funwithscience.net\n"
+        "# domain lives at the root of the org's main site; this file lives at the\n"
+        "# project's subpath and documents project intent + points search engines\n"
+        "# at the project sitemap and the LLM-friendly summary.\n"
         "User-agent: *\n"
         "Allow: /\n"
         "\n"

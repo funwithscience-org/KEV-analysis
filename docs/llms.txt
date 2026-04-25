@@ -51,13 +51,13 @@ KEV is windowed to CVEs published 2021+ to align with the NVD denominator window
 
 ## Pages
 
-- [Walkthrough](https://funwithscience-org.github.io/KEV-analysis/index.html): long-form analysis with sidebar navigation
-- [Dashboard](https://funwithscience-org.github.io/KEV-analysis/dashboard.html): interactive Chart.js dashboard
-- [Periodicity](https://funwithscience-org.github.io/KEV-analysis/periodicity.html): cross-framework backtest of the NP+DI filter
-- [Build Mechanics](https://funwithscience-org.github.io/KEV-analysis/build-mechanics.html): operational layer — BAU vs floor sweeps, the cat 1/2/3 estate-maturity model (with a 1/3-1/3-1/3 worked example), WAFs as spackle, filter value by response shape, and a practical-implications section on enterprise rules (auth-posture metadata, filter scope by auth posture, the Spring Boot Actuator/Jolokia case, hygiene rules, and a CVE triage decision flow)
-- [CVE Reference](https://funwithscience-org.github.io/KEV-analysis/cve-reference.html): per-CVE classification table
-- [Glasswing](https://funwithscience-org.github.io/KEV-analysis/glasswing.html): speculative analysis of AI-discovered CVEs (intelligence assessment, not data)
-- [OSV Exploitation](https://funwithscience-org.github.io/KEV-analysis/osv-exploitation.html): open-source library exploitation analysis using OSV.dev
+- [Walkthrough](https://funwithscience.net/KEV-analysis/index.html): long-form analysis with sidebar navigation
+- [Dashboard](https://funwithscience.net/KEV-analysis/dashboard.html): interactive Chart.js dashboard
+- [Periodicity](https://funwithscience.net/KEV-analysis/periodicity.html): cross-framework backtest of the NP+DI filter
+- [Build Mechanics](https://funwithscience.net/KEV-analysis/build-mechanics.html): operational layer — BAU vs floor sweeps, the cat 1/2/3 estate-maturity model (with a 1/3-1/3-1/3 worked example), WAFs as spackle, filter value by response shape, and a practical-implications section on enterprise rules (auth-posture metadata, filter scope by auth posture, the Spring Boot Actuator/Jolokia case, hygiene rules, and a CVE triage decision flow)
+- [CVE Reference](https://funwithscience.net/KEV-analysis/cve-reference.html): per-CVE classification table
+- [Glasswing](https://funwithscience.net/KEV-analysis/glasswing.html): speculative analysis of AI-discovered CVEs (intelligence assessment, not data)
+- [OSV Exploitation](https://funwithscience.net/KEV-analysis/osv-exploitation.html): open-source library exploitation analysis using OSV.dev
 
 ## Caveats and limitations
 
