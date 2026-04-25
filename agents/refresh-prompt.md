@@ -242,6 +242,7 @@ The key variables to target:
 - The mythosCveChart labels and data arrays
 - The dashPatchChart labels and both dataset data arrays
 - `const mMonthsAll = [...]`
+- **`DATA.total_kev`** — set to `len(catalog['vulnerabilities'])` from the KEV JSON you already fetched. This drives the "X exploited vulnerabilities" subtitle, the "KEV Entries (Total)" KPI tile, and several prose mentions via `<span data-kpi="totalKev">` placeholders. Both `docs/dashboard.html` and `docs/index.html` carry their own DATA blob — update both. If the test suite (`tests/run.sh`) reports `DATA.total_kev != classifications JSON entry count`, you've drifted; reconcile before pushing.
 
 ## TRACKING FILE
 Write a `kev-tracking.json` to the repo root (`kev-repo/kev-tracking.json`) AND to `/mnt/outputs/` (for local access) with:

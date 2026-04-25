@@ -116,7 +116,40 @@ def main() -> int:
         r.check(not missing, f"{tag}: layer_data missing layers: {sorted(missing)}")
         r.check(not extra, f"{tag}: layer_data has unexpected layers: {sorted(extra)}")
 
-        # --- 7. prep for cross-page equality ---
+        # --- 7. total_kev field consumed by KPI auto-fill in prose ---
+        r.check(
+            "total_kev" in data,
+            f"{tag}: DATA.total_kev missing — needed for prose KPI auto-fill",
+        )
+        if "total_kev" in data:
+            kev_total = data["total_kev"]
+            r.check(
+                isinstance(kev_total, int) and kev_total > 0,
+                f"{tag}: DATA.total_kev={kev_total!r} not a positive int",
+            )
+            r.check(
+                kev_total >= total,
+                f"{tag}: DATA.total_kev={kev_total} < windowed sum {total} "
+                f"(catalog total can't be smaller than its 2021+ subset)",
+            )
+            # Cross-check against classifications JSON
+            r.check(
+                kev_total == len(classif["classifications"]),
+                f"{tag}: DATA.total_kev={kev_total} != classifications JSON entry "
+                f"count {len(classif['classifications'])} — refresh agent or "
+                f"classifier rebuild left them out of sync",
+            )
+
+        # --- 8. total_nvd, if present, must match sum(layer_data.nvd) ---
+        if "total_nvd" in data:
+            nvd_sum = sum(x["nvd"] for x in data["layer_data"])
+            r.check(
+                data["total_nvd"] == nvd_sum,
+                f"{tag}: DATA.total_nvd={data['total_nvd']} != "
+                f"sum(layer_data.nvd)={nvd_sum}",
+            )
+
+        # --- 9. prep for cross-page equality ---
         per_page_layer[tag] = {row["layer"]: (row["kev"], row["nvd"], row["rate"])
                                for row in data["layer_data"]}
         per_page_ransom[tag] = {row["layer"]: row["count"]
