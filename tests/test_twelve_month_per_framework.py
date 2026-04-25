@@ -113,6 +113,44 @@ def main() -> int:
             assert len(fw["monthly_npdi"]) == 13, f"{name} monthly_npdi must have 13 entries"
             assert len(fw["monthly_other"]) == 13, f"{name} monthly_other must have 13 entries"
 
+    # 7. Periodicity.html monthly chart arrays must match the dataset.
+    # Catches drift between the dataset and the rendered chart arrays.
+    import re
+    page = (REPO / "docs" / "periodicity.html").read_text()
+    # Each chart definition is in a Chart constructor with two data arrays
+    # for "Other C/H" and "NP+DI (rebuild trigger)". Extract per-chart.
+    chart_id_to_fw = {
+        "monthlySpring": "spring",
+        "monthlyNode":   "nodejs",
+        "monthlyDjango": "django",
+        # Netty chart has tiny fixed arrays; per the dataset Netty has 3
+        # events on 2 unique dates so trivial to match — left out unless
+        # the doc updates to match.
+    }
+    for chart_id, fw_name in chart_id_to_fw.items():
+        fw = fws.get(fw_name, {})
+        if not (fw.get("monthly_other") and fw.get("monthly_npdi")):
+            continue
+        m = re.search(
+            rf"getElementById\(['\"]{re.escape(chart_id)}['\"]\).*?'Other C/H',data:\[([^\]]+)\].*?'NP\+DI \(rebuild trigger\)',data:\[([^\]]+)\]",
+            page, re.DOTALL)
+        if not m:
+            fails += 1
+            print(f"FAIL — could not extract chart arrays for {chart_id}")
+            continue
+        chart_other = [int(x) for x in m.group(1).split(",")]
+        chart_npdi = [int(x) for x in m.group(2).split(",")]
+        if chart_other != fw["monthly_other"]:
+            fails += 1
+            print(f"FAIL — {chart_id} 'Other C/H' chart array drifted:\n"
+                  f"  chart:   {chart_other}\n"
+                  f"  dataset: {fw['monthly_other']}")
+        if chart_npdi != fw["monthly_npdi"]:
+            fails += 1
+            print(f"FAIL — {chart_id} 'NP+DI' chart array drifted:\n"
+                  f"  chart:   {chart_npdi}\n"
+                  f"  dataset: {fw['monthly_npdi']}")
+
     if fails:
         print(f"\n[twelve-month-per-framework] {fails} FAILED")
         return 1
