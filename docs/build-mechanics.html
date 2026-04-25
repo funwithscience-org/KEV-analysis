@@ -164,6 +164,26 @@ Same vulnerabilities, same year, two completely different operational realities.
 
 <p>Cat 1 / 2 / 3 are convenient labels but the operational reality is a continuous parameter: <strong>what's your fastest credible rebuild SLA?</strong> Group apps by that and the categories sort themselves cleanly. The bucket boundaries depend on the threat model and the WAF coverage window &mdash; if your perimeter defense buys you 30 days, then n &le; 30 days is "fine" and n &gt; 30 days is "the tail."</p>
 
+<h3>A simple split: one-third, one-third, one-third (for illustration)</h3>
+
+<p>To make the framework concrete, assume an estate splits evenly across the three categories: one-third in cat 1, one-third in cat 2, one-third in cat 3. <em>Real distributions vary widely</em> &mdash; that's the whole point of the maturity-diagnostic argument later in this page &mdash; but a 1/3 - 1/3 - 1/3 split is a useful reference point because it makes the operational math easy to follow. Your mileage will vary.</p>
+
+<p>For an estate of 1,000 applications under this split, each NP+DI emergency event lands like this:</p>
+
+<ul>
+<li><strong>333 cat 1 apps</strong> absorb the patch through BAU. Zero incremental human work; the next routine build pulls the fix in.</li>
+<li><strong>333 cat 2 apps</strong> need their rebuild trigger fired and validated. Modest coordination &mdash; push the button, watch the build, confirm health. Hours per app, scriptable, often parallelizable across the population.</li>
+<li><strong>333 cat 3 apps</strong> need the actual floor-sweep coordination drill: identify owners, interrupt their roadmap, do the upgrade by hand, verify nothing broke. Days to weeks per app. No realistic shortcut without WAF coverage.</li>
+</ul>
+
+<p>The cat 3 third dominates the human-attention budget at this distribution, even though it's the smallest share by app count, because the per-app cost is so much higher. For 14 NP+DI events per year, a 1/3 - 1/3 - 1/3 estate of 1,000 apps generates roughly 4,600 cat-3-app-events of coordination work annually, against essentially zero cat-1 work. <strong>The cat 3 third is where the operational pain concentrates, and where WAF coverage and pipeline modernization investment have to land to make the math work.</strong></p>
+
+<p>Adding the filter to the picture: without the NP+DI filter, all the critical/high CVEs that surface during the year present as candidates for emergency response (~14 per year in the synthetic backtest). With the filter, only 2&ndash;6 of them are flagged as actual emergencies; the other 8&ndash;12 can ride normal maintenance cadence. For the 1/3 - 1/3 - 1/3 estate, that's the difference between roughly 14 cat-3 floor sweeps per year and roughly 2&ndash;6 cat-3 floor sweeps per year &mdash; same total patches eventually shipped, but only the emergency subset triggers the expensive coordination drill. The remaining events get absorbed by routine rebuild on cat 1 + cat 2 (two-thirds of the estate, free) and become next-month priorities on cat 3 (one-third of the estate, manageable).</p>
+
+<div class="callout">
+The 1/3 - 1/3 - 1/3 split isn't a recommendation or a typical case &mdash; it's a midpoint reference for thinking about the trade-offs. Cloud-native shops might be more like 60/30/10. M&amp;A-heavy or platform-shift-heavy shops might be more like 10/30/60. The framework applies regardless; only the operational pressure shifts. For a 60/30/10 estate, NP+DI emergencies are a non-event for two-thirds of the estate and a manageable trigger fire for the rest. For a 10/30/60 estate, the cat-3 60% dominates everything, and WAF maturity moves from "important" to "the entire defense."
+</div>
+
 <h2 id="boundary">6. The cat 2 / cat 3 boundary matters more than cat 1 / cat 2</h2>
 
 <p>The economic argument for moving an application from cat 3 to cat 2 is much stronger than the argument for moving it from cat 2 to cat 1.</p>
