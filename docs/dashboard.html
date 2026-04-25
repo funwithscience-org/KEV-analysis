@@ -113,7 +113,7 @@ details.dash-expand .detail-content{padding:16px;background:#0f172a}
 <a href="glasswing.html">Glasswing</a>
 </nav>
 <h1>KEV Exploitation Dashboard</h1>
-<p class="subtitle">Explore <span data-kpi="totalKev">1,579</span> exploited vulnerabilities against <span data-kpi="totalNvd">23,501</span> critical <span class="glossary" data-tip="Common Vulnerabilities and Exposures — unique IDs assigned to each reported software vulnerability">CVEs</span>. <span style="color:#64748b">Updated <span id="lastUpdated"></span></span></p>
+<p class="subtitle">Explore <span data-kpi="totalKev">…</span> exploited vulnerabilities against <span data-kpi="totalNvd">…</span> critical <span class="glossary" data-tip="Common Vulnerabilities and Exposures — unique IDs assigned to each reported software vulnerability">CVEs</span>. <span style="color:#64748b">Updated <span id="lastUpdated"></span></span></p>
 <p style="text-align:center;margin-bottom:24px"><a href="index.html" style="color:#6366f1;text-decoration:none;font-size:.92em;border:1px solid #6366f1;border-radius:6px;padding:6px 16px;display:inline-block;transition:all .15s" onmouseover="this.style.background='#6366f1';this.style.color='#fff'" onmouseout="this.style.background='transparent';this.style.color='#6366f1'">Read the Full Analysis &rarr;</a></p>
 
 <!-- HERO KPIs -->
@@ -131,10 +131,10 @@ details.dash-expand .detail-content{padding:16px;background:#0f172a}
 </div>
 <!-- SUPPORTING STATS -->
 <div class="kpi-support" style="margin-bottom:32px">
-<div class="kpi-sm"><div class="kpi-val"><span data-kpi="totalKev">1,579</span></div><div class="kpi-label"><span class="glossary" data-tip="CISA's Known Exploited Vulnerabilities list — the catalog of bugs attackers have actually used">KEV</span> Entries<br>(Total)</div></div>
+<div class="kpi-sm"><div class="kpi-val"><span data-kpi="totalKev">…</span></div><div class="kpi-label"><span class="glossary" data-tip="CISA's Known Exploited Vulnerabilities list — the catalog of bugs attackers have actually used">KEV</span> Entries<br>(Total)</div></div>
 <div class="kpi-sm"><div class="kpi-val">3–6×</div><div class="kpi-label">Network-Parser<br>Exploitation Lift</div></div>
-<div class="kpi-sm"><div class="kpi-val"><span data-kpi="windowedKev">887</span></div><div class="kpi-label">KEV in 2021–2026<br>CVE Window</div></div>
-<div class="kpi-sm"><div class="kpi-val">~<span data-kpi="exploitRate">3.8</span>%</div><div class="kpi-label">Critical/High CVEs<br>Exploited (Windowed)</div></div>
+<div class="kpi-sm"><div class="kpi-val"><span data-kpi="windowedKev">…</span></div><div class="kpi-label">KEV in 2021–2026<br>CVE Window</div></div>
+<div class="kpi-sm"><div class="kpi-val">~<span data-kpi="exploitRate">…</span>%</div><div class="kpi-label">Critical/High CVEs<br>Exploited (Windowed)</div></div>
 </div>
 
 
@@ -180,7 +180,7 @@ details.dash-expand .detail-content{padding:16px;background:#0f172a}
 Email/collaboration servers (100%) have a small NVD denominator that makes the rate an upper-bound artifact.
 Platform layers (OS, VPN, JVM, web servers) account for ~46% of windowed KEV entries,
 while libraries/frameworks represent less than 1% of KEV (4 entries). NVD undercounts library vulnerabilities by orders of magnitude — OSV tracks 770 critical/high across just 177 popular packages, with an estimated 93,000+ ecosystem-wide. The KEV library entries are almost all network parsers.
-<br><em style="color:#94a3b8;font-size:.85em">Note: <span data-kpi="preWindowKev">692</span> KEV entries for pre-2021 CVEs are excluded from exploitation rates to match the NVD 2021–2026 denominator window. These represent active exploitation of legacy vulnerabilities during the analysis period.</em>
+<br><em style="color:#94a3b8;font-size:.85em">Note: <span data-kpi="preWindowKev">…</span> KEV entries for pre-2021 CVEs are excluded from exploitation rates to match the NVD 2021–2026 denominator window. These represent active exploitation of legacy vulnerabilities during the analysis period.</em>
 </div>
 </div>
 
@@ -397,7 +397,7 @@ Tracking counter-examples: library/framework CVEs exploited through purely non-n
 </div>
 
 <div class="footer">
-Analysis based on CISA KEV catalog (<span data-kpi="windowedKev">887</span> entries with CVEs published 2021–2026, of <span data-kpi="totalKev">1,579</span> total) and NVD critical+high CVEs 2021–2026 (<span data-kpi="totalNvd">23,501</span> entries). <span data-kpi="preWindowKev">692</span> KEV entries for pre-2021 CVEs excluded from exploitation rates to align numerator and denominator windows.
+Analysis based on CISA KEV catalog (<span data-kpi="windowedKev">…</span> entries with CVEs published 2021–2026, of <span data-kpi="totalKev">…</span> total) and NVD critical+high CVEs 2021–2026 (<span data-kpi="totalNvd">…</span> entries). <span data-kpi="preWindowKev">…</span> KEV entries for pre-2021 CVEs excluded from exploitation rates to align numerator and denominator windows.
 Generated April 2026. Data subject to selection bias and denominator limitations — see methodology notes.
 </div>
 </div>
@@ -427,9 +427,22 @@ const DATA = {"layer_data": [{"layer": "other", "kev": 279, "nvd": 17028, "rate"
     exploitRate:    exploitRate.toFixed(1),
     nonExploitRate: Math.round(100 - exploitRate).toString(),
   };
+  const seen = new Set();
   document.querySelectorAll('[data-kpi]').forEach(el => {
     const k = el.dataset.kpi;
-    if (k in metrics) el.textContent = metrics[k];
+    seen.add(k);
+    if (k in metrics) {
+      el.textContent = metrics[k];
+    } else {
+      // Span will keep its "…" fallback so the broken state is visible to the
+      // reader. Loud-log so the dev sees it in the browser console.
+      console.error('[fillKpis] no metric defined for data-kpi="' + k + '"');
+    }
+  });
+  Object.keys(metrics).forEach(k => {
+    if (!seen.has(k)) {
+      console.warn('[fillKpis] metric "' + k + '" defined but no <span data-kpi> uses it');
+    }
   });
 })();
 

@@ -185,7 +185,7 @@ details.expandable .detail-content{padding:16px 20px}
 
 <div class="translation"><strong>In plain English:</strong> Your scanner flags a new critical every other week across your open-source dependencies. You can't rebuild for all of them. The severity score doesn't tell you which ones matter. So what does?</div>
 
-<p>Start with the scale of the noise. Between 2021 and 2026, <strong><span data-kpi="totalNvd">23,501</span></strong> <span class="glossary" data-tip="Unique IDs assigned to each reported software vulnerability">CVEs</span> were rated Critical or High — the kind that generate alerts, open tickets, and consume patching cycles. Of those, only <strong><span data-kpi="windowedKev">887</span> (<span data-kpi="exploitRate">3.8</span>%)</strong> were confirmed as actively exploited. There were <span data-kpi="preWindowKev">692</span> additional KEV entries in that period, but they targeted older CVEs. That means <strong><span data-kpi="nonExploitRate">96</span>% of the vulnerabilities your scanner flags as urgent will never actually be used by an attacker.</strong></p>
+<p>Start with the scale of the noise. Between 2021 and 2026, <strong><span data-kpi="totalNvd">…</span></strong> <span class="glossary" data-tip="Unique IDs assigned to each reported software vulnerability">CVEs</span> were rated Critical or High — the kind that generate alerts, open tickets, and consume patching cycles. Of those, only <strong><span data-kpi="windowedKev">…</span> (<span data-kpi="exploitRate">…</span>%)</strong> were confirmed as actively exploited. There were <span data-kpi="preWindowKev">…</span> additional KEV entries in that period, but they targeted older CVEs. That means <strong><span data-kpi="nonExploitRate">…</span>% of the vulnerabilities your scanner flags as urgent will never actually be used by an attacker.</strong></p>
 
 <p>For third-party vendor products — your Cisco switches, your Windows servers, your Palo Alto firewalls — this is a manageable problem. Those vendors ship patches on known schedules, your ops team knows how to turn the crank, and the patching process is well-understood even if it's tedious. But your own application code is a different story. A modern application might depend on 50+ open-source libraries, each maintained by different people, each shipping CVEs on their own schedule. There is no Patch Tuesday for open source. When Spring, or Tomcat, or Express, or Django ships a critical, <em>you</em> have to decide: do I drop everything, rebuild, retest, and redeploy right now? Or can this ride the next scheduled release?</p>
 
@@ -196,13 +196,13 @@ details.expandable .detail-content{padding:16px 20px}
 <!-- ========== 2. METHODOLOGY ========== -->
 <h2 id="methodology">2. Methodology</h2>
 
-<div class="translation"><strong>In plain English:</strong> We took every vulnerability that attackers actually exploited (<span data-kpi="totalKev">1,579</span> in the KEV catalog, <span data-kpi="windowedKev">887</span> with CVEs published 2021–2026) and compared it to every serious vulnerability reported in the same window (<span data-kpi="totalNvd">23,501</span>). Then we asked: what makes the exploited ones different?</div>
+<div class="translation"><strong>In plain English:</strong> We took every vulnerability that attackers actually exploited (<span data-kpi="totalKev">…</span> in the KEV catalog, <span data-kpi="windowedKev">…</span> with CVEs published 2021–2026) and compared it to every serious vulnerability reported in the same window (<span data-kpi="totalNvd">…</span>). Then we asked: what makes the exploited ones different?</div>
 
 <p>The analysis joins two datasets:</p>
 
 <p><strong><span class="glossary" data-tip="CISA's Known Exploited Vulnerabilities list -- the U.S. government's catalog of bugs attackers have actually used in the wild">CISA KEV</span> catalog</strong> -- 1,578 vulnerabilities with confirmed active exploitation (886 with CVEs published 2021–2026; exploitation rates use these windowed entries to match the NVD denominator). This is the "ground truth" for what attackers actually target. It's curated by CISA for US federal agency compliance, which introduces selection bias toward enterprise/government network-facing targets (see <a href="#caveats">Caveats</a>).</p>
 
-<p><strong><span class="glossary" data-tip="The U.S. government's National Vulnerability Database -- the central repository for all reported software vulnerabilities">NVD</span></strong> -- <span data-kpi="totalNvd">23,501</span> CVEs rated Critical or High (CVSS 7.0+) published 2021-2026. This is the denominator for cross-layer comparisons — it's the only source that consistently covers OS, VPN, browser, and library categories on the same scale.</p>
+<p><strong><span class="glossary" data-tip="The U.S. government's National Vulnerability Database -- the central repository for all reported software vulnerabilities">NVD</span></strong> -- <span data-kpi="totalNvd">…</span> CVEs rated Critical or High (CVSS 7.0+) published 2021-2026. This is the denominator for cross-layer comparisons — it's the only source that consistently covers OS, VPN, browser, and library categories on the same scale.</p>
 
 <div class="callout callout-warning">
 <strong>Important caveat for teams that build their own code:</strong> NVD massively under-represents open-source library vulnerabilities. Most small libraries never register a <span class="glossary" data-tip="Common Platform Enumeration — NVD's naming scheme for matching CVEs to products. Most open-source projects never register a CPE, so their vulnerabilities are invisible to NVD">CPE</span>, so their CVEs are invisible to NVD's categorization. Google's <strong><a href="https://osv.dev" target="_blank">OSV</a></strong> database — which aggregates NVD, GitHub Security Advisories, and ecosystem-specific sources — tracks <strong>770 critical/high vulnerabilities across just 177 popular packages</strong>, more than double NVD's 345 for <em>all</em> libraries. The true library vulnerability population is orders of magnitude larger than NVD suggests. This means the noise your application team faces is significantly worse than the NVD-based numbers in this analysis imply. We use NVD as the primary denominator for the cross-layer comparison (§3) because it's consistent across categories, and switch to OSV for the library-specific and periodicity analysis (§6–9) where accuracy matters more than cross-category consistency.
@@ -247,7 +247,7 @@ details.expandable .detail-content{padding:16px 20px}
 <strong>Finding:</strong> OS/kernel CVEs have a 78% exploitation rate — the highest of any stack layer when time-windowed to 2021–2026 CVEs. Platform/runtime layers (OS, VPN, JVM, web server) account for ~46% of windowed KEV entries. Libraries/frameworks represent less than 1% of KEV (4 entries). ~21% of windowed KEV entries are linked to ransomware campaigns — ransomware operators concentrate on the same network-parsing targets.
 </div>
 
-<p><em>Note: Exploitation rates use the <span data-kpi="windowedKev">887</span> KEV entries with CVEs published 2021–2026, matching the NVD denominator window. <span data-kpi="preWindowKev">692</span> KEV entries for pre-2021 CVEs are excluded from rates — these represent active exploitation of legacy vulnerabilities during the analysis period. Email/collaboration servers hit 100% (44 KEV / 44 NVD): the inherited NVD denominator is small and may be stale, so treat this as an upper-bound artifact rather than a literal rate. Per-entry classifications are reproducible — see <a href="https://github.com/funwithscience-org/KEV-analysis/blob/main/data/CLASSIFIER.md" target="_blank">data/CLASSIFIER.md</a>.</em></p>
+<p><em>Note: Exploitation rates use the <span data-kpi="windowedKev">…</span> KEV entries with CVEs published 2021–2026, matching the NVD denominator window. <span data-kpi="preWindowKev">…</span> KEV entries for pre-2021 CVEs are excluded from rates — these represent active exploitation of legacy vulnerabilities during the analysis period. Email/collaboration servers hit 100% (44 KEV / 44 NVD): the inherited NVD denominator is small and may be stale, so treat this as an upper-bound artifact rather than a literal rate. Per-entry classifications are reproducible — see <a href="https://github.com/funwithscience-org/KEV-analysis/blob/main/data/CLASSIFIER.md" target="_blank">data/CLASSIFIER.md</a>.</em></p>
 
 <h3 id="http-parsing">3b. Network-Parsing vs Non-Parsing Across CVSS</h3>
 
@@ -927,7 +927,7 @@ The aggressive scenario could add 2,000-5,000 CVEs/month. This makes the NP+DI f
 </details>
 
 <div class="footer">
-Analysis based on CISA KEV catalog (<span data-kpi="windowedKev">887</span> entries with CVEs published 2021–2026, of <span data-kpi="totalKev">1,579</span> total), NVD critical+high CVEs 2021-2026, OSV.dev (177 packages, 6 ecosystems),
+Analysis based on CISA KEV catalog (<span data-kpi="windowedKev">…</span> entries with CVEs published 2021–2026, of <span data-kpi="totalKev">…</span> total), NVD critical+high CVEs 2021-2026, OSV.dev (177 packages, 6 ecosystems),
 and cross-framework periodicity backtest (133 dependencies, 3 stacks + OS container, 12 months).
 Generated April 2026. For interactive exploration, see the <a href="dashboard.html" style="color:var(--accent)">companion dashboard</a>.
 </div>
@@ -965,9 +965,22 @@ const DATA = {"layer_data": [{"layer": "other", "kev": 279, "nvd": 17028, "rate"
     exploitRate:    exploitRate.toFixed(1),
     nonExploitRate: Math.round(100 - exploitRate).toString(),
   };
+  const seen = new Set();
   document.querySelectorAll('[data-kpi]').forEach(el => {
     const k = el.dataset.kpi;
-    if (k in metrics) el.textContent = metrics[k];
+    seen.add(k);
+    if (k in metrics) {
+      el.textContent = metrics[k];
+    } else {
+      // Span will keep its "…" fallback so the broken state is visible to the
+      // reader. Loud-log so the dev sees it in the browser console.
+      console.error('[fillKpis] no metric defined for data-kpi="' + k + '"');
+    }
+  });
+  Object.keys(metrics).forEach(k => {
+    if (!seen.has(k)) {
+      console.warn('[fillKpis] metric "' + k + '" defined but no <span data-kpi> uses it');
+    }
   });
 })();
 
