@@ -220,11 +220,12 @@ You already cloned the repo in the SETUP step. Steps:
 4. Edit `kev-repo/docs/index.html` (walkthrough) — update corresponding data in the Mythos section prose and any inline data
 5. Update `kev-repo/config.json` baseline_data section with new values (so the next run has accurate priors)
 6. Update `kev-repo/config.json` exploit_intelligence section with exploit check results
-7. **Run the numeric regression suite:** `bash tests/run.sh`. If anything fails, STOP — do not commit. Read the failure, diagnose the cause, fix it. The suite is fail-loud and blocking. Common failures: a rate that no longer matches kev/nvd math; a sum that drifted from the classifications JSON; the two HTML pages disagreeing. See `tests/README.md`.
-8. Commit with a descriptive message including the date and what changed
-9. **Pull again before pushing:** `git pull --rebase origin main` to catch any commits that landed while you were working. If there's a merge conflict, resolve it by keeping YOUR new data values (you just fetched them fresh) while preserving any structural changes (new HTML sections, new JS objects) from the other commit.
-10. **Re-run `bash tests/run.sh`** after the rebase — a merge could re-introduce drift.
-11. Push to main branch
+7. **Regenerate the LLM-friendly summary:** `python3 scripts/generate_llms_txt.py`. This rewrites `docs/llms.txt` and `docs/robots.txt` from the latest DATA blob and classifications JSON. Static-snapshot files for non-JS clients (LLMs, scrapers). Run after step 6 so it picks up the latest values.
+8. **Run the numeric regression suite:** `bash tests/run.sh`. If anything fails, STOP — do not commit. Read the failure, diagnose the cause, fix it. The suite is fail-loud and blocking. Common failures: a rate that no longer matches kev/nvd math; a sum that drifted from the classifications JSON; the two HTML pages disagreeing; `docs/llms.txt` is stale (re-run step 7). See `tests/README.md`.
+9. Commit with a descriptive message including the date and what changed
+10. **Pull again before pushing:** `git pull --rebase origin main` to catch any commits that landed while you were working. If there's a merge conflict, resolve it by keeping YOUR new data values (you just fetched them fresh) while preserving any structural changes (new HTML sections, new JS objects) from the other commit.
+11. **Re-run `bash tests/run.sh`** after the rebase — a merge could re-introduce drift; if `llms.txt` test fails, regenerate (step 7) and re-stage.
+12. Push to main branch
 
 IMPORTANT: The HTML files are ~300KB each with inline JSON DATA blobs. Do NOT try to rewrite the whole file. Use targeted sed/python replacements on the specific data lines.
 

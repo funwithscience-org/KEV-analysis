@@ -40,6 +40,7 @@ run "classifier regression"      tests/test_kev_classifier.py $FULL
 run "DATA blob invariants"       tests/test_data_invariants.py
 run "http lift table"            tests/test_http_data.py
 run "classifications JSON"       tests/test_classifications.py
+run "llms.txt freshness"         tests/test_llms_txt.py
 
 echo
 echo "${GREEN}${BOLD}All tests passed.${RESET}"
