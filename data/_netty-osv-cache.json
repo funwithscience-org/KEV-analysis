@@ -1,0 +1,99 @@
+{
+  "framework": "netty",
+  "manifest_size": 7,
+  "manifest": [
+    {
+      "ecosystem": "Maven",
+      "package": "io.netty:netty-codec-http",
+      "role": "NP"
+    },
+    {
+      "ecosystem": "Maven",
+      "package": "io.netty:netty-codec-http2",
+      "role": "NP"
+    },
+    {
+      "ecosystem": "Maven",
+      "package": "io.netty:netty-codec",
+      "role": "NP"
+    },
+    {
+      "ecosystem": "Maven",
+      "package": "io.netty:netty-handler",
+      "role": "NP"
+    },
+    {
+      "ecosystem": "Maven",
+      "package": "io.netty:netty-transport",
+      "role": "OTHER"
+    },
+    {
+      "ecosystem": "Maven",
+      "package": "io.netty:netty-buffer",
+      "role": "OTHER"
+    },
+    {
+      "ecosystem": "Maven",
+      "package": "io.netty:netty-common",
+      "role": "OTHER"
+    }
+  ],
+  "np_count": 4,
+  "other_count": 3,
+  "all_events": [
+    {
+      "date": "2026-03-26",
+      "vuln_id": "GHSA-pwqr-wmgm-9rr8",
+      "aliases": [
+        "CVE-2026-33870"
+      ],
+      "package": "netty-codec-http",
+      "full_package": "maven/io.netty:netty-codec-http",
+      "severity": "HIGH/CRITICAL",
+      "is_np": true,
+      "is_di": false,
+      "cwes": [
+        "CWE-444"
+      ],
+      "summary": "Netty: HTTP Request Smuggling via Chunked Extension Quoted-String Parsing",
+      "primary_cve": "CVE-2026-33870"
+    },
+    {
+      "date": "2025-08-13",
+      "vuln_id": "GHSA-prj3-ccx8-p6x4",
+      "aliases": [
+        "CVE-2025-55163"
+      ],
+      "package": "netty-codec-http2",
+      "full_package": "maven/io.netty:netty-codec-http2",
+      "severity": "HIGH/CRITICAL",
+      "is_np": true,
+      "is_di": false,
+      "cwes": [
+        "CWE-770"
+      ],
+      "summary": "Netty affected by MadeYouReset HTTP/2 DDoS vulnerability",
+      "primary_cve": "CVE-2025-55163"
+    },
+    {
+      "date": "2026-03-26",
+      "vuln_id": "GHSA-w9fj-cfpg-grvv",
+      "aliases": [
+        "CVE-2026-33871"
+      ],
+      "package": "netty-codec-http2",
+      "full_package": "maven/io.netty:netty-codec-http2",
+      "severity": "HIGH/CRITICAL",
+      "is_np": true,
+      "is_di": false,
+      "cwes": [
+        "CWE-770"
+      ],
+      "summary": "Netty HTTP/2 CONTINUATION Frame Flood DoS via Zero-Byte Frame Bypass",
+      "primary_cve": "CVE-2026-33871"
+    }
+  ],
+  "window_start": "2025-04-01",
+  "window_end": "2026-04-30",
+  "fetched_at": "2026-04-25T09:35:09Z"
+}
