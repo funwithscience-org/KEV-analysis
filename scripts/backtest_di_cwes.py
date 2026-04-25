@@ -27,11 +27,12 @@ from collections import defaultdict
 from pathlib import Path
 
 REPO = Path(__file__).resolve().parent.parent
-# Cache lives outside the repo: 425MB of raw NVD pulls, gitignored from
-# data/_nvd-cwe-cache/ to keep repo size down. Override with NVD_CACHE_DIR
-# env var if needed.
+# Cache lives in the iCloud workspace folder (425MB of raw NVD pulls,
+# 38 CWE files). Persists across sessions and is accessible to other
+# agents. Override with NVD_CACHE_DIR env var if needed.
 import os
-CACHE_DIR = Path(os.environ.get("NVD_CACHE_DIR", "/tmp/nvd-cache"))
+DEFAULT_CACHE = Path("/sessions/bold-nice-euler/mnt/vulnerability analysis/cached-data/nvd-cwe")
+CACHE_DIR = Path(os.environ.get("NVD_CACHE_DIR", str(DEFAULT_CACHE)))
 CACHE_DIR.mkdir(exist_ok=True, parents=True)
 
 # DI CWEs (per current build_seven_year_npdi.py — CWE-434 already removed)
