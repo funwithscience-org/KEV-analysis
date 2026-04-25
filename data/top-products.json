@@ -1,0 +1,263 @@
+{
+  "generated_at": "2026-04-25T09:40:50Z",
+  "description": "Canonical top-products aggregation backing the topProductsChart on docs/dashboard.html. Counts are over the full KEV catalog, with manual normalization to collapse vendor/product variants.",
+  "methodology": {
+    "source": "data/kev-snapshot-2026-04-23.json",
+    "scope": "full KEV catalog (all entries, all years)",
+    "top_n": 15,
+    "normalization_rules": [
+      {
+        "if_starts_with": "Microsoft / Windows",
+        "becomes": "Microsoft Windows"
+      },
+      {
+        "if_starts_with": "Microsoft / Win32k",
+        "becomes": "Microsoft Windows"
+      },
+      {
+        "if_starts_with": "Microsoft / Internet Explorer",
+        "becomes": "Microsoft Internet Explorer"
+      },
+      {
+        "if_starts_with": "Microsoft / Edge",
+        "becomes": "Microsoft Edge"
+      },
+      {
+        "if_starts_with": "Microsoft / Office",
+        "becomes": "Microsoft Office"
+      },
+      {
+        "if_starts_with": "Microsoft / Excel",
+        "becomes": "Microsoft Office"
+      },
+      {
+        "if_starts_with": "Microsoft / Word",
+        "becomes": "Microsoft Office"
+      },
+      {
+        "if_starts_with": "Microsoft / PowerPoint",
+        "becomes": "Microsoft Office"
+      },
+      {
+        "if_starts_with": "Microsoft / Outlook",
+        "becomes": "Microsoft Office"
+      },
+      {
+        "if_starts_with": "Microsoft / Exchange",
+        "becomes": "Microsoft Exchange"
+      },
+      {
+        "if_starts_with": "Microsoft / SharePoint",
+        "becomes": "Microsoft SharePoint"
+      },
+      {
+        "if_starts_with": "Apple / iOS",
+        "becomes": "Apple iOS / iPadOS"
+      },
+      {
+        "if_starts_with": "Apple / iPadOS",
+        "becomes": "Apple iOS / iPadOS"
+      },
+      {
+        "if_starts_with": "Apple / macOS",
+        "becomes": "Apple macOS"
+      },
+      {
+        "if_starts_with": "Apple / Multiple Products",
+        "becomes": "Apple Multiple Products"
+      },
+      {
+        "if_starts_with": "Apple / Safari",
+        "becomes": "Apple Safari/WebKit"
+      },
+      {
+        "if_starts_with": "Apple / WebKit",
+        "becomes": "Apple Safari/WebKit"
+      },
+      {
+        "if_starts_with": "Google / Chrome",
+        "becomes": "Google Chrome"
+      },
+      {
+        "if_starts_with": "Google / Chromium",
+        "becomes": "Google Chrome"
+      },
+      {
+        "if_starts_with": "Mozilla / Firefox",
+        "becomes": "Mozilla Firefox"
+      },
+      {
+        "if_starts_with": "Adobe / Flash Player",
+        "becomes": "Adobe Flash Player"
+      },
+      {
+        "if_starts_with": "Adobe / Acrobat",
+        "becomes": "Adobe Acrobat"
+      },
+      {
+        "if_starts_with": "Adobe / Reader",
+        "becomes": "Adobe Acrobat"
+      },
+      {
+        "if_starts_with": "Adobe / ColdFusion",
+        "becomes": "Adobe ColdFusion"
+      },
+      {
+        "if_starts_with": "Linux / Kernel",
+        "becomes": "Linux Kernel"
+      },
+      {
+        "if_starts_with": "Android / Framework",
+        "becomes": "Google Android"
+      },
+      {
+        "if_starts_with": "Android / Pixel",
+        "becomes": "Google Android"
+      },
+      {
+        "if_starts_with": "Android / Kernel",
+        "becomes": "Google Android"
+      },
+      {
+        "if_starts_with": "Google / Android",
+        "becomes": "Google Android"
+      },
+      {
+        "if_starts_with": "Samsung / Mobile Devices",
+        "becomes": "Samsung Mobile"
+      },
+      {
+        "if_starts_with": "Apache / HTTP Server",
+        "becomes": "Apache HTTP Server"
+      },
+      {
+        "if_starts_with": "Apache / Tomcat",
+        "becomes": "Apache Tomcat"
+      },
+      {
+        "if_starts_with": "Apache / Struts",
+        "becomes": "Apache Struts"
+      },
+      {
+        "if_starts_with": "Apache / Log4j",
+        "becomes": "Apache Log4j"
+      },
+      {
+        "if_starts_with": "VMware / vCenter",
+        "becomes": "VMware vCenter"
+      },
+      {
+        "if_starts_with": "VMware / ESXi",
+        "becomes": "VMware ESXi"
+      },
+      {
+        "if_starts_with": "VMware / Spring Framework",
+        "becomes": "Spring Framework"
+      },
+      {
+        "if_starts_with": "Cisco / IOS",
+        "becomes": "Cisco IOS"
+      },
+      {
+        "if_starts_with": "Cisco / Adaptive Security Appliance",
+        "becomes": "Cisco ASA"
+      },
+      {
+        "if_starts_with": "Fortinet / FortiOS",
+        "becomes": "Fortinet FortiOS"
+      },
+      {
+        "if_starts_with": "Ivanti / Connect Secure",
+        "becomes": "Ivanti Connect Secure"
+      },
+      {
+        "if_starts_with": "Ivanti / Endpoint Manager",
+        "becomes": "Ivanti EPM"
+      },
+      {
+        "if_starts_with": "Citrix / NetScaler",
+        "becomes": "Citrix NetScaler"
+      },
+      {
+        "if_starts_with": "Citrix / ADC",
+        "becomes": "Citrix NetScaler"
+      },
+      {
+        "if_starts_with": "Citrix / Gateway",
+        "becomes": "Citrix NetScaler"
+      },
+      {
+        "if_starts_with": "Palo Alto Networks / PAN-OS",
+        "becomes": "Palo Alto PAN-OS"
+      }
+    ],
+    "fallback": "if no rule matches, use 'vendor / product' as canonical"
+  },
+  "summary": {
+    "total_entries": 1579,
+    "unique_canonical_products": 583,
+    "top_n_share_pct": 40.0
+  },
+  "top_products": [
+    {
+      "product": "Microsoft Windows",
+      "count": 197
+    },
+    {
+      "product": "Google Chrome",
+      "count": 68
+    },
+    {
+      "product": "Apple Multiple Products",
+      "count": 53
+    },
+    {
+      "product": "Cisco IOS",
+      "count": 44
+    },
+    {
+      "product": "Microsoft Office",
+      "count": 42
+    },
+    {
+      "product": "Microsoft Internet Explorer",
+      "count": 36
+    },
+    {
+      "product": "Adobe Flash Player",
+      "count": 35
+    },
+    {
+      "product": "Apple iOS / iPadOS",
+      "count": 33
+    },
+    {
+      "product": "Linux Kernel",
+      "count": 24
+    },
+    {
+      "product": "Adobe Acrobat",
+      "count": 23
+    },
+    {
+      "product": "Microsoft Exchange",
+      "count": 18
+    },
+    {
+      "product": "Synacor / Zimbra Collaboration Suite (ZCS)",
+      "count": 16
+    },
+    {
+      "product": "Adobe ColdFusion",
+      "count": 15
+    },
+    {
+      "product": "Fortinet FortiOS",
+      "count": 14
+    },
+    {
+      "product": "Ivanti EPM",
+      "count": 13
+    }
+  ]
+}
