@@ -27,9 +27,11 @@ If tests here fail:
 
 from __future__ import annotations
 
+import json
 import sys
 from collections import Counter
 
+from _common import REPO  # noqa: F401  (used in cwe/top_products checks below)
 from _common import (
     LAYERS,
     TestReporter,
@@ -147,6 +149,53 @@ def main() -> int:
                 data["total_nvd"] == nvd_sum,
                 f"{tag}: DATA.total_nvd={data['total_nvd']} != "
                 f"sum(layer_data.nvd)={nvd_sum}",
+            )
+
+        # --- 8b. cwe_data must match data/cwe-families.json output ---
+        cwe_path = REPO / "data" / "cwe-families.json"
+        if cwe_path.exists() and "cwe_data" in data:
+            generator_cwe = json.load(open(cwe_path))["cwe_data"]
+            r.check(
+                data["cwe_data"] == generator_cwe,
+                f"{tag}: DATA.cwe_data drifted from data/cwe-families.json. "
+                f"Run scripts/compute_cwe_families.py and update DATA blob.",
+            )
+
+        # --- 8c. top_products must match data/top-products.json output ---
+        tp_path = REPO / "data" / "top-products.json"
+        if tp_path.exists() and "top_products" in data:
+            generator_tp = json.load(open(tp_path))["top_products"]
+            r.check(
+                data["top_products"] == generator_tp,
+                f"{tag}: DATA.top_products drifted from data/top-products.json. "
+                f"Run scripts/compute_top_products.py and update DATA blob.",
+            )
+
+        # --- 8d. tte_data structural invariants (no generator yet) ---
+        if "tte_data" in data:
+            tte = data["tte_data"]
+            r.check(
+                isinstance(tte, list) and len(tte) >= 1,
+                f"{tag}: tte_data must be a non-empty list",
+            )
+            for row in tte:
+                for field in ("year", "n", "median", "p25", "p75", "mean"):
+                    r.check(
+                        field in row,
+                        f"{tag}: tte_data row missing field {field!r}: {row}",
+                    )
+                if "p25" in row and "median" in row and "p75" in row:
+                    r.check(
+                        row["p25"] <= row["median"] <= row["p75"],
+                        f"{tag}: tte_data row {row.get('year')} percentiles "
+                        f"out of order: p25={row['p25']} median={row['median']} "
+                        f"p75={row['p75']}",
+                    )
+            # Years should be ascending
+            years = [r2["year"] for r2 in tte if "year" in r2]
+            r.check(
+                years == sorted(years),
+                f"{tag}: tte_data years not in ascending order: {years}",
             )
 
         # --- 9. prep for cross-page equality ---
