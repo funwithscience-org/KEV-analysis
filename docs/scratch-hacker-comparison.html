@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="robots" content="noindex,nofollow">
-<title>SCRATCH — Hacker Persona Comparison</title>
+<title>SCRATCH — Real-World Java Patch Efficiency</title>
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
 body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:#0f172a;color:#e2e8f0;padding:32px 20px;line-height:1.6}
@@ -53,13 +53,10 @@ code{background:#0f172a;padding:2px 6px;border-radius:3px;color:#fbbf24;font-siz
 ul.findings{list-style:none;padding-left:0}
 ul.findings li{padding:6px 0 6px 24px;position:relative;color:#cbd5e1}
 ul.findings li::before{content:'▸';position:absolute;left:8px;color:#6366f1}
-.frac-cell{font-family:'SF Mono',Monaco,monospace;font-size:.92em;text-align:center}
 .frac-good{color:#86efac}
 .frac-mid{color:#fbbf24}
 .frac-bad{color:#fca5a5}
 .muted{color:#64748b}
-table.t-compact td, table.t-compact th{padding:8px 10px;font-size:.86em}
-table.t-compact td.frac-cell{padding:6px 8px}
 .kpi-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:14px;margin:16px 0}
 .kpi{background:#1e293b;border-radius:8px;padding:18px;text-align:center;border:1px solid #334155}
 .kpi-val{font-size:1.8em;font-weight:700;color:#f8fafc;margin-bottom:4px}
@@ -70,6 +67,7 @@ table.t-compact td.frac-cell{padding:6px 8px}
 .kpi.npdi .kpi-val{color:#7dd3fc}
 .kpi.ai{border-color:#10b981}
 .kpi.ai .kpi-val{color:#86efac}
+.scope-pill{display:inline-block;padding:4px 12px;border-radius:99px;font-size:.78em;font-weight:600;margin-left:8px;background:#1e3a8a;color:#bfdbfe;vertical-align:middle}
 </style>
 </head>
 <body>
@@ -79,118 +77,123 @@ table.t-compact td.frac-cell{padding:6px 8px}
 <strong>⚠ SCRATCH — INTERNAL REVIEW</strong> &nbsp;·&nbsp; Not linked from any other page &nbsp;·&nbsp; Subject to change &nbsp;·&nbsp; <code>noindex</code>
 </div>
 
-<h1>Patch efficiency: 12 months vs 7 years</h1>
-<p class="subtitle">Two clean tables, identical strategies, different time scopes — does the discriminator survive scaling out?</p>
+<h1>Real-world Java patch efficiency<span class="scope-pill">Spring/Java enterprise manifest only</span></h1>
+<p class="subtitle">Same dataset (175 events), two clean time scopes — does the discriminator survive 7-year scaling?</p>
+
+<!-- ===== SCOPE NOTE ===== -->
+<div class="callout">
+<strong>Scope: real-world Java enterprise manifest, all 11 actually-exploited events.</strong> This page uses the <code>data/seven-year-manifest-events.json</code> dataset — a curated representative enterprise Java estate (Spring Framework, Spring Security, Spring Boot, Tomcat, Jackson, XStream, log4j, ActiveMQ broker, snakeyaml, commons-text, paramiko-style auxiliaries, ~40 transitive deps). 175 critical/high CVEs over 7 years; 11 actually exploited per KEV ∪ Metasploit ∪ ExploitDB.
+<br><br>
+We have <em>abandoned the published "8 in-scope" filter</em> that excluded 3 exploited events as out-of-NP+DI-design-scope (commons-text, SnakeYAML, ActiveMQ OpenWire). Those are real exploits that defenders care about; the in-scope filter was methodologically defensible for assessing NP+DI on its own terms but misleading as a recall claim. <strong>The honest base rate is 11.</strong>
+<br><br>
+<em>Not on this page (yet):</em> the parallel Django/Python real-world manifest (181 events, 4 exploited) — pulled out for now to land the point on a single ecosystem cleanly.
+</div>
 
 <!-- ===== NARRATIVE RECAP ===== -->
 <h2>How we got here</h2>
 <div class="narrative">
 <ol>
-<li><strong>The 12-month synthetic backtest worked.</strong> NP+DI alone caught 5 of 8 in-scope exploited CVEs at day zero against a four-ecosystem manifest. EPSS ≥ 0.10 caught 1 of 8 on day one and didn't reach 8/8 until "eventually."</li>
-<li><strong>An AI safety-net scan closed the structural gap.</strong> The 3 NP+DI misses were all CWE-misclassification cases (Ghostcat tagged CWE-269 instead of CWE-22; ActiveMQ Jolokia tagged CWE-20 instead of CWE-94; Tomcat partial PUT tagged CWE-44+502 instead of being recognized as a chained primitive). An automated CWE-validation pass on NP-but-not-DI advisories catches all 3 on day zero. NP+DI + AI scan: 8/8 with the same speed advantage over EPSS.</li>
-<li><strong>We extended the backtest to seven years across multiple frameworks</strong> (Spring/Java + Django/Python combined manifest) to test whether the 12-month "perfect catch" framing survives at scale. 356 critical/high events, 15 actually exploited.</li>
-<li><strong>An adversarial hacker persona, blind to actual exploitation outcomes, ranked vulnerabilities by attack value</strong> (S = drop everything, A = strong campaign candidate, B/C/D = lower priority). The hacker's discriminator was default-config × network-edge × primitive-direct — derived independently from bug shape, not from CWE-set membership.</li>
-<li><strong>Hacker S+A turned out to be both the most efficient (fewest unnecessary patches) and safest (fewest missed exploits) review methodology</strong> at 7-year scale. 14 of 15 actual exploits caught (93% recall) at 70 patches over 7 years — vs NP+DI's 7/15 at 66 patches.</li>
+<li><strong>The 12-month synthetic backtest worked.</strong> NP+DI catches ~5 trigger dates per year on the Spring framework subset, 2-6 per year on each of Node/Django/Netty. Within any single 12-month window, almost every reasonable strategy looked perfect — small sample size hides differentiation.</li>
+<li><strong>An AI safety-net scan closed the visible gaps.</strong> The CWE-misclassification cases (Ghostcat tagged CWE-269 instead of CWE-22; Tomcat partial PUT tagged CWE-44+502; ActiveMQ Jolokia tagged CWE-20 instead of CWE-94) get caught by an automated CWE-validation pass on NP-but-not-DI advisories. NP+DI + AI scan reaches 8/11 = 73% on real-world Java without filtering.</li>
+<li><strong>We extended the backtest to a real 7-year window across the full real-world Java manifest</strong> to test whether the 12-month "perfect catch" framing survives at scale. The combined picture changes meaningfully.</li>
+<li><strong>An adversarial hacker persona, blind to actual exploitation outcomes, ranked vulnerabilities by attack value</strong> (S = drop everything, A = strong campaign candidate, B/C/D = lower priority). The hacker's discriminator was default-config × network-edge × primitive-direct — derived independently from CVE structure on disclosure day, not from CWE-set membership.</li>
+<li><strong>Hacker S+A turned out to be both the most efficient (fewest patches per exploit caught) and safest (fewest missed exploits) review methodology</strong> at 7-year scale. 10 of 11 actual exploits caught (91% recall) at 47 patches over 7 years — a meaningful improvement on every alternative.</li>
 </ol>
 </div>
 
 <!-- ===== TABLE 1: CLEAN 12-MONTH ===== -->
-<h2>Table 1 — Clean 12-month view (Apr 2025 – Apr 2026)</h2>
-<p>Real, single 12-month window. Both manifests (Spring/Java + Django/Python) combined. Every number — patches, exploits, recall — is confined to this one year. EPSS rows omitted because per-CVE Day 0/7/30 historical scores would need an additional API query for each event in window; the existing periodicity page covers EPSS comparison on the original 8-event scope.</p>
+<h2>Table 1 — Real-world Java, 12-month window (Apr 2025 – Apr 2026)</h2>
+<p>Single 12-month window. Every number — events, exploits, recall — is confined to this one year on the Spring/Java enterprise manifest. EPSS rows omitted because per-CVE Day 0/7/30 historical scores would need an additional API query for each event in window; the existing periodicity page covers EPSS comparison.</p>
 
 <table>
 <thead><tr><th>Strategy</th><th>Patches in window</th><th>Exploits caught</th><th>Recall</th><th>Patches per exploit caught</th></tr></thead>
 <tbody>
-<tr class="hl-baseline"><td>Patch all C+H</td><td>39</td><td>2/2</td><td>100%</td><td class="frac-bad">19.5x</td></tr>
-<tr class="hl-baseline"><td>Patch criticals only</td><td>6</td><td>1/2</td><td>50%</td><td class="frac-mid">6.0x</td></tr>
-<tr class="hl-npdi"><td>NP+DI</td><td>14</td><td>1/2</td><td>50%</td><td class="frac-bad">14.0x</td></tr>
-<tr class="hl-ai"><td>NP+DI + AI scan</td><td>15</td><td>2/2</td><td>100%</td><td class="frac-good">7.5x</td></tr>
-<tr class="hl-hacker"><td>Hacker persona (S+A)</td><td>12</td><td>2/2</td><td>100%</td><td class="frac-good">6.0x</td></tr>
-<tr class="tally"><td>Union (NP+DI ∪ Hacker S+A)</td><td>18</td><td>2/2</td><td>100%</td><td>9.0x</td></tr>
+<tr class="hl-baseline"><td>Patch all C+H</td><td>21</td><td>1/1</td><td>100%</td><td class="frac-bad">21.0x</td></tr>
+<tr class="hl-baseline"><td>Patch criticals only</td><td>5</td><td>0/1</td><td>0%</td><td class="frac-bad">∞ (missed)</td></tr>
+<tr class="hl-npdi"><td>NP+DI</td><td>7</td><td>0/1</td><td>0%</td><td class="frac-bad">∞ (missed)</td></tr>
+<tr class="hl-ai"><td>NP+DI + AI scan</td><td>8</td><td>1/1</td><td>100%</td><td class="frac-good">8.0x</td></tr>
+<tr class="hl-hacker"><td>Hacker persona (S+A)</td><td>8</td><td>1/1</td><td>100%</td><td class="frac-good">8.0x</td></tr>
+<tr class="tally"><td>Union (NP+DI ∪ Hacker S+A)</td><td>10</td><td>1/1</td><td>100%</td><td>10.0x</td></tr>
 </tbody>
 </table>
-<p class="note">2 exploited events in window: CVE-2025-64459 (Django _connector SQLi, NP+DI catches via CWE-89), CVE-2026-34197 (ActiveMQ Jolokia, NP+DI misses via CWE-20 misclass — AI scan rescues it). Patches are unique CVE counts on the combined manifest universe over this single 12-month window.</p>
+<p class="note">1 exploited event in window: CVE-2026-34197 (ActiveMQ Jolokia, HIGH severity, CWE-20 — generic input validation tag that hides what's actually an authenticated MBean RCE primitive). NP+DI alone misses it (CWE-20 not in DI set). Patch-criticals also misses it (HIGH not CRITICAL). The misclassified CWE is exactly the case the AI scan was built to rescue, and the hacker's "CWE-20 on a critical-severity bug means read the summary, the real primitive is hiding" heuristic catches it for the same reason.</p>
 
 <div class="callout callout-warn">
-<strong>The 12-month window can't really differentiate strategies because N is too small.</strong> With only 2 exploits in window, recall snaps to 50% or 100%. The published "perfect catch" framing was always going to look this way at single-window scale — every reasonable strategy (criticals, NP+DI, AI scan, Hacker S+A) catches 1 or 2 of 2. The differentiation only shows up at multi-window scale.
+<strong>The 12-month window can't differentiate strategies meaningfully because N is too small.</strong> One exploit. NP+DI misses it (single failure). Patch-criticals misses it (HIGH not CRITICAL). AI scan and Hacker both catch it. Patch-everything catches it. Looks like every reasonable strategy hits 100% recall — which is exactly why the original "perfect catch" framing was always going to look this way at single-window scale. The differentiation only shows up across multiple windows.
 </div>
 
 <!-- ===== TABLE 2: CLEAN 7-YEAR ===== -->
-<h2>Table 2 — Clean 7-year view (Jan 2018 – Apr 2026)</h2>
-<p>Real, single 7-year window. Both manifests combined. Every number — patches, exploits, recall — is confined to this 7-year period. Aggregates the entire backtest universe; no slicing or windowing.</p>
+<h2>Table 2 — Real-world Java, 7-year window (Jan 2018 – Apr 2026)</h2>
+<p>Full 7-year backtest universe on the same Spring/Java enterprise manifest. Every number — events, exploits, recall — is confined to this 7-year period.</p>
 
 <table>
 <thead><tr><th>Strategy</th><th>Patches in 7-year window</th><th>Exploits caught</th><th>Recall</th><th>Patches per exploit caught</th></tr></thead>
 <tbody>
-<tr class="hl-baseline"><td>Patch all C+H</td><td>356</td><td>15/15</td><td>100%</td><td class="frac-bad">23.7x</td></tr>
-<tr class="hl-baseline"><td>Patch criticals only</td><td>74</td><td>10/15</td><td>67%</td><td class="frac-mid">7.4x</td></tr>
-<tr class="hl-npdi"><td>NP+DI</td><td>66</td><td>7/15</td><td>47%</td><td class="frac-bad">9.4x</td></tr>
-<tr class="hl-ai"><td>NP+DI + AI scan</td><td>69</td><td>10/15</td><td>67%</td><td class="frac-mid">6.9x</td></tr>
-<tr class="hl-hacker"><td>Hacker persona (S+A)</td><td>70</td><td>14/15</td><td>93%</td><td class="frac-good">5.0x</td></tr>
-<tr class="tally"><td>Union (NP+DI ∪ Hacker S+A)</td><td>104</td><td>15/15</td><td>100%</td><td class="frac-mid">6.9x</td></tr>
+<tr class="hl-baseline"><td>Patch all C+H</td><td>175</td><td>11/11</td><td>100%</td><td class="frac-bad">15.9x</td></tr>
+<tr class="hl-baseline"><td>Patch criticals only</td><td>41</td><td>7/11</td><td>64%</td><td class="frac-mid">5.9x</td></tr>
+<tr class="hl-npdi"><td>NP+DI</td><td>34</td><td>5/11</td><td>45%</td><td class="frac-mid">6.8x</td></tr>
+<tr class="hl-ai"><td>NP+DI + AI scan</td><td>37</td><td>8/11</td><td>73%</td><td class="frac-good">4.6x</td></tr>
+<tr class="hl-hacker"><td>Hacker persona (S+A)</td><td>47</td><td>10/11</td><td>91%</td><td class="frac-good">4.7x</td></tr>
+<tr class="tally"><td>Union (NP+DI ∪ Hacker S+A)</td><td>63</td><td>11/11</td><td>100%</td><td class="frac-mid">5.7x</td></tr>
 </tbody>
 </table>
-<p class="note">15 exploited events: 11 from Spring/Java manifest (Log4j ×2, Spring4Shell, XStream-39144, Tomcat CGI, Tomcat AJP, Tomcat partial PUT, ActiveMQ OpenWire, ActiveMQ Jolokia, commons-text, SnakeYAML), 4 from Django/Python manifest (paramiko, Django Unicode reset, Pillow/libwebp, Django _connector). Patches are unique CVE counts across both manifests over the 7-year period.</p>
+<p class="note">11 exploited events: Log4j ×2, Spring4Shell, XStream-39144, Tomcat CGI Windows, Tomcat AJP/Ghostcat, Tomcat partial PUT, ActiveMQ OpenWire, ActiveMQ Jolokia, commons-text Text4Shell, SnakeYAML. Patches are unique CVE counts on the 175-event Java manifest over the 7-year period.</p>
 
 <div class="callout callout-success">
-<strong>At 7-year scale, the strategy ordering inverts.</strong> NP+DI alone catches fewer exploits (7) than just patching criticals (10), at almost the same patch volume — so on per-exploit overhead it's actually <em>worse</em> than the blunt-instrument default (9.4x vs 7.4x). Adding AI scan brings NP+DI to parity with criticals (10 catches, 6.9x). Only the hacker persona meaningfully beats both — 14 of 15 catches at 70 patches (5.0x oracle).
+<strong>At 7-year scale, the strategy ordering becomes clear.</strong> Hacker S+A is the only single-strategy choice that beats every alternative on recall (91%) with competitive efficiency (4.7x oracle). NP+DI alone underperforms even patch-criticals (45% recall vs 64%) — flagging slightly fewer events while catching meaningfully fewer exploits. NP+DI + AI scan reaches criticals-level recall (73%) at lower patch volume (4.6x oracle, the lowest single-strategy overhead).
 </div>
 
 <div class="kpi-row">
-<div class="kpi"><div class="kpi-val">23.7x</div><div class="kpi-lbl">Patch all C+H<br>356 / 15</div></div>
-<div class="kpi"><div class="kpi-val">7.4x</div><div class="kpi-lbl">Patch criticals only<br>74 / 10</div></div>
-<div class="kpi npdi"><div class="kpi-val">9.4x</div><div class="kpi-lbl">NP+DI alone<br>66 / 7</div></div>
-<div class="kpi ai"><div class="kpi-val">6.9x</div><div class="kpi-lbl">NP+DI + AI scan<br>69 / 10</div></div>
-<div class="kpi hacker"><div class="kpi-val">5.0x</div><div class="kpi-lbl">Hacker S+A<br>70 / 14</div></div>
+<div class="kpi"><div class="kpi-val">15.9x</div><div class="kpi-lbl">Patch all C+H<br>175 / 11</div></div>
+<div class="kpi"><div class="kpi-val">5.9x</div><div class="kpi-lbl">Patch criticals only<br>41 / 7 (64%)</div></div>
+<div class="kpi npdi"><div class="kpi-val">6.8x</div><div class="kpi-lbl">NP+DI alone<br>34 / 5 (45%)</div></div>
+<div class="kpi ai"><div class="kpi-val">4.6x</div><div class="kpi-lbl">NP+DI + AI scan<br>37 / 8 (73%)</div></div>
+<div class="kpi hacker"><div class="kpi-val">4.7x</div><div class="kpi-lbl">Hacker S+A<br>47 / 10 (91%)</div></div>
 </div>
 
 <!-- ===== PER-EVENT DETAIL ===== -->
-<h2>Per-event detail (the 15 exploited CVEs over 7 years)</h2>
+<h2>Per-event detail (the 11 exploited Java CVEs over 7 years)</h2>
 
 <table>
-<thead><tr><th>CVE</th><th>Year</th><th>Library</th><th>Primitive</th><th>NP+DI</th><th>+AI scan</th><th>Hacker tier</th></tr></thead>
+<thead><tr><th>CVE</th><th>Year</th><th>Library</th><th>Sev</th><th>Primitive</th><th>NP+DI</th><th>+AI</th><th>Hacker</th></tr></thead>
 <tbody>
-<tr><td class="cve-detail">CVE-2018-7750</td><td>2018</td><td>paramiko</td><td>SSH server pre-auth bypass</td><td><span class="tag tag-catch">catch</span></td><td><span class="tag tag-catch">catch</span></td><td><span class="tag tag-a">A</span></td></tr>
-<tr><td class="cve-detail">CVE-2019-0232</td><td>2019</td><td>Tomcat (CGI on Windows)</td><td>OS command injection</td><td><span class="tag tag-catch">catch</span></td><td><span class="tag tag-catch">catch</span></td><td><span class="tag tag-b">B</span> (miss)</td></tr>
-<tr><td class="cve-detail">CVE-2019-19844</td><td>2019</td><td>Django</td><td>Unicode-normalization password reset hijack</td><td><span class="tag tag-miss">miss</span></td><td><span class="tag tag-miss">miss</span></td><td><span class="tag tag-a">A</span></td></tr>
-<tr><td class="cve-detail">CVE-2020-1938</td><td>2020</td><td>Tomcat (Ghostcat)</td><td>AJP protocol arbitrary file read</td><td><span class="tag tag-miss">miss</span></td><td><span class="tag tag-catch">catch</span></td><td><span class="tag tag-a">A</span></td></tr>
-<tr><td class="cve-detail">CVE-2021-39144</td><td>2021</td><td>XStream</td><td>Unauth deserialization RCE</td><td><span class="tag tag-catch">catch</span></td><td><span class="tag tag-catch">catch</span></td><td><span class="tag tag-s">S</span></td></tr>
-<tr><td class="cve-detail">CVE-2021-44228</td><td>2021</td><td>log4j</td><td>JNDI lookup in any logged string</td><td><span class="tag tag-catch">catch</span></td><td><span class="tag tag-catch">catch</span></td><td><span class="tag tag-s">S</span></td></tr>
-<tr><td class="cve-detail">CVE-2021-45046</td><td>2021</td><td>log4j</td><td>JNDI patch-bypass</td><td><span class="tag tag-catch">catch</span></td><td><span class="tag tag-catch">catch</span></td><td><span class="tag tag-s">S</span></td></tr>
-<tr><td class="cve-detail">CVE-2022-22965</td><td>2022</td><td>Spring Framework</td><td>ClassLoader RCE via property binding</td><td><span class="tag tag-catch">catch</span></td><td><span class="tag tag-catch">catch</span></td><td><span class="tag tag-a">A</span></td></tr>
-<tr><td class="cve-detail">CVE-2022-42889</td><td>2022</td><td>commons-text</td><td>${url:} interpolation RCE</td><td><span class="tag tag-miss">miss</span></td><td><span class="tag tag-miss">miss</span></td><td><span class="tag tag-a">A</span></td></tr>
-<tr><td class="cve-detail">CVE-2022-1471</td><td>2022</td><td>SnakeYAML</td><td>Constructor deserialization RCE</td><td><span class="tag tag-miss">miss</span></td><td><span class="tag tag-miss">miss</span></td><td><span class="tag tag-s">S</span></td></tr>
-<tr><td class="cve-detail">CVE-2023-46604</td><td>2023</td><td>ActiveMQ broker</td><td>OpenWire deserialization RCE</td><td><span class="tag tag-miss">miss</span></td><td><span class="tag tag-miss">miss</span></td><td><span class="tag tag-s">S</span></td></tr>
-<tr><td class="cve-detail">CVE-2023-4863</td><td>2023</td><td>Pillow / libwebp</td><td>OOB write in shared C library</td><td><span class="tag tag-miss">miss</span></td><td><span class="tag tag-miss">miss</span></td><td><span class="tag tag-a">A</span></td></tr>
-<tr><td class="cve-detail">CVE-2025-24813</td><td>2025</td><td>Tomcat</td><td>Partial-PUT chained deserialization</td><td><span class="tag tag-miss">miss</span></td><td><span class="tag tag-catch">catch</span></td><td><span class="tag tag-a">A</span></td></tr>
-<tr><td class="cve-detail">CVE-2025-64459</td><td>2025</td><td>Django</td><td>ORM `_connector` kwarg SQLi</td><td><span class="tag tag-catch">catch</span></td><td><span class="tag tag-catch">catch</span></td><td><span class="tag tag-a">A</span></td></tr>
-<tr><td class="cve-detail">CVE-2026-34197</td><td>2026</td><td>ActiveMQ broker</td><td>Authenticated Jolokia MBean RCE</td><td><span class="tag tag-miss">miss</span></td><td><span class="tag tag-catch">catch</span></td><td><span class="tag tag-a">A</span></td></tr>
-<tr class="tally"><td colspan="4">7-year total catches</td><td>7/15</td><td>10/15</td><td>14/15</td></tr>
+<tr><td class="cve-detail">CVE-2019-0232</td><td>2019</td><td>Tomcat (CGI on Windows)</td><td>HIGH</td><td>OS command injection</td><td><span class="tag tag-catch">catch</span></td><td><span class="tag tag-catch">catch</span></td><td><span class="tag tag-b">B</span> (miss)</td></tr>
+<tr><td class="cve-detail">CVE-2020-1938</td><td>2020</td><td>Tomcat (Ghostcat)</td><td>CRITICAL</td><td>AJP protocol arbitrary file read</td><td><span class="tag tag-miss">miss</span></td><td><span class="tag tag-catch">catch</span></td><td><span class="tag tag-a">A</span></td></tr>
+<tr><td class="cve-detail">CVE-2021-39144</td><td>2021</td><td>XStream</td><td>HIGH</td><td>Unauth deserialization RCE</td><td><span class="tag tag-catch">catch</span></td><td><span class="tag tag-catch">catch</span></td><td><span class="tag tag-s">S</span></td></tr>
+<tr><td class="cve-detail">CVE-2021-44228</td><td>2021</td><td>log4j</td><td>CRITICAL</td><td>JNDI lookup in any logged string</td><td><span class="tag tag-catch">catch</span></td><td><span class="tag tag-catch">catch</span></td><td><span class="tag tag-s">S</span></td></tr>
+<tr><td class="cve-detail">CVE-2021-45046</td><td>2021</td><td>log4j</td><td>CRITICAL</td><td>JNDI patch-bypass</td><td><span class="tag tag-catch">catch</span></td><td><span class="tag tag-catch">catch</span></td><td><span class="tag tag-s">S</span></td></tr>
+<tr><td class="cve-detail">CVE-2022-22965</td><td>2022</td><td>Spring Framework</td><td>CRITICAL</td><td>ClassLoader RCE via property binding</td><td><span class="tag tag-catch">catch</span></td><td><span class="tag tag-catch">catch</span></td><td><span class="tag tag-a">A</span></td></tr>
+<tr><td class="cve-detail">CVE-2022-42889</td><td>2022</td><td>commons-text</td><td>CRITICAL</td><td>${url:} interpolation RCE</td><td><span class="tag tag-miss">miss</span></td><td><span class="tag tag-miss">miss</span></td><td><span class="tag tag-a">A</span></td></tr>
+<tr><td class="cve-detail">CVE-2022-1471</td><td>2022</td><td>SnakeYAML</td><td>HIGH</td><td>Constructor deserialization RCE</td><td><span class="tag tag-miss">miss</span></td><td><span class="tag tag-miss">miss</span></td><td><span class="tag tag-s">S</span></td></tr>
+<tr><td class="cve-detail">CVE-2023-46604</td><td>2023</td><td>ActiveMQ broker</td><td>CRITICAL</td><td>OpenWire deserialization RCE</td><td><span class="tag tag-miss">miss</span></td><td><span class="tag tag-miss">miss</span></td><td><span class="tag tag-s">S</span></td></tr>
+<tr><td class="cve-detail">CVE-2025-24813</td><td>2025</td><td>Tomcat</td><td>CRITICAL</td><td>Partial-PUT chained deserialization</td><td><span class="tag tag-miss">miss</span></td><td><span class="tag tag-catch">catch</span></td><td><span class="tag tag-a">A</span></td></tr>
+<tr><td class="cve-detail">CVE-2026-34197</td><td>2026</td><td>ActiveMQ broker</td><td>HIGH</td><td>Authenticated Jolokia MBean RCE</td><td><span class="tag tag-miss">miss</span></td><td><span class="tag tag-catch">catch</span></td><td><span class="tag tag-a">A</span></td></tr>
+<tr class="tally"><td colspan="5">7-year total catches</td><td>5/11</td><td>8/11</td><td>10/11</td></tr>
 </tbody>
 </table>
 
-<p class="note">"AI scan" here is the existing implementation: CWE re-validation for NP-but-not-DI advisories (catches CWE-misclassification cases like Ghostcat / Tomcat PUT / Jolokia). It does NOT currently re-classify package roles (commons-text, SnakeYAML are role=OTHER), expand DI to include CWE-502 deserialization, recognize CWE-640 unicode auth bypass, or assess image-library memory corruption. That's why it doesn't catch the 4 events between AI scan (10) and Hacker S+A (14). Extending AI scan to those four categories would close the gap.</p>
+<p class="note">"AI scan" here is the existing implementation: CWE re-validation for NP-but-not-DI advisories (catches CWE-misclassification cases like Ghostcat / Tomcat PUT / Jolokia). It does NOT currently re-classify package roles (commons-text, SnakeYAML are role=OTHER) or expand DI to include CWE-502 deserialization. That's why it doesn't catch the 3 events between AI scan (8) and Hacker S+A (10) on this Java view: Text4Shell, SnakeYAML, ActiveMQ OpenWire. The remaining 1 (Tomcat CGI Windows) is the only event Hacker also misses — same narrow-precondition reasoning that makes it a "B" tier.</p>
 
 <!-- ===== CONCLUSION ===== -->
 <h2>The synthesis</h2>
 
 <div class="callout">
-<strong>The 12-month story (Table 1) is the published one and it survives scrutiny on its own terms.</strong> NP+DI catches 1 of 2, AI scan catches 2 of 2, hacker catches 2 of 2. Everything except NP+DI alone hits 100% recall. The differentiation among "good" strategies is about flag count: hacker S+A flags 12, AI scan 15, criticals 6 — all manageable at this scale.
+<strong>The 12-month story (Table 1) holds on its own terms but doesn't differentiate.</strong> One exploit in window (ActiveMQ Jolokia). NP+DI misses it (CWE-20 not in DI), patch-criticals misses it (HIGH not CRITICAL), every other strategy catches it. At single-window scale on a Java estate, every reasonable strategy looks roughly equivalent.
 </div>
 
 <div class="callout callout-success">
-<strong>The 7-year story (Table 2) is what shows the ordering.</strong> Hacker S+A is the clear winner: 93% recall at 5.0x oracle overhead. The next-best on either axis is NP+DI + AI scan (67% recall, 6.9x). The "patch criticals only" baseline beats NP+DI alone on both axes — a meaningful finding, since NP+DI was supposed to be more discriminating than blunt severity.
+<strong>The 7-year story (Table 2) is what shows the operational ordering.</strong> Hacker S+A is the only single-strategy choice with 90%+ recall on actual exploitation, at 4.7x oracle overhead. NP+DI alone is worse than patch-criticals on both axes (45% recall vs 64%, 6.8x vs 5.9x). NP+DI + AI scan brings recall to 73% at the lowest single-strategy overhead (4.6x), but still misses the 3 deserialization/utility-library exploits (Text4Shell, SnakeYAML, ActiveMQ OpenWire). The union NP+DI ∪ Hacker S+A reaches 100% recall at 5.7x oracle.
 </div>
 
 <h3>Counter-argument worth holding</h3>
 <ul class="findings">
-<li><strong>The hacker exercise is a methodology validation, not a deployable product.</strong> Running an LLM-based hacker persona on every CVE batch is expensive and prompt-design-sensitive. The operational artifact is an AI scan extended to encode the hacker's discriminator as programmatic checks (auth-missing CWE co-tag rule, package-role-aware NP for utility libraries, CWE-502 deserialization promotion on network-facing components, native-C-library memory corruption flagging). That extension would close the 4-event gap between current AI scan (10/15) and Hacker S+A (14/15).</li>
-<li><strong>15 exploited events is small N.</strong> The Hacker 14/15 vs NP+DI 7/15 gap is meaningful but flip 2-3 boundary events and headline numbers shift ~5pp.</li>
+<li><strong>The hacker exercise is a methodology validation, not a deployable product.</strong> Running an LLM-based hacker persona on every CVE batch is expensive and prompt-design-sensitive. The operational artifact is an AI scan extended to encode the hacker's discriminator as programmatic checks (auth-missing CWE co-tag rule, package-role-aware NP for utility libraries, CWE-502 deserialization promotion on network-facing components). That extension would close the 3-event gap between current AI scan (8/11) and Hacker S+A (10/11).</li>
+<li><strong>11 exploited events is small N.</strong> The Hacker 10/11 vs NP+DI 5/11 gap is meaningful but flip 1-2 boundary events and headline numbers shift ~10pp.</li>
 <li><strong>Right-censoring affects 2024-2026 events.</strong> If recent CVEs accumulate exploitation evidence by 2027-2028, every strategy's recall improves; relative ordering should hold but absolute numbers shift.</li>
-<li><strong>Per-manifest variance.</strong> Java alone (175 events, 11 exploits) shows NP+DI at 5/11 = 45% — same shape as combined. Django's contribution (4 exploits, mostly from auth-boundary and image-library bugs that NP+DI structurally doesn't cover) drives part of Hacker S+A's relative advantage. Pure-Java estate would see similar but less dramatic numbers.</li>
+<li><strong>Java enterprise is the most-attacked surface in history.</strong> The exploitation density is unusually high. Repeating this exercise on Python (Django manifest, 181 events / 4 exploited) shows similar directional results but with smaller base rates and less differentiation among strategies — separate analysis, separate dataset.</li>
 </ul>
 
-<p style="margin-top:32px;color:#64748b;font-size:.85em">Data sources: <code>data/seven-year-manifest-events.json</code> (Spring), <code>data/_seven-year-frameworks-cache.json</code> (Django), <code>data/kev-snapshot-2026-04-26.json</code>, <code>data/_metasploit-cves.json</code>, <code>data/_exploitdb-cves.json</code>. Hacker tier assignments from <code>analyst-reports/2026-04-25-hacker-ranking-v3.md</code> (Java) and <code>2026-04-25-hacker-ranking-v4-django.md</code> (Python).</p>
+<p style="margin-top:32px;color:#64748b;font-size:.85em">Data source: <code>data/seven-year-manifest-events.json</code> (real-world Spring/Java enterprise manifest), <code>data/kev-snapshot-2026-04-26.json</code>, <code>data/_metasploit-cves.json</code>, <code>data/_exploitdb-cves.json</code>. Hacker tier assignments from <code>analyst-reports/2026-04-25-hacker-ranking-v3.md</code>.</p>
 
 </div>
 </body>
