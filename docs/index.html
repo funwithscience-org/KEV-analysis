@@ -218,7 +218,7 @@ details.expandable .detail-content{padding:16px 20px}
 
 <p>The default answer — "rebuild on any critical/high in my dependency tree" — sounds responsible, but it doesn't survive contact with portfolio scale. Across three different tech stacks the rule triggers <strong>14 emergency rebuilds per year</strong>. For one application in isolation that may not sound crazy — many teams are doing builds more often than that anyway. The chaos comes from running the same rule across hundreds of applications simultaneously, where applications break into roughly three operational profiles:</p>
 
-<ul>
+<ul style="margin-left:24px">
 <li><strong>Active-development apps.</strong> Continuously evolving codebases with mature pipelines. They can absorb 14 unscheduled rebuilds a year with varying levels of discomfort — the most common pushback is the cost of integrating substantial business changes and tech changes at the same time. (Not necessarily a valid pushback, but a common one.)</li>
 <li><strong>Infrequent-development apps.</strong> Modest change volume, often driven by regulatory or external requirements. The team does ship builds, but at a much lower cadence than the active ones, and an unscheduled emergency rebuild cuts more sharply against their normal flow.</li>
 <li><strong>Stable / stale apps and components.</strong> Code that hasn't shipped a meaningful change in months or years. Every emergency rebuild is effectively a project — the pipeline may need reviving before it can be used, dependencies may have drifted out of step with the rest of the platform, and there's no recent baseline to validate against.</li>
