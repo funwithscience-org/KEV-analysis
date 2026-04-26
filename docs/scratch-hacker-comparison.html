@@ -223,9 +223,13 @@ The two fastest TTEs (Spring4Shell at 4 days, Tomcat partial PUT at 9 days) are 
 <!-- ===== EFFECTIVE RECALL VIA FLOOR SWEEP ===== -->
 <h2>Effective recall — when "floor sweep" rescues a direct miss</h2>
 
-<div class="callout callout-warn">
-<strong>The operational reframing.</strong> The naive recall metric counts only direct catches: did the strategy flag the exploit on day zero? But operationally, what matters is whether the exploit got patched <em>before</em> the exploit window closed — and any rebuild triggered by ANY filter event in that window will pick up all the latest dep patches, including the missed exploit. So a long-TTE exploit (Text4Shell at 437 days) gets effectively patched by floor sweep if any other filter trigger fires during that window. The exposure ceiling for any exploit is "until the next floor sweep fires," not "until the filter directly catches this specific event."
-</div>
+<p>The naive recall metric counts only <em>direct</em> catches: did the strategy flag the specific exploit on day zero? Operationally, that's not the right question. What matters is whether the exploit got <em>patched</em> before the exploit window closed — and the build-mechanics model on this project explains why direct catch and effective patching aren't the same thing.</p>
+
+<p>Per the <a href="build-mechanics.html#free" style="color:#67e8f9">build-mechanics analysis</a>, every emergency rebuild triggered for one CVE applies the latest version of <em>every</em> dependency in the manifest, not just the one that triggered it. When the filter fires on a Spring Security advisory and your CI/CD pipeline runs a clean rebuild, that rebuild pulls in the current patched version of SnakeYAML, commons-text, jackson-databind, and everything else in the dependency tree. Coverage on the un-flagged libraries is a free side effect of remediating the flagged one. (See also the <a href="build-mechanics.html#two-modes" style="color:#67e8f9">two operational modes</a> framing — BAU absorbs patches invisibly, floor sweeps fire on filter triggers, and both produce the same end state.)</p>
+
+<p>That changes how to read recall. <strong>The exposure ceiling for any specific exploit is "until the next filter trigger fires," not "until the filter catches this specific event."</strong> A long-TTE exploit (Text4Shell at 437 days from disclosure to MSF module availability) gets effectively patched by floor sweep if any other trigger fires during that window. The filter doesn't need to identify Text4Shell specifically — it just needs to fire on <em>something</em> at any point in the 437-day window before exploit code matures.</p>
+
+<p>So the operational metric is "effective recall via floor sweep": did the strategy fire on the specific exploit (direct catch) <em>or</em> did it fire on something else within the TTE window (floor-sweep rescue)? Only events with no strategy trigger anywhere in their TTE window are true misses.</p>
 
 <table>
 <thead><tr><th>Strategy</th><th>Direct catches</th><th>Floor-sweep rescues</th><th>True misses</th><th>Effective recall</th></tr></thead>
