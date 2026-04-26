@@ -353,6 +353,22 @@ details summary:hover{color:var(--cyan)}
 <strong>Hacker S+A and NP+DI+AI catch overlapping but non-identical sets.</strong> 9 events sit in both filters' catches; 1 (XStream 2013-7285) is hacker-only direct (NP+DI catches it via floor sweep too); 0 are NP+DI-only. The remaining 2 events are the Tomcat HTTP PUT 2017 pair — out-of-scope by design (CWE-434 file uploads sit outside both filters and the hacker discriminator B-tiers them on the narrow-precondition rule).
 </div>
 
+<div class="callout callout-warning" id="tomcat-put-timeline">
+<strong>The Tomcat HTTP PUT 2017 pair: a worked example of why "B-tier handled by supplements" works.</strong>
+<p style="margin-top:8px">CVE-2017-12615 was disclosed in September 2017; CVE-2017-12617 in October 2017. Both require <code>readonly=false</code> on the Tomcat default servlet — non-default config. Neither hit CISA KEV until <strong>late 2021 / 2022</strong> — roughly four years after disclosure. That four-year gap is the operational evidence the hacker's B-tier rating was correct.</p>
+<p style="margin-top:8px">In that window, any team running floor-sweep patches on adjacent Tomcat NP+DI / hacker-S+A triggers would have been carried to a current Tomcat version that no longer has the vulnerable file-upload behavior. The actual Tomcat-adjacent emergency rebuilds in those 4 years:</p>
+<ul style="margin:6px 0 8px 24px">
+<li>2018 jackson-databind cluster (multiple Tomcat-fronted services patched)</li>
+<li>2019 Tomcat CGI command injection (CVE-2019-0232, KEV)</li>
+<li>2020 Ghostcat AJP file read (CVE-2020-1938, KEV)</li>
+<li>2021 Log4Shell-driven full rebuild (every Tomcat instance touched)</li>
+<li>2021 Tomcat smuggling (CVE-2021-25122, MSF)</li>
+<li>2022 Spring4Shell + Tomcat CLIENT_CERT</li>
+</ul>
+<p style="margin-top:8px">Six emergency rebuilds in the four-year window between disclosure and KEV. Any one of them would have absorbed the file-upload patches via floor-sweep. The hacker's B-tier was right: low immediate-exploitation risk, narrow precondition, supplements handle it on the normal cadence rather than emergency.</p>
+<p style="margin-top:8px"><strong>The misreading to guard against:</strong> "B-tier means ignore." It doesn't. The model's claim is "B-tier handled by supplements" — and that depends on actually running the supplements. A team that drops get-newest builds, regular cadence, application metadata, and targeted WAFs doesn't get the B-tier-absorbed-by-supplements behavior; they get the B-tier-eventually-exploited behavior. The model is the structure tests <em>and</em> the supplementary controls together.</p>
+</div>
+
 <details style="margin-top:16px">
 <summary style="cursor:pointer;font-weight:600;color:#0ea5e9">Full NP+DI CVE list with exploitation evidence</summary>
 <div style="margin-top:12px">
