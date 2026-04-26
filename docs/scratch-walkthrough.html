@@ -147,21 +147,20 @@ Preview build (<code style="background:#e2e8f0;padding:1px 6px;border-radius:3px
 <nav class="sidebar">
 <a href="#" style="text-decoration:none;color:inherit"><div class="sidebar-title">CVE Exploitation<br>Analysis</div></a>
 <a href="#hypothesis"><span class="toc-num">1</span> The Problem</a>
-<a href="#methodology"><span class="toc-num">2</span> Methodology</a>
-<a href="#observational"><span class="toc-num">3</span> Where Exploits Land</a>
+<a href="#observational"><span class="toc-num">2</span> Where Exploits Land</a>
 <a href="#stack-layers" class="sub">Stack Layer Rates</a>
 <a href="#http-parsing" class="sub">Network-Parser Signal</a>
 <a href="#libraries" class="sub">Libraries Deep Dive</a>
-<a href="#np-di-filter"><span class="toc-num">4</span> Building the Filter</a>
-<a href="#cross-framework"><span class="toc-num">5</span> Does It Work?</a>
-<a href="#survivorship"><span class="toc-num">6</span> Why Most Criticals Don't Get Exploited</a>
-<a href="#time-to-exploit"><span class="toc-num">7</span> Time-to-Exploit</a>
-<a href="#kill-chain"><span class="toc-num">8</span> Land &amp; Expand</a>
-<a href="#external-validation"><span class="toc-num">9</span> External Validation</a>
-<a href="#patching-model"><span class="toc-num">10</span> Three-Tier Patching</a>
-<a href="#proxy"><span class="toc-num">11</span> Reverse Proxy Myth</a>
-<a href="#watchlist"><span class="toc-num">12</span> Exploit Watch List</a>
-<a href="#caveats"><span class="toc-num">13</span> Caveats</a>
+<a href="#np-di-filter"><span class="toc-num">3</span> Building the Filter</a>
+<a href="#cross-framework"><span class="toc-num">4</span> Does It Work?</a>
+<a href="#survivorship"><span class="toc-num">5</span> Why Most Criticals Don't Get Exploited</a>
+<a href="#time-to-exploit"><span class="toc-num">6</span> Time-to-Exploit</a>
+<a href="#kill-chain"><span class="toc-num">7</span> Land &amp; Expand</a>
+<a href="#external-validation"><span class="toc-num">8</span> External Validation</a>
+<a href="#patching-model"><span class="toc-num">9</span> Three-Tier Patching</a>
+<a href="#proxy"><span class="toc-num">10</span> Reverse Proxy Myth</a>
+<a href="#watchlist"><span class="toc-num">11</span> Exploit Watch List</a>
+<a href="#caveats"><span class="toc-num">12</span> Caveats</a>
 </nav>
 
 <!-- MAIN CONTENT -->
@@ -223,7 +222,7 @@ Preview build (<code style="background:#e2e8f0;padding:1px 6px;border-radius:3px
 <p>So the operational question is: <strong>which of those 14 triggers actually matter?</strong> Is there a signal in the data — something more useful than the CVSS score — that separates the CVEs attackers actually exploit from the ones that just make noise? Two independent answers come out of the analysis, and they largely agree: <strong>network parser + direct injection</strong> (a CWE-based mechanical filter) and the <strong>hacker discriminator</strong> (an attacker's grading rubric applied with modern AI tooling). The rest of this page is how we got there and how well it holds up against ground truth.</p>
 
 <!-- ========== 2. METHODOLOGY ========== -->
-<h2 id="methodology">2. Methodology</h2>
+<h2 id="observational">2. The First Clue: Where Exploits Actually Land</h2>
 
 <div class="translation"><strong>In plain English:</strong> We took every vulnerability that attackers actually exploited (<span data-kpi="totalKev">…</span> in the KEV catalog, <span data-kpi="windowedKev">…</span> with CVEs published 2021–2026) and compared it to every serious vulnerability reported in the same window (<span data-kpi="totalNvd">…</span>). Then we asked: what makes the exploited ones different?</div>
 
@@ -234,15 +233,12 @@ Preview build (<code style="background:#e2e8f0;padding:1px 6px;border-radius:3px
 <p><strong><span class="glossary" data-tip="The U.S. government's National Vulnerability Database -- the central repository for all reported software vulnerabilities">NVD</span></strong> -- <span data-kpi="totalNvd">…</span> CVEs rated Critical or High (CVSS 7.0+) published 2021-2026. This is the denominator for cross-layer comparisons — it's the only source that consistently covers OS, VPN, browser, and library categories on the same scale.</p>
 
 <div class="callout callout-warning">
-<strong>Important caveat for teams that build their own code:</strong> NVD massively under-represents open-source library vulnerabilities. Most small libraries never register a <span class="glossary" data-tip="Common Platform Enumeration — NVD's naming scheme for matching CVEs to products. Most open-source projects never register a CPE, so their vulnerabilities are invisible to NVD">CPE</span>, so their CVEs are invisible to NVD's categorization. Google's <strong><a href="https://osv.dev" target="_blank">OSV</a></strong> database — which aggregates NVD, GitHub Security Advisories, and ecosystem-specific sources — tracks <strong>770 critical/high vulnerabilities across just 177 popular packages</strong>, more than double NVD's 345 for <em>all</em> libraries. The true library vulnerability population is orders of magnitude larger than NVD suggests. This means the noise your application team faces is significantly worse than the NVD-based numbers in this analysis imply. We use NVD as the primary denominator for the cross-layer comparison (§3) because it's consistent across categories, and switch to OSV for the library-specific and periodicity analysis (§4–9) where accuracy matters more than cross-category consistency.
+<strong>Important caveat for teams that build their own code:</strong> NVD massively under-represents open-source library vulnerabilities. Most small libraries never register a <span class="glossary" data-tip="Common Platform Enumeration — NVD's naming scheme for matching CVEs to products. Most open-source projects never register a CPE, so their vulnerabilities are invisible to NVD">CPE</span>, so their CVEs are invisible to NVD's categorization. Google's <strong><a href="https://osv.dev" target="_blank">OSV</a></strong> database — which aggregates NVD, GitHub Security Advisories, and ecosystem-specific sources — tracks <strong>770 critical/high vulnerabilities across just 177 popular packages</strong>, more than double NVD's 345 for <em>all</em> libraries. The true library vulnerability population is orders of magnitude larger than NVD suggests. This means the noise your application team faces is significantly worse than the NVD-based numbers in this analysis imply. We use NVD as the primary denominator for the cross-layer comparison (§2) because it's consistent across categories, and switch to OSV for the library-specific and periodicity analysis (§2–8) where accuracy matters more than cross-category consistency.
 </div>
 
 <p>Each CVE was categorized by <strong>stack layer</strong> (OS, VPN/network appliance, JVM/runtime, web server, browser, email/collaboration server, library/framework, CMS/webapp, productivity/desktop, database, firmware/hardware, virtualization/container, IoT/ICS, SSL/TLS/crypto) using CPE product strings and description pattern matching. The <strong>exploitation rate</strong> for each category = (KEV count) / (NVD count).</p>
 
-<!-- ========== 3. OBSERVATIONAL CASE ========== -->
-<h2 id="observational">3. The First Clue: Where Exploits Actually Land</h2>
 
-<div class="translation"><strong>In plain English:</strong> Before we can build a filter, we need to understand the pattern. Where do real-world exploits concentrate? Not where you'd expect from severity scores alone.</div>
 
 <h3 id="stack-layers">3a. Stack Layer Exploitation Rates</h3>
 
@@ -325,27 +321,27 @@ A network-parsing HIGH (7.0-7.9) at 0.89% beats a non-parsing CRITICAL (9.0-9.9)
 <p style="margin-top:10px"><strong>So with libraries the problem isn't finding the 4%. It's finding the &lt;0.1% that actually get exploited and not getting buried in the volume.</strong> This is the opposite of the third-party-product problem, where the base rate is high enough that "patch everything from this vendor" is a defensible default. With open-source libraries, "patch everything" isn't responsible — it's the response that guarantees you can't tell signal from noise.</p>
 </div>
 
-<!-- ========== 6. SURVIVORSHIP ========== -->
-<h2 id="np-di-filter">4. Threat-Centric Prioritization: Two Independent Models</h2>
+<!-- ========== 5. SURVIVORSHIP ========== -->
+<h2 id="np-di-filter">3. Threat-Centric Prioritization: Two Independent Models</h2>
 
 <div class="translation"><strong>In plain English:</strong> The hero isn't a single filter — it's a <em>model</em>. Judge a vulnerability by what an attacker actually does with it, not by what its CVSS says. We've built two competitive ways to operationalize that model. They run independently against the same data, mostly agree, and where they disagree is also informative.</div>
 
 <p><strong>Periodicity backtest.</strong> To validate threat-centric prioritization, we constructed three representative application manifests (Spring Boot 48 deps, Node.js/Express 45 deps, Django/DRF 40 deps) plus an OS container layer (Amazon Linux 2023, ~25 components). We queried every dependency against OSV for critical/high CVEs over a 12-month window (Apr 2025 - Apr 2026), then ran <em>both</em> operationalizations of the model independently — the structure test (NP+DI) and the attacker test (hacker discriminator) — and measured how often each would trigger an emergency rebuild. We then cross-validated against five independent exploitation sources: EPSS, CISA KEV, ExploitDB, Nuclei, and Metasploit. Full methodology and per-CVE classifications are in the <a href="periodicity.html" style="color:var(--accent)">periodicity analysis</a> and <a href="cve-reference.html" style="color:var(--accent)">CVE reference</a>.</p>
 
-<p>At this point the data tells us two things: network-parsing components get exploited at 3–6× the rate of everything else (§3), and the exploitation window is measured in days, not months (§7). But <strong>"rebuild on any critical/high in a network parser" is still too noisy</strong> to be useful. That rule fires 14 times in 12 months across every stack we tested — about every 2–3 weeks. You'd be churning almost as badly as before.</p>
+<p>At this point the data tells us two things: network-parsing components get exploited at 3–6× the rate of everything else (§2), and the exploitation window is measured in days, not months (§6). But <strong>"rebuild on any critical/high in a network parser" is still too noisy</strong> to be useful. That rule fires 14 times in 12 months across every stack we tested — about every 2–3 weeks. You'd be churning almost as badly as before.</p>
 
 <p>The reason it's too broad: most network-parser CVEs aren't the kind of bug attackers actually exploit for initial access. A denial-of-service in Tomcat is a real bug, but it doesn't give an attacker code execution. An authentication-bypass in Spring Security is concerning, but it requires specific configuration to be reachable. A Fastify validation-bypass is a defense-in-depth issue, not a front-door entry point. What actually reaches KEV — what attackers build exploits for and use in the field — is overwhelmingly the <em>direct primitive</em>: path traversal, template injection, SQL injection, command injection, request smuggling, deserialization-at-default. Bugs where untrusted input becomes executable code or crosses a security boundary without mediation.</p>
 
 <p>That insight is the model: <strong>threat-centric prioritization</strong> — pick the events worth interrupting cadence for by what the threat actually looks like, not by what severity score the CWE was assigned. The model has two operational forms in the rest of this page, each developed independently against the same data:</p>
 
 <ul style="margin:10px 0 10px 24px">
-<li><strong>The structure test — NP+DI</strong> (§4a–§4c) — a mechanical filter on the data itself: <em>does the package parse untrusted input</em> and <em>is the bug a direct-injection class</em>? Both yes → fire. Easy to apply, hard to argue with, doesn't depend on judgment.</li>
-<li><strong>The attacker test — hacker discriminator</strong> (§4d) — an offensive operator's grading rubric using the same modern AI tools attackers do: <em>default config × network edge × primitive direct</em>, with auth-missing as a co-tag. Catches the same population the structure test does, with small but informative disagreements at the boundary.</li>
+<li><strong>The structure test — NP+DI</strong> (§3a–§3c) — a mechanical filter on the data itself: <em>does the package parse untrusted input</em> and <em>is the bug a direct-injection class</em>? Both yes → fire. Easy to apply, hard to argue with, doesn't depend on judgment.</li>
+<li><strong>The attacker test — hacker discriminator</strong> (§3d) — an offensive operator's grading rubric using the same modern AI tools attackers do: <em>default config × network edge × primitive direct</em>, with auth-missing as a co-tag. Catches the same population the structure test does, with small but informative disagreements at the boundary.</li>
 </ul>
 
-<p>The two are validated together later (§5 cross-framework, §5g 7-year backtest, §9 external sources). Where they agree, the agreement is the validation. Where they disagree (Spring Boot actuator that NP+DI misses on CWE-862 / hacker catches; Tomcat path traversal that NP+DI catches on CWE-23 / hacker B-tiers on the narrow precondition) the disagreement tells you something specific about each model's blind spots.</p>
+<p>The two are validated together later (§4 cross-framework, §4g 7-year backtest, §8 external sources). Where they agree, the agreement is the validation. Where they disagree (Spring Boot actuator that NP+DI misses on CWE-862 / hacker catches; Tomcat path traversal that NP+DI catches on CWE-23 / hacker B-tiers on the narrow precondition) the disagreement tells you something specific about each model's blind spots.</p>
 
-<h3>4a. The structure test — NP+DI</h3>
+<h3>3a. The structure test — NP+DI</h3>
 
 <p>Two criteria, both required:</p>
 
@@ -353,7 +349,7 @@ A network-parsing HIGH (7.0-7.9) at 0.89% beats a non-parsing CRITICAL (9.0-9.9)
 
 <p><strong>2. Direct Injection (DI) CWE.</strong> The vulnerability carries a CWE from a specific set — the bug classes where attacker input becomes executable code or traverses a security boundary. Not every network-parser bug qualifies. DoS, info leak, and configuration issues are real problems, but they're not the bugs that give attackers a foothold.</p>
 
-<h3>4b. The DI CWE Set</h3>
+<h3>3b. The DI CWE Set</h3>
 
 <table class="data-table">
 <thead><tr><th>CWE</th><th>Name</th><th>Category</th></tr></thead>
@@ -381,15 +377,15 @@ A network-parsing HIGH (7.0-7.9) at 0.89% beats a non-parsing CRITICAL (9.0-9.9)
 <tr><td><code>CWE-444</code></td><td>HTTP Request Smuggling<sup id="fnref-444"><a href="#fn-444">1</a></sup></td><td>HTTP protocol manipulation</td></tr>
 </tbody></table>
 
-<p>Notably <strong>absent</strong>: CWE-502 (Deserialization). The reasoning needs care, because at the library level deserialization absolutely <em>can</em> be an exploitation driver (XStream pre-1.4.18, SnakeYAML constructor deser, the Tomcat partial-PUT chain — see §5g). What the data shows is that <strong>raw CWE-502 volume hugely overstates how often deserialization is actually reachable</strong>. Most CWE-502 disclosures are gadget-chain-dependent: they require very specific classes to be on the classpath, very specific application code to call the unsafe API on attacker-controlled bytes, and a deployment shape that exposes the path. Jackson-databind alone accumulated 67 historical CWE-502 entries; a rounding-error fraction reached KEV. So CWE-502 is excluded from the mechanical DI filter — adding it would drown the real signal in noise. Catching the exploited subset of deserialization needs a different cut of the same data, which we develop next. Also absent from the DI set: CWE-400 (Resource Exhaustion / DoS) — denial of service doesn't produce code execution.</p>
+<p>Notably <strong>absent</strong>: CWE-502 (Deserialization). The reasoning needs care, because at the library level deserialization absolutely <em>can</em> be an exploitation driver (XStream pre-1.4.18, SnakeYAML constructor deser, the Tomcat partial-PUT chain — see §4g). What the data shows is that <strong>raw CWE-502 volume hugely overstates how often deserialization is actually reachable</strong>. Most CWE-502 disclosures are gadget-chain-dependent: they require very specific classes to be on the classpath, very specific application code to call the unsafe API on attacker-controlled bytes, and a deployment shape that exposes the path. Jackson-databind alone accumulated 67 historical CWE-502 entries; a rounding-error fraction reached KEV. So CWE-502 is excluded from the mechanical DI filter — adding it would drown the real signal in noise. Catching the exploited subset of deserialization needs a different cut of the same data, which we develop next. Also absent from the DI set: CWE-400 (Resource Exhaustion / DoS) — denial of service doesn't produce code execution.</p>
 
-<h3>4c. Why the Filter is Testable and Falsifiable</h3>
+<h3>3c. Why the Filter is Testable and Falsifiable</h3>
 
 <p>The NP+DI filter makes a specific, falsifiable prediction: <strong>critical/high CVEs that fail the filter (non-NP, or NP but non-DI CWE) will not appear in CISA KEV within 12 months of disclosure.</strong> Any counter-example weakens the filter. A cluster of counter-examples kills it.</p>
 
 <p>This is operationally important because it means you can measure the filter's performance against your own dependency stack. Run it for 6 months. Track what it flags and what it skips. If something it skipped gets exploited, the filter needs adjustment. If nothing it skipped gets exploited, you've validated it for your environment. The <a href="cve-reference.html" style="color:var(--accent)">CVE reference list</a> shows every classification so you can audit and re-draw the line yourself.</p>
 
-<h3>4d. The attacker test — the hacker discriminator</h3>
+<h3>3d. The attacker test — the hacker discriminator</h3>
 
 <div class="translation"><strong>In plain English:</strong> NP+DI is a CWE-and-package rule — mechanical, easy to apply, hard to argue with. But you can also frame the same triage decision the way an attacker would: "would I actually invest in writing an exploit for this?" That gives a second, independent filter to cross-check NP+DI against.</div>
 
@@ -412,24 +408,24 @@ A network-parsing HIGH (7.0-7.9) at 0.89% beats a non-parsing CRITICAL (9.0-9.9)
 
 <p>The hacker S+A bar is "events I'd actually put on my campaign list." It produces a different cut of the same CVE feed than NP+DI: more selective in some ways (ignores SQLi clusters with cluster-mean preconditions), more aggressive in others (catches Spring Boot actuator exposure that CWE-862-tagged events would slip past NP+DI on). On the 7-year production manifest, NP+DI raw catches 6 of 13 actually-exploited events; NP+DI+DQ catches 9; hacker S+A catches 10. Their union catches 11. Same story, different angle of attack on the same triage decision. Detail on the <a href="periodicity.html" style="color:var(--accent)">periodicity page</a>.</p>
 
-<h3>4e. The hidden cost of <em>not</em> filtering: churn crowds out better practices</h3>
+<h3>3e. The hidden cost of <em>not</em> filtering: churn crowds out better practices</h3>
 
 <p>The case for any filter — NP+DI, hacker S+A, or both — isn't just that it reduces rebuilds from 14 a year to 2-6. It's that the rebuild churn at "all C/H" volumes <em>actively prevents</em> teams from adopting the practices that would make patching cheaper.</p>
 
 <p>Teams fighting a fire every two weeks don't typically use that bandwidth to fix root causes. They don't get to "let's adopt a get-latest build model so the next CVE is a non-event." They don't get to move infrastructure from <em>reactive</em> (fix when broken) to <em>cadence-based</em> (regular updates absorb most patches). The natural reflex is "we should just fix things right" — but humans in firefighting mode don't behave that way; they triage, ship, and brace for the next alert.</p>
 
-<p>The noise-floor reduction from 14 forced rebuilds per year to 2-6 isn't just a workload win — it's the difference between a team that <em>only</em> does emergency rebuilds and a team that has time to invest in not having to. We pick this up again in §10 with the Cat 1/2/3 estate-maturity framing.</p>
+<p>The noise-floor reduction from 14 forced rebuilds per year to 2-6 isn't just a workload win — it's the difference between a team that <em>only</em> does emergency rebuilds and a team that has time to invest in not having to. We pick this up again in §9 with the Cat 1/2/3 estate-maturity framing.</p>
 
-<!-- ========== 5. CROSS-FRAMEWORK VALIDATION ========== -->
-<h2 id="cross-framework">5. Does It Actually Work? Cross-Framework Validation</h2>
+<!-- ========== 4. CROSS-FRAMEWORK VALIDATION ========== -->
+<h2 id="cross-framework">4. Does It Actually Work? Cross-Framework Validation</h2>
 
 <div class="translation"><strong>In plain English:</strong> Theory is nice, but you need to know if this filter actually reduces your rebuild queue without letting something dangerous slip through. We tested it against three real-world-representative tech stacks over 12 months. Short answer: it works.</div>
 
-<h3>5a. Three Stacks, 133 Dependencies</h3>
+<h3>4a. Three Stacks, 133 Dependencies</h3>
 
 <p>We constructed representative application manifests for three ecosystems: <strong>Spring Boot</strong> (48 deps: 16 NP, 32 non-NP), <strong>Node.js/Express</strong> (45 deps: 21 NP, 24 non-NP), and <strong>Django/DRF</strong> (40 deps: 16 NP, 24 non-NP). Each manifest includes the framework itself, HTTP handling, template engines, authentication, database access, messaging, monitoring, and utility libraries. We queried every dependency against OSV for critical/high CVEs published April 2025 through April 2026. Full manifests are in the <a href="periodicity.html" style="color:var(--accent)">periodicity analysis</a>.</p>
 
-<h3>5b. The 14-14-14 Convergence</h3>
+<h3>4b. The 14-14-14 Convergence</h3>
 
 <div class="hero-stat">
 <div class="stat red"><div class="number">14</div><div class="label">All C/H trigger dates<br>(identical across all 3 stacks)</div></div>
@@ -444,7 +440,7 @@ A network-parsing HIGH (7.0-7.9) at 0.89% beats a non-parsing CRITICAL (9.0-9.9)
 <canvas id="crossFrameworkChart" height="120"></canvas>
 </div>
 
-<h3>5c. Reduction across four strategies</h3>
+<h3>4c. Reduction across four strategies</h3>
 
 <p>The original NP+DI filter is one of three discriminators worth comparing on the same input. <strong>NP+DI raw</strong> is the mechanical CWE-and-package rule. <strong>NP+DI + DQ</strong> (Data Quality) adds an AI-assisted pass that re-checks the upstream CWE tagging — when the surface CWE underweights the actual primitive (Spring Boot actuator exposure tagged CWE-862, Ghostcat tagged CWE-269, ActiveMQ Jolokia tagged CWE-20, etc.), DQ corrects the classification and the event re-enters NP+DI. <strong>Hacker S+A</strong> applies the offensive operator's three-axis test (default-config × edge × direct primitive). The cross-framework workload comparison:</p>
 
@@ -458,14 +454,14 @@ A network-parsing HIGH (7.0-7.9) at 0.89% beats a non-parsing CRITICAL (9.0-9.9)
 </tbody></table>
 
 <div class="callout callout-warning">
-<strong>Honest caveat about the 12-month window:</strong> Across all four manifests over Apr 2025 – Apr 2026, only one CVE actually got exploited (Django <code>CVE-2025-64459</code> _connector SQLi, ExploitDB-only — no KEV, no Metasploit). Every strategy catches it. So "the filter caught every exploit in window" is technically true but operationally vacuous — N=1 across 4 manifests can't actually score discrimination. The 12-month view's honest purpose is showing <strong>how much workload each strategy demands</strong> — not which one is most accurate. Real scoring needs more ground truth, which is why we then look at a 7-year backtest in §5g and on the <a href="periodicity.html" style="color:var(--accent)">periodicity page</a>.</p>
+<strong>Honest caveat about the 12-month window:</strong> Across all four manifests over Apr 2025 – Apr 2026, only one CVE actually got exploited (Django <code>CVE-2025-64459</code> _connector SQLi, ExploitDB-only — no KEV, no Metasploit). Every strategy catches it. So "the filter caught every exploit in window" is technically true but operationally vacuous — N=1 across 4 manifests can't actually score discrimination. The 12-month view's honest purpose is showing <strong>how much workload each strategy demands</strong> — not which one is most accurate. Real scoring needs more ground truth, which is why we then look at a 7-year backtest in §4g and on the <a href="periodicity.html" style="color:var(--accent)">periodicity page</a>.</p>
 </div>
 
-<h3>5d. Silence Windows</h3>
+<h3>4d. Silence Windows</h3>
 
 <p>None of these strategies produce a slower steady drip — they all produce <strong>silence punctuated by genuine events</strong>. Spring Boot's longest NP+DI silence ran 164 days; hacker S+A stretches that to 205. Node.js sat silent under NP+DI for 311 days — over 10 months — before its first trigger. Even Django, the weakest case, had a 140-day NP+DI silence window. This burst pattern is operationally superior to a steady cadence: when the signal fires, your team responds to it instead of tuning it out.</p>
 
-<h3>5e. What the Filter Caught</h3>
+<h3>4e. What the Filter Caught</h3>
 
 <p><strong>Spring Boot (5 events):</strong> Spring Security authorization bypass (CWE-693, CWE-863) via annotation detection failure, Tomcat CLIENT_CERT authentication bypass (CWE-287), Tomcat path traversal (CWE-23) via crafted HTTP request, and Thymeleaf template injection (CWE-1336/917) -- textbook SSTI leading to RCE. The auth bypass events reflect the widened DI definition: untrusted input that changes a security decision.</p>
 
@@ -473,13 +469,13 @@ A network-parsing HIGH (7.0-7.9) at 0.89% beats a non-parsing CRITICAL (9.0-9.9)
 
 <p><strong>Django (4 events):</strong> All four were SQL injection (CWE-89) in Django's ORM layer itself -- recurring variants of the same underlying issue in column alias handling and QuerySet connector kwargs. The filter correctly flagged every one.</p>
 
-<h3>5f. Django: The Honest Hardest Case</h3>
+<h3>4f. Django: The Honest Hardest Case</h3>
 
 <p>Django is the weakest result, and that's worth understanding. Unlike Spring and Node.js (which had long silence windows), Django produced 4 NP+DI triggers in 12 months -- roughly quarterly. All four were CWE-89 in Django's ORM. The Django security team kept finding and patching variants of the same underlying issue.</p>
 
 <p>This means the filter gives you less breathing room when the framework itself has a persistent vulnerability pattern in its parsing surface. But: (a) every trigger was a genuine SQL injection -- zero false positives, and (b) 71% reduction is still operationally meaningful -- you go from near-monthly fire drills to quarterly ones. The 10 skipped rebuilds were DoS bugs, config issues, and non-NP library fixes that never reached KEV.</p>
 
-<h3 id="real-manifest">5g. Real-World Case Study: Enterprise Java Portfolio</h3>
+<h3 id="real-manifest">4g. Real-World Case Study: Enterprise Java Portfolio</h3>
 
 <div class="translation"><strong>In plain English:</strong> The synthetic manifests above prove the filter works in theory. This section tests it against a real enterprise dependency list — 60 libraries from a portfolio of Spring apps, with all the version sprawl and legacy baggage that implies.</div>
 
@@ -591,8 +587,8 @@ A network-parsing HIGH (7.0-7.9) at 0.89% beats a non-parsing CRITICAL (9.0-9.9)
 <strong>Backtest summary:</strong> 16% exploitation rate in the NP+DI bucket vs. 3% in NP-only vs. 0% in non-NP. The filter caught Log4Shell, Spring4Shell, and XStream RCE cleanly. Its three misses are all CWE taxonomy failures on HTTP-adjacent attacks — fixable with the DQ pass (AI-assisted CWE re-classification) that adds minutes, not hours, to the triage workflow.
 </div>
 
-<!-- ========== 8. KILL CHAIN ========== -->
-<h2 id="survivorship">6. Why Most Criticals Don't Get Exploited</h2>
+<!-- ========== 7. KILL CHAIN ========== -->
+<h2 id="survivorship">5. Why Most Criticals Don't Get Exploited</h2>
 
 <div class="translation"><strong>In plain English:</strong> 93% of "critical" vulnerabilities never get used in real attacks. The reasons are predictable -- and that predictability is what makes smart prioritization possible.</div>
 
@@ -600,7 +596,7 @@ A network-parsing HIGH (7.0-7.9) at 0.89% beats a non-parsing CRITICAL (9.0-9.9)
 
 <p><strong>Firmware and hardware (3,739 NVD, 23 KEV, 0.62%).</strong> High CVSS because theoretical impact is complete system compromise, but exploitation requires physical access and specific device models. The 23 windowed KEV entries are mostly Qualcomm and Arm silicon bugs, BIOS/UEFI issues, and BMC vulnerabilities.</p>
 
-<p><strong>Linux kernel local privilege escalation.</strong> Many kernel CVEs score critical but require local access. These aren't initial-access vectors — they're <em>land-and-expand</em> tools. An attacker who already has a foothold (via a network-parser bug, a phished browser, or stolen credentials) uses kernel privesc to escalate. That makes them dangerous, but in a fundamentally different way: they determine <strong>how bad</strong> a breach gets, not <strong>whether</strong> one starts. We cover this distinction in §9.</p>
+<p><strong>Linux kernel local privilege escalation.</strong> Many kernel CVEs score critical but require local access. These aren't initial-access vectors — they're <em>land-and-expand</em> tools. An attacker who already has a foothold (via a network-parser bug, a phished browser, or stolen credentials) uses kernel privesc to escalate. That makes them dangerous, but in a fundamentally different way: they determine <strong>how bad</strong> a breach gets, not <strong>whether</strong> one starts. We cover this distinction in §8.</p>
 
 <p><strong>Consumer IoT and embedded devices.</strong> High CVSS, low strategic value. Nation-state actors focus on enterprise infrastructure.</p>
 
@@ -612,8 +608,8 @@ A network-parsing HIGH (7.0-7.9) at 0.89% beats a non-parsing CRITICAL (9.0-9.9)
 <strong>Implication:</strong> These patterns are predictable, but context-dependent. Server-side memory corruption really does stay unexploited most of the time. Browser memory corruption doesn't — it's one of the fastest-exploited categories in the dataset. And kernel privesc bugs aren't "safe to ignore" just because they're not initial access; they're the second half of the kill chain. The right question isn't "will this get exploited?" but "where does this sit in the attack sequence, and does my architecture already contain it?"
 </div>
 
-<!-- ========== 7. TIME-TO-EXPLOIT ========== -->
-<h2 id="time-to-exploit">7. Time-to-Exploit Compression</h2>
+<!-- ========== 6. TIME-TO-EXPLOIT ========== -->
+<h2 id="time-to-exploit">6. Time-to-Exploit Compression</h2>
 
 <div class="translation"><strong>In plain English:</strong> The old 30-day patch rule is broken. Attackers now weaponize bugs in as little as 3 days.</div>
 
@@ -637,8 +633,8 @@ A network-parsing HIGH (7.0-7.9) at 0.89% beats a non-parsing CRITICAL (9.0-9.9)
 
 <p>The 2024 data (median 34 days) appears to reverse the trend, but this is a <strong>right-censoring artifact</strong>: many 2024 CVEs haven't been added to KEV yet. The compression is driven by the commoditization of exploit development, faster reverse engineering from patches, and the industrialization of ransomware operations.</p>
 
-<!-- ========== 4. NP+DI FILTER (THREAT-CENTRIC PRIORITIZATION) ========== -->
-<h2 id="kill-chain">8. Land &amp; Expand: The Exploit After the Exploit</h2>
+<!-- ========== 3. NP+DI FILTER (THREAT-CENTRIC PRIORITIZATION) ========== -->
+<h2 id="kill-chain">7. Land &amp; Expand: The Exploit After the Exploit</h2>
 
 <div class="translation"><strong>In plain English:</strong> The app layer determines whether you get breached. The OS layer determines how bad the breach gets. They need different patching strategies.</div>
 
@@ -682,8 +678,8 @@ A network-parsing HIGH (7.0-7.9) at 0.89% beats a non-parsing CRITICAL (9.0-9.9)
 <strong>NVD keyword noise on the OS layer.</strong> When the hacker discriminator was applied separately to the same OS-container manifest, a different finding emerged: <strong>most of the 69 "OS layer" CVEs aren't bugs in OS components at all</strong>. Of those 69, only ~18 are actually in components present in Amazon Linux 2023. The other ~50 are CVEs in downstream applications that NVD keyword-matched into the wrong component (24 of the "27 sqlite" events are SQLite-using apps like FUXA, METIS, n8n, langchain, MyTube; the "15 systemd" events include 6-7 Linux kernel CVEs matched via systemd plus snapd which isn't even in Amazon Linux 2023). The hacker S+A count on the cleaned set is 0 strict — agreeing with the NP+DI = 0 result. The structural finding (OS layer doesn't drive emergency rebuilds; monthly cadence handles blast radius) is unchanged. The absolute LPE-relevant number is closer to 10 than 21. <a href="periodicity.html#chaining" style="color:var(--accent)">Detail on the periodicity page</a>.
 </div>
 
-<!-- ========== 9. EXTERNAL VALIDATION ========== -->
-<h2 id="external-validation">9. External Validation</h2>
+<!-- ========== 8. EXTERNAL VALIDATION ========== -->
+<h2 id="external-validation">8. External Validation</h2>
 
 <div class="translation"><strong>In plain English:</strong> We cross-checked the filter against five independent exploitation databases. The 12-month sample is too small to score confidently (only one in-scope exploited CVE in window); the 7-year production-manifest backtest is where the real accounting happens. The filters cover most of what gets exploited, miss a small known set by design, and add value EPSS can't because they fire on disclosure day.</div>
 
@@ -729,10 +725,10 @@ A network-parsing HIGH (7.0-7.9) at 0.89% beats a non-parsing CRITICAL (9.0-9.9)
 </div>
 
 <div class="callout callout-warning">
-<strong>One non-trigger signal worth flagging — and what NVD keyword noise does to it.</strong> CVE-2025-14847 (zlib) lit up KEV, Metasploit, and EPSS 0.77 — but it was exploited through MongoDB's wire protocol, not through the Spring/Node/Django apps running on the container. The filter correctly treats it as non-triggering for these applications. <em>However</em>, when we ran the hacker discriminator separately on the OS-container manifest (§8), it surfaced a related issue: <strong>most of the 69 "OS layer" CVEs aren't bugs in OS components at all</strong> — they're CVEs in downstream applications NVD keyword-matched into the wrong component (sqlite-using apps, kernel CVEs matched via systemd, snapd that isn't even in Amazon Linux 2023). The "1 hit" entries above are accurate but the broader OS-layer non-trigger signal is inflated by this noise. Detail on the <a href="periodicity.html#chaining" style="color:var(--accent)">periodicity page</a>.
+<strong>One non-trigger signal worth flagging — and what NVD keyword noise does to it.</strong> CVE-2025-14847 (zlib) lit up KEV, Metasploit, and EPSS 0.77 — but it was exploited through MongoDB's wire protocol, not through the Spring/Node/Django apps running on the container. The filter correctly treats it as non-triggering for these applications. <em>However</em>, when we ran the hacker discriminator separately on the OS-container manifest (§7), it surfaced a related issue: <strong>most of the 69 "OS layer" CVEs aren't bugs in OS components at all</strong> — they're CVEs in downstream applications NVD keyword-matched into the wrong component (sqlite-using apps, kernel CVEs matched via systemd, snapd that isn't even in Amazon Linux 2023). The "1 hit" entries above are accurate but the broader OS-layer non-trigger signal is inflated by this noise. Detail on the <a href="periodicity.html#chaining" style="color:var(--accent)">periodicity page</a>.
 </div>
 
-<h3>9a. WAF defensibility on the actually-exploited events</h3>
+<h3>8a. WAF defensibility on the actually-exploited events</h3>
 
 <div class="translation"><strong>In plain English:</strong> Some bugs a WAF can hold the line on for days while you patch. Others a WAF cannot meaningfully help with at all. That distinction tells you which patches genuinely have to ship fast.</div>
 
@@ -758,8 +754,8 @@ A network-parsing HIGH (7.0-7.9) at 0.89% beats a non-parsing CRITICAL (9.0-9.9)
 
 <p>The cross-implication: <strong>the same axis that tells an operator "this campaign has a long window because the perimeter cannot close it" tells a defender "no perimeter substitute exists, you have to deploy the patch."</strong> The bugs the operator most wants are the bugs the defender most needs to patch fast. The discriminator is reading that signal one step earlier than the WAF telemetry would.</p>
 
-<!-- ========== 10. PATCHING MODEL ========== -->
-<h2 id="patching-model">10. Putting It Together: Operational Response by Estate Maturity</h2>
+<!-- ========== 9. PATCHING MODEL ========== -->
+<h2 id="patching-model">9. Putting It Together: Operational Response by Estate Maturity</h2>
 
 <div class="translation"><strong>In plain English:</strong> The filter tells you <em>which</em> events to treat as emergencies. But what counts as an "emergency response" depends on what your team can actually do — a team that ships in hours has a different threshold than one that ships in months. The right operational frame sorts by estate maturity, not by trigger type.</div>
 
@@ -783,7 +779,7 @@ A network-parsing HIGH (7.0-7.9) at 0.89% beats a non-parsing CRITICAL (9.0-9.9)
 
 <p>Two operational rules apply in all three categories:</p>
 
-<p><strong>OS container: refresh on a regular cadence regardless of CVE pressure.</strong> The OS layer never generates emergency rebuild triggers under either NP+DI or hacker S+A (§8). But unpatched containers accumulate local privilege-escalation chains. Monthly refresh keeps worst-case post-compromise exposure at ~5-10 CVEs instead of 21. This is blast-radius control, not emergency response.</p>
+<p><strong>OS container: refresh on a regular cadence regardless of CVE pressure.</strong> The OS layer never generates emergency rebuild triggers under either NP+DI or hacker S+A (§7). But unpatched containers accumulate local privilege-escalation chains. Monthly refresh keeps worst-case post-compromise exposure at ~5-10 CVEs instead of 21. This is blast-radius control, not emergency response.</p>
 
 <p><strong>Everything else rides the team's normal update process.</strong> Non-NP library updates, non-DI C/H vulnerabilities, DoS bugs, info leaks. Zero of 34 skipped app-layer events and none of 48 OS-layer NETWORK events in our 12-month window appeared in KEV. They're not urgent. They get caught up in whatever cadence the team already has — cycle-time-fast for Cat 1, regular for Cat 2, reactive for Cat 3.</p>
 
@@ -791,7 +787,7 @@ A network-parsing HIGH (7.0-7.9) at 0.89% beats a non-parsing CRITICAL (9.0-9.9)
 <strong>The shift from the old model:</strong> The old 72h/7d/30d SLA framework treated urgency as a function of CVSS severity and KEV presence. The new model treats urgency as a function of <em>attack surface structure</em> (where the vulnerability sits in the parsing stack) <em>and</em> <em>estate maturity</em> (what the team can credibly do about it). Filtering by structure alone produces 2-6 genuinely dangerous events per year — but whether that's "manageable cadence" or "still a crisis every two months" depends on which Cat the team is in. The two questions interact.
 </div>
 
-<h3>10a. The WAF Dividend</h3>
+<h3>9a. The WAF Dividend</h3>
 
 <p>There's a useful byproduct of reducing emergency triggers to 2-6 per year: at that volume, <strong>targeted WAF rules become practical</strong>.</p>
 
@@ -819,14 +815,14 @@ A network-parsing HIGH (7.0-7.9) at 0.89% beats a non-parsing CRITICAL (9.0-9.9)
 &bull; For the dashboard view: <a href="dashboard.html" style="color:var(--accent)">interactive dashboard</a> &bull; For per-CVE detail: <a href="cve-reference.html" style="color:var(--accent)">CVE reference</a>
 </div>
 
-<!-- ========== 11. REVERSE PROXY MYTH ========== -->
-<h2 id="proxy">11. The Reverse Proxy Myth</h2>
+<!-- ========== 10. REVERSE PROXY MYTH ========== -->
+<h2 id="proxy">10. The Reverse Proxy Myth</h2>
 
 <div class="translation"><strong>In plain English:</strong> "Our apps sit behind a reverse proxy" doesn't protect against application-layer exploits. Spring4Shell and Log4Shell both pass through proxies untouched.</div>
 
 <p>A common pushback: "Our apps sit behind a <span class="glossary" data-tip="A front-door server (like nginx or Apache) that sits between the internet and your application, forwarding traffic inward">reverse proxy</span>, so library vulnerabilities are mitigated." This is partially true for network-layer attacks but largely false for application-layer exploits. Spring4Shell and Log4Shell both pass through <code>mod_proxy</code> untouched -- the proxy doesn't parse the application-layer semantics of what it forwards.</p>
 
-<p>A <span class="glossary" data-tip="Web Application Firewall -- inspects HTTP traffic and blocks known attack patterns">WAF</span> is a different story. As discussed in §10a, WAFs are genuinely effective against the DI attack classes — but they're a time-buying measure, not a permanent fix. A targeted WAF rule deployed hours after a CVE drops can block the known exploit path while you prepare your rebuild. The reverse proxy underneath, however, is just a pipe: it forwards whatever the WAF doesn't catch, and it doesn't understand what it's forwarding.</p>
+<p>A <span class="glossary" data-tip="Web Application Firewall -- inspects HTTP traffic and blocks known attack patterns">WAF</span> is a different story. As discussed in §9a, WAFs are genuinely effective against the DI attack classes — but they're a time-buying measure, not a permanent fix. A targeted WAF rule deployed hours after a CVE drops can block the known exploit path while you prepare your rebuild. The reverse proxy underneath, however, is just a pipe: it forwards whatever the WAF doesn't catch, and it doesn't understand what it's forwarding.</p>
 
 <p>This is a companion to the three-tier patching model: the proxy constrains what the attacker can send to the parsing surface, the WAF filters known attack patterns, and the NP+DI filter tells you when to actually rebuild. Each layer has a different job.</p>
 
@@ -852,8 +848,8 @@ The key word is "constrain," not "prevent." It's a seatbelt, not an airbag.
 </details>
 
 
-<!-- ========== 12. EXPLOIT WATCH LIST ========== -->
-<h2 id="watchlist">12. Exploit Watch List -- Network-Parser Attack Surface</h2>
+<!-- ========== 11. EXPLOIT WATCH LIST ========== -->
+<h2 id="watchlist">11. Exploit Watch List -- Network-Parser Attack Surface</h2>
 
 <div class="translation"><strong>In plain English:</strong> We're putting the thesis to the test in real time. This is the live scorecard.</div>
 
@@ -910,8 +906,8 @@ The key word is "constrain," not "prevent." It's a seatbelt, not an airbag.
 </tbody>
 </table>
 
-<!-- ========== 13. CAVEATS ========== -->
-<h2 id="caveats">13. Caveats & Methodology Limitations</h2>
+<!-- ========== 12. CAVEATS ========== -->
+<h2 id="caveats">12. Caveats & Methodology Limitations</h2>
 
 <div class="translation"><strong>In plain English:</strong> This analysis has real blind spots. We're transparent about what the data can and can't tell us.</div>
 
@@ -1160,7 +1156,7 @@ new Chart(document.getElementById('crossFrameworkChart'), {
   });
 })();
 
-// NP+DI Funnel: real-manifest case study (§5g)
+// NP+DI Funnel: real-manifest case study (§4g)
 (function(){
   const labels = ['All Vulns','Critical / High','Network-Parser','NP + Direct Injection'];
   const values = [232, 164, 127, 25];
