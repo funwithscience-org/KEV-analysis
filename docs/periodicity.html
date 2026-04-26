@@ -6,17 +6,19 @@
 <title>Cross-Framework Patch Periodicity Analysis</title>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
 <style>
-:root{--bg:#fff;--surface:#f8fafc;--border:#e2e8f0;--text:#334155;--muted:#64748b;
+:root{--bg:#faf9f5;--surface:#f4f1e8;--border:#e6e1d3;--text:#334155;--muted:#6b6356;
 --accent:#4f46e5;--red:#dc2626;--amber:#d97706;--green:#059669;--cyan:#0891b2;
---spring:#d97706;--node:#059669;--django:#0891b2;--netty:#7c3aed;--hacker:#a855f7}
+--spring:#d97706;--node:#059669;--django:#0891b2;--netty:#7c3aed;--hacker:#a855f7;
+--serif:'Charter','Bitstream Charter','Sitka Text',Cambria,Georgia,serif}
 *{box-sizing:border-box;margin:0;padding:0}
-body{background:var(--bg);color:var(--text);font-family:Inter,-apple-system,BlinkMacSystemFont,Segoe UI,sans-serif;line-height:1.6;padding:24px;max-width:1200px;margin:0 auto}
-h1{font-size:1.8em;margin-bottom:8px;color:#0f172a}
-h2{font-size:1.3em;margin:32px 0 12px;color:var(--accent);border-bottom:1px solid var(--border);padding-bottom:6px}
-h3{font-size:1.1em;margin:20px 0 8px;color:var(--cyan)}
+body{background:var(--bg);color:var(--text);font-family:Inter,-apple-system,BlinkMacSystemFont,Segoe UI,sans-serif;line-height:1.7;padding:24px;max-width:1200px;margin:0 auto;counter-reset:section}
+h1{font-family:var(--serif);font-size:2.6em;font-weight:700;letter-spacing:-0.02em;line-height:1.1;margin-bottom:14px;color:#0f172a}
+h2{font-family:var(--serif);font-size:1.85em;font-weight:700;letter-spacing:-0.01em;line-height:1.2;margin:72px 0 18px;color:#0f172a;border-bottom:1px solid var(--border);padding-bottom:10px;counter-increment:section;scroll-margin-top:24px}
+h2::before{content:"§ " counter(section,decimal-leading-zero);display:block;font-family:var(--serif);font-style:italic;font-weight:400;font-size:0.5em;letter-spacing:0.02em;color:var(--muted);margin-bottom:8px;line-height:1}
+h3{font-family:var(--serif);font-size:1.3em;font-weight:600;margin:32px 0 10px;color:#1e293b;line-height:1.3}
 p{margin:8px 0;color:var(--text)}
 strong{color:#0f172a}
-.subtitle{color:var(--muted);font-size:.95em;margin-bottom:24px}
+.subtitle{font-family:var(--serif);font-style:italic;color:#475569;font-size:1.2em;line-height:1.55;margin-bottom:32px}
 .card{background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:16px;margin:12px 0;color:var(--text)}
 .grid-2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
 .grid-3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px}
@@ -30,7 +32,7 @@ strong{color:#0f172a}
 .hero-stat .stat.spring{border-color:var(--spring)}
 .hero-stat .stat.node{border-color:var(--node)}
 .hero-stat .stat.django{border-color:var(--django)}
-.hero-stat .stat .number{font-size:2em;font-weight:700;line-height:1.2}
+.hero-stat .stat .number{font-family:var(--serif);font-size:3em;font-weight:600;line-height:1;font-feature-settings:"tnum","lnum";letter-spacing:-0.015em}
 .hero-stat .stat .label{font-size:.85em;color:var(--muted)}
 .hero-stat .stat.accent .number{color:var(--accent)}
 .hero-stat .stat.red .number{color:var(--red)}
@@ -41,7 +43,7 @@ strong{color:#0f172a}
 table{width:100%;border-collapse:collapse;font-size:.85em;margin:12px 0}
 th{background:var(--surface);color:var(--accent);text-align:left;padding:8px 10px;border-bottom:2px solid var(--border)}
 td{padding:6px 10px;border-bottom:1px solid var(--border)}
-tr:hover td{background:#f8fafc}
+tr:hover td{background:var(--surface)}
 .np{color:var(--accent);font-weight:600}
 .tag{display:inline-block;padding:2px 8px;border-radius:4px;font-size:.75em;font-weight:600}
 .tag-red{background:#fef2f2;color:var(--red)}
