@@ -202,12 +202,12 @@ Preview build (<code>noindex</code>) · Successor to the published periodicity p
 <tr><td>Patch criticals only</td><td>39</td><td>75</td><td>7/13</td><td>54%</td><td class="frac-mid">5.6x</td></tr>
 <tr><td>NP+DI raw</td><td>34</td><td>46</td><td>6/13</td><td>46%</td><td class="frac-mid">5.7x</td></tr>
 <tr style="background:#ecfdf5"><td><strong>NP+DI + AI scan</strong> ← comparator</td><td><strong>36</strong></td><td>49</td><td><strong>9/13</strong></td><td><strong>69%</strong></td><td class="frac-good"><strong>4.0x</strong></td></tr>
-<tr style="background:#faf5ff"><td><strong>Hacker S+A</strong></td><td><strong>17</strong></td><td>20</td><td><strong>9/13</strong></td><td><strong>69%</strong></td><td class="frac-good"><strong>1.9x*</strong></td></tr>
+<tr style="background:#faf5ff"><td><strong>Hacker S+A</strong></td><td><strong>17</strong></td><td>20</td><td><strong>10/13</strong></td><td><strong>77%</strong></td><td class="frac-good"><strong>1.7x</strong></td></tr>
 <tr style="border-top:2px solid var(--border);font-weight:600"><td>Union (NP+DI ∪ Hacker S+A)</td><td>39</td><td>56</td><td>11/13</td><td>85%</td><td>3.6x</td></tr>
 </tbody>
 </table>
 
-<p style="font-size:.85em;color:var(--muted)">* Hacker S+A patch count caveat: hacker tier assignments cover events ranked in the original blind exercise. Some events outside that input default to "not in S+A" by absence — but the discriminator would have B/C/D'd most of them anyway (utility / scripting / build-tool CVEs trend low-tier). The 17-patch count is approximately right; the 9-catch number is exact.</p>
+<p style="font-size:.85em;color:var(--muted)">Hacker tier assignments cover the full 7-year manifest including a backfill pass on the three pre-2018 exploited events (XStream 2013-7285 → A; Tomcat HTTP PUT 2017-12615/12617 → B). The 17-patch count and 10-catch number are both exact for the production manifest scope.</p>
 
 <h2>6. Time series — quarterly volume, strategy overlays, exploit markers</h2>
 <div class="chart-wrap">
@@ -257,7 +257,7 @@ Preview build (<code>noindex</code>) · Successor to the published periodicity p
 <tr><td>Patch criticals only</td><td>7</td><td>4 (long-TTE rescued by next critical)</td><td>2 (CGI Win + 2017 file uploads)</td><td>11/13 (85%)</td></tr>
 <tr><td>NP+DI raw</td><td>6</td><td>5</td><td>2</td><td>11/13 (85%)</td></tr>
 <tr style="background:#ecfdf5"><td><strong>NP+DI + AI scan</strong></td><td>9</td><td>2 (Text4Shell, SnakeYAML)</td><td>2 (CWE-434 Tomcat uploads)</td><td><strong>11/13 (85%)</strong></td></tr>
-<tr style="background:#faf5ff"><td><strong>Hacker S+A</strong></td><td>9</td><td>2 (CGI Win + 1 utility)</td><td>2</td><td><strong>11/13 (85%)</strong></td></tr>
+<tr style="background:#faf5ff"><td><strong>Hacker S+A</strong></td><td>10</td><td>1 (CGI Win, rescued by next Tomcat trigger)</td><td>2 (Tomcat HTTP PUT 2017 pair)</td><td><strong>11/13 (85%)</strong></td></tr>
 </tbody>
 </table>
 
@@ -268,9 +268,9 @@ Preview build (<code>noindex</code>) · Successor to the published periodicity p
 <table>
 <thead><tr><th>CVE</th><th>Year</th><th>Library</th><th>Sev</th><th>Primitive</th><th>NP+DI</th><th>+AI scan</th><th>Hacker</th><th>WAF defensibility</th></tr></thead>
 <tbody>
-<tr><td class="cve">CVE-2017-12615</td><td>2017</td><td>Tomcat</td><td>HIGH</td><td>HTTP PUT JSP upload (CWE-434)</td><td><span class="tag tag-red">miss</span></td><td><span class="tag tag-red">miss</span></td><td><span class="tag tag-amber">n/a</span></td><td><span class="tag tag-green">friendly</span> PUT method + .jsp upload signature-able same-day</td></tr>
-<tr><td class="cve">CVE-2017-12617</td><td>2017</td><td>Tomcat</td><td>HIGH</td><td>HTTP PUT JSP upload (CWE-434)</td><td><span class="tag tag-red">miss</span></td><td><span class="tag tag-red">miss</span></td><td><span class="tag tag-amber">n/a</span></td><td><span class="tag tag-green">friendly</span> Same as above</td></tr>
-<tr><td class="cve">CVE-2013-7285</td><td>2013</td><td>XStream</td><td>CRIT</td><td>OS command injection via XML</td><td><span class="tag tag-green">catch</span></td><td><span class="tag tag-green">catch</span></td><td><span class="tag tag-amber">n/a</span></td><td><span class="tag tag-amber">medium</span> Class-name signature evadable, gadget zoo wide</td></tr>
+<tr><td class="cve">CVE-2017-12615</td><td>2017</td><td>Tomcat</td><td>HIGH</td><td>HTTP PUT JSP upload (CWE-434)</td><td><span class="tag tag-red">miss</span></td><td><span class="tag tag-red">miss</span></td><td><span class="tag tag-amber">B (miss)</span></td><td><span class="tag tag-green">friendly</span> PUT method + .jsp upload signature-able same-day</td></tr>
+<tr><td class="cve">CVE-2017-12617</td><td>2017</td><td>Tomcat</td><td>HIGH</td><td>HTTP PUT JSP upload (CWE-434)</td><td><span class="tag tag-red">miss</span></td><td><span class="tag tag-red">miss</span></td><td><span class="tag tag-amber">B (miss)</span></td><td><span class="tag tag-green">friendly</span> Same as above</td></tr>
+<tr><td class="cve">CVE-2013-7285</td><td>2013</td><td>XStream</td><td>CRIT</td><td>OS command injection via XML</td><td><span class="tag tag-green">catch</span></td><td><span class="tag tag-green">catch</span></td><td><span class="tag tag-hacker">A</span></td><td><span class="tag tag-amber">medium</span> Class-name signature evadable, gadget zoo wide</td></tr>
 <tr><td class="cve">CVE-2019-0232</td><td>2019</td><td>Tomcat (CGI Win)</td><td>HIGH</td><td>OS command injection</td><td><span class="tag tag-green">catch</span></td><td><span class="tag tag-green">catch</span></td><td><span class="tag tag-amber">B (miss)</span></td><td><span class="tag tag-green">friendly</span> CGI command-injection patterns are CRS-1</td></tr>
 <tr><td class="cve">CVE-2020-1938</td><td>2020</td><td>Tomcat (Ghostcat)</td><td>CRIT</td><td>AJP file read</td><td><span class="tag tag-red">miss</span></td><td><span class="tag tag-green">catch</span></td><td><span class="tag tag-hacker">A</span></td><td><span class="tag tag-red">hostile</span> AJP is binary on port 8009 — WAF doesn't see it at all</td></tr>
 <tr><td class="cve">CVE-2021-39144</td><td>2021</td><td>XStream</td><td>HIGH</td><td>Unauth deser RCE (CWE-306)</td><td><span class="tag tag-green">catch</span></td><td><span class="tag tag-green">catch</span></td><td><span class="tag tag-hacker">S</span></td><td><span class="tag tag-amber">medium</span> Class-name signature evadable</td></tr>
@@ -281,7 +281,7 @@ Preview build (<code>noindex</code>) · Successor to the published periodicity p
 <tr><td class="cve">CVE-2022-1471</td><td>2022</td><td>SnakeYAML</td><td>HIGH</td><td>Constructor deser RCE</td><td><span class="tag tag-red">miss</span></td><td><span class="tag tag-red">miss</span></td><td><span class="tag tag-hacker">S</span></td><td><span class="tag tag-amber">medium</span> YAML body parsing varies by WAF; <code>!!javax.script</code> tag detectable</td></tr>
 <tr><td class="cve">CVE-2025-24813</td><td>2025</td><td>Tomcat</td><td>CRIT</td><td>Partial-PUT chained deser</td><td><span class="tag tag-red">miss</span></td><td><span class="tag tag-green">catch</span></td><td><span class="tag tag-hacker">A</span></td><td><span class="tag tag-amber">medium</span> Two-step PUT-then-GET chain distributed across requests</td></tr>
 <tr><td class="cve">CVE-2026-34197</td><td>2026</td><td>ActiveMQ</td><td>HIGH</td><td>Auth Jolokia MBean RCE</td><td><span class="tag tag-red">miss</span></td><td><span class="tag tag-green">catch</span></td><td><span class="tag tag-hacker">A</span></td><td><span class="tag tag-amber">medium</span> JSON-to-MBean patterns visible; Jolokia often deployment-internal</td></tr>
-<tr style="font-weight:600;border-top:2px solid var(--border)"><td colspan="5">7-year direct catches</td><td>6/13</td><td>9/13</td><td>9/13</td><td>—</td></tr>
+<tr style="font-weight:600;border-top:2px solid var(--border)"><td colspan="5">7-year direct catches</td><td>6/13</td><td>9/13</td><td>10/13</td><td>—</td></tr>
 </tbody>
 </table>
 
@@ -297,7 +297,7 @@ Preview build (<code>noindex</code>) · Successor to the published periodicity p
 </table>
 
 <div class="callout callout-finding">
-<strong>The hacker discriminator's value concentrates on WAF-medium and WAF-hostile events.</strong> Of the 9 events the hacker S+A catches, 1 is WAF-hostile (Ghostcat AJP), 6 are WAF-medium (the entire deserialization cluster: XStream, log4j ×2, SnakeYAML, Tomcat partial-PUT, ActiveMQ Jolokia), and 2 are WAF-friendly (Spring4Shell, Text4Shell). The hacker filter elevates exactly the bug classes a perimeter cannot meaningfully time-shift — which is the operational reason "patch fast" is not optional for these.
+<strong>The hacker discriminator's value concentrates on WAF-medium and WAF-hostile events.</strong> Of the 10 events the hacker S+A catches, 1 is WAF-hostile (Ghostcat AJP), 7 are WAF-medium (the entire deserialization cluster: XStream 2013-7285, XStream 2021-39144, log4j ×2, SnakeYAML, Tomcat partial-PUT, ActiveMQ Jolokia), and 2 are WAF-friendly (Spring4Shell, Text4Shell). The hacker filter elevates exactly the bug classes a perimeter cannot meaningfully time-shift — which is the operational reason "patch fast" is not optional for these.
 </div>
 
 <div class="callout callout-warning">
@@ -320,7 +320,7 @@ Preview build (<code>noindex</code>) · Successor to the published periodicity p
 <h2>11. Synthesis</h2>
 
 <div class="callout callout-finding">
-<strong>Effectiveness headline:</strong> NP+DI + AI scan and Hacker S+A both reach 9/13 = 69% direct effectiveness and 11/13 = 85% effective coverage once floor-sweep rescues are counted. They catch <em>different</em> 9 events — the comparator owns the famous-bug + auth-rescue cluster; the hacker owns the deserialization + utility-evaluator cluster. Their union catches 11/13 directly. The remaining 2 (Tomcat HTTP PUT 2017) are out-of-scope by design.
+<strong>Effectiveness headline:</strong> Hacker S+A catches 10/13 = 77% directly; NP+DI + AI scan catches 9/13 = 69%. Both hit 11/13 = 85% effective coverage once floor-sweep rescues are counted. They catch overlapping but non-identical sets — the comparator owns the famous-bug + auth-rescue cluster; the hacker owns the deserialization + utility-evaluator cluster, and gets XStream 2013-7285 directly while the comparator picks it up via NP+DI. The 2 unrecovered events (Tomcat HTTP PUT 2017) are out-of-scope by design — file uploads (CWE-434) sit outside both filters and the hacker discriminator B-tiers them on the narrow-precondition rule.
 </div>
 
 <div class="callout callout-good">
@@ -426,8 +426,8 @@ new Chart(document.getElementById('timeseriesChart'), {
        backgroundColor:'rgba(168,85,247,0.85)', borderColor:'rgba(168,85,247,1)', borderWidth:1, order:1},
       {label:'★ Exploited (KEV/MSF/EDB)', type:'line', data:EXPL_BY_Q,
        backgroundColor:'rgba(220,38,38,1)', borderColor:'rgba(220,38,38,0)',
-       pointBackgroundColor:'rgba(220,38,38,1)', pointBorderColor:'#fff', pointBorderWidth:2,
-       pointStyle:'star', pointRadius:14, pointHoverRadius:18, showLine:false, spanGaps:false, order:0},
+       pointBackgroundColor:'rgba(220,38,38,1)', pointBorderColor:'#7f1d1d', pointBorderWidth:2,
+       pointStyle:'star', pointRadius:13, pointHoverRadius:18, showLine:false, spanGaps:false, order:0},
     ],
   },
   options: {
