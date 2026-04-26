@@ -252,14 +252,13 @@ const EXPL = [
   {q:"2022-Q4", cve:"CVE-2022-42889", lib:"Text4Shell",    ai:false, hkr:true},
   {q:"2025-Q1", cve:"CVE-2025-24813", lib:"Tomcat PUT",    ai:true, hkr:true},
 ];
-// For exploit markers: position above each exploited bar
-const EXPL_POINTS = QUARTERS.map((q, i) => {
+// For exploit markers: per-quarter aligned to category axis. null = no marker, value = y position above bar
+const EXPL_BY_QUARTER = QUARTERS.map((q, i) => {
   const here = EXPL.filter(e => e.q === q);
   if (!here.length) return null;
-  // y = 1 + (max overlay value at that quarter), to sit just above bars
-  const top = Math.max(TOTALS[i], NPDIAI[i], HACKER[i]) + 1.5;
-  return {x: i, y: top, events: here};
-}).filter(p => p);
+  return Math.max(TOTALS[i], NPDIAI[i], HACKER[i]) + 1.5;
+});
+const EXPL_TOOLTIPS = QUARTERS.map(q => EXPL.filter(e => e.q === q));
 
 new Chart(document.getElementById('timeseriesChart'), {
   type: 'bar',
@@ -292,15 +291,18 @@ new Chart(document.getElementById('timeseriesChart'), {
       },
       {
         label: '★ Exploited (actual KEV/MSF/EDB)',
-        type: 'scatter',
-        data: EXPL_POINTS.map(p => ({x: p.x, y: p.y, events: p.events})),
+        type: 'line',
+        data: EXPL_BY_QUARTER,
         backgroundColor: 'rgba(239,68,68,1)',
-        borderColor: '#fff',
-        borderWidth: 2,
+        borderColor: 'rgba(239,68,68,0)',
+        pointBackgroundColor: 'rgba(239,68,68,1)',
+        pointBorderColor: '#fff',
+        pointBorderWidth: 2,
         pointStyle: 'star',
         pointRadius: 14,
         pointHoverRadius: 18,
         showLine: false,
+        spanGaps: false,
         order: 0,
       },
     ],
@@ -323,9 +325,9 @@ new Chart(document.getElementById('timeseriesChart'), {
         callbacks: {
           afterBody: function(items) {
             const i = items[0].dataIndex;
-            const exp = EXPL_POINTS.find(p => p.x === i);
-            if (!exp) return '';
-            return ['', '★ Exploited:'].concat(exp.events.map(e =>
+            const here = EXPL_TOOLTIPS[i];
+            if (!here || !here.length) return '';
+            return ['', '★ Exploited:'].concat(here.map(e =>
               `  ${e.cve} (${e.lib}) — AI:${e.ai?'✓':'✗'} Hkr:${e.hkr?'✓':'✗'}`));
           }
         }
