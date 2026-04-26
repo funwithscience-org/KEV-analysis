@@ -179,14 +179,25 @@ Preview build (<code style="background:#e2e8f0;padding:1px 6px;border-radius:3px
 </div>
 
 <div class="tldr">
-<h3>The Problem and What We Found</h3>
+<h3>The Problem and the Proposal</h3>
+
+<p><strong>The problem.</strong> Vulnerability volume is exploding. Even restricting to "criticals and highs," the count runs into the thousands per year — but <strong>only ~4% of those</strong> ever actually turn into exploits. For third-party packages, updating binaries and rebooting is relatively straightforward. For internally built systems that depend on dozens of open-source libraries, managing the rebuild and release process is substantially more complex.</p>
+
+<p><strong>The proposal.</strong> We believe we have produced a model that is substantially better at projecting which vulnerabilities will end up being exploited. It uses two complementary but independent methods:</p>
+
 <ul>
-<li><strong>Base rate:</strong> Fewer than 4% of critical/high CVEs ever get exploited. Your scanner treats the other 96% as urgent anyway. <span class="tag tag-conf">HIGH CONFIDENCE</span></li>
-<li><strong>Where the 4% lives:</strong> Components that parse untrusted network input are exploited at <strong>3–6×</strong> the rate of everything else, at every CVSS severity. <span class="tag tag-conf">HIGH CONFIDENCE</span></li>
-<li><strong>Think like the attacker:</strong> A hacker's three-axis rubric — default-config × network-edge × primitive-direct — catches <strong>10 of 13</strong> actually-exploited events on a 7-year backtest, and cuts emergency rebuilds <strong>64–86%</strong>. A mechanical CWE-based filter (<strong>NP+DI</strong>) catches a slightly different 9 of 13; their union catches 11. <span class="tag tag-conf">HIGH CONFIDENCE</span></li>
-<li><strong>Time pressure:</strong> Fastest-quartile exploits land within <strong>3 days</strong> of disclosure. The filter narrows you to 2–6 events/year that need that clock. <span class="tag tag-conf">HIGH CONFIDENCE</span></li>
-<li><strong>Volume threat:</strong> AI bug-finding may 2–3× CVE volume starting May–June 2026 — and the discriminators hold. <span class="tag tag-spec">SPECULATIVE</span></li>
+<li>The characteristics of the library and the CVE, specifically focusing on <strong>network-parsing libraries and direct-injection attacks (NP+DI)</strong>.</li>
+<li>Using the same tools and capabilities attackers do — notably <strong>modern AI to evaluate vulnerabilities by exploitability and value</strong>.</li>
 </ul>
+
+<p>This substantially reduced list of high-risk events becomes the mandatory rebuild trigger. It is supplemented by additional security controls and process improvements:</p>
+
+<ul>
+<li><strong>"Get newest" build methodologies</strong> — routine pipelines that absorb non-trigger patches automatically.</li>
+<li><strong>Better application metadata capture</strong> — knowing which packages are deployed, in which configuration, behind which controls.</li>
+<li><strong>Targeted WAF deployment</strong> — much more viable now that the attack vector is focused.</li>
+</ul>
+
 </div>
 
 <!-- ========== 1. THE PROBLEM ========== -->
