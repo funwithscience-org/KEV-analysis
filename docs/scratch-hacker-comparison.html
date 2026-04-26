@@ -220,15 +220,61 @@ The two fastest TTEs (Spring4Shell at 4 days, Tomcat partial PUT at 9 days) are 
 
 <p class="note">"AI scan" = current implementation: CWE re-validation for NP-but-not-DI advisories (catches CWE-misclassification cases like Ghostcat / Tomcat PUT). It does NOT currently re-classify package roles (commons-text, SnakeYAML are role=OTHER) or expand DI to include CWE-502 deserialization. That's why it doesn't catch Text4Shell or SnakeYAML — those need an AI scan extension that handles utility-library role overrides + deserialization-on-network-path promotion.</p>
 
-<!-- ===== CONCLUSION ===== -->
-<h2>The synthesis</h2>
+<!-- ===== EFFECTIVE RECALL VIA FLOOR SWEEP ===== -->
+<h2>Effective recall — when "floor sweep" rescues a direct miss</h2>
+
+<div class="callout callout-warn">
+<strong>The operational reframing.</strong> The naive recall metric counts only direct catches: did the strategy flag the exploit on day zero? But operationally, what matters is whether the exploit got patched <em>before</em> the exploit window closed — and any rebuild triggered by ANY filter event in that window will pick up all the latest dep patches, including the missed exploit. So a long-TTE exploit (Text4Shell at 437 days) gets effectively patched by floor sweep if any other filter trigger fires during that window. The exposure ceiling for any exploit is "until the next floor sweep fires," not "until the filter directly catches this specific event."
+</div>
+
+<table>
+<thead><tr><th>Strategy</th><th>Direct catches</th><th>Floor-sweep rescues</th><th>True misses</th><th>Effective recall</th></tr></thead>
+<tbody>
+<tr class="hl-baseline"><td>Patch criticals only</td><td>4</td><td>1 (SnakeYAML, via 2023-03-28 critical)</td><td>1 (CGI Win)</td><td><strong>5/6 (83%)</strong></td></tr>
+<tr class="hl-npdi-raw"><td>NP+DI raw</td><td>2</td><td>2 (Text4Shell, SnakeYAML)</td><td>2 (Ghostcat, Tomcat PUT)</td><td>4/6 (67%)</td></tr>
+<tr class="hl-comparator"><td>NP+DI + AI scan ← comparator</td><td>4</td><td>2 (Text4Shell via 2022-11-01, SnakeYAML via 2023-01-03)</td><td><strong>0</strong></td><td><strong>6/6 (100%)</strong></td></tr>
+<tr class="hl-hacker"><td>Hacker S+A</td><td>5</td><td>0</td><td>1 (CGI Win — Hacker S+A had 0 triggers in entire 2019)</td><td>5/6 (83%)</td></tr>
+</tbody>
+</table>
+
+<p class="note">"Floor-sweep rescue" = the strategy didn't directly flag this exploit, but it fired on something else within the TTE window, and that rebuild would have applied the latest patch for the missed library too. "True miss" = no strategy trigger fired in the entire TTE window between CVE disclosure and exploit availability.</p>
+
+<div class="callout callout-success">
+<strong>The operational story flips: NP+DI + AI scan reaches 100% effective recall, while Hacker S+A is at 83% (1 true miss).</strong> The naive direct-catch comparison overstated the hacker advantage — NP+DI+AI's two direct misses (Text4Shell, SnakeYAML) are both 297-437 day TTE events that get rescued by other NP+DI+AI triggers in the same window. Meanwhile Hacker S+A's miss (CGI Windows-only, 64d TTE) is a true miss because the hacker discriminator had ZERO triggers in all of 2019 on this manifest — there was nothing else for floor sweep to fire on.
+</div>
+
+<h3>Why Hacker S+A has a true miss but NP+DI+AI doesn't</h3>
+<p>NP+DI + AI scan fired 27 times across 7 years — average gap between triggers ~95 days, but at least once per quarter in most years. Any TTE > one quarter is effectively guaranteed to be rescued. Hacker S+A fired 22 times across 7 years but with 0 triggers in 2018-2019 entirely on this manifest. CGI Win disclosed April 2019 with 64-day TTE — Hacker S+A had no triggers between April 18 and June 18 2019 to force a rebuild. NP+DI catches CGI directly (CWE-78 in DI) so the union solves it; Hacker S+A standalone has the gap.</p>
+
+<p>Two implications:</p>
+<ul class="findings">
+<li><strong>The floor-sweep dynamic favors strategies with steady trigger cadence over strategies with concentrated trigger bursts.</strong> NP+DI + AI scan has a more steady cadence on this manifest. Hacker S+A is concentrated in 2020+. If the manifest had more activity in 2018-2019, Hacker S+A would have triggered earlier and likely rescued CGI via floor sweep too.</li>
+<li><strong>The operational comparison shifts: NP+DI + AI scan is sufficient on this manifest, full stop.</strong> Adding Hacker S+A to the union doesn't improve effective recall (both reach 6/6 via the union). The hacker discriminator's value is more about catching things on day zero (avoiding the floor-sweep dependency) than about extending recall.</li>
+</ul>
 
 <div class="callout">
-<strong>The 12-month exemplar (Table 1) shows the hacker advantage clearly.</strong> NP+DI + AI scan and patch-criticals tie at 67% recall in 2022. Hacker S+A is the only strategy that catches all 3 (Spring4Shell + Text4Shell + SnakeYAML) at fewer patches than patch-all. The Text4Shell and SnakeYAML wins are exactly the deser/utility blind spots the AI scan doesn't currently handle.
+<strong>Restated comparison with effective recall:</strong>
+<ul class="findings" style="margin:8px 0">
+<li><strong>NP+DI + AI scan</strong>: 27 patches, 6/6 effective (4 direct + 2 floor sweep). 4.5x oracle. <em>Operationally sufficient.</em></li>
+<li><strong>Hacker S+A</strong>: 22 patches, 5/6 effective (5 direct + 0 floor sweep, 1 true miss). 4.4x oracle. <em>Slightly more efficient per catch but has a true miss.</em></li>
+<li><strong>NP+DI + AI scan ∪ Hacker S+A</strong>: 37 patches, 6/6 direct (no floor-sweep dependency). 6.2x oracle. <em>Defense in depth, no exposure window dependency.</em></li>
+<li><strong>Patch criticals only</strong>: 37 patches, 5/6 effective (1 true miss on CGI HIGH-severity). 7.4x oracle. <em>Worst on overhead but acceptable on effective recall.</em></li>
+</ul>
+</div>
+
+<!-- ===== CONCLUSION ===== -->
+<h2>The synthesis (revised for floor-sweep effective recall)</h2>
+
+<div class="callout">
+<strong>Direct catch comparison (the naive metric):</strong> Hacker S+A catches 5 of 6 directly (83%) at 22 patches; NP+DI + AI scan catches 4 of 6 directly (67%) at 27 patches. On this metric the hacker beats the comparator on both axes.
 </div>
 
 <div class="callout callout-success">
-<strong>The 7-year story (Table 2) confirms it at scale.</strong> Hacker S+A: 5/6 catches at 22 patches (4.4x oracle). NP+DI + AI scan: 4/6 catches at 27 patches (6.8x oracle). The hacker beats the comparator on both axes — more catches AND fewer patches. Adding NP+DI to the hacker (union) gets to 100% recall at 37 patches, picking up the only event hacker S+A misses (Tomcat CGI Windows, which NP+DI does catch via CWE-78).
+<strong>Effective recall via floor sweep (the operational metric):</strong> NP+DI + AI scan catches 6 of 6 effectively (100%) — its 2 direct misses (Text4Shell at 437d TTE, SnakeYAML at 297d TTE) are both rescued by other NP+DI+AI triggers in the same TTE window, since any rebuild applies the latest dep patches. Hacker S+A reaches 5/6 effectively (83%, 1 true miss on CGI Win) because Hacker S+A had zero triggers in 2019 and CGI's 64-day TTE didn't span any other Hacker S+A flag. <strong>NP+DI + AI scan is operationally sufficient on this manifest.</strong>
+</div>
+
+<div class="callout callout-warn">
+<strong>The operational read.</strong> The hacker discriminator's value is in (a) catching things on day zero (avoiding floor-sweep exposure window) and (b) reducing patch count for the same coverage. It does NOT improve effective recall over the comparator on this manifest, because the comparator's gaps are all long-TTE events that floor sweep rescues. The case for Hacker S+A is operational efficiency at parity recall, not at strictly higher recall — which is a meaningfully weaker claim than the direct-catch metric suggested.
 </div>
 
 <h3>Counter-argument worth holding</h3>
