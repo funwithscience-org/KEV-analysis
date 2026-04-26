@@ -115,39 +115,47 @@ def main() -> int:
 
     # 7. Periodicity.html monthly chart arrays must match the dataset.
     # Catches drift between the dataset and the rendered chart arrays.
+    # The page now stores per-month per-strategy data in const arrays
+    # named e.g. spring_other / spring_npdi (plus spring_air, spring_hk
+    # that the dataset doesn't yet cover). We test the two columns
+    # the dataset still owns.
     import re
     page = (REPO / "docs" / "periodicity.html").read_text()
-    # Each chart definition is in a Chart constructor with two data arrays
-    # for "Other C/H" and "NP+DI (rebuild trigger)". Extract per-chart.
-    chart_id_to_fw = {
-        "monthlySpring": "spring",
-        "monthlyNode":   "nodejs",
-        "monthlyDjango": "django",
+    fw_to_const = {
+        "spring": "spring",
+        "nodejs": "node",
+        "django": "dj",
         # Netty chart has tiny fixed arrays; per the dataset Netty has 3
         # events on 2 unique dates so trivial to match — left out unless
         # the doc updates to match.
     }
-    for chart_id, fw_name in chart_id_to_fw.items():
+    # The page decomposes the dataset's `monthly_other` into two stack
+    # layers: `_other` (no strategy fires) and `_air` (AI scan would
+    # rescue this — moved out of Other). Their sum must equal the
+    # dataset's `monthly_other`. The `_npdi` column is unchanged.
+    for fw_name, prefix in fw_to_const.items():
         fw = fws.get(fw_name, {})
         if not (fw.get("monthly_other") and fw.get("monthly_npdi")):
             continue
-        m = re.search(
-            rf"getElementById\(['\"]{re.escape(chart_id)}['\"]\).*?'Other C/H',data:\[([^\]]+)\].*?'NP\+DI \(rebuild trigger\)',data:\[([^\]]+)\]",
-            page, re.DOTALL)
-        if not m:
+        m_other = re.search(rf"const {prefix}_other\s*=\s*\[([^\]]+)\]", page)
+        m_npdi  = re.search(rf"const {prefix}_npdi\s*=\s*\[([^\]]+)\]", page)
+        m_air   = re.search(rf"const {prefix}_air\s*=\s*\[([^\]]+)\]", page)
+        if not m_other or not m_npdi or not m_air:
             fails += 1
-            print(f"FAIL — could not extract chart arrays for {chart_id}")
+            print(f"FAIL — could not extract {prefix}_other/{prefix}_npdi/{prefix}_air const arrays")
             continue
-        chart_other = [int(x) for x in m.group(1).split(",")]
-        chart_npdi = [int(x) for x in m.group(2).split(",")]
-        if chart_other != fw["monthly_other"]:
+        chart_other = [int(x) for x in m_other.group(1).split(",")]
+        chart_npdi  = [int(x) for x in m_npdi.group(1).split(",")]
+        chart_air   = [int(x) for x in m_air.group(1).split(",")]
+        chart_other_plus_air = [o + a for o, a in zip(chart_other, chart_air)]
+        if chart_other_plus_air != fw["monthly_other"]:
             fails += 1
-            print(f"FAIL — {chart_id} 'Other C/H' chart array drifted:\n"
-                  f"  chart:   {chart_other}\n"
-                  f"  dataset: {fw['monthly_other']}")
+            print(f"FAIL — {prefix}_other + {prefix}_air != dataset monthly_other:\n"
+                  f"  chart sum: {chart_other_plus_air}\n"
+                  f"  dataset:   {fw['monthly_other']}")
         if chart_npdi != fw["monthly_npdi"]:
             fails += 1
-            print(f"FAIL — {chart_id} 'NP+DI' chart array drifted:\n"
+            print(f"FAIL — {prefix}_npdi chart array drifted:\n"
                   f"  chart:   {chart_npdi}\n"
                   f"  dataset: {fw['monthly_npdi']}")
 
