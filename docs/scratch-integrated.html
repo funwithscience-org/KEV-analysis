@@ -533,22 +533,31 @@ Preview build (<code style="background:#e2e8f0;padding:1px 6px;border-radius:3px
 
 <h3>Chaining Exposure at Spring Trigger Dates</h3>
 
-<p>If the container base image was built on April 21, 2025 and never refreshed, here's how many LOCAL privilege escalation CVEs accumulate by each Spring NP+DI trigger:</p>
+<p>If the container base image was built on April 21, 2025 and never refreshed, here's how many LOCAL privilege escalation CVEs accumulate by each Spring trigger date — under <strong>both</strong> the NP+DI filter and the hacker S+A discriminator. Hacker S+A fires earlier (Apr 28 spring-boot actuator) than NP+DI raw, which doesn't fire until May 21:</p>
 
 <div class="card">
 <table>
 <thead>
-<tr><th>Spring Trigger</th><th>Vulnerability</th><th>Container Age</th><th>Local Privesc CVEs Available</th><th>Key Components</th></tr>
+<tr><th>Date</th><th>Spring Trigger</th><th>Container Age</th><th>NP+DI raw</th><th>Hacker S+A</th><th>LPE CVEs accumulated<sup>*</sup></th></tr>
 </thead>
 <tbody>
-<tr><td><strong>Oct 27, 2025</strong></td><td>Tomcat path traversal</td><td style="color:var(--amber)">189 days</td><td style="color:var(--red);font-weight:700">11</td><td>systemd (5), sqlite (2), zlib (1), rpm (1), openjdk (1), libarchive (1)</td></tr>
-<tr><td><strong>Apr 9, 2026</strong></td><td>Tomcat batch (7 CVEs)</td><td style="color:var(--red)">353 days</td><td style="color:var(--red);font-weight:700">21</td><td>systemd (12), sqlite (4), zlib (2), rpm (1), openjdk (1), libarchive (1)</td></tr>
-<tr><td><strong>Apr 15, 2026</strong></td><td>Thymeleaf SSTI (4 CVEs)</td><td style="color:var(--red)">359 days</td><td style="color:var(--red);font-weight:700">21</td><td>Same as above</td></tr>
+<tr style="background:#faf5ff"><td><strong>Apr 28, 2025</strong></td><td>spring-boot actuator exposure (CVE-2025-22235)</td><td style="color:var(--green)">7 days</td><td>—</td><td><span style="color:var(--hacker);font-weight:700">★ A</span></td><td>0</td></tr>
+<tr><td><strong>May 21, 2025</strong></td><td>Spring Security auth bypass (CVE-2025-41232)</td><td style="color:var(--green)">30 days</td><td><span class="np">●</span></td><td><span style="color:var(--hacker);font-weight:700">★ A</span></td><td>3</td></tr>
+<tr><td><strong>Sep 16, 2025</strong></td><td>Spring annotation auth bypass cluster</td><td style="color:var(--amber)">148 days</td><td><span class="np">●</span></td><td><span style="color:var(--hacker);font-weight:700">★ A</span></td><td>9</td></tr>
+<tr style="background:#eef2ff"><td><strong>Oct 27, 2025</strong></td><td>Tomcat path traversal (CVE-2025-55752)</td><td style="color:var(--amber)">189 days</td><td><span class="np">●</span></td><td>B (no fire)</td><td style="color:var(--red);font-weight:700">11</td></tr>
+<tr><td><strong>Apr 9, 2026</strong></td><td>Tomcat batch (CLIENT_CERT, log encoding, etc.)</td><td style="color:var(--red)">353 days</td><td><span class="np">●</span></td><td><span style="color:var(--hacker);font-weight:700">★ A</span></td><td style="color:var(--red);font-weight:700">21</td></tr>
+<tr><td><strong>Apr 15, 2026</strong></td><td>Thymeleaf SSTI cluster (4 CVEs)</td><td style="color:var(--red)">359 days</td><td><span class="np">●</span></td><td><span style="color:var(--hacker);font-weight:700">★ A</span></td><td style="color:var(--red);font-weight:700">21</td></tr>
 </tbody>
 </table>
+<p style="margin-top:8px;font-size:.85em;color:var(--muted)"><sup>*</sup> LPE count uses the published cumulative number; per the hacker pass on the OS layer above, the &ldquo;real LPE-relevant&rdquo; figure is closer to half of these once NVD keyword noise is removed (5-6 by Oct 27, ~10-12 by Apr).</p>
 </div>
 
-<p style="margin-top:8px;color:var(--muted)">At the first Spring trigger (Oct 27), an attacker who gets initial access has 11 local privesc CVEs to chain — the container is 6 months stale. By the April triggers, when the real cluster of app-layer vulns hits, the container has 21 privesc paths and hasn't been patched in nearly a year.</p>
+<p style="margin-top:8px;color:var(--muted)">The hacker S+A discriminator and NP+DI raw agree on five of six dates and diverge on two:</p>
+<ul class="findings" style="font-size:.92em;margin:8px 0">
+<li><strong>Apr 28 (hacker only):</strong> Spring Boot actuator exposure that NP+DI raw misses on CWE-862 not being in the DI set. Hacker A-tier because the actuator chain reaches RCE via Jolokia or environment leak. Container is 7 days old — zero accumulated LPE — so the chain doesn't matter, but the operational signal does fire earlier.</li>
+<li><strong>Oct 27 (NP+DI only):</strong> Tomcat path traversal that the hacker B-tiers on the WAF-friendly + non-default-config rule. NP+DI fires; hacker doesn't.</li>
+<li><strong>The April 9 + April 15 cluster is identical for both</strong> — Tomcat CLIENT_CERT auth bypass is in the widened DI set (CWE-287), Thymeleaf SSTI is CWE-917 + 1336. By this point the container is nearly a year stale and the attacker has 21 (or, cleaned, ~10) LPE chains either way.</li>
+</ul>
 
 <h3>Privesc Accumulation Over Time</h3>
 
@@ -961,6 +970,9 @@ new Chart(document.getElementById('chainingChart'), {
              borderColor:'#475569',backgroundColor:'rgba(71,85,105,.1)',fill:true,tension:.3,pointRadius:3,borderWidth:2},
             {label:'LOCAL privesc (cumulative)',data:[0,3,4,4,4,9,12,12,14,15,17,21,21],
              borderColor:C.red,backgroundColor:'rgba(239,68,68,.1)',fill:true,tension:.3,pointRadius:4,borderWidth:2},
+            {label:'Spring Hacker S+A triggers',data:[0,3,null,null,null,9,null,null,null,null,null,null,21],
+             borderColor:'#a855f7',backgroundColor:'#a855f7',pointRadius:9,pointStyle:'star',showLine:false,
+             pointBorderWidth:2,pointBorderColor:'#7e22ce'},
             {label:'Spring NP+DI triggers',data:[null,null,null,null,null,null,11,null,null,null,null,null,21],
              borderColor:C.spring,backgroundColor:C.spring,pointRadius:8,pointStyle:'triangle',showLine:false,
              pointBorderWidth:2,pointBorderColor:'#fff'}
