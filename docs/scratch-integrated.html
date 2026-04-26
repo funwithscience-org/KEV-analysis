@@ -133,7 +133,7 @@ Preview build (<code>noindex</code>) · Successor to the published periodicity p
 <canvas id="crossFrameworkChart" style="max-height:340px"></canvas>
 </div>
 
-<p>Four bars per framework: patch-all C+H, NP+DI raw, NP+DI + AI scan, and hacker S+A. The hacker bar is consistently at or below NP+DI raw, but catches a slightly different set of events — the operational meaning of that overlap-but-not-identity is what the rest of the page unpacks.</p>
+<p>Four bars per framework: patch-all C+H, NP+DI raw, NP+DI + AI scan, and hacker S+A. The chart shows <em>how much patch work each policy demands</em> over a year — <strong>not</strong> how many real attacks each catches. The 12-month window contains essentially no exploitation ground truth (see Section 3); discrimination has to be scored on the 7-year backtest. Read this chart as a workload comparison: under hacker S+A you'd rebuild Spring 5 times, Node 3 times, Django 4 times, Netty once. Under patch-everything you'd rebuild each framework around 14 times.</p>
 
 <h2>2. Periodicity: silence punctuated by bursts (12-month view)</h2>
 
@@ -155,9 +155,15 @@ Preview build (<code>noindex</code>) · Successor to the published periodicity p
 
 <h2>3. Why 12 months is too short</h2>
 
-<p>The 12-month per-framework view has zero exploited CVEs in three of the four manifests — Node, Django, and Netty all hit 0 KEV/MSF entries in the window. Spring has one (CVE-2026-34197 ActiveMQ Jolokia, late in the window). That's a clean <em>coverage</em> test — every strategy looks like it "works" because there's almost nothing to miss — but the discrimination question is unanswered.</p>
+<div class="callout callout-warning">
+<strong>The 12-month view can't actually score effectiveness — there's almost nothing to catch.</strong> Across the four manifests over Apr 2025 – Apr 2026, the only exploited CVE is one Django ORM SQLi (CVE-2025-64459, ExploitDB-only, no KEV or Metasploit). Every triage strategy catches it. Spring, Node, and Netty have zero exploited events in the window. So "the filter caught every exploit in the window" is technically true but vacuous — N=1 across 4 manifests means none of these strategies can differentiate from random on this window alone.
+</div>
 
-<p>To force the strategies to differentiate, we widen the scope:</p>
+<p>That's not unique to this work — it's the structural reality of any short window on framework-shaped manifests. KEV lags exploitation by months; Metasploit modules track public PoCs not in-the-wild use; ExploitDB captures researcher notice. A 12-month sample of four medium-sized package sets will find nearly no ground truth. The question "does this strategy beat patch-everything?" cannot be answered from the 12-month view.</p>
+
+<p>What the 12-month view <em>can</em> do honestly is show <em>where the strategies disagree</em> — which CVEs each one would have you patch this year. The 14 / 5 / 6 / 5 (Spring) and parallel numbers across the other manifests describe how much rebuild work each policy demands, not how many real attacks each catches.</p>
+
+<p>To actually score discrimination, we widen the scope:</p>
 
 <ul class="findings">
 <li><strong>A 7-year window</strong> instead of 12 months — enough exploit ground truth to actually score effectiveness.</li>
