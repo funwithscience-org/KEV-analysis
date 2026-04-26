@@ -31,7 +31,9 @@ color:var(--fg);line-height:1.7;font-size:16px;background:var(--bg)}
 /* ===== TYPOGRAPHY ===== */
 h1{font-size:2.2em;font-weight:800;letter-spacing:-0.03em;margin-bottom:8px;color:#0f172a}
 .lead{font-size:1.15em;color:var(--muted);margin-bottom:40px;line-height:1.6}
-h2{font-size:1.5em;font-weight:700;margin-top:56px;margin-bottom:16px;padding-bottom:8px;border-bottom:2px solid var(--border);color:#0f172a;scroll-margin-top:24px}
+.main{counter-reset:section}
+h2{font-size:1.5em;font-weight:700;margin-top:56px;margin-bottom:16px;padding-bottom:8px;border-bottom:1px solid var(--border);color:#0f172a;scroll-margin-top:24px;counter-increment:section}
+h2::before{content:"§ " counter(section,decimal-leading-zero);display:block;font-family:'SF Mono',Monaco,Consolas,monospace;font-weight:500;font-size:0.5em;letter-spacing:0.18em;color:var(--muted);text-transform:uppercase;margin-bottom:6px;line-height:1}
 h3{font-size:1.15em;font-weight:600;margin-top:32px;margin-bottom:12px;color:#1e293b}
 p{margin-bottom:16px;color:#334155}
 strong{color:#0f172a}
@@ -57,9 +59,9 @@ canvas{max-height:350px;width:100%!important}
 .tag-conf{background:#eef2ff;color:var(--accent);font-size:.75em;font-weight:700;letter-spacing:.04em;vertical-align:middle;margin-left:6px}
 .tag-spec{background:#fffbeb;color:var(--amber);font-size:.75em;font-weight:700;letter-spacing:.04em;vertical-align:middle;margin-left:6px}
 code{background:var(--code-bg);padding:2px 6px;border-radius:4px;font-size:.88em;font-family:'SF Mono',Monaco,Consolas,monospace}
-/* ===== TRANSLATION BOXES ===== */
-.translation{background:linear-gradient(135deg,#eef2ff 0%,#f0f9ff 100%);border-left:4px solid var(--accent);padding:14px 20px;margin:16px 0 24px;border-radius:0 8px 8px 0;font-size:1.05em;line-height:1.5;color:#1e293b}
-.translation strong{color:var(--accent)}
+/* ===== TRANSLATION / IN-PLAIN-ENGLISH PULL-QUOTE ===== */
+.translation{background:none;border-left:2px solid var(--accent);padding:6px 0 6px 20px;margin:18px 0 26px;font-size:1.08em;line-height:1.55;font-style:italic;color:#334155}
+.translation strong{font-style:normal;color:var(--accent);font-size:.78em;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;margin-right:8px}
 /* ===== GLOSSARY TOOLTIPS ===== */
 .glossary{border-bottom:1.5px dotted var(--muted);cursor:help;position:relative;white-space:nowrap}
 .glossary:hover::after{content:attr(data-tip);position:absolute;bottom:calc(100% + 6px);left:50%;transform:translateX(-50%);background:#1e293b;color:#f8fafc;padding:6px 12px;border-radius:6px;font-size:.82em;white-space:normal;width:max-content;max-width:300px;line-height:1.4;z-index:50;box-shadow:0 4px 12px rgba(0,0,0,.15);pointer-events:none}
@@ -88,17 +90,15 @@ details.expandable .detail-content{padding:16px 20px}
 .cta-row a.primary:hover{background:#4338ca}
 .cta-row a.secondary{background:transparent;color:var(--accent);border:1px solid var(--accent)}
 .cta-row a.secondary:hover{background:var(--accent);color:#fff}
-/* ===== HERO STAT BOXES ===== */
-.hero-stat{display:flex;gap:12px;flex-wrap:wrap;margin:20px 0}
-.hero-stat .stat{background:var(--card-bg);border:2px solid var(--border);border-radius:8px;padding:14px 20px;text-align:center;flex:1;min-width:140px}
-.hero-stat .stat .number{font-size:1.8em;font-weight:700;line-height:1.2;color:var(--accent)}
-.hero-stat .stat .label{font-size:.82em;color:var(--muted);margin-top:4px}
-.hero-stat .stat.red{border-color:var(--red)}
-.hero-stat .stat.red .number{color:var(--red)}
-.hero-stat .stat.green{border-color:var(--green)}
-.hero-stat .stat.green .number{color:var(--green)}
-.hero-stat .stat.amber{border-color:var(--amber)}
-.hero-stat .stat.amber .number{color:var(--amber)}
+/* ===== HERO STAT — TYPESET WITH HAIRLINE SEPARATORS ===== */
+.hero-stat{display:flex;gap:0;flex-wrap:wrap;margin:24px 0;padding:20px 0;border-top:1px solid var(--border);border-bottom:1px solid var(--border)}
+.hero-stat .stat{background:none;border:none;border-radius:0;padding:4px 24px;text-align:center;flex:1;min-width:140px}
+.hero-stat .stat + .stat{border-left:1px solid var(--border)}
+.hero-stat .stat .number{font-size:2.4em;font-weight:600;line-height:1;color:#0f172a;font-feature-settings:"tnum","lnum";letter-spacing:-0.015em}
+.hero-stat .stat .label{font-size:.78em;color:var(--muted);margin-top:10px;line-height:1.35;letter-spacing:0.01em}
+/* Drop the colored-card variants — typeset stats use ink color only */
+.hero-stat .stat.red,.hero-stat .stat.green,.hero-stat .stat.amber{border-color:inherit}
+.hero-stat .stat.red .number,.hero-stat .stat.green .number,.hero-stat .stat.amber .number{color:#0f172a}
 
 /* ===== PRINT STYLES ===== */
 @media print{
@@ -208,7 +208,7 @@ details.expandable .detail-content{padding:16px 20px}
 </div>
 
 <!-- ========== 1. THE PROBLEM ========== -->
-<h2 id="hypothesis">1. The Problem</h2>
+<h2 id="hypothesis">The Problem</h2>
 
 <div class="translation"><strong>In plain English:</strong> Patching third-party products is well-understood, even if it's tedious. Patching applications you build yourself, on top of dozens of open-source libraries, is the actually-hard problem.</div>
 
@@ -231,7 +231,7 @@ details.expandable .detail-content{padding:16px 20px}
 <p>So the operational question is: <strong>which of those 14 triggers actually matter?</strong> Is there a signal in the data — something more useful than the CVSS score — that separates the CVEs attackers actually exploit from the ones that just make noise? Two independent answers come out of the analysis, and they largely agree: <strong>network parser + direct injection</strong> (a CWE-based mechanical filter) and the <strong>hacker discriminator</strong> (an attacker's grading rubric applied with modern AI tooling). The rest of this page is how we got there and how well it holds up against ground truth.</p>
 
 <!-- ========== 2. METHODOLOGY ========== -->
-<h2 id="observational">2. The First Clue: Where Exploits Actually Land</h2>
+<h2 id="observational">The First Clue: Where Exploits Actually Land</h2>
 
 <div class="translation"><strong>In plain English:</strong> We took every vulnerability that attackers actually exploited (<span data-kpi="totalKev">1,583</span> in the KEV catalog, <span data-kpi="windowedKev">891</span> with CVEs published 2021–2026) and compared it to every serious vulnerability reported in the same window (<span data-kpi="totalNvd">23,501</span>). Then we asked: what makes the exploited ones different?</div>
 
@@ -331,7 +331,7 @@ A network-parsing HIGH (7.0-7.9) at 0.89% beats a non-parsing CRITICAL (9.0-9.9)
 </div>
 
 <!-- ========== 5. SURVIVORSHIP ========== -->
-<h2 id="np-di-filter">3. Threat-Centric Prioritization: Two Independent Models</h2>
+<h2 id="np-di-filter">Threat-Centric Prioritization: Two Independent Models</h2>
 
 <div class="translation"><strong>In plain English:</strong> The hero isn't a single filter — it's a <em>model</em>. Judge a vulnerability by what an attacker actually does with it, not by what its CVSS says. We've built two competitive ways to operationalize that model. They run independently against the same data, mostly agree, and where they disagree is also informative.</div>
 
@@ -424,7 +424,7 @@ A network-parsing HIGH (7.0-7.9) at 0.89% beats a non-parsing CRITICAL (9.0-9.9)
 <p>The noise-floor reduction from 14 forced rebuilds per year to 2-6 isn't just a workload win — it's the difference between a team that <em>only</em> does emergency rebuilds and a team that has time to invest in not having to. We pick this up again in §9 with the Cat 1/2/3 estate-maturity framing.</p>
 
 <!-- ========== 4. CROSS-FRAMEWORK VALIDATION ========== -->
-<h2 id="cross-framework">4. Does It Actually Work? Cross-Framework Validation</h2>
+<h2 id="cross-framework">Does It Actually Work? Cross-Framework Validation</h2>
 
 <div class="translation"><strong>In plain English:</strong> Theory is nice, but you need to know if this filter actually reduces your rebuild queue without letting something dangerous slip through. We tested it against three real-world-representative tech stacks over 12 months. Short answer: it works.</div>
 
@@ -574,7 +574,7 @@ A network-parsing HIGH (7.0-7.9) at 0.89% beats a non-parsing CRITICAL (9.0-9.9)
 </div>
 
 <!-- ========== 7. KILL CHAIN ========== -->
-<h2 id="survivorship">5. Why Most Criticals Don't Get Exploited</h2>
+<h2 id="survivorship">Why Most Criticals Don't Get Exploited</h2>
 
 <div class="translation"><strong>In plain English:</strong> 93% of "critical" vulnerabilities never get used in real attacks. The reasons are predictable -- and that predictability is what makes smart prioritization possible.</div>
 
@@ -597,7 +597,7 @@ A network-parsing HIGH (7.0-7.9) at 0.89% beats a non-parsing CRITICAL (9.0-9.9)
 </div>
 
 <!-- ========== 6. TIME-TO-EXPLOIT ========== -->
-<h2 id="time-to-exploit">6. Time-to-Exploit Compression</h2>
+<h2 id="time-to-exploit">Time-to-Exploit Compression</h2>
 
 <div class="translation"><strong>In plain English:</strong> The old 30-day patch rule is broken. Attackers now weaponize bugs in as little as 3 days.</div>
 
@@ -622,7 +622,7 @@ A network-parsing HIGH (7.0-7.9) at 0.89% beats a non-parsing CRITICAL (9.0-9.9)
 <p>The 2024 data (median 34 days) appears to reverse the trend, but this is a <strong>right-censoring artifact</strong>: many 2024 CVEs haven't been added to KEV yet. The compression is driven by the commoditization of exploit development, faster reverse engineering from patches, and the industrialization of ransomware operations.</p>
 
 <!-- ========== 3. NP+DI FILTER (THREAT-CENTRIC PRIORITIZATION) ========== -->
-<h2 id="kill-chain">7. Land &amp; Expand: The Exploit After the Exploit</h2>
+<h2 id="kill-chain">Land &amp; Expand: The Exploit After the Exploit</h2>
 
 <div class="translation"><strong>In plain English:</strong> The app layer determines whether you get breached. The OS layer determines how bad the breach gets. They need different patching strategies.</div>
 
@@ -667,7 +667,7 @@ A network-parsing HIGH (7.0-7.9) at 0.89% beats a non-parsing CRITICAL (9.0-9.9)
 </div>
 
 <!-- ========== 8. EXTERNAL VALIDATION ========== -->
-<h2 id="external-validation">8. External Validation</h2>
+<h2 id="external-validation">External Validation</h2>
 
 <div class="translation"><strong>In plain English:</strong> We cross-checked the filter against five independent exploitation databases. The 12-month sample is too small to score confidently (only one in-scope exploited CVE in window); the 7-year production-manifest backtest is where the real accounting happens. The filters cover most of what gets exploited, miss a small known set by design, and add value EPSS can't because they fire on disclosure day.</div>
 
@@ -743,7 +743,7 @@ A network-parsing HIGH (7.0-7.9) at 0.89% beats a non-parsing CRITICAL (9.0-9.9)
 <p>The cross-implication: <strong>the same axis that tells an operator "this campaign has a long window because the perimeter cannot close it" tells a defender "no perimeter substitute exists, you have to deploy the patch."</strong> The bugs the operator most wants are the bugs the defender most needs to patch fast. The discriminator is reading that signal one step earlier than the WAF telemetry would.</p>
 
 <!-- ========== 9. PATCHING MODEL ========== -->
-<h2 id="patching-model">9. Putting It Together: Operational Response by Estate Maturity</h2>
+<h2 id="patching-model">Putting It Together: Operational Response by Estate Maturity</h2>
 
 <div class="translation"><strong>In plain English:</strong> The filter tells you <em>which</em> events to treat as emergencies. But what counts as an "emergency response" depends on what your team can actually do — a team that ships in hours has a different threshold than one that ships in months. The right operational frame sorts by estate maturity, not by trigger type.</div>
 
@@ -804,7 +804,7 @@ A network-parsing HIGH (7.0-7.9) at 0.89% beats a non-parsing CRITICAL (9.0-9.9)
 </div>
 
 <!-- ========== 10. REVERSE PROXY MYTH ========== -->
-<h2 id="proxy">10. The Reverse Proxy Myth</h2>
+<h2 id="proxy">The Reverse Proxy Myth</h2>
 
 <div class="translation"><strong>In plain English:</strong> "Our apps sit behind a reverse proxy" doesn't protect against application-layer exploits. Spring4Shell and Log4Shell both pass through proxies untouched.</div>
 
@@ -837,7 +837,7 @@ The key word is "constrain," not "prevent." It's a seatbelt, not an airbag.
 
 
 <!-- ========== 11. EXPLOIT WATCH LIST ========== -->
-<h2 id="watchlist">11. Exploit Watch List -- Network-Parser Attack Surface</h2>
+<h2 id="watchlist">Exploit Watch List -- Network-Parser Attack Surface</h2>
 
 <div class="translation"><strong>In plain English:</strong> We're putting the thesis to the test in real time. This is the live scorecard.</div>
 
@@ -895,7 +895,7 @@ The key word is "constrain," not "prevent." It's a seatbelt, not an airbag.
 </table>
 
 <!-- ========== 12. CAVEATS ========== -->
-<h2 id="caveats">12. Caveats & Methodology Limitations</h2>
+<h2 id="caveats">Caveats & Methodology Limitations</h2>
 
 <div class="translation"><strong>In plain English:</strong> This analysis has real blind spots. We're transparent about what the data can and can't tell us.</div>
 
