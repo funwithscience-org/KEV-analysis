@@ -449,7 +449,7 @@ A network-parsing HIGH (7.0-7.9) at 0.89% beats a non-parsing CRITICAL (9.0-9.9)
 <li><strong>D</strong> — DoS, info-leak, weak crypto config. Real bugs, but not exploitation primitives.</li>
 </ul>
 
-<p>The hacker S+A bar is "events I'd actually put on my campaign list." It produces a different cut of the same CVE feed than NP+DI: more selective in some ways (ignores SQLi clusters with cluster-mean preconditions), more aggressive in others (catches Spring Boot actuator exposure that CWE-862-tagged events would slip past NP+DI on). On the 7-year production manifest, NP+DI raw catches 6 of 13 actually-exploited events; NP+DI+AI scan catches 9; hacker S+A catches 10. Their union catches 11. Same story, different angle of attack on the same triage decision. Detail on the <a href="periodicity.html" style="color:var(--accent)">periodicity page</a>.</p>
+<p>The hacker S+A bar is "events I'd actually put on my campaign list." It produces a different cut of the same CVE feed than NP+DI: more selective in some ways (ignores SQLi clusters with cluster-mean preconditions), more aggressive in others (catches Spring Boot actuator exposure that CWE-862-tagged events would slip past NP+DI on). On the 7-year production manifest, NP+DI raw catches 6 of 13 actually-exploited events; NP+DI+DQ catches 9; hacker S+A catches 10. Their union catches 11. Same story, different angle of attack on the same triage decision. Detail on the <a href="periodicity.html" style="color:var(--accent)">periodicity page</a>.</p>
 
 <h3>6e. The hidden cost of <em>not</em> filtering: churn crowds out better practices</h3>
 
@@ -485,7 +485,7 @@ A network-parsing HIGH (7.0-7.9) at 0.89% beats a non-parsing CRITICAL (9.0-9.9)
 
 <h3>7c. Reduction across four strategies</h3>
 
-<p>The original NP+DI filter is one of three discriminators worth comparing on the same input. <strong>NP+DI raw</strong> is the mechanical CWE-and-package rule. <strong>NP+DI + AI scan</strong> adds a small set of CWE-misclass rescues (events where the surface CWE underweights the actual primitive — Spring Boot actuator exposure, sequelize SQLi, ASGI header spoofing). <strong>Hacker S+A</strong> applies the offensive operator's three-axis test (default-config × edge × direct primitive). The cross-framework workload comparison:</p>
+<p>The original NP+DI filter is one of three discriminators worth comparing on the same input. <strong>NP+DI raw</strong> is the mechanical CWE-and-package rule. <strong>NP+DI + DQ</strong> (Data Quality) adds an AI-assisted pass that re-checks the upstream CWE tagging — when the surface CWE underweights the actual primitive (Spring Boot actuator exposure tagged CWE-862, Ghostcat tagged CWE-269, ActiveMQ Jolokia tagged CWE-20, etc.), DQ corrects the classification and the event re-enters NP+DI. <strong>Hacker S+A</strong> applies the offensive operator's three-axis test (default-config × edge × direct primitive). The cross-framework workload comparison:</p>
 
 <table class="data-table">
 <thead><tr><th>Framework</th><th>All C/H</th><th>NP+DI raw</th><th>NP+DI + AI</th><th>Hacker S+A</th><th>Reduction (Hacker)</th></tr></thead>
@@ -624,10 +624,10 @@ A network-parsing HIGH (7.0-7.9) at 0.89% beats a non-parsing CRITICAL (9.0-9.9)
 
 <p>This isn't asking AI to replace the filter. It's asking AI to QA the one input the filter can't control: <em>did the CVE author pick the right CWE?</em> The NP list is yours. The DI CWE set is yours. The only third-party dependency is CWE classification quality — and the backtest shows that dependency is the filter's one weak point.</p>
 
-<p>The irony is worth noting: if AI tooling like Glasswing/Mythos is now capable of <em>finding</em> vulnerabilities, using it to <em>correctly classify</em> them is a significantly easier ask. The safety net costs almost nothing and closes the filter's only demonstrated gap.</p>
+<p>The irony is worth noting: if AI tooling like Glasswing/Mythos is now capable of <em>finding</em> vulnerabilities, using it to <em>correctly classify</em> the ones humans already wrote up is a significantly easier ask. That's the DQ pass — a thin AI-assisted layer over the mechanical NP+DI filter that re-checks the upstream CWE tagging on edge-cases (NP-but-not-DI events, generic CWE-20 / CWE-269 events on parser components, CWE-502 events that name an HTTP entry point). DQ costs almost nothing and closes the filter's only demonstrated gap.</p>
 
 <div class="callout callout-finding">
-<strong>Backtest summary:</strong> 16% exploitation rate in the NP+DI bucket vs. 3% in NP-only vs. 0% in non-NP. The filter caught Log4Shell, Spring4Shell, and XStream RCE cleanly. Its three misses are all CWE taxonomy failures on HTTP-adjacent attacks — fixable with an AI classification review pass that adds minutes, not hours, to the triage workflow.
+<strong>Backtest summary:</strong> 16% exploitation rate in the NP+DI bucket vs. 3% in NP-only vs. 0% in non-NP. The filter caught Log4Shell, Spring4Shell, and XStream RCE cleanly. Its three misses are all CWE taxonomy failures on HTTP-adjacent attacks — fixable with the DQ pass (AI-assisted CWE re-classification) that adds minutes, not hours, to the triage workflow.
 </div>
 
 <!-- ========== 8. KILL CHAIN ========== -->
@@ -694,7 +694,7 @@ A network-parsing HIGH (7.0-7.9) at 0.89% beats a non-parsing CRITICAL (9.0-9.9)
 <thead><tr><th>Model</th><th>Day 0</th><th>Day 7</th><th>Day 30</th><th>Eventually</th><th>Notes</th></tr></thead>
 <tbody>
 <tr><td><strong>NP+DI raw</strong></td><td>6/13</td><td>6/13</td><td>6/13</td><td>6/13</td><td>Mechanical CWE+package filter</td></tr>
-<tr style="background:rgba(14,165,233,.08)"><td><strong>NP+DI + AI scan</strong></td><td><strong>9/13</strong></td><td><strong>9/13</strong></td><td><strong>9/13</strong></td><td><strong>9/13</strong></td><td>Adds CWE-misclass rescues (Ghostcat, Tomcat partial-PUT, ActiveMQ Jolokia)</td></tr>
+<tr style="background:rgba(14,165,233,.08)"><td><strong>NP+DI + DQ</strong></td><td><strong>9/13</strong></td><td><strong>9/13</strong></td><td><strong>9/13</strong></td><td><strong>9/13</strong></td><td>Adds CWE-misclass rescues (Ghostcat, Tomcat partial-PUT, ActiveMQ Jolokia)</td></tr>
 <tr style="background:rgba(168,85,247,.08)"><td><strong>Hacker S+A</strong></td><td><strong>10/13</strong></td><td><strong>10/13</strong></td><td><strong>10/13</strong></td><td><strong>10/13</strong></td><td>Catches a slightly different set; gets XStream 2013-7285 the mechanical filter misses</td></tr>
 <tr style="background:rgba(16,185,129,.08)"><td><strong>NP+DI+AI ∪ Hacker S+A</strong></td><td><strong>11/13</strong></td><td><strong>11/13</strong></td><td><strong>11/13</strong></td><td><strong>11/13</strong></td><td>Union of the two methods — operational answer</td></tr>
 <tr><td>EPSS ≥ 0.10</td><td>1/13</td><td>4/13</td><td>4/13</td><td>11/13</td><td>Eventually catches up; can't act on day 0</td></tr>
@@ -718,7 +718,7 @@ A network-parsing HIGH (7.0-7.9) at 0.89% beats a non-parsing CRITICAL (9.0-9.9)
 </tbody></table>
 
 <div class="callout callout-finding">
-<strong>The honest scorecard on the 7-year backtest:</strong> the union of NP+DI + AI scan and Hacker S+A catches <strong>11 of 13</strong> exploited events directly. The remaining 2 are the Tomcat HTTP PUT 2017 pair (CWE-434 file uploads) — explicitly out-of-scope for both structure-based filters; only "patch everything" catches them. Floor-sweep rescues (every emergency rebuild applies the latest version of every dependency) extend effective coverage further; see the <a href="periodicity.html" style="color:var(--accent)">periodicity page</a> for the full accounting. Both filters fire on disclosure day; EPSS catches up eventually but can't act when you need to act.
+<strong>The honest scorecard on the 7-year backtest:</strong> the union of NP+DI + DQ and Hacker S+A catches <strong>11 of 13</strong> exploited events directly. The remaining 2 are the Tomcat HTTP PUT 2017 pair (CWE-434 file uploads) — explicitly out-of-scope for both structure-based filters; only "patch everything" catches them. Floor-sweep rescues (every emergency rebuild applies the latest version of every dependency) extend effective coverage further; see the <a href="periodicity.html" style="color:var(--accent)">periodicity page</a> for the full accounting. Both filters fire on disclosure day; EPSS catches up eventually but can't act when you need to act.
 </div>
 
 <div class="callout callout-warning">
