@@ -515,6 +515,14 @@ Preview build (<code style="background:#e2e8f0;padding:1px 6px;border-radius:3px
 <p style="margin-top:8px">This means: <strong>the OS layer does not generate independent emergency rebuild triggers under the NP+DI filter.</strong> If you only rebuilt the container when the OS layer demanded it (NP+DI), you'd never rebuild at all. The app layer is what drives the cadence.</p>
 </div>
 
+<div class="callout callout-finding" style="border-color:var(--hacker);background:#faf5ff;color:#581c87">
+<strong>Hacker S+A on the OS layer agrees: zero S, zero unconditional A — and most of the &ldquo;48 NETWORK&rdquo; events are NVD keyword noise.</strong>
+<p style="margin-top:8px">The hacker discriminator was given the same Amazon Linux 2023 manifest with explicit context that this is the base image under the Spring stack. Two findings beyond the NP+DI = 0 result:</p>
+<p style="margin-top:8px">(1) After cleaning out CVEs that NVD keyword-matched into the wrong component, the 69 events shrink to ≈18 actual OS-component bugs. The other ~50 are CVEs in downstream apps that happen to share names with OS components — SQLite-using applications (FUXA, METIS, n8n, langchain, MyTube, SciTokens, PraisonAI, Cockpit, Kysely, SiYuan), kernel CVEs keyword-matched via systemd (drm/i915, wifi/brcmfmac, kernfs UAF, fs/writeback), Perl <code>Compress::Raw::Zlib</code>, undici WebSocket, snapd (which isn't even in Amazon Linux 2023), Incus container manager, and so on.</p>
+<p style="margin-top:8px">(2) Of the cleaned ≈18, the hacker S+A count is <strong>0 strict</strong> (or 2-3 conditional-A if you count the kernel UAFs in the systemd cluster as post-compromise privesc paths into the host kernel). The B-tier candidates — libxml2 use-after-frees, libarchive heap bugs, pcre2 JIT OOB, OpenJ9 native stack overflow, zlib decompression chains — all gate on the Spring app having a native binding path to those libs (mostly it doesn't; Java apps use built-in javax.xml, java.util.regex, and JVM zlib). For this stack: <strong>2-6 B-conditional, 6-8 C, 50+ D</strong>.</p>
+<p style="margin-top:8px">The structural finding is unchanged: the OS layer doesn't drive emergency rebuild cadence under either filter. What changes is the rationale for the Tier 2 monthly cadence below — it's about reducing <em>real</em> privesc surface (5-10 LPE-relevant bugs per year on components actually present in Amazon Linux 2023), not the inflated NVD count.</p>
+</div>
+
 <h3>The Kill Chain: App Layer = IF, OS Layer = HOW BAD</h3>
 
 <div class="callout callout-warning">
@@ -563,6 +571,7 @@ Preview build (<code style="background:#e2e8f0;padding:1px 6px;border-radius:3px
 </tbody>
 </table>
 <p style="margin-top:8px">Monthly container refresh drops the worst-case privesc exposure from 21 CVEs to 5 — a 76% reduction. Going to bi-weekly only saves one more CVE, suggesting monthly is the efficient cadence for blast radius reduction.</p>
+<p style="margin-top:8px;font-size:.88em;color:var(--muted)"><strong>Caveat (per the hacker pass above):</strong> the &ldquo;21&rdquo; LOCAL count includes NVD keyword noise — kernel CVEs that NVD matched into systemd, BlueChi/snapd/Incus/Himmelblau bugs that aren't components in Amazon Linux 2023. The number of LPE-relevant bugs in components actually present is roughly half that — 10-12 worst-case rather than 21. The shape of the table is unchanged (monthly cadence is still the efficient frontier) but the absolute reduction is overstated.</p>
 </div>
 
 <h3>Three-Tier Patching Model</h3>

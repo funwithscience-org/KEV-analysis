@@ -1,0 +1,934 @@
+{
+  "description": "Blinded 12-month OS-container event set for hacker tier ranking. Amazon Linux 2023 (~25 components) \u2014 this is the BASE IMAGE under the Java/Spring stack the hacker has previously ranked.",
+  "context_for_hacker": "You previously ranked the Java/Spring application manifest. This OS-container manifest sits underneath that app \u2014 a Spring Boot service running on Amazon Linux 2023 (~25 queryable components). 12-month window, Apr 2025 \u2013 Apr 2026, 69 critical/high CVEs.\n\nPer-attack-vector split: 48 NETWORK, 19 LOCAL, 2 PHYSICAL.\n\nTwo questions to keep in mind for tier assignment:\n1. INITIAL ACCESS \u2014 does this CVE let an attacker reach the OS layer FROM THE INTERNET via the Spring app sitting in front of it? (Mostly the answer is no \u2014 these libs are reachable only after the attacker is already running code in the container, because the Spring app handles all network ingress.)\n2. POST-EXPLOITATION \u2014 assuming the attacker already has code execution inside the container (e.g., via Spring4Shell, Tomcat path traversal, or a Thymeleaf SSTI from the app layer above), does this CVE let them privilege-escalate, escape the container, or pivot to other containers/the host?",
+  "fields_provided": [
+    "cve",
+    "published",
+    "package",
+    "role",
+    "severity",
+    "cvss",
+    "cwes",
+    "attack_vector",
+    "summary"
+  ],
+  "fields_intentionally_withheld": [
+    "is_np",
+    "is_di",
+    "is_mc",
+    "KEV/MSF/EDB outcomes"
+  ],
+  "attack_vector_split": {
+    "NETWORK": 48,
+    "LOCAL": 19,
+    "PHYSICAL": 2
+  },
+  "n_events": 69,
+  "events": [
+    {
+      "cve": "CVE-2025-30194",
+      "published": "2025-04-29",
+      "package": "nghttp2",
+      "role": "HTTP/2 parser",
+      "severity": "HIGH",
+      "cvss": 7.5,
+      "cwes": [
+        "CWE-416"
+      ],
+      "attack_vector": "NETWORK",
+      "summary": "When DNSdist is configured to provide DoH via the nghttp2 provider, an attacker can cause a denial of service by crafting a DoH exchange that triggers an illegal memory access (double-free) and crash "
+    },
+    {
+      "cve": "CVE-2023-53112",
+      "published": "2025-05-02",
+      "package": "systemd",
+      "role": "Init system",
+      "severity": "HIGH",
+      "cvss": 7.1,
+      "cwes": [
+        "CWE-125"
+      ],
+      "attack_vector": "LOCAL",
+      "summary": "In the Linux kernel, the following vulnerability has been resolved:\n\ndrm/i915/sseu: fix max_subslices array-index-out-of-bounds access\n\nIt seems that commit bc3c5e0809ae (\"drm/i915/sseu: Don't try to "
+    },
+    {
+      "cve": "CVE-2025-4447",
+      "published": "2025-05-09",
+      "package": "openjdk",
+      "role": "Java Runtime",
+      "severity": "HIGH",
+      "cvss": 7.8,
+      "cwes": [
+        "CWE-121"
+      ],
+      "attack_vector": "LOCAL",
+      "summary": "In Eclipse OpenJ9 versions up to 0.51, when used with OpenJDK version 8 a stack based buffer overflow can be caused by modifying a file on disk that is read when the JVM starts."
+    },
+    {
+      "cve": "CVE-2025-4638",
+      "published": "2025-05-14",
+      "package": "zlib",
+      "role": "Compression",
+      "severity": "CRITICAL",
+      "cvss": 9.8,
+      "cwes": [
+        "CWE-119"
+      ],
+      "attack_vector": "NETWORK",
+      "summary": "A vulnerability exists in the inftrees.c component of the zlib library, which is bundled within the PointCloudLibrary (PCL). This issue may allow context-dependent attackers to cause undefined behavio"
+    },
+    {
+      "cve": "CVE-2025-3931",
+      "published": "2025-05-14",
+      "package": "rpm",
+      "role": "Package manager",
+      "severity": "HIGH",
+      "cvss": 7.8,
+      "cwes": [
+        "CWE-280"
+      ],
+      "attack_vector": "LOCAL",
+      "summary": "A flaw was found in Yggdrasil, which acts as a system broker, allowing the processes to communicate to other children's \"worker\" processes through the DBus component. Yggdrasil creates a DBus method t"
+    },
+    {
+      "cve": "CVE-2025-5024",
+      "published": "2025-05-22",
+      "package": "systemd",
+      "role": "Init system",
+      "severity": "HIGH",
+      "cvss": 7.4,
+      "cwes": [
+        "CWE-400"
+      ],
+      "attack_vector": "NETWORK",
+      "summary": "A flaw was found in gnome-remote-desktop. Once gnome-remote-desktop listens for RDP connections, an unauthenticated attacker can exhaust system resources and repeatedly crash the process. There may be"
+    },
+    {
+      "cve": "CVE-2025-5914",
+      "published": "2025-06-09",
+      "package": "libarchive",
+      "role": "Archive handling",
+      "severity": "HIGH",
+      "cvss": 7.8,
+      "cwes": [
+        "CWE-190"
+      ],
+      "attack_vector": "LOCAL",
+      "summary": "A vulnerability has been identified in the libarchive library, specifically within the archive_read_format_rar_seek_data() function. This flaw involves an integer overflow that can ultimately lead to "
+    },
+    {
+      "cve": "CVE-2025-6021",
+      "published": "2025-06-12",
+      "package": "libxml2",
+      "role": "XML parser",
+      "severity": "HIGH",
+      "cvss": 7.5,
+      "cwes": [
+        "CWE-787"
+      ],
+      "attack_vector": "NETWORK",
+      "summary": "A flaw was found in libxml2's xmlBuildQName function, where integer overflows in buffer size calculations can lead to a stack-based buffer overflow. This issue can result in memory corruption or a den"
+    },
+    {
+      "cve": "CVE-2025-49794",
+      "published": "2025-06-16",
+      "package": "libxml2",
+      "role": "XML parser",
+      "severity": "CRITICAL",
+      "cvss": 9.1,
+      "cwes": [
+        "CWE-825"
+      ],
+      "attack_vector": "NETWORK",
+      "summary": "A use-after-free vulnerability was found in libxml2. This issue occurs when parsing XPath elements under certain circumstances when the XML schematron has the <sch:name path=\"...\"/> schema elements. T"
+    },
+    {
+      "cve": "CVE-2025-49795",
+      "published": "2025-06-16",
+      "package": "libxml2",
+      "role": "XML parser",
+      "severity": "HIGH",
+      "cvss": 7.5,
+      "cwes": [
+        "CWE-825"
+      ],
+      "attack_vector": "NETWORK",
+      "summary": "A NULL pointer dereference vulnerability was found in libxml2 when processing XPath XML expressions. This flaw allows an attacker to craft a malicious XML input to libxml2, leading to a denial of serv"
+    },
+    {
+      "cve": "CVE-2025-49796",
+      "published": "2025-06-16",
+      "package": "libxml2",
+      "role": "XML parser",
+      "severity": "CRITICAL",
+      "cvss": 9.1,
+      "cwes": [
+        "CWE-125"
+      ],
+      "attack_vector": "NETWORK",
+      "summary": "A vulnerability was found in libxml2. Processing certain sch:name elements from the input XML file can trigger a memory corruption issue. This flaw allows an attacker to craft a malicious XML input fi"
+    },
+    {
+      "cve": "CVE-2025-6965",
+      "published": "2025-07-15",
+      "package": "sqlite",
+      "role": "Embedded database",
+      "severity": "CRITICAL",
+      "cvss": 9.8,
+      "cwes": [
+        "CWE-197"
+      ],
+      "attack_vector": "NETWORK",
+      "summary": "There exists a vulnerability in SQLite versions before 3.50.2 where the number of aggregate terms could exceed the number of columns available. This could lead to a memory corruption issue. We recomme"
+    },
+    {
+      "cve": "CVE-2025-54379",
+      "published": "2025-07-24",
+      "package": "sqlite",
+      "role": "Embedded database",
+      "severity": "CRITICAL",
+      "cvss": 9.8,
+      "cwes": [
+        "CWE-89"
+      ],
+      "attack_vector": "NETWORK",
+      "summary": "LF Edge eKuiper is a lightweight IoT data analytics and stream processing engine running on resource-constraint edge devices. In versions before 2.2.1, there is a critical SQL Injection vulnerability "
+    },
+    {
+      "cve": "CVE-2025-8194",
+      "published": "2025-07-28",
+      "package": "python39",
+      "role": "Python interpreter",
+      "severity": "HIGH",
+      "cvss": 7.5,
+      "cwes": [
+        "CWE-835"
+      ],
+      "attack_vector": "NETWORK",
+      "summary": "There is a defect in the CPython \u201ctarfile\u201d module affecting the \u201cTarFile\u201d extraction and entry enumeration APIs. The tar implementation would process tar archives with negative offsets without error, "
+    },
+    {
+      "cve": "CVE-2025-7458",
+      "published": "2025-07-29",
+      "package": "sqlite",
+      "role": "Embedded database",
+      "severity": "CRITICAL",
+      "cvss": 9.1,
+      "cwes": [
+        "CWE-190"
+      ],
+      "attack_vector": "NETWORK",
+      "summary": "An integer overflow in the sqlite3KeyInfoFromExprList function in SQLite versions 3.39.2 through 3.41.1 allows an attacker with the ability to execute arbitrary SQL statements to cause a denial of ser"
+    },
+    {
+      "cve": "CVE-2025-54802",
+      "published": "2025-08-05",
+      "package": "systemd",
+      "role": "Init system",
+      "severity": "CRITICAL",
+      "cvss": 9.8,
+      "cwes": [
+        "CWE-22"
+      ],
+      "attack_vector": "NETWORK",
+      "summary": "pyLoad is the free and open-source Download Manager written in pure Python. In versions 0.5.0b3.dev89 and below, there is an opportunity for path traversal in pyLoad-ng CNL Blueprint via package param"
+    },
+    {
+      "cve": "CVE-2025-54119",
+      "published": "2025-08-05",
+      "package": "sqlite",
+      "role": "Embedded database",
+      "severity": "CRITICAL",
+      "cvss": 10.0,
+      "cwes": [
+        "CWE-89"
+      ],
+      "attack_vector": "NETWORK",
+      "summary": "ADOdb is a PHP database class library that provides abstractions for performing queries and managing databases. In versions 5.22.9 and below, improper escaping of a query parameter may allow an attack"
+    },
+    {
+      "cve": "CVE-2025-50983",
+      "published": "2025-08-27",
+      "package": "sqlite",
+      "role": "Embedded database",
+      "severity": "HIGH",
+      "cvss": 8.3,
+      "cwes": [
+        "CWE-89"
+      ],
+      "attack_vector": "NETWORK",
+      "summary": "SQL Injection vulnerability exists in the sortKey parameter of the GET /api/v1/wanted/cutoff API endpoint in readarr 0.4.15.2787. The endpoint fails to properly sanitize user-supplied input, allowing "
+    },
+    {
+      "cve": "CVE-2025-58050",
+      "published": "2025-08-27",
+      "package": "pcre2",
+      "role": "Regex library",
+      "severity": "CRITICAL",
+      "cvss": 9.1,
+      "cwes": [
+        "CWE-125",
+        "CWE-122",
+        "CWE-787"
+      ],
+      "attack_vector": "NETWORK",
+      "summary": "The PCRE2 library is a set of C functions that implement regular expression pattern matching. In version 10.45, a heap-buffer-overflow read vulnerability exists in the PCRE2 regular expression matchin"
+    },
+    {
+      "cve": "CVE-2025-39711",
+      "published": "2025-09-05",
+      "package": "systemd",
+      "role": "Init system",
+      "severity": "HIGH",
+      "cvss": 7.8,
+      "cwes": [
+        "CWE-416"
+      ],
+      "attack_vector": "LOCAL",
+      "summary": "In the Linux kernel, the following vulnerability has been resolved:\n\nmedia: ivsc: Fix crash at shutdown due to missing mei_cldev_disable() calls\n\nBoth the ACE and CSI driver are missing a mei_cldev_di"
+    },
+    {
+      "cve": "CVE-2025-57141",
+      "published": "2025-09-08",
+      "package": "sqlite",
+      "role": "Embedded database",
+      "severity": "CRITICAL",
+      "cvss": 9.8,
+      "cwes": [
+        "CWE-94"
+      ],
+      "attack_vector": "NETWORK",
+      "summary": "rsbi-os 4.7 is vulnerable to Remote Code Execution (RCE) in sqlite-jdbc."
+    },
+    {
+      "cve": "CVE-2025-58760",
+      "published": "2025-09-09",
+      "package": "sqlite",
+      "role": "Embedded database",
+      "severity": "HIGH",
+      "cvss": 8.6,
+      "cwes": [
+        "CWE-23"
+      ],
+      "attack_vector": "NETWORK",
+      "summary": "Tautulli is a Python based monitoring and tracking tool for Plex Media Server. The `/image` API endpoint in Tautulli v2.15.3 and earlier is vulnerable to path traversal, allowing unauthenticated attac"
+    },
+    {
+      "cve": "CVE-2025-58761",
+      "published": "2025-09-09",
+      "package": "sqlite",
+      "role": "Embedded database",
+      "severity": "HIGH",
+      "cvss": 8.6,
+      "cwes": [
+        "CWE-27"
+      ],
+      "attack_vector": "NETWORK",
+      "summary": "Tautulli is a Python based monitoring and tracking tool for Plex Media Server. The `real_pms_image_proxy` endpoint in Tautulli v2.15.3 and prior is vulnerable to path traversal, allowing unauthenticat"
+    },
+    {
+      "cve": "CVE-2025-59375",
+      "published": "2025-09-15",
+      "package": "expat",
+      "role": "XML SAX parser",
+      "severity": "HIGH",
+      "cvss": 7.5,
+      "cwes": [
+        "CWE-770"
+      ],
+      "attack_vector": "NETWORK",
+      "summary": "libexpat in Expat before 2.7.2 allows attackers to trigger large dynamic memory allocations via a small document that is submitted for parsing."
+    },
+    {
+      "cve": "CVE-2022-50408",
+      "published": "2025-09-18",
+      "package": "systemd",
+      "role": "Init system",
+      "severity": "HIGH",
+      "cvss": 7.8,
+      "cwes": [
+        "CWE-416"
+      ],
+      "attack_vector": "LOCAL",
+      "summary": "In the Linux kernel, the following vulnerability has been resolved:\n\nwifi: brcmfmac: fix use-after-free bug in brcmf_netdev_start_xmit()\n\n> ret = brcmf_proto_tx_queue_data(drvr, ifp->ifidx, skb);\n\nmay"
+    },
+    {
+      "cve": "CVE-2025-39866",
+      "published": "2025-09-19",
+      "package": "systemd",
+      "role": "Init system",
+      "severity": "HIGH",
+      "cvss": 7.8,
+      "cwes": [
+        "CWE-416"
+      ],
+      "attack_vector": "LOCAL",
+      "summary": "In the Linux kernel, the following vulnerability has been resolved:\n\nfs: writeback: fix use-after-free in __mark_inode_dirty()\n\nAn use-after-free issue occurred when __mark_inode_dirty() get the\nbdi_w"
+    },
+    {
+      "cve": "CVE-2025-39881",
+      "published": "2025-09-23",
+      "package": "systemd",
+      "role": "Init system",
+      "severity": "HIGH",
+      "cvss": 7.8,
+      "cwes": [
+        "CWE-416"
+      ],
+      "attack_vector": "LOCAL",
+      "summary": "In the Linux kernel, the following vulnerability has been resolved:\n\nkernfs: Fix UAF in polling when open file is released\n\nA use-after-free (UAF) vulnerability was identified in the PSI (Pressure\nSta"
+    },
+    {
+      "cve": "CVE-2025-10995",
+      "published": "2025-09-26",
+      "package": "zlib",
+      "role": "Compression",
+      "severity": "HIGH",
+      "cvss": 7.8,
+      "cwes": [
+        "CWE-119"
+      ],
+      "attack_vector": "LOCAL",
+      "summary": "A security vulnerability has been detected in Open Babel up to 3.1.1. This vulnerability affects the function zlib_stream::basic_unzip_streambuf::underflow in the library /src/zipstreamimpl.h. Such ma"
+    },
+    {
+      "cve": "CVE-2025-61679",
+      "published": "2025-10-03",
+      "package": "sqlite",
+      "role": "Embedded database",
+      "severity": "HIGH",
+      "cvss": 7.7,
+      "cwes": [
+        "CWE-200",
+        "CWE-287"
+      ],
+      "attack_vector": "LOCAL",
+      "summary": "Anyquery is an SQL query engine built on top of SQLite. Versions 0.4.3 and below allow attackers who have already gained access to localhost, even with low privileges, to use the http server through t"
+    },
+    {
+      "cve": "CVE-2025-8709",
+      "published": "2025-10-26",
+      "package": "sqlite",
+      "role": "Embedded database",
+      "severity": "HIGH",
+      "cvss": 7.3,
+      "cwes": [
+        "CWE-89"
+      ],
+      "attack_vector": "LOCAL",
+      "summary": "A SQL injection vulnerability exists in the langchain-ai/langchain repository, specifically in the LangGraph's SQLite store implementation. The affected version is langgraph-checkpoint-sqlite 2.0.10. "
+    },
+    {
+      "cve": "CVE-2025-64104",
+      "published": "2025-10-29",
+      "package": "sqlite",
+      "role": "Embedded database",
+      "severity": "HIGH",
+      "cvss": 7.3,
+      "cwes": [
+        "CWE-89"
+      ],
+      "attack_vector": "LOCAL",
+      "summary": "LangGraph SQLite Checkpoint is an implementation of LangGraph CheckpointSaver that uses SQLite DB (both sync and async, via aiosqlite). Prior to 2.0.11, LangGraph's SQLite store implementation contain"
+    },
+    {
+      "cve": "CVE-2025-66568",
+      "published": "2025-12-09",
+      "package": "libxml2",
+      "role": "XML parser",
+      "severity": "CRITICAL",
+      "cvss": 9.1,
+      "cwes": [
+        "CWE-347"
+      ],
+      "attack_vector": "NETWORK",
+      "summary": "The ruby-saml library implements the client side of an SAML authorization. Versions up to and including 1.12.4, are vulnerable to authentication bypass through the libxml2 canonicalization process use"
+    },
+    {
+      "cve": "CVE-2025-66578",
+      "published": "2025-12-09",
+      "package": "libxml2",
+      "role": "XML parser",
+      "severity": "HIGH",
+      "cvss": 7.5,
+      "cwes": [
+        "CWE-248"
+      ],
+      "attack_vector": "NETWORK",
+      "summary": "xmlseclibs is a library written in PHP for working with XML Encryption and Signatures. Versions 3.1.3 contain an authentication bypass vulnerability due to a flaw in the libxml2 canonicalization proce"
+    },
+    {
+      "cve": "CVE-2025-67644",
+      "published": "2025-12-11",
+      "package": "sqlite",
+      "role": "Embedded database",
+      "severity": "HIGH",
+      "cvss": 7.8,
+      "cwes": [
+        "CWE-89"
+      ],
+      "attack_vector": "LOCAL",
+      "summary": "LangGraph SQLite Checkpoint is an implementation of LangGraph CheckpointSaver that uses SQLite DB (both sync and async, via aiosqlite). Versions 3.0.0 and below are vulnerable to SQL injection through"
+    },
+    {
+      "cve": "CVE-2025-14847",
+      "published": "2025-12-19",
+      "package": "zlib",
+      "role": "Compression",
+      "severity": "HIGH",
+      "cvss": 7.5,
+      "cwes": [
+        "CWE-130"
+      ],
+      "attack_vector": "NETWORK",
+      "summary": "Mismatched length fields in Zlib compressed protocol headers may allow a read of uninitialized heap memory by an unauthenticated client. This issue affects all MongoDB Server v7.0 prior to 7.0.28 vers"
+    },
+    {
+      "cve": "CVE-2025-2515",
+      "published": "2025-12-24",
+      "package": "systemd",
+      "role": "Init system",
+      "severity": "HIGH",
+      "cvss": 7.2,
+      "cwes": [
+        "CWE-863"
+      ],
+      "attack_vector": "PHYSICAL",
+      "summary": "A vulnerability was found in BlueChi, a multi-node systemd service controller used in RHIVOS. This flaw allows a user with root privileges on a managed node (qm) to create or override systemd service "
+    },
+    {
+      "cve": "CVE-2026-22184",
+      "published": "2026-01-07",
+      "package": "zlib",
+      "role": "Compression",
+      "severity": "HIGH",
+      "cvss": 7.8,
+      "cwes": [
+        "CWE-787"
+      ],
+      "attack_vector": "LOCAL",
+      "summary": "zlib versions up to and including 1.3.1.2 include a global buffer overflow in the untgz utility located under contrib/untgz. The vulnerability is limited to the standalone demonstration utility and do"
+    },
+    {
+      "cve": "CVE-2019-25279",
+      "published": "2026-01-08",
+      "package": "sqlite",
+      "role": "Embedded database",
+      "severity": "HIGH",
+      "cvss": 7.5,
+      "cwes": [
+        "CWE-312"
+      ],
+      "attack_vector": "NETWORK",
+      "summary": "FaceSentry Access Control System 6.4.8 contains a cleartext password storage vulnerability that allows attackers to access unencrypted credentials in the device's SQLite database. Attackers can direct"
+    },
+    {
+      "cve": "CVE-2025-24528",
+      "published": "2026-01-16",
+      "package": "krb5",
+      "role": "Kerberos auth",
+      "severity": "HIGH",
+      "cvss": 7.1,
+      "cwes": [
+        "CWE-190"
+      ],
+      "attack_vector": "NETWORK",
+      "summary": "In MIT Kerberos 5 (aka krb5) before 1.22 (with incremental propagation), there is an integer overflow for a large update size to resize() in kdb_log.c. An authenticated attacker can cause an out-of-bo"
+    },
+    {
+      "cve": "CVE-2025-69981",
+      "published": "2026-02-03",
+      "package": "sqlite",
+      "role": "Embedded database",
+      "severity": "CRITICAL",
+      "cvss": 9.8,
+      "cwes": [
+        "CWE-434"
+      ],
+      "attack_vector": "NETWORK",
+      "summary": "FUXA v1.2.7 contains an Unrestricted File Upload vulnerability in the `/api/upload` API endpoint. The endpoint lacks authentication mechanisms, allowing unauthenticated remote attackers to upload arbi"
+    },
+    {
+      "cve": "CVE-2026-2250",
+      "published": "2026-02-11",
+      "package": "sqlite",
+      "role": "Embedded database",
+      "severity": "HIGH",
+      "cvss": 7.5,
+      "cwes": [
+        "CWE-215",
+        "CWE-284"
+      ],
+      "attack_vector": "NETWORK",
+      "summary": "The /dbviewer/ web endpoint in METIS WIC devices is exposed without authentication. A remote attacker can access and export the internal telemetry SQLite database containing sensitive operational data"
+    },
+    {
+      "cve": "CVE-2026-23162",
+      "published": "2026-02-14",
+      "package": "systemd",
+      "role": "Init system",
+      "severity": "HIGH",
+      "cvss": 7.8,
+      "cwes": [
+        "CWE-415"
+      ],
+      "attack_vector": "LOCAL",
+      "summary": "In the Linux kernel, the following vulnerability has been resolved:\n\ndrm/xe/nvm: Fix double-free on aux add failure\n\nAfter a successful auxiliary_device_init(), aux_dev->dev.release\n(xe_nvm_release_de"
+    },
+    {
+      "cve": "CVE-2026-27510",
+      "published": "2026-02-26",
+      "package": "sqlite",
+      "role": "Embedded database",
+      "severity": "CRITICAL",
+      "cvss": 9.6,
+      "cwes": [
+        "CWE-345"
+      ],
+      "attack_vector": "NETWORK",
+      "summary": "Unitree Go2 firmware versions 1.1.7 through 1.1.11, when used with the Unitree Go2 Android application (com.unitree.doggo2), are vulnerable to remote code execution due to missing integrity protection"
+    },
+    {
+      "cve": "CVE-2026-28372",
+      "published": "2026-02-27",
+      "package": "systemd",
+      "role": "Init system",
+      "severity": "HIGH",
+      "cvss": 7.8,
+      "cwes": [
+        "CWE-829"
+      ],
+      "attack_vector": "LOCAL",
+      "summary": "telnetd in GNU inetutils through 2.7 allows privilege escalation that can be exploited by abusing systemd service credentials support added to the login(1) implementation of util-linux in release 2.40"
+    },
+    {
+      "cve": "CVE-2026-3381",
+      "published": "2026-03-05",
+      "package": "zlib",
+      "role": "Compression",
+      "severity": "CRITICAL",
+      "cvss": 9.8,
+      "cwes": [
+        "CWE-1284"
+      ],
+      "attack_vector": "NETWORK",
+      "summary": "Compress::Raw::Zlib versions through 2.219 for Perl use potentially insecure versions of zlib.\n\nCompress::Raw::Zlib includes a copy of the zlib library. Compress::Raw::Zlib version 2.220 includes zlib"
+    },
+    {
+      "cve": "CVE-2018-25180",
+      "published": "2026-03-06",
+      "package": "sqlite",
+      "role": "Embedded database",
+      "severity": "HIGH",
+      "cvss": 7.1,
+      "cwes": [
+        "CWE-89"
+      ],
+      "attack_vector": "NETWORK",
+      "summary": "Maitra 1.7.2 contains an sql injection vulnerability that allows authenticated attackers to execute arbitrary SQL queries by injecting malicious code through the mailid parameter in outmail and inmail"
+    },
+    {
+      "cve": "CVE-2026-32063",
+      "published": "2026-03-11",
+      "package": "systemd",
+      "role": "Init system",
+      "severity": "HIGH",
+      "cvss": 7.8,
+      "cwes": [
+        "CWE-77"
+      ],
+      "attack_vector": "LOCAL",
+      "summary": "OpenClaw version 2026.2.19-2 prior to 2026.2.21 contains a command injection vulnerability in systemd unit file generation where attacker-controlled environment values are not validated for CR/LF char"
+    },
+    {
+      "cve": "CVE-2026-31979",
+      "published": "2026-03-11",
+      "package": "systemd",
+      "role": "Init system",
+      "severity": "HIGH",
+      "cvss": 8.8,
+      "cwes": [
+        "CWE-59"
+      ],
+      "attack_vector": "LOCAL",
+      "summary": "Himmelblau is an interoperability suite for Microsoft Azure Entra ID and Intune. Prior to 3.1.0 and 2.3.8, the himmelblaud-tasks daemon, running as root, writes Kerberos cache files under /tmp/krb5cc_"
+    },
+    {
+      "cve": "CVE-2025-70873",
+      "published": "2026-03-12",
+      "package": "sqlite",
+      "role": "Embedded database",
+      "severity": "HIGH",
+      "cvss": 7.5,
+      "cwes": [
+        "CWE-244"
+      ],
+      "attack_vector": "NETWORK",
+      "summary": "An information disclosure issue in the zipfileInflate function in the zipfile extension in SQLite v3.51.1 and earlier allows attackers to obtain heap memory via supplying a crafted ZIP file."
+    },
+    {
+      "cve": "CVE-2026-2229",
+      "published": "2026-03-12",
+      "package": "zlib",
+      "role": "Compression",
+      "severity": "HIGH",
+      "cvss": 7.5,
+      "cwes": [
+        "CWE-248",
+        "CWE-1284"
+      ],
+      "attack_vector": "NETWORK",
+      "summary": "ImpactThe undici WebSocket client is vulnerable to a denial-of-service attack due to improper validation of the\u00a0server_max_window_bits\u00a0parameter in the permessage-deflate extension. When a WebSocket c"
+    },
+    {
+      "cve": "CVE-2026-4111",
+      "published": "2026-03-13",
+      "package": "libarchive",
+      "role": "Archive handling",
+      "severity": "HIGH",
+      "cvss": 7.5,
+      "cwes": [
+        "CWE-835"
+      ],
+      "attack_vector": "NETWORK",
+      "summary": "A flaw was identified in the RAR5 archive decompression logic of the libarchive library, specifically within the archive_read_data() processing path. When a specially crafted RAR5 archive is processed"
+    },
+    {
+      "cve": "CVE-2026-3888",
+      "published": "2026-03-17",
+      "package": "systemd",
+      "role": "Init system",
+      "severity": "HIGH",
+      "cvss": 7.8,
+      "cwes": [
+        "CWE-268"
+      ],
+      "attack_vector": "LOCAL",
+      "summary": "Local privilege escalation in snapd on Linux allows local attackers to get root privilege by re-creating snap's private /tmp directory when systemd-tmpfiles is configured to automatically clean up thi"
+    },
+    {
+      "cve": "CVE-2026-27135",
+      "published": "2026-03-18",
+      "package": "nghttp2",
+      "role": "HTTP/2 parser",
+      "severity": "HIGH",
+      "cvss": 7.5,
+      "cwes": [
+        "CWE-617"
+      ],
+      "attack_vector": "NETWORK",
+      "summary": "nghttp2 is an implementation of the Hypertext Transfer Protocol version 2 in C. Prior to version 1.68.1, the nghttp2 library stops reading the incoming data when user facing public API `nghttp2_sessio"
+    },
+    {
+      "cve": "CVE-2026-32606",
+      "published": "2026-03-18",
+      "package": "systemd",
+      "role": "Init system",
+      "severity": "HIGH",
+      "cvss": 7.6,
+      "cwes": [
+        "CWE-522"
+      ],
+      "attack_vector": "PHYSICAL",
+      "summary": "IncusOS is an immutable OS image dedicated to running Incus. Prior to 202603142010, the default configuration of systemd-cryptenroll as used by IncusOS through mkosi allows for an attacker with physic"
+    },
+    {
+      "cve": "CVE-2026-31891",
+      "published": "2026-03-18",
+      "package": "sqlite",
+      "role": "Embedded database",
+      "severity": "HIGH",
+      "cvss": 7.7,
+      "cwes": [
+        "CWE-89"
+      ],
+      "attack_vector": "NETWORK",
+      "summary": "Cockpit is a headless content management system. Any Cockpit CMS instance running version 2.13.4 or earlier with API access enabled is potentially affected by a a SQL Injection vulnerability in the Mo"
+    },
+    {
+      "cve": "CVE-2006-10002",
+      "published": "2026-03-19",
+      "package": "expat",
+      "role": "XML SAX parser",
+      "severity": "CRITICAL",
+      "cvss": 9.8,
+      "cwes": [
+        "CWE-122",
+        "CWE-176"
+      ],
+      "attack_vector": "NETWORK",
+      "summary": "XML::Parser versions through 2.45 for Perl could overflow the pre-allocated buffer size cause a heap corruption (double free or corruption) and crashes.\n\nA :utf8 PerlIO layer, parse_stream() in Expat."
+    },
+    {
+      "cve": "CVE-2026-4424",
+      "published": "2026-03-19",
+      "package": "libarchive",
+      "role": "Archive handling",
+      "severity": "HIGH",
+      "cvss": 7.5,
+      "cwes": [
+        "CWE-125"
+      ],
+      "attack_vector": "NETWORK",
+      "summary": "A flaw was found in libarchive. This heap out-of-bounds read vulnerability exists in the RAR archive processing logic due to improper validation of the LZSS sliding window size after transitions betwe"
+    },
+    {
+      "cve": "CVE-2026-32763",
+      "published": "2026-03-20",
+      "package": "sqlite",
+      "role": "Embedded database",
+      "severity": "HIGH",
+      "cvss": 8.2,
+      "cwes": [
+        "CWE-89"
+      ],
+      "attack_vector": "NETWORK",
+      "summary": "Kysely is a type-safe TypeScript SQL query builder. Versions up to and including 0.28.11 has a SQL injection vulnerability in JSON path compilation for MySQL and SQLite dialects. The `visitJSONPathLeg"
+    },
+    {
+      "cve": "CVE-2026-32767",
+      "published": "2026-03-20",
+      "package": "sqlite",
+      "role": "Embedded database",
+      "severity": "CRITICAL",
+      "cvss": 9.8,
+      "cwes": [
+        "CWE-89",
+        "CWE-863"
+      ],
+      "attack_vector": "NETWORK",
+      "summary": "SiYuan is a personal knowledge management system. Versions 3.6.0 and below contain an authorization bypass vulnerability in the /api/search/fullTextSearchBlock endpoint. When the method parameter is s"
+    },
+    {
+      "cve": "CVE-2026-33713",
+      "published": "2026-03-25",
+      "package": "sqlite",
+      "role": "Embedded database",
+      "severity": "HIGH",
+      "cvss": 8.8,
+      "cwes": [
+        "CWE-89"
+      ],
+      "attack_vector": "NETWORK",
+      "summary": "n8n is an open source workflow automation platform. Prior to versions 2.14.1, 2.13.3, and 1.123.26, an authenticated user with permission to create or modify workflows could exploit a SQL injection vu"
+    },
+    {
+      "cve": "CVE-2026-33945",
+      "published": "2026-03-27",
+      "package": "systemd",
+      "role": "Init system",
+      "severity": "CRITICAL",
+      "cvss": 9.9,
+      "cwes": [
+        "CWE-22"
+      ],
+      "attack_vector": "NETWORK",
+      "summary": "Incus is a system container and virtual machine manager. Incus instances have an option to provide credentials to systemd in the guest. For containers, this is handled through a shared directory. Prio"
+    },
+    {
+      "cve": "CVE-2026-33735",
+      "published": "2026-03-27",
+      "package": "sqlite",
+      "role": "Embedded database",
+      "severity": "HIGH",
+      "cvss": 8.8,
+      "cwes": [
+        "CWE-639",
+        "CWE-285"
+      ],
+      "attack_vector": "NETWORK",
+      "summary": "MyTube is a self-hosted downloader and player for several video websites Prior to version 1.8.69, an authorization bypass in the `/api/settings/import-database` endpoint allows attackers with low-priv"
+    },
+    {
+      "cve": "CVE-2026-33906",
+      "published": "2026-03-27",
+      "package": "sqlite",
+      "role": "Embedded database",
+      "severity": "HIGH",
+      "cvss": 7.2,
+      "cwes": [
+        "CWE-269"
+      ],
+      "attack_vector": "NETWORK",
+      "summary": "Ella Core is a 5G core designed for private networks. Prior to version 1.7.0, the NetworkManager role was granted backup and restore permission. The restore endpoint accepted any valid SQLite file wit"
+    },
+    {
+      "cve": "CVE-2026-4176",
+      "published": "2026-03-29",
+      "package": "zlib",
+      "role": "Compression",
+      "severity": "CRITICAL",
+      "cvss": 9.8,
+      "cwes": [],
+      "attack_vector": "NETWORK",
+      "summary": "Perl versions from 5.9.4 before 5.40.4-RC1, from 5.41.0 before 5.42.2-RC1, from 5.43.0 before 5.43.9 contain a vulnerable version of Compress::Raw::Zlib.\n\nCompress::Raw::Zlib is included in the Perl p"
+    },
+    {
+      "cve": "CVE-2026-5121",
+      "published": "2026-03-30",
+      "package": "libarchive",
+      "role": "Archive handling",
+      "severity": "CRITICAL",
+      "cvss": 9.8,
+      "cwes": [
+        "CWE-190"
+      ],
+      "attack_vector": "NETWORK",
+      "summary": "A flaw was found in libarchive. On 32-bit systems, an integer overflow vulnerability exists in the zisofs block pointer allocation logic. A remote attacker can exploit this by providing a specially cr"
+    },
+    {
+      "cve": "CVE-2026-32714",
+      "published": "2026-03-31",
+      "package": "sqlite",
+      "role": "Embedded database",
+      "severity": "CRITICAL",
+      "cvss": 9.8,
+      "cwes": [
+        "CWE-89"
+      ],
+      "attack_vector": "NETWORK",
+      "summary": "SciTokens is a reference library for generating and using SciTokens. Prior to version 1.9.6, the KeyCache class in scitokens was vulnerable to SQL Injection because it used Python's str.format() to co"
+    },
+    {
+      "cve": "CVE-2026-40036",
+      "published": "2026-04-08",
+      "package": "zlib",
+      "role": "Compression",
+      "severity": "HIGH",
+      "cvss": 7.5,
+      "cwes": [
+        "CWE-770",
+        "CWE-409"
+      ],
+      "attack_vector": "NETWORK",
+      "summary": "Unfurl before\u00a02026.04 contains an unbounded zlib decompression vulnerability in parse_compressed.py that allows remote attackers to cause denial of service. Attackers can submit highly compressed payl"
+    },
+    {
+      "cve": "CVE-2026-40315",
+      "published": "2026-04-14",
+      "package": "sqlite",
+      "role": "Embedded database",
+      "severity": "CRITICAL",
+      "cvss": 9.8,
+      "cwes": [
+        "CWE-89"
+      ],
+      "attack_vector": "NETWORK",
+      "summary": "PraisonAI is a multi-agent teams system. Prior to 4.5.133, there is an SQL identifier injection vulnerability in SQLiteConversationStore where the table_prefix configuration value is directly concaten"
+    },
+    {
+      "cve": "CVE-2026-35465",
+      "published": "2026-04-18",
+      "package": "sqlite",
+      "role": "Embedded database",
+      "severity": "HIGH",
+      "cvss": 7.5,
+      "cwes": [
+        "CWE-73",
+        "CWE-36"
+      ],
+      "attack_vector": "NETWORK",
+      "summary": "SecureDrop Client is a desktop app for journalists to securely communicate with sources and handle submissions on the SecureDrop Workstation. In versions 0.17.4 and below, a compromised SecureDrop Ser"
+    }
+  ]
+}
