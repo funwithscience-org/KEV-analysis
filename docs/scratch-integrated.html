@@ -160,9 +160,9 @@ Preview build (<code>noindex</code>) · Successor to the published periodicity p
 <p>To force the strategies to differentiate, we widen the scope:</p>
 
 <ul class="findings">
-<li><strong>A 7-year window</strong> instead of 12 months — enough exploit ground truth to actually score recall.</li>
+<li><strong>A 7-year window</strong> instead of 12 months — enough exploit ground truth to actually score effectiveness.</li>
 <li><strong>An actual production estate manifest</strong> with version sprawl — Spring Boot 2.x estate with 60 unique packages across 176 version-pinned entries, not a synthetic 48-package framework view.</li>
-<li><strong>Effective recall via floor sweep</strong>, not just direct catch — a routine rebuild applies the latest version of <em>every</em> dependency, which means a long-TTE exploit gets effectively patched if any other strategy trigger fires during the window.</li>
+<li><strong>Effective coverage via floor sweep</strong>, not just direct catch — a routine rebuild applies the latest version of <em>every</em> dependency, which means a long-TTE exploit gets effectively patched if any other strategy trigger fires during the window.</li>
 <li><strong>Burst vs silence operational pattern</strong>, not just averaged "patch events per year".</li>
 </ul>
 
@@ -194,8 +194,8 @@ Preview build (<code>noindex</code>) · Successor to the published periodicity p
 <th>Patch events (7-day clustered)</th>
 <th>Raw triggers</th>
 <th>Exploits caught</th>
-<th>Recall</th>
-<th>Per-exploit overhead</th>
+<th>Effectiveness</th>
+<th>Efficiency (overhead per exploit)</th>
 </tr></thead>
 <tbody>
 <tr><td>Patch all C+H</td><td>80</td><td>223</td><td>13/13</td><td>100%</td><td class="frac-mid">6.2x</td></tr>
@@ -245,12 +245,14 @@ Preview build (<code>noindex</code>) · Successor to the published periodicity p
 <strong>The flip side: during the bursts, no strategy buys you out of the work.</strong> 2020-Q2 (29 events), 2021-Q4 (20 events Log4Shell+Spring Security), 2022-Q4 (Text4Shell+SnakeYAML+Tomcat smuggling) — the team is in emergency mode regardless. The hacker's value isn't fewer emergencies during bursts; it's <em>not having</em> emergencies during the 17 quiet quarters when the comparator and patch-criticals are still demanding attention.
 </div>
 
-<h2>8. Effective recall via floor sweep</h2>
+<h2>8. Effectiveness via floor sweep</h2>
 
-<p>Per the <a href="build-mechanics.html#free" style="color:var(--accent)">build-mechanics analysis</a>, every emergency rebuild applies the latest version of <em>every</em> dependency — not just the trigger. So a long-TTE exploit gets effectively patched if any other filter trigger fires during the TTE window. The exposure ceiling for any specific exploit is "until the next filter trigger fires," not "until the filter catches this specific event."</p>
+<p>Direct catch is the strict measure: did the strategy fire on the trigger date for the exploited package? But that's not how a real estate works. Once a strategy fires, the rebuild it kicks off applies the latest version of every dependency, not just the trigger. So a long-TTE exploit gets effectively patched if any other strategy trigger fires during the time-to-exploit window.</p>
+
+<p>The exposure ceiling for any specific exploit becomes "until the next strategy trigger fires," not "until the strategy catches this specific event." See the <a href="build-mechanics.html#free" style="color:var(--accent)">build-mechanics page</a> for the underlying argument.</p>
 
 <table>
-<thead><tr><th>Strategy</th><th>Direct catches</th><th>Floor-sweep rescues</th><th>True misses</th><th>Effective recall</th></tr></thead>
+<thead><tr><th>Strategy</th><th>Direct catches</th><th>Floor-sweep rescues</th><th>True misses</th><th>Effectiveness</th></tr></thead>
 <tbody>
 <tr><td>Patch criticals only</td><td>7</td><td>4 (long-TTE rescued by next critical)</td><td>2 (CGI Win + 2017 file uploads)</td><td>11/13 (85%)</td></tr>
 <tr><td>NP+DI raw</td><td>6</td><td>5</td><td>2</td><td>11/13 (85%)</td></tr>
@@ -318,7 +320,7 @@ Preview build (<code>noindex</code>) · Successor to the published periodicity p
 <h2>11. Synthesis</h2>
 
 <div class="callout callout-finding">
-<strong>Recall headline:</strong> NP+DI + AI scan and Hacker S+A both reach 9/13 = 69% direct recall and 11/13 = 85% effective recall via floor sweep. They catch <em>different</em> 9 events — the comparator owns the famous-bug + auth-rescue cluster; the hacker owns the deserialization + utility-evaluator cluster. Their union catches 11/13 directly. The remaining 2 (Tomcat HTTP PUT 2017) are out-of-scope by design.
+<strong>Effectiveness headline:</strong> NP+DI + AI scan and Hacker S+A both reach 9/13 = 69% direct effectiveness and 11/13 = 85% effective coverage once floor-sweep rescues are counted. They catch <em>different</em> 9 events — the comparator owns the famous-bug + auth-rescue cluster; the hacker owns the deserialization + utility-evaluator cluster. Their union catches 11/13 directly. The remaining 2 (Tomcat HTTP PUT 2017) are out-of-scope by design.
 </div>
 
 <div class="callout callout-good">
@@ -341,7 +343,7 @@ Preview build (<code>noindex</code>) · Successor to the published periodicity p
 
 <p><strong>Patch-event clustering.</strong> Triggers within 7 days of each other count as a single patch event, matching the convention used elsewhere in this analysis: a defender already in an emergency rebuild absorbs the next CVE in the same forced march.</p>
 
-<p><strong>Floor-sweep effective recall.</strong> Per the <a href="build-mechanics.html#free" style="color:var(--accent)">build-mechanics page</a>, every emergency rebuild applies the latest version of every dependency, so a long-TTE exploit is effectively patched if any other strategy trigger fires during the time-to-exploit window. Direct catches and floor-sweep rescues are accounted separately.</p>
+<p><strong>Floor-sweep effectiveness.</strong> Per the <a href="build-mechanics.html#free" style="color:var(--accent)">build-mechanics page</a>, every emergency rebuild applies the latest version of every dependency, so a long-TTE exploit is effectively patched if any other strategy trigger fires during the time-to-exploit window. Direct catches and floor-sweep rescues are accounted separately. <em>Effectiveness</em> is the rate of exploited events caught; <em>efficiency</em> is the patch-event-to-exploit-caught overhead ratio.</p>
 
 <p><strong>WAF-defensibility tags.</strong> Sourced from the WAF-aware operator pass on the 175-event Java/Spring blinded ranking. WAF-FRIENDLY = signature-able payload, generic OWASP rules cover, emergency rule ships within hours. WAF-MEDIUM = signature exists but evadable. WAF-HOSTILE = wrong protocol entirely or attack indistinguishable from legitimate traffic.</p>
 
