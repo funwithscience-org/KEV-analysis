@@ -134,7 +134,7 @@ details.expandable .detail-content{padding:16px 20px}
 <a href="periodicity.html">Periodicity Analysis</a>
 <a href="build-mechanics.html">Build Mechanics</a>
 <a href="cve-reference.html">CVE Reference</a>
-<a href="glasswing.html">Glasswing</a>
+<a href="glasswing.html">Mythos</a>
 </nav>
 
 <div style="background:#f1f5f9;color:#475569;padding:8px 14px;border-radius:6px;font-size:.82em;margin:12px 24px 0;text-align:center;border:1px solid var(--border);max-width:1200px;margin-left:auto;margin-right:auto">
@@ -160,10 +160,8 @@ Preview build (<code style="background:#e2e8f0;padding:1px 6px;border-radius:3px
 <a href="#external-validation"><span class="toc-num">9</span> External Validation</a>
 <a href="#patching-model"><span class="toc-num">10</span> Three-Tier Patching</a>
 <a href="#proxy"><span class="toc-num">11</span> Reverse Proxy Myth</a>
-<a href="#mythos"><span class="toc-num">12</span> Mythos Detector</a>
-<a href="#glasswing" class="sub">Glasswing Participants</a>
-<a href="#watchlist"><span class="toc-num">13</span> Exploit Watch List</a>
-<a href="#caveats"><span class="toc-num">14</span> Caveats</a>
+<a href="#watchlist"><span class="toc-num">12</span> Exploit Watch List</a>
+<a href="#caveats"><span class="toc-num">13</span> Caveats</a>
 </nav>
 
 <!-- MAIN CONTENT -->
@@ -844,124 +842,9 @@ The key word is "constrain," not "prevent." It's a seatbelt, not an airbag.
 </div>
 </details>
 
-<!-- ========== 12. MYTHOS DETECTOR ========== -->
-<h2 id="mythos">12. Mythos Detector: Will AI Break the CVE Firehose?</h2>
 
-<div class="translation"><strong>In plain English:</strong> AI just started finding vulnerabilities 90x faster than before. Your dependency update backlog is about to get heavier -- and the network-parser libraries will be hit first. <span class="tag tag-spec">SPECULATIVE</span></div>
-
-<p>On April 7, 2026, Anthropic publicly announced <strong>Project Glasswing</strong> -- an initiative providing its
-unreleased Mythos Preview model to major technology companies so they can autonomously scan their own codebases for
-vulnerabilities. Participants had access before the public announcement and were already finding and fixing bugs.
-The question for vulnerability management teams: will this meaningfully increase the monthly CVE volume?</p>
-
-<h3>Baseline: Monthly CVE Volume (Jan 2025 - Apr 2026)</h3>
-
-<div class="chart-wrap">
-<h4>Monthly CVE Publications vs KEV Additions</h4>
-<canvas id="docMythosBaselineChart"></canvas>
-</div>
-
-<table class="data-table">
-<thead><tr><th>Period</th><th>Monthly CVE Avg</th><th>Monthly KEV Avg</th><th>CVE YoY Change</th></tr></thead>
-<tbody>
-<tr><td>2025 Full Year</td><td><strong>4,015</strong></td><td><strong>20.4</strong></td><td>+16% vs 2024</td></tr>
-<tr><td>2026 Q1 (Jan-Mar)</td><td><strong>5,418</strong></td><td><strong>23.7</strong></td><td><span class="tag tag-red">+35.3% vs 2025 Q1</span></td></tr>
-<tr><td>2026 March alone</td><td><strong>6,304</strong></td><td>26</td><td><span class="tag tag-red">+57.1% vs Mar 2025</span></td></tr>
-<tr><td>2026 April MTD (day 25)</td><td><strong>5,037</strong> (ex. ~6,044)</td><td>24</td><td><span class="tag">Pacing below March</span></td></tr>
-</tbody></table>
-
-<div class="callout callout-warning">
-<strong>The volume trend was already accelerating before Mythos.</strong> CVE publications grew ~16% in 2025, but Q1 2026
-is running +35.3% YoY. This growth is driven by expanded CNA participation, automated fuzzing, and broader disclosure norms -- not yet by Glasswing.
-</div>
-
-<h3>What Mythos Has Found So Far</h3>
-
-<p>As of <strong>April 22, 2026</strong>, Mozilla disclosed that <strong>Firefox 150 fixes 271 vulnerabilities identified during a single Claude Mythos evaluation pass</strong> (MFSA 2026-30). Of those, 41 were promoted to CVE entries and <strong>three are officially credited to Claude</strong>: CVE-2026-6746, CVE-2026-6757, CVE-2026-6758. Including prior disclosures, <strong>~283 Mythos-linked fixes</strong> are now public and <strong>six</strong> carry explicit Claude/Mythos CVE credit:</p>
-<ul style="margin:.8em 0;padding-left:1.5em;color:#334155">
-<li><strong>CVE-2026-4747</strong> -- FreeBSD NFS RCE (17-year-old bug). Confirmed autonomous Glasswing find.</li>
-<li><strong>CVE-2026-5194</strong> -- wolfSSL certificate-validation bypass (~5B affected devices). Press-confirmed as Mythos Preview-assisted.</li>
-<li><strong>CVE-2026-5588</strong> -- Bouncy Castle cryptographic library. Credited to Carlini + Claude.</li>
-<li><strong>CVE-2026-6746, CVE-2026-6757, CVE-2026-6758</strong> -- Firefox 150 (JavaScript engine: invalid pointer, use-after-free, related). Officially credited to Claude in MFSA 2026-30.</li>
-</ul>
-
-<p>The vast majority of Mozilla's 271 findings are lower-severity issues that don't meet the CVE-assignment threshold -- Mythos appears to be generating a long tail of small bugs alongside a smaller number of CVE-worthy ones. Counter-argument: a 271-to-3 ratio of "fixes" to "credited CVEs" means the headline number overstates the severity and is partly a reflection of Mozilla's internal triage choices, not a direct measure of AI-discovered exploitability.</p>
-
-<p>Products linked to Mythos predominantly <em>parse untrusted network input</em> -- consistent with our finding that network-parsing is the primary exploitation predictor. Mythos appears to be finding vulnerabilities in exactly the categories our analysis shows are most dangerous.</p>
-
-<div class="chart-wrap">
-<h4>Mythos-Linked CVEs by Product (VulnCheck Analysis)</h4>
-<canvas id="docMythosCveChart"></canvas>
-</div>
-
-<h3>Probable Participant Self-Scan Findings</h3>
-
-<p>Beyond explicitly credited CVEs, we track probable Glasswing participant self-scan findings. The strongest signal: a <strong>Cisco cluster</strong> -- four critical vulnerabilities disclosed in a single batch on April 15, 2026. Three ISE RCEs via crafted HTTP requests plus a Webex SSO certificate-validation bypass.</p>
-
-<table class="data-table">
-<thead><tr><th>CVE</th><th>Participant</th><th>Product</th><th>CVSS</th><th>HTTP-Adjacent Vector</th><th>Why Probable</th></tr></thead>
-<tbody>
-<tr><td><code>CVE-2026-20180</code></td><td><strong>Cisco</strong></td><td>ISE</td><td><strong style="color:#dc2626">9.9</strong></td><td>Crafted HTTP request - RCE</td><td>Cluster: 3 ISE RCEs in one batch. Systematic input-validation findings.</td></tr>
-<tr><td><code>CVE-2026-20186</code></td><td><strong>Cisco</strong></td><td>ISE</td><td><strong style="color:#dc2626">9.9</strong></td><td>Crafted HTTP request - RCE</td><td>Same batch, different code path.</td></tr>
-<tr><td><code>CVE-2026-20147</code></td><td><strong>Cisco</strong></td><td>ISE</td><td><strong style="color:#dc2626">9.9</strong></td><td>Crafted HTTP request - RCE</td><td>Third ISE RCE in same batch.</td></tr>
-<tr><td><code>CVE-2026-20184</code></td><td><strong>Cisco</strong></td><td>Webex</td><td><strong style="color:#dc2626">9.8</strong></td><td>SSO cert validation bypass</td><td>Same disclosure batch. Cert-handling flaw.</td></tr>
-</tbody></table>
-
-<h3>Capability Benchmarks</h3>
-
-<table class="data-table">
-<thead><tr><th>Benchmark</th><th>Mythos Preview</th><th>Prior Best (Opus 4.6)</th><th>Multiplier</th></tr></thead>
-<tbody>
-<tr><td>Firefox JS engine exploits</td><td><strong>181</strong></td><td>2</td><td><span class="tag tag-red">90x</span></td></tr>
-<tr><td>OSS-Fuzz full control hijacks</td><td><strong>10</strong></td><td>1</td><td><span class="tag tag-red">10x</span></td></tr>
-<tr><td>Linux kernel CVE exploitation (of 40)</td><td><strong>>20</strong></td><td>--</td><td>--</td></tr>
-<tr><td>Cost: OpenBSD TCP SACK vuln</td><td colspan="2">&lt;$20,000</td><td>--</td></tr>
-<tr><td>Cost: Linux kernel exploit chain</td><td colspan="2">&lt;$2,000 in under a day</td><td>--</td></tr>
-</tbody></table>
-
-<h3 id="glasswing">Glasswing Participants</h3>
-
-<p>The 13 named launch partners:</p>
-
-<table class="data-table">
-<thead><tr><th>Organization</th><th>Key Software Surface</th><th>Expected Impact</th></tr></thead>
-<tbody>
-<tr><td>Microsoft</td><td>Windows, Office, Azure, Exchange, AD</td><td><span class="tag tag-red">Massive</span></td></tr>
-<tr><td>Google</td><td>Chrome, Android, Cloud</td><td><span class="tag tag-red">Massive</span></td></tr>
-<tr><td>Apple</td><td>iOS, macOS, Safari, WebKit</td><td><span class="tag tag-red">Massive</span></td></tr>
-<tr><td>Amazon Web Services</td><td>Cloud infrastructure, Linux</td><td><span class="tag tag-amber">High</span></td></tr>
-<tr><td>Cisco</td><td>IOS, ASA, network appliances</td><td><span class="tag tag-amber">High</span></td></tr>
-<tr><td>Palo Alto Networks</td><td>PAN-OS, firewalls, VPN</td><td><span class="tag tag-amber">High</span></td></tr>
-<tr><td>Broadcom</td><td>VMware, Symantec, chipsets</td><td><span class="tag tag-amber">High</span></td></tr>
-<tr><td>Intel</td><td>CPU microcode, firmware, SGX</td><td>Moderate</td></tr>
-<tr><td>Nvidia</td><td>GPU drivers, CUDA, AI infra</td><td>Moderate</td></tr>
-<tr><td>CrowdStrike</td><td>Falcon agent, EDR</td><td>Moderate</td></tr>
-<tr><td>Linux Foundation</td><td>Kernel, OpenSSL, systemd</td><td><span class="tag tag-red">Massive</span></td></tr>
-<tr><td>JPMorganChase</td><td>Internal + financial middleware</td><td>Sector-specific</td></tr>
-<tr><td>Anthropic</td><td>AI infrastructure</td><td>Self-scanning</td></tr>
-</tbody></table>
-
-<h3>Projection: Impact Scenarios</h3>
-
-<div class="chart-wrap">
-<h4>Monthly CVE Trend with Projected Glasswing Impact Scenarios</h4>
-<canvas id="docMythosProjectionChart"></canvas>
-</div>
-
-<div class="callout callout-danger">
-<strong>Bottom line:</strong> Even the conservative scenario (+500 CVEs/month from Glasswing) would push monthly volume past 6,000 sustainably.
-The aggressive scenario could add 2,000-5,000 CVEs/month. This makes the NP+DI filter even more important -- without a structural prioritization model, the increased volume will overwhelm patch management processes.
-</div>
-
-<h3>Patch Velocity: Windows 11 vs RHEL 8</h3>
-
-<div class="chart-wrap">
-<h4>Monthly Security Fixes: Microsoft Patch Tuesday vs RHEL 8</h4>
-<canvas id="docPatchVelocityChart"></canvas>
-</div>
-
-<!-- ========== 13. EXPLOIT WATCH LIST ========== -->
-<h2 id="watchlist">13. Exploit Watch List -- Network-Parser Attack Surface</h2>
+<!-- ========== 12. EXPLOIT WATCH LIST ========== -->
+<h2 id="watchlist">12. Exploit Watch List -- Network-Parser Attack Surface</h2>
 
 <div class="translation"><strong>In plain English:</strong> We're putting the thesis to the test in real time. This is the live scorecard.</div>
 
@@ -1013,8 +896,8 @@ The aggressive scenario could add 2,000-5,000 CVEs/month. This makes the NP+DI f
 </tbody>
 </table>
 
-<!-- ========== 14. CAVEATS ========== -->
-<h2 id="caveats">14. Caveats & Methodology Limitations</h2>
+<!-- ========== 13. CAVEATS ========== -->
+<h2 id="caveats">13. Caveats & Methodology Limitations</h2>
 
 <div class="translation"><strong>In plain English:</strong> This analysis has real blind spots. We're transparent about what the data can and can't tell us.</div>
 
@@ -1262,80 +1145,6 @@ new Chart(document.getElementById('crossFrameworkChart'), {
     }
   });
 })();
-
-// Mythos baseline chart
-const mythosMonths = ["2025-01", "2025-02", "2025-03", "2025-04", "2025-05", "2025-06", "2025-07", "2025-08", "2025-09", "2025-10", "2025-11", "2025-12", "2026-01", "2026-02", "2026-03", "2026-04"];
-const mythosCveVals = mythosMonths.map(m => ({"2025-01": 4200, "2025-02": 3800, "2025-03": 4012, "2025-04": 3950, "2025-05": 3900, "2025-06": 3850, "2025-07": 4100, "2025-08": 4050, "2025-09": 3950, "2025-10": 4150, "2025-11": 4000, "2025-12": 4212, "2026-01": 5143, "2026-02": 4808, "2026-03": 6304, "2026-04": 5865})[m]);
-const mythosKevVals = mythosMonths.map(m => ({"2025-01": 14, "2025-02": 27, "2025-03": 32, "2025-04": 15, "2025-05": 24, "2025-06": 20, "2025-07": 20, "2025-08": 15, "2025-09": 16, "2025-10": 31, "2025-11": 11, "2025-12": 20, "2026-01": 17, "2026-02": 28, "2026-03": 26, "2026-04": 28}[m] || 0));
-
-new Chart(document.getElementById('docMythosBaselineChart'), {
-    type: 'bar',
-    data: {
-        labels: mythosMonths,
-        datasets: [
-            {label:'CVEs Published',data:mythosCveVals,backgroundColor:'#4f46e5',borderRadius:3,yAxisID:'y'},
-            {label:'KEV Additions',data:mythosKevVals,backgroundColor:'#dc2626',borderRadius:3,yAxisID:'y1'}
-        ]
-    },
-    options: {
-        scales: {
-            y:{position:'left',title:{display:true,text:'CVEs Published'},beginAtZero:true},
-            y1:{position:'right',title:{display:true,text:'KEV Additions'},beginAtZero:true,grid:{drawOnChartArea:false}}
-        },
-        plugins:{legend:{position:'top'}}
-    }
-});
-
-// Mythos CVE breakdown chart
-const mythosCveProducts = ["Mozilla Firefox", "wolfSSL", "F5 NGINX Plus", "FreeBSD", "OpenSSL"];
-const mythosCveCounts = [271, 9, 1, 1, 1];
-new Chart(document.getElementById('docMythosCveChart'), {
-    type: 'bar',
-    data: {
-        labels: mythosCveProducts,
-        datasets: [{label:'CVEs Linked',data:mythosCveCounts,backgroundColor:['#4f46e5','#06b6d4','#10b981','#dc2626','#f59e0b'],borderRadius:3}]
-    },
-    options: {indexAxis:'y',plugins:{legend:{display:false}},scales:{x:{beginAtZero:true}}}
-});
-
-// Projection chart
-const projMonths = ['2025-01','2025-04','2025-07','2025-10','2026-01','2026-04','2026-07','2026-10','2027-01'];
-const baselineTrend = [4200,3950,4100,4150,5143,5000,5200,5400,5600];
-const conservativeScenario = [null,null,null,null,null,5865,7544,9044,10544];
-const aggressiveScenario = [null,null,null,null,null,5865,12044,14044,15044];
-
-new Chart(document.getElementById('docMythosProjectionChart'), {
-    type: 'line',
-    data: {
-        labels: projMonths,
-        datasets: [
-            {label:'Baseline Trend (no Glasswing)',data:baselineTrend,borderColor:'#64748b',backgroundColor:'rgba(100,116,132,.1)',fill:false,tension:.3,pointRadius:4,borderDash:[5,5]},
-            {label:'Conservative (+500/mo)',data:conservativeScenario,borderColor:'#d97706',backgroundColor:'rgba(217,119,6,.1)',fill:false,tension:.3,pointRadius:4},
-            {label:'Aggressive (+2-5k/mo)',data:aggressiveScenario,borderColor:'#dc2626',backgroundColor:'rgba(220,38,38,.1)',fill:false,tension:.3,pointRadius:4}
-        ]
-    },
-    options: {scales:{y:{title:{display:true,text:'Monthly CVEs'},beginAtZero:false,min:3000}},plugins:{legend:{position:'top'}}}
-});
-
-// Patch velocity chart
-const patchMonths = ["2025-01", "2025-02", "2025-03", "2025-04", "2025-05", "2025-06", "2025-07", "2025-08", "2025-09", "2025-10", "2025-11", "2025-12", "2026-01", "2026-02", "2026-03", "2026-04"];
-const msPatches = [157, 57, 57, 124, 71, 65, 127, 107, 80, 167, 63, 56, 112, 55, 79, 163];
-const rhelPatches = [15, 14, 18, 16, 17, 15, 19, 18, 16, 20, 19, 17, 22, 25, 28, 17];
-
-new Chart(document.getElementById('docPatchVelocityChart'), {
-    type: 'bar',
-    data: {
-        labels: patchMonths,
-        datasets: [
-            {label:'Microsoft Patch Tuesday',data:msPatches,backgroundColor:'#4f46e5',borderRadius:3},
-            {label:'RHEL 8 Security CVEs',data:rhelPatches,backgroundColor:'#dc2626',borderRadius:3}
-        ]
-    },
-    options: {
-        scales:{y:{beginAtZero:true,title:{display:true,text:'Security Fixes'}}},
-        plugins:{legend:{position:'top'}}
-    }
-});
 
 // NP+DI Funnel: real-manifest case study (§7g)
 (function(){
