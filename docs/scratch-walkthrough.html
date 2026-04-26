@@ -683,20 +683,34 @@ A network-parsing HIGH (7.0-7.9) at 0.89% beats a non-parsing CRITICAL (9.0-9.9)
 <p>The one CVE that lit up every exploitation source (CVE-2025-14847, zlib -- KEV, Metasploit, EPSS 0.77) is a non-trigger, but it's exploited through MongoDB's wire protocol, not through the Spring/Node/Django apps running on our container. The filter correctly treats it as non-triggering for these applications. That's not a miss -- that's the filter working as designed. Full details in the <a href="periodicity.html#external-validation" style="color:var(--accent)">periodicity analysis</a>.</p>
 
 <!-- ========== 10. PATCHING MODEL ========== -->
-<h2 id="patching-model">10. Putting It Together: The Three-Tier Patching Model</h2>
+<h2 id="patching-model">10. Putting It Together: Operational Response by Estate Maturity</h2>
 
-<div class="translation"><strong>In plain English:</strong> This is the answer to the question we started with: when do you drop everything and rebuild your application, and when do you let it ride? Three tiers, each backed by the data above.</div>
+<div class="translation"><strong>In plain English:</strong> The filter tells you <em>which</em> events to treat as emergencies. But what counts as an "emergency response" depends on what your team can actually do — a team that ships in hours has a different threshold than one that ships in months. The right operational frame sorts by estate maturity, not by trigger type.</div>
+
+<p>The honest version of "what should you do about this" depends on a parameter the filter alone doesn't capture: <strong>your fastest credible rebuild SLA</strong>. A team that can absorb a security patch in hours via routine BAU rebuild has very different operational needs than a team where every rebuild is a multi-week project. The same NP+DI trigger creates very different responses across those organizations.</p>
+
+<p>The <a href="build-mechanics.html#categories" style="color:var(--accent)">Build Mechanics page</a> develops the full estate-maturity framing (Cat 1 / Cat 2 / Cat 3) and the operational rules that fall out of it; this is the headline view:</p>
 
 <table class="data-table">
-<thead><tr><th>Tier</th><th>Trigger</th><th>Frequency</th><th>What You Rebuild</th><th>Rationale</th></tr></thead>
+<thead><tr><th>Category</th><th>What it means</th><th>How NP+DI / hacker S+A lands here</th></tr></thead>
 <tbody>
-<tr><td><span class="tag tag-red">Tier 1: Emergency</span></td><td>NP+DI in app layer</td><td><strong>2-6x/year</strong></td><td>App dependencies AND container base image</td><td>Real initial-access risk. Tomcat path traversal, Thymeleaf SSTI, Django SQLi -- these are the vulnerability classes that reach KEV.</td></tr>
-<tr><td><span class="tag tag-amber">Tier 2: Monthly cadence</span></td><td>Calendar (monthly)</td><td><strong>12x/year</strong></td><td>Container base image only</td><td>Blast radius control. Monthly refresh keeps worst-case privesc exposure at 5 CVEs instead of 21 (76% reduction). Not responding to any individual CVE -- just keeping the chaining surface small.</td></tr>
-<tr><td><span class="tag tag-green">Tier 3: Release cycle</span></td><td>Normal release cadence</td><td><strong>As scheduled</strong></td><td>Everything else</td><td>Non-NP library updates, non-DI C/H vulnerabilities, DoS bugs, info leaks. Zero of 34 skipped app-layer events and none of 48 OS-layer NETWORK events appeared in KEV.</td></tr>
+<tr><td><span class="tag tag-green">Cat 1</span> &mdash; absorbs in BAU</td><td>Apps that can rebuild in hours via routine pipeline. Patches arrive in the next normal build.</td><td>Tier-1 emergencies barely register. The discriminator's main value is informational ("we shipped the Spring4Shell fix yesterday on routine cadence").</td></tr>
+<tr><td><span class="tag tag-amber">Cat 2</span> &mdash; regular cadence</td><td>Apps on a weekly-to-monthly rebuild cadence. Discriminator-driven floor sweeps land cleanly. Most healthy estates live here.</td><td>NP+DI / hacker S+A triggers are the events worth interrupting cadence for. The hacker S+A bar of ~2-3 emergencies/year is what a Cat 2 team can sustain on routine cadence and still cover real exploitation.</td></tr>
+<tr><td><span class="tag tag-red">Cat 3</span> &mdash; long, governance-blocked</td><td>Apps with multi-week or multi-month rebuild paths, often gated by change-control or QA cycles outside the security team's control. Often larger than people admit.</td><td>Every emergency is a project. The discriminator matters most here — every false-positive emergency is weeks of work; every missed real one is a breach. The all-C/H bar of ~11/year drives Cat 2 estates back into Cat 3 reactive mode.</td></tr>
 </tbody></table>
 
 <div class="callout callout-finding">
-<strong>The shift from the old model:</strong> The old 72h/7d/30d SLA framework treated urgency as a function of CVSS severity and KEV presence. The new model treats urgency as a function of <em>attack surface structure</em> -- where the vulnerability sits in the parsing stack, not how scary its severity score is. This reduces emergency response from near-monthly (14 all-C/H events) to 2-6 genuinely dangerous events per year, while monthly container refresh controls the blast radius that CVSS actually measures well (local privilege escalation).
+<strong>The discriminator's second-order benefit: it makes the move from Cat 3 to Cat 2 possible.</strong> A team rebuilding every 2-3 weeks under all-C/H pressure can't credibly adopt a regular cadence — the cadence collides with the next emergency. The same team under NP+DI / hacker S+A pressure (2-6 emergencies per year) has months of slack between fires. That slack is where Cat 2 cadences get adopted, where get-latest build models get rolled out, where teams climb the maturity ladder. The reduction in rebuild churn isn't just a workload win; it's what unlocks the structural fixes.
+</div>
+
+<p>Two operational rules apply in all three categories:</p>
+
+<p><strong>OS container: refresh on a regular cadence regardless of CVE pressure.</strong> The OS layer never generates emergency rebuild triggers under either NP+DI or hacker S+A (§8). But unpatched containers accumulate local privilege-escalation chains. Monthly refresh keeps worst-case post-compromise exposure at ~5-10 CVEs instead of 21. This is blast-radius control, not emergency response.</p>
+
+<p><strong>Everything else rides the team's normal update process.</strong> Non-NP library updates, non-DI C/H vulnerabilities, DoS bugs, info leaks. Zero of 34 skipped app-layer events and none of 48 OS-layer NETWORK events in our 12-month window appeared in KEV. They're not urgent. They get caught up in whatever cadence the team already has — cycle-time-fast for Cat 1, regular for Cat 2, reactive for Cat 3.</p>
+
+<div class="callout callout-finding">
+<strong>The shift from the old model:</strong> The old 72h/7d/30d SLA framework treated urgency as a function of CVSS severity and KEV presence. The new model treats urgency as a function of <em>attack surface structure</em> (where the vulnerability sits in the parsing stack) <em>and</em> <em>estate maturity</em> (what the team can credibly do about it). Filtering by structure alone produces 2-6 genuinely dangerous events per year — but whether that's "manageable cadence" or "still a crisis every two months" depends on which Cat the team is in. The two questions interact.
 </div>
 
 <h3>10a. The WAF Dividend</h3>
