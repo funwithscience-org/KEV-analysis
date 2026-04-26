@@ -374,17 +374,26 @@ A network-parsing HIGH (7.0-7.9) at 0.89% beats a non-parsing CRITICAL (9.0-9.9)
 <p>The 2024 data (median 34 days) appears to reverse the trend, but this is a <strong>right-censoring artifact</strong>: many 2024 CVEs haven't been added to KEV yet. The compression is driven by the commoditization of exploit development, faster reverse engineering from patches, and the industrialization of ransomware operations.</p>
 
 <!-- ========== 6. NP+DI FILTER ========== -->
-<h2 id="np-di-filter">6. Building a Practical Priority Filter</h2>
+<h2 id="np-di-filter">6. Threat-Centric Prioritization: Two Independent Models</h2>
 
-<div class="translation"><strong>In plain English:</strong> "Network parsers are riskier" is an observation. "Rebuild only when a network parser has a direct-injection bug" is a <em>decision rule</em> you can actually use. Here's how we got from one to the other.</div>
+<div class="translation"><strong>In plain English:</strong> The hero isn't a single filter — it's a <em>model</em>. Judge a vulnerability by what an attacker actually does with it, not by what its CVSS says. We've built two competitive ways to operationalize that model. They run independently against the same data, mostly agree, and where they disagree is also informative.</div>
 
 <p>At this point the data tells us two things: network-parsing components get exploited at 3–6× the rate of everything else (§3), and the exploitation window is measured in days, not months (§5). But <strong>"rebuild on any critical/high in a network parser" is still too noisy</strong> to be useful. That rule fires 14 times in 12 months across every stack we tested — about every 2–3 weeks. You'd be churning almost as badly as before.</p>
 
-<p>The reason it's too broad: most network-parser CVEs aren't the kind of bug attackers actually exploit for initial access. A denial-of-service in Tomcat is a real bug, but it doesn't give an attacker code execution. An authentication-bypass in Spring Security is concerning, but it requires specific configuration to be reachable. A Fastify validation-bypass is a defense-in-depth issue, not a front-door entry point. What actually reaches KEV — what attackers build exploits for and use in the field — is overwhelmingly <strong>direct injection</strong>: path traversal, template injection, SQL injection, command injection, request smuggling. Bugs where untrusted input becomes executable code or crosses a security boundary without mediation.</p>
+<p>The reason it's too broad: most network-parser CVEs aren't the kind of bug attackers actually exploit for initial access. A denial-of-service in Tomcat is a real bug, but it doesn't give an attacker code execution. An authentication-bypass in Spring Security is concerning, but it requires specific configuration to be reachable. A Fastify validation-bypass is a defense-in-depth issue, not a front-door entry point. What actually reaches KEV — what attackers build exploits for and use in the field — is overwhelmingly the <em>direct primitive</em>: path traversal, template injection, SQL injection, command injection, request smuggling, deserialization-at-default. Bugs where untrusted input becomes executable code or crosses a security boundary without mediation.</p>
 
-<p>That distinction is the filter. Two criteria, both required:</p>
+<p>That insight is the model: <strong>threat-centric prioritization</strong> — pick the events worth interrupting cadence for by what the threat actually looks like, not by what severity score the CWE was assigned. The model has two operational forms in the rest of this page, each developed independently against the same data:</p>
 
-<h3>6a. The Two Criteria</h3>
+<ul style="margin:10px 0 10px 24px">
+<li><strong>NP+DI</strong> (§6a–§6c) — a mechanical, structural filter: <em>does the package parse untrusted input</em> and <em>is the bug a direct-injection class</em>? Both yes → fire. Easy to apply, hard to argue with, doesn't depend on judgment.</li>
+<li><strong>The hacker discriminator</strong> (§6d) — an offensive operator's grading rubric: <em>default config × network edge × primitive direct</em>, with auth-missing as a co-tag. Catches the same population the structural filter does, with small but informative disagreements at the boundary.</li>
+</ul>
+
+<p>The two are validated together later (§7 cross-framework, §7g 7-year backtest, §9 external sources). Where they agree, the agreement is the validation. Where they disagree (Spring Boot actuator that NP+DI misses on CWE-862 / hacker catches; Tomcat path traversal that NP+DI catches on CWE-23 / hacker B-tiers on the narrow precondition) the disagreement tells you something specific about each model's blind spots.</p>
+
+<h3>6a. NP+DI — the structural filter</h3>
+
+<p>Two criteria, both required:</p>
 
 <p><strong>1. Network Parser (NP).</strong> The vulnerable component directly parses untrusted network input — HTTP requests, TLS handshakes, DNS responses, SMTP headers, template expressions, authentication tokens. This includes web frameworks (Spring, Express, Django), app servers (Tomcat, Gunicorn), template engines (Thymeleaf, Handlebars, Jinja2), HTTP client libraries, WebSocket handlers, GraphQL servers, and TLS libraries. It does <em>not</em> include ORMs that only receive pre-parsed input (Sequelize, Hibernate), utility libraries (lodash, guava), build tools, or local-only processing libraries (Pillow, numpy).</p>
 
