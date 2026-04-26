@@ -170,6 +170,20 @@ details.expandable .detail-content{padding:16px 20px}
 <a href="dashboard.html" class="secondary">Interactive Dashboard</a>
 </div>
 
+<div style="background:#f8fafc;border:1px solid var(--border);border-radius:8px;padding:16px 20px;margin:20px 0 28px;font-size:.92em">
+<div style="font-weight:600;color:var(--accent);margin-bottom:8px;font-size:.95em">How to read this site</div>
+<table style="width:100%;border-collapse:collapse;font-size:.9em">
+<thead><tr style="text-align:left;color:var(--muted);font-size:.85em;font-weight:500"><th style="padding:4px 12px 4px 0;width:28%">If you have…</th><th style="padding:4px 0">Read</th></tr></thead>
+<tbody>
+<tr><td style="padding:6px 12px 6px 0;color:var(--muted)">5 minutes</td><td style="padding:6px 0">The opener below + <a href="#np-di-filter" style="color:var(--accent)">§3 the model</a></td></tr>
+<tr><td style="padding:6px 12px 6px 0;color:var(--muted)">30 minutes</td><td style="padding:6px 0">The full walkthrough on this page</td></tr>
+<tr><td style="padding:6px 12px 6px 0;color:var(--muted)">You want to verify the work</td><td style="padding:6px 0"><a href="periodicity.html" style="color:var(--accent)">Periodicity Analysis</a> + <a href="cve-reference.html" style="color:var(--accent)">CVE Reference</a></td></tr>
+<tr><td style="padding:6px 12px 6px 0;color:var(--muted)">You want the data live</td><td style="padding:6px 0"><a href="dashboard.html" style="color:var(--accent)">Dashboard</a></td></tr>
+<tr><td style="padding:6px 12px 6px 0;color:var(--muted)">You want the build mechanics</td><td style="padding:6px 0"><a href="build-mechanics.html" style="color:var(--accent)">Build Mechanics</a> (Cat 1/2/3 estate maturity, WAFs as bridge)</td></tr>
+<tr><td style="padding:6px 12px 6px 0;color:var(--muted)">You want the AI angle</td><td style="padding:6px 0"><a href="glasswing.html" style="color:var(--accent)">Mythos</a> (CVE-volume projections + participant intel)</td></tr>
+</tbody></table>
+</div>
+
 <div class="tldr">
 <h3>The Problem and the Proposal</h3>
 
@@ -219,13 +233,13 @@ details.expandable .detail-content{padding:16px 20px}
 <!-- ========== 2. METHODOLOGY ========== -->
 <h2 id="observational">2. The First Clue: Where Exploits Actually Land</h2>
 
-<div class="translation"><strong>In plain English:</strong> We took every vulnerability that attackers actually exploited (<span data-kpi="totalKev">…</span> in the KEV catalog, <span data-kpi="windowedKev">…</span> with CVEs published 2021–2026) and compared it to every serious vulnerability reported in the same window (<span data-kpi="totalNvd">…</span>). Then we asked: what makes the exploited ones different?</div>
+<div class="translation"><strong>In plain English:</strong> We took every vulnerability that attackers actually exploited (<span data-kpi="totalKev">1,583</span> in the KEV catalog, <span data-kpi="windowedKev">891</span> with CVEs published 2021–2026) and compared it to every serious vulnerability reported in the same window (<span data-kpi="totalNvd">23,501</span>). Then we asked: what makes the exploited ones different?</div>
 
 <p>The analysis joins two datasets:</p>
 
 <p><strong><span class="glossary" data-tip="CISA's Known Exploited Vulnerabilities list -- the U.S. government's catalog of bugs attackers have actually used in the wild">CISA KEV</span> catalog</strong> -- 1,578 vulnerabilities with confirmed active exploitation (886 with CVEs published 2021–2026; exploitation rates use these windowed entries to match the NVD denominator). This is the "ground truth" for what attackers actually target. It's curated by CISA for US federal agency compliance, which introduces selection bias toward enterprise/government network-facing targets (see <a href="#caveats">Caveats</a>).</p>
 
-<p><strong><span class="glossary" data-tip="The U.S. government's National Vulnerability Database -- the central repository for all reported software vulnerabilities">NVD</span></strong> -- <span data-kpi="totalNvd">…</span> CVEs rated Critical or High (CVSS 7.0+) published 2021-2026. This is the denominator for cross-layer comparisons — it's the only source that consistently covers OS, VPN, browser, and library categories on the same scale.</p>
+<p><strong><span class="glossary" data-tip="The U.S. government's National Vulnerability Database -- the central repository for all reported software vulnerabilities">NVD</span></strong> -- <span data-kpi="totalNvd">23,501</span> CVEs rated Critical or High (CVSS 7.0+) published 2021-2026. This is the denominator for cross-layer comparisons — it's the only source that consistently covers OS, VPN, browser, and library categories on the same scale.</p>
 
 <div class="callout callout-warning">
 <strong>Important caveat for teams that build their own code:</strong> NVD massively under-represents open-source library vulnerabilities. Most small libraries never register a <span class="glossary" data-tip="Common Platform Enumeration — NVD's naming scheme for matching CVEs to products. Most open-source projects never register a CPE, so their vulnerabilities are invisible to NVD">CPE</span>, so their CVEs are invisible to NVD's categorization. Google's <strong><a href="https://osv.dev" target="_blank">OSV</a></strong> database — which aggregates NVD, GitHub Security Advisories, and ecosystem-specific sources — tracks <strong>770 critical/high vulnerabilities across just 177 popular packages</strong>, more than double NVD's 345 for <em>all</em> libraries. The true library vulnerability population is orders of magnitude larger than NVD suggests. This means the noise your application team faces is significantly worse than the NVD-based numbers in this analysis imply. We use NVD as the primary denominator for the cross-layer comparison (§2) because it's consistent across categories, and switch to OSV for the library-specific and periodicity analysis (§2–8) where accuracy matters more than cross-category consistency.
@@ -265,7 +279,7 @@ details.expandable .detail-content{padding:16px 20px}
 <strong>Finding:</strong> OS/kernel CVEs have a 78% exploitation rate — the highest of any stack layer when time-windowed to 2021–2026 CVEs. Platform/runtime layers (OS, VPN, JVM, web server) account for ~46% of windowed KEV entries. Libraries/frameworks represent less than 1% of KEV (4 entries). ~21% of windowed KEV entries are linked to ransomware campaigns — ransomware operators concentrate on the same network-parsing targets.
 </div>
 
-<p><em>Note: Exploitation rates use the <span data-kpi="windowedKev">…</span> KEV entries with CVEs published 2021–2026, matching the NVD denominator window. <span data-kpi="preWindowKev">…</span> KEV entries for pre-2021 CVEs are excluded from rates — these represent active exploitation of legacy vulnerabilities during the analysis period. Email/collaboration servers hit 100% (44 KEV / 44 NVD): the inherited NVD denominator is small and may be stale, so treat this as an upper-bound artifact rather than a literal rate. Per-entry classifications are reproducible — see <a href="https://github.com/funwithscience-org/KEV-analysis/blob/main/data/CLASSIFIER.md" target="_blank">data/CLASSIFIER.md</a>.</em></p>
+<p><em>Note: Exploitation rates use the <span data-kpi="windowedKev">891</span> KEV entries with CVEs published 2021–2026, matching the NVD denominator window. <span data-kpi="preWindowKev">692</span> KEV entries for pre-2021 CVEs are excluded from rates — these represent active exploitation of legacy vulnerabilities during the analysis period. Email/collaboration servers hit 100% (44 KEV / 44 NVD): the inherited NVD denominator is small and may be stale, so treat this as an upper-bound artifact rather than a literal rate. Per-entry classifications are reproducible — see <a href="https://github.com/funwithscience-org/KEV-analysis/blob/main/data/CLASSIFIER.md" target="_blank">data/CLASSIFIER.md</a>.</em></p>
 
 <h3 id="http-parsing">2b. Network-Parsing vs Non-Parsing Across CVSS</h3>
 
@@ -345,29 +359,29 @@ A network-parsing HIGH (7.0-7.9) at 0.89% beats a non-parsing CRITICAL (9.0-9.9)
 <h3>3b. The DI CWE Set</h3>
 
 <table class="data-table">
-<thead><tr><th>CWE</th><th>Name</th><th>Category</th></tr></thead>
+<thead><tr><th>CWE</th><th>Name</th><th>Category</th><th>What an attack looks like</th></tr></thead>
 <tbody>
-<tr><td><code>CWE-78</code></td><td>OS Command Injection</td><td>Command injection</td></tr>
-<tr><td><code>CWE-77</code></td><td>Command Injection</td><td>Command injection</td></tr>
-<tr><td><code>CWE-22</code></td><td>Path Traversal</td><td>Path traversal</td></tr>
-<tr><td><code>CWE-23</code></td><td>Relative Path Traversal</td><td>Path traversal</td></tr>
-<tr><td><code>CWE-36</code></td><td>Absolute Path Traversal</td><td>Path traversal</td></tr>
-<tr><td><code>CWE-94</code></td><td>Code Injection</td><td>Code injection</td></tr>
-<tr><td><code>CWE-95</code></td><td>Eval Injection</td><td>Code injection</td></tr>
-<tr><td><code>CWE-89</code></td><td>SQL Injection</td><td>Data injection</td></tr>
-<tr><td><code>CWE-918</code></td><td>Server-Side Request Forgery (SSRF)</td><td>Request forgery</td></tr>
-<tr><td><code>CWE-917</code></td><td>Expression Language Injection</td><td>Template injection</td></tr>
-<tr><td><code>CWE-1336</code></td><td>Template Injection</td><td>Template injection</td></tr>
-<tr><td><code>CWE-116</code></td><td>Improper Encoding/Escaping</td><td>Output handling</td></tr>
-<tr><td><code>CWE-74</code></td><td>Injection (general)</td><td>Injection</td></tr>
-<tr><td><code>CWE-75</code></td><td>Failure to Sanitize Special Elements</td><td>Injection</td></tr>
-<tr><td><code>CWE-113</code></td><td>HTTP Response Splitting</td><td>HTTP injection</td></tr>
-<tr><td><code>CWE-93</code></td><td>CRLF Injection</td><td>HTTP injection</td></tr>
-<tr><td><code>CWE-611</code></td><td>XXE (XML External Entity)</td><td>XML injection</td></tr>
-<tr><td><code>CWE-91</code></td><td>XML Injection (XPath)</td><td>XML injection</td></tr>
-<tr><td><code>CWE-90</code></td><td>LDAP Injection</td><td>Directory injection</td></tr>
-<tr><td><code>CWE-79</code></td><td>Cross-site Scripting (XSS)</td><td>Client-side injection</td></tr>
-<tr><td><code>CWE-444</code></td><td>HTTP Request Smuggling<sup id="fnref-444"><a href="#fn-444">1</a></sup></td><td>HTTP protocol manipulation</td></tr>
+<tr><td><code>CWE-78</code></td><td>OS Command Injection</td><td>Command injection</td><td><code>; cat /etc/passwd</code> in a header value or query parameter; the server runs it as a shell command</td></tr>
+<tr><td><code>CWE-77</code></td><td>Command Injection</td><td>Command injection</td><td>Same shape as CWE-78 but at the application level (e.g. attacker input concatenated into a system call)</td></tr>
+<tr><td><code>CWE-22</code></td><td>Path Traversal</td><td>Path traversal</td><td><code>GET /file?name=../../etc/passwd</code> — server reads the file outside the web root</td></tr>
+<tr><td><code>CWE-23</code></td><td>Relative Path Traversal</td><td>Path traversal</td><td>Variant: encoded <code>..%2f..%2f</code> sequences that bypass naïve sanitization</td></tr>
+<tr><td><code>CWE-36</code></td><td>Absolute Path Traversal</td><td>Path traversal</td><td>Variant: <code>?file=/etc/passwd</code> — server takes the absolute path verbatim</td></tr>
+<tr><td><code>CWE-94</code></td><td>Code Injection</td><td>Code injection</td><td>Attacker input becomes executable code (Spring4Shell <code>class.module.classLoader</code>, lodash <code>_.template(userInput)</code>)</td></tr>
+<tr><td><code>CWE-95</code></td><td>Eval Injection</td><td>Code injection</td><td>App calls <code>eval(userInput)</code> directly — attacker pastes JavaScript that runs on the server</td></tr>
+<tr><td><code>CWE-89</code></td><td>SQL Injection</td><td>Data injection</td><td><code>' OR 1=1; --</code> in a search field — query returns every row, or attacker exfiltrates / modifies data</td></tr>
+<tr><td><code>CWE-918</code></td><td>Server-Side Request Forgery (SSRF)</td><td>Request forgery</td><td>App fetches a URL the attacker chose (<code>?url=http://169.254.169.254/</code>) — including internal-only addresses like cloud metadata services</td></tr>
+<tr><td><code>CWE-917</code></td><td>Expression Language Injection</td><td>Template injection</td><td><code>${T(java.lang.Runtime).getRuntime().exec("id")}</code> — Spring/Thymeleaf evaluates the expression as code</td></tr>
+<tr><td><code>CWE-1336</code></td><td>Template Injection</td><td>Template injection</td><td><code>{{7*7}}</code> becomes <code>49</code> in the response — proof the template engine ran the expression. Real attacks chain into RCE</td></tr>
+<tr><td><code>CWE-116</code></td><td>Improper Encoding/Escaping</td><td>Output handling</td><td>App writes attacker input into HTML/JS/SQL without escaping, downstream parser interprets it as code</td></tr>
+<tr><td><code>CWE-74</code></td><td>Injection (general)</td><td>Injection</td><td>Catch-all parent for any "untrusted input becomes part of a command/query/expression"</td></tr>
+<tr><td><code>CWE-75</code></td><td>Failure to Sanitize Special Elements</td><td>Injection</td><td>Specific injection variant where filtering misses a delimiter (e.g. allowing newlines in a header)</td></tr>
+<tr><td><code>CWE-113</code></td><td>HTTP Response Splitting</td><td>HTTP injection</td><td>CRLF in a Location header lets attacker inject a second response — used for cache poisoning, XSS</td></tr>
+<tr><td><code>CWE-93</code></td><td>CRLF Injection</td><td>HTTP injection</td><td>Same family — newlines in attacker input split protocol messages</td></tr>
+<tr><td><code>CWE-611</code></td><td>XXE (XML External Entity)</td><td>XML injection</td><td><code>&lt;!DOCTYPE foo [&lt;!ENTITY x SYSTEM "file:///etc/passwd"&gt;]&gt;</code> — XML parser reads files from disk on attacker request</td></tr>
+<tr><td><code>CWE-91</code></td><td>XML Injection (XPath)</td><td>XML injection</td><td><code>' or '1'='1</code> in an XPath query — same shape as SQLi but for XML data stores</td></tr>
+<tr><td><code>CWE-90</code></td><td>LDAP Injection</td><td>Directory injection</td><td><code>*)(uid=*)</code> in a username field — attacker enumerates the directory or bypasses auth</td></tr>
+<tr><td><code>CWE-79</code></td><td>Cross-site Scripting (XSS)</td><td>Client-side injection</td><td><code>&lt;script&gt;...&lt;/script&gt;</code> reflected in a response — attacker JavaScript runs in the victim's browser session</td></tr>
+<tr><td><code>CWE-444</code></td><td>HTTP Request Smuggling<sup id="fnref-444"><a href="#fn-444">1</a></sup></td><td>HTTP protocol manipulation</td><td>Conflicting Content-Length / Transfer-Encoding headers — front-end sees one request, back-end sees two; attacker smuggles a request behind the proxy</td></tr>
 </tbody></table>
 
 <p>Notably <strong>absent</strong>: CWE-502 (Deserialization). The reasoning needs care, because at the library level deserialization absolutely <em>can</em> be an exploitation driver (XStream pre-1.4.18, SnakeYAML constructor deser, the Tomcat partial-PUT chain — see §4f). What the data shows is that <strong>raw CWE-502 volume hugely overstates how often deserialization is actually reachable</strong>. Most CWE-502 disclosures are gadget-chain-dependent: they require very specific classes to be on the classpath, very specific application code to call the unsafe API on attacker-controlled bytes, and a deployment shape that exposes the path. Jackson-databind alone accumulated 67 historical CWE-502 entries; a rounding-error fraction reached KEV. So CWE-502 is excluded from the mechanical DI filter — adding it would drown the real signal in noise. Catching the exploited subset of deserialization needs a different cut of the same data, which we develop next. Also absent from the DI set: CWE-400 (Resource Exhaustion / DoS) — denial of service doesn't produce code execution.</p>
@@ -919,7 +933,7 @@ The key word is "constrain," not "prevent." It's a seatbelt, not an airbag.
 </details>
 
 <div class="footer">
-Analysis based on CISA KEV catalog (<span data-kpi="windowedKev">…</span> entries with CVEs published 2021–2026, of <span data-kpi="totalKev">…</span> total), NVD critical+high CVEs 2021-2026, OSV.dev (177 packages, 6 ecosystems),
+Analysis based on CISA KEV catalog (<span data-kpi="windowedKev">891</span> entries with CVEs published 2021–2026, of <span data-kpi="totalKev">1,583</span> total), NVD critical+high CVEs 2021-2026, OSV.dev (177 packages, 6 ecosystems),
 and cross-framework periodicity backtest (133 dependencies, 3 stacks + OS container, 12 months).
 Generated April 2026. For interactive exploration, see the <a href="dashboard.html" style="color:var(--accent)">companion dashboard</a>.
 </div>
