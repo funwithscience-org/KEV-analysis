@@ -97,25 +97,29 @@ table.t-compact td.frac-cell{padding:6px 8px}
 </div>
 
 <!-- ===== TABLE 1: 12-MONTH COMPARATOR ===== -->
-<h2>Table 1 — 12-month comparator (existing EPSS table + hacker persona + baselines)</h2>
-<p>Real-world Java manifest, 8 in-scope exploited CVEs (KEV or Metasploit on network-parser libraries). The existing EPSS table extended with the hacker persona row and two new baseline strategies (patch criticals; patch all C+H). "Patches" column is the count of CVEs the strategy would have flagged across the same Java-only manifest universe (175 events).</p>
+<h2>Table 1 — Speed comparator on the existing 8-exploit Java scope</h2>
+<p>Real-world Java manifest, 8 in-scope exploited CVEs (KEV or Metasploit on network-parser libraries). The existing EPSS table extended with the hacker persona row and two new baseline strategies (patch criticals; patch all C+H).</p>
+
+<div class="callout callout-warn" style="margin-bottom:14px">
+<strong>Scope note (this is the existing periodicity-page scope — not actually 12 months of data).</strong> The "12-month" framing on the published EPSS comparator refers to the time horizon of EPSS scoring (Day 0 / Day 7 / Day 30 / Eventually), <em>not</em> the manifest window. The 8 in-scope exploited CVEs are spread across 7 years; almost no 12-month window has 8 exploits. The Patches column is therefore a <strong>7-year total</strong> on the Java manifest (175 events). The "≈ per year" column averages over 7 years and lines up with the per-framework 12-month patch counts on the published periodicity page (Spring ≈ 5 NP+DI/yr, Django ≈ 6/yr, Node ≈ 2/yr, Netty ≈ 1/yr).
+</div>
 
 <table>
-<thead><tr><th>Strategy</th><th>Day 0</th><th>Day 7</th><th>Day 30</th><th>Eventually</th><th>Patches</th><th>Patches per exploit caught</th></tr></thead>
+<thead><tr><th>Strategy</th><th>Day 0</th><th>Day 7</th><th>Day 30</th><th>Eventually</th><th>Patches (7-year)</th><th>≈ per year</th><th>Per exploit caught</th></tr></thead>
 <tbody>
-<tr class="hl-baseline"><td>Patch all C+H</td><td>8/8</td><td>8/8</td><td>8/8</td><td>8/8</td><td>175</td><td class="frac-bad">21.9x</td></tr>
-<tr class="hl-baseline"><td>Patch criticals only</td><td>5/8</td><td>5/8</td><td>5/8</td><td>5/8</td><td>41</td><td class="frac-mid">8.2x</td></tr>
-<tr class="hl-npdi"><td>NP+DI</td><td>5/8</td><td>5/8</td><td>5/8</td><td>5/8</td><td>34</td><td class="frac-mid">6.8x</td></tr>
-<tr class="hl-ai"><td>NP+DI + AI scan</td><td>8/8</td><td>8/8</td><td>8/8</td><td>8/8</td><td>37</td><td class="frac-good">4.6x</td></tr>
-<tr class="hl-hacker"><td>Hacker persona (S+A)</td><td>7/8</td><td>7/8</td><td>7/8</td><td>7/8</td><td>44</td><td class="frac-mid">6.3x</td></tr>
-<tr><td>EPSS ≥ 0.10</td><td>1/8</td><td>4/8</td><td>4/8</td><td>8/8</td><td>33</td><td class="frac-good">4.1x (eventually)</td></tr>
-<tr><td>EPSS ≥ 0.50</td><td>0/8</td><td>2/8</td><td>4/8</td><td>7/8</td><td>21</td><td class="frac-good">3.0x (eventually)</td></tr>
+<tr class="hl-baseline"><td>Patch all C+H</td><td>8/8</td><td>8/8</td><td>8/8</td><td>8/8</td><td>175</td><td>25</td><td class="frac-bad">21.9x</td></tr>
+<tr class="hl-baseline"><td>Patch criticals only</td><td>5/8</td><td>5/8</td><td>5/8</td><td>5/8</td><td>41</td><td>5.9</td><td class="frac-mid">8.2x</td></tr>
+<tr class="hl-npdi"><td>NP+DI</td><td>5/8</td><td>5/8</td><td>5/8</td><td>5/8</td><td>34</td><td>4.9</td><td class="frac-mid">6.8x</td></tr>
+<tr class="hl-ai"><td>NP+DI + AI scan</td><td>8/8</td><td>8/8</td><td>8/8</td><td>8/8</td><td>37</td><td>5.3</td><td class="frac-good">4.6x</td></tr>
+<tr class="hl-hacker"><td>Hacker persona (S+A)</td><td>7/8</td><td>7/8</td><td>7/8</td><td>7/8</td><td>44</td><td>6.3</td><td class="frac-mid">6.3x</td></tr>
+<tr><td>EPSS ≥ 0.10</td><td>1/8</td><td>4/8</td><td>4/8</td><td>8/8</td><td>33</td><td>4.7</td><td class="frac-good">4.1x (eventually)</td></tr>
+<tr><td>EPSS ≥ 0.50</td><td>0/8</td><td>2/8</td><td>4/8</td><td>7/8</td><td>21</td><td>3.0</td><td class="frac-good">3.0x (eventually)</td></tr>
 </tbody>
 </table>
-<p class="note">"Patches per exploit caught" = total flagged events ÷ exploits caught (lower is better; 1.00x is the post-hoc oracle minimum). EPSS overhead measured at "eventually" recall — at Day 0 EPSS overhead is 33x and 21x respectively. Hacker S+A overhead is the same Day 0 through Eventually because it reads CVE structure on disclosure day.</p>
+<p class="note">"Patches per exploit caught" = total flagged events ÷ exploits caught (lower is better; 1.00x is the post-hoc oracle minimum). EPSS overhead measured at "eventually" recall — at Day 0 EPSS overhead is 33x and 21x respectively. Hacker S+A overhead is the same Day 0 through Eventually because it reads CVE structure on disclosure day. "≈ per year" divides 7-year totals by 7 to match the magnitude users would see in any single 12-month window.</p>
 
 <div class="callout">
-<strong>Reading the table.</strong> NP+DI alone delivers the same 5/8 recall as patching criticals but with fewer patches (34 vs 41) — modest efficiency win. NP+DI + AI scan is the operational sweet spot here: 8/8 recall at 37 patches (4.6x oracle) — clearly beats every alternative on the 12-month window. The hacker persona looks worse on this single window because it flags more events (44) for one less catch (7/8 — misses Tomcat CGI Windows-only). At 12 months, AI scan wins outright.
+<strong>Reading the table.</strong> NP+DI alone delivers the same 5/8 recall as patching criticals but with fewer patches (34 vs 41 over 7 years; ~5/yr vs ~6/yr) — modest efficiency win. NP+DI + AI scan is the operational sweet spot here: 8/8 recall at 37 patches (4.6x oracle) — clearly beats every alternative on this scope. The hacker persona looks worse on this single comparator because it flags more events (44) for one less catch (7/8 — misses Tomcat CGI Windows-only). On the existing-page scope, AI scan wins outright.
 </div>
 
 <!-- ===== TABLE 2: MULTIPLE 12-MONTH RUNS ===== -->
