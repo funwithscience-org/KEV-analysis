@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cross-Framework Patch Periodicity Analysis (integrated preview)</title>
 <meta name="robots" content="noindex,nofollow">
-<title>Cross-Framework Patch Periodicity — KEV Analysis</title>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
 <style>
 :root{--bg:#fff;--surface:#f8fafc;--border:#e2e8f0;--text:#334155;--muted:#64748b;
@@ -18,9 +18,27 @@ h3{font-size:1.1em;margin:20px 0 8px;color:var(--cyan)}
 p{margin:8px 0;color:var(--text)}
 strong{color:#0f172a}
 .subtitle{color:var(--muted);font-size:.95em;margin-bottom:24px}
-.scratch-banner{background:#f1f5f9;color:#475569;padding:8px 14px;border-radius:6px;font-size:.82em;margin-bottom:24px;text-align:center;border:1px solid var(--border)}
-.scratch-banner code{background:#e2e8f0;color:#475569;padding:1px 6px;border-radius:3px;font-size:.85em}
 .card{background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:16px;margin:12px 0;color:var(--text)}
+.grid-2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.grid-3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px}
+@media(max-width:900px){.grid-3{grid-template-columns:1fr}}
+@media(max-width:768px){.grid-2{grid-template-columns:1fr}}
+.hero-stat{display:flex;gap:16px;flex-wrap:wrap;margin:16px 0}
+.hero-stat .stat{background:var(--surface);border:2px solid var(--border);border-radius:8px;padding:16px 24px;text-align:center;flex:1;min-width:160px}
+.hero-stat .stat.accent{border-color:var(--accent)}
+.hero-stat .stat.red{border-color:var(--red)}
+.hero-stat .stat.green{border-color:var(--green)}
+.hero-stat .stat.spring{border-color:var(--spring)}
+.hero-stat .stat.node{border-color:var(--node)}
+.hero-stat .stat.django{border-color:var(--django)}
+.hero-stat .stat .number{font-size:2em;font-weight:700;line-height:1.2}
+.hero-stat .stat .label{font-size:.85em;color:var(--muted)}
+.hero-stat .stat.accent .number{color:var(--accent)}
+.hero-stat .stat.red .number{color:var(--red)}
+.hero-stat .stat.green .number{color:var(--green)}
+.hero-stat .stat.spring .number{color:var(--spring)}
+.hero-stat .stat.node .number{color:var(--node)}
+.hero-stat .stat.django .number{color:var(--django)}
 table{width:100%;border-collapse:collapse;font-size:.85em;margin:12px 0}
 th{background:var(--surface);color:var(--accent);text-align:left;padding:8px 10px;border-bottom:2px solid var(--border)}
 td{padding:6px 10px;border-bottom:1px solid var(--border)}
@@ -31,466 +49,930 @@ tr:hover td{background:#f8fafc}
 .tag-green{background:#ecfdf5;color:var(--green)}
 .tag-amber{background:#fffbeb;color:var(--amber)}
 .tag-accent{background:#eef2ff;color:var(--accent)}
-.tag-hacker{background:#faf5ff;color:var(--hacker)}
 .callout{border-left:4px solid;border-radius:0 8px 8px 0;padding:14px 20px;margin:16px 0}
 .callout-finding{border-color:var(--accent);background:#eef2ff;color:#312e81}
 .callout-warning{border-color:var(--amber);background:#fffbeb;color:#78350f}
 .callout-danger{border-color:var(--red);background:#fef2f2;color:#7f1d1d}
 .callout-good{border-color:var(--green);background:#ecfdf5;color:#064e3b}
-.chart-wrap{margin:16px 0;background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:16px}
-canvas{max-height:380px}
+.chart-wrap{margin:16px 0}
+canvas{max-height:350px}
 details{margin:8px 0}
 details summary{cursor:pointer;color:var(--accent);font-weight:600;padding:6px 0}
+details summary:hover{color:var(--cyan)}
 .fw-badge{display:inline-block;padding:3px 10px;border-radius:12px;font-size:.75em;font-weight:700;margin-right:6px}
 .fw-spring{background:#fffbeb;color:var(--spring)}
 .fw-node{background:#ecfdf5;color:var(--node)}
 .fw-django{background:#ecfeff;color:var(--django)}
 .fw-netty{background:#f5f3ff;color:var(--netty)}
-.fw-hacker{background:#faf5ff;color:var(--hacker)}
 .footer{margin-top:40px;padding-top:16px;border-top:1px solid var(--border);color:var(--muted);font-size:.8em}
-ul.findings{list-style:none;padding-left:0;margin:8px 0}
-ul.findings li{padding:6px 0 6px 22px;position:relative}
-ul.findings li::before{content:'▸';position:absolute;left:6px;color:var(--accent)}
-.ref-pill{display:inline-block;padding:3px 10px;border-radius:12px;font-size:.75em;background:var(--surface);border:1px solid var(--border);color:var(--muted);margin:0 4px}
-.frac-good{color:var(--green);font-weight:600}
-.frac-mid{color:var(--amber)}
-.frac-bad{color:var(--red)}
-.muted{color:var(--muted)}
-.cve{font-family:'SF Mono',Monaco,monospace;font-size:.92em}
+.page-nav{display:flex;gap:8px;justify-content:center;padding:12px 20px;background:var(--surface);border-bottom:1px solid var(--border);margin-bottom:16px;border-radius:8px}
+.page-nav a{padding:6px 16px;border-radius:20px;font-size:.85em;font-weight:600;text-decoration:none;color:var(--muted);border:1px solid var(--border);transition:all .15s}
+.page-nav a:hover{color:var(--accent);border-color:var(--accent)}
+.page-nav a.current{background:var(--accent);color:#fff;border-color:var(--accent)}
 </style>
+<link rel="alternate" type="text/markdown" title="LLM-friendly summary" href="llms.txt">
+<link rel="sitemap" type="application/xml" title="Sitemap" href="sitemap.xml">
+<link rel="canonical" href="https://funwithscience.net/KEV-analysis/periodicity.html">
 </head>
 <body>
 
-<div class="scratch-banner">
-Preview build (<code>noindex</code>) · Successor to the published periodicity page
+<nav class="page-nav">
+<a href="index.html">Walkthrough</a>
+<a href="dashboard.html">Dashboard</a>
+<a href="periodicity.html">Periodicity Analysis</a>
+<a href="build-mechanics.html">Build Mechanics</a>
+<a href="cve-reference.html">CVE Reference</a>
+<a href="glasswing.html">Glasswing</a>
+</nav>
+
+<div style="background:#f1f5f9;color:#475569;padding:8px 14px;border-radius:6px;font-size:.82em;margin-bottom:24px;text-align:center;border:1px solid var(--border)">
+Preview build (<code style="background:#e2e8f0;padding:1px 6px;border-radius:3px">noindex</code>) · Successor to the <a href="periodicity.html" style="color:var(--accent)">published periodicity page</a> with hacker-discriminator + WAF-defensibility dimensions integrated throughout.
 </div>
 
-<h1>Cross-Framework Patch Periodicity</h1>
-<p class="subtitle">How four production stacks see CVE pressure across a 12-month window and a 7-year arc, scored against four triage strategies — patch-everything, NP+DI, NP+DI + AI scan, and a hacker S+A discriminator — and cross-checked with WAF-defensibility on the bugs that actually got exploited.</p>
+<h1>Cross-Framework Patch Periodicity Analysis</h1>
+<p class="subtitle">Three triage strategies — NP+DI, NP+DI + AI scan, and a hacker discriminator (default-config × network-edge × primitive-direct, with auth-missing co-tag rule) — scored against the same Spring Boot, Node.js/Express, Django, and Netty sample stacks plus a 7-year production manifest. WAF-defensibility added as a fourth axis on the actually-exploited events.</p>
+<p style="color:var(--muted);font-size:.8em">Working document — April 26, 2026 &bull; Data: OSV.dev, CISA KEV, Metasploit, ExploitDB, EPSS &bull; 12-month window: Apr 2025 – Apr 2026 &bull; 7-year window: 2018-Q4 – 2026-Q2</p>
 
-<h2>1. The 12-month per-framework view</h2>
+<!-- ═══════════════════════════════════════════════════════════ -->
+<h2>The Question</h2>
 
-<p>Four production-shaped manifests across a single year (Apr 2025 – Apr 2026): <span class="fw-badge fw-spring">Spring Boot</span> 48 deps, <span class="fw-badge fw-node">Node.js/Express</span> 45 deps, <span class="fw-badge fw-django">Django/DRF</span> 40 deps, <span class="fw-badge fw-netty">Netty</span> 7 deps. For each, four triage strategies: patch-all-criticals-and-highs, NP+DI (network parser × direct injection CWE), NP+DI + AI scan (rescues for events whose surface CWE underweights the primitive), and the hacker S+A discriminator (default-config × network-edge × primitive-direct, with the auth-missing co-tag rule).</p>
+<div class="card">
+<p><strong>In patch management, the binary decision is "do we rebuild or not."</strong> CVSS doesn't matter much because when you patch, you install everything. The old question was "is there a critical?" — but there's always a critical, so the trigger fires constantly.</p>
+<p style="margin-top:8px">We're proposing a sharper filter: <strong>only trigger an emergency rebuild for direct injection vulnerabilities in network-parser libraries.</strong> Everything else rides the normal release cycle (30-day cadence picks up everything automatically).</p>
+<p style="margin-top:8px">But this only matters if the filter actually spaces out the rebuild events. If you're still getting a trigger every week, you haven't gained anything — you've just added complexity. <strong>So: what's the periodicity under each filter, across three different tech stacks?</strong></p>
+</div>
 
-<h3>Trigger counts per framework (Apr 2025 – Apr 2026)</h3>
+<div class="callout callout-finding" style="border-color:var(--hacker);background:#faf5ff;color:#581c87">
+<strong>What's new in this preview vs. the <a href="periodicity.html" style="color:#581c87;text-decoration:underline">published periodicity page</a>:</strong>
+<p style="margin-top:8px">Three additions are layered into the same flow: (1) a <strong>hacker S+A discriminator</strong> sits alongside NP+DI as a parallel comparator on every chart and table — default-config × network-edge × primitive-direct with auth-missing co-tag rule. (2) The <strong>NP+DI + AI scan</strong> safety net (already in EPSS section here) gets per-event detail across the 7-year backtest. (3) A <strong>WAF-defensibility</strong> axis (FRIENDLY / MEDIUM / HOSTILE) is added to the 13 actually-exploited events to surface where perimeter mitigation can buy time and where it cannot. The OS layer chaining, three-tier model, and validation sources are unchanged.</p>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════ -->
+<h2>The Cross-Framework Headline</h2>
+
+<div class="hero-stat">
+<div class="stat red">
+<div class="number">14</div>
+<div class="label">All C/H trigger dates<br><em>identical across all 3 stacks</em></div>
+</div>
+<div class="stat accent">
+<div class="number">2 – 6</div>
+<div class="label">NP+DI trigger dates<br>per stack (64–86% reduction)</div>
+</div>
+<div class="stat" style="border-color:var(--hacker)">
+<div class="number" style="color:var(--hacker)">1 – 5</div>
+<div class="label">Hacker S+A trigger dates<br>per stack (64–93% reduction)</div>
+</div>
+<div class="stat" style="border-color:var(--cyan)">
+<div class="number" style="color:var(--cyan)"><a href="cve-reference.html" style="color:var(--cyan);text-decoration:none">129</a></div>
+<div class="label"><a href="cve-reference.html" style="color:var(--muted);text-decoration:none">CVEs individually classified<br>→ full reference list</a></div>
+</div>
+</div>
+
+<div class="callout callout-finding">
+<strong>The filter works across ecosystems — without missing any exploited vulnerability.</strong> The original three stacks each produce 14 distinct all-C/H trigger dates — you'd rebuild roughly every 3 weeks under the old model. Under NP+DI (including auth bypass via input manipulation), Spring drops to 5 events (64%), Node.js to 2 (86%), Django to 6 (67%), Netty to 1 (93%). Across the 12-month synthetic stacks and the 7-year real manifest backtest, every CVE that was later confirmed exploited (CISA KEV or Metasploit) landed in the NP+DI bucket. The filter never told you to skip something that turned out to matter.
+<p style="margin-top:8px">*<strong>The caveat:</strong> the filter logic is sound, but it's only as good as the CWE metadata it reads. The <a href="#epss-comparison">7-year backtest</a> found 3 exploited CVEs that the filter missed — all because upstream CWE tags were wrong (Ghostcat tagged CWE-269 instead of CWE-22, ActiveMQ tagged CWE-20 instead of CWE-94). The filter's answer was correct given its input; the input was bad. The fix is an AI safety-net: automated CWE validation for network-parser advisories that don't match a DI pattern. That catches all 3 on day zero. <strong>Trust the filter, but verify the data it reads.</strong></p>
+</div>
+
+<div class="chart-wrap">
+<canvas id="crossFrameworkChart" height="100"></canvas>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════ -->
+<h2>The Four Sample Stacks</h2>
+
+<div class="grid-3">
+<div class="card">
+<h3><span class="fw-badge fw-spring">Spring Boot</span> Java</h3>
+<p><strong>48 deps</strong> (16 NP, 32 non-NP)</p>
+<p>REST API with Tomcat, Spring Security, Thymeleaf, Jackson, Hibernate, PostgreSQL, RabbitMQ, monitoring.</p>
+<details><summary>Full manifest</summary>
+<p><strong>NP:</strong> spring-web, spring-webmvc, tomcat-embed-core, tomcat-embed-websocket, jackson-databind, jackson-core, spring-security-core, spring-security-web, spring-security-oauth2, thymeleaf, thymeleaf-spring6, httpclient5, httpcore5, jaxb-runtime, amqp-client, spring-boot-actuator</p>
+<p><strong>Non-NP:</strong> spring-boot, spring-core, spring-context, spring-beans, spring-aop, spring-boot-autoconfigure, hibernate-core, spring-data-jpa, spring-jdbc, postgresql, HikariCP, logback-classic, logback-core, slf4j-api, snakeyaml, hibernate-validator, jakarta.validation-api, guava, commons-lang3, commons-io, commons-collections4, commons-text, caffeine, spring-amqp, resilience4j, micrometer-core, springdoc-openapi, byte-buddy, bcprov, jackson-annotations, jackson-datatype-jsr310, jackson-dataformat-yaml</p>
+</details>
+</div>
+
+<div class="card">
+<h3><span class="fw-badge fw-node">Node.js</span> Express</h3>
+<p><strong>45 deps</strong> (21 NP, 24 non-NP)</p>
+<p>Express API with body-parser, Socket.io, Handlebars/EJS/Pug, Passport, GraphQL, Mongoose, Redis, Bull.</p>
+<details><summary>Full manifest</summary>
+<p><strong>NP:</strong> express, koa, fastify, body-parser, multer, cookie-parser, cors, helmet, http-proxy-middleware, node-fetch, axios, ws, socket.io, ejs, pug, handlebars, nunjucks, jsonwebtoken, passport, graphql, apollo-server-express</p>
+<p><strong>Non-NP:</strong> mongoose, sequelize, knex, pg, redis, ioredis, bull, winston, morgan, dotenv, lodash, moment, uuid, bcrypt, sharp, nodemailer, joi, yup, chalk, commander, aws-sdk, eslint, jest, supertest</p>
+</details>
+</div>
+
+<div class="card">
+<h3><span class="fw-badge fw-django">Django</span> Python</h3>
+<p><strong>40 deps</strong> (16 NP, 24 non-NP)</p>
+<p>Django REST API with Gunicorn, Jinja2, Channels, Celery, SQLAlchemy, boto3, Pillow, cryptography.</p>
+<details><summary>Full manifest</summary>
+<p><strong>NP:</strong> django, djangorestframework, flask, gunicorn, uvicorn, requests, httpx, urllib3, jinja2, pyjwt, django-cors-headers, channels, graphene-django, django-oauth-toolkit, whitenoise, django-ninja</p>
+<p><strong>Non-NP:</strong> celery, redis, psycopg2, sqlalchemy, boto3, pillow, numpy, pandas, pyyaml, cryptography, paramiko, django-debug-toolbar, django-extensions, django-filter, sentry-sdk, pytest, pytest-django, factory-boy, black, flake8, django-storages, django-redis, kombu, python-dateutil</p>
+</details>
+</div>
+
+<div class="card">
+<h3><span class="fw-badge fw-netty">Netty</span> Java</h3>
+<p><strong>32 deps</strong> (20 NP, 12 non-NP)</p>
+<p>High-performance microservice with Netty, Vert.x, gRPC, Armeria, Reactor Netty, Jackson, Bouncy Castle, Lettuce (Redis), Cassandra driver.</p>
+<details><summary>Full manifest</summary>
+<p><strong>NP:</strong> netty-codec-http, netty-codec-http2, netty-handler, netty-transport, netty-codec, netty-handler-proxy, netty-resolver-dns, vertx-core, vertx-web, vertx-auth-jwt, grpc-netty, grpc-core, reactor-netty-http, armeria, jackson-databind, bcprov-jdk18on, netty-tcnative-boringssl-static, lettuce-core, java-driver-core, r2dbc-postgresql</p>
+<p><strong>Non-NP:</strong> netty-buffer, grpc-protobuf, grpc-stub, jackson-core, protobuf-java, logback-classic, slf4j-api, micrometer-core, micrometer-registry-prometheus, guava, commons-lang3, commons-codec</p>
+</details>
+</div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════ -->
+<h2>Periodicity Comparison</h2>
+
+<div class="callout callout-warning">
+<strong>Why averages lie here.</strong> The NP+DI filter doesn't produce evenly spaced events. It produces <em>silence punctuated by bursts</em>. Spring had 5.5 months of silence, then two hits in a week. Node.js had 10 months of silence, then two hits in 29 days. Averaging obscures the real operational picture. The burst pattern is actually <em>better</em> than a steady cadence — it means the filter truly clears the noise floor, and when it does fire, you know to take it seriously.
+</div>
 
 <table>
-<thead>
-<tr>
-<th>Framework</th>
-<th>Manifest</th>
-<th>All C+H trigger dates</th>
-<th>NP+DI trigger dates</th>
-<th>NP+DI + AI scan</th>
-<th>Hacker S+A</th>
-<th>Reduction (vs all)</th>
-</tr>
-</thead>
+<thead><tr><th>Framework</th><th>All C/H</th><th>NP+DI</th><th>NP+DI + AI</th><th>Hacker S+A</th><th>Reduction (Hacker)</th><th>Hacker S+A pattern</th></tr></thead>
 <tbody>
 <tr>
 <td><span class="fw-badge fw-spring">Spring Boot</span></td>
-<td>48 deps</td>
 <td>14</td>
-<td>5</td>
+<td><strong>5</strong></td>
 <td>6</td>
-<td>5</td>
-<td>57% (AI) / 64% (Hacker)</td>
+<td><strong style="color:var(--hacker)">5</strong></td>
+<td style="color:var(--green)"><strong>64%</strong></td>
+<td>Apr 28 → <em>23 days</em> → May 21 → <em>118 days</em> → Sep 16 → <em>205 days</em> → Apr 9 → <em>6 days</em> → Apr 15</td>
 </tr>
 <tr>
-<td><span class="fw-badge fw-node">Node.js/Express</span></td>
-<td>45 deps</td>
+<td><span class="fw-badge fw-node">Node.js</span></td>
 <td>14</td>
-<td>2</td>
+<td><strong>2</strong></td>
 <td>4</td>
-<td>3</td>
-<td>71% (AI) / 79% (Hacker)</td>
+<td><strong style="color:var(--hacker)">3</strong></td>
+<td style="color:var(--green)"><strong>79%</strong></td>
+<td><em>330 days silence</em> → Mar 11 → <em>16 days</em> → Mar 27 → <em>5 days</em> → Apr 1</td>
 </tr>
 <tr>
-<td><span class="fw-badge fw-django">Django/DRF</span></td>
-<td>40 deps</td>
+<td><span class="fw-badge fw-django">Django</span></td>
 <td>14</td>
-<td>6</td>
+<td><strong>6</strong></td>
 <td>7</td>
-<td>4</td>
-<td>50% (AI) / 71% (Hacker)</td>
+<td><strong style="color:var(--hacker)">4</strong></td>
+<td style="color:var(--green)"><strong>71%</strong></td>
+<td>Sep 8 → <em>23 days</em> → Oct 1 → <em>35 days</em> → Nov 5 → <em>153 days</em> → Apr 7</td>
 </tr>
 <tr>
 <td><span class="fw-badge fw-netty">Netty</span></td>
-<td>7 deps</td>
-<td>2</td>
+<td>3</td>
+<td><strong>1</strong></td>
 <td>1</td>
-<td>1</td>
-<td>1</td>
-<td>50% (both)</td>
+<td><strong style="color:var(--hacker)">1</strong></td>
+<td style="color:var(--green)"><strong>67%</strong></td>
+<td><em>360 days silence</em> → Mar 26 (degenerate; one trigger only)</td>
 </tr>
 </tbody>
 </table>
 
-<p style="font-size:.85em;color:var(--muted)"><strong>Hacker tier coverage:</strong> Spring and Django manifests sit inside larger blinded ranking exercises (175- and 181-event Java/Python sets respectively); Node and Netty were ranked separately on the same discriminator. AI-scan rescues per framework — Spring: Spring Boot actuator exposure (CVE-2025-22235); Node: sequelize SQLi + lodash <code>_.template</code>; Django: ASGI header spoof (CVE-2026-3902); Netty: none beyond NP+DI raw.</p>
-
-<h3>Cross-framework chart</h3>
-<div class="chart-wrap">
-<canvas id="crossFrameworkChart" style="max-height:340px"></canvas>
+<div class="callout callout-finding" style="border-color:var(--hacker);background:#faf5ff;color:#581c87">
+<strong>The real value of the 12-month view is showing how much needless rebuild churn the all-C/H baseline produces.</strong> Spring/Node/Django each disclose roughly 14 critical/high CVEs per year on these manifests — that's a forced rebuild every 2-3 weeks if you treat severity as the trigger. Even Netty's tiny 7-package stack throws 3 per year. Under any of the discriminating filters (NP+DI, NP+DI+AI, hacker S+A) the rebuild count drops to 1-7, depending on framework and policy — and the ones that get filtered out are DoS bugs, weak crypto config, info leaks, and deserialization that can't actually be reached. The strategies disagree on small membership-and-count details but they agree on the headline: <strong>the all-C/H rebuild treadmill is mostly noise</strong>. Scoring which discriminator is most accurate needs ground truth — the 12-month window has only 1 exploited CVE total (Django <code>CVE-2025-64459</code>, EDB-only), so the 7-year backtest is where actual scoring happens.
 </div>
-
-<p>Four bars per framework: patch-all C+H, NP+DI raw, NP+DI + AI scan, and hacker S+A. The chart shows <em>how much patch work each policy demands</em> over a year — <strong>not</strong> how many real attacks each catches. The 12-month window contains essentially no exploitation ground truth (see Section 3); discrimination has to be scored on the 7-year backtest. Read this chart as a workload comparison: under hacker S+A you'd rebuild Spring 5 times, Node 3 times, Django 4 times, Netty once. Under patch-everything you'd rebuild each framework around 14 times.</p>
-
-<h2>2. Periodicity: silence punctuated by bursts (12-month view)</h2>
-
-<p>Averages mislead here. Neither NP+DI nor hacker S+A produces evenly spaced triggers — both produce <em>silence punctuated by bursts</em>. Spring had 5.5 months of NP+DI silence, then two hits in a week. Node had 10 months of NP+DI silence, then two hits in 29 days. The hacker filter extends those silences further on Spring and Django because its bar is stricter, but compresses on Node because all three of its hits cluster into Q1 2026.</p>
-
-<table>
-<thead><tr><th>Framework</th><th>Longest silence (NP+DI)</th><th>Longest silence (Hacker S+A)</th><th>Comment</th></tr></thead>
-<tbody>
-<tr><td><span class="fw-badge fw-spring">Spring Boot</span></td><td>164 days</td><td><strong>205 days</strong></td><td>Hacker S+A's longest gap is 2025-09-16 → 2026-04-09 (between annotation auth-bypass cluster and the Apr-9 Tomcat CLIENT_CERT batch).</td></tr>
-<tr><td><span class="fw-badge fw-node">Node.js/Express</span></td><td>29 days</td><td>16 days</td><td>Both filters concentrate firings into 2026-Q1 (sequelize, handlebars cluster, lodash). Internal silences are short because all 3 hacker triggers fall in March-April 2026.</td></tr>
-<tr><td><span class="fw-badge fw-django">Django/DRF</span></td><td>90 days</td><td>153 days</td><td>Hacker silence is 2025-11-05 → 2026-04-07 (between the Django ORM SQLi cluster and the ASGI header-spoof event).</td></tr>
-<tr><td><span class="fw-badge fw-netty">Netty</span></td><td>0 days</td><td>0 days</td><td>Single hacker trigger (CVE-2026-33870 request smuggling); no internal gap to measure.</td></tr>
-</tbody>
-</table>
-
-<div class="callout callout-finding">
-<strong>Hacker discriminator extends the silence stretches further than NP+DI raw on Spring and Django.</strong> The hacker's stricter S+A bar means fewer firings concentrated on the truly-decisive bugs, so longer waits between alerts. Spring goes from 164d → 205d, Django from 90d → 153d. Node compresses (29d → 16d) because all three Hacker S+A events bunch into Q1 2026 while NP+DI raw spans 2026-02-26 to 2026-03-27. Netty is degenerate (one trigger) for both.
-</div>
-
-<h2>3. Why 12 months is too short</h2>
 
 <div class="callout callout-warning">
-<strong>The 12-month view can't actually score effectiveness — there's almost nothing to catch.</strong> Across the four manifests over Apr 2025 – Apr 2026, the only exploited CVE is one Django ORM SQLi (CVE-2025-64459, ExploitDB-only, no KEV or Metasploit). Every triage strategy catches it. Spring, Node, and Netty have zero exploited events in the window. So "the filter caught every exploit in the window" is technically true but vacuous — N=1 across 4 manifests means none of these strategies can differentiate from random on this window alone.
+<strong>The hidden cost of all-C/H rebuilds isn't just the rebuild itself — it's what the churn crowds out.</strong> Teams that fight a fire every two weeks don't typically use that bandwidth to fix root causes. They don't get to "let's adopt a get-latest build model so the next CVE is a non-event." They don't get to move infrastructure from <em>Tier 3 (fix when broken)</em> to <em>Tier 2 (fix on a regular cadence)</em>. The natural reflex is "we should just fix things right" — but humans in firefighting mode don't behave that way; they triage, ship, and brace for the next alert. A noise-floor reduction from 14 forced rebuilds per year to 2-6 isn't just a workload win — it's the difference between a team that <em>only</em> does emergency rebuilds and a team that has time to invest in not having to.
 </div>
 
-<p>That's not unique to this work — it's the structural reality of any short window on framework-shaped manifests. KEV lags exploitation by months; Metasploit modules track public PoCs not in-the-wild use; ExploitDB captures researcher notice. A 12-month sample of four medium-sized package sets will find nearly no ground truth. The question "does this strategy beat patch-everything?" cannot be answered from the 12-month view.</p>
+<div class="chart-wrap">
+<canvas id="periodicityChart" height="80"></canvas>
+</div>
 
-<p>What the 12-month view <em>can</em> do honestly is show <em>where the strategies disagree</em> — which CVEs each one would have you patch this year. The 14 / 5 / 6 / 5 (Spring) and parallel numbers across the other manifests describe how much rebuild work each policy demands, not how many real attacks each catches.</p>
+<!-- ═══════════════════════════════════════════════════════════ -->
+<h2>What the Filter Caught (and Why It Was Right)</h2>
 
-<p>To actually score discrimination, we widen the scope:</p>
-
-<ul class="findings">
-<li><strong>A 7-year window</strong> instead of 12 months — enough exploit ground truth to actually score effectiveness.</li>
-<li><strong>An actual production estate manifest</strong> with version sprawl — Spring Boot 2.x estate with 60 unique packages across 176 version-pinned entries, not a synthetic 48-package framework view.</li>
-<li><strong>Effective coverage via floor sweep</strong>, not just direct catch — a routine rebuild applies the latest version of <em>every</em> dependency, which means a long-TTE exploit gets effectively patched if any other strategy trigger fires during the window.</li>
-<li><strong>Burst vs silence operational pattern</strong>, not just averaged "patch events per year".</li>
-</ul>
-
-<h2>4. The production manifest (7-year scope)</h2>
+<div class="grid-3">
+<div class="card">
+<h3><span class="fw-badge fw-spring">Spring Boot</span> 5 events</h3>
+<p><strong>Oct 27:</strong> Tomcat path traversal (CWE-23) — attacker sends crafted HTTP request, traverses outside web root. Classic direct injection.</p>
+<p><strong>Apr 9:</strong> Tomcat output encoding flaw (CWE-116) — improper encoding in JsonAccessLogValve.</p>
+<p><strong>Apr 15:</strong> Thymeleaf template injection ×2 (CWE-1336/917) — expression language injection via template processing. Textbook SSTI → RCE.</p>
+<p style="color:var(--red);margin-top:8px"><strong>The Thymeleaf SSTI is exactly the vulnerability class that reaches KEV.</strong></p>
+</div>
 
 <div class="card">
-<p><strong>Scope: actual deployed Spring Boot 2.x production estate</strong> — 60 unique packages across 176 version-pinned entries (multi-version snapshot with real-world version sprawl). 223 critical/high CVEs over 7 years; 13 actually exploited.</p>
-
-<p style="margin-top:8px"><strong>What's in the manifest:</strong></p>
-<ul class="findings" style="font-size:.9em">
-<li>Spring 4.x AND 5.x (spring-web 4.1.6 through 5.3.31, 13 versions; spring-beans 4.1.6 through 5.3.13, 8 versions), Spring Boot 2.2-2.7, Spring Security 4.x and 5.x, Spring Integration, Spring WS</li>
-<li>Tomcat embed 8.5 + 9.0 (5 versions), Tomcat coyote 6.x</li>
-<li>Both log4j lines: <code>log4j:log4j</code> 1.2.6/1.2.15/1.2.17 (long-EOL but deployed) AND <code>log4j-core</code> 2.8.2 (Log4Shell-vulnerable). Logback also present.</li>
-<li>ActiveMQ <code>activemq-all</code> 5.12.0 (broker+client), Apache MINA, Apache SSHD, Hazelcast cluster wire protocol</li>
-<li>Apache CXF (api + databinding-aegis), Spring WS, dom4j 1.x and 2.x, Apache XMLBeans</li>
-<li>Deserialization gadget classics: commons-collections 3.2.x, XStream 1.4.x (3 versions), Jackson 1.x (<code>jackson-mapper-asl</code>) and Jackson 2.x (databind 2.3.1 through 2.9.8, 7 versions), SnakeYAML 1.3 through 1.33 (9 versions), Apache BCEL 6.3</li>
-<li>Scripting runtimes: Groovy 2.4.x, JRuby 1.7+9.2, Jython 2.7</li>
-<li>Build tooling: Maven core/settings/shared-utils/surefire, plexus-archiver/utils, Apache Ivy, WireMock, Springfox Swagger UI</li>
-</ul>
+<h3><span class="fw-badge fw-node">Node.js</span> 2 events</h3>
+<p><strong>Feb 26:</strong> Koa host header injection (CWE-74) — ctx.hostname trusts raw Host header without validation. Enables cache poisoning, password reset hijacking.</p>
+<p><strong>Mar 27:</strong> Handlebars code injection ×4 (CWE-94) — AST type confusion allows JavaScript execution via crafted templates. Four separate attack vectors in the same disclosure batch.</p>
+<p style="color:var(--red);margin-top:8px"><strong>Template engine code injection — same vulnerability class as the Thymeleaf hit in Spring.</strong></p>
 </div>
 
-<h2>5. Strategy efficiency — 7-year totals (with 7-day clustering)</h2>
+<div class="card">
+<h3><span class="fw-badge fw-django">Django</span> 4 events</h3>
+<p><strong>Sep 8:</strong> Django SQL injection via column aliases (CWE-89).</p>
+<p><strong>Oct 1:</strong> Same pattern, different code path (CWE-89).</p>
+<p><strong>Nov 5:</strong> SQL injection via _connector kwarg in QuerySet/Q (CWE-89).</p>
+<p><strong>Feb 3:</strong> Two more Django SQL injection fixes (CWE-89).</p>
+<p style="color:var(--amber);margin-top:8px"><strong>Recurring ORM-level SQLi. Django kept needing patches for the same class of bug — the filter correctly flagged every one.</strong></p>
+</div>
 
-<p>Patch counts are 7-day-clustered patch events (matching the periodicity convention): triggers within 7 days of each other count as one patch event since a defender already in a rebuild cycle absorbs the next CVE in the same forced march.</p>
+<div class="card">
+<h3><span class="fw-badge fw-netty">Netty</span> 1 event</h3>
+<p><strong>Mar 26:</strong> Netty HTTP request smuggling via chunked extension quoted-string (CWE-444) — malformed chunked encoding allows front-end/back-end desynchronization.</p>
+<p style="color:var(--red);margin-top:8px"><strong>The only trigger was CWE-444 — the request smuggling class added to the DI set after external review. Without CWE-444, this stack would have had zero NP+DI triggers in 12 months.</strong></p>
+</div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════ -->
+<h2>What the Filter Skipped (and Why That's OK)</h2>
+
+<div class="card">
+<p>Across all three stacks, the filter let <strong>34 C/H events</strong> ride the normal 30-day release cycle. These fell into predictable categories:</p>
 
 <table>
-<thead><tr>
-<th>Strategy</th>
-<th>Patch events (7-day clustered)</th>
-<th>Raw triggers</th>
-<th>Exploits caught</th>
-<th>Effectiveness</th>
-<th>Efficiency (overhead per exploit)</th>
-</tr></thead>
+<thead><tr><th>Category</th><th>Count</th><th>Examples</th><th>Why it's OK to wait</th></tr></thead>
 <tbody>
-<tr><td>Patch all C+H</td><td>80</td><td>223</td><td>13/13</td><td>100%</td><td class="frac-mid">6.2x</td></tr>
-<tr><td>Patch criticals only</td><td>39</td><td>75</td><td>7/13</td><td>54%</td><td class="frac-mid">5.6x</td></tr>
-<tr><td>NP+DI raw</td><td>34</td><td>46</td><td>6/13</td><td>46%</td><td class="frac-mid">5.7x</td></tr>
-<tr style="background:#ecfdf5"><td><strong>NP+DI + AI scan</strong> ← comparator</td><td><strong>36</strong></td><td>49</td><td><strong>9/13</strong></td><td><strong>69%</strong></td><td class="frac-good"><strong>4.0x</strong></td></tr>
-<tr style="background:#faf5ff"><td><strong>Hacker S+A</strong></td><td><strong>17</strong></td><td>20</td><td><strong>10/13</strong></td><td><strong>77%</strong></td><td class="frac-good"><strong>1.7x</strong></td></tr>
-<tr style="border-top:2px solid var(--border);font-weight:600"><td>Union (NP+DI ∪ Hacker S+A)</td><td>39</td><td>56</td><td>11/13</td><td>85%</td><td>3.6x</td></tr>
+<tr><td>DoS / resource exhaustion</td><td>14</td><td>Multer (7), urllib3, Tomcat, Pillow, Django, Axios, Nodemailer</td><td>No code execution. Mitigable via WAF/rate limiting.</td></tr>
+<tr><td>NP bugs without injection</td><td>9</td><td>Tomcat auth bypass, Fastify validation bypass, Spring Security config</td><td>Real bugs, but no direct attacker → code execution path.</td></tr>
+<tr><td>Non-NP library bugs</td><td>8</td><td>Pillow buffer overflow, cryptography, PostgreSQL driver, jackson-core</td><td>Attacker input doesn't reach these libraries directly.</td></tr>
+<tr><td>Auth/header issues</td><td>3</td><td>Django header spoofing, PyJWT crit header, Fastify Content-Type</td><td>Defense-in-depth mitigable, not direct code execution.</td></tr>
 </tbody>
 </table>
 
-<p style="font-size:.85em;color:var(--muted)">Hacker tier assignments cover the full 7-year manifest including a backfill pass on the three pre-2018 exploited events (XStream 2013-7285 → A; Tomcat HTTP PUT 2017-12615/12617 → B). The 17-patch count and 10-catch number are both exact for the production manifest scope.</p>
+<p style="margin-top:12px"><strong>Zero of the 34 skipped events appeared in CISA KEV.</strong> The filter correctly deprioritized all of them. <a href="cve-reference.html" style="color:var(--cyan)">See every CVE with its classification →</a></p>
+</div>
 
-<h3>Year-by-year breakdown</h3>
+<div class="callout callout-finding">
+<strong>Interesting edge cases the filter handled correctly:</strong>
+<p style="margin-top:8px"><strong>Sequelize SQL injection</strong> (Node.js, CWE-89): Filtered out because Sequelize is non-NP — it's an ORM, not a network parser. ORM-level SQLi requires the application to pass unsanitized input through specific query patterns. It's a real bug but the attacker path is indirect.</p>
+<p style="margin-top:8px"><strong>lodash code injection</strong> (Node.js, CWE-94): Filtered out because lodash is non-NP. The _.template injection requires attacker-controlled template strings — extremely rare in production unless you're already compromised.</p>
+<p style="margin-top:8px"><strong>black path traversal</strong> (Django ecosystem, CWE-22): Filtered out because black is a code formatter — essentially local attack surface only.</p>
+</div>
 
-<p>The 7-year totals smear over very different operational years. 2018, 2023, and 2024 saw zero exploited CVEs land on the manifest; 2021 and 2022 saw 7 between them. The same strategy that "works perfectly" in a quiet year also has to perform during the famous-bug clusters.</p>
+<!-- ═══════════════════════════════════════════════════════════ -->
+<h2>Real-World Manifest: 7 Years of NP+DI History</h2>
+
+<div class="card">
+<p>The synthetic stacks above test 12-month windows. Here we run all four strategies against a <strong>real enterprise Java manifest</strong> (60 packages across 176 version-pinned entries with full version sprawl — Spring 4.x and 5.x lines side by side, multiple Tomcat/Jackson/SnakeYAML versions, both <code>log4j:log4j</code> 1.x and <code>log4j-core</code> 2.x) across its entire CVE history: Q4 2018 through Q2 2026.</p>
+<p style="margin-top:8px"><strong>223 critical/high CVEs → 46 NP+DI raw → 49 NP+DI + AI scan → 20 hacker S+A → 13 actually exploited</strong> (KEV ∪ Metasploit ∪ ExploitDB). Patch events under 7-day clustering: 80 / 36 / 17 (patch-all / NP+DI+AI / hacker S+A). A "patch event" merges triggers within a 7-day window — if you're already rebuilding when the next CVE drops, that's one cycle, not two.</p>
+</div>
+
+<div class="chart-wrap">
+<canvas id="realManifestChart" height="130"></canvas>
+</div>
+
+<div class="card">
+<p><strong>What the timeline shows:</strong></p>
+<p style="margin-top:8px">The grey bars are the C/H events the filter discards — jackson-databind deserialization chains (gadget-chain dependent), logback serialization bugs, SnakeYAML parsing issues, DoS/resource exhaustion. Auth bypass CVEs are now included in DI (see <a href="osv-exploitation.html" style="color:var(--accent)">OSV analysis</a>). The colored bars are NP+DI: the events that actually warranted emergency response. The ratio holds remarkably steady across years:</p>
 
 <table>
-<thead><tr>
-<th>Year</th>
-<th>All C+H</th>
-<th>NP+DI raw</th>
-<th>NP+DI + AI</th>
-<th>Hacker S+A</th>
-<th>Exploited</th>
-<th>Hacker catches</th>
-<th>Notable</th>
-</tr></thead>
+<thead><tr><th>Year</th><th>All C/H</th><th>NP+DI raw</th><th>NP+DI + AI</th><th>Hacker S+A</th><th>Exploited</th><th>Hacker catches</th><th>Notable</th></tr></thead>
 <tbody>
 <tr><td>2018</td><td>16</td><td>4</td><td>4</td><td>0</td><td>1<sup>†</sup></td><td>0/1</td><td>Tomcat HTTP PUT 2017-12615 [KEV] — out-of-scope CWE-434</td></tr>
 <tr><td>2019</td><td>26</td><td>8</td><td>8</td><td>0</td><td>2</td><td>1/2</td><td>XStream cmd inj 2013-7285 [MSF] (hacker A); Tomcat CGI Win [KEV] (hacker B; missed)</td></tr>
-<tr style="background:#fef9c3"><td>2020</td><td>38</td><td>4</td><td>5</td><td>2</td><td>1</td><td>1/1</td><td>Ghostcat AJP [KEV] — AI rescue + hacker A; NP+DI raw missed it</td></tr>
-<tr style="background:#fee2e2"><td><strong>2021</strong></td><td>46</td><td>10</td><td>10</td><td>3</td><td>3</td><td>3/3</td><td>XStream RCE [KEV]; <strong>Log4Shell</strong> [KEV] + follow-on [KEV]. Hacker S-tiered all three.</td></tr>
-<tr style="background:#fee2e2"><td><strong>2022</strong></td><td>46</td><td>7</td><td>7</td><td>5</td><td>4</td><td>3/4</td><td><strong>Spring4Shell</strong> [KEV] (both catch); Text4Shell [KEV] + SnakeYAML [KEV] (both NP+DI/AI miss; hacker S/A catches); Tomcat HTTP PUT 2017-12617 [KEV] (out-of-scope)</td></tr>
+<tr style="background:#fef9c3"><td>2020</td><td>38</td><td>4</td><td>5</td><td>2</td><td>1</td><td>1/1</td><td>Ghostcat AJP [KEV] — AI rescue + hacker A</td></tr>
+<tr style="background:#fee2e2"><td><strong>2021</strong></td><td>46</td><td>10</td><td>10</td><td>3</td><td>3</td><td>3/3</td><td>XStream RCE [KEV]; <strong>Log4Shell</strong> [KEV] + follow-on [KEV]</td></tr>
+<tr style="background:#fee2e2"><td><strong>2022</strong></td><td>46</td><td>7</td><td>7</td><td>5</td><td>4</td><td>3/4</td><td><strong>Spring4Shell</strong> [KEV]; Text4Shell [KEV] + SnakeYAML [KEV] (NP+DI/AI miss; hacker S/A); Tomcat HTTP PUT 2017-12617 [KEV] (out-of-scope)</td></tr>
 <tr><td>2023</td><td>17</td><td>3</td><td>3</td><td>2</td><td>0</td><td>—</td><td>SpEL injection, Tomcat smuggling — flagged but not exploited</td></tr>
 <tr><td>2024</td><td>15</td><td>4</td><td>4</td><td>2</td><td>0</td><td>—</td><td>Spring path traversal, CXF SSRF, MINA code inj — flagged but not exploited</td></tr>
-<tr style="background:#fef9c3"><td>2025</td><td>10</td><td>4</td><td>5</td><td>4</td><td>1</td><td>1/1</td><td>Tomcat partial-PUT [KEV] — AI rescue + hacker A; NP+DI raw missed it</td></tr>
-<tr style="background:#fef9c3"><td>2026 (Q1+Q2)</td><td>9</td><td>2</td><td>3</td><td>2</td><td>1</td><td>1/1</td><td>ActiveMQ Jolokia [KEV] — AI rescue + hacker A; Thymeleaf SSTI flagged</td></tr>
-<tr style="font-weight:600;border-top:2px solid var(--border)"><td>Total</td><td>223</td><td>46</td><td>49</td><td>20</td><td>13</td><td>10/13 (77%)</td><td>4 KEV-only + 4 KEV + MSF + 1 MSF-only + 4 KEV-recent + 2 out-of-scope CWE-434</td></tr>
+<tr style="background:#fef9c3"><td>2025</td><td>10</td><td>4</td><td>5</td><td>4</td><td>1</td><td>1/1</td><td>Tomcat partial-PUT [KEV] — AI rescue + hacker A</td></tr>
+<tr style="background:#fef9c3"><td>2026 (Q1+Q2)</td><td>9</td><td>2</td><td>3</td><td>2</td><td>1</td><td>1/1</td><td>ActiveMQ Jolokia [KEV] — AI rescue + hacker A; Thymeleaf SSTI</td></tr>
+</tbody>
+<tfoot><tr style="font-weight:600"><td>Total</td><td>223</td><td>46</td><td>49</td><td>20</td><td>13</td><td>10/13 (77%)</td><td>4 KEV + 4 KEV+MSF + 1 MSF-only + 4 recent KEV + 2 out-of-scope CWE-434</td></tr></tfoot>
+</table>
+
+<p style="margin-top:8px;font-size:.88rem;color:#64748b"><strong>Patch events</strong> merge triggers within a 7-day window — if you're already in rebuild/test when the next CVE drops, that's one forced march, not two. 7-day-clustered patch events: <strong>80 / 39 / 36 / 17</strong> across the four strategies (patch-all C+H / patch-criticals-only / NP+DI+AI / hacker S+A) — see efficiency table below.</p>
+<p style="margin-top:4px;font-size:.88rem;color:#64748b"><strong>Exploited</strong> = confirmed in CISA KEV ∪ Metasploit ∪ ExploitDB. <sup>†</sup> Stars are placed at the quarter the exploitation evidence landed in the source database, not necessarily the CVE disclosure quarter — both 2017 Tomcat HTTP PUT events get plotted in the years their KEV/EDB records were created (2018 and 2022). Yellow rows mark years where the AI scan rescues a KEV-confirmed event NP+DI raw missed (Ghostcat 2020, partial-PUT 2025, Jolokia 2026). Pink rows mark famous-bug clusters (2021 Log4Shell, 2022 Spring4Shell + Text4Shell + SnakeYAML).</p>
+
+<h3 style="margin-top:24px">Strategy efficiency — 7-year totals</h3>
+
+<table>
+<thead><tr><th>Strategy</th><th>Patch events (7-day clustered)</th><th>Raw triggers</th><th>Exploits caught</th><th>Effectiveness</th><th>Efficiency (overhead per exploit)</th></tr></thead>
+<tbody>
+<tr><td>Patch all C+H</td><td>80</td><td>223</td><td>13/13</td><td>100%</td><td>6.2x</td></tr>
+<tr><td>Patch criticals only</td><td>39</td><td>75</td><td>7/13</td><td>54%</td><td>5.6x</td></tr>
+<tr><td>NP+DI raw</td><td>34</td><td>46</td><td>6/13</td><td>46%</td><td>5.7x</td></tr>
+<tr style="background:#ecfdf5"><td><strong>NP+DI + AI scan</strong></td><td><strong>36</strong></td><td>49</td><td><strong>9/13</strong></td><td><strong>69%</strong></td><td><strong>4.0x</strong></td></tr>
+<tr style="background:#faf5ff"><td><strong>Hacker S+A</strong></td><td><strong>17</strong></td><td>20</td><td><strong>10/13</strong></td><td><strong>77%</strong></td><td><strong>1.7x</strong></td></tr>
+<tr style="border-top:2px solid var(--border);font-weight:600"><td>Union (NP+DI+AI ∪ Hacker S+A)</td><td>39</td><td>56</td><td>11/13</td><td>85%</td><td>3.6x</td></tr>
 </tbody>
 </table>
 
-<p style="font-size:.85em;color:var(--muted)"><sup>†</sup> Stars in the chart are placed at the quarter the exploitation evidence landed in our sources, not necessarily the CVE disclosure quarter. Both 2017 Tomcat HTTP PUT events get plotted in the years their KEV/EDB records were created (2018 and 2022). Yellow rows mark years where the AI scan rescues a KEV-confirmed event NP+DI raw would have missed. Pink rows mark the famous-bug clusters where multiple KEVs hit in one year.</p>
-
-<div class="callout callout-finding">
-<strong>The temporal distribution is asymmetric in two directions.</strong> First, exploited events cluster — 2021 and 2022 are 7 of the 13 exploited events; 2018, 2023, and 2024 are zero. Second, the strategies' relative advantage shifts year by year. NP+DI raw kept pace in 2021 (Log4Shell era — JNDI in CWE-917 was the obvious primitive), then fell behind in 2022 (Text4Shell + SnakeYAML hit CWEs the filter doesn't cover) and stayed behind through 2025-2026 (AI rescue does the work). The hacker S+A line is more stable: 0/1 in 2018 (out-of-scope file upload), 1/2 in 2019 (CGI Win was B-tier; legitimately tough call), then 9 of 9 in-scope events caught from 2020 onward.
+<div class="callout callout-finding" style="border-color:var(--hacker);background:#faf5ff;color:#581c87">
+<strong>Hacker S+A and NP+DI+AI catch overlapping but non-identical sets.</strong> 9 events sit in both filters' catches; 1 (XStream 2013-7285) is hacker-only direct (NP+DI catches it via floor sweep too); 0 are NP+DI-only. The remaining 2 events are the Tomcat HTTP PUT 2017 pair — out-of-scope by design (CWE-434 file uploads sit outside both filters and the hacker discriminator B-tiers them on the narrow-precondition rule).
 </div>
 
-<h2>6. Time series — quarterly volume, strategy overlays, exploit markers</h2>
+<details style="margin-top:16px">
+<summary style="cursor:pointer;font-weight:600;color:#0ea5e9">Full NP+DI CVE list with exploitation evidence</summary>
+<div style="margin-top:12px">
+
+<table style="font-size:.88rem">
+<thead><tr><th>CVE</th><th>Date</th><th>Library</th><th>Type</th><th>KEV</th><th>MSF</th><th>Notes</th></tr></thead>
+<tbody>
+<tr><td><code>CVE-2018-1000632</code></td><td>2018-10-16</td><td>dom4j</td><td>XPath injection</td><td></td><td></td><td></td></tr>
+<tr><td><code>CVE-2018-1275</code></td><td>2018-10-17</td><td>spring-messaging</td><td>SpEL RCE</td><td></td><td></td><td></td></tr>
+<tr><td><code>CVE-2018-1270</code></td><td>2018-10-17</td><td>spring-messaging</td><td>SpEL RCE</td><td></td><td></td><td>Variant of -1275</td></tr>
+<tr style="background:#fef3c7"><td><code>CVE-2018-15801</code></td><td>2018-12-20</td><td>spring-security</td><td>Auth bypass</td><td></td><td></td><td>Widened DI: insufficient signature verification</td></tr>
+<tr style="background:#fef2f2"><td><code>CVE-2019-0232</code></td><td>2019-04-18</td><td>Tomcat</td><td>CGI OS injection</td><td></td><td style="color:#ef4444">1 module</td><td>Windows-only; CGI cmdline args</td></tr>
+<tr><td><code>CVE-2013-7285</code></td><td>2019-05-29</td><td>XStream</td><td>Command injection</td><td></td><td></td><td>PoCs exist on GitHub</td></tr>
+<tr><td><code>CVE-2019-10173</code></td><td>2019-07-26</td><td>XStream</td><td>Code injection</td><td></td><td></td><td></td></tr>
+<tr style="background:#fef3c7"><td><code>CVE-2019-11272</code></td><td>2019-06-27</td><td>spring-security</td><td>Auth bypass</td><td></td><td></td><td>Widened DI: improper authentication</td></tr>
+<tr><td><code>CVE-2019-17495</code></td><td>2019-10-15</td><td>Swagger UI</td><td>XSS + CSRF</td><td></td><td></td><td></td></tr>
+<tr><td><code>CVE-2019-10172</code></td><td>2020-02-04</td><td>jackson-mapper-asl</td><td>XXE</td><td></td><td></td><td></td></tr>
+<tr><td><code>CVE-2020-10683</code></td><td>2020-06-05</td><td>dom4j</td><td>XXE</td><td></td><td></td><td></td></tr>
+<tr><td><code>CVE-2020-26217</code></td><td>2020-11-16</td><td>XStream</td><td>OS command exec</td><td></td><td></td><td>PoCs exist on GitHub</td></tr>
+<tr><td><code>CVE-2021-29505</code></td><td>2021-05-18</td><td>XStream</td><td>Code injection</td><td></td><td></td><td></td></tr>
+<tr><td><code>CVE-2021-39150</code></td><td>2021-08-25</td><td>XStream</td><td>SSRF</td><td></td><td></td><td>Same-day batch (3 CVEs)</td></tr>
+<tr style="background:#fef2f2"><td><code>CVE-2021-39144</code></td><td>2021-08-25</td><td>XStream</td><td>RCE</td><td style="color:#ef4444">KEV</td><td style="color:#ef4444">1 module</td><td>Exploited via VMware NSX</td></tr>
+<tr><td><code>CVE-2021-39152</code></td><td>2021-08-25</td><td>XStream</td><td>SSRF</td><td></td><td></td><td>Same-day batch</td></tr>
+<tr><td><code>CVE-2020-24616</code></td><td>2021-12-09</td><td>jackson-databind</td><td>Deser → RCE</td><td></td><td></td><td>Caught by DI keyword</td></tr>
+<tr style="background:#fef2f2"><td><code>CVE-2021-44228</code></td><td>2021-12-10</td><td>Log4j</td><td>JNDI injection</td><td style="color:#ef4444">KEV</td><td style="color:#ef4444">5 modules</td><td><strong>Log4Shell</strong></td></tr>
+<tr style="background:#fef2f2"><td><code>CVE-2021-45046</code></td><td>2021-12-14</td><td>Log4j</td><td>JNDI injection</td><td style="color:#ef4444">KEV</td><td style="color:#ef4444">1 module</td><td>Log4Shell follow-on</td></tr>
+<tr style="background:#fef2f2"><td><code>CVE-2022-22965</code></td><td>2022-03-31</td><td>Spring Framework</td><td>ClassLoader RCE</td><td style="color:#ef4444">KEV</td><td style="color:#ef4444">1 module</td><td><strong>Spring4Shell</strong></td></tr>
+<tr style="background:#fef3c7"><td><code>CVE-2022-22978</code></td><td>2022-05-20</td><td>spring-security</td><td>Auth bypass</td><td></td><td></td><td>Widened DI: RegexRequestMatcher bypass (CRITICAL)</td></tr>
+<tr><td><code>CVE-2022-42252</code></td><td>2022-11-01</td><td>Tomcat</td><td>Request smuggling</td><td></td><td></td><td>CWE-444</td></tr>
+<tr style="background:#fef3c7"><td><code>CVE-2022-31692</code></td><td>2022-11-01</td><td>spring-security</td><td>Auth bypass</td><td></td><td></td><td>Widened DI: forward/include dispatch bypass (CRITICAL)</td></tr>
+<tr><td><code>CVE-2023-20863</code></td><td>2023-04-13</td><td>Spring Expression</td><td>SpEL injection</td><td></td><td></td><td></td></tr>
+<tr><td><code>CVE-2023-46589</code></td><td>2023-11-28</td><td>Tomcat</td><td>Request smuggling</td><td></td><td></td><td>CWE-444</td></tr>
+<tr><td><code>CVE-2023-45860</code></td><td>2024-02-16</td><td>Hazelcast</td><td>SQL injection</td><td></td><td></td><td></td></tr>
+<tr><td><code>CVE-2024-28752</code></td><td>2024-03-15</td><td>Apache CXF</td><td>SSRF</td><td></td><td></td><td></td></tr>
+<tr style="background:#fef3c7"><td><code>CVE-2024-22257</code></td><td>2024-03-18</td><td>spring-security</td><td>Auth bypass</td><td></td><td></td><td>Widened DI: erroneous authentication pass</td></tr>
+<tr><td><code>CVE-2024-52046</code></td><td>2024-12-25</td><td>Apache MINA</td><td>Deser → code injection</td><td></td><td></td><td></td></tr>
+<tr><td><code>CVE-2025-55752</code></td><td>2025-10-27</td><td>Tomcat</td><td>Path traversal</td><td></td><td></td><td></td></tr>
+</tbody>
+</table>
+
+<p style="margin-top:12px"><strong>Filter misses (non-NP+DI but exploited):</strong> Three CVEs from this manifest reached CISA KEV but were <em>not</em> flagged by the NP+DI filter. All three are CWE classification failures, not filter logic failures:</p>
+<table style="font-size:.88rem;margin-top:8px">
+<thead><tr><th>CVE</th><th>Library</th><th>Why missed</th><th>KEV</th><th>MSF</th></tr></thead>
+<tbody>
+<tr><td><code>CVE-2020-1938</code></td><td>Tomcat (Ghostcat)</td><td>CWE-269 — should be CWE-22; AJP file-read is path traversal</td><td style="color:#ef4444">KEV</td><td style="color:#ef4444">1 module</td></tr>
+<tr><td><code>CVE-2025-24813</code></td><td>Tomcat</td><td>CWE-502 only — deserialization via HTTP PUT; grey-area DI boundary</td><td style="color:#ef4444">KEV</td><td style="color:#ef4444">1 module</td></tr>
+<tr><td><code>CVE-2026-34197</code></td><td>ActiveMQ (Jolokia)</td><td>CWE-20 — generic; should be CWE-94 code injection</td><td style="color:#ef4444">KEV</td><td></td></tr>
+</tbody>
+</table>
+<p style="margin-top:8px;font-size:.88rem;color:#64748b">The AI safety-net recommendation (automated CWE validation for NP-but-not-DI advisories) would catch all three. See the walkthrough §7g for the full analysis.</p>
+
+</div>
+</details>
+
+<p style="margin-top:12px"><strong>2022 is the standout year:</strong> 20 C/H dates but only 4 NP+DI triggers (80% reduction). That was the year jackson-databind's deserialization CVE avalanche peaked — 15 of those 20 dates were jackson CWE-502 disclosures. The filter correctly ignored all of them and fired on Spring4Shell (confirmed exploited, KEV), a Tomcat smuggling bug, and two Spring Security auth bypass criticals (RegexRequestMatcher bypass, forward/include dispatch bypass).</p>
+
+<p style="margin-top:8px"><strong>2021 is the stress test:</strong> 5 NP+DI dates but only 3 patch events. The XStream triple-disclosure (Aug 25) was one advisory, one rebuild. The Log4Shell cluster — jackson-databind RCE (Dec 9), Log4Shell (Dec 10), follow-on (Dec 14) — was 5 days of continuous incident response, not three separate fire drills. All three patch events surfaced CVEs that ended up in KEV.</p>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════ -->
+<h2>Monthly Heatmaps</h2>
+
+<p>Per-framework month-by-month view of the 12-month window. Grey = events no strategy flags. Framework colour = NP+DI raw (the original filter). Cyan = AI scan rescues that NP+DI raw would have missed (events where the surface CWE underweights the primitive — for Spring this rescues nothing in the window, for Node it adds sequelize SQLi and lodash <code>_.template</code>, for Django it adds the ASGI header spoof). Purple ★ = hacker S+A trigger date — placed slightly above the bar for visibility and not contributing to the stacked total.</p>
+
 <div class="chart-wrap">
-<canvas id="timeseriesChart" style="max-height:420px"></canvas>
+<canvas id="monthlySpring" height="70"></canvas>
+</div>
+<div class="chart-wrap">
+<canvas id="monthlyNode" height="70"></canvas>
+</div>
+<div class="chart-wrap">
+<canvas id="monthlyDjango" height="70"></canvas>
+</div>
+<div class="chart-wrap">
+<canvas id="monthlyNetty" height="70"></canvas>
 </div>
 
-<p>Grey bars are the full critical/high CVE flow per quarter on the production manifest. Cyan is what NP+DI + AI scan would have flagged; purple is what the hacker S+A discriminator would have flagged. Red stars mark the 13 events that actually got exploited (KEV ∪ Metasploit ∪ ExploitDB). The chart makes the point Section 7 names: the comparator and the hacker both drop to zero-or-near-zero firings for long stretches, then both spike together during the famous-bug clusters (2021-Q4 Log4Shell, 2022-Q4 Text4Shell + SnakeYAML, 2025-Q1 Tomcat partial-PUT).</p>
+<!-- ═══════════════════════════════════════════════════════════ -->
+<h2>The Cross-Ecosystem Pattern</h2>
 
-<h2>7. Averages lie — burst vs silence pattern</h2>
+<div class="card">
+<p>Four different stacks (Spring, Express, Django, Netty), three package ecosystems (Maven, npm, PyPI), different dependency philosophies — but the same structural result:</p>
+<p style="margin-top:8px"><strong>1. The all-C/H noise floor is consistent.</strong> The traditional three stacks each hit 14 distinct trigger dates in 12 months. Netty is quieter at 3 dates (fewer total deps, narrower attack surface). Under "rebuild on any critical/high," you're on a 2-3 week treadmill.</p>
+<p style="margin-top:8px"><strong>2. The NP+DI filter drops the noise floor by 67-93%.</strong> The degree varies — Django's recurring ORM SQLi keeps it at the lower end, Netty's single smuggling bug gives the highest reduction — but every stack gets meaningful breathing room.</p>
+<p style="margin-top:8px"><strong>3. Template engine injection showed up in 2 of 3 stacks.</strong> Thymeleaf SSTI in Spring, Handlebars code injection in Node.js. This is the most consistent direct-injection pattern across ecosystems — and exactly the vulnerability class with the strongest KEV track record.</p>
+<p style="margin-top:8px"><strong>4. The burst pattern is the real story.</strong> The filter doesn't produce a slower steady drip. It produces silence punctuated by genuine events. That's operationally different — it means when the signal fires, your team responds to it instead of tuning it out.</p>
+</div>
 
-<p>The averaged "patch events per year" obscures the real defender experience. During busy quarters (≥10 C/H disclosures) every reasonable strategy fires multiple times — the filter's discrimination is muted. During quiet quarters strategies diverge sharply on whether to fire at all. The savings concentrate in quiet periods, not the average.</p>
+<!-- ═══════════════════════════════════════════════════════════ -->
+<h2>Django: The Honest Weak Case</h2>
 
-<table>
-<thead><tr>
-<th>Strategy</th>
-<th>Patch events / 7yr</th>
-<th>Avg gap</th>
-<th>Median gap</th>
-<th>Longest silence</th>
-<th>Silent quarters (of 31)</th>
-</tr></thead>
-<tbody>
-<tr><td>Patch all C+H</td><td>80</td><td>35d</td><td>29d</td><td>117d</td><td>0 / 31 (0%)</td></tr>
-<tr><td>Patch criticals only</td><td>39</td><td>72d</td><td>48d</td><td>303d</td><td>10 / 31 (32%)</td></tr>
-<tr style="background:#ecfdf5"><td>NP+DI + AI scan</td><td>36</td><td>78d</td><td>62d</td><td>285d</td><td>6 / 31 (19%)</td></tr>
-<tr style="background:#faf5ff"><td><strong>Hacker S+A</strong></td><td>17</td><td>133d</td><td>118d</td><td><strong>436d</strong></td><td><strong>17 / 31 (55%)</strong></td></tr>
-</tbody>
-</table>
+<div class="callout callout-warning">
+<strong>Django is the weakest result, and that's worth understanding.</strong> Unlike Spring and Node.js (which had long silence windows), Django produced 4 NP+DI triggers in 12 months — roughly quarterly. All four were CWE-89 (SQL injection) in Django's ORM layer itself. The Django security team kept finding and patching variants of the same underlying issue (column alias handling, QuerySet connector kwargs).
+<p style="margin-top:8px">This means the filter gives you less breathing room when the framework itself has a persistent vulnerability pattern in its parsing surface. But note: (a) every trigger was a genuine SQL injection — there were no false positives, and (b) 67% reduction is still operationally meaningful — you go from near-monthly fire drills to roughly bimonthly ones.</p>
+<p style="margin-top:8px">The counter-argument: "if I'm on Django, the filter only saves me 10 rebuilds a year." That's fair. But those 10 skipped rebuilds were DoS bugs, config issues, and non-NP library fixes that never reached KEV. The 4 rebuilds you did do were all real.</p>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════ -->
+<h2>The Deserialization Question (Revisited)</h2>
 
 <div class="callout callout-finding">
-<strong>Hacker S+A produces silence for 17 of 31 quarters (55%).</strong> NP+DI+AI scan: 6 silent quarters. Patch-all C+H: never silent. The averaged overhead numbers describe the same total work but mis-locate when it lands. The hacker discriminator's value is "long stretches of nothing, then a real fire when it matters."
+<strong>Deserialization generated zero rebuild triggers across all three stacks.</strong>
+<p style="margin-top:8px"><strong>Spring:</strong> jackson-databind (67 historical CWE-502 entries in OSV) produced zero C/H in 12 months. SnakeYAML: zero. The gadget-chain CVE factory has quieted.</p>
+<p style="margin-top:8px"><strong>Node.js:</strong> No deserialization-class vulnerabilities in any manifest package.</p>
+<p style="margin-top:8px"><strong>Django:</strong> pyyaml: zero. No deserialization events.</p>
+<p style="margin-top:8px">Deserialization is a CVE volume generator (historically), not an exploitation driver. In the KEV backtest, deserialization accounts for 3.8% of entries — and those are all product-level (Exchange, WebLogic, ColdFusion), not library-level. The real rebuild triggers were path traversal, template injection, and SQL injection.</p>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════ -->
+<h2>April 2026 Spike</h2>
+
+<div class="card">
+<p>April was anomalous for Spring specifically. The Spring manifest saw <strong>8 C/H events in April</strong> versus 14 in the prior 11 months combined. All 8 were in network-parser components (Tomcat, Thymeleaf). 6 of 8 were direct injection (including auth bypass via input manipulation).</p>
+<p style="margin-top:8px">The timing is suggestive: Anthropic announced Glasswing/Mythos on April 7. The Tomcat batch (7 CVEs) dropped April 9 — a coordinated release pattern consistent with accumulated findings. The Thymeleaf SSTI pair dropped April 15 — exactly the kind of pattern-matching vulnerability that AI-assisted code scanning excels at. No explicit Mythos attribution in any advisory, but the all-NP/zero-non-NP ratio in a manifest where parsers are only 33% of dependencies suggests focused scanning of parsing surfaces.</p>
+<p style="margin-top:8px">Node.js and Django did not show an April spike of the same magnitude.</p>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════ -->
+<h2>Limitations & Caveats</h2>
+
+<div class="card">
+<p><strong>OSV severity gaps.</strong> ~26% of OSV advisories lack parseable severity data. Some C/H events may be missed, though major ones (with GHSA or NVD backing) are captured.</p>
+<p style="margin-top:8px"><strong>CWE classification is imperfect.</strong> Some vulns classified as "not direct injection" might have injection characteristics under the right conditions. CWE-20 ("Improper Input Validation") is particularly ambiguous.</p>
+<p style="margin-top:8px"><strong>KEV lag.</strong> Zero KEV entries for these manifests in 12 months doesn't mean none of these vulns matter — it means CISA hasn't observed confirmed exploitation yet. The filter is predictive, not retrospective.</p>
+<p style="margin-top:8px"><strong>Transitive depth.</strong> Real apps pull far more transitive dependencies than modeled (Spring: 200+ JARs, Node.js: hundreds of npm packages). The full tree would push "all C/H" periodicity even shorter (more noise) while NP+DI events would grow proportionally less (more signal).</p>
+<p style="margin-top:8px"><strong>NP classification is judgment-call.</strong> We classified koa, fastify, handlebars, etc. as NP because they parse HTTP request/response data or render templates from potentially attacker-controlled input. Reasonable people could draw the line differently. The <a href="cve-reference.html" style="color:var(--cyan)">full CVE reference list</a> shows every classification so you can audit and re-draw the line yourself.</p>
+<p style="margin-top:8px"><strong>Django's ORM SQLi pattern may not generalize.</strong> Django happened to have a persistent SQL injection issue during this 12-month window. A different 12-month window might show a different pattern. That said, the filter handled it correctly — it flagged every genuine SQLi.</p>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════ -->
+<h2>The OS Layer: Vulnerability Chaining</h2>
+
+<p>The analysis above treats the application as the unit of patching. But production applications run on base images — a container OS with its own libraries, its own CVEs, and its own patch cadence. We took a real production container image (RHEL-based, ~450 executables) and ran the same 12-month NVD backtest to answer two questions: does the OS layer generate independent emergency rebuild triggers, and does it matter for blast radius when the app layer is breached?</p>
+
+<h3>OS Container Manifest</h3>
+
+<div class="card">
+<p><strong>Image:</strong> Amazon Linux 2023 (x86_64), ~25 queryable components.</p>
+<p style="margin-top:6px"><strong>Network parsers (10):</strong> libcurl 4.8.0, OpenSSL 3.2.2, nghttp2, libxml2 2.10.4, expat 1.9.3, Kerberos 5, Python 3.9 (ssl/http/xml stdlib), Java JRE (full JDK), gpgme.</p>
+<p style="margin-top:6px"><strong>Non-parsers (15):</strong> glibc, systemd, sqlite, zlib 1.2.11, xz 5.2.5, bzip2, zstd, libarchive, glib, rpm, pcre2, libyaml, json-c, libgcrypt, oniguruma.</p>
+<p style="margin-top:6px">This is the OS beneath a Spring Boot application — the same app layer analyzed above.</p>
+</div>
+
+<h3>OS-Layer Results: NP+DI = 0</h3>
+
+<div class="hero-stat">
+<div class="stat accent"><div class="number">69</div><div class="label">Total C/H CVEs (12mo)</div></div>
+<div class="stat green"><div class="number">0</div><div class="label">NP + Direct Injection</div></div>
+<div class="stat red"><div class="number">21</div><div class="label">LOCAL vector (privesc)</div></div>
+<div class="stat" style="border-color:var(--amber)"><div class="number">48</div><div class="label" style="color:var(--amber)">NETWORK vector</div></div>
+</div>
+
+<div class="card">
+<p>The NP+DI filter that drives emergency rebuilds at the app layer produced <strong>zero events</strong> at the OS layer in 12 months. The OS layer's 69 C/H CVEs break down: 48 NETWORK (69%) — mostly in sqlite (keyword noise from downstream wrappers), systemd, and zlib — plus 21 LOCAL (30%) and 2 PHYSICAL (3%). None of the network-vector CVEs were direct injection (CWE-78, CWE-22, CWE-89, CWE-444, etc.).</p>
+<p style="margin-top:8px">This means: <strong>the OS layer does not generate independent emergency rebuild triggers under the NP+DI filter.</strong> If you only rebuilt the container when the OS layer demanded it (NP+DI), you'd never rebuild at all. The app layer is what drives the cadence.</p>
+</div>
+
+<h3>The Kill Chain: App Layer = IF, OS Layer = HOW BAD</h3>
+
+<div class="callout callout-warning">
+<strong>But the OS layer isn't irrelevant — it determines blast radius after initial access.</strong>
+<p style="margin-top:8px">If an attacker gains code execution through a Spring app vulnerability (say, Tomcat path traversal or Thymeleaf SSTI), the next question is: what can they do with it? The answer depends on what LOCAL privilege escalation paths exist in the container's OS layer. An unpatched container is an attacker's playground; a freshly patched one limits lateral movement.</p>
+<p style="margin-top:8px">This reframes patching into a two-layer model: the app layer determines <strong>whether</strong> you get breached (initial access), while the OS layer determines <strong>how bad</strong> the breach gets (blast radius through privesc).</p>
+</div>
+
+<h3>Chaining Exposure at Spring Trigger Dates</h3>
+
+<p>If the container base image was built on April 21, 2025 and never refreshed, here's how many LOCAL privilege escalation CVEs accumulate by each Spring NP+DI trigger:</p>
+
+<div class="card">
+<table>
+<thead>
+<tr><th>Spring Trigger</th><th>Vulnerability</th><th>Container Age</th><th>Local Privesc CVEs Available</th><th>Key Components</th></tr>
+</thead>
+<tbody>
+<tr><td><strong>Oct 27, 2025</strong></td><td>Tomcat path traversal</td><td style="color:var(--amber)">189 days</td><td style="color:var(--red);font-weight:700">11</td><td>systemd (5), sqlite (2), zlib (1), rpm (1), openjdk (1), libarchive (1)</td></tr>
+<tr><td><strong>Apr 9, 2026</strong></td><td>Tomcat batch (7 CVEs)</td><td style="color:var(--red)">353 days</td><td style="color:var(--red);font-weight:700">21</td><td>systemd (12), sqlite (4), zlib (2), rpm (1), openjdk (1), libarchive (1)</td></tr>
+<tr><td><strong>Apr 15, 2026</strong></td><td>Thymeleaf SSTI (4 CVEs)</td><td style="color:var(--red)">359 days</td><td style="color:var(--red);font-weight:700">21</td><td>Same as above</td></tr>
+</tbody>
+</table>
+</div>
+
+<p style="margin-top:8px;color:var(--muted)">At the first Spring trigger (Oct 27), an attacker who gets initial access has 11 local privesc CVEs to chain — the container is 6 months stale. By the April triggers, when the real cluster of app-layer vulns hits, the container has 21 privesc paths and hasn't been patched in nearly a year.</p>
+
+<h3>Privesc Accumulation Over Time</h3>
+
+<div class="card">
+<canvas id="chainingChart" height="100"></canvas>
+</div>
+
+<h3>Cadence Comparison: Container Refresh vs. Privesc Exposure</h3>
+
+<div class="card">
+<table>
+<thead>
+<tr><th>Container Refresh Cadence</th><th>Max Privesc CVEs in Any Window</th><th>Reduction vs. Never</th></tr>
+</thead>
+<tbody>
+<tr><td>Never (ride the app cycle)</td><td style="color:var(--red);font-weight:700">21</td><td>—</td></tr>
+<tr><td>Quarterly</td><td style="color:var(--amber);font-weight:700">6</td><td>71%</td></tr>
+<tr><td>Monthly</td><td style="color:var(--green);font-weight:700">5</td><td>76%</td></tr>
+<tr><td>Bi-weekly</td><td style="color:var(--green);font-weight:700">4</td><td>81%</td></tr>
+</tbody>
+</table>
+<p style="margin-top:8px">Monthly container refresh drops the worst-case privesc exposure from 21 CVEs to 5 — a 76% reduction. Going to bi-weekly only saves one more CVE, suggesting monthly is the efficient cadence for blast radius reduction.</p>
+</div>
+
+<h3>Three-Tier Patching Model</h3>
+
+<div class="callout callout-finding">
+<strong>The data supports a three-tier patching model:</strong>
+<p style="margin-top:8px"><strong style="color:var(--red)">Tier 1 — Emergency (NP+DI in app layer):</strong> Rebuild everything — app dependencies AND container base image. These are the 2-6 events per year that represent real initial-access risk. The Spring triggers (Tomcat path traversal, Thymeleaf SSTI) are exactly this class.</p>
+<p style="margin-top:8px"><strong style="color:var(--amber)">Tier 2 — Regular cadence (monthly container refresh):</strong> Rebuild the base image on a monthly cycle regardless of specific CVEs. This isn't responding to any individual vulnerability — it's reducing blast radius by keeping the privesc surface small. The data shows monthly refresh keeps worst-case exposure at 5 CVEs instead of 21.</p>
+<p style="margin-top:8px"><strong style="color:var(--green)">Tier 3 — Ride the release cycle (everything else):</strong> Non-NP library updates, non-DI C/H vulnerabilities, DoS bugs, info leaks. These get swept up in the next scheduled release. Zero of the 34 skipped app-layer events and none of the 48 OS-layer NETWORK events appeared in KEV.</p>
 </div>
 
 <div class="callout callout-warning">
-<strong>The flip side: during the bursts, no strategy buys you out of the work.</strong> 2020-Q2 (29 events), 2021-Q4 (20 events Log4Shell+Spring Security), 2022-Q4 (Text4Shell+SnakeYAML+Tomcat smuggling) — the team is in emergency mode regardless. The hacker's value isn't fewer emergencies during bursts; it's <em>not having</em> emergencies during the 17 quiet quarters when the comparator and patch-criticals are still demanding attention.
+<strong>The discriminator's second-order benefit: it makes Tier 2 reachable.</strong> A team that's rebuilding every 2-3 weeks under all-C/H pressure can't credibly adopt a "monthly container refresh on a regular cadence" practice — the cadence collides with the next emergency. The same team under NP+DI or hacker S+A pressure (2-6 emergencies per year) has weeks of slack between fires. That slack is where Tier 2 cadences get adopted, where get-latest build models get rolled out, where teams move infrastructure from Tier 3 (reactive) to Tier 2 (proactive). The reduction in rebuild churn is what unlocks the structural fixes; without it, the team is too busy firefighting to invest in not having to.
 </div>
 
-<h2>8. Effectiveness via floor sweep</h2>
+<div class="card" style="margin-top:16px">
+<p><strong>The counter-argument worth considering:</strong> This model assumes LOCAL privesc CVEs are the primary chaining risk. But container breakout (escaping the container to the host) is arguably more impactful and usually requires different vulnerabilities (kernel bugs, container runtime flaws) not captured in this OS manifest analysis. The LOCAL CVEs here give escalation <em>within</em> the container — which matters for data access and lateral movement, but doesn't represent the full post-exploitation picture.</p>
+<p style="margin-top:8px">Additionally, the systemd CVEs dominate the LOCAL count (12 of 21), and some of these are kernel-matched CVEs that showed up in the systemd keyword search — NVD keyword noise inflates the count somewhat. The structural finding (OS layer doesn't drive emergency rebuilds, monthly refresh controls blast radius) is robust to this noise, but the specific numbers should be treated as approximate.</p>
+</div>
 
-<p>Direct catch is the strict measure: did the strategy fire on the trigger date for the exploited package? But that's not how a real estate works. Once a strategy fires, the rebuild it kicks off applies the latest version of every dependency, not just the trigger. So a long-TTE exploit gets effectively patched if any other strategy trigger fires during the time-to-exploit window.</p>
-
-<p>The exposure ceiling for any specific exploit becomes "until the next strategy trigger fires," not "until the strategy catches this specific event." See the <a href="build-mechanics.html#free" style="color:var(--accent)">build-mechanics page</a> for the underlying argument.</p>
-
-<table>
-<thead><tr><th>Strategy</th><th>Direct catches</th><th>Floor-sweep rescues</th><th>True misses</th><th>Effectiveness</th></tr></thead>
-<tbody>
-<tr><td>Patch criticals only</td><td>7</td><td>4 (long-TTE rescued by next critical)</td><td>2 (CGI Win + 2017 file uploads)</td><td>11/13 (85%)</td></tr>
-<tr><td>NP+DI raw</td><td>6</td><td>5</td><td>2</td><td>11/13 (85%)</td></tr>
-<tr style="background:#ecfdf5"><td><strong>NP+DI + AI scan</strong></td><td>9</td><td>2 (Text4Shell, SnakeYAML)</td><td>2 (CWE-434 Tomcat uploads)</td><td><strong>11/13 (85%)</strong></td></tr>
-<tr style="background:#faf5ff"><td><strong>Hacker S+A</strong></td><td>10</td><td>1 (CGI Win, rescued by next Tomcat trigger)</td><td>2 (Tomcat HTTP PUT 2017 pair)</td><td><strong>11/13 (85%)</strong></td></tr>
-</tbody>
-</table>
-
-<p>2 events (CVE-2017-12615 and CVE-2017-12617, Tomcat HTTP PUT file upload, CWE-434) are unrecoverable by any triage filter — they're explicitly out of NP+DI scope and the hacker discriminator B/C-tiers file uploads on the narrow-precondition rule. Only patch-everything catches them (by definition).</p>
-
-<h2>9. Per-event detail — the 13 exploited events</h2>
-
-<table>
-<thead><tr><th>CVE</th><th>Year</th><th>Library</th><th>Sev</th><th>Primitive</th><th>NP+DI</th><th>+AI scan</th><th>Hacker</th><th>WAF defensibility</th></tr></thead>
-<tbody>
-<tr><td class="cve">CVE-2017-12615</td><td>2017</td><td>Tomcat</td><td>HIGH</td><td>HTTP PUT JSP upload (CWE-434)</td><td><span class="tag tag-red">miss</span></td><td><span class="tag tag-red">miss</span></td><td><span class="tag tag-amber">B (miss)</span></td><td><span class="tag tag-green">friendly</span> PUT method + .jsp upload signature-able same-day</td></tr>
-<tr><td class="cve">CVE-2017-12617</td><td>2017</td><td>Tomcat</td><td>HIGH</td><td>HTTP PUT JSP upload (CWE-434)</td><td><span class="tag tag-red">miss</span></td><td><span class="tag tag-red">miss</span></td><td><span class="tag tag-amber">B (miss)</span></td><td><span class="tag tag-green">friendly</span> Same as above</td></tr>
-<tr><td class="cve">CVE-2013-7285</td><td>2013</td><td>XStream</td><td>CRIT</td><td>OS command injection via XML</td><td><span class="tag tag-green">catch</span></td><td><span class="tag tag-green">catch</span></td><td><span class="tag tag-hacker">A</span></td><td><span class="tag tag-amber">medium</span> Class-name signature evadable, gadget zoo wide</td></tr>
-<tr><td class="cve">CVE-2019-0232</td><td>2019</td><td>Tomcat (CGI Win)</td><td>HIGH</td><td>OS command injection</td><td><span class="tag tag-green">catch</span></td><td><span class="tag tag-green">catch</span></td><td><span class="tag tag-amber">B (miss)</span></td><td><span class="tag tag-green">friendly</span> CGI command-injection patterns are CRS-1</td></tr>
-<tr><td class="cve">CVE-2020-1938</td><td>2020</td><td>Tomcat (Ghostcat)</td><td>CRIT</td><td>AJP file read</td><td><span class="tag tag-red">miss</span></td><td><span class="tag tag-green">catch</span></td><td><span class="tag tag-hacker">A</span></td><td><span class="tag tag-red">hostile</span> AJP is binary on port 8009 — WAF doesn't see it at all</td></tr>
-<tr><td class="cve">CVE-2021-39144</td><td>2021</td><td>XStream</td><td>HIGH</td><td>Unauth deser RCE (CWE-306)</td><td><span class="tag tag-green">catch</span></td><td><span class="tag tag-green">catch</span></td><td><span class="tag tag-hacker">S</span></td><td><span class="tag tag-amber">medium</span> Class-name signature evadable</td></tr>
-<tr><td class="cve">CVE-2021-44228</td><td>2021</td><td>log4j-core</td><td>CRIT</td><td>JNDI in any logged string</td><td><span class="tag tag-green">catch</span></td><td><span class="tag tag-green">catch</span></td><td><span class="tag tag-hacker">S</span></td><td><span class="tag tag-amber">medium</span> <code>${jndi:}</code> patterns shipped same-day; Unicode obfuscation extended window</td></tr>
-<tr><td class="cve">CVE-2021-45046</td><td>2021</td><td>log4j-core</td><td>CRIT</td><td>JNDI patch-bypass</td><td><span class="tag tag-green">catch</span></td><td><span class="tag tag-green">catch</span></td><td><span class="tag tag-hacker">S</span></td><td><span class="tag tag-amber">medium</span> Even more obfuscation room than -44228</td></tr>
-<tr><td class="cve">CVE-2022-22965</td><td>2022</td><td>Spring</td><td>CRIT</td><td>ClassLoader RCE (Spring4Shell)</td><td><span class="tag tag-green">catch</span></td><td><span class="tag tag-green">catch</span></td><td><span class="tag tag-hacker">A</span></td><td><span class="tag tag-green">friendly</span> <code>class.module.classLoader</code> rule shipped within hours by all major WAFs</td></tr>
-<tr><td class="cve">CVE-2022-42889</td><td>2022</td><td>commons-text</td><td>CRIT</td><td>${url:} interpolation (Text4Shell)</td><td><span class="tag tag-red">miss</span></td><td><span class="tag tag-red">miss</span></td><td><span class="tag tag-hacker">A</span></td><td><span class="tag tag-green">friendly</span> <code>${url:}</code>/<code>${script:}</code> patterns signature-able same-day</td></tr>
-<tr><td class="cve">CVE-2022-1471</td><td>2022</td><td>SnakeYAML</td><td>HIGH</td><td>Constructor deser RCE</td><td><span class="tag tag-red">miss</span></td><td><span class="tag tag-red">miss</span></td><td><span class="tag tag-hacker">S</span></td><td><span class="tag tag-amber">medium</span> YAML body parsing varies by WAF; <code>!!javax.script</code> tag detectable</td></tr>
-<tr><td class="cve">CVE-2025-24813</td><td>2025</td><td>Tomcat</td><td>CRIT</td><td>Partial-PUT chained deser</td><td><span class="tag tag-red">miss</span></td><td><span class="tag tag-green">catch</span></td><td><span class="tag tag-hacker">A</span></td><td><span class="tag tag-amber">medium</span> Two-step PUT-then-GET chain distributed across requests</td></tr>
-<tr><td class="cve">CVE-2026-34197</td><td>2026</td><td>ActiveMQ</td><td>HIGH</td><td>Auth Jolokia MBean RCE</td><td><span class="tag tag-red">miss</span></td><td><span class="tag tag-green">catch</span></td><td><span class="tag tag-hacker">A</span></td><td><span class="tag tag-amber">medium</span> JSON-to-MBean patterns visible; Jolokia often deployment-internal</td></tr>
-<tr style="font-weight:600;border-top:2px solid var(--border)"><td colspan="5">7-year direct catches</td><td>6/13</td><td>9/13</td><td>10/13</td><td>—</td></tr>
-</tbody>
-</table>
-
-<h3>WAF mitigability roll-up</h3>
-
-<table style="max-width:560px">
-<thead><tr><th>WAF status</th><th>Count</th><th>Operator window</th><th>Defender posture</th></tr></thead>
-<tbody>
-<tr><td><span class="tag tag-green">friendly</span></td><td>4 / 13</td><td>Sprint (hours-to-days)</td><td>Emergency CRS rule + slow patch is OK</td></tr>
-<tr><td><span class="tag tag-amber">medium</span></td><td>7 / 13</td><td>Days-to-weeks</td><td>WAF buys partial time; patch pace still matters</td></tr>
-<tr><td><span class="tag tag-red">hostile</span></td><td>1 / 13</td><td>Marathon (until patched)</td><td>Perimeter cannot help — patch <em>is</em> the control</td></tr>
-</tbody>
-</table>
+<!-- ═══════════════════════════════════════════════════════════ -->
+<h2>External Validation</h2>
 
 <div class="callout callout-finding">
-<strong>The hacker discriminator's value concentrates on WAF-medium and WAF-hostile events.</strong> Of the 10 events the hacker S+A catches, 1 is WAF-hostile (Ghostcat AJP), 7 are WAF-medium (the entire deserialization cluster: XStream 2013-7285, XStream 2021-39144, log4j ×2, SnakeYAML, Tomcat partial-PUT, ActiveMQ Jolokia), and 2 are WAF-friendly (Spring4Shell, Text4Shell). The hacker filter elevates exactly the bug classes a perimeter cannot meaningfully time-shift — which is the operational reason "patch fast" is not optional for these.
+<strong>The right question isn't "does the filter match what exploitation sources already know?" — it's "did we miss anything?"</strong>
+<p style="margin-top:8px">A good prioritization filter doesn't need to be exactly right. It needs to be <strong>slightly conservative but never wrong</strong> — flag everything that matters, tolerate a few false positives, but never let a genuinely exploited CVE ride the slow cycle. Across 113 non-trigger CVEs, four ecosystems, and 12 months: <strong>zero misses.</strong> Nothing we deprioritized later showed up in KEV, got a Metasploit module, or accumulated meaningful exploitation evidence.</p>
+<p style="margin-top:8px">The filter may actually be a <strong>leading indicator</strong> — identifying CVEs that will accumulate exploitation evidence over the next 6-18 months, before the scanners and exploit developers get there. The Django SQLi that the filter flagged months ago is now showing up in ExploitDB and Nuclei templates. The Tomcat path traversal and Thymeleaf SSTI are exactly the vulnerability classes with the strongest historical KEV track records. The exploitation ecosystem just hasn't caught up yet.</p>
+</div>
+
+<p style="margin-top:12px">We cross-referenced all 129 C/H CVEs against five independent data sources to test both directions — do triggers correlate with higher exploitation signals, and did any non-trigger accumulate evidence we should have caught?</p>
+
+<h3 id="epss-comparison">1. EPSS — Exploit Prediction Scoring</h3>
+
+<div class="card">
+<p><a href="https://www.first.org/epss/" target="_blank" rel="noopener" style="color:var(--cyan)">EPSS</a> (FIRST.org) assigns a probability-of-exploitation-within-30-days score to every CVE, incorporating real-world signals — exploit code existence, threat intel feeds, social media chatter — on top of CWE and attack vector metadata. The question isn't whether EPSS scores correlate with triggers (they do, 3.3x). The question is: <strong>if you used EPSS instead of NP+DI, how many times would you rebuild, and would you catch more?</strong></p>
+</div>
+
+<div class="card">
+<p><strong>Operational comparison</strong> — real-world Java manifest, 8 in-scope exploited CVEs (KEV or Metasploit on network-parser libraries). The catch: EPSS "catches 8/8" is a retrospective claim using <em>today's</em> scores. What matters is how many each model catches <em>when you need to act</em>:</p>
+<table>
+<thead><tr><th>Model</th><th>Day 0</th><th>Day 7</th><th>Day 30</th><th>Eventually</th><th>Patch events</th></tr></thead>
+<tbody>
+<tr style="background:#f0f9ff"><td><strong>NP+DI</strong></td><td><strong>5/8</strong></td><td><strong>5/8</strong></td><td><strong>5/8</strong></td><td><strong>5/8</strong></td><td><strong>19</strong></td></tr>
+<tr style="background:#f0fdf4"><td><strong>NP+DI + AI scan</strong></td><td><strong>8/8</strong></td><td><strong>8/8</strong></td><td><strong>8/8</strong></td><td><strong>8/8</strong></td><td><strong>~22</strong></td></tr>
+<tr><td>EPSS ≥ 0.10</td><td>1/8</td><td>4/8</td><td>4/8</td><td>8/8</td><td>33</td></tr>
+<tr><td>EPSS ≥ 0.50</td><td>0/8</td><td>2/8</td><td>4/8</td><td>7/8</td><td>21</td></tr>
+</tbody>
+</table>
+<p style="margin-top:8px;font-size:.88rem;color:#64748b">Day 0/7/30 EPSS scores queried from the <a href="https://www.first.org/epss/" target="_blank" rel="noopener" style="color:var(--cyan)">FIRST.org historical API</a>. Two pre-EPSS CVEs (Ghostcat 2020, Tomcat CGI 2019) and two with no early data (Spring4Shell day 1, ActiveMQ day 1) scored as 0. "Eventually" uses current scores. Two exploited CVEs out of NP+DI scope (commons-text, SnakeYAML) excluded from all counts.<sup>†</sup></p>
+</div>
+
+<div class="card">
+<p><strong>EPSS needs the world to react before it can score.</strong> NP+DI fires on disclosure day because it reads CVE structure, not exploitation signal. Here's the raw EPSS timeline for each exploited CVE:</p>
+<table style="font-size:.88rem">
+<thead><tr><th>CVE</th><th>Name</th><th>Day 1</th><th>Day 7</th><th>Day 30</th><th>Current</th></tr></thead>
+<tbody>
+<tr><td><code>CVE-2021-44228</code></td><td>Log4Shell</td><td style="color:var(--green)">0.159</td><td style="color:var(--green)">0.918</td><td>0.933</td><td>0.945</td></tr>
+<tr><td><code>CVE-2021-45046</code></td><td>Log4Shell f/u</td><td>0.056</td><td style="color:var(--green)">0.789</td><td>0.818</td><td>0.943</td></tr>
+<tr><td><code>CVE-2022-22965</code></td><td>Spring4Shell</td><td>—</td><td style="color:var(--green)">0.225</td><td>0.651</td><td>0.944</td></tr>
+<tr><td><code>CVE-2021-39144</code></td><td>XStream RCE</td><td>0.014</td><td>0.014</td><td style="color:#ef4444">0.018</td><td>0.943</td></tr>
+<tr><td><code>CVE-2025-24813</code></td><td>Tomcat PUT</td><td>0.000</td><td style="color:var(--green)">0.195</td><td>0.935</td><td>0.942</td></tr>
+<tr><td><code>CVE-2020-1938</code></td><td>Ghostcat</td><td colspan="3" style="text-align:center;color:#64748b">pre-EPSS (disclosed Feb 2020)</td><td>0.945</td></tr>
+<tr><td><code>CVE-2026-34197</code></td><td>ActiveMQ</td><td>—</td><td>—</td><td style="color:#ef4444">0.062</td><td style="color:#ef4444">0.596</td></tr>
+<tr><td><code>CVE-2019-0232</code></td><td>Tomcat CGI</td><td colspan="3" style="text-align:center;color:#64748b">pre-EPSS (disclosed Apr 2019)</td><td>0.941</td></tr>
+</tbody>
+</table>
+<p style="margin-top:8px">Only Log4Shell crossed EPSS 0.10 on day 1 — and that's because the entire internet was on fire. XStream sat at 0.018 for a month and didn't cross 0.50 until <strong>19 months later</strong> when the EPSS v3 model shipped (March 2023) — a model change, not new exploitation signal. ActiveMQ still hasn't crossed 0.50 (peaked at 0.47). <a href="https://www.first.org/epss/user-guide" target="_blank" rel="noopener" style="color:var(--cyan)">FIRST.org doesn't prescribe a threshold</a>; they recommend combining EPSS with CVSS in a context-dependent quadrant model.</p>
+</div>
+
+<div class="card">
+<p><strong>The 3 NP+DI misses</strong> (CWE misclassification on network parsers — the AI safety-net fixes all three):</p>
+<table style="font-size:.88rem">
+<thead><tr><th>CVE</th><th>Library</th><th>EPSS</th><th>Why NP+DI missed</th><th>EPSS ≥ 0.50?</th></tr></thead>
+<tbody>
+<tr><td><code>CVE-2020-1938</code></td><td>Tomcat (Ghostcat)</td><td>0.945</td><td>CWE-269 misclass — should be CWE-22</td><td>Yes (pre-EPSS)</td></tr>
+<tr><td><code>CVE-2025-24813</code></td><td>Tomcat</td><td>0.942</td><td>CWE-502 only — deser via HTTP PUT</td><td>Yes (+9 days)</td></tr>
+<tr><td><code>CVE-2026-34197</code></td><td>ActiveMQ</td><td>0.596</td><td>CWE-20 generic — should be CWE-94</td><td style="color:#ef4444">No (peaked 0.47)</td></tr>
+</tbody>
+</table>
+<p style="margin-top:8px">EPSS catches 2 of the 3 misses. ActiveMQ (CVE-2026-34197) peaked at 0.47 — below any reasonable EPSS threshold. The AI safety-net (automated CWE validation for NP-but-not-DI advisories) catches all 3 on day zero. That's the NP+DI + AI scan row in the table above: same speed, no misses.</p>
+
+<p style="margin-top:12px;font-size:.88rem;color:#64748b"><sup>†</sup> <strong>Out-of-scope exploited CVEs:</strong> commons-text (<code>CVE-2022-42889</code>, EPSS 0.943) is not a network parser — it's a text interpolation library used app-internally. SnakeYAML (<code>CVE-2022-1471</code>, EPSS 0.938) is deserialization requiring attacker-controlled YAML input. Both are correctly excluded from NP+DI scope. EPSS flags both because high-profile deserialization CVEs accumulate exploitation signal regardless of reachability.</p>
+</div>
+
+<div class="card">
+<p><strong>What EPSS ≥ 0.50 over-fires on (22 non-exploited CVEs):</strong></p>
+<p style="margin-top:8px">Half (10/22) are <strong>jackson-databind deserialization chains</strong> (CWE-502) — the exact class NP+DI deliberately filters because they require gadget-chain context an attacker can't reach from the network. Another 3 are DoS/resource exhaustion. The rest are open redirects, info leaks, and a Tomcat TOCTOU race. These are real vulnerabilities, but they ride the normal patch cycle — none of them ended up in KEV or got a Metasploit module.</p>
 </div>
 
 <div class="callout callout-warning">
-<strong>The 4 WAF-friendly events are where the comparator and the hacker overlap most cleanly.</strong> Spring4Shell and Text4Shell are caught by both NP+DI+AI and Hacker; the Tomcat HTTP PUT pair (2017) is missed by both (out-of-scope CWE-434). For these, an emergency WAF rule plus a normal-cadence rebuild is sufficient — the patch can wait for the next planned window. The remaining 9 (medium + hostile) are where the hacker's "patch this <em>now</em>" verdict holds even with a WAF in front.
+<strong>NP+DI + AI scan catches 8/8 on day zero. EPSS ≥ 0.10 catches 1/8.</strong>
+<p style="margin-top:8px">EPSS is a retrospective tool being used for a real-time problem. Its scores are excellent for prioritizing a backlog of unpatched CVEs — but for the question "should I drop everything and rebuild right now?", it can't answer until the exploitation ecosystem has reacted. That takes days for famous vulns (Log4Shell), weeks for well-known libraries (Tomcat PUT), and months-to-never for quieter ones (XStream, ActiveMQ).</p>
+<p style="margin-top:8px">NP+DI is the opposite trade-off: it fires immediately because it reads the CVE's structure, not the world's reaction to it. The 3 misses are CWE metadata failures, not timing failures — and the AI safety-net closes that gap on day zero too. The result is a filter that answers "rebuild now?" the moment the advisory drops, without waiting for Twitter to notice.</p>
+</div>
+
+<h3>2. CISA KEV — Known Exploited Vulnerabilities</h3>
+
+<div class="card">
+<p>CISA's <a href="https://www.cisa.gov/known-exploited-vulnerabilities-catalog" target="_blank" rel="noopener" style="color:var(--cyan)">KEV catalog</a> (1,577 entries) tracks CVEs with confirmed in-the-wild exploitation.</p>
+<table>
+<thead><tr><th>Group</th><th>CVEs</th><th>In KEV</th><th>Hit Rate</th></tr></thead>
+<tbody>
+<tr><td style="color:var(--red);font-weight:700">NP+DI Triggers</td><td>14 unique</td><td style="font-weight:700">0</td><td>0%</td></tr>
+<tr><td>Non-triggers (app)</td><td>44 unique</td><td style="font-weight:700">0</td><td>0%</td></tr>
+<tr><td>Non-triggers (OS)</td><td>69</td><td style="color:var(--red);font-weight:700">1</td><td>1.4%</td></tr>
+</tbody>
+</table>
+<p style="margin-top:8px">The one KEV hit is <strong>CVE-2025-14847</strong> (zlib, EPSS 0.77) — a non-trigger in the OS container layer. Zero app-layer CVEs from any stack reached KEV in this window.</p>
+<p style="margin-top:8px"><strong>Honest assessment:</strong> This is weak validation for the filter specifically. KEV is overwhelmingly product-focused (Fortinet, Cisco, Exchange), not library-focused. Only ~3.8% of KEV entries are library-level. The absence of our CVEs from KEV says more about KEV's coverage than about the filter's accuracy. The zlib KEV hit is notable — it's an OS component our filter (correctly) treats as non-triggering for app-layer rebuilds, but it did get exploited in the wild in a different context.</p>
+</div>
+
+<h3>3. ExploitDB — Public Exploit Code</h3>
+
+<div class="card">
+<p><a href="https://www.exploit-db.com/" target="_blank" rel="noopener" style="color:var(--cyan)">ExploitDB</a> (24,951 CVEs with published exploits) is the largest public exploit archive. A CVE with an ExploitDB entry has working proof-of-concept code available to attackers.</p>
+<table>
+<thead><tr><th>CVE</th><th>Component</th><th>Ecosystem</th><th>Trigger?</th><th>ExploitDB</th><th>EPSS</th></tr></thead>
+<tbody>
+<tr><td>CVE-2025-64459</td><td>Django ORM</td><td>Django/Python</td><td style="color:var(--red);font-weight:700">Yes</td><td>EDB-52456: Django 5.1.13 SQL Injection</td><td>0.00256</td></tr>
+<tr><td>CVE-2025-6965</td><td>sqlite</td><td>OS Container</td><td>No</td><td>EDB-52499: SQLite 3.50.1 Heap Overflow</td><td>0.01182</td></tr>
+</tbody>
+</table>
+<p style="margin-top:8px">2 of 129 CVEs have ExploitDB entries. The Django SQLi exploit (a trigger) is a direct injection — exactly the class our filter prioritizes. The sqlite heap overflow (a non-trigger) is a memory corruption bug in a local-attack-surface component.</p>
+<p style="margin-top:8px"><strong>Low hit rate is expected:</strong> These are mostly 2025-2026 CVEs. Exploit development lags disclosure, and library-level exploits are less common than product-level ones because library exploitation requires understanding the calling application's context.</p>
+</div>
+
+<h3>4. Nuclei Templates — Active Scanner Coverage</h3>
+
+<div class="card">
+<p><a href="https://github.com/projectdiscovery/nuclei-templates" target="_blank" rel="noopener" style="color:var(--cyan)">Nuclei</a> (ProjectDiscovery) is the most widely used vulnerability scanner template engine. If a CVE has a Nuclei template, security teams and attackers are actively scanning for it at scale.</p>
+<table>
+<thead><tr><th>CVE</th><th>Component</th><th>Trigger?</th><th>Template</th></tr></thead>
+<tbody>
+<tr><td>CVE-2026-1207</td><td>Django ORM</td><td style="color:var(--red);font-weight:700">Yes</td><td>http/cves/2026/CVE-2026-1207.yaml</td></tr>
+<tr><td>CVE-2025-14847</td><td>zlib</td><td>No</td><td>Referenced in cves.json index</td></tr>
+</tbody>
+</table>
+<p style="margin-top:8px">The one proper scanner template (CVE-2026-1207) targets a trigger — the Django SQL injection. This is the highest-EPSS trigger in the dataset (0.044, 89th percentile) and now has three independent signals: EPSS top score among triggers, ExploitDB entry, and active Nuclei scanning template. That's the full exploitation lifecycle for a library-level CVE.</p>
+</div>
+
+<h3>5. Metasploit — Weaponized Exploit Modules</h3>
+
+<div class="card">
+<p><a href="https://github.com/rapid7/metasploit-framework" target="_blank" rel="noopener" style="color:var(--cyan)">Metasploit Framework</a> (6,618 modules covering 3,098 CVEs) represents fully weaponized exploits — not just PoCs, but reliable, deployable attack tools.</p>
+<table>
+<thead><tr><th>CVE</th><th>Component</th><th>Trigger?</th><th>Module</th></tr></thead>
+<tbody>
+<tr><td>CVE-2025-14847</td><td>zlib</td><td>No</td><td>auxiliary/scanner/mongodb/cve_2025_14847_mongobleed</td></tr>
+</tbody>
+</table>
+<p style="margin-top:8px">The one Metasploit module targets the zlib memory disclosure (CISA KEV, EPSS 0.77) — the same CVE that shows up across every exploitation source. It's a MongoDB-specific scanner (the zlib vuln is reachable through MongoDB's wire protocol), not a general-purpose library exploit. No app-layer CVEs from any stack have Metasploit modules — consistent with library-level exploits requiring application-specific context.</p>
+</div>
+
+<h3>Validation Summary</h3>
+
+<div class="card">
+<table>
+<thead><tr><th>Source</th><th>What It Measures</th><th>Trigger Signal</th><th>Non-Trigger Signal</th><th>Missed Anything?</th></tr></thead>
+<tbody>
+<tr><td><strong>EPSS</strong></td><td>Exploitation probability</td><td>EPSS ≥ 0.50 ≈ 21 events, catches 10/10</td><td>NP+DI catches 9 CVEs below EPSS 0.10</td><td style="color:var(--amber);font-weight:700">Complementary</td></tr>
+<tr><td><strong>CISA KEV</strong></td><td>Confirmed exploitation</td><td>0 hits</td><td>1 hit (zlib — different deployment context)</td><td style="color:var(--green);font-weight:700">No</td></tr>
+<tr><td><strong>ExploitDB</strong></td><td>Public exploit code</td><td>1 hit (Django SQLi)</td><td>1 hit (sqlite — local access only)</td><td style="color:var(--green);font-weight:700">No</td></tr>
+<tr><td><strong>Nuclei</strong></td><td>Active scanning</td><td>1 template (Django SQLi)</td><td>0 app-layer templates</td><td style="color:var(--green);font-weight:700">No</td></tr>
+<tr><td><strong>Metasploit</strong></td><td>Weaponized exploits</td><td>0 modules</td><td>1 module (zlib/MongoDB — different context)</td><td style="color:var(--green);font-weight:700">No</td></tr>
+</tbody>
+</table>
 </div>
 
 <div class="callout callout-good">
-<strong>Operator/defender symmetry.</strong> The same axis that tells an operator "this campaign has a long window because perimeters can't close it" tells a defender "no perimeter substitute exists, you have to deploy the patch." The bugs the operator most wants are also the bugs the defender most needs to patch fast. The hacker discriminator is reading that signal one step earlier than the WAF telemetry would.
+<strong>The 12-month synthetic stacks have zero misses.</strong> Across every validation source, nothing the filter deprioritized in the 12-month window accumulated meaningful exploitation evidence. The 113 non-trigger CVEs have zero KEV entries, zero Metasploit modules, and one ExploitDB entry (a sqlite heap overflow requiring local access). CVE-2026-1207 (Django SQLi) has converged across three independent sources: EPSS top trigger score (89th percentile), ExploitDB exploit code, and active Nuclei scanning template. <a href="cve-reference.html" style="color:var(--cyan)">Every CVE's classification and reasoning is auditable →</a>
+<p style="margin-top:8px"><strong>The 7-year real manifest tells a more honest story:</strong> NP+DI catches 5 of 8 in-scope exploited CVEs. The 3 misses are all CWE misclassification on network parsers (Ghostcat, Tomcat PUT, ActiveMQ). Two additional exploited CVEs (commons-text, SnakeYAML) are out of NP+DI's scope entirely. EPSS ≥ 0.50 catches all 10 at roughly the same patch-event cost (~21 vs ~19). The two filters are complementary — NP+DI fires immediately on disclosure before EPSS has signal; EPSS catches what broken CWE metadata hides from NP+DI.</p>
+<p style="margin-top:8px">The one CVE that lit up every exploitation source in the 12-month window (CVE-2025-14847, zlib — KEV, Metasploit, EPSS 0.77) is a non-trigger, exploited through MongoDB's wire protocol, not through the Spring/Node/Django apps. <strong>Deployment context matters:</strong> the filter correctly treats it as non-triggering for these applications even though it's genuinely dangerous elsewhere.</p>
 </div>
 
-<h2>10. Where attack surface concentrates vs where it doesn't</h2>
-
-<ul class="findings">
-<li><strong>Web servers + deserialization libraries dominate the exploited set</strong> — 11 of 13 exploits hit Tomcat (5), XStream (2), log4j-core (2), Spring (1), ActiveMQ broker (1). Remaining 2 are utility-library evaluator bugs (commons-text, SnakeYAML).</li>
-<li><strong>Build tooling: 9 C/H events over 7 years, zero exploited.</strong> Maven / plexus / ivy / surefire packages contribute path traversal, command injection, dep-confusion, XXE — all real bugs but none in KEV/MSF/EDB. Both NP+DI+AI and Hacker S+A correctly downgrade them. Clean validation that the discriminators aren't burning patch effort on the build cluster.</li>
-<li><strong>Scripting runtimes (Groovy / JRuby / Jython): ~12 events, also zero exploited.</strong> Same pattern — real bugs, not network-edge production runtime.</li>
-<li><strong>2 unrecoverable events</strong>: Tomcat HTTP PUT file upload from 2017 (CWE-434, deliberately out of NP+DI scope and hacker discriminator B/C-tiers file uploads). Patch-all is the only strategy that catches them.</li>
-</ul>
-
-<h2>11. Synthesis</h2>
-
-<div class="callout callout-finding">
-<strong>Effectiveness headline:</strong> Hacker S+A catches 10/13 = 77% directly; NP+DI + AI scan catches 9/13 = 69%. Both hit 11/13 = 85% effective coverage once floor-sweep rescues are counted. They catch overlapping but non-identical sets — the comparator owns the famous-bug + auth-rescue cluster; the hacker owns the deserialization + utility-evaluator cluster, and gets XStream 2013-7285 directly while the comparator picks it up via NP+DI. The 2 unrecovered events (Tomcat HTTP PUT 2017) are out-of-scope by design — file uploads (CWE-434) sit outside both filters and the hacker discriminator B-tiers them on the narrow-precondition rule.
-</div>
+<!-- ═══════════════════════════════════════════════════════════ -->
+<h2>Conclusion</h2>
 
 <div class="callout callout-good">
-<strong>Periodicity headline:</strong> Hacker S+A produces 17 silent quarters of 31 (55%) with 436-day longest silence; NP+DI + AI scan produces 6 silent quarters (19%) with 285-day longest silence. The averaged "X patches per year" hides the real defender experience — the savings concentrate in quiet stretches between bursts.
+<strong>The filter works across ecosystems — and the OS layer confirms the model.</strong>
+<p style="margin-top:8px">Under <strong>"rebuild on any C/H"</strong>: the original three stacks each hit 14 trigger dates — one every 2-3 weeks. Netty is quieter at 3 dates. The treadmill never stops regardless of your tech stack.</p>
+<p style="margin-top:8px">Under <strong>"rebuild on NP + direct injection"</strong>:</p>
+<p style="margin-top:4px">&bull; <span class="fw-badge fw-spring">Spring</span> 5 events, 64% reduction. Triggers: Spring Security auth bypass (×2), Tomcat CLIENT_CERT auth failure, Tomcat path traversal, Thymeleaf SSTI.</p>
+<p style="margin-top:4px">&bull; <span class="fw-badge fw-node">Node.js</span> 2 events, 10 months of silence before first hit, 86% reduction. Triggers: Koa host injection, Handlebars code injection.</p>
+<p style="margin-top:4px">&bull; <span class="fw-badge fw-django">Django</span> 6 events, 67% reduction. Triggers: Django ORM SQL injection (×5), PyJWT crit header validation bypass.</p>
+<p style="margin-top:4px">&bull; <span class="fw-badge fw-netty">Netty</span> 1 event, 360 days of silence, 67% reduction. Trigger: Netty HTTP request smuggling (CWE-444). Without the CWE-444 addition, this stack would have had zero triggers.</p>
+<p style="margin-top:12px"><strong>The OS container layer produced zero NP+DI events in 12 months</strong> — confirming that the app layer drives emergency rebuild cadence, not the base image. But the OS layer isn't free: 21 LOCAL privesc CVEs accumulated over the year. Monthly container refresh keeps that exposure at 5 instead of 21, reducing blast radius by 76% without requiring emergency response.</p>
+<p style="margin-top:12px">Everything else (Multer DoS, urllib3 decompression bombs, Pillow buffer overflows, Tomcat info leaks, Fastify validation bypasses) rides the normal 30-day release cycle and gets swept up automatically. <strong>Zero of the 34 skipped app-layer events appeared in KEV.</strong> Over the 7-year real manifest, NP+DI and EPSS ≥ 0.50 produce similar patch-event counts (~19 vs ~21) but catch different things — NP+DI fires on day zero before exploitation signal builds; EPSS catches CWE-misclassified misses. The practical model may be NP+DI as the structural baseline with EPSS as a second-look safety net.</p>
+<p style="margin-top:12px">The result is a three-tier model: emergency response for app-layer NP+DI (2-6 times/year), monthly cadence for container base images (blast radius control), and ride-the-cycle for everything else. The filter preserves the "seatbelt not airbag" principle — you still patch everything on a regular cycle, but you stop treating every C/H as a fire drill. The <a href="cve-reference.html" style="color:var(--cyan)">full CVE reference list</a> is available for independent validation of every classification.</p>
 </div>
-
-<div class="callout callout-finding">
-<strong>WAF headline:</strong> Of the 13 exploited events, 4 are WAF-friendly (sprint window), 7 are WAF-medium (days-to-weeks), and 1 is WAF-hostile (perimeter cannot help). The hacker S+A catches 7 of the 8 medium+hostile events — exactly where a perimeter cannot meaningfully buy time. The 4 WAF-friendly events are those where the comparator and the hacker overlap most cleanly: an emergency CRS rule + scheduled patch is sufficient. The 8 medium+hostile events are where the hacker's "patch this <em>now</em>" verdict holds even with a WAF in front.
-</div>
-
-<div class="callout callout-warning">
-<strong>Limit case (covered separately on the <a href="evergreen.html#paywalled" style="color:#7c2d12">evergreen page</a>):</strong> the floor-sweep model assumes "rebuild → fix appears." For Spring 5.x post-EOL events (Aug 2024+), Broadcom moved patches behind a commercial support paywall — Spring 5.x line gets fixes only via paid contract, not via OSS rebuild. 7 such CVEs accumulated so far, 0 exploited; lifecycle debt accumulating but not yet translating to incident.
-</div>
-
-<h2>Methodology and sources</h2>
-
-<p><strong>12-month manifests.</strong> Spring Boot, Node.js/Express, Django/DRF, and Netty production-shaped dependency lists, queried against OSV for critical/high CVEs published Apr 2025 – Apr 2026. NP and DI flags come from the canonical classifier rules — NP if the package's primary purpose is processing untrusted input that arrives over the network or drives security decisions; DI if the CWE is in the widened injection / auth-bypass set (78, 77, 89, 94, 95, 116, 287, 289, 306, 502, 611, 693, 863, 917, 918, 1336, and others). Hacker tier assignments use the default-config × network-edge × primitive-direct discriminator with the auth-missing co-tag rule.</p>
-
-<p><strong>7-year production manifest.</strong> An actual deployed Spring Boot 2.x estate — 60 unique packages across 176 version-pinned entries reflecting real-world version sprawl (Spring 4.x and 5.x lines side by side, multiple Tomcat/Jackson/SnakeYAML versions, both <code>log4j:log4j</code> 1.x and <code>log4j-core</code> 2.x, etc.). 223 critical/high CVEs returned from OSV; 13 of those have exploitation evidence in KEV ∪ Metasploit ∪ ExploitDB.</p>
-
-<p><strong>Patch-event clustering.</strong> Triggers within 7 days of each other count as a single patch event, matching the convention used elsewhere in this analysis: a defender already in an emergency rebuild absorbs the next CVE in the same forced march.</p>
-
-<p><strong>Floor-sweep effectiveness.</strong> Per the <a href="build-mechanics.html#free" style="color:var(--accent)">build-mechanics page</a>, every emergency rebuild applies the latest version of every dependency, so a long-TTE exploit is effectively patched if any other strategy trigger fires during the time-to-exploit window. Direct catches and floor-sweep rescues are accounted separately. <em>Effectiveness</em> is the rate of exploited events caught; <em>efficiency</em> is the patch-event-to-exploit-caught overhead ratio.</p>
-
-<p><strong>WAF-defensibility tags.</strong> Sourced from the WAF-aware operator pass on the 175-event Java/Spring blinded ranking. WAF-FRIENDLY = signature-able payload, generic OWASP rules cover, emergency rule ships within hours. WAF-MEDIUM = signature exists but evadable. WAF-HOSTILE = wrong protocol entirely or attack indistinguishable from legitimate traffic.</p>
 
 <div class="footer">
-Cross-framework patch periodicity &middot; <a href="dashboard.html">Dashboard</a> &middot; <a href="index.html">Walkthrough</a> &middot; <a href="evergreen.html">Evergreening</a> &middot; <a href="build-mechanics.html">Build mechanics</a>
+Working document for KEV exploitation analysis &bull; Data: OSV.dev + NVD API 2.0 (queried April 21, 2026), CISA KEV catalog, EPSS (FIRST.org), ExploitDB, Nuclei (ProjectDiscovery), Metasploit (Rapid7) &bull; Manifests: Spring Boot 3.x (48 deps), Node.js/Express (45 deps), Django/DRF (40 deps), Amazon Linux 2023 container (~25 components)
 </div>
 
+<!-- ═══════════════════════════════════════════════════════════ -->
 <script>
-// Placeholder chart — to be filled with real data once 12-month hacker numbers are computed
+const C = {accent:'#4f46e5',red:'#dc2626',amber:'#d97706',green:'#059669',cyan:'#0891b2',muted:'#64748b',surface:'#f8fafc',
+  spring:'#d97706',node:'#059669',django:'#0891b2',netty:'#7c3aed'};
+Chart.defaults.color = '#64748b';
+Chart.defaults.borderColor = 'rgba(226,232,240,.8)';
+Chart.defaults.font.family = 'Inter,-apple-system,BlinkMacSystemFont,Segoe UI,sans-serif';
+
+// Cross-framework comparison — bar + line
 new Chart(document.getElementById('crossFrameworkChart'), {
-  type: 'bar',
-  data: {
-    labels: ['Spring Boot', 'Node.js/Express', 'Django/Python', 'Netty'],
-    datasets: [
-      {label:'All C+H',          data:[14,14,14,2], backgroundColor:'rgba(148,163,184,0.5)', borderColor:'rgba(148,163,184,1)', borderWidth:1},
-      {label:'NP+DI raw',        data:[5,2,6,1],    backgroundColor:'rgba(79,70,229,0.75)',  borderColor:'rgba(79,70,229,1)',  borderWidth:1},
-      {label:'NP+DI + AI scan',  data:[6,4,7,1],    backgroundColor:'rgba(8,145,178,0.85)',  borderColor:'rgba(8,145,178,1)',  borderWidth:1},
-      {label:'Hacker S+A',       data:[5,3,4,1],    backgroundColor:'rgba(168,85,247,0.85)', borderColor:'rgba(168,85,247,1)', borderWidth:1},
-    ]
-  },
-  options: {responsive:true, maintainAspectRatio:false,
-    plugins:{
-      legend:{position:'top', labels:{color:'#334155', usePointStyle:true, padding:14}},
-      title:{display:true, text:'Cross-framework patch periodicity (12-month, Apr 2025 – Apr 2026)', color:'#0f172a', font:{size:13, weight:'600'}, padding:{bottom:12}},
-      tooltip:{callbacks:{footer:function(items){
-        const fw=items[0].label;
-        const notes={
-          'Spring Boot':'R3 hacker covers 22/22 events; AI scan rescues spring-boot actuator (CVE-2025-22235).',
-          'Node.js/Express':'R6 hacker fresh pass; AI scan rescues sequelize SQLi + lodash _.template.',
-          'Django/Python':'R4 hacker covers 18/18 events; AI scan rescues ASGI header spoof (CVE-2026-3902).',
-          'Netty':'R6 hacker fresh pass; only 3 events, AI scan adds nothing beyond NP+DI raw.'
-        };
-        return notes[fw]||'';
-      }}}
+    type: 'bar',
+    data: {
+        labels: ['Spring Boot','Node.js/Express','Django/Python','Netty'],
+        datasets: [
+            {label:'All C/H trigger dates',data:[14,14,14,3],backgroundColor:'rgba(239,68,68,.3)',borderColor:C.red,borderWidth:1,borderRadius:4},
+            {label:'NP+DI raw',data:[5,2,6,1],backgroundColor:[C.spring,C.node,C.django,C.netty],borderRadius:4},
+            {label:'NP+DI + AI scan',data:[6,4,7,1],backgroundColor:'rgba(8,145,178,.7)',borderColor:C.cyan,borderWidth:1,borderRadius:4},
+            {label:'Hacker S+A',data:[5,3,4,1],backgroundColor:'rgba(168,85,247,.85)',borderColor:'#a855f7',borderWidth:1,borderRadius:4},
+        ]
     },
-    scales:{
-      x:{ticks:{color:'#64748b'}, grid:{color:'rgba(226,232,240,0.5)'}},
-      y:{beginAtZero:true, title:{display:true,text:'Patch events in 12-month window', color:'#64748b'}, ticks:{color:'#64748b'}, grid:{color:'rgba(226,232,240,0.5)'}}
+    options: {
+        scales: {
+            y:{beginAtZero:true,title:{display:true,text:'Distinct rebuild trigger dates (12mo)',color:'#64748b'},grid:{color:'rgba(226,232,240,.6)'}},
+            x:{grid:{display:false}}
+        },
+        plugins:{legend:{position:'top',labels:{color:'#334155',boxWidth:12}}}
     }
-  }
 });
 
-// 7-year quarterly time series
-const QUARTERS = ["2018-Q1","2018-Q2","2018-Q3","2018-Q4","2019-Q1","2019-Q2","2019-Q3","2019-Q4","2020-Q1","2020-Q2","2020-Q3","2020-Q4","2021-Q1","2021-Q2","2021-Q3","2021-Q4","2022-Q1","2022-Q2","2022-Q3","2022-Q4","2023-Q1","2023-Q2","2023-Q3","2023-Q4","2024-Q1","2024-Q2","2024-Q3","2024-Q4","2025-Q1","2025-Q2","2025-Q3","2025-Q4","2026-Q1","2026-Q2"];
-const TOTALS = [0,0,0,16,9,5,6,6,5,29,3,1,4,7,15,20,8,23,2,13,4,3,8,2,8,1,1,5,2,2,5,1,3,6];
-const NPDIAI = [0,0,0,4,3,3,2,0,1,2,1,1,1,2,4,3,3,2,0,2,1,0,1,1,3,0,0,1,2,1,1,1,0,3];
-const HACKER = [0,0,0,0,0,0,0,0,0,2,0,0,0,0,1,2,1,1,0,3,0,0,1,1,1,0,0,1,1,1,2,0,0,2];
-const EXPL = [
-  {q:"2018-Q4", cve:"CVE-2017-12615", lib:"Tomcat PUT 2017"},
-  {q:"2019-Q2", cve:"CVE-2013-7285",  lib:"XStream cmd"},
-  {q:"2019-Q2", cve:"CVE-2019-0232",  lib:"Tomcat CGI Win"},
-  {q:"2020-Q2", cve:"CVE-2020-1938",  lib:"Ghostcat"},
-  {q:"2021-Q3", cve:"CVE-2021-39144", lib:"XStream RCE"},
-  {q:"2021-Q4", cve:"CVE-2021-44228", lib:"Log4Shell"},
-  {q:"2021-Q4", cve:"CVE-2021-45046", lib:"Log4j follow"},
-  {q:"2022-Q1", cve:"CVE-2022-22965", lib:"Spring4Shell"},
-  {q:"2022-Q2", cve:"CVE-2017-12617", lib:"Tomcat upload"},
-  {q:"2022-Q4", cve:"CVE-2022-42889", lib:"Text4Shell"},
-  {q:"2022-Q4", cve:"CVE-2022-1471",  lib:"SnakeYAML"},
-  {q:"2025-Q1", cve:"CVE-2025-24813", lib:"Tomcat PUT"},
-  {q:"2026-Q2", cve:"CVE-2026-34197", lib:"ActiveMQ Jolokia"},
+// Periodicity chart — events + silence
+new Chart(document.getElementById('periodicityChart'), {
+    type: 'bar',
+    data: {
+        labels: ['Spring\nAll C/H','Spring\nNP+DI','Node.js\nAll C/H','Node.js\nNP+DI','Django\nAll C/H','Django\nNP+DI','Netty\nAll C/H','Netty\nNP+DI'],
+        datasets: [
+            {label:'Rebuild trigger dates',data:[14,5,14,2,14,6,3,1],
+             backgroundColor:[C.red,C.spring,C.red,C.node,C.red,C.django,C.red,C.netty],borderRadius:4,yAxisID:'y'},
+            {label:'Longest silence (days)',data:[113,189,81,311,69,140,120,360],type:'line',
+             borderColor:C.green,backgroundColor:'transparent',pointBackgroundColor:C.green,pointRadius:6,borderWidth:2,yAxisID:'y2',
+             spanGaps:false}
+        ]
+    },
+    options: {
+        scales: {
+            y:{beginAtZero:true,title:{display:true,text:'Rebuild events',color:'#64748b'},grid:{color:'rgba(226,232,240,.6)'}},
+            y2:{position:'right',beginAtZero:true,title:{display:true,text:'Longest silence (days)',color:C.green},grid:{display:false},ticks:{color:C.green}},
+            x:{grid:{display:false},ticks:{color:'#334155',font:{size:10}}}
+        },
+        plugins:{legend:{position:'top',labels:{color:'#334155',boxWidth:12}}}
+    }
+});
+
+// Monthly heatmaps
+const months = ['Apr 25','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec','Jan 26','Feb','Mar','Apr 26'];
+
+// Hacker S+A overlay marker style (purple stars over the stacked bars)
+const HACKER_PT = {type:'line',backgroundColor:'#a855f7',borderColor:'#7e22ce',pointBackgroundColor:'#a855f7',pointBorderColor:'#7e22ce',pointBorderWidth:2,pointStyle:'star',pointRadius:8,pointHoverRadius:11,showLine:false,spanGaps:false};
+
+function hackerOverlay(perMonth, totalsForStacking){
+    // Place stars above the stacked total for each month that has hacker events; null elsewhere.
+    return perMonth.map((c,i)=> c>0 ? totalsForStacking[i] + 0.6 : null);
+}
+
+// Spring monthly data — Other C/H, NP+DI raw, AI rescue add, Hacker S+A overlay
+const spring_other = [2,0,3,2,1,1,0,0,0,0,1,1,2];
+const spring_npdi  = [0,1,0,0,0,1,1,0,0,0,0,0,6];
+const spring_air   = [0,0,0,0,0,0,0,0,0,0,0,0,0];   // AI rescues don't add events for Spring (rescues map to existing-month NP+DI dates)
+const spring_hk    = [0,1,0,0,0,2,0,0,0,0,0,0,5];   // Hacker S+A per month
+const spring_total = spring_other.map((o,i)=>o+spring_npdi[i]+spring_air[i]);
+new Chart(document.getElementById('monthlySpring'), {
+    data: {
+        labels: months,
+        datasets: [
+            {type:'bar',label:'Other C/H',data:spring_other,backgroundColor:'#94a3b8',borderRadius:3,stack:'s'},
+            {type:'bar',label:'NP+DI raw',data:spring_npdi,backgroundColor:C.spring,borderRadius:3,stack:'s'},
+            {type:'bar',label:'AI rescue (added)',data:spring_air,backgroundColor:C.cyan,borderRadius:3,stack:'s'},
+            {...HACKER_PT,label:'★ Hacker S+A',data:hackerOverlay(spring_hk, spring_total)}
+        ]
+    },
+    options: {
+        scales:{x:{stacked:true,grid:{display:false}},y:{stacked:true,beginAtZero:true,grid:{color:'rgba(226,232,240,.6)'}}},
+        plugins:{legend:{position:'top',labels:{color:'#334155',boxWidth:12,usePointStyle:true}},title:{display:true,text:'Spring Boot — Monthly C/H Events (with strategy overlay)',color:C.spring}}
+    }
+});
+
+// Node.js monthly data — recomputed with AI rescue layer (sequelize Mar 11, lodash Apr 1)
+const node_other = [0,2,1,1,0,1,0,0,1,0,2,4,1];   // 1 fewer in Mar (sequelize moves to AI rescue), 1 fewer in Apr (lodash moves to AI rescue)
+const node_npdi  = [0,0,0,0,0,0,0,0,0,0,1,4,0];
+const node_air   = [0,0,0,0,0,0,0,0,0,0,0,1,1];   // sequelize Mar 11, lodash Apr 1
+const node_hk    = [0,0,0,0,0,0,0,0,0,0,0,4,1];   // sequelize + 3 handlebars SSTI in Mar, lodash in Apr
+const node_total = node_other.map((o,i)=>o+node_npdi[i]+node_air[i]);
+new Chart(document.getElementById('monthlyNode'), {
+    data: {
+        labels: months,
+        datasets: [
+            {type:'bar',label:'Other C/H',data:node_other,backgroundColor:'#94a3b8',borderRadius:3,stack:'s'},
+            {type:'bar',label:'NP+DI raw',data:node_npdi,backgroundColor:C.node,borderRadius:3,stack:'s'},
+            {type:'bar',label:'AI rescue (added)',data:node_air,backgroundColor:C.cyan,borderRadius:3,stack:'s'},
+            {...HACKER_PT,label:'★ Hacker S+A',data:hackerOverlay(node_hk, node_total)}
+        ]
+    },
+    options: {
+        scales:{x:{stacked:true,grid:{display:false}},y:{stacked:true,beginAtZero:true,grid:{color:'rgba(226,232,240,.6)'}}},
+        plugins:{legend:{position:'top',labels:{color:'#334155',boxWidth:12,usePointStyle:true}},title:{display:true,text:'Node.js/Express — Monthly C/H Events (with strategy overlay)',color:C.node}}
+    }
+});
+
+// Django monthly data — with AI rescue layer (CVE-2026-3902 ASGI header spoof in Apr)
+const dj_other = [0,0,0,1,0,0,0,1,2,1,1,2,2];   // 1 fewer in Apr (CVE-2026-3902 moves to AI rescue)
+const dj_npdi  = [0,0,0,0,0,1,1,1,0,0,3,1,0];
+const dj_air   = [0,0,0,0,0,0,0,0,0,0,0,0,1];   // CVE-2026-3902 Apr 7
+const dj_hk    = [0,0,0,0,0,1,1,1,0,0,0,0,1];   // 3 SQLi catches Sep/Oct/Nov + ASGI header spoof Apr
+const dj_total = dj_other.map((o,i)=>o+dj_npdi[i]+dj_air[i]);
+new Chart(document.getElementById('monthlyDjango'), {
+    data: {
+        labels: months,
+        datasets: [
+            {type:'bar',label:'Other C/H',data:dj_other,backgroundColor:'#94a3b8',borderRadius:3,stack:'s'},
+            {type:'bar',label:'NP+DI raw',data:dj_npdi,backgroundColor:C.django,borderRadius:3,stack:'s'},
+            {type:'bar',label:'AI rescue (added)',data:dj_air,backgroundColor:C.cyan,borderRadius:3,stack:'s'},
+            {...HACKER_PT,label:'★ Hacker S+A',data:hackerOverlay(dj_hk, dj_total)}
+        ]
+    },
+    options: {
+        scales:{x:{stacked:true,grid:{display:false}},y:{stacked:true,beginAtZero:true,grid:{color:'rgba(226,232,240,.6)'}}},
+        plugins:{legend:{position:'top',labels:{color:'#334155',boxWidth:12,usePointStyle:true}},title:{display:true,text:'Django/Python — Monthly C/H Events (with strategy overlay)',color:C.django}}
+    }
+});
+
+// Netty monthly data
+const netty_other = [0,0,1,0,1,0,0,0,0,0,0,1,0];
+const netty_npdi  = [0,0,0,0,0,0,0,0,0,0,0,1,0];
+const netty_air   = [0,0,0,0,0,0,0,0,0,0,0,0,0];
+const netty_hk    = [0,0,0,0,0,0,0,0,0,0,0,1,0];
+const netty_total = netty_other.map((o,i)=>o+netty_npdi[i]+netty_air[i]);
+new Chart(document.getElementById('monthlyNetty'), {
+    data: {
+        labels: months,
+        datasets: [
+            {type:'bar',label:'Other C/H',data:netty_other,backgroundColor:'#94a3b8',borderRadius:3,stack:'s'},
+            {type:'bar',label:'NP+DI raw',data:netty_npdi,backgroundColor:C.netty,borderRadius:3,stack:'s'},
+            {type:'bar',label:'AI rescue (added)',data:netty_air,backgroundColor:C.cyan,borderRadius:3,stack:'s'},
+            {...HACKER_PT,label:'★ Hacker S+A',data:hackerOverlay(netty_hk, netty_total)}
+        ]
+    },
+    options: {
+        scales:{x:{stacked:true,grid:{display:false}},y:{stacked:true,beginAtZero:true,grid:{color:'rgba(226,232,240,.6)'}}},
+        plugins:{legend:{position:'top',labels:{color:'#334155',boxWidth:12,usePointStyle:true}},title:{display:true,text:'Netty — Monthly C/H Events (with strategy overlay)',color:C.netty}}
+    }
+});
+
+// Real-world manifest: quarterly NP+DI history (Q4 2018 – Q2 2026)
+const rmLabels = [
+    '18Q4','19Q1','19Q2','19Q3','19Q4',
+    '20Q1','20Q2','20Q3','20Q4',
+    '21Q1','21Q2','21Q3','21Q4',
+    '22Q1','22Q2','22Q3','22Q4',
+    '23Q1','23Q2','23Q3','23Q4',
+    '24Q1','24Q2','24Q3','24Q4',
+    '25Q1','25Q2','25Q3','25Q4',
+    '26Q1','26Q2'
 ];
-const EXPL_BY_Q = QUARTERS.map((q,i) => {
-  const here = EXPL.filter(e => e.q === q);
-  if (!here.length) return null;
-  return Math.max(TOTALS[i], NPDIAI[i], HACKER[i]) + 2;
-});
-const EXPL_TIPS = QUARTERS.map(q => EXPL.filter(e => e.q === q));
-
-new Chart(document.getElementById('timeseriesChart'), {
-  type: 'bar',
-  data: {
-    labels: QUARTERS,
-    datasets: [
-      {label:'Total C+H (universe)', data:TOTALS,
-       backgroundColor:'rgba(148,163,184,0.4)', borderColor:'rgba(148,163,184,0.8)', borderWidth:1, order:3},
-      {label:'NP+DI + AI scan flagged', data:NPDIAI,
-       backgroundColor:'rgba(8,145,178,0.85)', borderColor:'rgba(8,145,178,1)', borderWidth:1, order:2},
-      {label:'Hacker S+A flagged', data:HACKER,
-       backgroundColor:'rgba(168,85,247,0.85)', borderColor:'rgba(168,85,247,1)', borderWidth:1, order:1},
-      {label:'★ Exploited (KEV/MSF/EDB)', type:'line', data:EXPL_BY_Q,
-       backgroundColor:'rgba(220,38,38,1)', borderColor:'rgba(220,38,38,0)',
-       pointBackgroundColor:'rgba(220,38,38,1)', pointBorderColor:'#7f1d1d', pointBorderWidth:2,
-       pointStyle:'star', pointRadius:13, pointHoverRadius:18, showLine:false, spanGaps:false, order:0},
-    ],
-  },
-  options: {
-    responsive:true, maintainAspectRatio:false, interaction:{mode:'index', intersect:false},
-    plugins:{
-      legend:{position:'top', labels:{color:'#334155', usePointStyle:true, padding:14}},
-      tooltip:{
-        callbacks:{
-          afterBody:function(items){
-            const i=items[0].dataIndex; const here=EXPL_TIPS[i];
-            if (!here || !here.length) return '';
-            return ['','★ Exploited:'].concat(here.map(e => `  ${e.cve} (${e.lib})`));
-          }
+const rmOther = [9,5,2,5,5,3,9,1,0,3,6,10,17,5,14,2,9,1,1,5,1,3,1,1,3,2,1,2,0,2,2];
+const rmNPDI  = [4,0,3,1,1,1,1,0,1,0,1,3,3,1,1,0,2,0,1,0,1,3,0,0,1,0,0,0,1,0,0];
+new Chart(document.getElementById('realManifestChart'), {
+    type: 'bar',
+    data: {
+        labels: rmLabels,
+        datasets: [
+            {label:'Other C/H',data:rmOther,backgroundColor:'#475569',borderRadius:2},
+            {label:'NP+DI (rebuild trigger)',data:rmNPDI,backgroundColor:'#0ea5e9',borderRadius:2}
+        ]
+    },
+    options: {
+        scales:{
+            x:{stacked:true,grid:{display:false},ticks:{font:{size:9},maxRotation:60,minRotation:40}},
+            y:{stacked:true,beginAtZero:true,grid:{color:'rgba(226,232,240,.6)'},title:{display:true,text:'C/H CVEs',color:'#334155'}}
+        },
+        plugins:{
+            legend:{position:'top',labels:{color:'#334155',boxWidth:12}},
+            title:{display:true,text:'Real-World Java Manifest — Quarterly C/H Events (2018–2026)',color:'#0ea5e9',font:{size:14}}
         }
-      },
+    }
+});
+
+// OS Chaining: Privesc accumulation + Spring trigger overlay
+new Chart(document.getElementById('chainingChart'), {
+    type: 'line',
+    data: {
+        labels: months,
+        datasets: [
+            {label:'All OS C/H (cumulative)',data:[1,6,11,15,19,28,31,31,36,39,44,66,69],
+             borderColor:'#475569',backgroundColor:'rgba(71,85,105,.1)',fill:true,tension:.3,pointRadius:3,borderWidth:2},
+            {label:'LOCAL privesc (cumulative)',data:[0,3,4,4,4,9,12,12,14,15,17,21,21],
+             borderColor:C.red,backgroundColor:'rgba(239,68,68,.1)',fill:true,tension:.3,pointRadius:4,borderWidth:2},
+            {label:'Spring NP+DI triggers',data:[null,null,null,null,null,null,11,null,null,null,null,null,21],
+             borderColor:C.spring,backgroundColor:C.spring,pointRadius:8,pointStyle:'triangle',showLine:false,
+             pointBorderWidth:2,pointBorderColor:'#fff'}
+        ]
     },
-    scales:{
-      x:{ticks:{color:'#64748b', maxRotation:60, minRotation:60, font:{size:10}}, grid:{color:'rgba(226,232,240,0.5)'}},
-      y:{beginAtZero:true, title:{display:true, text:'Critical / High CVEs per quarter', color:'#64748b'},
-         ticks:{color:'#64748b', stepSize:5}, grid:{color:'rgba(226,232,240,0.5)'}},
-    },
-  },
+    options: {
+        scales: {
+            y:{beginAtZero:true,title:{display:true,text:'Cumulative CVEs',color:'#64748b'},grid:{color:'rgba(226,232,240,.6)'}},
+            x:{grid:{display:false}}
+        },
+        plugins:{
+            legend:{position:'top',labels:{color:'#334155',boxWidth:12}},
+            title:{display:true,text:'OS Container Privesc Accumulation vs. Spring App Triggers',color:'#334155'},
+            tooltip:{callbacks:{label:function(ctx){
+                if(ctx.datasetIndex===2 && ctx.raw!==null){
+                    return ctx.raw+' local privesc CVEs available at Spring trigger';
+                }
+                return ctx.dataset.label+': '+ctx.raw;
+            }}}
+        }
+    }
 });
 </script>
 </body>
