@@ -1,0 +1,2179 @@
+{
+  "description": "Blinded FULL 7-year manifest dataset for hacker-persona prioritization. All 175 critical/high events from the canonical Spring/Java manifest (data/seven-year-manifest-events.json), with all outcome fields and all NP+DI filter-label fields stripped. The hacker is NOT being told which events are NP+DI \u2014 they should rank purely from vulnerability mechanics. The hidden purpose: this measures whether the hacker's tiers can serve as a SAFETY NET for events that the NP+DI filter rejects but that actually got exploited.",
+  "fields_provided": [
+    "cve",
+    "published",
+    "severity",
+    "packages",
+    "cwes",
+    "summary"
+  ],
+  "fields_intentionally_withheld": [
+    "is_np",
+    "is_di",
+    "in_kev",
+    "in_metasploit",
+    "in_exploitdb",
+    "exploited",
+    "package_roles",
+    "cwe_nums"
+  ],
+  "n_events": 175,
+  "events": [
+    {
+      "cve": "CVE-2022-22965",
+      "published": "2022-03-31",
+      "severity": "CRITICAL",
+      "packages": [
+        "org.springframework:spring-beans",
+        "org.springframework:spring-webmvc"
+      ],
+      "cwes": [
+        "CWE-74",
+        "CWE-94"
+      ],
+      "summary": "Remote Code Execution in Spring Framework"
+    },
+    {
+      "cve": "CVE-2021-45046",
+      "published": "2021-12-14",
+      "severity": "CRITICAL",
+      "packages": [
+        "org.apache.logging.log4j:log4j-core"
+      ],
+      "cwes": [
+        "CWE-502",
+        "CWE-917"
+      ],
+      "summary": "Incomplete fix for Apache Log4j vulnerability"
+    },
+    {
+      "cve": "CVE-2021-44228",
+      "published": "2021-12-10",
+      "severity": "CRITICAL",
+      "packages": [
+        "org.apache.logging.log4j:log4j-core"
+      ],
+      "cwes": [
+        "CWE-20",
+        "CWE-400",
+        "CWE-502",
+        "CWE-917"
+      ],
+      "summary": "Remote code injection in Log4j"
+    },
+    {
+      "cve": "CVE-2021-39144",
+      "published": "2021-08-25",
+      "severity": "HIGH",
+      "packages": [
+        "com.thoughtworks.xstream:xstream"
+      ],
+      "cwes": [
+        "CWE-306",
+        "CWE-502",
+        "CWE-94"
+      ],
+      "summary": "XStream is vulnerable to a Remote Command Execution attack"
+    },
+    {
+      "cve": "CVE-2019-0232",
+      "published": "2019-04-18",
+      "severity": "HIGH",
+      "packages": [
+        "org.apache.tomcat.embed:tomcat-embed-core"
+      ],
+      "cwes": [
+        "CWE-78"
+      ],
+      "summary": "Apache Tomcat OS Command Injection vulnerability"
+    },
+    {
+      "cve": "CVE-2026-34197",
+      "published": "2026-04-07",
+      "severity": "HIGH",
+      "packages": [
+        "org.apache.activemq:activemq-broker"
+      ],
+      "cwes": [
+        "CWE-20"
+      ],
+      "summary": "Authenticated Apache ActiveMQ Broker and Apache ActiveMQ users could perform RCE via Jolokia MBeans"
+    },
+    {
+      "cve": "CVE-2025-24813",
+      "published": "2025-03-10",
+      "severity": "CRITICAL",
+      "packages": [
+        "org.apache.tomcat.embed:tomcat-embed-core"
+      ],
+      "cwes": [
+        "CWE-44",
+        "CWE-502"
+      ],
+      "summary": "Apache Tomcat: Potential RCE and/or information disclosure and/or information corruption with partial PUT"
+    },
+    {
+      "cve": "CVE-2023-46604",
+      "published": "2023-10-27",
+      "severity": "CRITICAL",
+      "packages": [
+        "org.apache.activemq:activemq-client"
+      ],
+      "cwes": [
+        "CWE-502"
+      ],
+      "summary": "Apache ActiveMQ is vulnerable to Remote Code Execution"
+    },
+    {
+      "cve": "CVE-2022-1471",
+      "published": "2022-12-12",
+      "severity": "HIGH",
+      "packages": [
+        "org.yaml:snakeyaml"
+      ],
+      "cwes": [
+        "CWE-20",
+        "CWE-502"
+      ],
+      "summary": "SnakeYaml Constructor Deserialization Remote Code Execution"
+    },
+    {
+      "cve": "CVE-2022-42889",
+      "published": "2022-10-13",
+      "severity": "CRITICAL",
+      "packages": [
+        "org.apache.commons:commons-text"
+      ],
+      "cwes": [
+        "CWE-94"
+      ],
+      "summary": "Arbitrary code execution in Apache Commons Text"
+    },
+    {
+      "cve": "CVE-2020-1938",
+      "published": "2020-06-15",
+      "severity": "CRITICAL",
+      "packages": [
+        "org.apache.tomcat.embed:tomcat-embed-core"
+      ],
+      "cwes": [
+        "CWE-269"
+      ],
+      "summary": "Improper Privilege Management in Tomcat"
+    },
+    {
+      "cve": "CVE-2026-40477",
+      "published": "2026-04-15",
+      "severity": "CRITICAL",
+      "packages": [
+        "org.thymeleaf:thymeleaf",
+        "org.thymeleaf:thymeleaf-spring6"
+      ],
+      "cwes": [
+        "CWE-1336",
+        "CWE-917"
+      ],
+      "summary": "Improper restriction of the scope of accessible objects in Thymeleaf expressions"
+    },
+    {
+      "cve": "CVE-2026-40478",
+      "published": "2026-04-15",
+      "severity": "CRITICAL",
+      "packages": [
+        "org.thymeleaf:thymeleaf",
+        "org.thymeleaf:thymeleaf-spring6"
+      ],
+      "cwes": [
+        "CWE-1336",
+        "CWE-917"
+      ],
+      "summary": "Improper neutralization of specific syntax patterns for unauthorized expressions in Thymeleaf"
+    },
+    {
+      "cve": "CVE-2026-39304",
+      "published": "2026-04-10",
+      "severity": "HIGH",
+      "packages": [
+        "org.apache.activemq:activemq-broker",
+        "org.apache.activemq:activemq-client"
+      ],
+      "cwes": [
+        "CWE-400"
+      ],
+      "summary": " Apache ActiveMQ: Denial of Service via Out of Memory vulnerability"
+    },
+    {
+      "cve": "CVE-2026-29129",
+      "published": "2026-04-09",
+      "severity": "HIGH",
+      "packages": [
+        "org.apache.tomcat.embed:tomcat-embed-core"
+      ],
+      "cwes": [
+        "CWE-327"
+      ],
+      "summary": "Apache Tomcat: Configured cipher preference order not preserved"
+    },
+    {
+      "cve": "CVE-2026-29145",
+      "published": "2026-04-09",
+      "severity": "CRITICAL",
+      "packages": [
+        "org.apache.tomcat.embed:tomcat-embed-core"
+      ],
+      "cwes": [
+        "CWE-287"
+      ],
+      "summary": "Apache Tomcat: CLIENT_CERT authentication does not fail as expected"
+    },
+    {
+      "cve": "CVE-2026-34483",
+      "published": "2026-04-09",
+      "severity": "HIGH",
+      "packages": [
+        "org.apache.tomcat.embed:tomcat-embed-core"
+      ],
+      "cwes": [
+        "CWE-116"
+      ],
+      "summary": "Apache Tomcat has an Improper Encoding or Escaping of Output vulnerability in the JsonAccessLogValve"
+    },
+    {
+      "cve": "CVE-2026-34487",
+      "published": "2026-04-09",
+      "severity": "HIGH",
+      "packages": [
+        "org.apache.tomcat.embed:tomcat-embed-core"
+      ],
+      "cwes": [
+        "CWE-532"
+      ],
+      "summary": "Apache Tomcat vulnerable to Insertion of Sensitive Information into Log File"
+    },
+    {
+      "cve": "CVE-2026-22732",
+      "published": "2026-03-20",
+      "severity": "CRITICAL",
+      "packages": [
+        "org.springframework.security:spring-security-web"
+      ],
+      "cwes": [
+        "CWE-425"
+      ],
+      "summary": "Spring Security HTTP Headers Are not Written Under Some Conditions"
+    },
+    {
+      "cve": "CVE-2026-24734",
+      "published": "2026-02-17",
+      "severity": "HIGH",
+      "packages": [
+        "org.apache.tomcat.embed:tomcat-embed-core"
+      ],
+      "cwes": [
+        "CWE-20"
+      ],
+      "summary": "Apache Tomcat has an Improper Input Validation vulnerability"
+    },
+    {
+      "cve": "CVE-2025-55752",
+      "published": "2025-10-27",
+      "severity": "HIGH",
+      "packages": [
+        "org.apache.tomcat.embed:tomcat-embed-core"
+      ],
+      "cwes": [
+        "CWE-23"
+      ],
+      "summary": "Apache Tomcat Vulnerable to Relative Path Traversal"
+    },
+    {
+      "cve": "CVE-2025-41248",
+      "published": "2025-09-16",
+      "severity": "HIGH",
+      "packages": [
+        "org.springframework.security:spring-security-core"
+      ],
+      "cwes": [
+        "CWE-289",
+        "CWE-863"
+      ],
+      "summary": "Spring Security annotation detection mechanism has authorization bypass"
+    },
+    {
+      "cve": "CVE-2025-41249",
+      "published": "2025-09-16",
+      "severity": "HIGH",
+      "packages": [
+        "org.springframework:spring-core"
+      ],
+      "cwes": [
+        "CWE-285",
+        "CWE-863"
+      ],
+      "summary": "Spring Framework annotation detection mechanism may result in improper authorization"
+    },
+    {
+      "cve": "CVE-2025-48989",
+      "published": "2025-08-13",
+      "severity": "HIGH",
+      "packages": [
+        "org.apache.tomcat.embed:tomcat-embed-core"
+      ],
+      "cwes": [
+        "CWE-404"
+      ],
+      "summary": "Apache Tomcat Improper Resource Shutdown or Release vulnerability"
+    },
+    {
+      "cve": "CVE-2025-53506",
+      "published": "2025-07-10",
+      "severity": "HIGH",
+      "packages": [
+        "org.apache.tomcat.embed:tomcat-embed-core"
+      ],
+      "cwes": [
+        "CWE-400"
+      ],
+      "summary": "Apache Tomcat Coyote vulnerable to Denial of Service via excessive HTTP/2 streams"
+    },
+    {
+      "cve": "CVE-2025-52520",
+      "published": "2025-07-10",
+      "severity": "HIGH",
+      "packages": [
+        "org.apache.tomcat.embed:tomcat-embed-core"
+      ],
+      "cwes": [
+        "CWE-190"
+      ],
+      "summary": "Apache Tomcat Catalina is vulnerable to DoS attack through bypassing of size limits"
+    },
+    {
+      "cve": "CVE-2025-52999",
+      "published": "2025-06-27",
+      "severity": "HIGH",
+      "packages": [
+        "com.fasterxml.jackson.core:jackson-core"
+      ],
+      "cwes": [
+        "CWE-121"
+      ],
+      "summary": "jackson-core can throw a StackoverflowError when processing deeply nested data"
+    },
+    {
+      "cve": "CVE-2025-48988",
+      "published": "2025-06-16",
+      "severity": "HIGH",
+      "packages": [
+        "org.apache.tomcat.embed:tomcat-embed-core"
+      ],
+      "cwes": [
+        "CWE-770"
+      ],
+      "summary": "Apache Tomcat - DoS in multipart upload"
+    },
+    {
+      "cve": "CVE-2025-49146",
+      "published": "2025-06-11",
+      "severity": "HIGH",
+      "packages": [
+        "org.postgresql:postgresql"
+      ],
+      "cwes": [
+        "CWE-287"
+      ],
+      "summary": "pgjdbc Client Allows Fallback to Insecure Authentication Despite channelBinding=require Configuration"
+    },
+    {
+      "cve": "CVE-2025-41232",
+      "published": "2025-05-21",
+      "severity": "CRITICAL",
+      "packages": [
+        "org.springframework.security:spring-security-core"
+      ],
+      "cwes": [
+        "CWE-693"
+      ],
+      "summary": "Spring Security authorization bypass for method security annotations on private methods"
+    },
+    {
+      "cve": "CVE-2025-22235",
+      "published": "2025-04-28",
+      "severity": "HIGH",
+      "packages": [
+        "org.springframework.boot:spring-boot"
+      ],
+      "cwes": [
+        "CWE-20",
+        "CWE-862"
+      ],
+      "summary": "Spring Boot EndpointRequest.to() creates wrong matcher if actuator endpoint is not exposed"
+    },
+    {
+      "cve": "CVE-2025-27820",
+      "published": "2025-04-24",
+      "severity": "HIGH",
+      "packages": [
+        "org.apache.httpcomponents.client5:httpclient5"
+      ],
+      "cwes": [
+        "CWE-295"
+      ],
+      "summary": "Apache HttpClient disables domain checks"
+    },
+    {
+      "cve": "CVE-2024-56337",
+      "published": "2024-12-20",
+      "severity": "HIGH",
+      "packages": [
+        "org.apache.tomcat.embed:tomcat-embed-core"
+      ],
+      "cwes": [
+        "CWE-367"
+      ],
+      "summary": "Apache Tomcat Time-of-check Time-of-use (TOCTOU) Race Condition vulnerability"
+    },
+    {
+      "cve": "CVE-2024-38819",
+      "published": "2024-12-19",
+      "severity": "HIGH",
+      "packages": [
+        "org.springframework:spring-webmvc"
+      ],
+      "cwes": [
+        "CWE-22"
+      ],
+      "summary": "Spring Framework Path Traversal vulnerability"
+    },
+    {
+      "cve": "CVE-2024-50379",
+      "published": "2024-12-17",
+      "severity": "HIGH",
+      "packages": [
+        "org.apache.tomcat.embed:tomcat-embed-core"
+      ],
+      "cwes": [
+        "CWE-367"
+      ],
+      "summary": "Apache Tomcat Time-of-check Time-of-use (TOCTOU) Race Condition vulnerability"
+    },
+    {
+      "cve": "CVE-2024-47072",
+      "published": "2024-11-07",
+      "severity": "HIGH",
+      "packages": [
+        "com.thoughtworks.xstream:xstream"
+      ],
+      "cwes": [
+        "CWE-121",
+        "CWE-502"
+      ],
+      "summary": "XStream is vulnerable to a Denial of Service attack due to stack overflow from a manipulated binary input stream"
+    },
+    {
+      "cve": "CVE-2024-38821",
+      "published": "2024-10-28",
+      "severity": "CRITICAL",
+      "packages": [
+        "org.springframework.security:spring-security-web"
+      ],
+      "cwes": [
+        "CWE-285",
+        "CWE-770"
+      ],
+      "summary": "Spring Security vulnerable to Authorization Bypass of Static Resources in WebFlux Applications"
+    },
+    {
+      "cve": "CVE-2024-47554",
+      "published": "2024-10-03",
+      "severity": "HIGH",
+      "packages": [
+        "commons-io:commons-io"
+      ],
+      "cwes": [
+        "CWE-400"
+      ],
+      "summary": "Apache Commons IO: Possible denial of service attack on untrusted input to XmlStreamReader"
+    },
+    {
+      "cve": "CVE-2024-38816",
+      "published": "2024-09-13",
+      "severity": "HIGH",
+      "packages": [
+        "org.springframework:spring-webmvc"
+      ],
+      "cwes": [
+        "CWE-22"
+      ],
+      "summary": "Path traversal vulnerability in functional web frameworks"
+    },
+    {
+      "cve": "CVE-2024-34750",
+      "published": "2024-07-03",
+      "severity": "HIGH",
+      "packages": [
+        "org.apache.tomcat.embed:tomcat-embed-core"
+      ],
+      "cwes": [
+        "CWE-400",
+        "CWE-755"
+      ],
+      "summary": "Apache Tomcat - Denial of Service"
+    },
+    {
+      "cve": "CVE-2024-22262",
+      "published": "2024-04-16",
+      "severity": "HIGH",
+      "packages": [
+        "org.springframework:spring-web"
+      ],
+      "cwes": [
+        "CWE-601"
+      ],
+      "summary": "Spring Framework URL Parsing with Host Validation"
+    },
+    {
+      "cve": "CVE-2024-22257",
+      "published": "2024-03-18",
+      "severity": "HIGH",
+      "packages": [
+        "org.springframework.security:spring-security-core"
+      ],
+      "cwes": [
+        "CWE-287",
+        "CWE-862"
+      ],
+      "summary": "Erroneous authentication pass in Spring Security"
+    },
+    {
+      "cve": "CVE-2024-22259",
+      "published": "2024-03-16",
+      "severity": "HIGH",
+      "packages": [
+        "org.springframework:spring-web"
+      ],
+      "cwes": [
+        "CWE-601"
+      ],
+      "summary": "Spring Framework URL Parsing with Host Validation Vulnerability"
+    },
+    {
+      "cve": "CVE-2024-22243",
+      "published": "2024-02-23",
+      "severity": "HIGH",
+      "packages": [
+        "org.springframework:spring-web"
+      ],
+      "cwes": [
+        "CWE-601"
+      ],
+      "summary": "Spring Web vulnerable to Open Redirect or Server Side Request Forgery"
+    },
+    {
+      "cve": "CVE-2024-1597",
+      "published": "2024-02-21",
+      "severity": "CRITICAL",
+      "packages": [
+        "org.postgresql:postgresql"
+      ],
+      "cwes": [
+        "CWE-89"
+      ],
+      "summary": "org.postgresql:postgresql vulnerable to SQL Injection via line comment generation"
+    },
+    {
+      "cve": "CVE-2024-22234",
+      "published": "2024-02-20",
+      "severity": "HIGH",
+      "packages": [
+        "org.springframework.security:spring-security-core"
+      ],
+      "cwes": [
+        "CWE-284"
+      ],
+      "summary": "Broken Access Control in Spring Security With Direct Use of isFullyAuthenticated"
+    },
+    {
+      "cve": "CVE-2024-22233",
+      "published": "2024-01-22",
+      "severity": "HIGH",
+      "packages": [
+        "org.springframework:spring-core"
+      ],
+      "cwes": [
+        "CWE-400"
+      ],
+      "summary": "Spring Framework server Web DoS Vulnerability"
+    },
+    {
+      "cve": "CVE-2023-6481",
+      "published": "2023-12-04",
+      "severity": "HIGH",
+      "packages": [
+        "ch.qos.logback:logback-core"
+      ],
+      "cwes": [],
+      "summary": "Logback is vulnerable to an attacker mounting a Denial-Of-Service attack by sending poisoned data"
+    },
+    {
+      "cve": "CVE-2023-6378",
+      "published": "2023-11-29",
+      "severity": "HIGH",
+      "packages": [
+        "ch.qos.logback:logback-classic",
+        "ch.qos.logback:logback-core"
+      ],
+      "cwes": [
+        "CWE-502"
+      ],
+      "summary": "logback serialization vulnerability"
+    },
+    {
+      "cve": "CVE-2023-46589",
+      "published": "2023-11-28",
+      "severity": "HIGH",
+      "packages": [
+        "org.apache.tomcat.embed:tomcat-embed-core"
+      ],
+      "cwes": [
+        "CWE-20",
+        "CWE-444"
+      ],
+      "summary": "Apache Tomcat Improper Input Validation vulnerability"
+    },
+    {
+      "cve": "CVE-2023-34053",
+      "published": "2023-11-28",
+      "severity": "HIGH",
+      "packages": [
+        "org.springframework:spring-webmvc"
+      ],
+      "cwes": [],
+      "summary": "Spring Framework vulnerable to denial of service"
+    },
+    {
+      "cve": "CVE-2023-34034",
+      "published": "2023-07-19",
+      "severity": "CRITICAL",
+      "packages": [
+        "org.springframework.security:spring-security-config"
+      ],
+      "cwes": [
+        "CWE-281",
+        "CWE-284"
+      ],
+      "summary": "Access Control Bypass in Spring Security"
+    },
+    {
+      "cve": "CVE-2023-34035",
+      "published": "2023-07-18",
+      "severity": "HIGH",
+      "packages": [
+        "org.springframework.security:spring-security-config"
+      ],
+      "cwes": [
+        "CWE-863"
+      ],
+      "summary": "Spring Security's authorization rules can be misconfigured when using multiple servlets"
+    },
+    {
+      "cve": "CVE-2023-28709",
+      "published": "2023-07-06",
+      "severity": "HIGH",
+      "packages": [
+        "org.apache.tomcat.embed:tomcat-embed-core"
+      ],
+      "cwes": [
+        "CWE-193"
+      ],
+      "summary": "Apache Tomcat - Fix for CVE-2023-24998 was incomplete"
+    },
+    {
+      "cve": "CVE-2023-34981",
+      "published": "2023-06-21",
+      "severity": "HIGH",
+      "packages": [
+        "org.apache.tomcat.embed:tomcat-embed-core"
+      ],
+      "cwes": [
+        "CWE-732"
+      ],
+      "summary": "Apache Tomcat vulnerable to information leak"
+    },
+    {
+      "cve": "CVE-2023-20883",
+      "published": "2023-05-26",
+      "severity": "HIGH",
+      "packages": [
+        "org.springframework.boot:spring-boot-autoconfigure"
+      ],
+      "cwes": [
+        "CWE-400"
+      ],
+      "summary": "Spring Boot Welcome Page Denial of Service"
+    },
+    {
+      "cve": "CVE-2023-20860",
+      "published": "2023-03-28",
+      "severity": "CRITICAL",
+      "packages": [
+        "org.springframework:spring-webmvc"
+      ],
+      "cwes": [],
+      "summary": "Spring Framework is vulnerable to security bypass via mvcRequestMatcher pattern mismatch"
+    },
+    {
+      "cve": "CVE-2021-46877",
+      "published": "2023-03-19",
+      "severity": "HIGH",
+      "packages": [
+        "com.fasterxml.jackson.core:jackson-databind"
+      ],
+      "cwes": [
+        "CWE-770"
+      ],
+      "summary": "jackson-databind possible Denial of Service if using JDK serialization to serialize JsonNode"
+    },
+    {
+      "cve": "CVE-2023-26464",
+      "published": "2023-03-10",
+      "severity": "HIGH",
+      "packages": [
+        "org.apache.logging.log4j:log4j-core"
+      ],
+      "cwes": [
+        "CWE-400",
+        "CWE-502"
+      ],
+      "summary": "Apache Log4j 1.x (EOL) allows Denial of Service (DoS)"
+    },
+    {
+      "cve": "CVE-2023-24998",
+      "published": "2023-02-20",
+      "severity": "HIGH",
+      "packages": [
+        "org.apache.tomcat.embed:tomcat-embed-core"
+      ],
+      "cwes": [
+        "CWE-770"
+      ],
+      "summary": "Apache Commons FileUpload denial of service vulnerability"
+    },
+    {
+      "cve": "CVE-2022-45143",
+      "published": "2023-01-03",
+      "severity": "HIGH",
+      "packages": [
+        "org.apache.tomcat.embed:tomcat-embed-core"
+      ],
+      "cwes": [
+        "CWE-116",
+        "CWE-74"
+      ],
+      "summary": "Apache Tomcat improperly escapes input from JsonErrorReportValve"
+    },
+    {
+      "cve": "CVE-2022-40151",
+      "published": "2022-12-30",
+      "severity": "HIGH",
+      "packages": [
+        "com.thoughtworks.xstream:xstream"
+      ],
+      "cwes": [
+        "CWE-121",
+        "CWE-502",
+        "CWE-787"
+      ],
+      "summary": "XStream can cause a Denial of Service by injecting deeply nested objects raising a stack overflow"
+    },
+    {
+      "cve": "CVE-2022-41966",
+      "published": "2022-12-29",
+      "severity": "HIGH",
+      "packages": [
+        "com.thoughtworks.xstream:xstream"
+      ],
+      "cwes": [
+        "CWE-120",
+        "CWE-121",
+        "CWE-502",
+        "CWE-674"
+      ],
+      "summary": "XStream can cause Denial of Service via stack overflow"
+    },
+    {
+      "cve": "CVE-2022-42252",
+      "published": "2022-11-01",
+      "severity": "HIGH",
+      "packages": [
+        "org.apache.tomcat.embed:tomcat-embed-core"
+      ],
+      "cwes": [
+        "CWE-20",
+        "CWE-444"
+      ],
+      "summary": "Apache Tomcat may reject request containing invalid Content-Length header"
+    },
+    {
+      "cve": "CVE-2022-31692",
+      "published": "2022-11-01",
+      "severity": "CRITICAL",
+      "packages": [
+        "org.springframework.security:spring-security-core"
+      ],
+      "cwes": [
+        "CWE-863"
+      ],
+      "summary": "Spring Security authorization rules can be bypassed via forward or include dispatcher types"
+    },
+    {
+      "cve": "CVE-2022-42003",
+      "published": "2022-10-03",
+      "severity": "HIGH",
+      "packages": [
+        "com.fasterxml.jackson.core:jackson-databind"
+      ],
+      "cwes": [
+        "CWE-400",
+        "CWE-502"
+      ],
+      "summary": "Uncontrolled Resource Consumption in Jackson-databind"
+    },
+    {
+      "cve": "CVE-2022-42004",
+      "published": "2022-10-03",
+      "severity": "HIGH",
+      "packages": [
+        "com.fasterxml.jackson.core:jackson-databind"
+      ],
+      "cwes": [
+        "CWE-400",
+        "CWE-502"
+      ],
+      "summary": "Uncontrolled Resource Consumption in FasterXML jackson-databind"
+    },
+    {
+      "cve": "CVE-2022-25857",
+      "published": "2022-08-31",
+      "severity": "HIGH",
+      "packages": [
+        "org.yaml:snakeyaml"
+      ],
+      "cwes": [
+        "CWE-400",
+        "CWE-776"
+      ],
+      "summary": "Uncontrolled Resource Consumption in snakeyaml"
+    },
+    {
+      "cve": "CVE-2022-31197",
+      "published": "2022-08-06",
+      "severity": "HIGH",
+      "packages": [
+        "org.postgresql:postgresql"
+      ],
+      "cwes": [
+        "CWE-89"
+      ],
+      "summary": "PostgreSQL JDBC Driver SQL Injection in ResultSet.refreshRow() with malicious column names"
+    },
+    {
+      "cve": "CVE-2020-10650",
+      "published": "2022-07-15",
+      "severity": "HIGH",
+      "packages": [
+        "com.fasterxml.jackson.core:jackson-databind"
+      ],
+      "cwes": [
+        "CWE-502"
+      ],
+      "summary": "jackson-databind vulnerable to unsafe deserialization"
+    },
+    {
+      "cve": "CVE-2022-27772",
+      "published": "2022-07-11",
+      "severity": "HIGH",
+      "packages": [
+        "org.springframework.boot:spring-boot"
+      ],
+      "cwes": [
+        "CWE-377",
+        "CWE-379",
+        "CWE-668"
+      ],
+      "summary": "Temporary Directory Hijacking to Local Privilege Escalation Vulnerability in org.springframework.boot:spring-boot"
+    },
+    {
+      "cve": "CVE-2021-22118",
+      "published": "2022-05-24",
+      "severity": "HIGH",
+      "packages": [
+        "org.springframework:spring-web"
+      ],
+      "cwes": [
+        "CWE-269",
+        "CWE-668"
+      ],
+      "summary": "Improper Privilege Management in Spring Framework"
+    },
+    {
+      "cve": "CVE-2022-22978",
+      "published": "2022-05-20",
+      "severity": "CRITICAL",
+      "packages": [
+        "org.springframework.security:spring-security-core",
+        "org.springframework.security:spring-security-web"
+      ],
+      "cwes": [
+        "CWE-285",
+        "CWE-863"
+      ],
+      "summary": "Authorization bypass in Spring Security"
+    },
+    {
+      "cve": "CVE-2022-22970",
+      "published": "2022-05-13",
+      "severity": "HIGH",
+      "packages": [
+        "org.springframework:spring-beans"
+      ],
+      "cwes": [
+        "CWE-770"
+      ],
+      "summary": "Denial of service in Spring Framework"
+    },
+    {
+      "cve": "CVE-2022-22968",
+      "published": "2022-04-15",
+      "severity": "HIGH",
+      "packages": [
+        "org.springframework:spring-context"
+      ],
+      "cwes": [
+        "CWE-178"
+      ],
+      "summary": "Improper handling of case sensitivity in Spring Framework"
+    },
+    {
+      "cve": "CVE-2020-36518",
+      "published": "2022-03-12",
+      "severity": "HIGH",
+      "packages": [
+        "com.fasterxml.jackson.core:jackson-databind"
+      ],
+      "cwes": [
+        "CWE-787"
+      ],
+      "summary": "Deeply nested json in jackson-databind"
+    },
+    {
+      "cve": "CVE-2020-13692",
+      "published": "2022-02-10",
+      "severity": "HIGH",
+      "packages": [
+        "org.postgresql:postgresql"
+      ],
+      "cwes": [
+        "CWE-611"
+      ],
+      "summary": "Improper Restriction of XML External Entity Reference"
+    },
+    {
+      "cve": "CVE-2022-21724",
+      "published": "2022-02-02",
+      "severity": "HIGH",
+      "packages": [
+        "org.postgresql:postgresql"
+      ],
+      "cwes": [
+        "CWE-665",
+        "CWE-668",
+        "CWE-74"
+      ],
+      "summary": "pgjdbc Does Not Check Class Instantiation when providing Plugin Classes"
+    },
+    {
+      "cve": "CVE-2021-43859",
+      "published": "2022-02-01",
+      "severity": "HIGH",
+      "packages": [
+        "com.thoughtworks.xstream:xstream"
+      ],
+      "cwes": [
+        "CWE-400",
+        "CWE-502"
+      ],
+      "summary": "Denial of Service by injecting highly recursive collections or maps in XStream"
+    },
+    {
+      "cve": "CVE-2021-45105",
+      "published": "2021-12-18",
+      "severity": "HIGH",
+      "packages": [
+        "org.apache.logging.log4j:log4j-core"
+      ],
+      "cwes": [
+        "CWE-20",
+        "CWE-674"
+      ],
+      "summary": "Apache Log4j2 vulnerable to Improper Input Validation and Uncontrolled Recursion"
+    },
+    {
+      "cve": "CVE-2020-35728",
+      "published": "2021-12-09",
+      "severity": "HIGH",
+      "packages": [
+        "com.fasterxml.jackson.core:jackson-databind"
+      ],
+      "cwes": [
+        "CWE-502"
+      ],
+      "summary": "Serialization gadget exploit in jackson-databind"
+    },
+    {
+      "cve": "CVE-2020-36182",
+      "published": "2021-12-09",
+      "severity": "HIGH",
+      "packages": [
+        "com.fasterxml.jackson.core:jackson-databind"
+      ],
+      "cwes": [
+        "CWE-502"
+      ],
+      "summary": "Unsafe Deserialization in jackson-databind"
+    },
+    {
+      "cve": "CVE-2020-36180",
+      "published": "2021-12-09",
+      "severity": "HIGH",
+      "packages": [
+        "com.fasterxml.jackson.core:jackson-databind"
+      ],
+      "cwes": [
+        "CWE-502"
+      ],
+      "summary": "Unsafe Deserialization in jackson-databind"
+    },
+    {
+      "cve": "CVE-2020-36185",
+      "published": "2021-12-09",
+      "severity": "HIGH",
+      "packages": [
+        "com.fasterxml.jackson.core:jackson-databind"
+      ],
+      "cwes": [
+        "CWE-502"
+      ],
+      "summary": "Unsafe Deserialization in jackson-databind"
+    },
+    {
+      "cve": "CVE-2020-36179",
+      "published": "2021-12-09",
+      "severity": "HIGH",
+      "packages": [
+        "com.fasterxml.jackson.core:jackson-databind"
+      ],
+      "cwes": [
+        "CWE-502"
+      ],
+      "summary": "Unsafe Deserialization in jackson-databind"
+    },
+    {
+      "cve": "CVE-2020-36183",
+      "published": "2021-12-09",
+      "severity": "HIGH",
+      "packages": [
+        "com.fasterxml.jackson.core:jackson-databind"
+      ],
+      "cwes": [
+        "CWE-502"
+      ],
+      "summary": "Unsafe Deserialization in jackson-databind"
+    },
+    {
+      "cve": "CVE-2020-36181",
+      "published": "2021-12-09",
+      "severity": "HIGH",
+      "packages": [
+        "com.fasterxml.jackson.core:jackson-databind"
+      ],
+      "cwes": [
+        "CWE-502"
+      ],
+      "summary": "Unsafe Deserialization in jackson-databind"
+    },
+    {
+      "cve": "CVE-2020-36188",
+      "published": "2021-12-09",
+      "severity": "HIGH",
+      "packages": [
+        "com.fasterxml.jackson.core:jackson-databind"
+      ],
+      "cwes": [
+        "CWE-502"
+      ],
+      "summary": "Unsafe Deserialization in jackson-databind"
+    },
+    {
+      "cve": "CVE-2020-24616",
+      "published": "2021-12-09",
+      "severity": "HIGH",
+      "packages": [
+        "com.fasterxml.jackson.core:jackson-databind"
+      ],
+      "cwes": [
+        "CWE-502",
+        "CWE-94"
+      ],
+      "summary": "Code Injection in jackson-databind"
+    },
+    {
+      "cve": "CVE-2020-36184",
+      "published": "2021-12-09",
+      "severity": "HIGH",
+      "packages": [
+        "com.fasterxml.jackson.core:jackson-databind"
+      ],
+      "cwes": [
+        "CWE-502"
+      ],
+      "summary": "Unsafe Deserialization in jackson-databind"
+    },
+    {
+      "cve": "CVE-2020-24750",
+      "published": "2021-12-09",
+      "severity": "HIGH",
+      "packages": [
+        "com.fasterxml.jackson.core:jackson-databind"
+      ],
+      "cwes": [
+        "CWE-502"
+      ],
+      "summary": "Unsafe Deserialization in jackson-databind"
+    },
+    {
+      "cve": "CVE-2020-35491",
+      "published": "2021-12-09",
+      "severity": "HIGH",
+      "packages": [
+        "com.fasterxml.jackson.core:jackson-databind"
+      ],
+      "cwes": [
+        "CWE-502",
+        "CWE-913"
+      ],
+      "summary": "Serialization gadgets exploit in jackson-databind"
+    },
+    {
+      "cve": "CVE-2020-36187",
+      "published": "2021-12-09",
+      "severity": "HIGH",
+      "packages": [
+        "com.fasterxml.jackson.core:jackson-databind"
+      ],
+      "cwes": [
+        "CWE-502"
+      ],
+      "summary": "Unsafe Deserialization in jackson-databind"
+    },
+    {
+      "cve": "CVE-2020-36189",
+      "published": "2021-12-09",
+      "severity": "HIGH",
+      "packages": [
+        "com.fasterxml.jackson.core:jackson-databind"
+      ],
+      "cwes": [
+        "CWE-502"
+      ],
+      "summary": "Unsafe Deserialization in jackson-databind"
+    },
+    {
+      "cve": "CVE-2020-35490",
+      "published": "2021-12-09",
+      "severity": "HIGH",
+      "packages": [
+        "com.fasterxml.jackson.core:jackson-databind"
+      ],
+      "cwes": [
+        "CWE-502"
+      ],
+      "summary": "Serialization gadgets exploit in jackson-databind"
+    },
+    {
+      "cve": "CVE-2020-36186",
+      "published": "2021-11-19",
+      "severity": "HIGH",
+      "packages": [
+        "com.fasterxml.jackson.core:jackson-databind"
+      ],
+      "cwes": [
+        "CWE-502"
+      ],
+      "summary": "Unsafe Deserialization in jackson-databind"
+    },
+    {
+      "cve": "CVE-2021-39153",
+      "published": "2021-08-25",
+      "severity": "HIGH",
+      "packages": [
+        "com.thoughtworks.xstream:xstream"
+      ],
+      "cwes": [
+        "CWE-502"
+      ],
+      "summary": "XStream is vulnerable to an Arbitrary Code Execution attack"
+    },
+    {
+      "cve": "CVE-2021-39149",
+      "published": "2021-08-25",
+      "severity": "HIGH",
+      "packages": [
+        "com.thoughtworks.xstream:xstream"
+      ],
+      "cwes": [
+        "CWE-434",
+        "CWE-502"
+      ],
+      "summary": "XStream is vulnerable to an Arbitrary Code Execution attack"
+    },
+    {
+      "cve": "CVE-2021-39139",
+      "published": "2021-08-25",
+      "severity": "HIGH",
+      "packages": [
+        "com.thoughtworks.xstream:xstream"
+      ],
+      "cwes": [
+        "CWE-502"
+      ],
+      "summary": "XStream is vulnerable to an Arbitrary Code Execution attack"
+    },
+    {
+      "cve": "CVE-2021-39154",
+      "published": "2021-08-25",
+      "severity": "HIGH",
+      "packages": [
+        "com.thoughtworks.xstream:xstream"
+      ],
+      "cwes": [
+        "CWE-434",
+        "CWE-502"
+      ],
+      "summary": "XStream is vulnerable to an Arbitrary Code Execution attack"
+    },
+    {
+      "cve": "CVE-2021-39145",
+      "published": "2021-08-25",
+      "severity": "HIGH",
+      "packages": [
+        "com.thoughtworks.xstream:xstream"
+      ],
+      "cwes": [
+        "CWE-502"
+      ],
+      "summary": "XStream is vulnerable to an Arbitrary Code Execution attack"
+    },
+    {
+      "cve": "CVE-2021-39150",
+      "published": "2021-08-25",
+      "severity": "HIGH",
+      "packages": [
+        "com.thoughtworks.xstream:xstream"
+      ],
+      "cwes": [
+        "CWE-502",
+        "CWE-918"
+      ],
+      "summary": "A Server-Side Forgery Request can be activated unmarshalling with XStream to access data streams from an arbitrary URL referencing a resource in an intranet or the local host"
+    },
+    {
+      "cve": "CVE-2021-39141",
+      "published": "2021-08-25",
+      "severity": "HIGH",
+      "packages": [
+        "com.thoughtworks.xstream:xstream"
+      ],
+      "cwes": [
+        "CWE-502"
+      ],
+      "summary": "XStream is vulnerable to an Arbitrary Code Execution attack"
+    },
+    {
+      "cve": "CVE-2021-39147",
+      "published": "2021-08-25",
+      "severity": "HIGH",
+      "packages": [
+        "com.thoughtworks.xstream:xstream"
+      ],
+      "cwes": [
+        "CWE-502"
+      ],
+      "summary": "XStream is vulnerable to an Arbitrary Code Execution attack"
+    },
+    {
+      "cve": "CVE-2021-39151",
+      "published": "2021-08-25",
+      "severity": "HIGH",
+      "packages": [
+        "com.thoughtworks.xstream:xstream"
+      ],
+      "cwes": [
+        "CWE-434",
+        "CWE-502"
+      ],
+      "summary": "XStream is vulnerable to an Arbitrary Code Execution attack"
+    },
+    {
+      "cve": "CVE-2021-39146",
+      "published": "2021-08-25",
+      "severity": "HIGH",
+      "packages": [
+        "com.thoughtworks.xstream:xstream"
+      ],
+      "cwes": [
+        "CWE-502"
+      ],
+      "summary": "XStream is vulnerable to an Arbitrary Code Execution attack"
+    },
+    {
+      "cve": "CVE-2021-39148",
+      "published": "2021-08-25",
+      "severity": "HIGH",
+      "packages": [
+        "com.thoughtworks.xstream:xstream"
+      ],
+      "cwes": [
+        "CWE-502"
+      ],
+      "summary": "XStream is vulnerable to an Arbitrary Code Execution attack"
+    },
+    {
+      "cve": "CVE-2021-39152",
+      "published": "2021-08-25",
+      "severity": "HIGH",
+      "packages": [
+        "com.thoughtworks.xstream:xstream"
+      ],
+      "cwes": [
+        "CWE-502",
+        "CWE-918"
+      ],
+      "summary": "A Server-Side Forgery Request can be activated unmarshalling with XStream to access data streams from an arbitrary URL referencing a resource in an intranet or the local host"
+    },
+    {
+      "cve": "CVE-2021-22119",
+      "published": "2021-07-02",
+      "severity": "HIGH",
+      "packages": [
+        "org.springframework.security:spring-security-core"
+      ],
+      "cwes": [
+        "CWE-400",
+        "CWE-863"
+      ],
+      "summary": "Resource Exhaustion in Spring Security"
+    },
+    {
+      "cve": "CVE-2021-25122",
+      "published": "2021-06-16",
+      "severity": "HIGH",
+      "packages": [
+        "org.apache.tomcat.embed:tomcat-embed-core"
+      ],
+      "cwes": [
+        "CWE-200"
+      ],
+      "summary": "Exposure of Sensitive Information to an Unauthorized Actor in Apache Tomcat"
+    },
+    {
+      "cve": "CVE-2021-29505",
+      "published": "2021-05-18",
+      "severity": "HIGH",
+      "packages": [
+        "com.thoughtworks.xstream:xstream"
+      ],
+      "cwes": [
+        "CWE-502",
+        "CWE-74",
+        "CWE-94"
+      ],
+      "summary": "XStream is vulnerable to a Remote Command Execution attack"
+    },
+    {
+      "cve": "CVE-2021-22112",
+      "published": "2021-05-10",
+      "severity": "HIGH",
+      "packages": [
+        "org.springframework.security:spring-security-web"
+      ],
+      "cwes": [
+        "CWE-269"
+      ],
+      "summary": "Privilege escalation in spring security"
+    },
+    {
+      "cve": "CVE-2021-21341",
+      "published": "2021-03-22",
+      "severity": "HIGH",
+      "packages": [
+        "com.thoughtworks.xstream:xstream"
+      ],
+      "cwes": [
+        "CWE-400",
+        "CWE-502",
+        "CWE-835"
+      ],
+      "summary": "XStream can cause a Denial of Service."
+    },
+    {
+      "cve": "CVE-2021-25329",
+      "published": "2021-03-19",
+      "severity": "HIGH",
+      "packages": [
+        "org.apache.tomcat.embed:tomcat-embed-core"
+      ],
+      "cwes": [
+        "CWE-502"
+      ],
+      "summary": "Potential remote code execution in Apache Tomcat"
+    },
+    {
+      "cve": "CVE-2020-25649",
+      "published": "2021-02-18",
+      "severity": "HIGH",
+      "packages": [
+        "com.fasterxml.jackson.core:jackson-databind"
+      ],
+      "cwes": [
+        "CWE-611"
+      ],
+      "summary": "XML External Entity (XXE) Injection in Jackson Databind"
+    },
+    {
+      "cve": "CVE-2021-20190",
+      "published": "2021-01-20",
+      "severity": "HIGH",
+      "packages": [
+        "com.fasterxml.jackson.core:jackson-databind"
+      ],
+      "cwes": [
+        "CWE-502"
+      ],
+      "summary": "Deserialization of untrusted data in jackson-databind"
+    },
+    {
+      "cve": "CVE-2020-26217",
+      "published": "2020-11-16",
+      "severity": "HIGH",
+      "packages": [
+        "com.thoughtworks.xstream:xstream"
+      ],
+      "cwes": [
+        "CWE-78"
+      ],
+      "summary": "XStream can be used for Remote Code Execution"
+    },
+    {
+      "cve": "CVE-2018-5968",
+      "published": "2020-06-30",
+      "severity": "HIGH",
+      "packages": [
+        "com.fasterxml.jackson.core:jackson-databind"
+      ],
+      "cwes": [
+        "CWE-184",
+        "CWE-502"
+      ],
+      "summary": "Deserialization of Untrusted Data in jackson-databind"
+    },
+    {
+      "cve": "CVE-2020-14062",
+      "published": "2020-06-18",
+      "severity": "HIGH",
+      "packages": [
+        "com.fasterxml.jackson.core:jackson-databind"
+      ],
+      "cwes": [
+        "CWE-502"
+      ],
+      "summary": "Deserialization of untrusted data in Jackson Databind"
+    },
+    {
+      "cve": "CVE-2020-14061",
+      "published": "2020-06-18",
+      "severity": "HIGH",
+      "packages": [
+        "com.fasterxml.jackson.core:jackson-databind"
+      ],
+      "cwes": [
+        "CWE-502"
+      ],
+      "summary": "Deserialization of untrusted data in Jackson Databind"
+    },
+    {
+      "cve": "CVE-2020-14060",
+      "published": "2020-06-18",
+      "severity": "HIGH",
+      "packages": [
+        "com.fasterxml.jackson.core:jackson-databind"
+      ],
+      "cwes": [
+        "CWE-502"
+      ],
+      "summary": "Deserialization of untrusted data in Jackson Databind"
+    },
+    {
+      "cve": "CVE-2020-14195",
+      "published": "2020-06-18",
+      "severity": "HIGH",
+      "packages": [
+        "com.fasterxml.jackson.core:jackson-databind"
+      ],
+      "cwes": [
+        "CWE-502"
+      ],
+      "summary": "Deserialization of untrusted data in Jackson Databind"
+    },
+    {
+      "cve": "CVE-2018-12023",
+      "published": "2020-06-15",
+      "severity": "HIGH",
+      "packages": [
+        "com.fasterxml.jackson.core:jackson-databind"
+      ],
+      "cwes": [
+        "CWE-502"
+      ],
+      "summary": "Deserialization of Untrusted Data"
+    },
+    {
+      "cve": "CVE-2019-17267",
+      "published": "2020-06-15",
+      "severity": "CRITICAL",
+      "packages": [
+        "com.fasterxml.jackson.core:jackson-databind"
+      ],
+      "cwes": [
+        "CWE-502"
+      ],
+      "summary": "Improper Input Validation in jackson-databind"
+    },
+    {
+      "cve": "CVE-2019-0199",
+      "published": "2020-06-15",
+      "severity": "HIGH",
+      "packages": [
+        "org.apache.tomcat.embed:tomcat-embed-core"
+      ],
+      "cwes": [
+        "CWE-400"
+      ],
+      "summary": "Apache Tomcat Denial of Service vulnerability"
+    },
+    {
+      "cve": "CVE-2018-15756",
+      "published": "2020-06-15",
+      "severity": "HIGH",
+      "packages": [
+        "org.springframework:spring-core"
+      ],
+      "cwes": [],
+      "summary": "Denial of Service in Spring Framework"
+    },
+    {
+      "cve": "CVE-2020-11112",
+      "published": "2020-06-10",
+      "severity": "HIGH",
+      "packages": [
+        "com.fasterxml.jackson.core:jackson-databind"
+      ],
+      "cwes": [
+        "CWE-502"
+      ],
+      "summary": "jackson-databind mishandles the interaction between serialization gadgets and typing"
+    },
+    {
+      "cve": "CVE-2020-5407",
+      "published": "2020-06-05",
+      "severity": "HIGH",
+      "packages": [
+        "org.springframework.security:spring-security-core"
+      ],
+      "cwes": [
+        "CWE-347"
+      ],
+      "summary": "Signature wrapping vulnerability in Spring Security"
+    },
+    {
+      "cve": "CVE-2020-11619",
+      "published": "2020-05-15",
+      "severity": "HIGH",
+      "packages": [
+        "com.fasterxml.jackson.core:jackson-databind"
+      ],
+      "cwes": [
+        "CWE-502"
+      ],
+      "summary": "jackson-databind mishandles the interaction between serialization gadgets and typing"
+    },
+    {
+      "cve": "CVE-2020-11113",
+      "published": "2020-05-15",
+      "severity": "HIGH",
+      "packages": [
+        "com.fasterxml.jackson.core:jackson-databind"
+      ],
+      "cwes": [
+        "CWE-502"
+      ],
+      "summary": "jackson-databind mishandles the interaction between serialization gadgets and typing"
+    },
+    {
+      "cve": "CVE-2019-14892",
+      "published": "2020-05-15",
+      "severity": "HIGH",
+      "packages": [
+        "com.fasterxml.jackson.core:jackson-databind"
+      ],
+      "cwes": [
+        "CWE-200",
+        "CWE-502"
+      ],
+      "summary": "Polymorphic deserialization of malicious object in jackson-databind"
+    },
+    {
+      "cve": "CVE-2020-10673",
+      "published": "2020-05-15",
+      "severity": "HIGH",
+      "packages": [
+        "com.fasterxml.jackson.core:jackson-databind"
+      ],
+      "cwes": [
+        "CWE-502"
+      ],
+      "summary": "jackson-databind mishandles the interaction between serialization gadgets and typing"
+    },
+    {
+      "cve": "CVE-2020-9548",
+      "published": "2020-05-15",
+      "severity": "CRITICAL",
+      "packages": [
+        "com.fasterxml.jackson.core:jackson-databind"
+      ],
+      "cwes": [
+        "CWE-502"
+      ],
+      "summary": "jackson-databind mishandles the interaction between serialization gadgets and typing"
+    },
+    {
+      "cve": "CVE-2020-9547",
+      "published": "2020-05-15",
+      "severity": "CRITICAL",
+      "packages": [
+        "com.fasterxml.jackson.core:jackson-databind"
+      ],
+      "cwes": [
+        "CWE-502"
+      ],
+      "summary": "jackson-databind mishandles the interaction between serialization gadgets and typing"
+    },
+    {
+      "cve": "CVE-2019-14893",
+      "published": "2020-05-15",
+      "severity": "HIGH",
+      "packages": [
+        "com.fasterxml.jackson.core:jackson-databind"
+      ],
+      "cwes": [
+        "CWE-502"
+      ],
+      "summary": "Polymorphic deserialization of malicious object in jackson-databind"
+    },
+    {
+      "cve": "CVE-2020-10968",
+      "published": "2020-05-15",
+      "severity": "HIGH",
+      "packages": [
+        "com.fasterxml.jackson.core:jackson-databind"
+      ],
+      "cwes": [
+        "CWE-502"
+      ],
+      "summary": "jackson-databind mishandles the interaction between serialization gadgets and typing"
+    },
+    {
+      "cve": "CVE-2020-11111",
+      "published": "2020-05-15",
+      "severity": "HIGH",
+      "packages": [
+        "com.fasterxml.jackson.core:jackson-databind"
+      ],
+      "cwes": [
+        "CWE-502"
+      ],
+      "summary": "jackson-databind mishandles the interaction between serialization gadgets and typing"
+    },
+    {
+      "cve": "CVE-2020-9546",
+      "published": "2020-04-23",
+      "severity": "CRITICAL",
+      "packages": [
+        "com.fasterxml.jackson.core:jackson-databind"
+      ],
+      "cwes": [
+        "CWE-502"
+      ],
+      "summary": "jackson-databind mishandles the interaction between serialization gadgets and typing"
+    },
+    {
+      "cve": "CVE-2020-10969",
+      "published": "2020-04-23",
+      "severity": "HIGH",
+      "packages": [
+        "com.fasterxml.jackson.core:jackson-databind"
+      ],
+      "cwes": [
+        "CWE-502"
+      ],
+      "summary": "jackson-databind mishandles the interaction between serialization gadgets and typing"
+    },
+    {
+      "cve": "CVE-2020-10672",
+      "published": "2020-04-23",
+      "severity": "HIGH",
+      "packages": [
+        "com.fasterxml.jackson.core:jackson-databind"
+      ],
+      "cwes": [
+        "CWE-502"
+      ],
+      "summary": "jackson-databind mishandles the interaction between serialization gadgets and typing"
+    },
+    {
+      "cve": "CVE-2020-11620",
+      "published": "2020-04-23",
+      "severity": "HIGH",
+      "packages": [
+        "com.fasterxml.jackson.core:jackson-databind"
+      ],
+      "cwes": [
+        "CWE-502"
+      ],
+      "summary": "jackson-databind mishandles the interaction between serialization gadgets and typing"
+    },
+    {
+      "cve": "CVE-2020-8840",
+      "published": "2020-03-04",
+      "severity": "CRITICAL",
+      "packages": [
+        "com.fasterxml.jackson.core:jackson-databind"
+      ],
+      "cwes": [
+        "CWE-502"
+      ],
+      "summary": "Deserialization of Untrusted Data in jackson-databind"
+    },
+    {
+      "cve": "CVE-2019-20330",
+      "published": "2020-03-04",
+      "severity": "CRITICAL",
+      "packages": [
+        "com.fasterxml.jackson.core:jackson-databind"
+      ],
+      "cwes": [
+        "CWE-502"
+      ],
+      "summary": "Deserialization of Untrusted Data in jackson-databind"
+    },
+    {
+      "cve": "CVE-2020-5398",
+      "published": "2020-01-21",
+      "severity": "HIGH",
+      "packages": [
+        "org.springframework:spring-webmvc"
+      ],
+      "cwes": [
+        "CWE-494",
+        "CWE-79"
+      ],
+      "summary": "RFD attack via Content-Disposition header sourced from request input by Spring MVC or Spring WebFlux Application"
+    },
+    {
+      "cve": "CVE-2019-17563",
+      "published": "2019-12-26",
+      "severity": "HIGH",
+      "packages": [
+        "org.apache.tomcat.embed:tomcat-embed-core"
+      ],
+      "cwes": [
+        "CWE-384"
+      ],
+      "summary": "In Apache Tomcat, when using FORM authentication there was a narrow window where an attacker could perform a session fixation attack"
+    },
+    {
+      "cve": "CVE-2019-12418",
+      "published": "2019-12-26",
+      "severity": "HIGH",
+      "packages": [
+        "org.apache.tomcat.embed:tomcat-embed-core"
+      ],
+      "cwes": [
+        "CWE-522"
+      ],
+      "summary": "Insufficiently Protected Credentials in Apache Tomcat"
+    },
+    {
+      "cve": "CVE-2019-16943",
+      "published": "2019-11-13",
+      "severity": "CRITICAL",
+      "packages": [
+        "com.fasterxml.jackson.core:jackson-databind"
+      ],
+      "cwes": [
+        "CWE-502"
+      ],
+      "summary": "jackson-databind polymorphic typing issue"
+    },
+    {
+      "cve": "CVE-2019-17531",
+      "published": "2019-11-13",
+      "severity": "CRITICAL",
+      "packages": [
+        "com.fasterxml.jackson.core:jackson-databind"
+      ],
+      "cwes": [
+        "CWE-502"
+      ],
+      "summary": "jackson-databind polymorphic typing issue"
+    },
+    {
+      "cve": "CVE-2019-16942",
+      "published": "2019-10-28",
+      "severity": "CRITICAL",
+      "packages": [
+        "com.fasterxml.jackson.core:jackson-databind"
+      ],
+      "cwes": [
+        "CWE-502"
+      ],
+      "summary": "Polymorphic Typing in FasterXML jackson-databind"
+    },
+    {
+      "cve": "CVE-2019-16335",
+      "published": "2019-09-23",
+      "severity": "CRITICAL",
+      "packages": [
+        "com.fasterxml.jackson.core:jackson-databind"
+      ],
+      "cwes": [
+        "CWE-502"
+      ],
+      "summary": "Polymorphic Typing issue in FasterXML jackson-databind"
+    },
+    {
+      "cve": "CVE-2019-14540",
+      "published": "2019-09-23",
+      "severity": "CRITICAL",
+      "packages": [
+        "com.fasterxml.jackson.core:jackson-databind"
+      ],
+      "cwes": [
+        "CWE-502"
+      ],
+      "summary": "Polymorphic Typing issue in FasterXML jackson-databind"
+    },
+    {
+      "cve": "CVE-2019-14379",
+      "published": "2019-08-01",
+      "severity": "CRITICAL",
+      "packages": [
+        "com.fasterxml.jackson.core:jackson-databind"
+      ],
+      "cwes": [
+        "CWE-1321",
+        "CWE-915"
+      ],
+      "summary": "Deserialization of untrusted data in FasterXML jackson-databind"
+    },
+    {
+      "cve": "CVE-2019-14439",
+      "published": "2019-08-01",
+      "severity": "HIGH",
+      "packages": [
+        "com.fasterxml.jackson.core:jackson-databind"
+      ],
+      "cwes": [
+        "CWE-502"
+      ],
+      "summary": "Deserialization of untrusted data in FasterXML jackson-databind"
+    },
+    {
+      "cve": "CVE-2019-10173",
+      "published": "2019-07-26",
+      "severity": "CRITICAL",
+      "packages": [
+        "com.thoughtworks.xstream:xstream"
+      ],
+      "cwes": [
+        "CWE-502",
+        "CWE-94"
+      ],
+      "summary": "Deserialization of Untrusted Data and Code Injection in xstream"
+    },
+    {
+      "cve": "CVE-2018-11307",
+      "published": "2019-07-16",
+      "severity": "CRITICAL",
+      "packages": [
+        "com.fasterxml.jackson.core:jackson-databind"
+      ],
+      "cwes": [
+        "CWE-502"
+      ],
+      "summary": "Deserialization of Untrusted Data in jackson-databind"
+    },
+    {
+      "cve": "CVE-2019-11272",
+      "published": "2019-06-27",
+      "severity": "HIGH",
+      "packages": [
+        "org.springframework.security:spring-security-core"
+      ],
+      "cwes": [
+        "CWE-287",
+        "CWE-522"
+      ],
+      "summary": "Insufficiently Protected Credentials and Improper Authentication in Spring Security"
+    },
+    {
+      "cve": "CVE-2019-10072",
+      "published": "2019-06-26",
+      "severity": "HIGH",
+      "packages": [
+        "org.apache.tomcat.embed:tomcat-embed-core"
+      ],
+      "cwes": [
+        "CWE-667"
+      ],
+      "summary": "Improper Locking in Apache Tomcat"
+    },
+    {
+      "cve": "CVE-2019-12086",
+      "published": "2019-05-23",
+      "severity": "HIGH",
+      "packages": [
+        "com.fasterxml.jackson.core:jackson-databind"
+      ],
+      "cwes": [
+        "CWE-502"
+      ],
+      "summary": "Information exposure in FasterXML jackson-databind"
+    },
+    {
+      "cve": "CVE-2019-0222",
+      "published": "2019-04-02",
+      "severity": "HIGH",
+      "packages": [
+        "org.apache.activemq:activemq-client"
+      ],
+      "cwes": [
+        "CWE-94"
+      ],
+      "summary": "Improper Control of Generation of Code ('Code Injection') in org.apache.activemq:activemq-client"
+    },
+    {
+      "cve": "CVE-2018-12022",
+      "published": "2019-03-25",
+      "severity": "HIGH",
+      "packages": [
+        "com.fasterxml.jackson.core:jackson-databind"
+      ],
+      "cwes": [
+        "CWE-502"
+      ],
+      "summary": "jackson-databind Deserialization of Untrusted Data vulnerability"
+    },
+    {
+      "cve": "CVE-2018-14719",
+      "published": "2019-01-04",
+      "severity": "CRITICAL",
+      "packages": [
+        "com.fasterxml.jackson.core:jackson-databind"
+      ],
+      "cwes": [
+        "CWE-502"
+      ],
+      "summary": "Arbitrary Code Execution in jackson-databind"
+    },
+    {
+      "cve": "CVE-2018-14718",
+      "published": "2019-01-04",
+      "severity": "CRITICAL",
+      "packages": [
+        "com.fasterxml.jackson.core:jackson-databind"
+      ],
+      "cwes": [
+        "CWE-502"
+      ],
+      "summary": "Arbitrary Code Execution in jackson-databind"
+    },
+    {
+      "cve": "CVE-2018-14721",
+      "published": "2019-01-04",
+      "severity": "CRITICAL",
+      "packages": [
+        "com.fasterxml.jackson.core:jackson-databind"
+      ],
+      "cwes": [
+        "CWE-918"
+      ],
+      "summary": "Server-Side Request Forgery (SSRF) in jackson-databind"
+    },
+    {
+      "cve": "CVE-2018-19362",
+      "published": "2019-01-04",
+      "severity": "CRITICAL",
+      "packages": [
+        "com.fasterxml.jackson.core:jackson-databind"
+      ],
+      "cwes": [
+        "CWE-502"
+      ],
+      "summary": "com.fasterxml.jackson.core:jackson-databind vulnerable to Deserialization of Untrusted Data"
+    },
+    {
+      "cve": "CVE-2018-19360",
+      "published": "2019-01-04",
+      "severity": "CRITICAL",
+      "packages": [
+        "com.fasterxml.jackson.core:jackson-databind"
+      ],
+      "cwes": [
+        "CWE-502"
+      ],
+      "summary": "Deserialization of Untrusted Data in jackson-databind due to polymorphic deserialization"
+    },
+    {
+      "cve": "CVE-2018-19361",
+      "published": "2019-01-04",
+      "severity": "CRITICAL",
+      "packages": [
+        "com.fasterxml.jackson.core:jackson-databind"
+      ],
+      "cwes": [
+        "CWE-502"
+      ],
+      "summary": "Deserialization of Untrusted Data in jackson-databind"
+    },
+    {
+      "cve": "CVE-2018-14720",
+      "published": "2019-01-04",
+      "severity": "CRITICAL",
+      "packages": [
+        "com.fasterxml.jackson.core:jackson-databind"
+      ],
+      "cwes": [
+        "CWE-502",
+        "CWE-611"
+      ],
+      "summary": "XML External Entity Reference (XXE) in jackson-databind"
+    },
+    {
+      "cve": "CVE-2018-15801",
+      "published": "2018-12-20",
+      "severity": "HIGH",
+      "packages": [
+        "org.springframework.security:spring-security-core"
+      ],
+      "cwes": [
+        "CWE-345"
+      ],
+      "summary": "Spring Security vulnerable to Authorization Bypass"
+    },
+    {
+      "cve": "CVE-2018-11775",
+      "published": "2018-10-19",
+      "severity": "HIGH",
+      "packages": [
+        "org.apache.activemq:activemq-client"
+      ],
+      "cwes": [
+        "CWE-295"
+      ],
+      "summary": "Improper Certificate Validation in Apache activemq-client"
+    },
+    {
+      "cve": "CVE-2018-8034",
+      "published": "2018-10-17",
+      "severity": "HIGH",
+      "packages": [
+        "org.apache.tomcat.embed:tomcat-embed-core"
+      ],
+      "cwes": [
+        "CWE-295"
+      ],
+      "summary": "The host name verification missing in Apache Tomcat"
+    },
+    {
+      "cve": "CVE-2018-1336",
+      "published": "2018-10-17",
+      "severity": "HIGH",
+      "packages": [
+        "org.apache.tomcat.embed:tomcat-embed-core"
+      ],
+      "cwes": [
+        "CWE-835"
+      ],
+      "summary": "In Apache Tomcat there is an improper handing of overflow in the UTF-8 decoder "
+    },
+    {
+      "cve": "CVE-2018-8014",
+      "published": "2018-10-17",
+      "severity": "CRITICAL",
+      "packages": [
+        "org.apache.tomcat.embed:tomcat-embed-core"
+      ],
+      "cwes": [
+        "CWE-1188"
+      ],
+      "summary": "The defaults settings for the CORS filter provided in Apache Tomcat are insecure and enable 'supportsCredentials' for all origins"
+    },
+    {
+      "cve": "CVE-2018-1272",
+      "published": "2018-10-17",
+      "severity": "HIGH",
+      "packages": [
+        "org.springframework:spring-core"
+      ],
+      "cwes": [],
+      "summary": "Possible privilege escalation in org.springframework:spring-core"
+    },
+    {
+      "cve": "CVE-2018-1258",
+      "published": "2018-10-17",
+      "severity": "HIGH",
+      "packages": [
+        "org.springframework:spring-core"
+      ],
+      "cwes": [
+        "CWE-863"
+      ],
+      "summary": "Spring Framework when used in combination with any versions of Spring Security contains an authorization bypass"
+    },
+    {
+      "cve": "CVE-2018-7489",
+      "published": "2018-10-16",
+      "severity": "CRITICAL",
+      "packages": [
+        "com.fasterxml.jackson.core:jackson-databind"
+      ],
+      "cwes": [
+        "CWE-184",
+        "CWE-502"
+      ],
+      "summary": "FasterXML jackson-databind allows unauthenticated remote code execution "
+    }
+  ]
+}

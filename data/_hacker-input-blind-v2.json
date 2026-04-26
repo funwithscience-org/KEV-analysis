@@ -1,0 +1,832 @@
+{
+  "description": "Blinded NP+DI dataset for hacker-persona prioritization at scale. All exploitation-outcome fields stripped: in_kev, in_metasploit, in_exploitdb, exploited, epss, in_manifest. The is_np / is_di filter labels are also omitted \u2014 every event in this list is already NP+DI by definition (network-parser package, direct-injection CWE), so the hacker should NOT use 'this is in NP+DI' as a reason to elevate any specific event.",
+  "fields_provided": [
+    "cve",
+    "published",
+    "package",
+    "ecosystem",
+    "cwe",
+    "summary"
+  ],
+  "fields_intentionally_withheld": [
+    "in_kev",
+    "in_metasploit",
+    "in_exploitdb",
+    "exploited",
+    "epss",
+    "in_manifest",
+    "is_np",
+    "is_di"
+  ],
+  "n_events": 101,
+  "events": [
+    {
+      "cve": "CVE-2025-64459",
+      "published": "2025-11-05",
+      "package": "django",
+      "ecosystem": "PyPI",
+      "cwe": "CWE-89",
+      "summary": "Django vulnerable to SQL injection via _connector keyword argument in QuerySet a"
+    },
+    {
+      "cve": "CVE-2016-3081",
+      "published": "2022-05-14",
+      "package": "org.apache.struts:struts2-core",
+      "ecosystem": "Maven",
+      "cwe": "CWE-77",
+      "summary": "Apache Struts RCE Vulnerability"
+    },
+    {
+      "cve": "CVE-2013-1966",
+      "published": "2022-05-14",
+      "package": "org.apache.struts:struts2-core",
+      "ecosystem": "Maven",
+      "cwe": "CWE-94",
+      "summary": "Arbitrary code execution in Apache Struts"
+    },
+    {
+      "cve": "CVE-2013-2134",
+      "published": "2022-05-14",
+      "package": "org.apache.struts:struts2-core",
+      "ecosystem": "Maven",
+      "cwe": "CWE-94",
+      "summary": "Arbitrary code execution in Apache Struts 2"
+    },
+    {
+      "cve": "CVE-2013-2251",
+      "published": "2022-05-13",
+      "package": "org.apache.struts:struts2-core",
+      "ecosystem": "Maven",
+      "cwe": "CWE-74",
+      "summary": "Code injection in Apache Struts"
+    },
+    {
+      "cve": "CVE-2013-2115",
+      "published": "2022-05-13",
+      "package": "org.apache.struts:struts2-core",
+      "ecosystem": "Maven",
+      "cwe": "CWE-94",
+      "summary": "Code injection in Apache Struts"
+    },
+    {
+      "cve": "CVE-2012-0391",
+      "published": "2022-05-04",
+      "package": "org.apache.struts:struts2-core",
+      "ecosystem": "Maven",
+      "cwe": "CWE-94",
+      "summary": "Apache Struts Remote Java Code Execution"
+    },
+    {
+      "cve": "CVE-2011-3923",
+      "published": "2022-04-22",
+      "package": "org.apache.struts:struts2-core",
+      "ecosystem": "Maven",
+      "cwe": "CWE-94",
+      "summary": "Struts ParameterInterceptor vulnerability allows remote command execution"
+    },
+    {
+      "cve": "CVE-2022-22965",
+      "published": "2022-03-31",
+      "package": "org.springframework:spring-webmvc",
+      "ecosystem": "Maven",
+      "cwe": "CWE-74",
+      "summary": "Remote Code Execution in Spring Framework"
+    },
+    {
+      "cve": "CVE-2020-17530",
+      "published": "2022-02-09",
+      "package": "org.apache.struts:struts2-core",
+      "ecosystem": "Maven",
+      "cwe": "CWE-917",
+      "summary": "Remote code execution in Apache Struts"
+    },
+    {
+      "cve": "CVE-2021-45046",
+      "published": "2021-12-14",
+      "package": "org.apache.logging.log4j:log4j-core",
+      "ecosystem": "Maven",
+      "cwe": "CWE-917",
+      "summary": "Incomplete fix for Apache Log4j vulnerability"
+    },
+    {
+      "cve": "CVE-2021-44228",
+      "published": "2021-12-10",
+      "package": "org.apache.logging.log4j:log4j-core",
+      "ecosystem": "Maven",
+      "cwe": "CWE-917",
+      "summary": "Remote code injection in Log4j"
+    },
+    {
+      "cve": "CVE-2019-0230",
+      "published": "2021-12-02",
+      "package": "org.apache.struts:struts2-core",
+      "ecosystem": "Maven",
+      "cwe": "CWE-1321",
+      "summary": "Improperly Controlled Modification of Dynamically-Determined Object Attributes i"
+    },
+    {
+      "cve": "CVE-2019-0232",
+      "published": "2019-04-18",
+      "package": "org.apache.tomcat.embed:tomcat-embed-core",
+      "ecosystem": "Maven",
+      "cwe": "CWE-78",
+      "summary": "Apache Tomcat OS Command Injection vulnerability"
+    },
+    {
+      "cve": "CVE-2014-0130",
+      "published": "2017-10-24",
+      "package": "actionpack",
+      "ecosystem": "RubyGems",
+      "cwe": "CWE-22",
+      "summary": "actionpack Path Traversal vulnerability"
+    },
+    {
+      "cve": "CVE-2016-0752",
+      "published": "2017-10-24",
+      "package": "actionpack",
+      "ecosystem": "RubyGems",
+      "cwe": "CWE-22",
+      "summary": "Directory traversal vulnerability in Action View in Ruby on Rails"
+    },
+    {
+      "cve": "CVE-2026-29145",
+      "published": "2026-04-09",
+      "package": "org.apache.tomcat.embed:tomcat-embed-core",
+      "ecosystem": "Maven",
+      "cwe": "CWE-287",
+      "summary": "Apache Tomcat: CLIENT_CERT authentication does not fail as expected"
+    },
+    {
+      "cve": "CVE-2026-33937",
+      "published": "2026-03-27",
+      "package": "handlebars",
+      "ecosystem": "npm",
+      "cwe": "CWE-94",
+      "summary": "Handlebars.js has JavaScript Injection via AST Type Confusion"
+    },
+    {
+      "cve": "CVE-2026-33938",
+      "published": "2026-03-27",
+      "package": "handlebars",
+      "ecosystem": "npm",
+      "cwe": "CWE-94",
+      "summary": "Handlebars.js has JavaScript Injection via AST Type Confusion by tampering @part"
+    },
+    {
+      "cve": "CVE-2026-33940",
+      "published": "2026-03-27",
+      "package": "handlebars",
+      "ecosystem": "npm",
+      "cwe": "CWE-94",
+      "summary": "Handlebars.js has JavaScript Injection via AST Type Confusion when passing an ob"
+    },
+    {
+      "cve": "CVE-2026-33941",
+      "published": "2026-03-27",
+      "package": "handlebars",
+      "ecosystem": "npm",
+      "cwe": "CWE-94",
+      "summary": "Handlebars.js has JavaScript Injection in CLI Precompiler via Unescaped Names an"
+    },
+    {
+      "cve": "CVE-2026-22860",
+      "published": "2026-02-17",
+      "package": "rack",
+      "ecosystem": "RubyGems",
+      "cwe": "CWE-22",
+      "summary": "Rack has a Directory Traversal via Rack:Directory"
+    },
+    {
+      "cve": "CVE-2026-1287",
+      "published": "2026-02-03",
+      "package": "django",
+      "ecosystem": "PyPI",
+      "cwe": "CWE-89",
+      "summary": "Django has an SQL Injection issue"
+    },
+    {
+      "cve": "CVE-2026-1207",
+      "published": "2026-02-03",
+      "package": "django",
+      "ecosystem": "PyPI",
+      "cwe": "CWE-89",
+      "summary": "Django has an SQL Injection issue"
+    },
+    {
+      "cve": "CVE-2025-68493",
+      "published": "2026-01-11",
+      "package": "org.apache.struts:struts2-core",
+      "ecosystem": "Maven",
+      "cwe": "CWE-611",
+      "summary": "Apache Struts 2 is Missing XML Validation"
+    },
+    {
+      "cve": "CVE-2025-55752",
+      "published": "2025-10-27",
+      "package": "org.apache.tomcat.embed:tomcat-embed-core",
+      "ecosystem": "Maven",
+      "cwe": "CWE-23",
+      "summary": "Apache Tomcat Vulnerable to Relative Path Traversal"
+    },
+    {
+      "cve": "CVE-2025-59681",
+      "published": "2025-10-01",
+      "package": "django",
+      "ecosystem": "PyPI",
+      "cwe": "CWE-89",
+      "summary": "Django vulnerable to SQL injection in column aliases"
+    },
+    {
+      "cve": "CVE-2025-57833",
+      "published": "2025-09-08",
+      "package": "django",
+      "ecosystem": "PyPI",
+      "cwe": "CWE-89",
+      "summary": "Django is subject to SQL injection through its column aliases"
+    },
+    {
+      "cve": "CVE-2025-49826",
+      "published": "2025-07-03",
+      "package": "next",
+      "ecosystem": "npm",
+      "cwe": "CWE-444",
+      "summary": "Next.JS vulnerability can lead to DoS via cache poisoning "
+    },
+    {
+      "cve": "CVE-2025-27610",
+      "published": "2025-03-10",
+      "package": "rack",
+      "ecosystem": "RubyGems",
+      "cwe": "CWE-23",
+      "summary": "Local File Inclusion in Rack::Static"
+    },
+    {
+      "cve": "CVE-2025-27152",
+      "published": "2025-03-07",
+      "package": "axios",
+      "ecosystem": "npm",
+      "cwe": "CWE-918",
+      "summary": "axios Requests Vulnerable To Possible SSRF and Credential Leakage via Absolute U"
+    },
+    {
+      "cve": "CVE-2024-38819",
+      "published": "2024-12-19",
+      "package": "org.springframework:spring-webmvc",
+      "ecosystem": "Maven",
+      "cwe": "CWE-22",
+      "summary": "Spring Framework Path Traversal vulnerability"
+    },
+    {
+      "cve": "CVE-2024-53908",
+      "published": "2024-12-06",
+      "package": "django",
+      "ecosystem": "PyPI",
+      "cwe": "CWE-89",
+      "summary": "Django SQL injection in HasKey(lhs, rhs) on Oracle"
+    },
+    {
+      "cve": "CVE-2024-38816",
+      "published": "2024-09-13",
+      "package": "org.springframework:spring-webmvc",
+      "ecosystem": "Maven",
+      "cwe": "CWE-22",
+      "summary": "Path traversal vulnerability in functional web frameworks"
+    },
+    {
+      "cve": "CVE-2024-39338",
+      "published": "2024-08-12",
+      "package": "axios",
+      "ecosystem": "npm",
+      "cwe": "CWE-918",
+      "summary": "Server-Side Request Forgery in axios"
+    },
+    {
+      "cve": "CVE-2024-42005",
+      "published": "2024-08-07",
+      "package": "django",
+      "ecosystem": "PyPI",
+      "cwe": "CWE-89",
+      "summary": "Django SQL injection vulnerability"
+    },
+    {
+      "cve": "CVE-2024-39330",
+      "published": "2024-07-10",
+      "package": "django",
+      "ecosystem": "PyPI",
+      "cwe": "CWE-22",
+      "summary": "Django Path Traversal vulnerability"
+    },
+    {
+      "cve": "CVE-2024-34350",
+      "published": "2024-05-09",
+      "package": "next",
+      "ecosystem": "npm",
+      "cwe": "CWE-444",
+      "summary": "Next.js Vulnerable to HTTP Request Smuggling"
+    },
+    {
+      "cve": "CVE-2024-34351",
+      "published": "2024-05-09",
+      "package": "next",
+      "ecosystem": "npm",
+      "cwe": "CWE-918",
+      "summary": "Next.js Server-Side Request Forgery in Server Actions"
+    },
+    {
+      "cve": "CVE-2023-50447",
+      "published": "2024-01-19",
+      "package": "pillow",
+      "ecosystem": "PyPI",
+      "cwe": "CWE-94",
+      "summary": "Arbitrary Code Execution in Pillow"
+    },
+    {
+      "cve": "CVE-2023-46589",
+      "published": "2023-11-28",
+      "package": "org.apache.tomcat.embed:tomcat-embed-core",
+      "ecosystem": "Maven",
+      "cwe": "CWE-444",
+      "summary": "Apache Tomcat Improper Input Validation vulnerability"
+    },
+    {
+      "cve": "CVE-2023-22794",
+      "published": "2023-01-18",
+      "package": "activerecord",
+      "ecosystem": "RubyGems",
+      "cwe": "CWE-89",
+      "summary": "SQL Injection Vulnerability via ActiveRecord comments"
+    },
+    {
+      "cve": "CVE-2022-41721",
+      "published": "2023-01-14",
+      "package": "golang.org/x/net",
+      "ecosystem": "Go",
+      "cwe": "CWE-444",
+      "summary": "golang.org/x/net/http2/h2c vulnerable to request smuggling attack"
+    },
+    {
+      "cve": "CVE-2022-45143",
+      "published": "2023-01-03",
+      "package": "org.apache.tomcat.embed:tomcat-embed-core",
+      "ecosystem": "Maven",
+      "cwe": "CWE-74",
+      "summary": "Apache Tomcat improperly escapes input from JsonErrorReportValve"
+    },
+    {
+      "cve": "CVE-2022-42252",
+      "published": "2022-11-01",
+      "package": "org.apache.tomcat.embed:tomcat-embed-core",
+      "ecosystem": "Maven",
+      "cwe": "CWE-444",
+      "summary": "Apache Tomcat may reject request containing invalid Content-Length header"
+    },
+    {
+      "cve": "CVE-2022-34265",
+      "published": "2022-07-05",
+      "package": "django",
+      "ecosystem": "PyPI",
+      "cwe": "CWE-89",
+      "summary": "Django `Trunc()` and `Extract()` database functions vulnerable to SQL Injection"
+    },
+    {
+      "cve": "CVE-2022-29216",
+      "published": "2022-05-24",
+      "package": "tensorflow",
+      "ecosystem": "PyPI",
+      "cwe": "CWE-94",
+      "summary": "Code injection in `saved_model_cli` in TensorFlow"
+    },
+    {
+      "cve": "CVE-2013-4315",
+      "published": "2022-05-17",
+      "package": "django",
+      "ecosystem": "PyPI",
+      "cwe": "CWE-22",
+      "summary": "Django Directory Traversal via ssi template tag"
+    },
+    {
+      "cve": "CVE-2014-0474",
+      "published": "2022-05-17",
+      "package": "django",
+      "ecosystem": "PyPI",
+      "cwe": "CWE-89",
+      "summary": "Django Vulnerable to MySQL Injection"
+    },
+    {
+      "cve": "CVE-2014-0472",
+      "published": "2022-05-17",
+      "package": "django",
+      "ecosystem": "PyPI",
+      "cwe": "CWE-94",
+      "summary": "Code Injection in Django"
+    },
+    {
+      "cve": "CVE-2013-4316",
+      "published": "2022-05-17",
+      "package": "org.apache.struts:struts2-core",
+      "ecosystem": "Maven",
+      "cwe": "CWE-94",
+      "summary": "Code injection in Apache Struts"
+    },
+    {
+      "cve": "CVE-2014-3007",
+      "published": "2022-05-17",
+      "package": "pillow",
+      "ecosystem": "PyPI",
+      "cwe": "CWE-78",
+      "summary": "Pillow command injection"
+    },
+    {
+      "cve": "CVE-2013-3221",
+      "published": "2022-05-14",
+      "package": "activerecord",
+      "ecosystem": "RubyGems",
+      "cwe": "CWE-89",
+      "summary": "Active Record component in Ruby on Rails has a data-type injection vulnerability"
+    },
+    {
+      "cve": "CVE-2016-4461",
+      "published": "2022-05-14",
+      "package": "org.apache.struts:struts2-core",
+      "ecosystem": "Maven",
+      "cwe": "CWE-74",
+      "summary": "Apache Struts forced double OGNL evaluation"
+    },
+    {
+      "cve": "CVE-2013-2135",
+      "published": "2022-05-14",
+      "package": "org.apache.struts:struts2-core",
+      "ecosystem": "Maven",
+      "cwe": "CWE-94",
+      "summary": "Arbitrary code execution in Apache Struts 2"
+    },
+    {
+      "cve": "CVE-2013-1965",
+      "published": "2022-05-14",
+      "package": "org.apache.struts:struts2-core",
+      "ecosystem": "Maven",
+      "cwe": "CWE-94",
+      "summary": "Improper Control of Generation of Code in Apache Struts"
+    },
+    {
+      "cve": "CVE-2014-0225",
+      "published": "2022-05-13",
+      "package": "org.springframework:spring-webmvc",
+      "ecosystem": "Maven",
+      "cwe": "CWE-611",
+      "summary": "Improper Restriction of XML External Entity Reference in Spring Framework"
+    },
+    {
+      "cve": "CVE-2009-2659",
+      "published": "2022-05-02",
+      "package": "django",
+      "ecosystem": "PyPI",
+      "cwe": "CWE-22",
+      "summary": "Django Admin Media Handler Vulnerable to Directory Traversal"
+    },
+    {
+      "cve": "CVE-2012-6685",
+      "published": "2022-04-23",
+      "package": "nokogiri",
+      "ecosystem": "RubyGems",
+      "cwe": "CWE-776",
+      "summary": "Nokogiri is vulnerable to XML External Entity (XXE) attack"
+    },
+    {
+      "cve": "CVE-2022-28346",
+      "published": "2022-04-13",
+      "package": "django",
+      "ecosystem": "PyPI",
+      "cwe": "CWE-89",
+      "summary": "SQL Injection in Django"
+    },
+    {
+      "cve": "CVE-2022-28347",
+      "published": "2022-04-13",
+      "package": "django",
+      "ecosystem": "PyPI",
+      "cwe": "CWE-89",
+      "summary": "SQL Injection in Django"
+    },
+    {
+      "cve": "CVE-2021-31805",
+      "published": "2022-04-13",
+      "package": "org.apache.struts:struts2-core",
+      "ecosystem": "Maven",
+      "cwe": "CWE-917",
+      "summary": "Expression Language Injection in Apache Struts"
+    },
+    {
+      "cve": "CVE-2022-24801",
+      "published": "2022-04-04",
+      "package": "twisted",
+      "ecosystem": "PyPI",
+      "cwe": "CWE-444",
+      "summary": "Inconsistent Interpretation of HTTP Requests in twisted.web"
+    },
+    {
+      "cve": "CVE-2022-24303",
+      "published": "2022-03-11",
+      "package": "pillow",
+      "ecosystem": "PyPI",
+      "cwe": "CWE-22",
+      "summary": "Path traversal in Pillow"
+    },
+    {
+      "cve": "CVE-2019-20920",
+      "published": "2022-02-10",
+      "package": "handlebars",
+      "ecosystem": "npm",
+      "cwe": "CWE-94",
+      "summary": "Arbitrary Code Execution in Handlebars"
+    },
+    {
+      "cve": "CVE-2021-23383",
+      "published": "2022-02-10",
+      "package": "handlebars",
+      "ecosystem": "npm",
+      "cwe": "CWE-1321",
+      "summary": "Prototype Pollution in handlebars"
+    },
+    {
+      "cve": "CVE-2022-22817",
+      "published": "2022-01-12",
+      "package": "pillow",
+      "ecosystem": "PyPI",
+      "cwe": "CWE-74",
+      "summary": "Arbitrary expression injection in Pillow"
+    },
+    {
+      "cve": "CVE-2020-24616",
+      "published": "2021-12-09",
+      "package": "com.fasterxml.jackson.core:jackson-databind",
+      "ecosystem": "Maven",
+      "cwe": "CWE-94",
+      "summary": "Code Injection in jackson-databind"
+    },
+    {
+      "cve": "CVE-2021-41098",
+      "published": "2021-09-27",
+      "package": "nokogiri",
+      "ecosystem": "RubyGems",
+      "cwe": "CWE-611",
+      "summary": "Improper Restriction of XML External Entity Reference (XXE) in Nokogiri on JRuby"
+    },
+    {
+      "cve": "CVE-2021-35042",
+      "published": "2021-09-22",
+      "package": "django",
+      "ecosystem": "PyPI",
+      "cwe": "CWE-89",
+      "summary": "SQL Injection in Django"
+    },
+    {
+      "cve": "CVE-2021-33571",
+      "published": "2021-06-10",
+      "package": "django",
+      "ecosystem": "PyPI",
+      "cwe": "CWE-918",
+      "summary": "Django Access Control Bypass possibly leading to SSRF, RFI, and LFI attacks "
+    },
+    {
+      "cve": "CVE-2021-31542",
+      "published": "2021-06-04",
+      "package": "django",
+      "ecosystem": "PyPI",
+      "cwe": "CWE-22",
+      "summary": "Path Traversal in Django"
+    },
+    {
+      "cve": "CVE-2021-23369",
+      "published": "2021-05-06",
+      "package": "handlebars",
+      "ecosystem": "npm",
+      "cwe": "CWE-94",
+      "summary": "Remote code execution in handlebars when compiling templates"
+    },
+    {
+      "cve": "CVE-2020-25649",
+      "published": "2021-02-18",
+      "package": "com.fasterxml.jackson.core:jackson-databind",
+      "ecosystem": "Maven",
+      "cwe": "CWE-611",
+      "summary": "XML External Entity (XXE) Injection in Jackson Databind"
+    },
+    {
+      "cve": "GHSA-2cf5-4w76-r9qv",
+      "published": "2020-09-04",
+      "package": "handlebars",
+      "ecosystem": "npm",
+      "cwe": "CWE-94",
+      "summary": "Arbitrary Code Execution in handlebars"
+    },
+    {
+      "cve": "GHSA-g9r4-xpmj-mj65",
+      "published": "2020-09-04",
+      "package": "handlebars",
+      "ecosystem": "npm",
+      "cwe": "CWE-1321",
+      "summary": "Prototype Pollution in handlebars"
+    },
+    {
+      "cve": "CVE-2020-8161",
+      "published": "2020-07-06",
+      "package": "rack",
+      "ecosystem": "RubyGems",
+      "cwe": "CWE-22",
+      "summary": "Directory traversal in Rack::Directory app bundled with Rack"
+    },
+    {
+      "cve": "CVE-2020-9402",
+      "published": "2020-06-05",
+      "package": "django",
+      "ecosystem": "PyPI",
+      "cwe": "CWE-89",
+      "summary": "SQL injection in Django"
+    },
+    {
+      "cve": "CVE-2020-10108",
+      "published": "2020-03-31",
+      "package": "twisted",
+      "ecosystem": "PyPI",
+      "cwe": "CWE-444",
+      "summary": "Improper Input Validation in Twisted"
+    },
+    {
+      "cve": "CVE-2020-10109",
+      "published": "2020-03-31",
+      "package": "twisted",
+      "ecosystem": "PyPI",
+      "cwe": "CWE-444",
+      "summary": "HTTP Request Smuggling in Twisted"
+    },
+    {
+      "cve": "CVE-2020-7471",
+      "published": "2020-02-11",
+      "package": "django",
+      "ecosystem": "PyPI",
+      "cwe": "CWE-89",
+      "summary": "SQL injection in Django"
+    },
+    {
+      "cve": "CVE-2019-19919",
+      "published": "2019-12-26",
+      "package": "handlebars",
+      "ecosystem": "npm",
+      "cwe": "CWE-1321",
+      "summary": "Prototype Pollution in handlebars"
+    },
+    {
+      "cve": "CVE-2019-5477",
+      "published": "2019-08-19",
+      "package": "nokogiri",
+      "ecosystem": "RubyGems",
+      "cwe": "CWE-78",
+      "summary": "Nokogiri Command Injection Vulnerability"
+    },
+    {
+      "cve": "CVE-2019-14234",
+      "published": "2019-08-16",
+      "package": "django",
+      "ecosystem": "PyPI",
+      "cwe": "CWE-89",
+      "summary": "SQL Injection in Django"
+    },
+    {
+      "cve": "CVE-2019-14379",
+      "published": "2019-08-01",
+      "package": "com.fasterxml.jackson.core:jackson-databind",
+      "ecosystem": "Maven",
+      "cwe": "CWE-1321",
+      "summary": "Deserialization of untrusted data in FasterXML jackson-databind"
+    },
+    {
+      "cve": "CVE-2018-14720",
+      "published": "2019-01-04",
+      "package": "com.fasterxml.jackson.core:jackson-databind",
+      "ecosystem": "Maven",
+      "cwe": "CWE-611",
+      "summary": "XML External Entity Reference (XXE) in jackson-databind"
+    },
+    {
+      "cve": "CVE-2018-14721",
+      "published": "2019-01-04",
+      "package": "com.fasterxml.jackson.core:jackson-databind",
+      "ecosystem": "Maven",
+      "cwe": "CWE-918",
+      "summary": "Server-Side Request Forgery (SSRF) in jackson-databind"
+    },
+    {
+      "cve": "CVE-2017-7658",
+      "published": "2018-10-19",
+      "package": "org.eclipse.jetty:jetty-server",
+      "ecosystem": "Maven",
+      "cwe": "CWE-444",
+      "summary": "Jetty vulnerable to authorization bypass due to inconsistent HTTP request handli"
+    },
+    {
+      "cve": "CVE-2017-7656",
+      "published": "2018-10-19",
+      "package": "org.eclipse.jetty:jetty-server",
+      "ecosystem": "Maven",
+      "cwe": "CWE-444",
+      "summary": "Jetty vulnerable to cache poisoning due to inconsistent HTTP request handling (H"
+    },
+    {
+      "cve": "CVE-2017-7657",
+      "published": "2018-10-19",
+      "package": "org.eclipse.jetty:jetty-server",
+      "ecosystem": "Maven",
+      "cwe": "CWE-444",
+      "summary": "Critical severity vulnerability that affects org.eclipse.jetty:jetty-server"
+    },
+    {
+      "cve": "CVE-2016-9878",
+      "published": "2018-10-04",
+      "package": "org.springframework:spring-webmvc",
+      "ecosystem": "Maven",
+      "cwe": "CWE-22",
+      "summary": "Pivotal Spring Framework Paths provided to the ResourceServlet were not properly"
+    },
+    {
+      "cve": "CVE-2011-0698",
+      "published": "2018-07-23",
+      "package": "django",
+      "ecosystem": "PyPI",
+      "cwe": "CWE-22",
+      "summary": "Directory traversal in Django"
+    },
+    {
+      "cve": "CVE-2018-6184",
+      "published": "2018-01-24",
+      "package": "next",
+      "ecosystem": "npm",
+      "cwe": "CWE-22",
+      "summary": "Directory traversal vulnerability in Next.js"
+    },
+    {
+      "cve": "CVE-2017-16877",
+      "published": "2017-12-05",
+      "package": "next",
+      "ecosystem": "npm",
+      "cwe": "CWE-22",
+      "summary": "Next.js Directory Traversal Vulnerability"
+    },
+    {
+      "cve": "CVE-2012-2695",
+      "published": "2017-10-24",
+      "package": "activerecord",
+      "ecosystem": "RubyGems",
+      "cwe": "CWE-89",
+      "summary": "activerecord vulnerable to SQL Injection"
+    },
+    {
+      "cve": "CVE-2012-6496",
+      "published": "2017-10-24",
+      "package": "activerecord",
+      "ecosystem": "RubyGems",
+      "cwe": "CWE-89",
+      "summary": "Active Record contains SQL Injection"
+    },
+    {
+      "cve": "CVE-2011-2930",
+      "published": "2017-10-24",
+      "package": "activerecord",
+      "ecosystem": "RubyGems",
+      "cwe": "CWE-89",
+      "summary": "activerecord vulnerable to SQL Injection"
+    },
+    {
+      "cve": "CVE-2011-0448",
+      "published": "2017-10-24",
+      "package": "activerecord",
+      "ecosystem": "RubyGems",
+      "cwe": "CWE-89",
+      "summary": "activerecord vulnerable to SQL Injection"
+    },
+    {
+      "cve": "CVE-2014-3482",
+      "published": "2017-10-24",
+      "package": "activerecord",
+      "ecosystem": "RubyGems",
+      "cwe": "CWE-89",
+      "summary": "SQL Injection in Active Record"
+    },
+    {
+      "cve": "CVE-2014-3483",
+      "published": "2017-10-24",
+      "package": "activerecord",
+      "ecosystem": "RubyGems",
+      "cwe": "CWE-89",
+      "summary": "Active Record contains SQL Injection via improper range quoting"
+    },
+    {
+      "cve": "CVE-2008-4094",
+      "published": "2017-10-24",
+      "package": "activerecord",
+      "ecosystem": "RubyGems",
+      "cwe": "CWE-89",
+      "summary": "Rails ActiveRecord gem vulnerable to SQL injection"
+    }
+  ]
+}

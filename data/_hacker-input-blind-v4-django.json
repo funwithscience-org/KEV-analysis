@@ -1,0 +1,2215 @@
+{
+  "description": "Blinded FULL Django manifest C/H universe \u2014 Python-ecosystem test of whether the hacker discriminator generalizes outside the Spring/Java profile. 40 packages, 181 events, 4 actually exploited. The 4 exploited events deliberately span CWE shapes that NP+DI does NOT include in its DI set (CWE-640 password recovery weakness, CWE-787 libwebp memory corruption) plus two that DO fit DI (CWE-89 SQLi, CWE-287 auth bypass). All outcome and filter-label fields stripped.",
+  "fields_provided": [
+    "cve",
+    "published",
+    "severity",
+    "packages",
+    "cwes",
+    "summary"
+  ],
+  "fields_intentionally_withheld": [
+    "in_kev",
+    "in_metasploit",
+    "in_exploitdb",
+    "exploited",
+    "epss",
+    "is_np",
+    "is_di",
+    "package_role"
+  ],
+  "n_events": 181,
+  "events": [
+    {
+      "cve": "CVE-2018-1000164",
+      "published": "2018-07-12",
+      "severity": "HIGH",
+      "packages": [
+        "gunicorn"
+      ],
+      "cwes": [
+        "CWE-93"
+      ],
+      "summary": "Gunicorn contains Improper Neutralization of CRLF sequences in HTTP headers"
+    },
+    {
+      "cve": "CVE-2016-9190",
+      "published": "2018-07-12",
+      "severity": "HIGH",
+      "packages": [
+        "pillow"
+      ],
+      "cwes": [
+        "CWE-284"
+      ],
+      "summary": "Arbitrary code using \"crafted image file\" approach affecting Pillow"
+    },
+    {
+      "cve": "CVE-2018-7750",
+      "published": "2018-07-12",
+      "severity": "CRITICAL",
+      "packages": [
+        "paramiko"
+      ],
+      "cwes": [
+        "CWE-287"
+      ],
+      "summary": "Paramiko not properly checking authentication before processing other requests"
+    },
+    {
+      "cve": "CVE-2011-4137",
+      "published": "2018-07-23",
+      "severity": "HIGH",
+      "packages": [
+        "django"
+      ],
+      "cwes": [
+        "CWE-1088"
+      ],
+      "summary": "Denial of service in django"
+    },
+    {
+      "cve": "CVE-2011-0696",
+      "published": "2018-07-23",
+      "severity": "HIGH",
+      "packages": [
+        "django"
+      ],
+      "cwes": [
+        "CWE-352"
+      ],
+      "summary": "Cross-site request forgery in Django"
+    },
+    {
+      "cve": "CVE-2011-0698",
+      "published": "2018-07-23",
+      "severity": "CRITICAL",
+      "packages": [
+        "django"
+      ],
+      "cwes": [
+        "CWE-22"
+      ],
+      "summary": "Directory traversal in Django"
+    },
+    {
+      "cve": "CVE-2010-4534",
+      "published": "2018-07-23",
+      "severity": "HIGH",
+      "packages": [
+        "django"
+      ],
+      "cwes": [
+        "CWE-20"
+      ],
+      "summary": "Improper query string handling in Django"
+    },
+    {
+      "cve": "CVE-2011-4140",
+      "published": "2018-07-23",
+      "severity": "HIGH",
+      "packages": [
+        "django"
+      ],
+      "cwes": [
+        "CWE-352"
+      ],
+      "summary": "Django Cross-Site Request Forgery vulnerability"
+    },
+    {
+      "cve": "CVE-2016-2533",
+      "published": "2018-07-24",
+      "severity": "HIGH",
+      "packages": [
+        "pillow"
+      ],
+      "cwes": [
+        "CWE-119"
+      ],
+      "summary": "Pillow buffer overflow in ImagingPcdDecode"
+    },
+    {
+      "cve": "CVE-2016-0775",
+      "published": "2018-07-24",
+      "severity": "HIGH",
+      "packages": [
+        "pillow"
+      ],
+      "cwes": [
+        "CWE-119"
+      ],
+      "summary": "Pillow Buffer overflow in ImagingFliDecode"
+    },
+    {
+      "cve": "CVE-2016-4009",
+      "published": "2018-07-24",
+      "severity": "CRITICAL",
+      "packages": [
+        "pillow"
+      ],
+      "cwes": [
+        "CWE-119"
+      ],
+      "summary": "Pillow Integer overflow in ImagingResampleHorizontal"
+    },
+    {
+      "cve": "CVE-2018-10903",
+      "published": "2018-07-31",
+      "severity": "HIGH",
+      "packages": [
+        "cryptography"
+      ],
+      "cwes": [
+        "CWE-20"
+      ],
+      "summary": "PyCA Cryptography vulnerable to GCM tag forgery"
+    },
+    {
+      "cve": "CVE-2018-1000656",
+      "published": "2018-08-23",
+      "severity": "HIGH",
+      "packages": [
+        "flask"
+      ],
+      "cwes": [
+        "CWE-20"
+      ],
+      "summary": "Flask is vulnerable to Denial of Service via incorrect encoding of JSON data"
+    },
+    {
+      "cve": "CVE-2018-6188",
+      "published": "2018-10-03",
+      "severity": "HIGH",
+      "packages": [
+        "django"
+      ],
+      "cwes": [
+        "CWE-200"
+      ],
+      "summary": "Django vulnerable to information leakage in AuthenticationForm"
+    },
+    {
+      "cve": "CVE-2018-1000805",
+      "published": "2018-10-10",
+      "severity": "HIGH",
+      "packages": [
+        "paramiko"
+      ],
+      "cwes": [
+        "CWE-732",
+        "CWE-863"
+      ],
+      "summary": "Paramiko Authentication Bypass vulnerability"
+    },
+    {
+      "cve": "CVE-2018-18074",
+      "published": "2018-10-29",
+      "severity": "HIGH",
+      "packages": [
+        "requests"
+      ],
+      "cwes": [
+        "CWE-522"
+      ],
+      "summary": "Insufficiently Protected Credentials in Requests"
+    },
+    {
+      "cve": "CVE-2018-20060",
+      "published": "2018-12-12",
+      "severity": "CRITICAL",
+      "packages": [
+        "urllib3"
+      ],
+      "cwes": [
+        "CWE-200"
+      ],
+      "summary": "Exposure of Sensitive Information to an Unauthorized Actor in urllib3"
+    },
+    {
+      "cve": "CVE-2019-3498",
+      "published": "2019-01-14",
+      "severity": "HIGH",
+      "packages": [
+        "django"
+      ],
+      "cwes": [
+        "CWE-20"
+      ],
+      "summary": "Improper Input Validation in Django"
+    },
+    {
+      "cve": "CVE-2019-6975",
+      "published": "2019-02-12",
+      "severity": "HIGH",
+      "packages": [
+        "django"
+      ],
+      "cwes": [
+        "CWE-770"
+      ],
+      "summary": "Uncontrolled Memory Consumption in Django"
+    },
+    {
+      "cve": "CVE-2019-10906",
+      "published": "2019-04-10",
+      "severity": "HIGH",
+      "packages": [
+        "jinja2"
+      ],
+      "cwes": [
+        "CWE-693"
+      ],
+      "summary": "Jinja2 sandbox escape via string formatting"
+    },
+    {
+      "cve": "CVE-2016-10745",
+      "published": "2019-04-10",
+      "severity": "HIGH",
+      "packages": [
+        "jinja2"
+      ],
+      "cwes": [
+        "CWE-134"
+      ],
+      "summary": "Jinja2 sandbox escape vulnerability"
+    },
+    {
+      "cve": "CVE-2019-7548",
+      "published": "2019-04-16",
+      "severity": "CRITICAL",
+      "packages": [
+        "sqlalchemy"
+      ],
+      "cwes": [
+        "CWE-89"
+      ],
+      "summary": "SQLAlchemy is vulnerable to SQL Injection via group_by parameter "
+    },
+    {
+      "cve": "CVE-2019-7164",
+      "published": "2019-04-16",
+      "severity": "CRITICAL",
+      "packages": [
+        "sqlalchemy"
+      ],
+      "cwes": [
+        "CWE-89"
+      ],
+      "summary": "SQLAlchemy vulnerable to SQL Injection via order_by parameter"
+    },
+    {
+      "cve": "CVE-2019-11324",
+      "published": "2019-04-19",
+      "severity": "HIGH",
+      "packages": [
+        "urllib3"
+      ],
+      "cwes": [
+        "CWE-295"
+      ],
+      "summary": "Improper Certificate Validation in urllib3"
+    },
+    {
+      "cve": "CVE-2015-5143",
+      "published": "2019-07-05",
+      "severity": "HIGH",
+      "packages": [
+        "django"
+      ],
+      "cwes": [
+        "CWE-770"
+      ],
+      "summary": "Django Denial-of-service by filling session store"
+    },
+    {
+      "cve": "CVE-2019-1010083",
+      "published": "2019-07-19",
+      "severity": "HIGH",
+      "packages": [
+        "flask"
+      ],
+      "cwes": [
+        "CWE-400"
+      ],
+      "summary": "Pallets Project Flask is vulnerable to Denial of Service via Unexpected memory usage"
+    },
+    {
+      "cve": "CVE-2019-14232",
+      "published": "2019-08-06",
+      "severity": "HIGH",
+      "packages": [
+        "django"
+      ],
+      "cwes": [
+        "CWE-400"
+      ],
+      "summary": "Django Denial-of-service in django.utils.text.Truncator"
+    },
+    {
+      "cve": "CVE-2019-14233",
+      "published": "2019-08-06",
+      "severity": "HIGH",
+      "packages": [
+        "django"
+      ],
+      "cwes": [
+        "CWE-400"
+      ],
+      "summary": "Django Denial-of-service in strip_tags()"
+    },
+    {
+      "cve": "CVE-2019-14235",
+      "published": "2019-08-06",
+      "severity": "HIGH",
+      "packages": [
+        "django"
+      ],
+      "cwes": [
+        "CWE-674"
+      ],
+      "summary": "Uncontrolled Recursion in Django"
+    },
+    {
+      "cve": "CVE-2019-14234",
+      "published": "2019-08-16",
+      "severity": "CRITICAL",
+      "packages": [
+        "django"
+      ],
+      "cwes": [
+        "CWE-89"
+      ],
+      "summary": "SQL Injection in Django"
+    },
+    {
+      "cve": "CVE-2019-16865",
+      "published": "2019-10-22",
+      "severity": "HIGH",
+      "packages": [
+        "pillow"
+      ],
+      "cwes": [
+        "CWE-770"
+      ],
+      "summary": "DOS attack in Pillow when processing specially crafted image files"
+    },
+    {
+      "cve": "CVE-2019-19118",
+      "published": "2019-12-04",
+      "severity": "HIGH",
+      "packages": [
+        "django"
+      ],
+      "cwes": [
+        "CWE-276"
+      ],
+      "summary": "Django allows unintended model editing"
+    },
+    {
+      "cve": "CVE-2019-19844",
+      "published": "2020-01-16",
+      "severity": "CRITICAL",
+      "packages": [
+        "django"
+      ],
+      "cwes": [
+        "CWE-640"
+      ],
+      "summary": "Django Potential account hijack via password reset form"
+    },
+    {
+      "cve": "CVE-2020-7471",
+      "published": "2020-02-11",
+      "severity": "CRITICAL",
+      "packages": [
+        "django"
+      ],
+      "cwes": [
+        "CWE-89"
+      ],
+      "summary": "SQL injection in Django"
+    },
+    {
+      "cve": "CVE-2019-19911",
+      "published": "2020-04-01",
+      "severity": "HIGH",
+      "packages": [
+        "pillow"
+      ],
+      "cwes": [
+        "CWE-190"
+      ],
+      "summary": "Uncontrolled Resource Consumption in Pillow"
+    },
+    {
+      "cve": "CVE-2020-5313",
+      "published": "2020-04-01",
+      "severity": "HIGH",
+      "packages": [
+        "pillow"
+      ],
+      "cwes": [
+        "CWE-125"
+      ],
+      "summary": "Out-of-bounds Read in Pillow"
+    },
+    {
+      "cve": "CVE-2020-9402",
+      "published": "2020-06-05",
+      "severity": "HIGH",
+      "packages": [
+        "django"
+      ],
+      "cwes": [
+        "CWE-89"
+      ],
+      "summary": "SQL injection in Django"
+    },
+    {
+      "cve": "CVE-2020-13254",
+      "published": "2020-06-05",
+      "severity": "HIGH",
+      "packages": [
+        "django"
+      ],
+      "cwes": [
+        "CWE-295"
+      ],
+      "summary": "Data leakage via cache key collision in Django"
+    },
+    {
+      "cve": "CVE-2020-11538",
+      "published": "2020-07-27",
+      "severity": "CRITICAL",
+      "packages": [
+        "pillow"
+      ],
+      "cwes": [
+        "CWE-125"
+      ],
+      "summary": "Out-of-bounds read in Pillow"
+    },
+    {
+      "cve": "CVE-2020-10379",
+      "published": "2020-07-27",
+      "severity": "HIGH",
+      "packages": [
+        "pillow"
+      ],
+      "cwes": [
+        "CWE-120"
+      ],
+      "summary": "Buffer overflow in Pillow"
+    },
+    {
+      "cve": "CVE-2020-10177",
+      "published": "2020-07-27",
+      "severity": "HIGH",
+      "packages": [
+        "pillow"
+      ],
+      "cwes": [
+        "CWE-125"
+      ],
+      "summary": "Out-of-bounds reads in Pillow"
+    },
+    {
+      "cve": "CVE-2020-10994",
+      "published": "2020-07-27",
+      "severity": "HIGH",
+      "packages": [
+        "pillow"
+      ],
+      "cwes": [
+        "CWE-125"
+      ],
+      "summary": "Out-of-bounds reads in Pillow"
+    },
+    {
+      "cve": "CVE-2020-7694",
+      "published": "2020-07-29",
+      "severity": "HIGH",
+      "packages": [
+        "uvicorn"
+      ],
+      "cwes": [
+        "CWE-116",
+        "CWE-94"
+      ],
+      "summary": "Log injection in uvicorn"
+    },
+    {
+      "cve": "CVE-2020-7695",
+      "published": "2020-07-29",
+      "severity": "HIGH",
+      "packages": [
+        "uvicorn"
+      ],
+      "cwes": [
+        "CWE-74"
+      ],
+      "summary": "HTTP response splitting in uvicorn"
+    },
+    {
+      "cve": "CVE-2020-15225",
+      "published": "2020-09-28",
+      "severity": "HIGH",
+      "packages": [
+        "django-filter"
+      ],
+      "cwes": [
+        "CWE-681"
+      ],
+      "summary": "Potential DoS with NumberFilter conversion to integer values."
+    },
+    {
+      "cve": "CVE-2020-25659",
+      "published": "2020-10-27",
+      "severity": "HIGH",
+      "packages": [
+        "cryptography"
+      ],
+      "cwes": [
+        "CWE-385"
+      ],
+      "summary": "RSA decryption vulnerable to Bleichenbacher timing vulnerability"
+    },
+    {
+      "cve": "CVE-2020-36242",
+      "published": "2021-02-10",
+      "severity": "HIGH",
+      "packages": [
+        "cryptography"
+      ],
+      "cwes": [
+        "CWE-190",
+        "CWE-787"
+      ],
+      "summary": "PyCA Cryptography symmetrically encrypting large values can lead to integer overflow"
+    },
+    {
+      "cve": "CVE-2020-24583",
+      "published": "2021-03-18",
+      "severity": "HIGH",
+      "packages": [
+        "django"
+      ],
+      "cwes": [
+        "CWE-276"
+      ],
+      "summary": "Django Incorrect Default Permissions"
+    },
+    {
+      "cve": "CVE-2021-27922",
+      "published": "2021-03-18",
+      "severity": "HIGH",
+      "packages": [
+        "pillow"
+      ],
+      "cwes": [
+        "CWE-20",
+        "CWE-400"
+      ],
+      "summary": "Pillow Uncontrolled Resource Consumption"
+    },
+    {
+      "cve": "CVE-2021-27923",
+      "published": "2021-03-18",
+      "severity": "HIGH",
+      "packages": [
+        "pillow"
+      ],
+      "cwes": [
+        "CWE-20",
+        "CWE-400"
+      ],
+      "summary": "Pillow Denial of Service by Uncontrolled Resource Consumption"
+    },
+    {
+      "cve": "CVE-2021-27921",
+      "published": "2021-03-18",
+      "severity": "HIGH",
+      "packages": [
+        "pillow"
+      ],
+      "cwes": [
+        "CWE-20",
+        "CWE-400"
+      ],
+      "summary": "Pillow Denial of Service by Uncontrolled Resource Consumption"
+    },
+    {
+      "cve": "CVE-2020-35653",
+      "published": "2021-03-18",
+      "severity": "HIGH",
+      "packages": [
+        "pillow"
+      ],
+      "cwes": [
+        "CWE-125"
+      ],
+      "summary": "Pillow Out-of-bounds Read"
+    },
+    {
+      "cve": "CVE-2020-35654",
+      "published": "2021-03-18",
+      "severity": "HIGH",
+      "packages": [
+        "pillow"
+      ],
+      "cwes": [
+        "CWE-787"
+      ],
+      "summary": "Pillow Out-of-bounds Write"
+    },
+    {
+      "cve": "CVE-2020-35681",
+      "published": "2021-03-19",
+      "severity": "HIGH",
+      "packages": [
+        "channels"
+      ],
+      "cwes": [
+        "CWE-200"
+      ],
+      "summary": "Django Channels leakage of session identifiers using legacy AsgiHandler"
+    },
+    {
+      "cve": "CVE-2021-25289",
+      "published": "2021-03-29",
+      "severity": "CRITICAL",
+      "packages": [
+        "pillow"
+      ],
+      "cwes": [
+        "CWE-787"
+      ],
+      "summary": "Out of bounds write in Pillow"
+    },
+    {
+      "cve": "CVE-2021-25290",
+      "published": "2021-03-29",
+      "severity": "HIGH",
+      "packages": [
+        "pillow"
+      ],
+      "cwes": [
+        "CWE-787"
+      ],
+      "summary": "Out-of-bounds Write in Pillow"
+    },
+    {
+      "cve": "CVE-2021-25291",
+      "published": "2021-03-29",
+      "severity": "HIGH",
+      "packages": [
+        "pillow"
+      ],
+      "cwes": [
+        "CWE-125"
+      ],
+      "summary": "Out of bounds read in Pillow"
+    },
+    {
+      "cve": "CVE-2021-25293",
+      "published": "2021-03-29",
+      "severity": "HIGH",
+      "packages": [
+        "pillow"
+      ],
+      "cwes": [
+        "CWE-125"
+      ],
+      "summary": "Out of bounds read in Pillow"
+    },
+    {
+      "cve": "CVE-2021-30459",
+      "published": "2021-04-16",
+      "severity": "HIGH",
+      "packages": [
+        "django-debug-toolbar"
+      ],
+      "cwes": [
+        "CWE-89"
+      ],
+      "summary": "SQL Injection via in django-debug-toolbar"
+    },
+    {
+      "cve": "CVE-2020-7212",
+      "published": "2021-04-30",
+      "severity": "HIGH",
+      "packages": [
+        "urllib3"
+      ],
+      "cwes": [
+        "CWE-400"
+      ],
+      "summary": "Uncontrolled Resource Consumption in urllib3"
+    },
+    {
+      "cve": "CVE-2021-33503",
+      "published": "2021-06-01",
+      "severity": "HIGH",
+      "packages": [
+        "urllib3"
+      ],
+      "cwes": [
+        "CWE-400"
+      ],
+      "summary": "Catastrophic backtracking in URL authority parser when passed URL containing many @ characters"
+    },
+    {
+      "cve": "CVE-2021-31542",
+      "published": "2021-06-04",
+      "severity": "HIGH",
+      "packages": [
+        "django"
+      ],
+      "cwes": [
+        "CWE-22",
+        "CWE-434"
+      ],
+      "summary": "Path Traversal in Django"
+    },
+    {
+      "cve": "CVE-2021-25287",
+      "published": "2021-06-08",
+      "severity": "HIGH",
+      "packages": [
+        "pillow"
+      ],
+      "cwes": [
+        "CWE-125"
+      ],
+      "summary": "Out-of-bounds Read in Pillow"
+    },
+    {
+      "cve": "CVE-2021-28676",
+      "published": "2021-06-08",
+      "severity": "HIGH",
+      "packages": [
+        "pillow"
+      ],
+      "cwes": [
+        "CWE-835"
+      ],
+      "summary": "Potential infinite loop in Pillow"
+    },
+    {
+      "cve": "CVE-2021-28675",
+      "published": "2021-06-08",
+      "severity": "HIGH",
+      "packages": [
+        "pillow"
+      ],
+      "cwes": [
+        "CWE-233",
+        "CWE-252"
+      ],
+      "summary": "Pillow denial of service"
+    },
+    {
+      "cve": "CVE-2021-28677",
+      "published": "2021-06-08",
+      "severity": "HIGH",
+      "packages": [
+        "pillow"
+      ],
+      "cwes": [
+        "CWE-400"
+      ],
+      "summary": "Uncontrolled Resource Consumption in Pillow"
+    },
+    {
+      "cve": "CVE-2021-25288",
+      "published": "2021-06-08",
+      "severity": "HIGH",
+      "packages": [
+        "pillow"
+      ],
+      "cwes": [
+        "CWE-125"
+      ],
+      "summary": "Pillow Out-of-bounds Read vulnerability"
+    },
+    {
+      "cve": "CVE-2021-33571",
+      "published": "2021-06-10",
+      "severity": "HIGH",
+      "packages": [
+        "django"
+      ],
+      "cwes": [
+        "CWE-918"
+      ],
+      "summary": "Django Access Control Bypass possibly leading to SSRF, RFI, and LFI attacks "
+    },
+    {
+      "cve": "CVE-2021-23437",
+      "published": "2021-09-07",
+      "severity": "HIGH",
+      "packages": [
+        "pillow"
+      ],
+      "cwes": [
+        "CWE-125",
+        "CWE-400"
+      ],
+      "summary": "Uncontrolled Resource Consumption in pillow"
+    },
+    {
+      "cve": "CVE-2021-35042",
+      "published": "2021-09-22",
+      "severity": "CRITICAL",
+      "packages": [
+        "django"
+      ],
+      "cwes": [
+        "CWE-89"
+      ],
+      "summary": "SQL Injection in Django"
+    },
+    {
+      "cve": "CVE-2021-34552",
+      "published": "2021-10-05",
+      "severity": "CRITICAL",
+      "packages": [
+        "pillow"
+      ],
+      "cwes": [
+        "CWE-120"
+      ],
+      "summary": "Buffer Overflow in Pillow"
+    },
+    {
+      "cve": "CVE-2020-10378",
+      "published": "2021-11-03",
+      "severity": "HIGH",
+      "packages": [
+        "pillow"
+      ],
+      "cwes": [
+        "CWE-125"
+      ],
+      "summary": "Out-of-bounds read in Pillow"
+    },
+    {
+      "cve": "CVE-2020-5312",
+      "published": "2021-11-03",
+      "severity": "CRITICAL",
+      "packages": [
+        "pillow"
+      ],
+      "cwes": [
+        "CWE-120"
+      ],
+      "summary": "PCX P mode buffer overflow in Pillow"
+    },
+    {
+      "cve": "CVE-2020-5310",
+      "published": "2021-11-03",
+      "severity": "CRITICAL",
+      "packages": [
+        "pillow"
+      ],
+      "cwes": [
+        "CWE-190"
+      ],
+      "summary": "Integer overflow in Pillow"
+    },
+    {
+      "cve": "CVE-2021-23727",
+      "published": "2022-01-06",
+      "severity": "HIGH",
+      "packages": [
+        "celery"
+      ],
+      "cwes": [
+        "CWE-77",
+        "CWE-78"
+      ],
+      "summary": "OS Command Injection in celery"
+    },
+    {
+      "cve": "CVE-2021-45115",
+      "published": "2022-01-12",
+      "severity": "HIGH",
+      "packages": [
+        "django"
+      ],
+      "cwes": [
+        "CWE-400"
+      ],
+      "summary": "Denial-of-service in Django"
+    },
+    {
+      "cve": "CVE-2021-45116",
+      "published": "2022-01-12",
+      "severity": "HIGH",
+      "packages": [
+        "django"
+      ],
+      "cwes": [
+        "CWE-20"
+      ],
+      "summary": "Information disclosure in Django"
+    },
+    {
+      "cve": "CVE-2022-22817",
+      "published": "2022-01-12",
+      "severity": "CRITICAL",
+      "packages": [
+        "pillow"
+      ],
+      "cwes": [
+        "CWE-74"
+      ],
+      "summary": "Arbitrary expression injection in Pillow"
+    },
+    {
+      "cve": "CVE-2022-23833",
+      "published": "2022-02-04",
+      "severity": "HIGH",
+      "packages": [
+        "django"
+      ],
+      "cwes": [
+        "CWE-835"
+      ],
+      "summary": "Infinite Loop in Django"
+    },
+    {
+      "cve": "CVE-2021-41495",
+      "published": "2022-02-08",
+      "severity": "HIGH",
+      "packages": [
+        "numpy"
+      ],
+      "cwes": [
+        "CWE-476"
+      ],
+      "summary": "NumPy NULL Pointer Dereference"
+    },
+    {
+      "cve": "CVE-2022-24303",
+      "published": "2022-03-11",
+      "severity": "HIGH",
+      "packages": [
+        "pillow"
+      ],
+      "cwes": [
+        "CWE-22"
+      ],
+      "summary": "Path traversal in Pillow"
+    },
+    {
+      "cve": "CVE-2022-24302",
+      "published": "2022-03-19",
+      "severity": "HIGH",
+      "packages": [
+        "paramiko"
+      ],
+      "cwes": [
+        "CWE-362"
+      ],
+      "summary": "Race Condition in Paramiko"
+    },
+    {
+      "cve": "CVE-2022-28346",
+      "published": "2022-04-13",
+      "severity": "CRITICAL",
+      "packages": [
+        "django"
+      ],
+      "cwes": [
+        "CWE-89"
+      ],
+      "summary": "SQL Injection in Django"
+    },
+    {
+      "cve": "CVE-2022-28347",
+      "published": "2022-04-13",
+      "severity": "CRITICAL",
+      "packages": [
+        "django"
+      ],
+      "cwes": [
+        "CWE-89"
+      ],
+      "summary": "SQL Injection in Django"
+    },
+    {
+      "cve": "CVE-2021-41945",
+      "published": "2022-04-29",
+      "severity": "CRITICAL",
+      "packages": [
+        "httpx"
+      ],
+      "cwes": [
+        "CWE-20"
+      ],
+      "summary": "Improper Input Validation in httpx"
+    },
+    {
+      "cve": "CVE-2007-5712",
+      "published": "2022-05-01",
+      "severity": "HIGH",
+      "packages": [
+        "django"
+      ],
+      "cwes": [
+        "CWE-400"
+      ],
+      "summary": "Django vulnerable to Denial of Service via i18n middleware component"
+    },
+    {
+      "cve": "CVE-2007-0404",
+      "published": "2022-05-01",
+      "severity": "HIGH",
+      "packages": [
+        "django"
+      ],
+      "cwes": [],
+      "summary": "Django Arbitrary Code Execution"
+    },
+    {
+      "cve": "CVE-2008-0299",
+      "published": "2022-05-01",
+      "severity": "HIGH",
+      "packages": [
+        "paramiko"
+      ],
+      "cwes": [
+        "CWE-200"
+      ],
+      "summary": "Paramiko Unsafe randomness usage may allow access to sensitive information"
+    },
+    {
+      "cve": "CVE-2009-2659",
+      "published": "2022-05-02",
+      "severity": "HIGH",
+      "packages": [
+        "django"
+      ],
+      "cwes": [
+        "CWE-22"
+      ],
+      "summary": "Django Admin Media Handler Vulnerable to Directory Traversal"
+    },
+    {
+      "cve": "CVE-2009-3695",
+      "published": "2022-05-02",
+      "severity": "HIGH",
+      "packages": [
+        "django"
+      ],
+      "cwes": [
+        "CWE-1333",
+        "CWE-400"
+      ],
+      "summary": "Django Regex Algorithmic Complexity Causes Denial of Service"
+    },
+    {
+      "cve": "CVE-2008-3909",
+      "published": "2022-05-02",
+      "severity": "HIGH",
+      "packages": [
+        "django"
+      ],
+      "cwes": [
+        "CWE-352"
+      ],
+      "summary": "Django cross-site request forgery (CSRF) vulnerability"
+    },
+    {
+      "cve": "CVE-2017-11424",
+      "published": "2022-05-13",
+      "severity": "HIGH",
+      "packages": [
+        "pyjwt"
+      ],
+      "cwes": [],
+      "summary": "PyJWT vulnerable to key confusion attacks"
+    },
+    {
+      "cve": "CVE-2017-12852",
+      "published": "2022-05-13",
+      "severity": "HIGH",
+      "packages": [
+        "numpy"
+      ],
+      "cwes": [
+        "CWE-835"
+      ],
+      "summary": "Numpy missing input validation"
+    },
+    {
+      "cve": "CVE-2014-0481",
+      "published": "2022-05-14",
+      "severity": "HIGH",
+      "packages": [
+        "django"
+      ],
+      "cwes": [
+        "CWE-400"
+      ],
+      "summary": "Django denial of service via file upload naming"
+    },
+    {
+      "cve": "CVE-2016-7401",
+      "published": "2022-05-14",
+      "severity": "HIGH",
+      "packages": [
+        "django"
+      ],
+      "cwes": [],
+      "summary": "Django CSRF Protection Bypass"
+    },
+    {
+      "cve": "CVE-2014-0480",
+      "published": "2022-05-14",
+      "severity": "HIGH",
+      "packages": [
+        "django"
+      ],
+      "cwes": [
+        "CWE-20"
+      ],
+      "summary": "Django Incorrectly Validates URLs"
+    },
+    {
+      "cve": "CVE-2015-2316",
+      "published": "2022-05-14",
+      "severity": "HIGH",
+      "packages": [
+        "django"
+      ],
+      "cwes": [
+        "CWE-770"
+      ],
+      "summary": "Django Denial-of-service possibility with strip_tags"
+    },
+    {
+      "cve": "CVE-2011-4139",
+      "published": "2022-05-14",
+      "severity": "HIGH",
+      "packages": [
+        "django"
+      ],
+      "cwes": [
+        "CWE-20",
+        "CWE-349"
+      ],
+      "summary": "Django Vulnerable to Cache Poisoning"
+    },
+    {
+      "cve": "CVE-2014-3730",
+      "published": "2022-05-14",
+      "severity": "HIGH",
+      "packages": [
+        "django"
+      ],
+      "cwes": [
+        "CWE-20"
+      ],
+      "summary": "Django Allows Open Redirects"
+    },
+    {
+      "cve": "CVE-2011-4138",
+      "published": "2022-05-14",
+      "severity": "HIGH",
+      "packages": [
+        "django"
+      ],
+      "cwes": [
+        "CWE-20"
+      ],
+      "summary": "Django Might Allow CSRF Requests via URL Verification"
+    },
+    {
+      "cve": "CVE-2014-1402",
+      "published": "2022-05-14",
+      "severity": "HIGH",
+      "packages": [
+        "jinja2"
+      ],
+      "cwes": [
+        "CWE-266"
+      ],
+      "summary": "Incorrect Privilege Assignment in Jinja2"
+    },
+    {
+      "cve": "CVE-2012-0805",
+      "published": "2022-05-14",
+      "severity": "CRITICAL",
+      "packages": [
+        "sqlalchemy"
+      ],
+      "cwes": [
+        "CWE-89"
+      ],
+      "summary": "SQLAlchemy vulnerable to SQL injection"
+    },
+    {
+      "cve": "CVE-2014-3589",
+      "published": "2022-05-14",
+      "severity": "HIGH",
+      "packages": [
+        "pillow"
+      ],
+      "cwes": [
+        "CWE-20"
+      ],
+      "summary": "Pillow denial of service via Crafted Block Size"
+    },
+    {
+      "cve": "CVE-2014-9601",
+      "published": "2022-05-14",
+      "severity": "HIGH",
+      "packages": [
+        "pillow"
+      ],
+      "cwes": [
+        "CWE-20"
+      ],
+      "summary": "Pillow denial of service via PNG bomb"
+    },
+    {
+      "cve": "CVE-2014-3598",
+      "published": "2022-05-14",
+      "severity": "HIGH",
+      "packages": [
+        "pillow"
+      ],
+      "cwes": [],
+      "summary": "Pillow is vulnerable to Denial of Service (DOS) in the Jpeg2KImagePlugin"
+    },
+    {
+      "cve": "CVE-2014-1859",
+      "published": "2022-05-14",
+      "severity": "HIGH",
+      "packages": [
+        "numpy"
+      ],
+      "cwes": [
+        "CWE-59"
+      ],
+      "summary": "Numpy arbitrary file write via symlink attack"
+    },
+    {
+      "cve": "CVE-2014-1858",
+      "published": "2022-05-14",
+      "severity": "HIGH",
+      "packages": [
+        "numpy"
+      ],
+      "cwes": [
+        "CWE-20"
+      ],
+      "summary": "Arbitrary file write in NumPy"
+    },
+    {
+      "cve": "CVE-2012-4520",
+      "published": "2022-05-17",
+      "severity": "HIGH",
+      "packages": [
+        "django"
+      ],
+      "cwes": [
+        "CWE-20"
+      ],
+      "summary": "Django Allows Arbitrary URL Generation"
+    },
+    {
+      "cve": "CVE-2016-9014",
+      "published": "2022-05-17",
+      "severity": "CRITICAL",
+      "packages": [
+        "django"
+      ],
+      "cwes": [],
+      "summary": "Django DNS Rebinding Vulnerability"
+    },
+    {
+      "cve": "CVE-2016-2048",
+      "published": "2022-05-17",
+      "severity": "HIGH",
+      "packages": [
+        "django"
+      ],
+      "cwes": [
+        "CWE-284"
+      ],
+      "summary": "Django Access Restrictions Bypass "
+    },
+    {
+      "cve": "CVE-2013-1443",
+      "published": "2022-05-17",
+      "severity": "HIGH",
+      "packages": [
+        "django"
+      ],
+      "cwes": [
+        "CWE-400"
+      ],
+      "summary": "Django Denial of Service Vulnerability in the authentication framework "
+    },
+    {
+      "cve": "CVE-2012-3443",
+      "published": "2022-05-17",
+      "severity": "HIGH",
+      "packages": [
+        "django"
+      ],
+      "cwes": [
+        "CWE-20",
+        "CWE-400"
+      ],
+      "summary": "Django Image Field Vulnerable to Image Decompression Bombs"
+    },
+    {
+      "cve": "CVE-2012-3444",
+      "published": "2022-05-17",
+      "severity": "HIGH",
+      "packages": [
+        "django"
+      ],
+      "cwes": [
+        "CWE-119"
+      ],
+      "summary": "Django vulnerable to Improper Restriction of Operations within the Bounds of a Memory Buffer"
+    },
+    {
+      "cve": "CVE-2015-0222",
+      "published": "2022-05-17",
+      "severity": "HIGH",
+      "packages": [
+        "django"
+      ],
+      "cwes": [
+        "CWE-770"
+      ],
+      "summary": "Django database denial-of-service with ModelMultipleChoiceField"
+    },
+    {
+      "cve": "CVE-2012-3442",
+      "published": "2022-05-17",
+      "severity": "CRITICAL",
+      "packages": [
+        "django"
+      ],
+      "cwes": [
+        "CWE-79"
+      ],
+      "summary": "Django Allows Redirect via Data URL"
+    },
+    {
+      "cve": "CVE-2014-0473",
+      "published": "2022-05-17",
+      "severity": "HIGH",
+      "packages": [
+        "django"
+      ],
+      "cwes": [
+        "CWE-200"
+      ],
+      "summary": "Django Reuses Cached CSRF Token"
+    },
+    {
+      "cve": "CVE-2015-5145",
+      "published": "2022-05-17",
+      "severity": "HIGH",
+      "packages": [
+        "django"
+      ],
+      "cwes": [
+        "CWE-1333",
+        "CWE-400"
+      ],
+      "summary": "Django ReDoS in validators.URLValidator"
+    },
+    {
+      "cve": "CVE-2015-0221",
+      "published": "2022-05-17",
+      "severity": "HIGH",
+      "packages": [
+        "django"
+      ],
+      "cwes": [
+        "CWE-400"
+      ],
+      "summary": "Django DoS in django.views.static.serve"
+    },
+    {
+      "cve": "CVE-2016-9013",
+      "published": "2022-05-17",
+      "severity": "CRITICAL",
+      "packages": [
+        "django"
+      ],
+      "cwes": [
+        "CWE-798"
+      ],
+      "summary": "Django user with hardcoded password created when running tests on Oracle"
+    },
+    {
+      "cve": "CVE-2015-5144",
+      "published": "2022-05-17",
+      "severity": "HIGH",
+      "packages": [
+        "django"
+      ],
+      "cwes": [
+        "CWE-20"
+      ],
+      "summary": "Django Vulnerable to HTTP Response Splitting Attack"
+    },
+    {
+      "cve": "CVE-2014-1418",
+      "published": "2022-05-17",
+      "severity": "CRITICAL",
+      "packages": [
+        "django"
+      ],
+      "cwes": [
+        "CWE-349"
+      ],
+      "summary": "Django Vulnerable to Cache Poisoning"
+    },
+    {
+      "cve": "CVE-2014-0472",
+      "published": "2022-05-17",
+      "severity": "CRITICAL",
+      "packages": [
+        "django"
+      ],
+      "cwes": [
+        "CWE-94"
+      ],
+      "summary": "Code Injection in Django"
+    },
+    {
+      "cve": "CVE-2013-4315",
+      "published": "2022-05-17",
+      "severity": "HIGH",
+      "packages": [
+        "django"
+      ],
+      "cwes": [
+        "CWE-22"
+      ],
+      "summary": "Django Directory Traversal via ssi template tag"
+    },
+    {
+      "cve": "CVE-2014-0474",
+      "published": "2022-05-17",
+      "severity": "HIGH",
+      "packages": [
+        "django"
+      ],
+      "cwes": [
+        "CWE-89"
+      ],
+      "summary": "Django Vulnerable to MySQL Injection"
+    },
+    {
+      "cve": "CVE-2014-3007",
+      "published": "2022-05-17",
+      "severity": "CRITICAL",
+      "packages": [
+        "pillow"
+      ],
+      "cwes": [
+        "CWE-78"
+      ],
+      "summary": "Pillow command injection"
+    },
+    {
+      "cve": "CVE-2016-3076",
+      "published": "2022-05-17",
+      "severity": "HIGH",
+      "packages": [
+        "pillow"
+      ],
+      "cwes": [
+        "CWE-119"
+      ],
+      "summary": "Pillow Buffer overflow in Jpeg2KEncode.c"
+    },
+    {
+      "cve": "CVE-2014-1932",
+      "published": "2022-05-17",
+      "severity": "HIGH",
+      "packages": [
+        "pillow"
+      ],
+      "cwes": [
+        "CWE-59"
+      ],
+      "summary": "PIL and Pillow Vulnerable to Symlink Attack on Tmpfiles"
+    },
+    {
+      "cve": "CVE-2016-9243",
+      "published": "2022-05-17",
+      "severity": "HIGH",
+      "packages": [
+        "cryptography"
+      ],
+      "cwes": [
+        "CWE-20"
+      ],
+      "summary": "Improper input validation in cryptography"
+    },
+    {
+      "cve": "CVE-2022-29217",
+      "published": "2022-05-24",
+      "severity": "HIGH",
+      "packages": [
+        "pyjwt"
+      ],
+      "cwes": [
+        "CWE-327"
+      ],
+      "summary": "Key confusion through non-blocklisted public key formats"
+    },
+    {
+      "cve": "CVE-2020-5311",
+      "published": "2022-05-24",
+      "severity": "CRITICAL",
+      "packages": [
+        "pillow"
+      ],
+      "cwes": [
+        "CWE-120"
+      ],
+      "summary": "Buffer Copy without Checking Size of Input in Pillow"
+    },
+    {
+      "cve": "CVE-2019-6446",
+      "published": "2022-05-24",
+      "severity": "CRITICAL",
+      "packages": [
+        "numpy"
+      ],
+      "cwes": [
+        "CWE-502"
+      ],
+      "summary": "Numpy Deserialization of Untrusted Data"
+    },
+    {
+      "cve": "CVE-2022-30595",
+      "published": "2022-05-26",
+      "severity": "HIGH",
+      "packages": [
+        "pillow"
+      ],
+      "cwes": [
+        "CWE-120"
+      ],
+      "summary": "Buffer over-flow in Pillow"
+    },
+    {
+      "cve": "CVE-2022-34265",
+      "published": "2022-07-05",
+      "severity": "CRITICAL",
+      "packages": [
+        "django"
+      ],
+      "cwes": [
+        "CWE-89"
+      ],
+      "summary": "Django `Trunc()` and `Extract()` database functions vulnerable to SQL Injection"
+    },
+    {
+      "cve": "CVE-2022-36359",
+      "published": "2022-08-11",
+      "severity": "HIGH",
+      "packages": [
+        "django"
+      ],
+      "cwes": [
+        "CWE-494"
+      ],
+      "summary": "Django vulnerable to Reflected File Download attack"
+    },
+    {
+      "cve": "CVE-2022-41323",
+      "published": "2022-10-16",
+      "severity": "HIGH",
+      "packages": [
+        "django"
+      ],
+      "cwes": [
+        "CWE-1333"
+      ],
+      "summary": "Django denial-of-service vulnerability in internationalized URLs"
+    },
+    {
+      "cve": "CVE-2022-45198",
+      "published": "2022-11-14",
+      "severity": "HIGH",
+      "packages": [
+        "pillow"
+      ],
+      "cwes": [
+        "CWE-409"
+      ],
+      "summary": "Pillow vulnerable to Data Amplification attack."
+    },
+    {
+      "cve": "CVE-2022-45199",
+      "published": "2022-11-14",
+      "severity": "HIGH",
+      "packages": [
+        "pillow"
+      ],
+      "cwes": [
+        "CWE-400"
+      ],
+      "summary": "Pillow subject to DoS via SAMPLESPERPIXEL tag"
+    },
+    {
+      "cve": "CVE-2023-23969",
+      "published": "2023-02-01",
+      "severity": "HIGH",
+      "packages": [
+        "django"
+      ],
+      "cwes": [
+        "CWE-400",
+        "CWE-770"
+      ],
+      "summary": "Django contains Uncontrolled Resource Consumption via cached header"
+    },
+    {
+      "cve": "CVE-2023-0286",
+      "published": "2023-02-08",
+      "severity": "HIGH",
+      "packages": [
+        "cryptography"
+      ],
+      "cwes": [
+        "CWE-843"
+      ],
+      "summary": "Vulnerable OpenSSL included in cryptography wheels"
+    },
+    {
+      "cve": "CVE-2023-24580",
+      "published": "2023-02-15",
+      "severity": "HIGH",
+      "packages": [
+        "django"
+      ],
+      "cwes": [
+        "CWE-400"
+      ],
+      "summary": "Resource exhaustion in Django"
+    },
+    {
+      "cve": "CVE-2023-28117",
+      "published": "2023-03-21",
+      "severity": "HIGH",
+      "packages": [
+        "sentry-sdk"
+      ],
+      "cwes": [
+        "CWE-201",
+        "CWE-209"
+      ],
+      "summary": "Sentry SDK leaks sensitive session information when `sendDefaultPII` is set to `True`"
+    },
+    {
+      "cve": "CVE-2023-28859",
+      "published": "2023-03-26",
+      "severity": "HIGH",
+      "packages": [
+        "redis"
+      ],
+      "cwes": [
+        "CWE-459"
+      ],
+      "summary": "redis-py Race Condition due to incomplete fix"
+    },
+    {
+      "cve": "CVE-2023-30861",
+      "published": "2023-05-01",
+      "severity": "HIGH",
+      "packages": [
+        "flask"
+      ],
+      "cwes": [
+        "CWE-539"
+      ],
+      "summary": "Flask vulnerable to possible disclosure of permanent session cookie due to missing Vary: Cookie header"
+    },
+    {
+      "cve": "CVE-2023-31047",
+      "published": "2023-05-07",
+      "severity": "CRITICAL",
+      "packages": [
+        "django"
+      ],
+      "cwes": [
+        "CWE-20"
+      ],
+      "summary": "Django bypasses validation when using one form field to upload multiple files"
+    },
+    {
+      "cve": "CVE-2023-36053",
+      "published": "2023-07-03",
+      "severity": "HIGH",
+      "packages": [
+        "django"
+      ],
+      "cwes": [
+        "CWE-1333"
+      ],
+      "summary": "Django has regular expression denial of service vulnerability in EmailValidator/URLValidator"
+    },
+    {
+      "cve": "CVE-2023-38325",
+      "published": "2023-07-14",
+      "severity": "HIGH",
+      "packages": [
+        "cryptography"
+      ],
+      "cwes": [
+        "CWE-295"
+      ],
+      "summary": "cryptography mishandles SSH certificates"
+    },
+    {
+      "cve": "CVE-2023-4863",
+      "published": "2023-09-12",
+      "severity": "HIGH",
+      "packages": [
+        "pillow"
+      ],
+      "cwes": [
+        "CWE-787"
+      ],
+      "summary": "libwebp: OOB write in BuildHuffmanTable"
+    },
+    {
+      "cve": "CVE-2023-43804",
+      "published": "2023-10-02",
+      "severity": "HIGH",
+      "packages": [
+        "urllib3"
+      ],
+      "cwes": [
+        "CWE-200"
+      ],
+      "summary": "`Cookie` HTTP header isn't stripped on cross-origin redirects"
+    },
+    {
+      "cve": "CVE-2023-46695",
+      "published": "2023-11-02",
+      "severity": "HIGH",
+      "packages": [
+        "django"
+      ],
+      "cwes": [
+        "CWE-400",
+        "CWE-770"
+      ],
+      "summary": "Django potential denial of service vulnerability in UsernameField on Windows"
+    },
+    {
+      "cve": "CVE-2023-43665",
+      "published": "2023-11-03",
+      "severity": "HIGH",
+      "packages": [
+        "django"
+      ],
+      "cwes": [
+        "CWE-1284",
+        "CWE-400"
+      ],
+      "summary": "Django Denial-of-service in django.utils.text.Truncator"
+    },
+    {
+      "cve": "CVE-2023-44271",
+      "published": "2023-11-03",
+      "severity": "HIGH",
+      "packages": [
+        "pillow"
+      ],
+      "cwes": [
+        "CWE-400",
+        "CWE-770"
+      ],
+      "summary": "Pillow Denial of Service vulnerability"
+    },
+    {
+      "cve": "CVE-2023-50447",
+      "published": "2024-01-19",
+      "severity": "CRITICAL",
+      "packages": [
+        "pillow"
+      ],
+      "cwes": [
+        "CWE-94",
+        "CWE-95"
+      ],
+      "summary": "Arbitrary Code Execution in Pillow"
+    },
+    {
+      "cve": "CVE-2023-50782",
+      "published": "2024-02-05",
+      "severity": "HIGH",
+      "packages": [
+        "cryptography"
+      ],
+      "cwes": [
+        "CWE-203",
+        "CWE-208",
+        "CWE-385"
+      ],
+      "summary": "Python Cryptography package vulnerable to Bleichenbacher timing oracle attack"
+    },
+    {
+      "cve": "CVE-2024-24680",
+      "published": "2024-02-07",
+      "severity": "HIGH",
+      "packages": [
+        "django"
+      ],
+      "cwes": [
+        "CWE-770"
+      ],
+      "summary": "Django denial-of-service attack in the intcomma template filter"
+    },
+    {
+      "cve": "CVE-2024-26130",
+      "published": "2024-02-21",
+      "severity": "HIGH",
+      "packages": [
+        "cryptography"
+      ],
+      "cwes": [
+        "CWE-476"
+      ],
+      "summary": "cryptography NULL pointer dereference with pkcs12.serialize_key_and_certificates when called with a non-matching certificate and private key and an hmac_hash override"
+    },
+    {
+      "cve": "CVE-2024-28219",
+      "published": "2024-04-03",
+      "severity": "HIGH",
+      "packages": [
+        "pillow"
+      ],
+      "cwes": [
+        "CWE-120",
+        "CWE-676",
+        "CWE-680"
+      ],
+      "summary": "Pillow buffer overflow vulnerability"
+    },
+    {
+      "cve": "CVE-2024-1135",
+      "published": "2024-04-16",
+      "severity": "HIGH",
+      "packages": [
+        "gunicorn"
+      ],
+      "cwes": [
+        "CWE-444"
+      ],
+      "summary": "Request smuggling leading to endpoint restriction bypass in Gunicorn"
+    },
+    {
+      "cve": "CVE-2024-39330",
+      "published": "2024-07-10",
+      "severity": "HIGH",
+      "packages": [
+        "django"
+      ],
+      "cwes": [
+        "CWE-22"
+      ],
+      "summary": "Django Path Traversal vulnerability"
+    },
+    {
+      "cve": "CVE-2024-39614",
+      "published": "2024-07-10",
+      "severity": "HIGH",
+      "packages": [
+        "django"
+      ],
+      "cwes": [
+        "CWE-130",
+        "CWE-770"
+      ],
+      "summary": "Django vulnerable to Denial of Service"
+    },
+    {
+      "cve": "CVE-2024-38875",
+      "published": "2024-07-10",
+      "severity": "HIGH",
+      "packages": [
+        "django"
+      ],
+      "cwes": [
+        "CWE-130",
+        "CWE-770"
+      ],
+      "summary": "Django vulnerable to Denial of Service"
+    },
+    {
+      "cve": "CVE-2024-42005",
+      "published": "2024-08-07",
+      "severity": "CRITICAL",
+      "packages": [
+        "django"
+      ],
+      "cwes": [
+        "CWE-89"
+      ],
+      "summary": "Django SQL injection vulnerability"
+    },
+    {
+      "cve": "CVE-2024-53908",
+      "published": "2024-12-06",
+      "severity": "HIGH",
+      "packages": [
+        "django"
+      ],
+      "cwes": [
+        "CWE-89"
+      ],
+      "summary": "Django SQL injection in HasKey(lhs, rhs) on Oracle"
+    },
+    {
+      "cve": "CVE-2024-6827",
+      "published": "2025-03-20",
+      "severity": "HIGH",
+      "packages": [
+        "gunicorn"
+      ],
+      "cwes": [
+        "CWE-444"
+      ],
+      "summary": "Gunicorn HTTP Request/Response Smuggling vulnerability"
+    },
+    {
+      "cve": "CVE-2025-48379",
+      "published": "2025-07-01",
+      "severity": "HIGH",
+      "packages": [
+        "pillow"
+      ],
+      "cwes": [
+        "CWE-122"
+      ],
+      "summary": "Pillow vulnerability can cause write buffer overflow on BCn encoding"
+    },
+    {
+      "cve": "CVE-2025-57833",
+      "published": "2025-09-08",
+      "severity": "HIGH",
+      "packages": [
+        "django"
+      ],
+      "cwes": [
+        "CWE-89"
+      ],
+      "summary": "Django is subject to SQL injection through its column aliases"
+    },
+    {
+      "cve": "CVE-2025-59681",
+      "published": "2025-10-01",
+      "severity": "HIGH",
+      "packages": [
+        "django"
+      ],
+      "cwes": [
+        "CWE-89"
+      ],
+      "summary": "Django vulnerable to SQL injection in column aliases"
+    },
+    {
+      "cve": "CVE-2025-64459",
+      "published": "2025-11-05",
+      "severity": "CRITICAL",
+      "packages": [
+        "django"
+      ],
+      "cwes": [
+        "CWE-89"
+      ],
+      "summary": "Django vulnerable to SQL injection via _connector keyword argument in QuerySet and Q objects."
+    },
+    {
+      "cve": "CVE-2025-64458",
+      "published": "2025-11-05",
+      "severity": "HIGH",
+      "packages": [
+        "django"
+      ],
+      "cwes": [
+        "CWE-407"
+      ],
+      "summary": "Django has a denial-of-service vulnerability in HttpResponseRedirect and HttpResponsePermanentRedirect on Windows"
+    },
+    {
+      "cve": "CVE-2025-66471",
+      "published": "2025-12-05",
+      "severity": "HIGH",
+      "packages": [
+        "urllib3"
+      ],
+      "cwes": [
+        "CWE-409"
+      ],
+      "summary": "urllib3 streaming API improperly handles highly compressed data"
+    },
+    {
+      "cve": "CVE-2025-66418",
+      "published": "2025-12-05",
+      "severity": "HIGH",
+      "packages": [
+        "urllib3"
+      ],
+      "cwes": [
+        "CWE-770"
+      ],
+      "summary": "urllib3 allows an unbounded number of links in the decompression chain"
+    },
+    {
+      "cve": "CVE-2026-21441",
+      "published": "2026-01-07",
+      "severity": "HIGH",
+      "packages": [
+        "urllib3"
+      ],
+      "cwes": [
+        "CWE-409"
+      ],
+      "summary": "Decompression-bomb safeguards bypassed when following HTTP redirects (streaming API)"
+    },
+    {
+      "cve": "CVE-2026-1287",
+      "published": "2026-02-03",
+      "severity": "HIGH",
+      "packages": [
+        "django"
+      ],
+      "cwes": [
+        "CWE-89"
+      ],
+      "summary": "Django has an SQL Injection issue"
+    },
+    {
+      "cve": "CVE-2026-1207",
+      "published": "2026-02-03",
+      "severity": "HIGH",
+      "packages": [
+        "django"
+      ],
+      "cwes": [
+        "CWE-89"
+      ],
+      "summary": "Django has an SQL Injection issue"
+    },
+    {
+      "cve": "CVE-2026-26007",
+      "published": "2026-02-10",
+      "severity": "HIGH",
+      "packages": [
+        "cryptography"
+      ],
+      "cwes": [
+        "CWE-345"
+      ],
+      "summary": "cryptography Vulnerable to a Subgroup Attack Due to Missing Subgroup Validation for SECT Curves"
+    },
+    {
+      "cve": "CVE-2026-25990",
+      "published": "2026-02-11",
+      "severity": "HIGH",
+      "packages": [
+        "pillow"
+      ],
+      "cwes": [
+        "CWE-787"
+      ],
+      "summary": "Pillow affected by out-of-bounds write when loading PSD images"
+    },
+    {
+      "cve": "CVE-2026-25673",
+      "published": "2026-03-03",
+      "severity": "HIGH",
+      "packages": [
+        "django"
+      ],
+      "cwes": [
+        "CWE-400",
+        "CWE-770"
+      ],
+      "summary": "Django vulnerable to Uncontrolled Resource Consumption"
+    },
+    {
+      "cve": "CVE-2026-32274",
+      "published": "2026-03-12",
+      "severity": "HIGH",
+      "packages": [
+        "black"
+      ],
+      "cwes": [
+        "CWE-22"
+      ],
+      "summary": "Black: Arbitrary file writes from unsanitized user input in cache file name"
+    },
+    {
+      "cve": "CVE-2026-32597",
+      "published": "2026-03-13",
+      "severity": "HIGH",
+      "packages": [
+        "pyjwt"
+      ],
+      "cwes": [
+        "CWE-345",
+        "CWE-863"
+      ],
+      "summary": "PyJWT accepts unknown `crit` header extensions"
+    },
+    {
+      "cve": "CVE-2026-33034",
+      "published": "2026-04-07",
+      "severity": "HIGH",
+      "packages": [
+        "django"
+      ],
+      "cwes": [
+        "CWE-770"
+      ],
+      "summary": "Django: SGI requests with a missing or understated `Content-Length` header could bypass the `DATA_UPLOAD_MAX_MEMORY_SIZE` limit"
+    },
+    {
+      "cve": "CVE-2026-3902",
+      "published": "2026-04-07",
+      "severity": "HIGH",
+      "packages": [
+        "django"
+      ],
+      "cwes": [
+        "CWE-290"
+      ],
+      "summary": "Django vulnerable to ASGI header spoofing via underscore/hyphen conflation"
+    },
+    {
+      "cve": "CVE-2026-40192",
+      "published": "2026-04-13",
+      "severity": "HIGH",
+      "packages": [
+        "pillow"
+      ],
+      "cwes": [
+        "CWE-400",
+        "CWE-770"
+      ],
+      "summary": "FITS GZIP decompression bomb in Pillow"
+    }
+  ]
+}
