@@ -1022,3 +1022,22 @@ One genuine devil's-advocate caveat I owe the record: I'm still the internal ana
 ---
 
 *End of review (fifth-pass complete, 2026-04-24).*
+
+---
+
+## Pass 7 — 2026-04-26
+
+Continuation. See `analyst-reports/periodicity-review-pass7.md` for the full pass-7 review (assessment, walkthrough/dashboard recommendations, and daily scan).
+
+**Pass-7 headline:** the 7-year per-framework backtest (`data/seven-year-per-framework.json`, generated 2026-04-25) and the per-CWE empirical exploitation backtest (`data/di-cwe-backtest.json`, same day) are the strongest pieces of evidence the project has produced. They also expose a structural deserialization blind spot in the filter and contradict the "zero misses" framing on the dashboard hero, walkthrough TL;DR, and periodicity Conclusion. The 7-year per-framework view shows ~30% catch rate (3/10 exploited events on Spring + Django), with 5 of 7 misses in CWE-502 / CWE-94-utility-library patterns.
+
+**Top three actions** (~30 min total):
+1. Scope every "zero misses" claim to "12-month synthetic stack window" — it is true only at that scope.
+2. Add a §10b "Deserialization Rule" to the three-tier model: deserialization-capable components on network paths are Tier 1 regardless of CWE.
+3. Add a §6d "CWE Set Versioning & Changelog" backed by the new per-CWE empirical exploitation rates (CWE-434 = 4.14% baseline now provides an objective inclusion threshold).
+
+The architecture is right and shouldn't be touched. The v2 leftover files (`docs/index-v2.html`, `docs/dashboard-v2.html`) should be deleted — the rebrand promotion was on 2026-04-25 but the originals are still in the repo and would be confusing if anyone linked them.
+
+Daily scan: KEV catalog unchanged from yesterday (2026.04.24, 1583 entries). NVD MTD 5083 (extrap 5865), consistent with the established April trajectory. No watch-list promotions in the past 24h. Mythos breach (2026-04-21–22) remains the dominant Mythos-adjacent news cycle; one-sentence walkthrough §12 addition recommended. Glasswing CVE count 283. CVE-2026-0234 (Palo Alto Cortex XSOAR) carry-forward now on its third pass without action.
+
+*End of pass 7.*
