@@ -215,6 +215,41 @@ Preview build (<code>noindex</code>) · Successor to the published periodicity p
 
 <p style="font-size:.85em;color:var(--muted)">Hacker tier assignments cover the full 7-year manifest including a backfill pass on the three pre-2018 exploited events (XStream 2013-7285 → A; Tomcat HTTP PUT 2017-12615/12617 → B). The 17-patch count and 10-catch number are both exact for the production manifest scope.</p>
 
+<h3>Year-by-year breakdown</h3>
+
+<p>The 7-year totals smear over very different operational years. 2018, 2023, and 2024 saw zero exploited CVEs land on the manifest; 2021 and 2022 saw 7 between them. The same strategy that "works perfectly" in a quiet year also has to perform during the famous-bug clusters.</p>
+
+<table>
+<thead><tr>
+<th>Year</th>
+<th>All C+H</th>
+<th>NP+DI raw</th>
+<th>NP+DI + AI</th>
+<th>Hacker S+A</th>
+<th>Exploited</th>
+<th>Hacker catches</th>
+<th>Notable</th>
+</tr></thead>
+<tbody>
+<tr><td>2018</td><td>16</td><td>4</td><td>4</td><td>0</td><td>1<sup>†</sup></td><td>0/1</td><td>Tomcat HTTP PUT 2017-12615 [KEV] — out-of-scope CWE-434</td></tr>
+<tr><td>2019</td><td>26</td><td>8</td><td>8</td><td>0</td><td>2</td><td>1/2</td><td>XStream cmd inj 2013-7285 [MSF] (hacker A); Tomcat CGI Win [KEV] (hacker B; missed)</td></tr>
+<tr style="background:#fef9c3"><td>2020</td><td>38</td><td>4</td><td>5</td><td>2</td><td>1</td><td>1/1</td><td>Ghostcat AJP [KEV] — AI rescue + hacker A; NP+DI raw missed it</td></tr>
+<tr style="background:#fee2e2"><td><strong>2021</strong></td><td>46</td><td>10</td><td>10</td><td>3</td><td>3</td><td>3/3</td><td>XStream RCE [KEV]; <strong>Log4Shell</strong> [KEV] + follow-on [KEV]. Hacker S-tiered all three.</td></tr>
+<tr style="background:#fee2e2"><td><strong>2022</strong></td><td>46</td><td>7</td><td>7</td><td>5</td><td>4</td><td>3/4</td><td><strong>Spring4Shell</strong> [KEV] (both catch); Text4Shell [KEV] + SnakeYAML [KEV] (both NP+DI/AI miss; hacker S/A catches); Tomcat HTTP PUT 2017-12617 [KEV] (out-of-scope)</td></tr>
+<tr><td>2023</td><td>17</td><td>3</td><td>3</td><td>2</td><td>0</td><td>—</td><td>SpEL injection, Tomcat smuggling — flagged but not exploited</td></tr>
+<tr><td>2024</td><td>15</td><td>4</td><td>4</td><td>2</td><td>0</td><td>—</td><td>Spring path traversal, CXF SSRF, MINA code inj — flagged but not exploited</td></tr>
+<tr style="background:#fef9c3"><td>2025</td><td>10</td><td>4</td><td>5</td><td>4</td><td>1</td><td>1/1</td><td>Tomcat partial-PUT [KEV] — AI rescue + hacker A; NP+DI raw missed it</td></tr>
+<tr style="background:#fef9c3"><td>2026 (Q1+Q2)</td><td>9</td><td>2</td><td>3</td><td>2</td><td>1</td><td>1/1</td><td>ActiveMQ Jolokia [KEV] — AI rescue + hacker A; Thymeleaf SSTI flagged</td></tr>
+<tr style="font-weight:600;border-top:2px solid var(--border)"><td>Total</td><td>223</td><td>46</td><td>49</td><td>20</td><td>13</td><td>10/13 (77%)</td><td>4 KEV-only + 4 KEV + MSF + 1 MSF-only + 4 KEV-recent + 2 out-of-scope CWE-434</td></tr>
+</tbody>
+</table>
+
+<p style="font-size:.85em;color:var(--muted)"><sup>†</sup> Stars in the chart are placed at the quarter the exploitation evidence landed in our sources, not necessarily the CVE disclosure quarter. Both 2017 Tomcat HTTP PUT events get plotted in the years their KEV/EDB records were created (2018 and 2022). Yellow rows mark years where the AI scan rescues a KEV-confirmed event NP+DI raw would have missed. Pink rows mark the famous-bug clusters where multiple KEVs hit in one year.</p>
+
+<div class="callout callout-finding">
+<strong>The temporal distribution is asymmetric in two directions.</strong> First, exploited events cluster — 2021 and 2022 are 7 of the 13 exploited events; 2018, 2023, and 2024 are zero. Second, the strategies' relative advantage shifts year by year. NP+DI raw kept pace in 2021 (Log4Shell era — JNDI in CWE-917 was the obvious primitive), then fell behind in 2022 (Text4Shell + SnakeYAML hit CWEs the filter doesn't cover) and stayed behind through 2025-2026 (AI rescue does the work). The hacker S+A line is more stable: 0/1 in 2018 (out-of-scope file upload), 1/2 in 2019 (CGI Win was B-tier; legitimately tough call), then 9 of 9 in-scope events caught from 2020 onward.
+</div>
+
 <h2>6. Time series — quarterly volume, strategy overlays, exploit markers</h2>
 <div class="chart-wrap">
 <canvas id="timeseriesChart" style="max-height:420px"></canvas>
