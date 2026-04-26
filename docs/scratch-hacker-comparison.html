@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="robots" content="noindex,nofollow">
 <title>SCRATCH — Real-World Java Patch Efficiency</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
 body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:#0f172a;color:#e2e8f0;padding:32px 20px;line-height:1.6}
@@ -100,6 +101,55 @@ ul.findings li::before{content:'▸';position:absolute;left:8px;color:#6366f1}
 </ol>
 </div>
 
+<!-- ===== TIME SERIES CHART ===== -->
+<h2>Time series — C/H volume per quarter, with patch-point overlays</h2>
+<p>Each gray bar is the total critical/high CVE count published that quarter on the 48-package Spring Boot manifest. The cyan overlay is the subset NP+DI + AI scan would flag. The purple overlay is the subset Hacker S+A would flag. Red star markers indicate quarters where an actually-exploited CVE was disclosed.</p>
+
+<div style="background:#1e293b;padding:16px;border-radius:8px;margin:16px 0">
+<canvas id="timeseriesChart" style="width:100%;max-height:420px"></canvas>
+</div>
+
+<div class="callout">
+<strong>Reading the chart.</strong> Watch the spikes. 2020-Q2 (25 events, mostly Pillow-class Tomcat dependency CVEs) and 2021-Q4 (16 events, Spring Security cluster + early Log4Shell-era cleanup) are the two big quarters. The cyan and purple overlays show how each strategy filters them down — both strategies typically flag 1-4 events per quarter regardless of total volume. Red stars show where the actually-exploited events sit: 2019-Q2 (Tomcat CGI), 2020-Q2 (Ghostcat), 2022-Q1 (Spring4Shell), 2022-Q4 (Text4Shell + SnakeYAML in same quarter), 2025-Q1 (Tomcat partial PUT). The 2026 surge (4 NP+DI+AI flags in Q2) is the still-developing current-quarter signal.
+</div>
+
+<h3>Per-quarter detail</h3>
+<table style="font-size:.86em">
+<thead><tr><th>Quarter</th><th>Total C+H</th><th>NP+DI+AI flagged</th><th>Hacker S+A flagged</th><th>Exploited (caught by)</th></tr></thead>
+<tbody>
+<tr><td>2018-Q4</td><td>7</td><td>1</td><td>0</td><td class="muted">none</td></tr>
+<tr><td>2019-Q1</td><td>8</td><td>2</td><td>0</td><td class="muted">none</td></tr>
+<tr><td>2019-Q2</td><td>4</td><td>2</td><td>0</td><td><span class="cve-detail">CVE-2019-0232</span> (AI ✓ / Hkr ✗)</td></tr>
+<tr><td>2019-Q3</td><td>5</td><td>1</td><td>0</td><td class="muted">none</td></tr>
+<tr><td>2019-Q4</td><td>5</td><td>0</td><td>0</td><td class="muted">none</td></tr>
+<tr><td>2020-Q1</td><td>3</td><td>0</td><td>0</td><td class="muted">none</td></tr>
+<tr><td><strong>2020-Q2</strong></td><td><strong>25</strong></td><td>1</td><td>2</td><td><span class="cve-detail">CVE-2020-1938</span> (AI ✓ / Hkr ✓)</td></tr>
+<tr><td>2021-Q1</td><td>3</td><td>1</td><td>0</td><td class="muted">none</td></tr>
+<tr><td>2021-Q2</td><td>2</td><td>0</td><td>0</td><td class="muted">none</td></tr>
+<tr><td>2021-Q3</td><td>1</td><td>1</td><td>0</td><td class="muted">none</td></tr>
+<tr><td><strong>2021-Q4</strong></td><td><strong>16</strong></td><td>1</td><td>0</td><td class="muted">none</td></tr>
+<tr><td>2022-Q1</td><td>4</td><td>1</td><td>1</td><td><span class="cve-detail">CVE-2022-22965</span> Spring4Shell (AI ✓ / Hkr ✓)</td></tr>
+<tr><td>2022-Q2</td><td>4</td><td>1</td><td>1</td><td class="muted">none</td></tr>
+<tr><td>2022-Q3</td><td>4</td><td>0</td><td>0</td><td class="muted">none</td></tr>
+<tr><td><strong>2022-Q4</strong></td><td>6</td><td>2</td><td>3</td><td><span class="cve-detail">CVE-2022-1471</span> SnakeYAML + <span class="cve-detail">CVE-2022-42889</span> Text4Shell (AI ✗ / Hkr ✓ for both)</td></tr>
+<tr><td>2023-Q1</td><td>4</td><td>1</td><td>1</td><td class="muted">none</td></tr>
+<tr><td>2023-Q2</td><td>2</td><td>0</td><td>0</td><td class="muted">none</td></tr>
+<tr><td>2023-Q3</td><td>3</td><td>0</td><td>1</td><td class="muted">none</td></tr>
+<tr><td>2023-Q4</td><td>4</td><td>1</td><td>1</td><td class="muted">none</td></tr>
+<tr><td>2024-Q1</td><td>6</td><td>1</td><td>2</td><td class="muted">none</td></tr>
+<tr><td>2024-Q2</td><td>1</td><td>0</td><td>0</td><td class="muted">none</td></tr>
+<tr><td>2024-Q3</td><td>2</td><td>1</td><td>0</td><td class="muted">none</td></tr>
+<tr><td>2024-Q4</td><td>5</td><td>1</td><td>2</td><td class="muted">none</td></tr>
+<tr><td>2025-Q1</td><td>1</td><td>1</td><td>1</td><td><span class="cve-detail">CVE-2025-24813</span> Tomcat PUT (AI ✓ / Hkr ✓)</td></tr>
+<tr><td>2025-Q2</td><td>6</td><td>1</td><td>2</td><td class="muted">none</td></tr>
+<tr><td>2025-Q3</td><td>5</td><td>1</td><td>2</td><td class="muted">none</td></tr>
+<tr><td>2025-Q4</td><td>1</td><td>1</td><td>0</td><td class="muted">none</td></tr>
+<tr><td>2026-Q1</td><td>2</td><td>0</td><td>0</td><td class="muted">none</td></tr>
+<tr><td>2026-Q2</td><td>6</td><td>4</td><td>3</td><td class="muted">(in-progress)</td></tr>
+<tr class="tally"><td>Total</td><td><strong>145</strong></td><td><strong>27</strong></td><td><strong>22</strong></td><td><strong>6 exploited</strong></td></tr>
+</tbody>
+</table>
+
 <!-- ===== TABLE 1: CLEAN 12-MONTH EXEMPLAR ===== -->
 <h2>Table 1 — 12-month exemplar (calendar 2022, the busy year)</h2>
 <p>Real 12-month window on the 48-package Spring Boot manifest. We use calendar 2022 because it had 3 actually-exploited events (Spring4Shell, commons-text/Text4Shell, SnakeYAML) — enough to differentiate strategies. The trailing 12 months (Apr 2025-Apr 2026) had 0 exploits in this manifest scope, which is itself a finding: most years on a focused estate have 0-1 exploits, which is exactly why single-window views can't really discriminate.</p>
@@ -188,5 +238,114 @@ ul.findings li::before{content:'▸';position:absolute;left:8px;color:#6366f1}
 <p style="margin-top:32px;color:#64748b;font-size:.85em">Data source: <code>data/seven-year-manifest-events.json</code> filtered to the 48-package Spring Boot 3.x manifest (per <code>data/_seven-year-frameworks-cache.json</code> spring section). IBM MQ 9.x added by OSV query — zero C/H events in window. KEV: <code>data/kev-snapshot-2026-04-26.json</code>. Hacker tier assignments from <code>analyst-reports/2026-04-25-hacker-ranking-v3.md</code>.</p>
 
 </div>
+
+<script>
+const QUARTERS = ["2018-Q1","2018-Q2","2018-Q3","2018-Q4","2019-Q1","2019-Q2","2019-Q3","2019-Q4","2020-Q1","2020-Q2","2020-Q3","2020-Q4","2021-Q1","2021-Q2","2021-Q3","2021-Q4","2022-Q1","2022-Q2","2022-Q3","2022-Q4","2023-Q1","2023-Q2","2023-Q3","2023-Q4","2024-Q1","2024-Q2","2024-Q3","2024-Q4","2025-Q1","2025-Q2","2025-Q3","2025-Q4","2026-Q1","2026-Q2"];
+const TOTALS  = [0,0,0,7,8,4,5,5,3,25,0,0,3,2,1,16,4,4,4,6,4,2,3,4,6,1,2,5,1,6,5,1,2,6];
+const NPDIAI  = [0,0,0,1,2,2,1,0,0, 1,0,0,1,0,1, 1,1,1,0,2,1,0,0,1,1,0,1,1,1,1,1,1,0,4];
+const HACKER  = [0,0,0,0,0,0,0,0,0, 2,0,0,0,0,0, 0,1,1,0,3,1,0,1,1,2,0,0,2,1,2,2,0,0,3];
+const EXPL = [
+  {q:"2019-Q2", cve:"CVE-2019-0232", lib:"Tomcat CGI Win", ai:true, hkr:false},
+  {q:"2020-Q2", cve:"CVE-2020-1938", lib:"Ghostcat",       ai:true, hkr:true},
+  {q:"2022-Q1", cve:"CVE-2022-22965", lib:"Spring4Shell",  ai:true, hkr:true},
+  {q:"2022-Q4", cve:"CVE-2022-1471",  lib:"SnakeYAML",     ai:false, hkr:true},
+  {q:"2022-Q4", cve:"CVE-2022-42889", lib:"Text4Shell",    ai:false, hkr:true},
+  {q:"2025-Q1", cve:"CVE-2025-24813", lib:"Tomcat PUT",    ai:true, hkr:true},
+];
+// For exploit markers: position above each exploited bar
+const EXPL_POINTS = QUARTERS.map((q, i) => {
+  const here = EXPL.filter(e => e.q === q);
+  if (!here.length) return null;
+  // y = 1 + (max overlay value at that quarter), to sit just above bars
+  const top = Math.max(TOTALS[i], NPDIAI[i], HACKER[i]) + 1.5;
+  return {x: i, y: top, events: here};
+}).filter(p => p);
+
+new Chart(document.getElementById('timeseriesChart'), {
+  type: 'bar',
+  data: {
+    labels: QUARTERS,
+    datasets: [
+      {
+        label: 'Total C+H (universe)',
+        data: TOTALS,
+        backgroundColor: 'rgba(148,163,184,0.30)',
+        borderColor: 'rgba(148,163,184,0.6)',
+        borderWidth: 1,
+        order: 3,
+      },
+      {
+        label: 'NP+DI + AI scan flagged',
+        data: NPDIAI,
+        backgroundColor: 'rgba(16,185,129,0.85)',
+        borderColor: 'rgba(16,185,129,1)',
+        borderWidth: 1,
+        order: 2,
+      },
+      {
+        label: 'Hacker S+A flagged',
+        data: HACKER,
+        backgroundColor: 'rgba(168,85,247,0.85)',
+        borderColor: 'rgba(168,85,247,1)',
+        borderWidth: 1,
+        order: 1,
+      },
+      {
+        label: '★ Exploited (actual KEV/MSF/EDB)',
+        type: 'scatter',
+        data: EXPL_POINTS.map(p => ({x: p.x, y: p.y, events: p.events})),
+        backgroundColor: 'rgba(239,68,68,1)',
+        borderColor: '#fff',
+        borderWidth: 2,
+        pointStyle: 'star',
+        pointRadius: 14,
+        pointHoverRadius: 18,
+        showLine: false,
+        order: 0,
+      },
+    ],
+  },
+  options: {
+    responsive: true,
+    maintainAspectRatio: false,
+    interaction: { mode: 'index', intersect: false },
+    plugins: {
+      legend: {
+        position: 'top',
+        labels: { color: '#e2e8f0', usePointStyle: true, padding: 14, font: { size: 12 } },
+      },
+      tooltip: {
+        backgroundColor: '#0f172a',
+        titleColor: '#f1f5f9',
+        bodyColor: '#cbd5e1',
+        borderColor: '#475569',
+        borderWidth: 1,
+        callbacks: {
+          afterBody: function(items) {
+            const i = items[0].dataIndex;
+            const exp = EXPL_POINTS.find(p => p.x === i);
+            if (!exp) return '';
+            return ['', '★ Exploited:'].concat(exp.events.map(e =>
+              `  ${e.cve} (${e.lib}) — AI:${e.ai?'✓':'✗'} Hkr:${e.hkr?'✓':'✗'}`));
+          }
+        }
+      },
+    },
+    scales: {
+      x: {
+        ticks: { color: '#94a3b8', maxRotation: 60, minRotation: 60, font: { size: 10 } },
+        grid: { color: 'rgba(71,85,105,0.3)' },
+      },
+      y: {
+        beginAtZero: true,
+        title: { display: true, text: 'Critical / High CVEs per quarter', color: '#94a3b8' },
+        ticks: { color: '#94a3b8', stepSize: 5 },
+        grid: { color: 'rgba(71,85,105,0.3)' },
+      },
+    },
+  },
+});
+</script>
+
 </body>
 </html>
