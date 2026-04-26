@@ -325,6 +325,8 @@ A network-parsing HIGH (7.0-7.9) at 0.89% beats a non-parsing CRITICAL (9.0-9.9)
 
 <div class="callout callout-warning">
 <strong>The math that matters:</strong> At NVD's denominator (345 C/H library CVEs), 4 windowed KEV entries looks like a ~1% exploitation rate. At OSV's denominator (770 C/H across 177 packages, ~93,000+ ecosystem-wide), the same 4 KEV entries are a rounding error. The library exploitation rate isn't "low" — it's <em>insignificant</em>. The network-parser signal is what separates the handful that matter from the thousands that don't.
+
+<p style="margin-top:10px"><strong>So with libraries the problem isn't finding the 4%. It's finding the &lt;0.1% that actually get exploited and not getting buried in the volume.</strong> This is the opposite of the third-party-product problem, where the base rate is high enough that "patch everything from this vendor" is a defensible default. With open-source libraries, "patch everything" isn't responsible — it's the response that guarantees you can't tell signal from noise.</p>
 </div>
 
 <!-- ========== 4. SURVIVORSHIP ========== -->
