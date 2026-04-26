@@ -181,7 +181,7 @@ Preview build (<code style="background:#e2e8f0;padding:1px 6px;border-radius:3px
 
 <p><strong>The problem.</strong> Vulnerability volume is exploding. Even restricting to "criticals and highs," the count runs into the thousands per year — but <strong>only ~4% of those</strong> ever actually turn into exploits. For third-party packages, updating binaries and rebooting is relatively straightforward. For internally built systems that depend on dozens of open-source libraries, managing the rebuild and release process is substantially more complex.</p>
 
-<p><strong>The proposal.</strong> We believe we have produced a model that is substantially better at projecting which vulnerabilities will end up being exploited. It uses two complementary but independent methods:</p>
+<p><strong>The proposal.</strong> We believe we have produced a model — call it <strong>threat-centric prioritization</strong> — that is substantially better at projecting which vulnerabilities will end up being exploited. The core idea: judge a CVE by what an attacker actually does with it, not by what its severity score says. The model has two complementary but independent operationalizations, each developed against the same data:</p>
 
 <ul>
 <li>The characteristics of the library and the CVE, specifically focusing on <strong>network-parsing libraries and direct-injection attacks (NP+DI)</strong>.</li>
