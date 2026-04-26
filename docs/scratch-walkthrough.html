@@ -184,8 +184,8 @@ Preview build (<code style="background:#e2e8f0;padding:1px 6px;border-radius:3px
 <p><strong>The proposal.</strong> We believe we have produced a model — call it <strong>threat-centric prioritization</strong> — that is substantially better at projecting which vulnerabilities will end up being exploited. The core idea: judge a CVE by what an attacker actually does with it, not by what its severity score says. The model has two complementary but independent operationalizations, each developed against the same data:</p>
 
 <ul>
-<li>The characteristics of the library and the CVE, specifically focusing on <strong>network-parsing libraries and direct-injection attacks (NP+DI)</strong>.</li>
-<li>Using the same tools and capabilities attackers do — notably <strong>modern AI to evaluate vulnerabilities by exploitability and value</strong>.</li>
+<li><strong>The structure test (NP+DI).</strong> A mechanical filter on the characteristics of the library and the CVE: does the package parse untrusted input, and is the bug a direct-injection class? Easy to apply, hard to argue with, doesn't depend on judgment.</li>
+<li><strong>The attacker test (hacker discriminator).</strong> The same tools and capabilities attackers use — notably modern AI applied as an offensive operator's grading rubric — to evaluate vulnerabilities by exploitability and value. Catches the same population the structure test does, with informative disagreements at the boundary.</li>
 </ul>
 
 <p>This substantially reduced list of high-risk events becomes the mandatory rebuild trigger. It is supplemented by additional security controls and process improvements:</p>
@@ -339,13 +339,13 @@ A network-parsing HIGH (7.0-7.9) at 0.89% beats a non-parsing CRITICAL (9.0-9.9)
 <p>That insight is the model: <strong>threat-centric prioritization</strong> — pick the events worth interrupting cadence for by what the threat actually looks like, not by what severity score the CWE was assigned. The model has two operational forms in the rest of this page, each developed independently against the same data:</p>
 
 <ul style="margin:10px 0 10px 24px">
-<li><strong>NP+DI</strong> (§4a–§4c) — a mechanical, structural filter: <em>does the package parse untrusted input</em> and <em>is the bug a direct-injection class</em>? Both yes → fire. Easy to apply, hard to argue with, doesn't depend on judgment.</li>
-<li><strong>The hacker discriminator</strong> (§4d) — an offensive operator's grading rubric: <em>default config × network edge × primitive direct</em>, with auth-missing as a co-tag. Catches the same population the structural filter does, with small but informative disagreements at the boundary.</li>
+<li><strong>The structure test — NP+DI</strong> (§4a–§4c) — a mechanical filter on the data itself: <em>does the package parse untrusted input</em> and <em>is the bug a direct-injection class</em>? Both yes → fire. Easy to apply, hard to argue with, doesn't depend on judgment.</li>
+<li><strong>The attacker test — hacker discriminator</strong> (§4d) — an offensive operator's grading rubric using the same modern AI tools attackers do: <em>default config × network edge × primitive direct</em>, with auth-missing as a co-tag. Catches the same population the structure test does, with small but informative disagreements at the boundary.</li>
 </ul>
 
 <p>The two are validated together later (§5 cross-framework, §5g 7-year backtest, §9 external sources). Where they agree, the agreement is the validation. Where they disagree (Spring Boot actuator that NP+DI misses on CWE-862 / hacker catches; Tomcat path traversal that NP+DI catches on CWE-23 / hacker B-tiers on the narrow precondition) the disagreement tells you something specific about each model's blind spots.</p>
 
-<h3>4a. NP+DI — the structural filter</h3>
+<h3>4a. The structure test — NP+DI</h3>
 
 <p>Two criteria, both required:</p>
 
@@ -389,7 +389,7 @@ A network-parsing HIGH (7.0-7.9) at 0.89% beats a non-parsing CRITICAL (9.0-9.9)
 
 <p>This is operationally important because it means you can measure the filter's performance against your own dependency stack. Run it for 6 months. Track what it flags and what it skips. If something it skipped gets exploited, the filter needs adjustment. If nothing it skipped gets exploited, you've validated it for your environment. The <a href="cve-reference.html" style="color:var(--accent)">CVE reference list</a> shows every classification so you can audit and re-draw the line yourself.</p>
 
-<h3>4d. A parallel discriminator: the hacker S+A test</h3>
+<h3>4d. The attacker test — the hacker discriminator</h3>
 
 <div class="translation"><strong>In plain English:</strong> NP+DI is a CWE-and-package rule — mechanical, easy to apply, hard to argue with. But you can also frame the same triage decision the way an attacker would: "would I actually invest in writing an exploit for this?" That gives a second, independent filter to cross-check NP+DI against.</div>
 
