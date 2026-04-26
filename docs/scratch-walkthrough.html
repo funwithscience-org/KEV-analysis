@@ -240,7 +240,7 @@ Preview build (<code style="background:#e2e8f0;padding:1px 6px;border-radius:3px
 
 
 
-<h3 id="stack-layers">3a. Stack Layer Exploitation Rates</h3>
+<h3 id="stack-layers">2a. Stack Layer Exploitation Rates</h3>
 
 <div class="chart-wrap">
 <h4>Exploitation Rate by Stack Layer (KEV / NVD Critical+High)</h4>
@@ -272,7 +272,7 @@ Preview build (<code style="background:#e2e8f0;padding:1px 6px;border-radius:3px
 
 <p><em>Note: Exploitation rates use the <span data-kpi="windowedKev">…</span> KEV entries with CVEs published 2021–2026, matching the NVD denominator window. <span data-kpi="preWindowKev">…</span> KEV entries for pre-2021 CVEs are excluded from rates — these represent active exploitation of legacy vulnerabilities during the analysis period. Email/collaboration servers hit 100% (44 KEV / 44 NVD): the inherited NVD denominator is small and may be stale, so treat this as an upper-bound artifact rather than a literal rate. Per-entry classifications are reproducible — see <a href="https://github.com/funwithscience-org/KEV-analysis/blob/main/data/CLASSIFIER.md" target="_blank">data/CLASSIFIER.md</a>.</em></p>
 
-<h3 id="http-parsing">3b. Network-Parsing vs Non-Parsing Across CVSS</h3>
+<h3 id="http-parsing">2b. Network-Parsing vs Non-Parsing Across CVSS</h3>
 
 <p>We classified each NVD CVE as "network-parsing" (product known to handle untrusted network input) or "non-parsing" (everything else), then compared exploitation rates within each CVSS bucket:</p>
 
@@ -296,7 +296,7 @@ Preview build (<code style="background:#e2e8f0;padding:1px 6px;border-radius:3px
 A network-parsing HIGH (7.0-7.9) at 0.89% beats a non-parsing CRITICAL (9.0-9.9) at 0.46%. <strong>CVSS severity alone is a worse triage signal than "does it parse untrusted network input?"</strong>
 </div>
 
-<h3 id="libraries">3c. Libraries: The Denominator Makes the Difference</h3>
+<h3 id="libraries">2c. Libraries: The Denominator Makes the Difference</h3>
 
 <p>NVD tracks roughly 345 critical/high library CVEs for our period -- and at that denominator, the 21 library KEV entries imply a 2.3–6.1% exploitation rate. Sounds significant. But NVD massively undercounts libraries. <strong><a href="https://osv.dev" target="_blank">OSV</a></strong> tracks <strong>770 critical/high vulnerabilities across just 177 popular packages</strong> alone -- more than double NVD's total. Across the five major ecosystems (npm, PyPI, Maven, Go, RubyGems), OSV lists roughly 247,000 advisories total, with an estimated 93,000+ at critical/high severity. Against that real denominator, the exploitation rate drops to well below 0.1%. Your scanner flags thousands of library CVEs per year; virtually none of them will ever be exploited in the wild.</p>
 
@@ -375,7 +375,7 @@ A network-parsing HIGH (7.0-7.9) at 0.89% beats a non-parsing CRITICAL (9.0-9.9)
 <tr><td><code>CWE-444</code></td><td>HTTP Request Smuggling<sup id="fnref-444"><a href="#fn-444">1</a></sup></td><td>HTTP protocol manipulation</td></tr>
 </tbody></table>
 
-<p>Notably <strong>absent</strong>: CWE-502 (Deserialization). The reasoning needs care, because at the library level deserialization absolutely <em>can</em> be an exploitation driver (XStream pre-1.4.18, SnakeYAML constructor deser, the Tomcat partial-PUT chain — see §4g). What the data shows is that <strong>raw CWE-502 volume hugely overstates how often deserialization is actually reachable</strong>. Most CWE-502 disclosures are gadget-chain-dependent: they require very specific classes to be on the classpath, very specific application code to call the unsafe API on attacker-controlled bytes, and a deployment shape that exposes the path. Jackson-databind alone accumulated 67 historical CWE-502 entries; a rounding-error fraction reached KEV. So CWE-502 is excluded from the mechanical DI filter — adding it would drown the real signal in noise. Catching the exploited subset of deserialization needs a different cut of the same data, which we develop next. Also absent from the DI set: CWE-400 (Resource Exhaustion / DoS) — denial of service doesn't produce code execution.</p>
+<p>Notably <strong>absent</strong>: CWE-502 (Deserialization). The reasoning needs care, because at the library level deserialization absolutely <em>can</em> be an exploitation driver (XStream pre-1.4.18, SnakeYAML constructor deser, the Tomcat partial-PUT chain — see §4f). What the data shows is that <strong>raw CWE-502 volume hugely overstates how often deserialization is actually reachable</strong>. Most CWE-502 disclosures are gadget-chain-dependent: they require very specific classes to be on the classpath, very specific application code to call the unsafe API on attacker-controlled bytes, and a deployment shape that exposes the path. Jackson-databind alone accumulated 67 historical CWE-502 entries; a rounding-error fraction reached KEV. So CWE-502 is excluded from the mechanical DI filter — adding it would drown the real signal in noise. Catching the exploited subset of deserialization needs a different cut of the same data, which we develop next. Also absent from the DI set: CWE-400 (Resource Exhaustion / DoS) — denial of service doesn't produce code execution.</p>
 
 <h3>3c. Why the Filter is Testable and Falsifiable</h3>
 
@@ -419,11 +419,7 @@ A network-parsing HIGH (7.0-7.9) at 0.89% beats a non-parsing CRITICAL (9.0-9.9)
 
 <div class="translation"><strong>In plain English:</strong> Theory is nice, but you need to know if this filter actually reduces your rebuild queue without letting something dangerous slip through. We tested it against three real-world-representative tech stacks over 12 months. Short answer: it works.</div>
 
-<h3>4a. Three Stacks, 133 Dependencies</h3>
-
-<p>We constructed representative application manifests for three ecosystems: <strong>Spring Boot</strong> (48 deps: 16 NP, 32 non-NP), <strong>Node.js/Express</strong> (45 deps: 21 NP, 24 non-NP), and <strong>Django/DRF</strong> (40 deps: 16 NP, 24 non-NP). Each manifest includes the framework itself, HTTP handling, template engines, authentication, database access, messaging, monitoring, and utility libraries. We queried every dependency against OSV for critical/high CVEs published April 2025 through April 2026. Full manifests are in the <a href="periodicity.html" style="color:var(--accent)">periodicity analysis</a>.</p>
-
-<h3>4b. The 14-14-14 Convergence</h3>
+<h3>4a. The 14-14-14 Convergence</h3>
 
 <div class="hero-stat">
 <div class="stat red"><div class="number">14</div><div class="label">All C/H trigger dates<br>(identical across all 3 stacks)</div></div>
@@ -438,7 +434,7 @@ A network-parsing HIGH (7.0-7.9) at 0.89% beats a non-parsing CRITICAL (9.0-9.9)
 <canvas id="crossFrameworkChart" height="120"></canvas>
 </div>
 
-<h3>4c. Reduction across four strategies</h3>
+<h3>4b. Reduction across four strategies</h3>
 
 <p>The original NP+DI filter is one of three discriminators worth comparing on the same input. <strong>NP+DI raw</strong> is the mechanical CWE-and-package rule. <strong>NP+DI + DQ</strong> (Data Quality) adds an AI-assisted pass that re-checks the upstream CWE tagging — when the surface CWE underweights the actual primitive (Spring Boot actuator exposure tagged CWE-862, Ghostcat tagged CWE-269, ActiveMQ Jolokia tagged CWE-20, etc.), DQ corrects the classification and the event re-enters NP+DI. <strong>Hacker S+A</strong> applies the offensive operator's three-axis test (default-config × edge × direct primitive). The cross-framework workload comparison:</p>
 
@@ -452,14 +448,14 @@ A network-parsing HIGH (7.0-7.9) at 0.89% beats a non-parsing CRITICAL (9.0-9.9)
 </tbody></table>
 
 <div class="callout callout-warning">
-<strong>Honest caveat about the 12-month window:</strong> Across all four manifests over Apr 2025 – Apr 2026, only one CVE actually got exploited (Django <code>CVE-2025-64459</code> _connector SQLi, ExploitDB-only — no KEV, no Metasploit). Every strategy catches it. So "the filter caught every exploit in window" is technically true but operationally vacuous — N=1 across 4 manifests can't actually score discrimination. The 12-month view's honest purpose is showing <strong>how much workload each strategy demands</strong> — not which one is most accurate. Real scoring needs more ground truth, which is why we then look at a 7-year backtest in §4g and on the <a href="periodicity.html" style="color:var(--accent)">periodicity page</a>.</p>
+<strong>Honest caveat about the 12-month window:</strong> Across all four manifests over Apr 2025 – Apr 2026, only one CVE actually got exploited (Django <code>CVE-2025-64459</code> _connector SQLi, ExploitDB-only — no KEV, no Metasploit). Every strategy catches it. So "the filter caught every exploit in window" is technically true but operationally vacuous — N=1 across 4 manifests can't actually score discrimination. The 12-month view's honest purpose is showing <strong>how much workload each strategy demands</strong> — not which one is most accurate. Real scoring needs more ground truth, which is why we then look at a 7-year backtest in §4f and on the <a href="periodicity.html" style="color:var(--accent)">periodicity page</a>.</p>
 </div>
 
-<h3>4d. Silence Windows</h3>
+<h3>4c. Silence Windows</h3>
 
 <p>None of these strategies produce a slower steady drip — they all produce <strong>silence punctuated by genuine events</strong>. Spring Boot's longest NP+DI silence ran 164 days; hacker S+A stretches that to 205. Node.js sat silent under NP+DI for 311 days — over 10 months — before its first trigger. Even Django, the weakest case, had a 140-day NP+DI silence window. This burst pattern is operationally superior to a steady cadence: when the signal fires, your team responds to it instead of tuning it out.</p>
 
-<h3>4e. What the Filter Caught</h3>
+<h3>4d. What the Filter Caught</h3>
 
 <p><strong>Spring Boot (5 events):</strong> Spring Security authorization bypass (CWE-693, CWE-863) via annotation detection failure, Tomcat CLIENT_CERT authentication bypass (CWE-287), Tomcat path traversal (CWE-23) via crafted HTTP request, and Thymeleaf template injection (CWE-1336/917) -- textbook SSTI leading to RCE. The auth bypass events reflect the widened DI definition: untrusted input that changes a security decision.</p>
 
@@ -467,13 +463,13 @@ A network-parsing HIGH (7.0-7.9) at 0.89% beats a non-parsing CRITICAL (9.0-9.9)
 
 <p><strong>Django (4 events):</strong> All four were SQL injection (CWE-89) in Django's ORM layer itself -- recurring variants of the same underlying issue in column alias handling and QuerySet connector kwargs. The filter correctly flagged every one.</p>
 
-<h3>4f. Django: The Honest Hardest Case</h3>
+<h3>4e. Django: The Honest Hardest Case</h3>
 
 <p>Django is the weakest result, and that's worth understanding. Unlike Spring and Node.js (which had long silence windows), Django produced 4 NP+DI triggers in 12 months -- roughly quarterly. All four were CWE-89 in Django's ORM. The Django security team kept finding and patching variants of the same underlying issue.</p>
 
 <p>This means the filter gives you less breathing room when the framework itself has a persistent vulnerability pattern in its parsing surface. But: (a) every trigger was a genuine SQL injection -- zero false positives, and (b) 71% reduction is still operationally meaningful -- you go from near-monthly fire drills to quarterly ones. The 10 skipped rebuilds were DoS bugs, config issues, and non-NP library fixes that never reached KEV.</p>
 
-<h3 id="real-manifest">4g. Real-World Case Study: Enterprise Java Portfolio</h3>
+<h3 id="real-manifest">4f. Real-World Case Study: Enterprise Java Portfolio</h3>
 
 <div class="translation"><strong>In plain English:</strong> The synthetic manifests above prove the filter works in theory. This section tests it against a real enterprise dependency list — 60 libraries from a portfolio of Spring apps, with all the version sprawl and legacy baggage that implies.</div>
 
@@ -1154,7 +1150,7 @@ new Chart(document.getElementById('crossFrameworkChart'), {
   });
 })();
 
-// NP+DI Funnel: real-manifest case study (§4g)
+// NP+DI Funnel: real-manifest case study (§4f)
 (function(){
   const labels = ['All Vulns','Critical / High','Network-Parser','NP + Direct Injection'];
   const values = [232, 164, 127, 25];
