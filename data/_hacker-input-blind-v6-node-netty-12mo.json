@@ -1,0 +1,312 @@
+{
+  "description": "Blinded 12-month framework events for hacker tier ranking. Node.js/Express manifest (45 deps, ~14 trigger dates clustered to 20 events) and Netty manifest (7 deps, 3 events). Apply default-config \u00d7 network-edge \u00d7 primitive-direct discriminator with auth-missing co-tag rule. Tier S/A/B/C/D per event with one-line rationale.",
+  "fields_provided": [
+    "cve",
+    "published",
+    "packages",
+    "severity",
+    "cwes",
+    "summary"
+  ],
+  "fields_intentionally_withheld": [
+    "is_np (the operator should reason about whether the package is at the trust boundary)",
+    "is_di (CWE rules + summary should drive primitive shape)",
+    "KEV/MSF/EDB outcomes"
+  ],
+  "frameworks": {
+    "nodejs": {
+      "manifest_size": 45,
+      "window": "2025-04-15 to 2026-04-15",
+      "events": [
+        {
+          "cve": "CVE-2025-47935",
+          "published": "2025-05-19",
+          "packages": [
+            "multer"
+          ],
+          "severity": "CRITICAL",
+          "cwes": [
+            "CWE-401"
+          ],
+          "summary": "Multer vulnerable to Denial of Service via memory leaks from unclosed streams"
+        },
+        {
+          "cve": "CVE-2025-47944",
+          "published": "2025-05-19",
+          "packages": [
+            "multer"
+          ],
+          "severity": "CRITICAL",
+          "cwes": [
+            "CWE-248"
+          ],
+          "summary": "Multer vulnerable to Denial of Service from maliciously crafted requests"
+        },
+        {
+          "cve": "CVE-2025-48997",
+          "published": "2025-06-05",
+          "packages": [
+            "multer"
+          ],
+          "severity": "CRITICAL",
+          "cwes": [
+            "CWE-248"
+          ],
+          "summary": "Multer vulnerable to Denial of Service via unhandled exception"
+        },
+        {
+          "cve": "CVE-2025-7338",
+          "published": "2025-07-17",
+          "packages": [
+            "multer"
+          ],
+          "severity": "CRITICAL",
+          "cwes": [
+            "CWE-248"
+          ],
+          "summary": "Multer vulnerable to Denial of Service via unhandled exception from malformed request"
+        },
+        {
+          "cve": "CVE-2025-58754",
+          "published": "2025-09-11",
+          "packages": [
+            "axios"
+          ],
+          "severity": "CRITICAL",
+          "cwes": [
+            "CWE-770"
+          ],
+          "summary": "Axios is vulnerable to DoS attack through lack of data size check"
+        },
+        {
+          "cve": "CVE-2025-14874",
+          "published": "2025-12-01",
+          "packages": [
+            "nodemailer"
+          ],
+          "severity": "CRITICAL",
+          "cwes": [
+            "CWE-703"
+          ],
+          "summary": "Nodemailer\u2019s addressparser is vulnerable to DoS caused by recursive calls"
+        },
+        {
+          "cve": "CVE-2026-25223",
+          "published": "2026-02-02",
+          "packages": [
+            "fastify"
+          ],
+          "severity": "CRITICAL",
+          "cwes": [
+            "CWE-436"
+          ],
+          "summary": "Fastify's Content-Type header tab character allows body validation bypass"
+        },
+        {
+          "cve": "CVE-2026-25639",
+          "published": "2026-02-09",
+          "packages": [
+            "axios"
+          ],
+          "severity": "CRITICAL",
+          "cwes": [
+            "CWE-754"
+          ],
+          "summary": "Axios is Vulnerable to Denial of Service via __proto__ Key in mergeConfig"
+        },
+        {
+          "cve": "CVE-2026-27959",
+          "published": "2026-02-26",
+          "packages": [
+            "koa"
+          ],
+          "severity": "CRITICAL",
+          "cwes": [
+            "CWE-20",
+            "CWE-74"
+          ],
+          "summary": "Koa has Host Header Injection via ctx.hostname"
+        },
+        {
+          "cve": "CVE-2026-2359",
+          "published": "2026-03-01",
+          "packages": [
+            "multer"
+          ],
+          "severity": "CRITICAL",
+          "cwes": [
+            "CWE-772"
+          ],
+          "summary": "Multer vulnerable to Denial of Service via resource exhaustion"
+        },
+        {
+          "cve": "CVE-2026-3304",
+          "published": "2026-03-01",
+          "packages": [
+            "multer"
+          ],
+          "severity": "CRITICAL",
+          "cwes": [
+            "CWE-459"
+          ],
+          "summary": "Multer vulnerable to Denial of Service via incomplete cleanup"
+        },
+        {
+          "cve": "CVE-2026-3520",
+          "published": "2026-03-05",
+          "packages": [
+            "multer"
+          ],
+          "severity": "CRITICAL",
+          "cwes": [
+            "CWE-674"
+          ],
+          "summary": "Multer Vulnerable to Denial of Service via Uncontrolled Recursion"
+        },
+        {
+          "cve": "CVE-2026-30951",
+          "published": "2026-03-11",
+          "packages": [
+            "sequelize"
+          ],
+          "severity": "CRITICAL",
+          "cwes": [
+            "CWE-89"
+          ],
+          "summary": "Sequelize v6 Vulnerable to SQL Injection via JSON Column Cast Type"
+        },
+        {
+          "cve": "CVE-2026-33937",
+          "published": "2026-03-27",
+          "packages": [
+            "handlebars"
+          ],
+          "severity": "CRITICAL",
+          "cwes": [
+            "CWE-843",
+            "CWE-94"
+          ],
+          "summary": "Handlebars.js has JavaScript Injection via AST Type Confusion"
+        },
+        {
+          "cve": "CVE-2026-33938",
+          "published": "2026-03-27",
+          "packages": [
+            "handlebars"
+          ],
+          "severity": "CRITICAL",
+          "cwes": [
+            "CWE-843",
+            "CWE-94"
+          ],
+          "summary": "Handlebars.js has JavaScript Injection via AST Type Confusion by tampering @partial-block"
+        },
+        {
+          "cve": "CVE-2026-33939",
+          "published": "2026-03-27",
+          "packages": [
+            "handlebars"
+          ],
+          "severity": "CRITICAL",
+          "cwes": [
+            "CWE-754"
+          ],
+          "summary": "Handlebars.js has Denial of Service via Malformed Decorator Syntax in Template Compilation"
+        },
+        {
+          "cve": "CVE-2026-33940",
+          "published": "2026-03-27",
+          "packages": [
+            "handlebars"
+          ],
+          "severity": "CRITICAL",
+          "cwes": [
+            "CWE-843",
+            "CWE-94"
+          ],
+          "summary": "Handlebars.js has JavaScript Injection via AST Type Confusion when passing an object as dynamic partial"
+        },
+        {
+          "cve": "CVE-2026-33941",
+          "published": "2026-03-27",
+          "packages": [
+            "handlebars"
+          ],
+          "severity": "CRITICAL",
+          "cwes": [
+            "CWE-94",
+            "CWE-116",
+            "CWE-79"
+          ],
+          "summary": "Handlebars.js has JavaScript Injection in CLI Precompiler via Unescaped Names and Options"
+        },
+        {
+          "cve": "CVE-2026-4800",
+          "published": "2026-04-01",
+          "packages": [
+            "lodash"
+          ],
+          "severity": "CRITICAL",
+          "cwes": [
+            "CWE-94"
+          ],
+          "summary": "lodash vulnerable to Code Injection via `_.template` imports key names"
+        },
+        {
+          "cve": "CVE-2026-33806",
+          "published": "2026-04-15",
+          "packages": [
+            "fastify"
+          ],
+          "severity": "CRITICAL",
+          "cwes": [
+            "CWE-1287"
+          ],
+          "summary": "Fastify has a Body Schema Validation Bypass via Leading Space in Content-Type Header"
+        }
+      ]
+    },
+    "netty": {
+      "manifest_size": 7,
+      "window": "2025-04-15 to 2026-04-15",
+      "events": [
+        {
+          "cve": "CVE-2026-33870",
+          "published": "2026-03-26",
+          "packages": [
+            "netty-codec-http"
+          ],
+          "severity": "CRITICAL",
+          "cwes": [
+            "CWE-444"
+          ],
+          "summary": "Netty: HTTP Request Smuggling via Chunked Extension Quoted-String Parsing"
+        },
+        {
+          "cve": "CVE-2025-55163",
+          "published": "2025-08-13",
+          "packages": [
+            "netty-codec-http2"
+          ],
+          "severity": "CRITICAL",
+          "cwes": [
+            "CWE-770"
+          ],
+          "summary": "Netty affected by MadeYouReset HTTP/2 DDoS vulnerability"
+        },
+        {
+          "cve": "CVE-2026-33871",
+          "published": "2026-03-26",
+          "packages": [
+            "netty-codec-http2"
+          ],
+          "severity": "CRITICAL",
+          "cwes": [
+            "CWE-770"
+          ],
+          "summary": "Netty HTTP/2 CONTINUATION Frame Flood DoS via Zero-Byte Frame Bypass"
+        }
+      ]
+    }
+  }
+}
