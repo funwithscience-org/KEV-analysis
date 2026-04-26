@@ -1,0 +1,79 @@
+{
+  "generated_at": "2026-04-26T11:08:16Z",
+  "generator": "scripts/build_hacker_tier_data.py",
+  "source_reports": [
+    "analyst-reports/2026-04-25-hacker-ranking-v3.md (R3 Java/Spring 175-event)",
+    "analyst-reports/2026-04-25-hacker-ranking-v4-django.md (R4 Django 181-event)",
+    "analyst-reports/2026-04-25-hacker-ranking-v5-java-waf-aware.md (R5 WAF axis)",
+    "analyst-reports/2026-04-26-hacker-ranking-v6-node-netty-12mo.md (R6 Node+Netty 12mo)",
+    "analyst-reports/2026-04-26-hacker-ranking-v7-pre2018-backfill.md (R7 pre-2018 backfill)",
+    "analyst-reports/2026-04-26-hacker-ranking-v8-os-container.md (R8 OS container)"
+  ],
+  "rounds_in_use_for_integrated_page": [
+    "R3",
+    "R4",
+    "R6",
+    "R7",
+    "R8"
+  ],
+  "n_cves": 13,
+  "definitions": {
+    "FRIENDLY": "Signature-able payload, generic OWASP rules cover, emergency rule ships within hours",
+    "MEDIUM": "Signature exists but evadable (encoding, obfuscation, format gaps)",
+    "HOSTILE": "Wrong protocol entirely or attack indistinguishable from legitimate traffic"
+  },
+  "events": {
+    "CVE-2017-12615": {
+      "waf": "FRIENDLY",
+      "rationale": "PUT method + .jsp upload signature-able same-day"
+    },
+    "CVE-2017-12617": {
+      "waf": "FRIENDLY",
+      "rationale": "Same as above"
+    },
+    "CVE-2013-7285": {
+      "waf": "MEDIUM",
+      "rationale": "Class-name signature evadable, gadget zoo wide"
+    },
+    "CVE-2019-0232": {
+      "waf": "FRIENDLY",
+      "rationale": "CGI command-injection patterns are CRS-1"
+    },
+    "CVE-2020-1938": {
+      "waf": "HOSTILE",
+      "rationale": "AJP is binary on port 8009 \u2014 WAF doesn't see it"
+    },
+    "CVE-2021-39144": {
+      "waf": "MEDIUM",
+      "rationale": "Class-name signature evadable"
+    },
+    "CVE-2021-44228": {
+      "waf": "MEDIUM",
+      "rationale": "${jndi:} patterns shipped same-day; Unicode obfuscation extended window"
+    },
+    "CVE-2021-45046": {
+      "waf": "MEDIUM",
+      "rationale": "Even more obfuscation room than -44228"
+    },
+    "CVE-2022-22965": {
+      "waf": "FRIENDLY",
+      "rationale": "class.module.classLoader rule shipped within hours"
+    },
+    "CVE-2022-42889": {
+      "waf": "FRIENDLY",
+      "rationale": "${url:}/${script:} patterns signature-able same-day"
+    },
+    "CVE-2022-1471": {
+      "waf": "MEDIUM",
+      "rationale": "YAML body parsing varies by WAF; !!javax.script tag detectable"
+    },
+    "CVE-2025-24813": {
+      "waf": "MEDIUM",
+      "rationale": "Two-step PUT-then-GET chain distributed across requests"
+    },
+    "CVE-2026-34197": {
+      "waf": "MEDIUM",
+      "rationale": "JSON-to-MBean patterns visible; Jolokia often deployment-internal"
+    }
+  }
+}
