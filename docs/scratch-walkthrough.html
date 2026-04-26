@@ -676,52 +676,54 @@ A network-parsing HIGH (7.0-7.9) at 0.89% beats a non-parsing CRITICAL (9.0-9.9)
 </div>
 
 <!-- ========== 9. EXTERNAL VALIDATION ========== -->
-<h2 id="external-validation">9. External Validation: The Zero-Miss Window</h2>
+<h2 id="external-validation">9. External Validation</h2>
 
-<div class="translation"><strong>In plain English:</strong> We checked five independent exploitation databases. Nothing the filter deprioritized showed up in any of them. Zero misses across 113 non-triggers.</div>
+<div class="translation"><strong>In plain English:</strong> We cross-checked the filter against five independent exploitation databases. The 12-month sample is too small to score confidently (only one in-scope exploited CVE in window); the 7-year production-manifest backtest is where the real accounting happens. The filters cover most of what gets exploited, miss a small known set by design, and add value EPSS can't because they fire on disclosure day.</div>
 
-<p>We cross-referenced all 129 C/H CVEs against five independent data sources to test both directions -- do triggers correlate with higher exploitation signals, and did any non-trigger accumulate evidence we should have caught?</p>
+<p>We cross-referenced the C/H CVEs from both the 12-month synthetic stacks and the 7-year production-manifest backtest against five independent data sources, asking two things: do triggers correlate with higher exploitation signals, and did any non-trigger accumulate evidence we should have caught?</p>
 
-<h3>EPSS: Complementary, Not Competitive</h3>
-
-<div class="hero-stat">
-<div class="stat red"><div class="number">8/8</div><div class="label">NP+DI + AI scan<br>catches on day 0</div></div>
-<div class="stat"><div class="number">1/8</div><div class="label">EPSS ≥ 0.10<br>catches on day 1</div></div>
-<div class="stat green"><div class="number">Complementary</div><div class="label" style="font-size:.85rem">NP+DI for speed<br>EPSS for backlog</div></div>
+<div class="callout callout-warning">
+<strong>Up-front honesty about the 12-month sample.</strong> Across all four 12-month framework manifests there is only <strong>one in-scope exploited CVE</strong> (Django <code>CVE-2025-64459</code> _connector SQLi, ExploitDB-only — no KEV, no Metasploit). Every strategy catches it. So "zero misses on the 12-month window" is technically true but operationally vacuous — N=1 doesn't differentiate strategies from random. Real effectiveness scoring happens on the 7-year production-manifest backtest below, which has 13 exploited events and the room to actually score discrimination. The 12-month view's honest purpose is showing how much workload each strategy demands, not which one is most accurate.
 </div>
 
-<p><a href="https://www.first.org/epss/" target="_blank" style="color:var(--accent)">EPSS</a> (FIRST.org) assigns a probability-of-exploitation-within-30-days score to every CVE, incorporating real-world signals — exploit code, threat intel feeds, social media chatter. NP+DI triggers do score 3.3x higher on EPSS (mean) than non-triggers, but that's a retrospective correlation using <em>today's</em> scores. The operational question is: <strong>how fast does each model catch exploited CVEs when you need to act?</strong></p>
+<h3>EPSS: Complementary, Not Competitive (7-year backtest)</h3>
+
+<p><a href="https://www.first.org/epss/" target="_blank" style="color:var(--accent)">EPSS</a> (FIRST.org) assigns a probability-of-exploitation-within-30-days score to every CVE, incorporating real-world signals — exploit code, threat intel feeds, social media chatter. NP+DI triggers score 3.3x higher on EPSS (mean) than non-triggers, but that's a retrospective correlation using <em>today's</em> scores. The operational question is: <strong>how fast does each model catch exploited CVEs when you need to act?</strong></p>
 
 <table class="data-table" style="font-size:.92rem">
-<thead><tr><th>Model</th><th>Day 0</th><th>Day 7</th><th>Day 30</th><th>Eventually</th></tr></thead>
+<thead><tr><th>Model</th><th>Day 0</th><th>Day 7</th><th>Day 30</th><th>Eventually</th><th>Notes</th></tr></thead>
 <tbody>
-<tr style="background:rgba(14,165,233,.08)"><td><strong>NP+DI</strong></td><td><strong>5/8</strong></td><td><strong>5/8</strong></td><td><strong>5/8</strong></td><td><strong>5/8</strong></td></tr>
-<tr style="background:rgba(16,185,129,.08)"><td><strong>NP+DI + AI scan</strong></td><td><strong>8/8</strong></td><td><strong>8/8</strong></td><td><strong>8/8</strong></td><td><strong>8/8</strong></td></tr>
-<tr><td>EPSS ≥ 0.10</td><td>1/8</td><td>4/8</td><td>4/8</td><td>8/8</td></tr>
-<tr><td>EPSS ≥ 0.50</td><td>0/8</td><td>2/8</td><td>4/8</td><td>7/8</td></tr>
+<tr><td><strong>NP+DI raw</strong></td><td>6/13</td><td>6/13</td><td>6/13</td><td>6/13</td><td>Mechanical CWE+package filter</td></tr>
+<tr style="background:rgba(14,165,233,.08)"><td><strong>NP+DI + AI scan</strong></td><td><strong>9/13</strong></td><td><strong>9/13</strong></td><td><strong>9/13</strong></td><td><strong>9/13</strong></td><td>Adds CWE-misclass rescues (Ghostcat, Tomcat partial-PUT, ActiveMQ Jolokia)</td></tr>
+<tr style="background:rgba(168,85,247,.08)"><td><strong>Hacker S+A</strong></td><td><strong>10/13</strong></td><td><strong>10/13</strong></td><td><strong>10/13</strong></td><td><strong>10/13</strong></td><td>Catches a slightly different set; gets XStream 2013-7285 the mechanical filter misses</td></tr>
+<tr style="background:rgba(16,185,129,.08)"><td><strong>NP+DI+AI ∪ Hacker S+A</strong></td><td><strong>11/13</strong></td><td><strong>11/13</strong></td><td><strong>11/13</strong></td><td><strong>11/13</strong></td><td>Union of the two methods — operational answer</td></tr>
+<tr><td>EPSS ≥ 0.10</td><td>1/13</td><td>4/13</td><td>4/13</td><td>11/13</td><td>Eventually catches up; can't act on day 0</td></tr>
+<tr><td>EPSS ≥ 0.50</td><td>0/13</td><td>2/13</td><td>4/13</td><td>9/13</td><td>Stricter threshold; never catches the long-tail</td></tr>
 </tbody>
 </table>
-<p style="margin-top:8px;font-size:.88rem;color:#64748b">8 in-scope exploited CVEs from the 7-year real-world Java manifest backtest (KEV or Metasploit, network-parser libraries). Day 0/7/30 EPSS scores from the <a href="https://www.first.org/epss/" target="_blank" style="color:var(--accent)">FIRST.org historical API</a>. Two out-of-scope exploited CVEs (commons-text, SnakeYAML) excluded. Full breakdown in the <a href="periodicity.html#epss-comparison" style="color:var(--accent)">periodicity analysis</a>.</p>
+<p style="margin-top:8px;font-size:.88rem;color:#64748b">13 actually-exploited events on the 7-year production-manifest backtest (KEV ∪ Metasploit ∪ ExploitDB). The 2 events neither structure-based filter catches are the Tomcat HTTP PUT 2017 pair (CWE-434 file uploads — out-of-scope by design). Day 0/7/30 EPSS scores from the <a href="https://www.first.org/epss/" target="_blank" style="color:var(--accent)">FIRST.org historical API</a>; pre-EPSS events (Ghostcat 2020, Tomcat CGI 2019) and events without early data scored as 0. Full per-event breakdown in the <a href="periodicity.html#epss-comparison" style="color:var(--accent)">periodicity analysis</a>.</p>
 
-<p>EPSS needs the world to react before it can score. Only Log4Shell crossed 0.10 on day 1 — and that's because the entire internet was on fire. XStream sat at 0.018 for a month and didn't cross 0.50 until 19 months later (EPSS v3 model change, not new signal). ActiveMQ still hasn't crossed 0.50. NP+DI fires on disclosure day because it reads CVE structure, not exploitation signal. The 3 NP+DI misses are all CWE metadata failures — the AI safety-net catches all 3 on day zero.</p>
+<p>EPSS needs the world to react before it can score. Only Log4Shell crossed 0.10 on day 1 — because the entire internet was on fire. XStream sat at 0.018 for a month and didn't cross 0.50 until 19 months later (EPSS v3 model change, not new signal). ActiveMQ still hasn't crossed 0.50. The structure-based filters fire on disclosure day because they read CVE structure, not exploitation signal — which is the only way to act before the exploit kits do.</p>
 
 <h3>Validation Summary</h3>
 
 <table class="data-table">
-<thead><tr><th>Source</th><th>What It Measures</th><th>Trigger Signal</th><th>Non-Trigger Signal</th><th>Missed Anything?</th></tr></thead>
+<thead><tr><th>Source</th><th>What It Measures</th><th>Trigger Signal</th><th>Non-Trigger Signal</th><th>Misses?</th></tr></thead>
 <tbody>
-<tr><td><strong>EPSS</strong></td><td>Exploitation probability</td><td>Complementary — NP+DI catches 8/8 on day 0; EPSS catches 1/8</td><td>Retrospective scores eventually converge</td><td><span class="tag tag-green">No</span></td></tr>
-<tr><td><strong>CISA KEV</strong></td><td>Confirmed exploitation</td><td>0 app-layer hits</td><td>1 hit (zlib -- different deployment context)</td><td><span class="tag tag-green">No</span></td></tr>
-<tr><td><strong>ExploitDB</strong></td><td>Public exploit code</td><td>1 hit (Django SQLi)</td><td>1 hit (sqlite -- local access only)</td><td><span class="tag tag-green">No</span></td></tr>
+<tr><td><strong>EPSS</strong></td><td>Exploitation probability</td><td>Complementary — structure filters catch 11/13 on day 0; EPSS catches 1/13 day 1</td><td>Retrospective scores eventually converge</td><td><span class="tag tag-amber">2 out-of-scope by design</span></td></tr>
+<tr><td><strong>CISA KEV</strong></td><td>Confirmed exploitation</td><td>0 app-layer 12-month hits (N=1 caveat); 9 of 13 on 7-year</td><td>1 hit (zlib — exploited via MongoDB, different deployment context)</td><td><span class="tag tag-amber">2 out-of-scope (CWE-434)</span></td></tr>
+<tr><td><strong>ExploitDB</strong></td><td>Public exploit code</td><td>1 hit (Django SQLi, the one 12-month catch)</td><td>1 hit (sqlite — local access only, NVD keyword noise risk)</td><td><span class="tag tag-green">No</span></td></tr>
 <tr><td><strong>Nuclei</strong></td><td>Active scanning</td><td>1 template (Django SQLi)</td><td>0 app-layer templates</td><td><span class="tag tag-green">No</span></td></tr>
-<tr><td><strong>Metasploit</strong></td><td>Weaponized exploits</td><td>0 modules</td><td>1 module (zlib/MongoDB -- different context)</td><td><span class="tag tag-green">No</span></td></tr>
+<tr><td><strong>Metasploit</strong></td><td>Weaponized exploits</td><td>0 app-layer modules</td><td>1 module (zlib/MongoDB — different context)</td><td><span class="tag tag-green">No</span></td></tr>
 </tbody></table>
 
-<div class="callout callout-success">
-<strong>The filter reduces noise without missing exploited vulnerabilities.</strong> Across every validation source, nothing the filter deprioritized accumulated meaningful exploitation evidence. The 113 non-trigger CVEs have zero KEV entries, zero Metasploit modules, and one ExploitDB entry (sqlite heap overflow requiring local access). The 7-year backtest found 3 exploited CVEs the filter missed — all CWE metadata failures, not filter logic failures — and the AI safety-net catches all 3 on day zero. Trust the filter, but verify the data it reads. <a href="periodicity.html#epss-comparison" style="color:var(--accent)">Full analysis &rarr;</a>
+<div class="callout callout-finding">
+<strong>The honest scorecard on the 7-year backtest:</strong> the union of NP+DI + AI scan and Hacker S+A catches <strong>11 of 13</strong> exploited events directly. The remaining 2 are the Tomcat HTTP PUT 2017 pair (CWE-434 file uploads) — explicitly out-of-scope for both structure-based filters; only "patch everything" catches them. Floor-sweep rescues (every emergency rebuild applies the latest version of every dependency) extend effective coverage further; see the <a href="periodicity.html" style="color:var(--accent)">periodicity page</a> for the full accounting. Both filters fire on disclosure day; EPSS catches up eventually but can't act when you need to act.
 </div>
 
-<p>The one CVE that lit up every exploitation source (CVE-2025-14847, zlib -- KEV, Metasploit, EPSS 0.77) is a non-trigger, but it's exploited through MongoDB's wire protocol, not through the Spring/Node/Django apps running on our container. The filter correctly treats it as non-triggering for these applications. That's not a miss -- that's the filter working as designed. Full details in the <a href="periodicity.html#external-validation" style="color:var(--accent)">periodicity analysis</a>.</p>
+<div class="callout callout-warning">
+<strong>One non-trigger signal worth flagging — and what NVD keyword noise does to it.</strong> CVE-2025-14847 (zlib) lit up KEV, Metasploit, and EPSS 0.77 — but it was exploited through MongoDB's wire protocol, not through the Spring/Node/Django apps running on the container. The filter correctly treats it as non-triggering for these applications. <em>However</em>, when we ran the hacker discriminator separately on the OS-container manifest (§8), it surfaced a related issue: <strong>most of the 69 "OS layer" CVEs aren't bugs in OS components at all</strong> — they're CVEs in downstream applications NVD keyword-matched into the wrong component (sqlite-using apps, kernel CVEs matched via systemd, snapd that isn't even in Amazon Linux 2023). The "1 hit" entries above are accurate but the broader OS-layer non-trigger signal is inflated by this noise. Detail on the <a href="periodicity.html#chaining" style="color:var(--accent)">periodicity page</a>.
+</div>
 
 <h3>9a. WAF defensibility on the actually-exploited events</h3>
 
