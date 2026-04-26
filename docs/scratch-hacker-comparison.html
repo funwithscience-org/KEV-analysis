@@ -78,8 +78,23 @@ ul.findings li::before{content:'▸';position:absolute;left:8px;color:#6366f1}
 <p class="subtitle">Original production manifest (Spring 4-5.x, Spring Boot 2.x, log4j 1.x + 2.x, XStream, ActiveMQ, plus build/scripting deps) — 7-year backtest with floor-sweep effective recall</p>
 
 <div class="callout">
-<strong>Scope: the actual deployed manifest, not the synthetic Spring Boot 3.x view.</strong> 60 unique packages across 176 version-pinned entries (multi-version snapshot of an enterprise estate with version sprawl). Includes Spring 4.x and 5.x, Spring Boot 2.2-2.7, both log4j 1.x AND log4j-core 2.x, XStream, ActiveMQ, Apache CXF, MINA, SSHD, Hazelcast, plus Maven/plexus/surefire build tooling and Groovy/JRuby/Jython scripting runtimes. Real attack surface for a 2018-2026 production CI/CD pipeline.<br><br>
-<strong>223 critical/high CVEs over 7 years; 13 actually exploited.</strong> The earlier 48-pkg view (which I had labeled "Spring Boot 3.x" but was synthetically constructed) systematically understated the attack surface — it excluded log4j-core (which Spring Boot 2.x apps frequently opt into), XStream (still in many integration codebases), and ActiveMQ broker (separate product but bundled in many enterprise deploys).<br><br>
+<strong>Scope: the actual deployed manifest, not the synthetic Spring Boot 3.x view.</strong> 60 unique packages across 176 version-pinned entries (multi-version snapshot of an enterprise estate with real-world version sprawl). 223 critical/high CVEs over 7 years; 13 actually exploited.<br><br>
+
+<strong>Worth being explicit about what's in this manifest</strong> (so nobody misreads it as a "modern Spring Boot 3 only" view):
+
+<ul style="margin:8px 0 8px 22px;color:#cbd5e1">
+<li><strong>Spring core stack:</strong> Spring Framework 4.x AND 5.x (spring-web 4.1.6 through 5.3.31 — 13 versions; spring-beans 4.1.6 through 5.3.13 — 8 versions), Spring Boot 2.2-2.7 (actuator-autoconfigure), Spring Security 4.x and 5.x, Spring Integration, Spring WS</li>
+<li><strong>Web servers:</strong> Tomcat embed-core 8.5 and 9.0 (5 versions), Tomcat coyote 6.x</li>
+<li><strong>Logging — both log4j lines:</strong> <code>log4j:log4j</code> 1.2.6 / 1.2.15 / 1.2.17 (the long-EOL 1.x line still in many estates), AND <code>org.apache.logging.log4j:log4j-core</code> 2.8.2 (the Log4Shell-vulnerable 2.x line). Logback also present.</li>
+<li><strong>Messaging / brokers:</strong> ActiveMQ <code>activemq-all</code> 5.12.0 (all-in-one client+broker jar), Apache MINA, Apache SSHD, Hazelcast cluster wire protocol</li>
+<li><strong>SOAP / XML web services:</strong> Apache CXF (api + databinding-aegis), Spring WS, dom4j 1.x and 2.x, Apache XMLBeans, Mulesoft variants</li>
+<li><strong>Deserialization gadget classics:</strong> commons-collections 3.2.x (the original ysoserial gadget chain), XStream 1.4.7 / 1.4.10 / 1.4.11.1, Jackson 1.x (<code>jackson-mapper-asl</code>) and Jackson 2.x (databind 2.3.1 through 2.9.8 — 7 versions), SnakeYAML 1.3 through 1.33 (9 versions), Apache BCEL 6.3</li>
+<li><strong>Scripting runtimes:</strong> Groovy 2.4.x, JRuby 1.7 + 9.2, Jython 2.7 — all RCE-capable when fed untrusted input</li>
+<li><strong>Build tooling and supporting libraries:</strong> Maven core/settings/shared-utils/surefire, plexus-archiver/utils, Apache Ivy, WireMock, Springfox Swagger UI, jxpath, woodstox-core, xmlunit-core</li>
+</ul>
+
+<strong>This represents a 2018-2026 production estate with real version sprawl</strong> — different applications in the estate are running different versions of the same package (jackson-databind has 7 versions, spring-web has 13, snakeyaml has 9). That diversity is the operational reality the analysis is testing against.<br><br>
+
 <strong>Comparator: NP+DI + AI scan</strong> (the operational baseline). Raw NP+DI shown for context.
 </div>
 
