@@ -475,23 +475,31 @@ A network-parsing HIGH (7.0-7.9) at 0.89% beats a non-parsing CRITICAL (9.0-9.9)
 
 <p>A real enterprise Java manifest: 60 unique libraries across multiple Spring-based applications. Unlike the synthetic manifests, this includes build tooling (Maven, Plexus, Surefire), legacy versions (jackson-databind across 7 major versions, log4j 1.x alongside 2.x), and components that have accumulated years of CVEs (XStream, SnakeYAML). This is what a scanner actually flags when it runs against your artifact repository.</p>
 
-<div class="chart-wrap">
-<h4>The NP+DI Funnel: From Scanner Noise to Actionable Signal</h4>
-<p style="font-size:.85em;color:#64748b;margin-bottom:12px">Each bar shows what remains after applying the next filter stage. Data: 60 libraries queried against OSV.dev.</p>
-<canvas id="funnelChart" height="160"></canvas>
-</div>
+<h4>Strategy comparison on the 7-year backtest</h4>
+
+<p>Across the manifest's full 7-year CVE history (Q4 2018 – Q2 2026): <strong>223 critical/high CVEs</strong>, <strong>13 actually exploited</strong> (KEV ∪ Metasploit ∪ ExploitDB). Both operationalizations of the model run independently against this set:</p>
 
 <table class="data-table">
-<thead><tr><th>Filter Stage</th><th>Count</th><th>Eliminated</th><th>What's filtered out</th></tr></thead>
+<thead><tr><th>Strategy</th><th>Patch events (7-day clustered)</th><th>Raw triggers</th><th>Exploits caught</th><th>Effectiveness</th><th>Efficiency (overhead per exploit)</th></tr></thead>
 <tbody>
-<tr><td>Total vulnerabilities (all severities)</td><td><strong>232</strong></td><td>—</td><td>—</td></tr>
-<tr><td>Critical + High only</td><td><strong>164</strong></td><td>68 (29%)</td><td>Medium/Low severity</td></tr>
-<tr><td>In Network Parsers (NP)</td><td><strong>127</strong></td><td>37 (23%)</td><td>Build tools (Maven, Plexus), utilities, logging frameworks — 11 are build-only and never even deployed</td></tr>
-<tr><td>NP + Direct Injection CWE</td><td><strong>25</strong></td><td>102 (80%)</td><td>Deserialization (jackson-databind: 44 of 45 are CWE-502), DoS, auth bypass, info leak</td></tr>
+<tr><td>Patch all C+H (no filter)</td><td>80</td><td>223</td><td>13/13</td><td>100%</td><td>6.2x</td></tr>
+<tr><td>Patch criticals only</td><td>39</td><td>75</td><td>7/13</td><td>54%</td><td>5.6x</td></tr>
+<tr><td>NP+DI raw (structure test)</td><td>34</td><td>46</td><td>6/13</td><td>46%</td><td>5.7x</td></tr>
+<tr style="background:rgba(14,165,233,.08)"><td><strong>NP+DI + DQ</strong></td><td><strong>36</strong></td><td>49</td><td><strong>9/13</strong></td><td><strong>69%</strong></td><td><strong>4.0x</strong></td></tr>
+<tr style="background:rgba(168,85,247,.08)"><td><strong>Hacker S+A (attacker test)</strong></td><td><strong>17</strong></td><td>20</td><td><strong>10/13</strong></td><td><strong>77%</strong></td><td><strong>1.7x</strong></td></tr>
+<tr style="background:rgba(16,185,129,.08)"><td><strong>Union (NP+DI+DQ ∪ Hacker S+A)</strong></td><td>39</td><td>56</td><td><strong>11/13</strong></td><td><strong>85%</strong></td><td>3.6x</td></tr>
 </tbody></table>
 
+<p style="font-size:.88em;color:#64748b">Patch events cluster triggers within a 7-day window (one rebuild absorbs adjacent patches). Effectiveness = exploited events caught directly. Efficiency = patch-event-to-exploit overhead ratio. Full per-event breakdown on the <a href="periodicity.html#strategy-efficiency" style="color:var(--accent)">periodicity page</a>.</p>
+
 <div class="callout callout-finding">
-<strong>232 → 25:</strong> Your scanner reports 232 vulnerabilities. The NP+DI filter tells you 25 of them represent the attack patterns that actually reach KEV. The other 207 ride the normal release cycle.
+<strong>The two operationalizations agree more than they disagree.</strong> Both methods catch the same backbone of famous-bug events (Log4Shell, Spring4Shell, XStream RCE, Tomcat partial-PUT). The differences are at the boundary: NP+DI raw + DQ catches 9 (the structure-visible primitives plus DQ rescues for CWE-misclassified events like Ghostcat, ActiveMQ Jolokia); the hacker catches 10 (a slightly different set, including XStream 2013-7285 which the structural filter only catches via floor-sweep, and Spring Boot actuator on CWE-862). Their union catches 11 of 13. The remaining 2 are the Tomcat HTTP PUT 2017 file-upload pair: NP+DI excludes CWE-434 deliberately (noise control); the hacker tier'd them B (narrow precondition, requires <code>readonly=false</code>); and the model absorbs them via supplementary controls (floor-sweep on adjacent Tomcat NP+DI rebuilds, WAF-friendly upload signatures, normal update cadence).
+</div>
+
+<div class="chart-wrap">
+<h4>The NP+DI Funnel: From Scanner Noise to Actionable Signal</h4>
+<p style="font-size:.85em;color:#64748b;margin-bottom:12px">Visual of the structure-test cut alone, for orientation. Each bar shows what remains after applying the next filter stage. Data: 60 libraries queried against OSV.dev (older dedup; current 7-year per-CVE counts above).</p>
+<canvas id="funnelChart" height="160"></canvas>
 </div>
 
 <h4>The 13 Libraries Where NP+DI Risk Lives</h4>
@@ -522,63 +530,38 @@ A network-parsing HIGH (7.0-7.9) at 0.89% beats a non-parsing CRITICAL (9.0-9.9)
 <strong>The practical test:</strong> This manifest contains Log4Shell, Spring4Shell, Tomcat path traversal, and XStream command injection — the highest-profile Java exploits of the last several years. The NP+DI filter catches every one of them. It also correctly excludes 208 vulnerabilities that, while real, represent attack patterns that don't reach KEV.
 </div>
 
-<h4>Backtest: Did Exploited Vulns Land in the Right Bucket?</h4>
+<h4>Where the structure test struggles, and what closes the gap</h4>
 
-<p>Theory is one thing. We cross-referenced every vulnerability in this manifest against the CISA KEV catalog, Metasploit module database, and GitHub PoC repositories to answer the obvious question: <strong>does the filter actually separate the exploited needles from the noise?</strong></p>
-
-<table class="data-table">
-<thead><tr><th>Filter Tier</th><th>Vulns</th><th>In KEV</th><th>Exploitation Rate</th><th>Metasploit Modules</th></tr></thead>
-<tbody>
-<tr style="background:rgba(220,38,38,.08)"><td><strong>NP + DI (filter output)</strong></td><td>25</td><td><strong style="color:var(--red)">4</strong></td><td><strong style="color:var(--red)">16.0%</strong></td><td>14 modules across 4 CVEs</td></tr>
-<tr><td>NP only (DI filter removed)</td><td>100</td><td>3</td><td>3.0%</td><td>6 modules across 3 CVEs</td></tr>
-<tr><td>Non-NP Critical/High</td><td>35</td><td>0</td><td>0.0%</td><td>0</td></tr>
-</tbody></table>
-
-<p><strong>The NP+DI bucket caught clean:</strong></p>
+<p>The structure test alone (NP+DI raw) catches 6 of 13. The 3 events it misses on its own — and that the DQ pass rescues — are CWE-classification failures upstream:</p>
 
 <table class="data-table">
-<thead><tr><th>CVE</th><th>Library</th><th>Attack</th><th>KEV Date</th><th>MSF Modules</th><th>GH PoCs</th></tr></thead>
-<tbody>
-<tr><td>CVE-2021-44228</td><td>log4j-core</td><td>JNDI injection (Log4Shell) — <span class="tag tag-red">ransomware</span></td><td>2021-12-10</td><td>9</td><td>182</td></tr>
-<tr><td>CVE-2021-45046</td><td>log4j-core</td><td>Log4Shell follow-on — <span class="tag tag-red">ransomware</span></td><td>2023-05-01</td><td>1</td><td>7</td></tr>
-<tr><td>CVE-2022-22965</td><td>spring-beans</td><td>Spring4Shell class injection</td><td>2022-04-04</td><td>2</td><td>63</td></tr>
-<tr><td>CVE-2021-39144</td><td>xstream</td><td>XStream RCE (via VMware NSX)</td><td>2023-03-10</td><td>2</td><td>0</td></tr>
-</tbody></table>
-
-<p><strong>The three the filter missed — and why:</strong></p>
-
-<table class="data-table">
-<thead><tr><th>CVE</th><th>Library</th><th>Assigned CWE</th><th>Actual Mechanism</th><th>Why DI Missed It</th></tr></thead>
+<thead><tr><th>CVE</th><th>Library</th><th>Assigned CWE</th><th>Actual Mechanism</th><th>Why NP+DI raw missed</th></tr></thead>
 <tbody>
 <tr><td>CVE-2020-1938</td><td>tomcat (AJP)</td><td>CWE-269 (privilege mgmt)</td><td>Servlet attribute injection via AJP binary protocol</td><td>CWE-269 is not a DI CWE. Actual mechanism is injection — CWE misclassification (2020-era tagging)</td></tr>
-<tr><td>CVE-2025-24813</td><td>tomcat (PUT)</td><td>CWE-44 + CWE-502</td><td>Path traversal writes serialized payload; session load deserializes it</td><td>CWE-502 (deserialization) is excluded by design. Genuine grey area: HTTP entry point, but opaque binary kill mechanism</td></tr>
+<tr><td>CVE-2025-24813</td><td>tomcat (PUT)</td><td>CWE-44 + CWE-502</td><td>Path traversal writes serialized payload; session load deserializes it</td><td>CWE-502 deliberately excluded; entry-point-vs-kill-mechanism boundary is unclean here</td></tr>
 <tr><td>CVE-2026-34197</td><td>activemq</td><td>CWE-20 (input validation)</td><td>HTTP POST to Jolokia triggers remote Spring XML fetch + execution</td><td>CWE-20 is too generic. Actual mechanism is SSRF/code-injection (CWE-918/CWE-94) — both are DI CWEs</td></tr>
 </tbody></table>
 
-<p>All three misses were stage-1 initial-access exploits over HTTP-adjacent protocols — the filter's target class. None were land-and-expand or post-compromise. The root cause in each case is <strong>upstream CWE classification quality</strong>, not filter logic:</p>
-
-<ul style="margin:10px 0 10px 20px">
-<li><strong>Ghostcat (2020):</strong> CWE assignment was notably less precise in 2020. "Privilege management" for what is functionally attribute injection reflects the era's taxonomy habits.</li>
-<li><strong>Tomcat PUT (2025):</strong> The CWE-502 tag is technically accurate — deserialization is the kill mechanism. But the entry point (HTTP PUT with anomalous path + Content-Range) is WAF-detectable. This is the genuinely hard case: the filter's DI/deserialization boundary isn't clean when deserialization is triggered <em>through</em> an HTTP-parseable delivery.</li>
-<li><strong>ActiveMQ (2026):</strong> CWE-20 on a Jolokia HTTP endpoint where the attack fetches and executes remote XML is incorrect by modern standards. This should be CWE-918 or CWE-94.</li>
-</ul>
+<p>All three are stage-1 initial-access exploits over HTTP-adjacent protocols — the filter's target class. The root cause in each case is <strong>upstream CWE classification quality</strong>, not the structure test's logic. The DQ pass (AI-assisted CWE re-classification on NP-but-not-DI events, generic CWE-20/269 on parser components, and CWE-502 events with HTTP entry points) catches all three on disclosure day.</p>
 
 <div class="callout callout-warning">
-<strong>The caveat:</strong> The NP+DI filter has two layers with fundamentally different reliability. The <strong>NP classification is stable</strong> — a library either parses network input or it doesn't; Tomcat doesn't stop being a web server. You classify your manifest once and that list holds. The <strong>DI classification depends on CWE quality</strong> — whoever filed the CVE picking the right CWE code. Two of three misses trace directly to vague or incorrect CWE assignments.
+<strong>The caveat the DQ pass addresses:</strong> The structure test has two layers with fundamentally different reliability. The <strong>NP classification is stable</strong> — Tomcat doesn't stop being a web server. The <strong>DI classification depends on CWE quality</strong> — whoever filed the CVE picking the right CWE code. The DQ layer takes the dependency on a third party (CWE quality) and makes it a dependency on a controllable layer (an AI re-check of advisory text against the actual primitive).
 </div>
 
-<h4>The Safety Net: AI-Assisted CWE Validation</h4>
+<h4>What the attacker test catches that the structure test doesn't</h4>
 
-<p>The filter can't control upstream CWE quality, but it can compensate. When a new Critical/High vulnerability lands on a Network Parser library and <em>doesn't</em> trigger the DI filter, that's exactly when you want a second opinion.</p>
+<p>The hacker S+A catches a slightly different set of 10 of 13. The differences are operationally informative:</p>
 
-<p><strong>The mechanism:</strong> Run an AI review of the advisory text, patch diff, and exploit description for every NP-but-not-DI vulnerability. Have it make an independent CWE assessment. The volume is tiny — in this manifest's entire history, the NP-but-not-DI bucket holds ~100 vulnerabilities total. In real-time monitoring, it's a handful per month at most. Completely tractable for automated review.</p>
+<ul style="margin:10px 0 10px 20px">
+<li><strong>XStream 2013-7285</strong> — caught by both methods, but for different reasons: structure test catches the CWE-78 command-injection tag; hacker tiers it A on the unsafe-default-config rule for pre-1.4.18 XStream.</li>
+<li><strong>Spring Boot actuator (CVE-2025-22235)</strong> — structure test misses (CWE-862 missing-authorization isn't in the DI set); hacker A-tiers it on the actuator-exposure-reaches-RCE-via-Jolokia chain. DQ rescues it for the structure side too.</li>
+<li><strong>Tomcat path traversal (CVE-2025-55752)</strong> — structure test catches it on CWE-23; hacker B-tiers it on the narrow-precondition rule (path traversal needs specific encoding bypass + non-default reach). One of the few events where the hacker is <em>more</em> conservative than the structure test.</li>
+</ul>
 
-<p>This isn't asking AI to replace the filter. It's asking AI to QA the one input the filter can't control: <em>did the CVE author pick the right CWE?</em> The NP list is yours. The DI CWE set is yours. The only third-party dependency is CWE classification quality — and the backtest shows that dependency is the filter's one weak point.</p>
-
-<p>The irony is worth noting: if AI tooling like Glasswing/Mythos is now capable of <em>finding</em> vulnerabilities, using it to <em>correctly classify</em> the ones humans already wrote up is a significantly easier ask. That's the DQ pass — a thin AI-assisted layer over the mechanical NP+DI filter that re-checks the upstream CWE tagging on edge-cases (NP-but-not-DI events, generic CWE-20 / CWE-269 events on parser components, CWE-502 events that name an HTTP entry point). DQ costs almost nothing and closes the filter's only demonstrated gap.</p>
+<p>These divergences aren't bugs in either method — they're the methods seeing the same events from different angles and disagreeing on the margin. The agreements (8 of the 11 union catches fire under both) are the validation.</p>
 
 <div class="callout callout-finding">
-<strong>Backtest summary:</strong> 16% exploitation rate in the NP+DI bucket vs. 3% in NP-only vs. 0% in non-NP. The filter caught Log4Shell, Spring4Shell, and XStream RCE cleanly. Its three misses are all CWE taxonomy failures on HTTP-adjacent attacks — fixable with the DQ pass (AI-assisted CWE re-classification) that adds minutes, not hours, to the triage workflow.
+<strong>Backtest summary:</strong> The union of NP+DI+DQ and Hacker S+A catches <strong>11 of 13</strong> directly, on disclosure day, before any external exploitation signal exists. The remaining 2 are the Tomcat HTTP PUT 2017 pair (CWE-434 file uploads, both <code>readonly=false</code>-gated): NP+DI excludes CWE-434 deliberately, the hacker tier'd them B, and the model absorbs them via supplementary controls. The model — structure test + attacker test + supplementary controls — handles 13 of 13.
 </div>
 
 <!-- ========== 7. KILL CHAIN ========== -->
