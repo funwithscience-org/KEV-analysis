@@ -3,7 +3,7 @@
 Compute the top_products field that drives the topProductsChart on
 docs/dashboard.html.
 
-Source: data/kev-snapshot-2026-04-23.json (full KEV catalog)
+Source: data/kev-snapshot-2026-04-26.json (full KEV catalog)
 
 Per the prior AI's Q8 answer:
   - Group by KEV `vendorProject` + `product` strings
@@ -87,7 +87,7 @@ def normalize(vendor: str, product: str) -> str:
 
 
 def build(top_n: int = 15) -> dict:
-    snap_path = REPO / "data" / "kev-snapshot-2026-04-23.json"
+    snap_path = REPO / "data" / "kev-snapshot-2026-04-26.json"
     snap = json.load(open(snap_path))
     vulns = snap["vulnerabilities"]
 

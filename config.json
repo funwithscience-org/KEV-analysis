@@ -165,14 +165,14 @@
       "2026-01": 5143,
       "2026-02": 4808,
       "2026-03": 6304,
-      "2026-04": 5037
+      "2026-04": 5083
     },
-    "monthly_cve_2026_notes": "April MTD = 5037 as of 2026-04-25 23:59Z (NVD totalResults). Extrapolated full-month: 5037/25*30 = 6044 (rounded). Q1-2026 actuals: 5143 / 4808 / 6304 \u2014 re-verified against NVD this run. Day-over-day delta: 4971 \u2192 5037 (+66 CVEs in last 24h). Counter-argument: NVD publishing latency is 4-8 weeks; the post-Glasswing Mythos disclosures may not yet have reached NVD assignment. Even at 6044, April lands marginally below March (6304) and consistent with normal Q1 churn.",
+    "monthly_cve_2026_notes": "April MTD = 5083 as of 2026-04-26 04:00Z (NVD totalResults). Extrapolated full-month: 5083/26*30 = 5865 (rounded). Q1-2026 actuals: 5143 / 4808 / 6304 \u2014 re-verified against NVD this run. Day-over-day delta: 5037 \u2192 5083 (+46 CVEs in last 24h; well below the running ~200/day average \u2014 typical Sunday lull). Counter-argument: NVD publishing latency is 4-8 weeks; the post-Glasswing Mythos disclosures may not yet have reached NVD assignment. Even at 5865 extrapolated, April lands meaningfully below March (6304) and consistent with normal Q1 churn \u2014 no positive evidence of a Glasswing-driven volume shock.",
     "weekly_cve_2026": {
       "2026-W14_Mar30_Apr05": 1304,
       "2026-W15_Apr06_Apr12": 1615,
       "2026-W16_Apr13_Apr19": 1178,
-      "2026-W17_Apr20_Apr26_partial": 1353
+      "2026-W17_Apr20_Apr26_partial": 1399
     },
     "ms_patch_tuesday": {
       "2025-01": 157,
@@ -205,9 +205,9 @@
       "2026-01": 17,
       "2026-02": 28,
       "2026-03": 26,
-      "2026-04": 24
+      "2026-04": 28
     },
-    "kev_monthly_2026_notes": "April KEV total holds at 24 (catalogVersion 2026.04.23, no new release since 2026-04-23T17:00Z). Q1-2026 KEV monthly avg = (17+28+26)/3 = 23.7. April pacing: 24 entries already meets that average with 5 days remaining. Notable April 2026 KEV entries: SharePoint 2026-04-14, ActiveMQ 2026-04-16, Adobe Acrobat 2026-04-13, Defender BlueHammer 2026-04-22, Marimo 2026-04-23, Cisco SD-WAN cluster 2026-04-20."
+    "kev_monthly_2026_notes": "April KEV total advances to 28 (catalogVersion 2026.04.24, released 2026-04-24T16:52Z). 4 new entries on 2026-04-24: CVE-2025-29635 (D-Link DIR-823X), CVE-2024-7399 (Samsung MagicINFO 9), CVE-2024-57728 + CVE-2024-57726 (SimpleHelp). Q1-2026 KEV monthly avg = (17+28+26)/3 = 23.7. April 28 entries with 4 days remaining puts the month above the Q1 mean. Notable April 2026 KEV entries: SimpleHelp pair 2026-04-24, Samsung MagicINFO 2026-04-24, D-Link DIR-823X 2026-04-24, Marimo 2026-04-23, Defender BlueHammer 2026-04-22, Cisco SD-WAN cluster 2026-04-20, ActiveMQ 2026-04-16, SharePoint 2026-04-14, Adobe Acrobat 2026-04-13."
   },
   "exploit_watch_list": {
     "description": "HTTP-parsing-adjacent CVEs predicted to be actively exploited. Analyst adds entries; refresh agent checks KEV status.",
@@ -585,6 +585,7 @@
         },
         "last_checked": "2026-04-24T03:00Z"
       }
-    }
+    },
+    "last_incremental_check": "2026-04-26T04:14Z"
   }
 }

@@ -1,23 +1,23 @@
 {
-  "generated_at": "2026-04-23T18:48:44Z",
-  "source": "pinned:/sessions/bold-nice-euler/KEV-analysis/data/kev-snapshot-2026-04-23.json",
-  "input_sha256_16": "fb343480415d7532",
-  "kev_catalog_version": "2026.04.23",
-  "kev_date_released": "2026-04-23T17:00:03.832Z",
+  "generated_at": "2026-04-26T04:11:00Z",
+  "source": "live:https://www.cisa.gov/sites/default/files/feeds/known_exploited_vulnerabilities.json",
+  "input_sha256_16": "4989b9488b0c811e",
+  "kev_catalog_version": "2026.04.24",
+  "kev_date_released": "2026-04-24T16:52:07.2233Z",
   "summary": {
-    "total_kev": 1579,
-    "windowed_kev": 887,
+    "total_kev": 1583,
+    "windowed_kev": 891,
     "ransomware_total": 317,
     "ransomware_windowed": 186,
     "layer_counts_windowed": {
-      "other": 279,
+      "iot_ics": 23,
+      "other": 282,
       "os": 251,
       "vpn_network_appliance": 130,
       "email_collab_server": 44,
       "productivity_desktop": 21,
       "cms_webapp": 10,
       "browser": 56,
-      "iot_ics": 22,
       "firmware_hardware": 23,
       "virtualization_container": 14,
       "jvm_runtime": 25,
@@ -42,6 +42,42 @@
     }
   },
   "classifications": [
+    {
+      "cveID": "CVE-2025-29635",
+      "year": 2025,
+      "layer": "iot_ics",
+      "isRansomware": false,
+      "vendor": "D-Link",
+      "product": "DIR-823X",
+      "dateAdded": "2026-04-24"
+    },
+    {
+      "cveID": "CVE-2024-7399",
+      "year": 2024,
+      "layer": "other",
+      "isRansomware": false,
+      "vendor": "Samsung",
+      "product": "MagicINFO 9 Server",
+      "dateAdded": "2026-04-24"
+    },
+    {
+      "cveID": "CVE-2024-57728",
+      "year": 2024,
+      "layer": "other",
+      "isRansomware": false,
+      "vendor": "SimpleHelp ",
+      "product": "SimpleHelp",
+      "dateAdded": "2026-04-24"
+    },
+    {
+      "cveID": "CVE-2024-57726",
+      "year": 2024,
+      "layer": "other",
+      "isRansomware": false,
+      "vendor": "SimpleHelp ",
+      "product": "SimpleHelp",
+      "dateAdded": "2026-04-24"
+    },
     {
       "cveID": "CVE-2026-39987",
       "year": 2026,

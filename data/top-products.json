@@ -1,8 +1,8 @@
 {
-  "generated_at": "2026-04-25T09:40:50Z",
+  "generated_at": "2026-04-26T04:12:25Z",
   "description": "Canonical top-products aggregation backing the topProductsChart on docs/dashboard.html. Counts are over the full KEV catalog, with manual normalization to collapse vendor/product variants.",
   "methodology": {
-    "source": "data/kev-snapshot-2026-04-23.json",
+    "source": "data/kev-snapshot-2026-04-26.json",
     "scope": "full KEV catalog (all entries, all years)",
     "top_n": 15,
     "normalization_rules": [
@@ -194,9 +194,9 @@
     "fallback": "if no rule matches, use 'vendor / product' as canonical"
   },
   "summary": {
-    "total_entries": 1579,
-    "unique_canonical_products": 583,
-    "top_n_share_pct": 40.0
+    "total_entries": 1583,
+    "unique_canonical_products": 584,
+    "top_n_share_pct": 39.9
   },
   "top_products": [
     {

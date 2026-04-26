@@ -1,8 +1,8 @@
 {
-  "generated_at": "2026-04-25T10:08:49Z",
+  "generated_at": "2026-04-26T04:12:26Z",
   "description": "Time-to-exploit per CVE-publication year, backing the tteChart on docs/dashboard.html. TTE = dateAdded (CISA KEV) - cve_published_date (NVD/OSV).",
   "methodology": {
-    "kev_source": "data/kev-snapshot-2026-04-23.json",
+    "kev_source": "data/kev-snapshot-2026-04-26.json",
     "publication_date_source": "data/_kev-publication-dates.json (OSV)",
     "include_years": [
       2021,
@@ -15,8 +15,8 @@
   },
   "summary": {
     "coverage_per_year": {
+      "2024": 162,
       "2023": 163,
-      "2024": 159,
       "2021": 213,
       "2022": 130
     },
@@ -26,7 +26,7 @@
       "2022": 2,
       "2021": 10
     },
-    "total_with_tte": 586
+    "total_with_tte": 589
   },
   "tte_data": [
     {
@@ -55,11 +55,11 @@
     },
     {
       "year": 2024,
-      "n": 145,
-      "median": 17,
+      "n": 148,
+      "median": 18,
       "p25": 1,
-      "p75": 91,
-      "mean": 72
+      "p75": 103,
+      "mean": 81
     }
   ]
 }
