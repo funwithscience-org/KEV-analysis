@@ -154,7 +154,7 @@ Preview build (<code style="background:#e2e8f0;padding:1px 6px;border-radius:3px
 <a href="#libraries" class="sub">Libraries Deep Dive</a>
 <a href="#survivorship"><span class="toc-num">4</span> Why Most Criticals Don't Get Exploited</a>
 <a href="#time-to-exploit"><span class="toc-num">5</span> Time-to-Exploit</a>
-<a href="#np-di-filter"><span class="toc-num">6</span> The NP+DI Filter</a>
+<a href="#np-di-filter"><span class="toc-num">6</span> Building the Filter</a>
 <a href="#cross-framework"><span class="toc-num">7</span> Does It Work?</a>
 <a href="#kill-chain"><span class="toc-num">8</span> Land &amp; Expand</a>
 <a href="#external-validation"><span class="toc-num">9</span> External Validation</a>
@@ -376,7 +376,7 @@ A network-parsing HIGH (7.0-7.9) at 0.89% beats a non-parsing CRITICAL (9.0-9.9)
 <p>The 2024 data (median 34 days) appears to reverse the trend, but this is a <strong>right-censoring artifact</strong>: many 2024 CVEs haven't been added to KEV yet. The compression is driven by the commoditization of exploit development, faster reverse engineering from patches, and the industrialization of ransomware operations.</p>
 
 <!-- ========== 6. NP+DI FILTER ========== -->
-<h2 id="np-di-filter">6. From Observation to Filter: NP+DI</h2>
+<h2 id="np-di-filter">6. Building a Practical Priority Filter</h2>
 
 <div class="translation"><strong>In plain English:</strong> "Network parsers are riskier" is an observation. "Rebuild only when a network parser has a direct-injection bug" is a <em>decision rule</em> you can actually use. Here's how we got from one to the other.</div>
 
