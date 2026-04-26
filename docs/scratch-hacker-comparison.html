@@ -32,6 +32,8 @@ tr:hover td{background:#334155}
 .hl-npdi td:first-child{color:#7dd3fc;font-weight:700}
 .hl-ai{background:rgba(16,185,129,.08)}
 .hl-ai td:first-child{color:#86efac;font-weight:700}
+.hl-baseline{background:rgba(148,163,184,.05)}
+.hl-baseline td:first-child{color:#cbd5e1;font-weight:600}
 .tally td{font-weight:700;background:#0f172a;border-top:2px solid #475569}
 .note{font-size:.85em;color:#64748b;margin-top:8px;font-style:italic}
 .callout{background:#0f172a;border:1px solid #334155;border-left:4px solid #06b6d4;padding:16px 20px;border-radius:0 8px 8px 0;margin:20px 0}
@@ -64,6 +66,12 @@ ul.findings li::before{content:'▸';position:absolute;left:8px;color:#6366f1}
 .kpi.ai{border-color:#10b981}
 .kpi.ai .kpi-val{color:#86efac}
 .muted{color:#64748b}
+.frac-cell{font-family:'SF Mono',Monaco,monospace;font-size:.92em;text-align:center}
+.frac-good{color:#86efac}
+.frac-mid{color:#fbbf24}
+.frac-bad{color:#fca5a5}
+table.t-compact td, table.t-compact th{padding:8px 10px;font-size:.86em}
+table.t-compact td.frac-cell{padding:6px 8px}
 </style>
 </head>
 <body>
@@ -73,8 +81,8 @@ ul.findings li::before{content:'▸';position:absolute;left:8px;color:#6366f1}
 <strong>⚠ SCRATCH — INTERNAL REVIEW</strong> &nbsp;·&nbsp; Not linked from any other page &nbsp;·&nbsp; Subject to change &nbsp;·&nbsp; <code>noindex</code>
 </div>
 
-<h1>NP+DI vs EPSS vs Hacker Persona</h1>
-<p class="subtitle">Single 12-month window vs. seven 12-month windows — does the filter survive scaling out?</p>
+<h1>NP+DI vs EPSS vs Hacker Persona — efficiency view</h1>
+<p class="subtitle">Patches per strategy across one window vs seven windows — does the filter survive scaling out, and at what patch cost?</p>
 
 <!-- ===== NARRATIVE RECAP ===== -->
 <h2>How we got here</h2>
@@ -82,60 +90,114 @@ ul.findings li::before{content:'▸';position:absolute;left:8px;color:#6366f1}
 <ol>
 <li><strong>The 12-month synthetic backtest worked.</strong> NP+DI alone caught 5 of 8 in-scope exploited CVEs at day zero against a four-ecosystem manifest. EPSS ≥ 0.10 caught 1 of 8 on day one and didn't reach 8/8 until "eventually."</li>
 <li><strong>An AI safety-net scan closed the structural gap.</strong> The 3 NP+DI misses were all CWE-misclassification cases (Ghostcat tagged CWE-269 instead of CWE-22; ActiveMQ Jolokia tagged CWE-20 instead of CWE-94; Tomcat partial PUT tagged CWE-44+502 instead of being recognized as a chained primitive). An automated CWE-validation pass on NP-but-not-DI advisories catches all 3 on day zero. NP+DI + AI scan: 8/8 with the same speed advantage over EPSS.</li>
-<li><strong>We extended the backtest to seven years across multiple frameworks</strong> (Spring/Java + Django/Python) to test whether the 12-month "perfect catch" framing survives at scale. Total exploited universe: 15 events.</li>
-<li><strong>An adversarial hacker persona, blind to actual exploitation outcomes, ranked vulnerabilities by attack value</strong> (S = drop everything, A = strong campaign candidate, B/C/D = lower priority). The hacker's discriminator was default-config × network-edge × primitive-direct — derived independently from the bug shape, not from CWE-set membership.</li>
-<li><strong>Hacker S+A turned out to be both the most efficient (fewest unnecessary patches) and safest (fewest missed exploits) review methodology</strong> — recall 14 of 15 actual exploits while flagging far fewer events than NP+DI ∪ AI scan extended to the same recall.</li>
+<li><strong>We extended the backtest to seven years across multiple frameworks</strong> (Spring/Java + Django/Python) to test whether the 12-month "perfect catch" framing survives at scale. Combined exploited universe: 15 events from 356 critical/high CVEs.</li>
+<li><strong>An adversarial hacker persona, blind to actual exploitation outcomes, ranked vulnerabilities by attack value</strong> (S = drop everything, A = strong campaign candidate, B/C/D = lower priority). The hacker's discriminator was default-config × network-edge × primitive-direct — derived independently from bug shape, not from CWE-set membership.</li>
+<li><strong>Hacker S+A turned out to be both the most efficient (fewest unnecessary patches) and safest (fewest missed exploits) review methodology.</strong> 14 of 15 actual exploits caught (93% recall) at 67 patches over 7 years — vs NP+DI's 7/15 at 66 patches, criticals-only's 10/15 at 74 patches.</li>
 </ol>
 </div>
 
 <!-- ===== TABLE 1: 12-MONTH COMPARATOR ===== -->
-<h2>Table 1 — 12-month comparator (existing EPSS table + hacker persona)</h2>
-<p>Real-world Java manifest, 8 in-scope exploited CVEs (KEV or Metasploit on network-parser libraries). Day 0 / 7 / 30 EPSS scores from FIRST.org historical API. The new bottom row adds hacker-persona tiering, computed from CVE structure on disclosure day with no exploitation-evidence inputs.</p>
+<h2>Table 1 — 12-month comparator (existing EPSS table + hacker persona + baselines)</h2>
+<p>Real-world Java manifest, 8 in-scope exploited CVEs (KEV or Metasploit on network-parser libraries). The existing EPSS table extended with the hacker persona row and two new baseline strategies (patch criticals; patch all C+H). "Patches" column is the count of CVEs the strategy would have flagged across the same Java-only manifest universe (175 events).</p>
 
 <table>
-<thead><tr><th>Model</th><th>Day 0</th><th>Day 7</th><th>Day 30</th><th>Eventually</th></tr></thead>
+<thead><tr><th>Strategy</th><th>Day 0</th><th>Day 7</th><th>Day 30</th><th>Eventually</th><th>Patches</th><th>Patches per exploit caught</th></tr></thead>
 <tbody>
-<tr class="hl-npdi"><td>NP+DI</td><td>5/8</td><td>5/8</td><td>5/8</td><td>5/8</td></tr>
-<tr class="hl-ai"><td>NP+DI + AI scan</td><td>8/8</td><td>8/8</td><td>8/8</td><td>8/8</td></tr>
-<tr class="hl-hacker"><td>Hacker persona (S+A)</td><td>7/8</td><td>7/8</td><td>7/8</td><td>7/8</td></tr>
-<tr><td>EPSS ≥ 0.10</td><td>1/8</td><td>4/8</td><td>4/8</td><td>8/8</td></tr>
-<tr><td>EPSS ≥ 0.50</td><td>0/8</td><td>2/8</td><td>4/8</td><td>7/8</td></tr>
+<tr class="hl-baseline"><td>Patch all C+H</td><td>8/8</td><td>8/8</td><td>8/8</td><td>8/8</td><td>175</td><td class="frac-bad">21.9x</td></tr>
+<tr class="hl-baseline"><td>Patch criticals only</td><td>5/8</td><td>5/8</td><td>5/8</td><td>5/8</td><td>41</td><td class="frac-mid">8.2x</td></tr>
+<tr class="hl-npdi"><td>NP+DI</td><td>5/8</td><td>5/8</td><td>5/8</td><td>5/8</td><td>34</td><td class="frac-mid">6.8x</td></tr>
+<tr class="hl-ai"><td>NP+DI + AI scan</td><td>8/8</td><td>8/8</td><td>8/8</td><td>8/8</td><td>37</td><td class="frac-good">4.6x</td></tr>
+<tr class="hl-hacker"><td>Hacker persona (S+A)</td><td>7/8</td><td>7/8</td><td>7/8</td><td>7/8</td><td>44</td><td class="frac-mid">6.3x</td></tr>
+<tr><td>EPSS ≥ 0.10</td><td>1/8</td><td>4/8</td><td>4/8</td><td>8/8</td><td>33</td><td class="frac-good">4.1x (eventually)</td></tr>
+<tr><td>EPSS ≥ 0.50</td><td>0/8</td><td>2/8</td><td>4/8</td><td>7/8</td><td>21</td><td class="frac-good">3.0x (eventually)</td></tr>
 </tbody>
 </table>
-<p class="note">Hacker S+A scoring derived from R3's blind tier assignments on the 175-event 7-year manifest, filtered to the same 8 in-scope events. The 1 hacker miss is CVE-2019-0232 (Tomcat CGI on Windows) — bucketed B because of the narrow Windows + non-default-CGI pre-condition. Same speed as NP+DI on disclosure day.</p>
+<p class="note">"Patches per exploit caught" = total flagged events ÷ exploits caught (lower is better; 1.00x is the post-hoc oracle minimum). EPSS overhead measured at "eventually" recall — at Day 0 EPSS overhead is 33x and 21x respectively. Hacker S+A overhead is the same Day 0 through Eventually because it reads CVE structure on disclosure day.</p>
 
 <div class="callout">
-<strong>Reading the table.</strong> NP+DI and Hacker-S+A both fire on disclosure day from CVE structure alone — no exploitation-signal lag. EPSS catches up to "eventually" only because the world reacted (Log4Shell crossed 0.10 on day 1; XStream took 19 months). The hacker persona reads structurally similar to NP+DI but with one less catch (Tomcat CGI Windows-only) — the gap is offensive-judgment, not data lag.
+<strong>Reading the table.</strong> NP+DI alone delivers the same 5/8 recall as patching criticals but with fewer patches (34 vs 41) — modest efficiency win. NP+DI + AI scan is the operational sweet spot here: 8/8 recall at 37 patches (4.6x oracle) — clearly beats every alternative on the 12-month window. The hacker persona looks worse on this single window because it flags more events (44) for one less catch (7/8 — misses Tomcat CGI Windows-only). At 12 months, AI scan wins outright.
 </div>
 
 <!-- ===== TABLE 2: MULTIPLE 12-MONTH RUNS ===== -->
-<h2>Table 2 — Seven 12-month windows (the same model, scaled out)</h2>
-<p>Same models, but evaluated against every 12-month window across the 7-year backtest universe. The events are pooled from Spring/Java + Django/Python manifests (15 actually-exploited C/H CVEs total). Each row is a calendar year; "exploited" counts events published in that window.</p>
+<h2>Table 2 — Seven 12-month windows (combined Spring + Django, 356 events, 15 exploited)</h2>
+<p>Same strategies, same speed assumption (catches at disclosure), but evaluated across every 12-month window of the 7-year backtest universe. Cells are <strong>catches / patches</strong> per strategy per window. The aggregate row at the bottom shows the 7-year totals and patches-per-exploit overhead.</p>
 
-<table>
-<thead><tr><th>12-month window</th><th>Exploited (in-scope)</th><th>NP+DI catches</th><th>NP+DI + AI scan catches</th><th>Hacker S+A catches</th><th>Notable misses</th></tr></thead>
+<table class="t-compact">
+<thead><tr>
+<th>Window (Jan-Dec)</th><th>Exploited</th>
+<th class="hl-baseline">Patch all C+H</th>
+<th class="hl-baseline">Criticals only</th>
+<th class="hl-npdi">NP+DI</th>
+<th class="hl-ai">+AI scan</th>
+<th class="hl-hacker">Hacker S+A</th>
+<th>Union (NP+DI ∪ Hkr)</th>
+</tr></thead>
 <tbody>
-<tr><td>2018 (Apr-Mar)</td><td>1</td><td>1/1</td><td>1/1</td><td>1/1</td><td class="muted">none</td></tr>
-<tr><td>2019 (Apr-Mar)</td><td>2</td><td>1/2</td><td>1/2</td><td>1/2</td><td>NP+DI: Django reset hijack; Hacker: Tomcat CGI Windows</td></tr>
-<tr><td>2020 (Apr-Mar)</td><td>1</td><td>0/1</td><td>1/1</td><td>1/1</td><td>NP+DI: Ghostcat (CWE-269 misclass)</td></tr>
-<tr><td>2021 (Apr-Mar)</td><td>3</td><td>3/3</td><td>3/3</td><td>3/3</td><td class="muted">none</td></tr>
-<tr><td>2022 (Apr-Mar)</td><td>3</td><td>1/3</td><td>1/3</td><td>3/3</td><td>NP+DI: commons-text + snakeyaml (utility libs not NP)</td></tr>
-<tr><td>2023 (Apr-Mar)</td><td>2</td><td>0/2</td><td>0/2</td><td>2/2</td><td>NP+DI: Pillow/libwebp + ActiveMQ OpenWire</td></tr>
-<tr><td>2024 (Apr-Mar)</td><td>0</td><td>0/0</td><td>0/0</td><td>0/0</td><td class="muted">no in-scope events</td></tr>
-<tr><td>2025-26 (Apr-Apr)</td><td>3</td><td>1/3</td><td>2/3</td><td>3/3</td><td>NP+DI: Tomcat PUT, ActiveMQ Jolokia</td></tr>
-<tr class="tally"><td>7-year total</td><td>15</td><td>7/15 (47%)</td><td>10/15 (67%)</td><td>14/15 (93%)</td><td>—</td></tr>
+<tr><td>2018</td><td>1</td>
+<td class="frac-cell">1/25</td><td class="frac-cell">1/6</td>
+<td class="frac-cell frac-good">1/5</td><td class="frac-cell frac-good">1/5</td>
+<td class="frac-cell frac-good">1/3</td><td class="frac-cell">1/6</td></tr>
+<tr><td>2019</td><td>1</td>
+<td class="frac-cell">1/39</td><td class="frac-cell">1/18</td>
+<td class="frac-cell">1/9</td><td class="frac-cell">1/9</td>
+<td class="frac-cell frac-bad">0/5</td><td class="frac-cell">1/12</td></tr>
+<tr><td>2020</td><td>2</td>
+<td class="frac-cell">2/43</td><td class="frac-cell">1/10</td>
+<td class="frac-cell frac-bad">0/5</td><td class="frac-cell">1/6</td>
+<td class="frac-cell frac-good">2/4</td><td class="frac-cell">2/8</td></tr>
+<tr><td>2021</td><td>3</td>
+<td class="frac-cell">3/68</td><td class="frac-cell">3/7</td>
+<td class="frac-cell frac-good">3/12</td><td class="frac-cell frac-good">3/12</td>
+<td class="frac-cell frac-good">3/18</td><td class="frac-cell">3/23</td></tr>
+<tr><td>2022</td><td>3</td>
+<td class="frac-cell">3/84</td><td class="frac-cell">3/18</td>
+<td class="frac-cell frac-bad">1/11</td><td class="frac-cell frac-bad">1/11</td>
+<td class="frac-cell frac-good">3/11</td><td class="frac-cell">3/18</td></tr>
+<tr><td>2023</td><td>2</td>
+<td class="frac-cell">2/29</td><td class="frac-cell">2/4</td>
+<td class="frac-cell frac-bad">0/2</td><td class="frac-cell frac-bad">0/2</td>
+<td class="frac-cell frac-good">2/5</td><td class="frac-cell">2/7</td></tr>
+<tr><td>2024</td><td>0</td>
+<td class="frac-cell muted">0/26</td><td class="frac-cell muted">0/4</td>
+<td class="frac-cell muted">0/7</td><td class="frac-cell muted">0/7</td>
+<td class="frac-cell muted">0/7</td><td class="frac-cell muted">0/10</td></tr>
+<tr><td>2025</td><td>2</td>
+<td class="frac-cell">2/21</td><td class="frac-cell">1/3</td>
+<td class="frac-cell">1/7</td><td class="frac-cell frac-good">2/8</td>
+<td class="frac-cell frac-good">2/9</td><td class="frac-cell">2/10</td></tr>
+<tr><td>2026 YTD</td><td>1</td>
+<td class="frac-cell">1/21</td><td class="frac-cell">1/4</td>
+<td class="frac-cell frac-bad">0/8</td><td class="frac-cell">1/9</td>
+<td class="frac-cell frac-good">1/5</td><td class="frac-cell">1/10</td></tr>
+<tr class="tally"><td>7-year total</td><td><strong>15</strong></td>
+<td class="frac-cell">15/356</td><td class="frac-cell">10/74</td>
+<td class="frac-cell">7/66</td><td class="frac-cell">10/69</td>
+<td class="frac-cell">14/67</td><td class="frac-cell">15/104</td></tr>
+<tr class="tally"><td>Recall</td><td>—</td>
+<td class="frac-cell">100%</td><td class="frac-cell">67%</td>
+<td class="frac-cell frac-bad">47%</td><td class="frac-cell">67%</td>
+<td class="frac-cell frac-good">93%</td><td class="frac-cell frac-good">100%</td></tr>
+<tr class="tally"><td>Patches per exploit caught</td><td>—</td>
+<td class="frac-cell frac-bad">23.7x</td><td class="frac-cell frac-mid">7.4x</td>
+<td class="frac-cell frac-bad">9.4x</td><td class="frac-cell">6.9x</td>
+<td class="frac-cell frac-good">4.79x</td><td class="frac-cell">6.93x</td></tr>
 </tbody>
 </table>
 
 <div class="callout callout-warn">
-<strong>The 12-month "perfect catch" framing breaks at scale.</strong> Within a single 12-month window, sample-size luck dominates — 2021 looks like a perfect 3/3 quarter for every model; 2020 looks terrible for NP+DI alone. Across seven 12-month windows the actual recall settles: NP+DI alone catches 47%, NP+DI + the existing AI scan catches 67%, hacker S+A catches 93%. The same headline that holds at N=8 is misleading at N=15.
+<strong>The 12-month "perfect catch" framing breaks at scale, and so does the "NP+DI is more efficient than criticals" framing.</strong> Within a single 12-month window, sample-size luck dominates. Over seven 12-month windows the picture inverts: NP+DI alone catches fewer exploits (7) than just patching criticals (10), at almost the same patch volume (66 vs 74). Adding AI scan brings NP+DI to parity with criticals (10/15 catches, 69 patches). Only the hacker persona meaningfully improves on both: 14 of 15 catches at 67 patches — fewer patches than NP+DI alone, double the recall.
 </div>
 
 <div class="kpi-row">
-<div class="kpi npdi"><div class="kpi-val">47%</div><div class="kpi-lbl">NP+DI alone<br>(7 of 15 over 7yr)</div></div>
-<div class="kpi ai"><div class="kpi-val">67%</div><div class="kpi-lbl">NP+DI + AI scan<br>(10 of 15 over 7yr)</div></div>
-<div class="kpi hacker"><div class="kpi-val">93%</div><div class="kpi-lbl">Hacker S+A<br>(14 of 15 over 7yr)</div></div>
-<div class="kpi"><div class="kpi-val">100%</div><div class="kpi-lbl">NP+DI ∪ Hacker S+A<br>(15 of 15 over 7yr)</div></div>
+<div class="kpi"><div class="kpi-val">21.9x</div><div class="kpi-lbl">Patch all C+H<br>175 patches, 8/8 caught</div></div>
+<div class="kpi"><div class="kpi-val">8.2x</div><div class="kpi-lbl">Patch criticals only<br>41 patches, 5/8 caught</div></div>
+<div class="kpi npdi"><div class="kpi-val">6.8x</div><div class="kpi-lbl">NP+DI<br>34 patches, 5/8 caught</div></div>
+<div class="kpi ai"><div class="kpi-val">4.6x</div><div class="kpi-lbl">NP+DI + AI scan<br>37 patches, 8/8 caught</div></div>
+<div class="kpi hacker"><div class="kpi-val">6.3x</div><div class="kpi-lbl">Hacker S+A<br>44 patches, 7/8 caught</div></div>
+</div>
+
+<div class="callout callout-success">
+<strong>Hacker S+A wins the 7-year scaled-out comparison on both axes simultaneously.</strong> Lowest patches-per-exploit overhead (4.79x) AND highest recall short of 100% (93%). To get from 93% to 100% recall, you need the union with NP+DI (104 patches, 6.93x oracle) — or equivalently, an AI scan that's been extended to cover deserialization (CWE-502) and package-role-aware NP for utility libraries (commons-text, snakeyaml).
 </div>
 
 <!-- ===== PER-EVENT DETAIL ===== -->
@@ -163,32 +225,40 @@ ul.findings li::before{content:'▸';position:absolute;left:8px;color:#6366f1}
 </tbody>
 </table>
 
-<p class="note">"AI scan" here is the existing implementation (CWE re-validation for NP-but-not-DI advisories — catches CWE-misclassification cases like Ghostcat / Tomcat PUT / Jolokia). It does NOT currently re-classify package roles (commons-text, SnakeYAML are role=OTHER in the manifest), expand DI to include CWE-502 deserialization, recognize CWE-640 unicode auth bypass, or assess image-library memory corruption with shared-C-library shapes — that's why it doesn't catch the 5 events between AI scan (10) and Hacker S+A (14). Extending AI scan to those four categories would close the gap.</p>
+<p class="note">"AI scan" here is the existing implementation (CWE re-validation for NP-but-not-DI advisories — catches CWE-misclassification cases like Ghostcat / Tomcat PUT / Jolokia). It does NOT currently re-classify package roles (commons-text, SnakeYAML are role=OTHER in the manifest), expand DI to include CWE-502 deserialization, recognize CWE-640 unicode auth bypass, or assess image-library memory corruption with shared-C-library shapes — that's why it doesn't catch the 4 events between AI scan (10) and Hacker S+A (14). Extending AI scan to those four categories would close the gap.</p>
 
 <!-- ===== CONCLUSION ===== -->
 <h2>The synthesis</h2>
 
 <div class="callout callout-success">
-<strong>Hacker S+A is the safest review methodology at 7-year scale.</strong> 14 of 15 actual exploits caught (93% recall) at lower flag-volume than NP+DI alone produces. The single miss is the same one across both NP+DI and the hacker (Tomcat CGI Windows-only) — neither approach accidentally caught it; both downgraded it on the same narrow-precondition reasoning.
+<strong>Hacker S+A is the most efficient AND safest review methodology at 7-year scale.</strong> Lowest patches-per-exploit (4.79x oracle), highest single-strategy recall (93% — 14 of 15 actual exploits caught). The single miss is CVE-2019-0232 (Tomcat CGI on Windows) — both NP+DI catches it (CWE-78 + Tomcat NP) so the union NP+DI ∪ Hacker-S+A reaches 100% recall at 6.93x oracle.
 </div>
 
 <div class="callout">
-<strong>NP+DI ∪ Hacker S+A reaches 100% recall.</strong> NP+DI catches CVE-2019-0232 via the CWE-78 + Tomcat-NP combo; Hacker S+A catches the 8 events NP+DI misses. Union flags ~60 events over 7 years to catch all 15 — about 5.45× the post-hoc oracle minimum, vs. ~16× for "patch every C/H." That's the operational ceiling on a triage filter that doesn't have access to exploitation evidence.
+<strong>Per-strategy headlines, 7-year totals (15 exploits over 356 events):</strong>
+<ul class="findings">
+<li><strong>Patch all C+H</strong> — 356 patches, 100% recall, 23.7x oracle. Maximum patch effort, baseline for "do nothing smart."</li>
+<li><strong>Patch criticals only</strong> — 74 patches, 67% recall, 7.4x oracle. The blunt-instrument default for many security teams. Catches 10 of 15.</li>
+<li><strong>NP+DI</strong> — 66 patches, 47% recall, 9.4x oracle. <em>Worse than criticals on both axes</em> over 7 years — flags slightly fewer events but catches significantly fewer exploits.</li>
+<li><strong>NP+DI + AI scan</strong> — 69 patches, 67% recall, 6.9x oracle. Reaches criticals-level recall with fewer patches.</li>
+<li><strong>Hacker S+A</strong> — 67 patches, 93% recall, 4.79x oracle. Best on both axes simultaneously.</li>
+<li><strong>NP+DI ∪ Hacker S+A</strong> — 104 patches, 100% recall, 6.93x oracle. The cost of the last 7% recall is 37 extra patches.</li>
+</ul>
 </div>
 
 <h3>Counter-argument worth holding</h3>
 <ul class="findings">
-<li><strong>The hacker exercise is part of the validation methodology, not a deployable product.</strong> An LLM-based hacker persona is expensive to run on every CVE batch and depends on prompt design. The operational fix is to encode the hacker's discriminator as programmatic checks (auth-missing CWE co-tag rule, package-role-aware NP, CWE-misclassification re-validation, native-C-library memory corruption flagging). That's an extension of the AI scan, not a replacement.</li>
-<li><strong>Right-censoring affects 2024-2026 events.</strong> If recent CVEs accumulate exploitation evidence by 2027-2028, NP+DI and AI-scan recall will both improve; the relative ordering should hold but absolute numbers shift.</li>
-<li><strong>15 exploited events over 7 years is small N.</strong> The hacker's 14/15 vs NP+DI's 7/15 is a meaningful gap but not statistically conclusive — flip 2-3 events on the boundaries and the headline numbers move ~5pp. The directional finding (hacker S+A &gt; NP+DI alone in recall, both &lt; oracle in precision) is robust; the precise multipliers are wide.</li>
-<li><strong>Hacker S+A wasn't validated as cross-ecosystem-portable in the same way.</strong> Java showed training-from-Java helped; Django (separate test) showed neither training nor deliberation improved over an untrained baseline. The cross-manifest finding is in <code>HACKER-INTERVENTIONS-CROSS-MANIFEST-SYNTHESIS.md</code>.</li>
+<li><strong>The hacker exercise is a methodology validation, not a deployable product.</strong> Running an LLM-based hacker persona on every CVE batch is expensive and prompt-design-sensitive. The operational artifact is an AI scan extended to encode the hacker's discriminator as programmatic checks (auth-missing CWE co-tag rule, package-role-aware NP for utility libraries, CWE-502 deserialization promotion on network-facing components, native-C-library memory corruption flagging). That extension would close the 4-event gap between current AI scan (10/15) and Hacker S+A (14/15).</li>
+<li><strong>Right-censoring affects 2024-2026 events.</strong> If recent CVEs accumulate exploitation evidence by 2027-2028, every strategy's recall will improve; the relative ordering should hold but absolute numbers shift.</li>
+<li><strong>15 exploited events is small N.</strong> Hacker S+A's 14/15 vs NP+DI's 7/15 is a meaningful gap but not statistically conclusive — flip 2-3 events on the boundaries and the headline numbers move ~5pp. The directional finding (hacker S+A &gt; NP+DI alone in both recall and efficiency) is robust; the precise multipliers are wide.</li>
+<li><strong>The combined Spring + Django universe mixes ecosystems.</strong> Java alone (175 events, 11 exploits) shows NP+DI at 5/11 = 45% recall — the same shape as the combined view but slightly different proportions. The Python contribution to combined exploitation (4 events, 0 in NP+DI scope as currently defined except for Django _connector and paramiko widened-DI) is what drives Hacker S+A's relative advantage. Pure-Python operators may see a different efficiency curve.</li>
 </ul>
 
 <h3>Operational reading</h3>
 <p>Three tiers of confidence the data supports:</p>
 <ul class="findings">
 <li><strong>Tier 1 — Drop everything (Hacker S):</strong> 5 events across 7 years; 100% precision both rounds. These are the unconditional one-shot RCEs (Log4j, Spring4Shell-class, ActiveMQ OpenWire-class).</li>
-<li><strong>Tier 2 — This week (Hacker S+A union with NP+DI):</strong> ~60 events across 7 years; 100% recall on actual exploitation. The operational policy is the union, not either alone.</li>
+<li><strong>Tier 2 — This week (Hacker S+A union with NP+DI):</strong> ~104 events across 7 years; 100% recall on actual exploitation. The operational policy is the union, not either alone.</li>
 <li><strong>Tier 3 — Regular cadence:</strong> everything else; 0 of the 15 exploits in this set landed below A-tier in either filter.</li>
 </ul>
 
