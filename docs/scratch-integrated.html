@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="robots" content="noindex,nofollow">
-<title>SCRATCH v2 — Integrated periodicity + hacker view</title>
+<title>Cross-Framework Patch Periodicity — KEV Analysis</title>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
 <style>
 :root{--bg:#fff;--surface:#f8fafc;--border:#e2e8f0;--text:#334155;--muted:#64748b;
@@ -18,11 +18,8 @@ h3{font-size:1.1em;margin:20px 0 8px;color:var(--cyan)}
 p{margin:8px 0;color:var(--text)}
 strong{color:#0f172a}
 .subtitle{color:var(--muted);font-size:.95em;margin-bottom:24px}
-.scratch-banner{background:#fef3c7;color:#78350f;padding:10px 16px;border-radius:6px;font-size:.9em;margin-bottom:24px;text-align:center;border:1px solid #fbbf24}
-.scratch-banner strong{color:#7c2d12}
-.scratch-banner code{background:#fcd34d;color:#7c2d12;padding:1px 6px;border-radius:3px;font-size:.85em}
-.todo{background:#fef9c3;border-left:4px solid #facc15;padding:12px 16px;margin:12px 0;border-radius:0 6px 6px 0;font-size:.9em;color:#713f12}
-.todo strong{color:#78350f}
+.scratch-banner{background:#f1f5f9;color:#475569;padding:8px 14px;border-radius:6px;font-size:.82em;margin-bottom:24px;text-align:center;border:1px solid var(--border)}
+.scratch-banner code{background:#e2e8f0;color:#475569;padding:1px 6px;border-radius:3px;font-size:.85em}
 .card{background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:16px;margin:12px 0;color:var(--text)}
 table{width:100%;border-collapse:collapse;font-size:.85em;margin:12px 0}
 th{background:var(--surface);color:var(--accent);text-align:left;padding:8px 10px;border-bottom:2px solid var(--border)}
@@ -65,16 +62,15 @@ ul.findings li::before{content:'▸';position:absolute;left:6px;color:var(--acce
 <body>
 
 <div class="scratch-banner">
-<strong>⚠ SCRATCH v2 — INTEGRATED VIEW (in progress)</strong> &nbsp;·&nbsp; Reference points: <code>periodicity.html</code> (original) · <code>scratch-hacker-comparison.html</code> (drill-down) · <em>this page</em> (integration target)
+Preview build (<code>noindex</code>) · Successor to the published periodicity page
 </div>
 
-<h1>Cross-Framework Patch Periodicity — Integrated with Hacker View</h1>
-<p class="subtitle">Same flow as the published periodicity analysis, extended with the hacker-discriminator strategy alongside NP+DI + AI scan, plus the 7-year scaling-out detail and burst-vs-silence dynamics.</p>
+<h1>Cross-Framework Patch Periodicity</h1>
+<p class="subtitle">How four production stacks see CVE pressure across a 12-month window and a 7-year arc, scored against four triage strategies — patch-everything, NP+DI, NP+DI + AI scan, and a hacker S+A discriminator — and cross-checked with WAF-defensibility on the bugs that actually got exploited.</p>
 
-<!-- ===== SECTION 1: 12-MONTH FRAMEWORK RECAP (existing periodicity content) ===== -->
 <h2>1. The 12-month per-framework view</h2>
 
-<p>This is the material from the published <a href="periodicity.html" style="color:var(--accent)">periodicity analysis</a>, extended with one new column: how many patch events would the hacker discriminator have fired on each manifest in the same 12-month window. The four sample stacks are unchanged — <span class="fw-badge fw-spring">Spring Boot</span> 48 deps, <span class="fw-badge fw-node">Node.js/Express</span> 45 deps, <span class="fw-badge fw-django">Django/DRF</span> 40 deps, <span class="fw-badge fw-netty">Netty</span> 7 deps.</p>
+<p>Four production-shaped manifests across a single year (Apr 2025 – Apr 2026): <span class="fw-badge fw-spring">Spring Boot</span> 48 deps, <span class="fw-badge fw-node">Node.js/Express</span> 45 deps, <span class="fw-badge fw-django">Django/DRF</span> 40 deps, <span class="fw-badge fw-netty">Netty</span> 7 deps. For each, four triage strategies: patch-all-criticals-and-highs, NP+DI (network parser × direct injection CWE), NP+DI + AI scan (rescues for events whose surface CWE underweights the primitive), and the hacker S+A discriminator (default-config × network-edge × primitive-direct, with the auth-missing co-tag rule).</p>
 
 <h3>Trigger counts per framework (Apr 2025 – Apr 2026)</h3>
 
@@ -130,19 +126,18 @@ ul.findings li::before{content:'▸';position:absolute;left:6px;color:var(--acce
 </tbody>
 </table>
 
-<p style="font-size:.85em;color:var(--muted)"><strong>Hacker source rounds:</strong> Spring covered by R3 (175-event Java input subsumes the Spring 48-pkg manifest). Django covered by R4 (181-event Django input subsumes the Django 40-pkg manifest). Node and Netty had no prior hacker coverage — ranked fresh in <a href="../analyst-reports/2026-04-26-hacker-ranking-v6-node-netty-12mo.md" style="color:var(--accent)">R6</a>. AI scan adds CWE-misclass rescues per framework (Spring: spring-boot actuator; Node: sequelize SQLi + lodash _.template; Django: ASGI header spoof; Netty: none beyond NP+DI raw).</p>
+<p style="font-size:.85em;color:var(--muted)"><strong>Hacker tier coverage:</strong> Spring and Django manifests sit inside larger blinded ranking exercises (175- and 181-event Java/Python sets respectively); Node and Netty were ranked separately on the same discriminator. AI-scan rescues per framework — Spring: Spring Boot actuator exposure (CVE-2025-22235); Node: sequelize SQLi + lodash <code>_.template</code>; Django: ASGI header spoof (CVE-2026-3902); Netty: none beyond NP+DI raw.</p>
 
 <h3>Cross-framework chart</h3>
 <div class="chart-wrap">
 <canvas id="crossFrameworkChart" style="max-height:340px"></canvas>
 </div>
 
-<p>Same chart shape as published periodicity, but 4 columns per framework (All C+H / NP+DI raw / NP+DI + AI scan / Hacker S+A) instead of 2.</p>
+<p>Four bars per framework: patch-all C+H, NP+DI raw, NP+DI + AI scan, and hacker S+A. The hacker bar is consistently at or below NP+DI raw, but catches a slightly different set of events — the operational meaning of that overlap-but-not-identity is what the rest of the page unpacks.</p>
 
-<!-- ===== SECTION 2: PERIODICITY (12-month silence patterns from existing) ===== -->
 <h2>2. Periodicity: silence punctuated by bursts (12-month view)</h2>
 
-<p>Per the published periodicity analysis: NP+DI doesn't produce evenly spaced triggers — it produces <em>silence punctuated by bursts</em>. Spring had 5.5 months of silence, then two hits in a week. Node had 10 months of silence, then two hits in 29 days. Existing data:</p>
+<p>Averages mislead here. Neither NP+DI nor hacker S+A produces evenly spaced triggers — both produce <em>silence punctuated by bursts</em>. Spring had 5.5 months of NP+DI silence, then two hits in a week. Node had 10 months of NP+DI silence, then two hits in 29 days. The hacker filter extends those silences further on Spring and Django because its bar is stricter, but compresses on Node because all three of its hits cluster into Q1 2026.</p>
 
 <table>
 <thead><tr><th>Framework</th><th>Longest silence (NP+DI)</th><th>Longest silence (Hacker S+A)</th><th>Comment</th></tr></thead>
@@ -158,22 +153,19 @@ ul.findings li::before{content:'▸';position:absolute;left:6px;color:var(--acce
 <strong>Hacker discriminator extends the silence stretches further than NP+DI raw on Spring and Django.</strong> The hacker's stricter S+A bar means fewer firings concentrated on the truly-decisive bugs, so longer waits between alerts. Spring goes from 164d → 205d, Django from 90d → 153d. Node compresses (29d → 16d) because all three Hacker S+A events bunch into Q1 2026 while NP+DI raw spans 2026-02-26 to 2026-03-27. Netty is degenerate (one trigger) for both.
 </div>
 
-<!-- ===== SECTION 3: SEGUE — 12 MONTHS IS TOO SHORT ===== -->
-<h2>3. But 12 months is too short — does the filter survive at 7-year scale?</h2>
+<h2>3. Why 12 months is too short</h2>
 
-<p>The 12-month per-framework backtest had zero exploited CVEs in three of the four frameworks (Node, Django, Netty all hit 0 KEV/MSF in the window) and only a handful in Spring. That's a clean coverage test — it shows the filter aligns with exploitation evidence over a single year — but the "perfect catch" framing collapses against a denser baseline. To stress-test, we extend the analysis to:</p>
+<p>The 12-month per-framework view has zero exploited CVEs in three of the four manifests — Node, Django, and Netty all hit 0 KEV/MSF entries in the window. Spring has one (CVE-2026-34197 ActiveMQ Jolokia, late in the window). That's a clean <em>coverage</em> test — every strategy looks like it "works" because there's almost nothing to miss — but the discrimination question is unanswered.</p>
+
+<p>To force the strategies to differentiate, we widen the scope:</p>
 
 <ul class="findings">
-<li><strong>A 7-year window</strong> instead of 12 months</li>
-<li><strong>An actual production estate manifest</strong> (Spring Boot 2.x) with version sprawl rather than the synthetic 48-package framework view</li>
-<li><strong>Both NP+DI + AI scan AND a hacker-discriminator strategy</strong> as comparison points alongside patch-criticals and patch-all baselines</li>
-<li><strong>Effective recall via floor sweep</strong>, not just direct catch</li>
-<li><strong>Burst vs silence operational pattern</strong>, not just averages</li>
+<li><strong>A 7-year window</strong> instead of 12 months — enough exploit ground truth to actually score recall.</li>
+<li><strong>An actual production estate manifest</strong> with version sprawl — Spring Boot 2.x estate with 60 unique packages across 176 version-pinned entries, not a synthetic 48-package framework view.</li>
+<li><strong>Effective recall via floor sweep</strong>, not just direct catch — a routine rebuild applies the latest version of <em>every</em> dependency, which means a long-TTE exploit gets effectively patched if any other strategy trigger fires during the window.</li>
+<li><strong>Burst vs silence operational pattern</strong>, not just averaged "patch events per year".</li>
 </ul>
 
-<p>What follows is that extended analysis on the production manifest (the same content as the <a href="scratch-hacker-comparison.html" style="color:var(--accent)">drill-down scratch page</a>, integrated here for the periodicity-flow narrative).</p>
-
-<!-- ===== SECTION 4: 7-YEAR PRODUCTION MANIFEST SCOPE ===== -->
 <h2>4. The production manifest (7-year scope)</h2>
 
 <div class="card">
@@ -192,7 +184,6 @@ ul.findings li::before{content:'▸';position:absolute;left:6px;color:var(--acce
 </ul>
 </div>
 
-<!-- ===== SECTION 5: 7-YEAR STRATEGY EFFICIENCY ===== -->
 <h2>5. Strategy efficiency — 7-year totals (with 7-day clustering)</h2>
 
 <p>Patch counts are 7-day-clustered patch events (matching the periodicity convention): triggers within 7 days of each other count as one patch event since a defender already in a rebuild cycle absorbs the next CVE in the same forced march.</p>
@@ -218,13 +209,13 @@ ul.findings li::before{content:'▸';position:absolute;left:6px;color:var(--acce
 
 <p style="font-size:.85em;color:var(--muted)">* Hacker S+A patch count caveat: hacker tier assignments cover events ranked in the original blind exercise. Some events outside that input default to "not in S+A" by absence — but the discriminator would have B/C/D'd most of them anyway (utility / scripting / build-tool CVEs trend low-tier). The 17-patch count is approximately right; the 9-catch number is exact.</p>
 
-<!-- ===== SECTION 6: TIME SERIES (LIGHT THEME) ===== -->
-<h2>6. Time series — quarterly volume + strategy overlays + exploit markers</h2>
+<h2>6. Time series — quarterly volume, strategy overlays, exploit markers</h2>
 <div class="chart-wrap">
 <canvas id="timeseriesChart" style="max-height:420px"></canvas>
 </div>
 
-<!-- ===== SECTION 7: BURST VS SILENCE ===== -->
+<p>Grey bars are the full critical/high CVE flow per quarter on the production manifest. Cyan is what NP+DI + AI scan would have flagged; purple is what the hacker S+A discriminator would have flagged. Red stars mark the 13 events that actually got exploited (KEV ∪ Metasploit ∪ ExploitDB). The chart makes the point Section 7 names: the comparator and the hacker both drop to zero-or-near-zero firings for long stretches, then both spike together during the famous-bug clusters (2021-Q4 Log4Shell, 2022-Q4 Text4Shell + SnakeYAML, 2025-Q1 Tomcat partial-PUT).</p>
+
 <h2>7. Averages lie — burst vs silence pattern</h2>
 
 <p>The averaged "patch events per year" obscures the real defender experience. During busy quarters (≥10 C/H disclosures) every reasonable strategy fires multiple times — the filter's discrimination is muted. During quiet quarters strategies diverge sharply on whether to fire at all. The savings concentrate in quiet periods, not the average.</p>
@@ -254,7 +245,6 @@ ul.findings li::before{content:'▸';position:absolute;left:6px;color:var(--acce
 <strong>The flip side: during the bursts, no strategy buys you out of the work.</strong> 2020-Q2 (29 events), 2021-Q4 (20 events Log4Shell+Spring Security), 2022-Q4 (Text4Shell+SnakeYAML+Tomcat smuggling) — the team is in emergency mode regardless. The hacker's value isn't fewer emergencies during bursts; it's <em>not having</em> emergencies during the 17 quiet quarters when the comparator and patch-criticals are still demanding attention.
 </div>
 
-<!-- ===== SECTION 8: FLOOR SWEEP EFFECTIVE RECALL ===== -->
 <h2>8. Effective recall via floor sweep</h2>
 
 <p>Per the <a href="build-mechanics.html#free" style="color:var(--accent)">build-mechanics analysis</a>, every emergency rebuild applies the latest version of <em>every</em> dependency — not just the trigger. So a long-TTE exploit gets effectively patched if any other filter trigger fires during the TTE window. The exposure ceiling for any specific exploit is "until the next filter trigger fires," not "until the filter catches this specific event."</p>
@@ -271,7 +261,6 @@ ul.findings li::before{content:'▸';position:absolute;left:6px;color:var(--acce
 
 <p>2 events (CVE-2017-12615 and CVE-2017-12617, Tomcat HTTP PUT file upload, CWE-434) are unrecoverable by any triage filter — they're explicitly out of NP+DI scope and the hacker discriminator B/C-tiers file uploads on the narrow-precondition rule. Only patch-everything catches them (by definition).</p>
 
-<!-- ===== SECTION 9: PER-EVENT DETAIL ===== -->
 <h2>9. Per-event detail — the 13 exploited events</h2>
 
 <table>
@@ -317,7 +306,6 @@ ul.findings li::before{content:'▸';position:absolute;left:6px;color:var(--acce
 <strong>Operator/defender symmetry.</strong> The same axis that tells an operator "this campaign has a long window because perimeters can't close it" tells a defender "no perimeter substitute exists, you have to deploy the patch." The bugs the operator most wants are also the bugs the defender most needs to patch fast. The hacker discriminator is reading that signal one step earlier than the WAF telemetry would.
 </div>
 
-<!-- ===== SECTION 10: ATTACK SURFACE LOCATION ===== -->
 <h2>10. Where attack surface concentrates vs where it doesn't</h2>
 
 <ul class="findings">
@@ -327,7 +315,6 @@ ul.findings li::before{content:'▸';position:absolute;left:6px;color:var(--acce
 <li><strong>2 unrecoverable events</strong>: Tomcat HTTP PUT file upload from 2017 (CWE-434, deliberately out of NP+DI scope and hacker discriminator B/C-tiers file uploads). Patch-all is the only strategy that catches them.</li>
 </ul>
 
-<!-- ===== SECTION 11: SYNTHESIS ===== -->
 <h2>11. Synthesis</h2>
 
 <div class="callout callout-finding">
@@ -346,32 +333,20 @@ ul.findings li::before{content:'▸';position:absolute;left:6px;color:var(--acce
 <strong>Limit case (covered separately on the <a href="evergreen.html#paywalled" style="color:#7c2d12">evergreen page</a>):</strong> the floor-sweep model assumes "rebuild → fix appears." For Spring 5.x post-EOL events (Aug 2024+), Broadcom moved patches behind a commercial support paywall — Spring 5.x line gets fixes only via paid contract, not via OSS rebuild. 7 such CVEs accumulated so far, 0 exploited; lifecycle debt accumulating but not yet translating to incident.
 </div>
 
-<!-- ===== TODO LIST ===== -->
-<h2>Outstanding items for this integration</h2>
+<h2>Methodology and sources</h2>
 
-<div class="todo">
-<strong>Done since v2 scaffold:</strong>
-<ul style="margin-top:6px;padding-left:22px">
-<li>Hacker S+A computed for all 4 framework 12-month manifests — Spring (R3), Django (R4), Node (R6 fresh pass), Netty (R6 fresh pass).</li>
-<li>NP+DI + AI scan computed per framework with explicit rescue events documented.</li>
-<li>Cross-framework chart renders 4 columns per framework (real data, not placeholder).</li>
-<li>Section 2 silence-pattern table filled with hacker S+A longest-silence numbers per framework.</li>
-<li>Section 9 per-event detail extended with WAF-defensibility column from R5 + WAF mitigability roll-up.</li>
-</ul>
-</div>
+<p><strong>12-month manifests.</strong> Spring Boot, Node.js/Express, Django/DRF, and Netty production-shaped dependency lists, queried against OSV for critical/high CVEs published Apr 2025 – Apr 2026. NP and DI flags come from the canonical classifier rules — NP if the package's primary purpose is processing untrusted input that arrives over the network or drives security decisions; DI if the CWE is in the widened injection / auth-bypass set (78, 77, 89, 94, 95, 116, 287, 289, 306, 502, 611, 693, 863, 917, 918, 1336, and others). Hacker tier assignments use the default-config × network-edge × primitive-direct discriminator with the auth-missing co-tag rule.</p>
 
-<div class="todo">
-<strong>Editorial decisions to confirm with reviewer:</strong>
-<ul style="margin-top:6px;padding-left:22px">
-<li>Section ordering — does the "burst vs silence" placement work after the strategy-efficiency table, or should it move earlier as a framing device?</li>
-<li>Per-event detail table — keep at this level or push to a details/disclosure?</li>
-<li>How much of the 12-month section to keep vs link out to the published periodicity page</li>
-<li>WAF dimension — does the per-event WAF column overload the table, or is it the right place for it?</li>
-</ul>
-</div>
+<p><strong>7-year production manifest.</strong> An actual deployed Spring Boot 2.x estate — 60 unique packages across 176 version-pinned entries reflecting real-world version sprawl (Spring 4.x and 5.x lines side by side, multiple Tomcat/Jackson/SnakeYAML versions, both <code>log4j:log4j</code> 1.x and <code>log4j-core</code> 2.x, etc.). 223 critical/high CVEs returned from OSV; 13 of those have exploitation evidence in KEV ∪ Metasploit ∪ ExploitDB.</p>
+
+<p><strong>Patch-event clustering.</strong> Triggers within 7 days of each other count as a single patch event, matching the convention used elsewhere in this analysis: a defender already in an emergency rebuild absorbs the next CVE in the same forced march.</p>
+
+<p><strong>Floor-sweep effective recall.</strong> Per the <a href="build-mechanics.html#free" style="color:var(--accent)">build-mechanics page</a>, every emergency rebuild applies the latest version of every dependency, so a long-TTE exploit is effectively patched if any other strategy trigger fires during the time-to-exploit window. Direct catches and floor-sweep rescues are accounted separately.</p>
+
+<p><strong>WAF-defensibility tags.</strong> Sourced from the WAF-aware operator pass on the 175-event Java/Spring blinded ranking. WAF-FRIENDLY = signature-able payload, generic OWASP rules cover, emergency rule ships within hours. WAF-MEDIUM = signature exists but evadable. WAF-HOSTILE = wrong protocol entirely or attack indistinguishable from legitimate traffic.</p>
 
 <div class="footer">
-SCRATCH v2 (integrated) &middot; Compare with: <a href="periodicity.html">periodicity.html (original)</a> &middot; <a href="scratch-hacker-comparison.html">scratch-hacker-comparison.html (drill-down)</a>
+Cross-framework patch periodicity &middot; <a href="dashboard.html">Dashboard</a> &middot; <a href="index.html">Walkthrough</a> &middot; <a href="evergreen.html">Evergreening</a> &middot; <a href="build-mechanics.html">Build mechanics</a>
 </div>
 
 <script>
@@ -409,7 +384,7 @@ new Chart(document.getElementById('crossFrameworkChart'), {
   }
 });
 
-// Time series chart (port from drill-down page, light theme)
+// 7-year quarterly time series
 const QUARTERS = ["2018-Q1","2018-Q2","2018-Q3","2018-Q4","2019-Q1","2019-Q2","2019-Q3","2019-Q4","2020-Q1","2020-Q2","2020-Q3","2020-Q4","2021-Q1","2021-Q2","2021-Q3","2021-Q4","2022-Q1","2022-Q2","2022-Q3","2022-Q4","2023-Q1","2023-Q2","2023-Q3","2023-Q4","2024-Q1","2024-Q2","2024-Q3","2024-Q4","2025-Q1","2025-Q2","2025-Q3","2025-Q4","2026-Q1","2026-Q2"];
 const TOTALS = [0,0,0,16,9,5,6,6,5,29,3,1,4,7,15,20,8,23,2,13,4,3,8,2,8,1,1,5,2,2,5,1,3,6];
 const NPDIAI = [0,0,0,4,3,3,2,0,1,2,1,1,1,2,4,3,3,2,0,2,1,0,1,1,3,0,0,1,2,1,1,1,0,3];
