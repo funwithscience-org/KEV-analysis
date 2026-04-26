@@ -156,6 +156,69 @@ ul.findings li::before{content:'▸';position:absolute;left:8px;color:#6366f1}
 <div class="kpi hacker"><div class="kpi-val">1.9x*</div><div class="kpi-lbl">Hacker S+A<br>17 / 9 (69%)</div></div>
 </div>
 
+<!-- ===== AVERAGES LIE: BURST VS SILENCE ===== -->
+<h2>Averages lie — the operational experience is silence punctuated by bursts</h2>
+
+<p>The "patch events per year" averages above describe an evenly-distributed workload that doesn't actually exist. Vulnerability disclosures cluster — Apr 9 2026 brought a 7-CVE Tomcat batch, Aug 25 2021 brought 3 XStream advisories on one day, Dec 9-14 2021 brought the Log4Shell + jackson + log4j-bypass cluster across 5 days of continuous incident response. The published <a href="periodicity.html#zero-misses-burst" style="color:#67e8f9">periodicity analysis</a> already calls this out (line 180): <em>"the NP+DI filter doesn't produce evenly spaced events. It produces silence punctuated by bursts. Averaging obscures the real operational picture."</em></p>
+
+<p>Translated to this manifest: during busy quarters with 10+ C/H disclosures, every reasonable strategy fires multiple times — the filter's discrimination is muted because the defender is going to be rebuilding anyway. During quiet quarters, the strategies diverge sharply — the filter determines whether you rebuild at all this quarter or not. The savings concentrate in the quiet periods, not the average.</p>
+
+<table>
+<thead><tr><th>Strategy</th><th>Patch events / 7yr</th><th>Avg gap</th><th>Median gap</th><th>Longest silent stretch</th><th>Quarters with zero events (of 31)</th></tr></thead>
+<tbody>
+<tr class="hl-baseline"><td>Patch all C+H</td><td>80</td><td>35d</td><td>29d</td><td>117d</td><td>0 / 31 (0%)</td></tr>
+<tr class="hl-baseline"><td>Patch criticals only</td><td>39</td><td>72d</td><td>48d</td><td>303d</td><td>10 / 31 (32%)</td></tr>
+<tr class="hl-comparator"><td>NP+DI + AI scan ← comparator</td><td>36</td><td>78d</td><td>62d</td><td>285d</td><td>6 / 31 (19%)</td></tr>
+<tr class="hl-hacker"><td>Hacker persona (S+A)</td><td>17</td><td>133d</td><td>118d</td><td><strong>436d</strong></td><td><strong>17 / 31 (55%)</strong></td></tr>
+</tbody>
+</table>
+
+<div class="callout">
+<strong>Hacker S+A: 17 silent quarters out of 31 — over half the calendar shows no rebuild fire.</strong> The longest silent stretch is 436 days (1 year and 2 months). NP+DI + AI scan: 6 silent quarters. Patch criticals: 10 silent quarters but with a 303-day longest silence (criticals are bursty too — they cluster around major Spring/Tomcat releases). Patch-all C+H: zero silent quarters — there is always at least one C/H disclosure on a 60-package manifest in any 90-day window.
+</div>
+
+<h3>Busy quarters: the filter is muted</h3>
+<table>
+<thead><tr><th>Quarter</th><th>Total C/H</th><th>NP+DI+AI fires</th><th>Hacker fires</th><th>Notes</th></tr></thead>
+<tbody>
+<tr><td>2018-Q4</td><td>16</td><td>4</td><td>0</td><td>Tomcat 8.5 cluster + Jackson 2.x cluster</td></tr>
+<tr><td>2020-Q2</td><td>29</td><td>2</td><td>2</td><td>Tomcat + plexus pile-on; Ghostcat lands</td></tr>
+<tr><td>2021-Q3</td><td>15</td><td>4</td><td>1</td><td>XStream allowlist bypass batch (Aug 25)</td></tr>
+<tr><td>2021-Q4</td><td>20</td><td>3</td><td>2</td><td>Log4Shell + Spring Security cluster</td></tr>
+<tr><td>2022-Q2</td><td>23</td><td>2</td><td>1</td><td>Spring Security cleanup + Tomcat upload re-disclosure</td></tr>
+<tr><td>2022-Q4</td><td>13</td><td>2</td><td>3</td><td>Text4Shell + SnakeYAML + Tomcat smuggling</td></tr>
+</tbody>
+</table>
+
+<p>In the 6 busiest quarters (≥10 C/H disclosures), <strong>every strategy fires at least once</strong>. The hacker's discrimination doesn't help avoid a rebuild — it helps choose which of several disclosures forces the rebuild and which can wait for the next normal cycle. The defender's calendar shows a busy quarter regardless.</p>
+
+<h3>Quiet quarters: the filter is the experience</h3>
+<table>
+<thead><tr><th>Quarter</th><th>Total C/H</th><th>NP+DI+AI fires</th><th>Hacker fires</th></tr></thead>
+<tbody>
+<tr><td>2022-Q3</td><td>2</td><td>0</td><td>0</td></tr>
+<tr><td>2023-Q2</td><td>3</td><td>0</td><td>0</td></tr>
+<tr><td>2024-Q2</td><td>1</td><td>0</td><td>0</td></tr>
+<tr><td>2024-Q3</td><td>1</td><td>0</td><td>0</td></tr>
+<tr><td>2026-Q1</td><td>3</td><td>0</td><td>0</td></tr>
+<tr><td>2020-Q4</td><td>1</td><td>1</td><td>0</td></tr>
+<tr><td>2023-Q4</td><td>2</td><td>1</td><td>1</td></tr>
+<tr><td>2025-Q1</td><td>2</td><td>2</td><td>1</td></tr>
+<tr><td>2025-Q2</td><td>2</td><td>1</td><td>1</td></tr>
+<tr><td>2025-Q4</td><td>1</td><td>1</td><td>0</td></tr>
+</tbody>
+</table>
+
+<p>In quiet quarters (≤3 C/H disclosures), the strategies <strong>diverge meaningfully on whether to fire at all</strong>. Hacker S+A produces complete silence in 5 of 11 quiet quarters — the team has nothing to do (on the filter's calendar) for the entire quarter. NP+DI + AI scan produces silence in 4 of 11. Patch-all C+H always fires somewhere. The difference between "no patches this quarter" and "two patches this quarter" is a real operational difference for a security team's headspace.</p>
+
+<div class="callout callout-success">
+<strong>The headline that average overhead doesn't capture: the hacker discriminator gives defenders 17 quarters of silence (55%) over a 7-year cycle.</strong> NP+DI + AI scan gives 6 quarters of silence (19%). Patch-all C+H gives zero silent quarters — there's always something. The averaged "1.9x oracle vs 4.0x oracle" overhead numbers describe the same total work but mis-locate when it lands. The defender experience under hacker S+A is "long stretches of nothing, then a real fire when it matters." The defender experience under patch-all is "constant maintenance churn, never quiet."
+</div>
+
+<div class="callout callout-warn">
+<strong>The flip side: during the bursts, no strategy buys you out of the work.</strong> In 2020-Q2 the manifest had 29 disclosures; NP+DI+AI fires 2x and hacker fires 2x — the team is in emergency mode regardless of strategy. In 2022-Q4 the team is dealing with Text4Shell and SnakeYAML simultaneously (both of which only the hacker catches directly). The hacker's value isn't fewer emergencies during bursts — it's <em>not having</em> emergencies during the quiet 17 quarters when the comparator and patch-criticals are still demanding attention.
+</div>
+
 <!-- ===== EFFECTIVE RECALL VIA FLOOR SWEEP ===== -->
 <h2>Effective recall — when "floor sweep" rescues a direct miss</h2>
 
