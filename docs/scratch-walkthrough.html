@@ -502,7 +502,7 @@ A network-parsing HIGH (7.0-7.9) at 0.89% beats a non-parsing CRITICAL (9.0-9.9)
 
 <h3>7d. Silence Windows</h3>
 
-<p>None of these strategies produce a slower steady drip — they all produce <strong>silence punctuated by genuine events</strong>. NP+DI gives Spring Boot 164 days of silence before its longest gap; hacker S+A extends that to 205 days. Node.js NP+DI sat silent for 311 days (over 10 months). Even Django, the weakest case, had a 140-day NP+DI silence window. This burst pattern is operationally superior to a steady cadence: when the signal fires, your team responds to it instead of tuning it out.</p>
+<p>None of these strategies produce a slower steady drip — they all produce <strong>silence punctuated by genuine events</strong>. Spring Boot's longest NP+DI silence ran 164 days; hacker S+A stretches that to 205. Node.js sat silent under NP+DI for 311 days — over 10 months — before its first trigger. Even Django, the weakest case, had a 140-day NP+DI silence window. This burst pattern is operationally superior to a steady cadence: when the signal fires, your team responds to it instead of tuning it out.</p>
 
 <h3>7e. What the Filter Caught</h3>
 
