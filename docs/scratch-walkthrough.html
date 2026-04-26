@@ -239,8 +239,6 @@ Preview build (<code style="background:#e2e8f0;padding:1px 6px;border-radius:3px
 
 <p>Each CVE was categorized by <strong>stack layer</strong> (OS, VPN/network appliance, JVM/runtime, web server, browser, email/collaboration server, library/framework, CMS/webapp, productivity/desktop, database, firmware/hardware, virtualization/container, IoT/ICS, SSL/TLS/crypto) using CPE product strings and description pattern matching. The <strong>exploitation rate</strong> for each category = (KEV count) / (NVD count).</p>
 
-<p><strong>Periodicity backtest.</strong> To validate threat-centric prioritization, we constructed three representative application manifests (Spring Boot 48 deps, Node.js/Express 45 deps, Django/DRF 40 deps) plus an OS container layer (Amazon Linux 2023, ~25 components). We queried every dependency against OSV for critical/high CVEs over a 12-month window (Apr 2025 - Apr 2026), then ran <em>both</em> operationalizations of the model independently — the structure test (NP+DI) and the attacker test (hacker discriminator) — and measured how often each would trigger an emergency rebuild. We then cross-validated against five independent exploitation sources: EPSS, CISA KEV, ExploitDB, Nuclei, and Metasploit. Full methodology and per-CVE classifications are in the <a href="periodicity.html" style="color:var(--accent)">periodicity analysis</a> and <a href="cve-reference.html" style="color:var(--accent)">CVE reference</a>.</p>
-
 <!-- ========== 3. OBSERVATIONAL CASE ========== -->
 <h2 id="observational">3. The First Clue: Where Exploits Actually Land</h2>
 
@@ -331,6 +329,8 @@ A network-parsing HIGH (7.0-7.9) at 0.89% beats a non-parsing CRITICAL (9.0-9.9)
 <h2 id="np-di-filter">4. Threat-Centric Prioritization: Two Independent Models</h2>
 
 <div class="translation"><strong>In plain English:</strong> The hero isn't a single filter — it's a <em>model</em>. Judge a vulnerability by what an attacker actually does with it, not by what its CVSS says. We've built two competitive ways to operationalize that model. They run independently against the same data, mostly agree, and where they disagree is also informative.</div>
+
+<p><strong>Periodicity backtest.</strong> To validate threat-centric prioritization, we constructed three representative application manifests (Spring Boot 48 deps, Node.js/Express 45 deps, Django/DRF 40 deps) plus an OS container layer (Amazon Linux 2023, ~25 components). We queried every dependency against OSV for critical/high CVEs over a 12-month window (Apr 2025 - Apr 2026), then ran <em>both</em> operationalizations of the model independently — the structure test (NP+DI) and the attacker test (hacker discriminator) — and measured how often each would trigger an emergency rebuild. We then cross-validated against five independent exploitation sources: EPSS, CISA KEV, ExploitDB, Nuclei, and Metasploit. Full methodology and per-CVE classifications are in the <a href="periodicity.html" style="color:var(--accent)">periodicity analysis</a> and <a href="cve-reference.html" style="color:var(--accent)">CVE reference</a>.</p>
 
 <p>At this point the data tells us two things: network-parsing components get exploited at 3–6× the rate of everything else (§3), and the exploitation window is measured in days, not months (§7). But <strong>"rebuild on any critical/high in a network parser" is still too noisy</strong> to be useful. That rule fires 14 times in 12 months across every stack we tested — about every 2–3 weeks. You'd be churning almost as badly as before.</p>
 
