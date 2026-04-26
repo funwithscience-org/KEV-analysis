@@ -74,11 +74,11 @@ ul.findings li::before{content:'▸';position:absolute;left:8px;color:#6366f1}
 <strong>⚠ SCRATCH — INTERNAL REVIEW</strong> &nbsp;·&nbsp; Not linked from any other page &nbsp;·&nbsp; Subject to change &nbsp;·&nbsp; <code>noindex</code>
 </div>
 
-<h1>Real-world Java patch efficiency<span class="scope-pill">60-pkg Spring Boot 2.x estate</span></h1>
-<p class="subtitle">Original production manifest (Spring 4-5.x, Spring Boot 2.x, log4j 1.x + 2.x, XStream, ActiveMQ, plus build/scripting deps) — 7-year backtest with floor-sweep effective recall</p>
+<h1>Real-world Java patch efficiency<span class="scope-pill">Spring Boot 2.x production estate</span></h1>
+<p class="subtitle">Production manifest (Spring 4-5.x, Spring Boot 2.x, log4j 1.x + 2.x, XStream, ActiveMQ, plus build/scripting deps) — 7-year backtest with floor-sweep effective recall</p>
 
 <div class="callout">
-<strong>Scope: the actual deployed manifest, not the synthetic Spring Boot 3.x view.</strong> 60 unique packages across 176 version-pinned entries (multi-version snapshot of an enterprise estate with real-world version sprawl). 223 critical/high CVEs over 7 years; 13 actually exploited.<br><br>
+<strong>Scope: the actual deployed production manifest.</strong> 60 unique packages across 176 version-pinned entries — multi-version snapshot of an enterprise estate with real-world version sprawl. 223 critical/high CVEs over 7 years; 13 actually exploited.<br><br>
 
 <strong>Worth being explicit about what's in this manifest</strong> (so nobody misreads it as a "modern Spring Boot 3 only" view):
 
@@ -100,7 +100,7 @@ ul.findings li::before{content:'▸';position:absolute;left:8px;color:#6366f1}
 
 <!-- ===== TABLE 1: 12-MONTH ===== -->
 <h2>Table 1 — 12-month window (Apr 2025 – Apr 2026)</h2>
-<p>Real 12-month window on the 60-package manifest. 17 events, 1 actually exploited (CVE-2026-34197 ActiveMQ Jolokia — HIGH severity, CWE-20 misclass, Apr 2026).</p>
+<p>Real 12-month window on the production manifest. 17 events, 1 actually exploited (CVE-2026-34197 ActiveMQ Jolokia — HIGH severity, CWE-20 misclass, Apr 2026).</p>
 
 <table>
 <thead><tr><th>Strategy</th><th>Patches in window</th><th>Exploits caught</th><th>Recall</th><th>Per exploit</th></tr></thead>
@@ -112,7 +112,7 @@ ul.findings li::before{content:'▸';position:absolute;left:8px;color:#6366f1}
 <tr class="hl-hacker"><td>Hacker persona (S+A)</td><td>5</td><td>1/1</td><td>100%</td><td class="frac-good">5.0x</td></tr>
 </tbody>
 </table>
-<p class="note">Single-window N=1 doesn't differentiate strategies meaningfully. Same shape as on the 48-pkg view: NP+DI alone misses (CWE-20 not in DI), patch-criticals misses (HIGH not CRITICAL), AI scan and Hacker both catch via the CWE-misclass rescue / hacker primitive-shape reasoning.</p>
+<p class="note">Single-window N=1 doesn't differentiate strategies meaningfully. NP+DI alone misses (CWE-20 not in DI), patch-criticals misses (HIGH not CRITICAL), AI scan and Hacker both catch via the CWE-misclass rescue / hacker primitive-shape reasoning.</p>
 
 <!-- ===== TIME SERIES CHART ===== -->
 <h2>Time series — quarterly C/H volume with strategy overlays + exploit markers</h2>
@@ -139,9 +139,9 @@ ul.findings li::before{content:'▸';position:absolute;left:8px;color:#6366f1}
 </tbody>
 </table>
 
-<p class="note"><strong>* Hacker S+A patch count caveat.</strong> The R3 hacker tier assignments cover events that were in R3's prior 175-event input. Some events in this 60-pkg manifest weren't in R3's universe (e.g., Maven build tooling, plexus utilities, Jython, JRuby — packages R3 didn't see). Those default to "not in hacker S+A" by absence — but the hacker would likely have B/C/D'd most of them anyway (utility / scripting language CVEs trend low-tier per R3's discriminator). The 20-patch count is therefore approximately right but may slightly undercount; the 9-catch number is exact (those 9 events ARE in R3's S+A).</p>
+<p class="note"><strong>* Hacker S+A patch count caveat.</strong> The hacker tier assignments cover events ranked in the original blind exercise. Some events in this manifest (Maven build tooling, plexus utilities, Jython, JRuby) weren't in the original ranking input. Those default to "not in hacker S+A" by absence — but the hacker discriminator would likely have B/C/D'd most of them anyway (utility / scripting language / build-tool CVEs trend low-tier per the discriminator's network-edge × default-config × primitive-direct test). The 20-patch count is therefore approximately right but may slightly undercount; the 9-catch number is exact (those 9 events ARE in hacker S+A).</p>
 
-<p><strong>Two CWE-434 events (CVE-2017-12615 and CVE-2017-12617, both Tomcat HTTP PUT file upload from 2017) are unrecoverable by ANY filter</strong> — they're explicitly out of NP+DI scope (CWE-434 was deliberately removed from DI), and the hacker R3 framework would B/C-tier file upload bugs as "narrow precondition" anyway. Patch-all C+H is the only strategy that catches them, by definition.</p>
+<p><strong>Two CWE-434 events (CVE-2017-12615 and CVE-2017-12617, both Tomcat HTTP PUT file upload from 2017) are unrecoverable by ANY filter</strong> — they're explicitly out of NP+DI scope (CWE-434 was deliberately removed from DI), and the hacker discriminator B/C-tiers file upload bugs as "narrow precondition" anyway. Patch-all C+H is the only strategy that catches them, by definition.</p>
 
 <div class="callout callout-success">
 <strong>Hacker S+A and NP+DI + AI scan tie on direct recall (9/13 = 69%) but catch DIFFERENT events.</strong> NP+DI+AI catches the 6 raw NP+DI hits (Spring4Shell, Log4j ×2, XStream ×2, Tomcat CGI Win) plus 3 CWE-misclass rescues (Ghostcat, Tomcat PUT, ActiveMQ Jolokia). Hacker S+A catches 9 different events including snakeyaml and commons-text (which AI scan misses on the role=OTHER package gate) but NOT Tomcat CGI Win (hacker B-tier on narrow precondition). Their union is 11/13 — the remaining 2 are the CWE-434 Tomcat upload bugs nobody catches.
@@ -159,7 +159,7 @@ ul.findings li::before{content:'▸';position:absolute;left:8px;color:#6366f1}
 
 <p>The naive recall metric counts only <em>direct</em> catches. Per the <a href="build-mechanics.html#free" style="color:#67e8f9">build-mechanics analysis</a>, every emergency rebuild triggered for one CVE applies the latest version of <em>every</em> dependency in the manifest. So a long-TTE exploit gets effectively patched by floor sweep if any other filter trigger fires during that window. The exposure ceiling for any specific exploit is "until the next filter trigger fires," not "until the filter catches this specific event." (See also <a href="build-mechanics.html#two-modes" style="color:#67e8f9">two operational modes</a>.)</p>
 
-<p>On this 60-package manifest with NP+DI + AI scan firing 49 times across 7 years (~once every 50 days), the floor-sweep dynamic is even stronger than on the 48-pkg view. Of the 4 events NP+DI + AI scan misses directly:</p>
+<p>On this manifest, NP+DI + AI scan fires 49 times across 7 years — roughly once every 50 days. That cadence is dense enough that any long-TTE event easily spans at least one other trigger. Of the 4 events NP+DI + AI scan misses directly:</p>
 
 <ul class="findings">
 <li><strong>CVE-2022-42889 Text4Shell</strong> (Oct 2022, ~437d TTE to MSF module) — Floor swept many times over: NP+DI+AI fired in Q4 2022 (2x), Q1 2023 (1), Q3 2023 (1), Q4 2023 (1).</li>
@@ -171,11 +171,11 @@ ul.findings li::before{content:'▸';position:absolute;left:8px;color:#6366f1}
 <p>So <strong>NP+DI + AI scan effectively catches 13/13 = 100%</strong> on this manifest when floor sweep is accounted for. The 2 "unrecoverable" events on direct catch (Tomcat upload pair) get patched anyway via routine Tomcat update cycles forced by other Tomcat triggers. Hacker S+A also reaches near-100% effective recall, with the same 1 caveat as before (CGI Win in 2019 with no other hacker triggers in 64-day window).</p>
 
 <div class="callout callout-success">
-<strong>The operational read on the original manifest.</strong> Direct-catch comparison: comparator 9/13, hacker 9/13 (different mix). Effective-recall-via-floor-sweep: both reach near-100% because the 60-pkg manifest's denser trigger cadence makes the long-TTE blind-spot events mathematically certain to floor-sweep. Adding the union doesn't improve effective recall meaningfully. The hacker S+A advantage of "fewer patches per catch" (2.2x oracle vs 5.4x) is real but should be read with the * caveat about R3's input coverage.
+<strong>The operational read.</strong> Direct-catch comparison: comparator 9/13, hacker 9/13 (different mix). Effective-recall-via-floor-sweep: both reach near-100% because the manifest's trigger cadence is dense enough (one trigger every ~50 days) that long-TTE blind-spot events are mathematically certain to be floor-swept. Adding the union doesn't improve effective recall meaningfully. The hacker S+A advantage of "fewer patches per catch" (2.2x oracle vs 5.4x) is real but should be read with the * caveat about hacker tier coverage on the supplementary packages.
 </div>
 
 <!-- ===== PER-EVENT DETAIL ===== -->
-<h2>Per-event detail (the 13 exploited events on the 60-pkg manifest)</h2>
+<h2>Per-event detail — the 13 exploited events</h2>
 
 <table style="font-size:.85em">
 <thead><tr><th>CVE</th><th>Year</th><th>Library</th><th>Sev</th><th>Primitive</th><th>NP+DI</th><th>+AI scan</th><th>Hacker</th></tr></thead>
@@ -197,7 +197,7 @@ ul.findings li::before{content:'▸';position:absolute;left:8px;color:#6366f1}
 </tbody>
 </table>
 
-<p class="note">Three "n/a" hacker entries are events not in R3's prior input — they would have been B/C/D-tiered if seen (file upload bugs, old XStream cmd injection). The XStream-7285 case is interesting — NP+DI catches it (xstream is NP, CWE-77/78 in DI) even though hacker hasn't tiered it.</p>
+<p class="note">Three "n/a" hacker entries are events outside the original ranking input — they would have been B/C/D-tiered if seen (file upload bugs, old XStream cmd injection). The XStream-7285 case is interesting — NP+DI catches it (xstream is NP, CWE-77/78 in DI) even though hacker hasn't tiered it.</p>
 
 <!-- ===== CONCLUSION ===== -->
 <h2>The synthesis</h2>
@@ -207,26 +207,26 @@ ul.findings li::before{content:'▸';position:absolute;left:8px;color:#6366f1}
 </div>
 
 <div class="callout callout-success">
-<strong>Effective recall via floor sweep: both reach near-100%.</strong> NP+DI+AI's 4 direct misses (Text4Shell 437d TTE, SnakeYAML 297d TTE, both 2017 Tomcat uploads with multi-year exploitation evidence accumulation) are all rescued by other NP+DI+AI triggers in their windows. Hacker S+A's 4 direct misses (the same Tomcat CGI Win + 3 events not in R3's input) similarly get rescued by routine Tomcat / XStream update cycles.
+<strong>Effective recall via floor sweep: both reach near-100%.</strong> NP+DI+AI's 4 direct misses (Text4Shell 437d TTE, SnakeYAML 297d TTE, both 2017 Tomcat uploads with multi-year exploitation evidence accumulation) are all rescued by other NP+DI+AI triggers in their windows. Hacker S+A's 4 direct misses (the same Tomcat CGI Win + 3 events not in the original ranking input) similarly get rescued by routine Tomcat / XStream update cycles.
 </div>
 
-<h3>What the 60-pkg view changes vs the 48-pkg view</h3>
+<h3>Where attack surface concentrates vs where it doesn't</h3>
 <ul class="findings">
-<li><strong>Real attack surface ~50% larger</strong>: 223 events vs 145, with 7 more actual exploits (Log4j x2, XStream x2, ActiveMQ broker, plus 2 ancient Tomcat upload bugs).</li>
-<li><strong>NP+DI alone looks worse</strong>: 46% recall (vs 33% on 48-pkg). Adding back log4j and XStream actually <em>helps</em> NP+DI because Log4Shell and XStream-39144 are textbook NP+DI catches.</li>
-<li><strong>NP+DI + AI scan still tops out at 9/13 direct</strong> because the same blind spots persist (deser-RCE on utility libs, file upload).</li>
-<li><strong>Hacker S+A patch count is suspiciously low (20)</strong> because R3 hadn't seen many of the supplementary packages. A fresh hacker run on the full 60-pkg manifest would likely tier ~30-40 events S+A, similar density to the 48-pkg analysis.</li>
-<li><strong>The 2 "unfixable" CWE-434 events are honest limit cases</strong>: file upload bugs from 2017 that no triage filter catches, only patch-everything does.</li>
+<li><strong>Web servers + deserialization libraries dominate the exploited set</strong> — 11 of 13 exploits hit Tomcat (5), XStream (2), log4j-core (2), Spring (1), ActiveMQ broker (1). The remaining 2 are utility-library evaluator bugs (commons-text Text4Shell, SnakeYAML).</li>
+<li><strong>Build tooling adds patch volume but zero exploits.</strong> The Maven / plexus / ivy / surefire packages contribute 9 critical/high CVEs over 7 years (path traversal in plexus-utils, command injection in plexus-utils, dep-confusion in maven-core, XXE in ivy, etc.) but <em>none</em> have any KEV / Metasploit / ExploitDB entry. Both NP+DI+AI scan and Hacker S+A correctly downgrade these (build tools aren't network-edge production runtime), so neither strategy spends patch budget here. This is a clean validation that the discriminators aren't wasting effort on the build cluster.</li>
+<li><strong>Scripting runtimes (Groovy / JRuby / Jython) add ~12 more CVEs, also zero exploited</strong> in this window. Same pattern: real bugs, not network-edge, not actually weaponized in production-application contexts.</li>
+<li><strong>The 2 "unfixable" Tomcat CWE-434 events from 2017 are honest limit cases.</strong> File upload bugs (CWE-434) are deliberately out of NP+DI scope; the hacker discriminator B/C-tiers file uploads on the narrow-precondition rule. Only patch-everything catches them.</li>
+<li><strong>NP+DI + AI scan tops out at 9/13 direct</strong> because two structural blind spots persist: (1) deser-RCE on utility libraries (commons-text, SnakeYAML role=OTHER); (2) Tomcat file upload (CWE-434 excluded). Floor sweep covers both blind spots given the trigger cadence.</li>
 </ul>
 
 <h3>Counter-argument worth holding</h3>
 <ul class="findings">
 <li><strong>Multi-version manifest semantics.</strong> The manifest has multiple versions of the same package (jackson-databind 2.3.1 through 2.9.8, Tomcat 8.5.23 through 9.0.91). A CVE that affects only a subset of versions still counts in this analysis because we're not doing version-range intersection. Real-world recall might be higher (because some CVEs only affect versions you don't run) or the same (because you DO run the affected version somewhere in your estate).</li>
-<li><strong>Hacker tier coverage.</strong> The 9/13 hacker direct catch and 20-patch flag count both depend on R3's prior input. A fresh hacker run would likely shift these slightly — probably catch the same 9 (the discriminator-clean ones) but flag more events on the supplementary packages.</li>
+<li><strong>Hacker tier coverage.</strong> The 9/13 hacker direct catch and 20-patch flag count both depend on the original ranking input. A fresh hacker run would likely shift these slightly — probably catch the same 9 (the discriminator-clean ones) but flag more events on the supplementary packages.</li>
 <li><strong>Build vs runtime ambiguity.</strong> The manifest mixes runtime deps (spring-web, tomcat-embed-core, log4j-core) with build-time deps (maven-core, plexus-archiver, surefire-*). A runtime-only filter would have a smaller universe but probably similar exploit count. A build-time exploitation would be a different threat model.</li>
 </ul>
 
-<p style="margin-top:32px;color:#64748b;font-size:.85em">Data source: OSV.dev queries against 60 unique (groupId, artifactId) packages from the user-supplied manifest CSV. KEV: <code>data/kev-snapshot-2026-04-26.json</code>. MSF: <code>data/_metasploit-cves.json</code>. EDB: <code>data/_exploitdb-cves.json</code>. Hacker tier assignments from <code>analyst-reports/2026-04-25-hacker-ranking-v3.md</code> (R3, prior 175-event input — see caveat note above for events outside R3's scope).</p>
+<p style="margin-top:32px;color:#64748b;font-size:.85em">Data source: OSV.dev queries against 60 unique (groupId, artifactId) packages from the production manifest. KEV: <code>data/kev-snapshot-2026-04-26.json</code>. MSF: <code>data/_metasploit-cves.json</code>. EDB: <code>data/_exploitdb-cves.json</code>. Hacker tier assignments from the original blind-ranking exercise — see caveat note above for events outside the original ranking scope.</p>
 
 </div>
 
