@@ -675,15 +675,17 @@ details summary:hover{color:var(--cyan)}
 </div>
 
 <div class="callout callout-good" id="epss-headline">
-<strong>Headline — model catches the same CVEs as EPSS, but on average <span data-epss-avg-d10>34.7</span> days faster (vs EPSS&nbsp;≥&nbsp;0.10) or <span data-epss-avg-d50>131.0</span> days faster (vs EPSS&nbsp;≥&nbsp;0.50).</strong>
-<p style="margin-top:8px">Across the 8 in-scope exploited CVEs in the 7-year manifest, NP+DI+DQ fires on disclosure day for all 8. EPSS catches the same set "eventually" — but only after exploitation signal accumulates. Under a typical 30-day patch cycle (model fires &rarr; ticket cut &rarr; patch deployed within 30 days):</p>
+<strong>Headline — the model catches the same CVEs as EPSS, but on average <span data-epss-avg-d10>34.7</span> days faster (vs EPSS&nbsp;≥&nbsp;0.10) and <span data-epss-avg-d50>131.0</span> days faster (vs EPSS&nbsp;≥&nbsp;0.50).</strong>
+<p style="margin-top:8px">Two clean metrics on the 8 in-scope exploited CVEs in the 7-year manifest. NP+DI+DQ fires on disclosure day for all 8. EPSS catches the same set "eventually" — but only after exploitation signal accumulates.</p>
+<p style="margin-top:8px"><strong>1. Caught before public exploit evidence existed</strong> (no patch-cycle assumption — just trigger fires before <code>t_exploit</code>). With WAFs, Cat 1 BAU rebuild, or threat-intel supplements all able to act faster than typical patch cycles, this is the honest test:</p>
 <ul style="margin:8px 0 0 0">
-<li><strong>Model (NP+DI+DQ):</strong> patched <span data-epss-y-model>3</span> of 8 events <em>before</em> the exploit was publicly available (KEV-listed or ExploitDB-published).</li>
-<li><strong>EPSS&nbsp;≥&nbsp;0.10:</strong> patched <span data-epss-y-e10>2</span> of 8 events before exploit availability under the same patch cycle.</li>
-<li><strong>EPSS&nbsp;≥&nbsp;0.50:</strong> patched <span data-epss-y-e50>1</span> of 8 events before exploit availability under the same patch cycle.</li>
+<li><strong>Model (NP+DI+DQ):</strong> caught <span data-epss-y-model>6</span> of 8 events before the exploit was publicly available (KEV-listed or ExploitDB-published).</li>
+<li><strong>EPSS&nbsp;≥&nbsp;0.10:</strong> caught <span data-epss-y-e10>4</span> of 8.</li>
+<li><strong>EPSS&nbsp;≥&nbsp;0.50:</strong> caught <span data-epss-y-e50>2</span> of 8.</li>
 </ul>
-<p style="margin-top:8px">Net: under a 30-day patch cycle the model patched <strong><span data-epss-marginal-50>2</span> more events ahead of exploitation</strong> than EPSS&nbsp;≥&nbsp;0.50 would have, and <strong><span data-epss-marginal-10>1</span> more than EPSS&nbsp;≥&nbsp;0.10</strong>. The remaining 5/8 are cases where the exploit was public within ~30 days of CVE publication (Log4Shell, Spring4Shell, partial-PUT, ActiveMQ) — no triage policy operating on a 30-day cycle could have patched these before exploitation, regardless of trigger logic.</p>
-<p style="margin-top:8px;font-size:.88rem;color:#64748b"><strong>Methodology.</strong> <code>t_model</code> = CVE publication date (NP+DI+DQ catches all 8 on day 0). <code>t_epss(thr)</code> = first FIRST.org probe date EPSS crossed the threshold. <code>t_exploit</code> = earliest of (KEV <code>dateAdded</code>, ExploitDB <code>date_published</code>); Metasploit module-add date is omitted because the cached MSF metadata only gives last-commit time, not first-commit. An event is "patched before exploit" iff <code>t_fire&nbsp;+&nbsp;30d&nbsp;&lt;&nbsp;t_exploit</code>. <strong>Pre-EPSS CVEs:</strong> Ghostcat (2020) and Tomcat CGI (2019) were disclosed before EPSS public coverage (~April 2021); EPSS could not have flagged them in real time at any threshold. They are excluded from the days-faster average (n=6 with EPSS coverage) and counted as 0/2 for EPSS in the caught-before-exploit tally. Reproducible from <code>scripts/compute_epss_marginal.py</code> &rarr; <code>data/epss-marginal.json</code> (see <code>summary.timing_comparison</code>).</p>
+<p style="margin-top:8px"><strong>2. Average time gap (the model's lead).</strong> 34.7 days faster than EPSS&nbsp;≥&nbsp;0.10, 131 days faster than EPSS&nbsp;≥&nbsp;0.50. That's the window the model gives you to deploy any mitigation — perimeter rule, accelerated rebuild, watch-list escalation — before the score-based approach would have flagged the same event.</p>
+<p style="margin-top:8px">Net: model caught <strong><span data-epss-marginal-50>4</span> more events ahead of exploitation</strong> than EPSS&nbsp;≥&nbsp;0.50 and <strong><span data-epss-marginal-10>2</span> more than EPSS&nbsp;≥&nbsp;0.10</strong>. The 2/8 the model itself didn't beat are Log4Shell (KEV-listed same day as disclosure — even firing on day 0 doesn't beat instantaneous exploitation) and Ghostcat (ExploitDB published 4 days <em>before</em> public disclosure — pre-disclosure 0-day evidence).</p>
+<p style="margin-top:8px;font-size:.88rem;color:#64748b"><strong>Methodology.</strong> <code>t_model</code> = CVE publication date (NP+DI+DQ catches all 8 on day 0). <code>t_epss(thr)</code> = first FIRST.org probe date EPSS crossed the threshold. <code>t_exploit</code> = earliest of (KEV <code>dateAdded</code>, ExploitDB <code>date_published</code>); Metasploit module-add date is omitted because the cached MSF metadata only gives last-commit time, not first-commit. An event is "caught before exploit" iff <code>t_fire&nbsp;&lt;&nbsp;t_exploit</code> — no patch-cycle assumption baked in (mitigation can be a WAF rule, BAU rebuild, threat-intel escalation, or a planned patch; the speed of the response varies by Cat 1/2/3 estate maturity). <strong>Pre-EPSS CVEs:</strong> Ghostcat (2020) and Tomcat CGI (2019) were disclosed before EPSS public coverage (~April 2021); EPSS could not have flagged them in real time at any threshold. They are excluded from the days-faster average (n=6 with EPSS coverage) and counted as 0/2 for EPSS in the caught-before-exploit tally. Reproducible from <code>scripts/compute_epss_marginal.py</code> &rarr; <code>data/epss-marginal.json</code> (see <code>summary.timing_comparison</code>).</p>
 </div>
 
 <div class="card">
@@ -763,12 +765,13 @@ details summary:hover{color:var(--cyan)}
 
 <div class="card">
 <p>CISA's <a href="https://www.cisa.gov/known-exploited-vulnerabilities-catalog" target="_blank" rel="noopener" style="color:var(--cyan)">KEV catalog</a> (1,577 entries) tracks CVEs with confirmed in-the-wild exploitation.</p>
+<p style="margin-top:6px;color:var(--muted);font-size:.88em"><strong>Scope of this table:</strong> all C/H events on the 4 sample stacks across the 12-month window (Spring + Node + Django + Netty), counted as NP+DI trigger dates (per stack) summed across stacks. The "14" here is <em>NP+DI trigger dates summed across the 4 stacks</em> (Spring 5 + Node 2 + Django 6 + Netty 1 = 14) — NOT the per-stack all-C/H baseline of 14 from §3 (different "14"). The OS container row uses the cleaned 12-month NVD dataset from §14.</p>
 <table>
-<thead><tr><th>Group</th><th>CVEs</th><th>In KEV</th><th>Hit Rate</th></tr></thead>
+<thead><tr><th>Group</th><th>CVE-events</th><th>In KEV</th><th>Hit Rate</th></tr></thead>
 <tbody>
-<tr><td style="color:var(--red);font-weight:700">NP+DI Triggers</td><td>14 unique</td><td style="font-weight:700">0</td><td>0%</td></tr>
-<tr><td>Non-triggers (app)</td><td>44 unique</td><td style="font-weight:700">0</td><td>0%</td></tr>
-<tr><td>Non-triggers (OS)</td><td>69</td><td style="color:var(--red);font-weight:700">1</td><td>1.4%</td></tr>
+<tr><td style="color:var(--red);font-weight:700">NP+DI triggers (4 stacks, summed)</td><td>14</td><td style="font-weight:700">0</td><td>0%</td></tr>
+<tr><td>App-layer non-triggers (4 stacks, summed)</td><td>44</td><td style="font-weight:700">0</td><td>0%</td></tr>
+<tr><td>OS-layer events (12mo container backtest)</td><td>69 raw / ~18 cleaned</td><td style="color:var(--red);font-weight:700">1</td><td>1.4% raw</td></tr>
 </tbody>
 </table>
 <p style="margin-top:8px">The one KEV hit is <strong>CVE-2025-14847</strong> (zlib, EPSS 0.77) — a non-trigger in the OS container layer. Zero app-layer CVEs from any stack reached KEV in this window.</p>

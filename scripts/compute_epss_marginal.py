@@ -521,9 +521,11 @@ def main() -> int:
     #   t_exploit  = earliest of (KEV dateAdded, ExploitDB publish date)
     # delta_days(thr) = t_epss(thr) - t_model — how many days earlier the model
     #                   fired vs EPSS at that threshold.
-    # caught_before_exploit(t_fire) = t_fire + 30d < t_exploit
+    # caught_before_exploit(t_fire) = t_fire < t_exploit
+    # No patch-cycle assumption: WAFs, Cat 1 BAU rebuild, and threat-intel
+    # supplements all act faster than typical patch cycles. The honest test is
+    # "did your trigger fire before public exploit evidence existed."
 
-    PATCH_DAYS = 30
     cohort_cves = [c for c, _ in IN_SCOPE_8]
     t_exploit_data = compute_t_exploit(cohort_cves)
 
@@ -533,7 +535,7 @@ def main() -> int:
     def caught_before(t_fire: dt.date | None, t_exp: dt.date | None) -> bool:
         if t_fire is None or t_exp is None:
             return False
-        return (t_fire + dt.timedelta(days=PATCH_DAYS)) < t_exp
+        return t_fire < t_exp
 
     timing_per_cve = []
     deltas_10: list[int] = []
@@ -613,7 +615,7 @@ def main() -> int:
     avg_d50 = (sum(deltas_50) / len(deltas_50)) if deltas_50 else None
 
     summary["timing_comparison"] = {
-        "patch_cycle_days": PATCH_DAYS,
+        "patch_cycle_assumption": "none — caught-before-exploit uses t_fire < t_exploit directly",
         "cohort_size": len(IN_SCOPE_8),
         "model_used_for_t_model": "NP+DI+DQ (catches all 8 on disclosure day)",
         "t_exploit_definition": (
