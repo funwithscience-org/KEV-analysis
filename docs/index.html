@@ -153,7 +153,7 @@ details.expandable .detail-content{padding:16px 20px}
 <a href="#time-to-exploit"><span class="toc-num">6</span> Time-to-Exploit</a>
 <a href="#kill-chain"><span class="toc-num">7</span> Land &amp; Expand</a>
 <a href="#external-validation"><span class="toc-num">8</span> External Validation</a>
-<a href="#patching-model"><span class="toc-num">9</span> Three-Tier Patching</a>
+<a href="#patching-model"><span class="toc-num">9</span> Operational Response (Cat 1/2/3)</a>
 <a href="#proxy"><span class="toc-num">10</span> Reverse Proxy Myth</a>
 <a href="#watchlist"><span class="toc-num">11</span> Exploit Watch List</a>
 <a href="#caveats"><span class="toc-num">12</span> Caveats</a>
@@ -797,7 +797,7 @@ A network-parsing HIGH (7.0-7.9) at 0.89% beats a non-parsing CRITICAL (9.0-9.9)
 <p>Contrast this with deserialization attacks, where the payload is typically an opaque serialized object blob (Java <code>ObjectInputStream</code>, Python <code>pickle</code>, PHP <code>unserialize</code>). A WAF would need to actually deserialize the payload to understand its intent — which is exactly the vulnerability. WAFs can flag known gadget chain byte signatures, but novel chains pass through because the malicious semantics are invisible at the HTTP layer. This is one reason the DI CWE set deliberately focuses on injection classes where the attack structure is visible in transit, not on deserialization (CWE-502), which is genuinely harder to mitigate at the edge.</p>
 
 <div class="callout callout-success">
-<strong>The practical upshot:</strong> When a Tier 1 trigger fires, your response isn't just "rebuild." It's "deploy a targeted WAF rule within hours for immediate mitigation, then rebuild on your timeline." The NP+DI filter gives you few enough events that maintaining those rules is realistic, and the DI bug classes are precisely the ones WAFs handle well.
+<strong>The practical upshot:</strong> When the model triggers, your response isn't just "rebuild." It's "deploy a targeted WAF rule within hours for immediate mitigation, then rebuild on your timeline." The NP+DI filter gives you few enough triggered events that maintaining those rules is realistic, and the DI bug classes are precisely the ones WAFs handle well.
 </div>
 
 <p><strong>A caveat:</strong> WAFs are not a substitute for patching. Determined attackers find bypass techniques — encoding tricks, edge cases, double-encoding — and WAF rules for a specific CVE are only as good as the researcher's understanding of the exploit path. The value is in raising the bar against <em>opportunistic and automated</em> exploitation, which is exactly what most KEV-listed activity actually is. The WAF buys time; the rebuild closes the hole.</p>
@@ -807,7 +807,7 @@ A network-parsing HIGH (7.0-7.9) at 0.89% beats a non-parsing CRITICAL (9.0-9.9)
 <strong>Use this tomorrow:</strong><br>
 &bull; Tag your dependency manifest with NP/non-NP for each library<br>
 &bull; Adopt the 3-tier model: emergency (NP+DI), monthly (container refresh), release cycle (everything else)<br>
-&bull; Pre-build WAF rule templates for common DI patterns (path traversal, SQLi, template injection, command injection) — when a Tier 1 trigger fires, adapt and deploy immediately<br>
+&bull; Pre-build WAF rule templates for common DI patterns (path traversal, SQLi, template injection, command injection) — when the model triggers, adapt and deploy immediately<br>
 &bull; Set up OSV monitoring for your NP libraries -- OSV catches library vulns NVD misses<br>
 &bull; Subscribe to CISA KEV RSS as a safety net for anything the filter might miss<br>
 &bull; Track your filter's hit rate over 6 months -- it should produce zero misses<br>
