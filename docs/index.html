@@ -691,7 +691,7 @@ A network-parsing HIGH (7.0-7.9) at 0.89% beats a non-parsing CRITICAL (9.0-9.9)
 
 <h3>EPSS: Complementary, Not Competitive (7-year backtest)</h3>
 
-<p><a href="https://www.first.org/epss/" target="_blank" style="color:var(--accent)">EPSS</a> (FIRST.org) assigns a probability-of-exploitation-within-30-days score to every CVE, incorporating real-world signals — exploit code, threat intel feeds, social media chatter. NP+DI triggers score 3.3x higher on EPSS (mean) than non-triggers, but that's a retrospective correlation using <em>today's</em> scores. The operational question is: <strong>how fast does each model catch exploited CVEs when you need to act?</strong></p>
+<p><a href="https://www.first.org/epss/" target="_blank" style="color:var(--accent)">EPSS</a> (FIRST.org) assigns a probability-of-exploitation-within-30-days score to every CVE, incorporating real-world signals — exploit code, threat intel feeds, social media chatter — on top of CWE and attack vector metadata. <strong>EPSS re-scores every CVE daily and pushes scores up as exploit evidence accumulates.</strong> So the question isn't whether EPSS will eventually catch an exploited CVE — by construction it will, once enough signal has accrued. The question is <strong>when</strong>. NP+DI triggers score 3.3x higher on EPSS (mean) than non-triggers, but that's a retrospective correlation using <em>today's</em> scores. The operational question: how long after disclosure does the EPSS score cross a useful action threshold, and how does that compare to the model firing on disclosure day?</p>
 
 <table class="data-table" style="font-size:.92rem">
 <thead><tr><th>Model</th><th>Day 0</th><th>Day 7</th><th>Day 30</th><th>Eventually</th><th>Notes</th></tr></thead>

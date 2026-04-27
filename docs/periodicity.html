@@ -671,7 +671,7 @@ details summary:hover{color:var(--cyan)}
 <h3 id="epss-comparison">1. EPSS — Exploit Prediction Scoring</h3>
 
 <div class="card">
-<p><a href="https://www.first.org/epss/" target="_blank" rel="noopener" style="color:var(--cyan)">EPSS</a> (FIRST.org) assigns a probability-of-exploitation-within-30-days score to every CVE, incorporating real-world signals — exploit code existence, threat intel feeds, social media chatter — on top of CWE and attack vector metadata. The question isn't whether EPSS scores correlate with triggers (they do, 3.3x). The question is: <strong>if you used EPSS instead of NP+DI, how many times would you rebuild, and would you catch more?</strong></p>
+<p><a href="https://www.first.org/epss/" target="_blank" rel="noopener" style="color:var(--cyan)">EPSS</a> (FIRST.org) assigns a probability-of-exploitation-within-30-days score to every CVE, incorporating real-world signals — exploit code existence, threat intel feeds, social media chatter — on top of CWE and attack vector metadata. <strong>EPSS re-scores every CVE daily and pushes scores up as exploit evidence accumulates.</strong> So the question isn't whether EPSS will eventually catch an exploited CVE — by construction it will, once enough signal has accrued. The question is <strong>when</strong>: how long after disclosure does the score cross a useful action threshold, and how does that compare to the model firing on disclosure day? Put another way: if you used EPSS instead of the structure test, how many times would you rebuild, and would you catch more, <em>faster</em>?</p>
 </div>
 
 <div class="card">
