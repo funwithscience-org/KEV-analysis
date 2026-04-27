@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Threat-Centric Prioritization — A New Way of Managing Vulnerabilities</title>
+<title>Threat-Based Prioritization Model — A New Way of Managing Vulnerabilities</title>
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
 <style>
 /* ===== RESET & BASE ===== */
@@ -142,7 +142,7 @@ details.expandable .detail-content{padding:16px 20px}
 
 <!-- SIDEBAR NAV -->
 <nav class="sidebar">
-<a href="#" style="text-decoration:none;color:inherit"><div class="sidebar-title">Threat-Centric<br>Prioritization</div></a>
+<a href="#" style="text-decoration:none;color:inherit"><div class="sidebar-title">Threat-Based<br>Prioritization Model</div></a>
 <a href="#hypothesis"><span class="toc-num">1</span> The Problem</a>
 <a href="#observational"><span class="toc-num">2</span> Where Exploits Land</a>
 <a href="#stack-layers" class="sub">Stack Layer Rates</a>
@@ -163,7 +163,7 @@ details.expandable .detail-content{padding:16px 20px}
 <!-- MAIN CONTENT -->
 <main class="main">
 
-<h1>Threat-Centric Prioritization — A New Way of Managing Vulnerabilities</h1>
+<h1>Threat-Based Prioritization Model — A New Way of Managing Vulnerabilities</h1>
 <p class="lead">For third-party products — Cisco, Microsoft, Palo Alto — patching is a solved problem. Vendors ship fixes on a known schedule, you apply them, done. The hard problem is <strong>your own application code</strong>, sitting on top of 50+ open-source libraries with no coordinated patch schedule. Every week brings a new critical. Each one means a rebuild, a test cycle, a deploy. You can't do them all. So which ones actually matter?</p>
 
 <div class="cta-row">
@@ -191,7 +191,7 @@ details.expandable .detail-content{padding:16px 20px}
 
 <p><strong>The problem.</strong> Vulnerability volume is exploding. Even restricting to "criticals and highs," the count runs into the thousands per year — but <strong>only ~4% of those</strong> ever actually turn into exploits. For third-party packages, updating binaries and rebooting is relatively straightforward. For internally built systems that depend on dozens of open-source libraries, managing the rebuild and release process is substantially more complex.</p>
 
-<p><strong>The proposal.</strong> We believe we have produced a model — call it <strong>threat-centric prioritization</strong> — that is substantially better at projecting which vulnerabilities will end up being exploited. The core idea: judge a CVE by what an attacker actually does with it, not by what its severity score says. The model has two complementary but independent operationalizations, each developed against the same data:</p>
+<p><strong>The proposal.</strong> We believe we have produced a model — the <strong>threat-based prioritization model</strong> — that is substantially better at projecting which vulnerabilities will end up being exploited. The core idea: judge a CVE by what an attacker actually does with it, not by what its severity score says. The model has two complementary but independent operationalizations, each developed against the same data:</p>
 
 <ul>
 <li><strong>The structure test (NP+DI).</strong> A mechanical filter on the characteristics of the library and the CVE: does the package parse untrusted input, and is the bug a direct-injection class? Easy to apply, hard to argue with, doesn't depend on judgment.</li>
@@ -333,7 +333,7 @@ A network-parsing HIGH (7.0-7.9) at 0.89% beats a non-parsing CRITICAL (9.0-9.9)
 </div>
 
 <!-- ========== 5. SURVIVORSHIP ========== -->
-<h2 id="np-di-filter">Threat-Centric Prioritization: Two Independent Models</h2>
+<h2 id="np-di-filter">The Threat-Based Prioritization Model: Two Independent Operationalizations</h2>
 
 <div class="translation"><strong>In plain English:</strong> The hero isn't a single filter — it's a <em>model</em>. Judge a vulnerability by what an attacker actually does with it, not by what its CVSS says. We've built two competitive ways to operationalize that model. They run independently against the same data, mostly agree, and where they disagree is also informative.</div>
 
@@ -341,14 +341,14 @@ A network-parsing HIGH (7.0-7.9) at 0.89% beats a non-parsing CRITICAL (9.0-9.9)
 
 <p>The reason it's too broad: most network-parser CVEs aren't the kind of bug attackers actually exploit for initial access. A denial-of-service in Tomcat is a real bug, but it doesn't give an attacker code execution. An authentication-bypass in Spring Security is concerning, but it requires specific configuration to be reachable. A Fastify validation-bypass is a defense-in-depth issue, not a front-door entry point. What actually reaches KEV — what attackers build exploits for and use in the field — is overwhelmingly the <em>direct primitive</em>: path traversal, template injection, SQL injection, command injection, request smuggling, deserialization-at-default. Bugs where untrusted input becomes executable code or crosses a security boundary without mediation.</p>
 
-<p>That insight is the model: <strong>threat-centric prioritization</strong> — pick the events worth interrupting cadence for by what the threat actually looks like, not by what severity score the CWE was assigned. The model has two operational forms in the rest of this page, each developed independently against the same data:</p>
+<p>That insight is the model: the <strong>threat-based prioritization model</strong> — pick the events worth interrupting cadence for by what the threat actually looks like, not by what severity score the CWE was assigned. The model has two operational forms in the rest of this page, each developed independently against the same data:</p>
 
 <ul style="margin:10px 0 10px 24px">
 <li><strong>The structure test — NP+DI</strong> (§3a–§3c) — a mechanical filter on the data itself: <em>does the package parse untrusted input</em> and <em>is the bug a direct-injection class</em>? Both yes → fire. Easy to apply, hard to argue with, doesn't depend on judgment.</li>
 <li><strong>The attacker test — hacker discriminator</strong> (§3d) — an offensive operator's grading rubric using the same modern AI tools attackers do: <em>default config × network edge × primitive direct</em>, with auth-missing as a co-tag. Catches the same population the structure test does, with small but informative disagreements at the boundary.</li>
 </ul>
 
-<p><strong>Periodicity backtest.</strong> To validate threat-centric prioritization, we ran <em>both</em> operationalizations of the model — the structure test (NP+DI) and the attacker test (hacker discriminator) — independently against several representative application manifests plus an OS container layer, and measured how often each would trigger an emergency rebuild. We then cross-validated against five independent exploitation sources: EPSS, CISA KEV, ExploitDB, Nuclei, and Metasploit. Full methodology, per-manifest detail, and per-CVE classifications are in the <a href="periodicity.html" style="color:var(--accent)">periodicity analysis</a> and <a href="cve-reference.html" style="color:var(--accent)">CVE reference</a>.</p>
+<p><strong>Periodicity backtest.</strong> To validate the model, we ran <em>both</em> operationalizations — the structure test (NP+DI) and the attacker test (hacker discriminator) — independently against several representative application manifests plus an OS container layer, and measured how often each would trigger an emergency rebuild. We then cross-validated against five independent exploitation sources: EPSS, CISA KEV, ExploitDB, Nuclei, and Metasploit. Full methodology, per-manifest detail, and per-CVE classifications are in the <a href="periodicity.html" style="color:var(--accent)">periodicity analysis</a> and <a href="cve-reference.html" style="color:var(--accent)">CVE reference</a>.</p>
 
 <h3>3a. The structure test — NP+DI</h3>
 
@@ -633,7 +633,7 @@ A network-parsing HIGH (7.0-7.9) at 0.89% beats a non-parsing CRITICAL (9.0-9.9)
 
 <p>The 2024 data (median 34 days) appears to reverse the trend, but this is a <strong>right-censoring artifact</strong>: many 2024 CVEs haven't been added to KEV yet. The compression is driven by the commoditization of exploit development, faster reverse engineering from patches, and the industrialization of ransomware operations.</p>
 
-<!-- ========== 3. NP+DI FILTER (THREAT-CENTRIC PRIORITIZATION) ========== -->
+<!-- ========== 3. NP+DI FILTER (THREAT-BASED PRIORITIZATION MODEL) ========== -->
 <h2 id="kill-chain">Land &amp; Expand: The Exploit After the Exploit</h2>
 
 <div class="translation"><strong>In plain English:</strong> The app layer determines whether you get breached. The OS layer determines how bad the breach gets. They need different patching strategies.</div>
