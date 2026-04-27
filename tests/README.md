@@ -31,6 +31,7 @@ see every problem, not just the first one.
 | `test_data_invariants.py` | DATA blob in each published HTML page: sums match classifications JSON, every rate equals `round(kev/nvd*100, 2)`, no rate > 100%, all 15 layers present, dashboard ≡ index. |
 | `test_http_data.py` | `http_data` lift table: counts bounded by totals, rates arithmetically correct, lift ≈ `http_rate/nonhttp_rate`, dashboard ≡ index. |
 | `test_classifications.py` | `data/kev-layer-classifications.json` integrity: required fields, year matches CVE ID, layer in canonical set, summary counts recomputable from entries, snapshot count matches. |
+| `test_cve_reference.py` | `data/cve-reference.json` and `docs/cve-reference.html` are in sync, every source artifact's CVEs roll into the union, canonical anchors (Log4Shell, Spring4Shell, Tomcat-PUT pair, Ivanti EPMM, Ghostcat) are present, no duplicates, hacker tier and combined verdict values are in the canonical set. |
 
 ## Workflow rule
 

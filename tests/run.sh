@@ -44,6 +44,7 @@ run "llms.txt freshness"         tests/test_llms_txt.py
 run "7-year NP+DI dataset"       tests/test_seven_year_npdi.py
 run "12-month per-framework"     tests/test_twelve_month_per_framework.py
 run "Mythos baseline"            tests/test_mythos_baseline.py
+run "CVE reference page"         tests/test_cve_reference.py
 
 echo
 echo "${GREEN}${BOLD}All tests passed.${RESET}"

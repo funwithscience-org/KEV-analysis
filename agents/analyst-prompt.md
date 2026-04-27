@@ -75,7 +75,7 @@ The triggered/autobuild/BAU split is about routing, not severity. A B-tier OS bu
 
 **Outputs (do BOTH every run):**
 
-A. **Append today's run to `data/model-run-log.json`** — append, don't overwrite. Schema:
+A. **Append today's run to `data/model-run-log.json`** — append, don't overwrite. The log is also picked up by `scripts/build_cve_reference.py` and rolled into `data/cve-reference.json` + the inline DATA blob in `docs/cve-reference.html`, so every event you score lands on the public per-CVE audit page within a day. Run `python3 scripts/build_cve_reference.py` at the end of your run, after the log append, so the per-CVE audit page picks up today's events. Schema:
 ```json
 {
   "date": "YYYY-MM-DD",
@@ -179,8 +179,9 @@ The project maintains an "Exploit Watch List" of HTTP-parsing-adjacent CVEs pred
 5. **Update the dashboard.** Edit the `WATCH_LIST` JavaScript object in `docs/dashboard.html` to match config.json. The object is near the end of the script, look for `const WATCH_LIST = {`. Use **targeted edits only** — do NOT overwrite other data values (chart data, counts, etc.) that the refresh agent maintains.
 6. **Update the walkthrough.** Edit the watch list tables in `docs/index.html` (section 11, id="watchlist") — add new table rows for new candidates, update status text for confirmations. Again, **targeted edits only** — don't replace large blocks that might contain refresh-agent data.
 7. **Pull again before pushing.** `git pull --rebase origin main` to catch any commits that landed while you were editing. Resolve conflicts by keeping your structural additions while preserving the refresh agent's data values.
-8. **Run the numeric regression suite before push:** `bash tests/run.sh`. This is fail-loud and blocking — if anything fails, do not push. Diagnose the failure (usually a kev/nvd/rate sum drifted, or the two HTML pages disagree), fix it, and re-run. See `tests/README.md`. If your edit doesn't touch numeric tables (e.g. you only added watch-list rows or prose), tests will still pass and the run is fast.
-9. **Report in your daily analysis.** Include a "Watch List Update" section in your report noting any additions, status changes, or near-misses.
+8. **Regenerate the per-CVE audit page:** `python3 scripts/build_cve_reference.py`. This unions today's `data/model-run-log.json` append plus any watch-list updates into `data/cve-reference.json` and patches the inline DATA blob in `docs/cve-reference.html`. The test suite (`tests/run.sh`) will fail loudly if you skip this step and any of those artifacts have drifted from the page.
+9. **Run the numeric regression suite before push:** `bash tests/run.sh`. This is fail-loud and blocking — if anything fails, do not push. Diagnose the failure (usually a kev/nvd/rate sum drifted, or the two HTML pages disagree), fix it, and re-run. See `tests/README.md`. If your edit doesn't touch numeric tables (e.g. you only added watch-list rows or prose), tests will still pass and the run is fast.
+10. **Report in your daily analysis.** Include a "Watch List Update" section in your report noting any additions, status changes, or near-misses.
 
 **Categories:** Server-side (things you patch on your servers) vs Desktop/Client-side (things delivered via HTTP to end-user machines). When in doubt, classify by where the vulnerability is exploited, not where the software runs.
 
