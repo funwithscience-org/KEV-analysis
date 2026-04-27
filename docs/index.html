@@ -459,7 +459,7 @@ A network-parsing HIGH (7.0-7.9) at 0.89% beats a non-parsing CRITICAL (9.0-9.9)
 <p>The original NP+DI filter is one of three discriminators worth comparing on the same input. <strong>NP+DI raw</strong> is the mechanical CWE-and-package rule. <strong>NP+DI + DQ</strong> (Data Quality) adds an AI-assisted pass that re-checks the upstream CWE tagging — when the surface CWE underweights the actual primitive (Spring Boot actuator exposure tagged CWE-862, Ghostcat tagged CWE-269, ActiveMQ Jolokia tagged CWE-20, etc.), DQ corrects the classification and the event re-enters NP+DI. <strong>Hacker S+A</strong> applies the offensive operator's three-axis test (default-config × edge × direct primitive). The cross-framework workload comparison:</p>
 
 <table class="data-table">
-<thead><tr><th>Framework</th><th>All C/H</th><th>NP+DI raw</th><th>NP+DI + AI</th><th>Hacker S+A</th><th>Reduction (Hacker)</th></tr></thead>
+<thead><tr><th>Framework</th><th>All C/H</th><th>NP+DI raw</th><th>NP+DI + DQ</th><th>Hacker S+A</th><th>Reduction (Hacker)</th></tr></thead>
 <tbody>
 <tr><td><strong>Spring Boot</strong></td><td>14</td><td>5</td><td>6</td><td><strong>5</strong></td><td><span class="tag tag-green">64%</span></td></tr>
 <tr><td><strong>Node.js/Express</strong></td><td>14</td><td>2</td><td>4</td><td><strong>3</strong></td><td><span class="tag tag-green">79%</span></td></tr>
@@ -698,7 +698,7 @@ A network-parsing HIGH (7.0-7.9) at 0.89% beats a non-parsing CRITICAL (9.0-9.9)
 <tr><td><strong>NP+DI raw</strong></td><td>6/13</td><td>6/13</td><td>6/13</td><td>6/13</td><td>Mechanical CWE+package filter</td></tr>
 <tr style="background:rgba(14,165,233,.08)"><td><strong>NP+DI + DQ</strong></td><td><strong>9/13</strong></td><td><strong>9/13</strong></td><td><strong>9/13</strong></td><td><strong>9/13</strong></td><td>Adds CWE-misclass rescues (Ghostcat, Tomcat partial-PUT, ActiveMQ Jolokia)</td></tr>
 <tr style="background:rgba(168,85,247,.08)"><td><strong>Hacker S+A</strong></td><td><strong>10/13</strong></td><td><strong>10/13</strong></td><td><strong>10/13</strong></td><td><strong>10/13</strong></td><td>Catches a slightly different set; gets XStream 2013-7285 the mechanical filter misses</td></tr>
-<tr style="background:rgba(16,185,129,.08)"><td><strong>NP+DI+AI ∪ Hacker S+A</strong></td><td><strong>11/13</strong></td><td><strong>11/13</strong></td><td><strong>11/13</strong></td><td><strong>11/13</strong></td><td>Union of the two methods — operational answer</td></tr>
+<tr style="background:rgba(16,185,129,.08)"><td><strong>NP+DI+DQ ∪ Hacker S+A</strong></td><td><strong>11/13</strong></td><td><strong>11/13</strong></td><td><strong>11/13</strong></td><td><strong>11/13</strong></td><td>Union of the two methods — operational answer</td></tr>
 <tr><td>EPSS ≥ 0.10</td><td>1/13</td><td>4/13</td><td>4/13</td><td>11/13</td><td>Eventually catches up; can't act on day 0</td></tr>
 <tr><td>EPSS ≥ 0.50</td><td>0/13</td><td>2/13</td><td>4/13</td><td>9/13</td><td>Stricter threshold; never catches the long-tail</td></tr>
 </tbody>
