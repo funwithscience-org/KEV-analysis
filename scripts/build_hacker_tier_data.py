@@ -154,6 +154,21 @@ HACKER_TIERS = {
                         "rationale": "HTTP PUT JSP upload — narrow precondition (readonly=false)"},
     "CVE-2017-12617": {"tier": "B", "round": "R7", "package": "tomcat",
                         "rationale": "HTTP PUT (Win variant) — same precondition"},
+
+    # === R9-retro canonical anchor — added 2026-04-27 from
+    # analyst-reports/2026-04-27-retrospective-30day-sweep.md
+    # Closes the "edge-appliance auth-bypass + RCE" anchor gap. The April-2026 KEV
+    # inbound included ~10-15 events in this class (Cisco SD-WAN, Fortinet
+    # FortiClient EMS, F5 BIG-IP, JetBrains TeamCity, Quest KACE, PaperCut,
+    # Synacor Zimbra, Citrix NetScaler, Kentico) that were all landing as
+    # tier_anchor: "novel" in the retro run because no canonical existed.
+    # Pattern signature: vendor appliance / management plane, unauthenticated
+    # or near-default-auth, network-edge HTTP/HTTPS surface, primitive-direct
+    # RCE via input handling. Future analyst runs encountering this shape
+    # should cite this anchor instead of stamping novel.
+    "CVE-2026-1340":  {"tier": "A", "round": "R9-retro", "package": "Ivanti EPMM",
+                        "rationale": "Edge-appliance auth-bypass + unauth RCE via code injection — canonical for vendor-appliance management-plane exploitation pattern",
+                        "canonical_for": "edge-appliance-auth-bypass-rce"},
 }
 
 # ── R8 OS-container hacker pass — summary only (most events are NVD noise) ──
@@ -248,8 +263,16 @@ def main() -> int:
             "analyst-reports/2026-04-26-hacker-ranking-v6-node-netty-12mo.md (R6 Node+Netty 12mo)",
             "analyst-reports/2026-04-26-hacker-ranking-v7-pre2018-backfill.md (R7 pre-2018 backfill)",
             "analyst-reports/2026-04-26-hacker-ranking-v8-os-container.md (R8 OS container)",
+            "analyst-reports/2026-04-27-retrospective-30day-sweep.md (R9-retro canonical anchor add)",
         ],
         "rounds_in_use_for_integrated_page": ["R3", "R4", "R6", "R7", "R8"],
+        "canonical_anchors": {
+            "edge-appliance-auth-bypass-rce": {
+                "anchor_cve": "CVE-2026-1340",
+                "added": "2026-04-27",
+                "rationale": "Vendor-appliance management plane (MDM, SD-WAN, EMS, BIG-IP, etc.), unauthenticated or near-default auth, network-edge HTTP/HTTPS surface, primitive-direct RCE via input handling. Tier A."
+            }
+        },
     }
 
     out_tiers = {**base_meta, "n_cves": len(HACKER_TIERS), "tiers": HACKER_TIERS,

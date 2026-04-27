@@ -1,0 +1,2836 @@
+[
+  {
+    "cve": "CVE-2026-33729",
+    "published": "2026-03-27",
+    "cvss": 9.8,
+    "severity": "CRITICAL",
+    "cwes": [
+      "CWE-20",
+      "CWE-345",
+      "CWE-1289"
+    ],
+    "layer": "http_lib",
+    "layer_keyword": "requests",
+    "kev": false,
+    "description": "OpenFGA is a high-performance and flexible authorization/permission engine built for developers and inspired by Google Zanzibar. In versions prior to 1.13.1, under specific conditions, models using conditions with caching enabled can result in two different check requests producing the same cache key. This can result in OpenFGA reusing an earlier cached result for a different request. Users are affected if the model has relations which rely on condition evaluation andncaching is enabled. OpenFGA v1.13.1 contains a patch."
+  },
+  {
+    "cve": "CVE-2026-33747",
+    "published": "2026-03-27",
+    "cvss": 8.4,
+    "severity": "HIGH",
+    "cwes": [
+      "CWE-22"
+    ],
+    "layer": "app_framework",
+    "layer_keyword": "express",
+    "kev": false,
+    "description": "BuildKit is a toolkit for converting source code to build artifacts in an efficient, expressive and repeatable manner. Prior to version 0.28.1, when using a custom BuildKit frontend, the frontend can craft an API message that causes files to be written outside of the BuildKit state directory for the execution context. The issue has been fixed in v0.28.1. The vulnerability requires using an untrusted BuildKit frontend set with `#syntax` or `--build-arg BUILDKIT_SYNTAX`. Using these options with a well-known frontend image like `docker/dockerfile` is not affected."
+  },
+  {
+    "cve": "CVE-2026-28367",
+    "published": "2026-03-27",
+    "cvss": 8.7,
+    "severity": "HIGH",
+    "cwes": [
+      "CWE-444"
+    ],
+    "layer": "web_server",
+    "layer_keyword": "undertow",
+    "kev": false,
+    "description": "A flaw was found in Undertow. A remote attacker can exploit this vulnerability by sending `\\r\\r\\r` as a header block terminator. This can be used for request smuggling with certain proxy servers, such as older versions of Apache Traffic Server and Google Cloud Classic Application Load Balancer, potentially leading to unauthorized access or manipulation of web requests."
+  },
+  {
+    "cve": "CVE-2026-28368",
+    "published": "2026-03-27",
+    "cvss": 8.7,
+    "severity": "HIGH",
+    "cwes": [
+      "CWE-444"
+    ],
+    "layer": "web_server",
+    "layer_keyword": "undertow",
+    "kev": false,
+    "description": "A flaw was found in Undertow. This vulnerability allows a remote attacker to construct specially crafted requests where header names are parsed differently by Undertow compared to upstream proxies. This discrepancy in header interpretation can be exploited to launch request smuggling attacks, potentially bypassing security controls and accessing unauthorized resources."
+  },
+  {
+    "cve": "CVE-2026-28369",
+    "published": "2026-03-27",
+    "cvss": 8.7,
+    "severity": "HIGH",
+    "cwes": [
+      "CWE-444"
+    ],
+    "layer": "web_server",
+    "layer_keyword": "undertow",
+    "kev": false,
+    "description": "A flaw was found in Undertow. When Undertow receives an HTTP request where the first header line starts with one or more spaces, it incorrectly processes the request by stripping these leading spaces. This behavior, which violates HTTP standards, can be exploited by a remote attacker to perform request smuggling. Request smuggling allows an attacker to bypass security mechanisms, access restricted information, or manipulate web caches, potentially leading to unauthorized actions or data exposure."
+  },
+  {
+    "cve": "CVE-2026-34475",
+    "published": "2026-03-27",
+    "cvss": 5.4,
+    "severity": "MEDIUM",
+    "cwes": [
+      "CWE-180"
+    ],
+    "layer": "reverse_proxy",
+    "layer_keyword": "varnish",
+    "kev": false,
+    "description": "Varnish Cache before 8.0.1 and Varnish Enterprise before 6.0.16r12, in certain unchecked req.url scenarios, mishandle URLs with a path of / for HTTP/1.1, potentially leading to cache poisoning or authentication bypass."
+  },
+  {
+    "cve": "CVE-2026-33943",
+    "published": "2026-03-27",
+    "cvss": 8.8,
+    "severity": "HIGH",
+    "cwes": [
+      "CWE-94"
+    ],
+    "layer": "app_framework",
+    "layer_keyword": "express",
+    "kev": false,
+    "description": "Happy DOM is a JavaScript implementation of a web browser without its graphical user interface. In versions 15.10.0 through 20.8.7, a code injection vulnerability in `ECMAScriptModuleCompiler` allows an attacker to achieve Remote Code Execution (RCE) by injecting arbitrary JavaScript expressions inside `export { }` declarations in ES module scripts processed by happy-dom. The compiler directly interpolates unsanitized content into generated code as an executable expression, and the quote filter does not strip backticks, allowing template literal-based payloads to bypass sanitization. Version 2"
+  },
+  {
+    "cve": "CVE-2026-33030",
+    "published": "2026-03-30",
+    "cvss": 8.8,
+    "severity": "HIGH",
+    "cwes": [
+      "CWE-78",
+      "CWE-639"
+    ],
+    "layer": "web_server",
+    "layer_keyword": "nginx",
+    "kev": false,
+    "description": "Nginx UI is a web user interface for the Nginx web server. In versions 2.3.3 and prior, Nginx-UI contains an Insecure Direct Object Reference (IDOR) vulnerability that allows any authenticated user to access, modify, and delete resources belonging to other users. The application's base Model struct lacks a user_id field, and all resource endpoints perform queries by ID without verifying user ownership, enabling complete authorization bypass in multi-user environments. At time of publication, there are no publicly available patches."
+  },
+  {
+    "cve": "CVE-2026-28505",
+    "published": "2026-03-30",
+    "cvss": 10.0,
+    "severity": "CRITICAL",
+    "cwes": [
+      "CWE-94",
+      "CWE-95"
+    ],
+    "layer": "app_framework",
+    "layer_keyword": "express",
+    "kev": false,
+    "description": "Tautulli is a Python based monitoring and tracking tool for Plex Media Server. Prior to version 2.17.0, the str_eval() function in notification_handler.py implements a sandboxed eval() for notification text templates. The sandbox attempts to restrict callable names by inspecting code.co_names of the compiled code object. However, co_names only contains names from the outer code object. When a lambda expression is used, it creates a nested code object whose attribute accesses are stored in code.co_consts, NOT in code.co_names. The sandbox never inspects nested code objects. This issue has been "
+  },
+  {
+    "cve": "CVE-2026-33026",
+    "published": "2026-03-30",
+    "cvss": 9.1,
+    "severity": "CRITICAL",
+    "cwes": [
+      "CWE-312",
+      "CWE-347",
+      "CWE-354"
+    ],
+    "layer": "web_server",
+    "layer_keyword": "nginx",
+    "kev": false,
+    "description": "Nginx UI is a web user interface for the Nginx web server. Prior to version 2.3.4, the nginx-ui backup restore mechanism allows attackers to tamper with encrypted backup archives and inject malicious configuration during restoration. This issue has been patched in version 2.3.4."
+  },
+  {
+    "cve": "CVE-2026-32916",
+    "published": "2026-03-31",
+    "cvss": 9.4,
+    "severity": "CRITICAL",
+    "cwes": [
+      "CWE-266"
+    ],
+    "layer": "http_lib",
+    "layer_keyword": "requests",
+    "kev": false,
+    "description": "OpenClaw versions 2026.3.7 before 2026.3.11 contain an authorization bypass vulnerability where plugin subagent routes execute gateway methods through a synthetic operator client with broad administrative scopes. Remote unauthenticated requests to plugin-owned routes can invoke runtime.subagent methods to perform privileged gateway actions including session deletion and agent execution."
+  },
+  {
+    "cve": "CVE-2026-33579",
+    "published": "2026-03-31",
+    "cvss": 9.9,
+    "severity": "CRITICAL",
+    "cwes": [
+      "CWE-863"
+    ],
+    "layer": "http_lib",
+    "layer_keyword": "requests",
+    "kev": false,
+    "description": "OpenClaw before 2026.3.28 contains a privilege escalation vulnerability in the /pair approve command path that fails to forward caller scopes into the core approval check. A caller with pairing privileges but without admin privileges can approve pending device requests asking for broader scopes including admin access by exploiting the missing scope validation in extensions/device-pair/index.ts and src/infra/device-pairing.ts."
+  },
+  {
+    "cve": "CVE-2026-34361",
+    "published": "2026-03-31",
+    "cvss": 9.3,
+    "severity": "CRITICAL",
+    "cwes": [
+      "CWE-552"
+    ],
+    "layer": "http_lib",
+    "layer_keyword": "requests",
+    "kev": false,
+    "description": "HAPI FHIR is a complete implementation of the HL7 FHIR standard for healthcare interoperability in Java. Prior to version 6.9.4, the FHIR Validator HTTP service exposes an unauthenticated \"/loadIG\" endpoint that makes outbound HTTP requests to attacker-controlled URLs. Combined with a startsWith() URL prefix matching flaw in the credential provider (ManagedWebAccessUtils.getServer()), an attacker can steal authentication tokens (Bearer, Basic, API keys) configured for legitimate FHIR servers by registering a domain that prefix-matches a configured server URL. This issue has been patched in ver"
+  },
+  {
+    "cve": "CVE-2026-4800",
+    "published": "2026-03-31",
+    "cvss": 8.1,
+    "severity": "HIGH",
+    "cwes": [
+      "CWE-94"
+    ],
+    "layer": "app_framework",
+    "layer_keyword": "rails",
+    "kev": false,
+    "description": "Impact:\n\nThe fix for CVE-2021-23337 (https://github.com/advisories/GHSA-35jh-r3h4-6jhm) added validation for the variable option in _.template but did not apply the same validation to options.imports key names. Both paths flow into the same Function() constructor sink.\n\nWhen an application passes untrusted input as options.imports key names, an attacker can inject default-parameter expressions that execute arbitrary code at template compilation time.\n\nAdditionally, _.template uses assignInWith to merge imports, which enumerates inherited properties via for..in. If Object.prototype has been pol"
+  },
+  {
+    "cve": "CVE-2026-20093",
+    "published": "2026-04-01",
+    "cvss": 9.8,
+    "severity": "CRITICAL",
+    "cwes": [
+      "CWE-20"
+    ],
+    "layer": "http_lib",
+    "layer_keyword": "requests",
+    "kev": false,
+    "description": "A vulnerability in the change password functionality of Cisco Integrated Management Controller (IMC) could allow an unauthenticated, remote attacker to bypass authentication and gain access to the system as&nbsp;Admin.\r\n\r\nThis vulnerability is due to incorrect handling of password change requests. An attacker could exploit this vulnerability by sending a crafted HTTP request to an affected device. A successful exploit could allow the attacker to bypass authentication, alter the passwords of any user on the system, including an&nbsp;Admin user, and gain access to the system as that user."
+  },
+  {
+    "cve": "CVE-2026-34456",
+    "published": "2026-04-01",
+    "cvss": 9.1,
+    "severity": "CRITICAL",
+    "cwes": [
+      "CWE-284"
+    ],
+    "layer": "app_framework",
+    "layer_keyword": "laravel",
+    "kev": false,
+    "description": "Reviactyl is an open-source game server management panel built using Laravel, React, FilamentPHP, Vite, and Go. From version 26.2.0-beta.1 to before version 26.2.0-beta.5, a vulnerability in the OAuth authentication flow allowed automatic linking of social accounts based solely on matching email addresses. An attacker could create or control a social account (e.g., Google, GitHub, Discord) using a victim\u2019s email address and gain full access to the victim's account without knowing their password. This results in a full account takeover with no prior authentication required. This issue has been "
+  },
+  {
+    "cve": "CVE-2026-32871",
+    "published": "2026-04-02",
+    "cvss": 10.0,
+    "severity": "CRITICAL",
+    "cwes": [
+      "CWE-918"
+    ],
+    "layer": "http_lib",
+    "layer_keyword": "requests",
+    "kev": false,
+    "description": "FastMCP is a Pythonic way to build MCP servers and clients. Prior to version 3.2.0, the OpenAPIProvider in FastMCP exposes internal APIs to MCP clients by parsing OpenAPI specifications. The RequestDirector class is responsible for constructing HTTP requests to the backend service. A vulnerability exists in the _build_url() method. When an OpenAPI operation defines path parameters (e.g., /api/v1/users/{user_id}), the system directly substitutes parameter values into the URL template string without URL-encoding. Subsequently, urllib.parse.urljoin() resolves the final URL. Since urljoin() interp"
+  },
+  {
+    "cve": "CVE-2026-31818",
+    "published": "2026-04-03",
+    "cvss": 9.6,
+    "severity": "CRITICAL",
+    "cwes": [
+      "CWE-918",
+      "CWE-1188"
+    ],
+    "layer": "http_lib",
+    "layer_keyword": "requests",
+    "kev": false,
+    "description": "Budibase is an open-source low-code platform. Prior to version 3.33.4, a server-side request forgery (SSRF) vulnerability exists in Budibase's REST datasource connector. The platform's SSRF protection mechanism (IP blacklist) is rendered completely ineffective because the BLACKLIST_IPS environment variable is not set by default in any of the official deployment configurations. When this variable is empty, the blacklist function unconditionally returns false, allowing all requests through without restriction. This issue has been patched in version 3.33.4."
+  },
+  {
+    "cve": "CVE-2026-0545",
+    "published": "2026-04-03",
+    "cvss": 9.8,
+    "severity": "CRITICAL",
+    "cwes": [
+      "CWE-306"
+    ],
+    "layer": "app_framework",
+    "layer_keyword": "fastapi",
+    "kev": false,
+    "description": "In mlflow/mlflow, the FastAPI job endpoints under `/ajax-api/3.0/jobs/*` are not protected by authentication or authorization when the `basic-auth` app is enabled. This vulnerability affects the latest version of the repository. If job execution is enabled (`MLFLOW_SERVER_ENABLE_JOB_EXECUTION=true`) and any job function is allowlisted, any network client can submit, read, search, and cancel jobs without credentials, bypassing basic-auth entirely. This can lead to unauthenticated remote code execution if allowed jobs perform privileged actions such as shell execution or filesystem changes. Even"
+  },
+  {
+    "cve": "CVE-2026-28798",
+    "published": "2026-04-03",
+    "cvss": 9.0,
+    "severity": "CRITICAL",
+    "cwes": [
+      "CWE-918"
+    ],
+    "layer": "http_lib",
+    "layer_keyword": "requests",
+    "kev": false,
+    "description": "ZimaOS is a fork of CasaOS, an operating system for Zima devices and x86-64 systems with UEFI. Prior to version 1.5.3, a proxy endpoint (/v1/sys/proxy) exposed by ZimaOS's web interface can be abused (via an externally reachable domain using a Cloudflare Tunnel) to make requests to internal localhost services. This results in unauthenticated access to internal-only endpoints and sensitive local services when the product is reachable from the Internet through a Cloudflare Tunnel. This issue has been patched in version 1.5.3."
+  },
+  {
+    "cve": "CVE-2018-25236",
+    "published": "2026-04-03",
+    "cvss": 9.8,
+    "severity": "CRITICAL",
+    "cwes": [
+      "CWE-287"
+    ],
+    "layer": "http_lib",
+    "layer_keyword": "requests",
+    "kev": false,
+    "description": "Hirschmann HiOS and HiSecOS products RSP, RSPE, RSPS, RSPL, MSP, EES, EESX, GRS, OS, RED, EAGLE contain an authentication bypass vulnerability in the HTTP(S) management module that allows unauthenticated remote attackers to gain administrative access by crafting specially formed HTTP requests. Attackers can exploit improper authentication handling to obtain the authentication status and privileges of a previously authenticated user without providing valid credentials."
+  },
+  {
+    "cve": "CVE-2019-25674",
+    "published": "2026-04-05",
+    "cvss": 8.2,
+    "severity": "HIGH",
+    "cwes": [
+      "CWE-89"
+    ],
+    "layer": "http_lib",
+    "layer_keyword": "requests",
+    "kev": false,
+    "description": "CMSsite 1.0 contains an SQL injection vulnerability that allows unauthenticated attackers to manipulate database queries by injecting SQL code through the 'post' parameter. Attackers can send GET requests to post.php with malicious 'post' values to extract sensitive database information or perform time-based blind SQL injection attacks."
+  },
+  {
+    "cve": "CVE-2019-25680",
+    "published": "2026-04-05",
+    "cvss": 8.2,
+    "severity": "HIGH",
+    "cwes": [
+      "CWE-89"
+    ],
+    "layer": "http_lib",
+    "layer_keyword": "requests",
+    "kev": false,
+    "description": "Advance Gift Shop Pro Script 2.0.3 contains an SQL injection vulnerability that allows unauthenticated attackers to execute arbitrary SQL queries by injecting malicious code through the search parameter. Attackers can submit crafted SQL payloads in the 's' parameter of search requests to extract sensitive database information including version details and other data."
+  },
+  {
+    "cve": "CVE-2019-25687",
+    "published": "2026-04-05",
+    "cvss": 9.8,
+    "severity": "CRITICAL",
+    "cwes": [
+      "CWE-22"
+    ],
+    "layer": "http_lib",
+    "layer_keyword": "requests",
+    "kev": false,
+    "description": "Pegasus CMS 1.0 contains a remote code execution vulnerability in the extra_fields.php plugin that allows unauthenticated attackers to execute arbitrary commands by exploiting unsafe eval functionality. Attackers can send POST requests to the submit.php endpoint with malicious PHP code in the action parameter to achieve code execution and obtain an interactive shell."
+  },
+  {
+    "cve": "CVE-2019-25688",
+    "published": "2026-04-05",
+    "cvss": 8.2,
+    "severity": "HIGH",
+    "cwes": [
+      "CWE-89"
+    ],
+    "layer": "http_lib",
+    "layer_keyword": "requests",
+    "kev": false,
+    "description": "Kados R10 GreenBee contains an SQL injection vulnerability that allows unauthenticated attackers to manipulate database queries by injecting SQL code through the menu_lev1 parameter. Attackers can send crafted requests with malicious SQL payloads in the menu_lev1 parameter to extract sensitive database information or modify database contents."
+  },
+  {
+    "cve": "CVE-2019-25692",
+    "published": "2026-04-05",
+    "cvss": 8.2,
+    "severity": "HIGH",
+    "cwes": [
+      "CWE-89"
+    ],
+    "layer": "http_lib",
+    "layer_keyword": "requests",
+    "kev": false,
+    "description": "Kados R10 GreenBee contains an SQL injection vulnerability that allows attackers to manipulate database queries by injecting SQL code through the 'id_to_modify' parameter. Attackers can send crafted requests with malicious SQL statements in the id_to_modify field to extract sensitive database information or modify data."
+  },
+  {
+    "cve": "CVE-2019-25694",
+    "published": "2026-04-05",
+    "cvss": 8.2,
+    "severity": "HIGH",
+    "cwes": [
+      "CWE-89"
+    ],
+    "layer": "http_lib",
+    "layer_keyword": "requests",
+    "kev": false,
+    "description": "Kados R10 GreenBee contains an SQL injection vulnerability that allows unauthenticated attackers to manipulate database queries by injecting SQL code through the user2reset parameter. Attackers can send crafted requests with malicious SQL payloads to extract sensitive database information or modify data."
+  },
+  {
+    "cve": "CVE-2019-25698",
+    "published": "2026-04-05",
+    "cvss": 8.2,
+    "severity": "HIGH",
+    "cwes": [
+      "CWE-89"
+    ],
+    "layer": "http_lib",
+    "layer_keyword": "requests",
+    "kev": false,
+    "description": "Kados R10 GreenBee contains an SQL injection vulnerability that allows attackers to manipulate database queries by injecting SQL code through the id_to_delete parameter. Attackers can send crafted requests with malicious SQL statements in the id_to_delete field to extract or modify sensitive database information."
+  },
+  {
+    "cve": "CVE-2019-25702",
+    "published": "2026-04-05",
+    "cvss": 8.2,
+    "severity": "HIGH",
+    "cwes": [
+      "CWE-89"
+    ],
+    "layer": "http_lib",
+    "layer_keyword": "requests",
+    "kev": false,
+    "description": "Kados R10 GreenBee contains an SQL injection vulnerability that allows attackers to manipulate database queries by injecting SQL code through the id_project parameter. Attackers can send crafted requests with malicious SQL statements in the id_project parameter to extract sensitive database information or modify data."
+  },
+  {
+    "cve": "CVE-2019-25704",
+    "published": "2026-04-05",
+    "cvss": 8.2,
+    "severity": "HIGH",
+    "cwes": [
+      "CWE-89"
+    ],
+    "layer": "http_lib",
+    "layer_keyword": "requests",
+    "kev": false,
+    "description": "Kados R10 GreenBee contains an SQL injection vulnerability that allows attackers to manipulate database queries by injecting SQL code through the filter_user_mail parameter. Attackers can send crafted requests with malicious SQL statements to extract sensitive database information or modify data."
+  },
+  {
+    "cve": "CVE-2026-35044",
+    "published": "2026-04-06",
+    "cvss": 8.8,
+    "severity": "HIGH",
+    "cwes": [
+      "CWE-1336"
+    ],
+    "layer": "template",
+    "layer_keyword": "jinja",
+    "kev": false,
+    "description": "BentoML is a Python library for building online serving systems optimized for AI apps and model inference. Prior to 1.4.38, the Dockerfile generation function generate_containerfile() in src/bentoml/_internal/container/generate.py uses an unsandboxed jinja2.Environment with the jinja2.ext.do extension to render user-provided dockerfile_template files. When a victim imports a malicious bento archive and runs bentoml containerize, attacker-controlled Jinja2 template code executes arbitrary Python directly on the host machine, bypassing all container isolation. This vulnerability is fixed in 1.4."
+  },
+  {
+    "cve": "CVE-2026-35052",
+    "published": "2026-04-06",
+    "cvss": 9.8,
+    "severity": "CRITICAL",
+    "cwes": [
+      "CWE-79"
+    ],
+    "layer": "app_framework",
+    "layer_keyword": "flask",
+    "kev": false,
+    "description": "D-Tale is the combination of a Flask back-end and a React front-end to view & analyze Pandas data structures. Prior to 3.22.0, users hosting D-Tale publicly while using a redis or shelf storage layer could be vulnerable to remote code execution allowing attackers to run malicious code on the server. This vulnerability is fixed in 3.22.0."
+  },
+  {
+    "cve": "CVE-2026-35197",
+    "published": "2026-04-06",
+    "cvss": 6.6,
+    "severity": "MEDIUM",
+    "cwes": [
+      "CWE-94"
+    ],
+    "layer": "app_framework",
+    "layer_keyword": "express",
+    "kev": false,
+    "description": "dye is a portable and respectful color library for shell scripts. Prior to 1.1.1, certain dye template expressions would result in execution of arbitrary code. This issue was discovered and fixed by dye's author, and is not known to be exploited. This vulnerability is fixed in 1.1.1."
+  },
+  {
+    "cve": "CVE-2026-35459",
+    "published": "2026-04-06",
+    "cvss": 9.1,
+    "severity": "CRITICAL",
+    "cwes": [
+      "CWE-918"
+    ],
+    "layer": "http_lib",
+    "layer_keyword": "curl",
+    "kev": false,
+    "description": "pyLoad is a free and open-source download manager written in Python. In 0.5.0b3.dev96 and earlier, pyLoad has a server-side request forgery (SSRF) vulnerability. The fix for CVE-2026-33992 added IP validation to BaseDownloader.download() that checks the hostname of the initial download URL. However, pycurl is configured with FOLLOWLOCATION=1 and MAXREDIRS=10, causing it to automatically follow HTTP redirects. Redirect targets are never validated against the SSRF filter. An authenticated user with ADD permission can bypass the SSRF fix by submitting a URL that redirects to an internal address."
+  },
+  {
+    "cve": "CVE-2026-22679",
+    "published": "2026-04-07",
+    "cvss": 9.8,
+    "severity": "CRITICAL",
+    "cwes": [
+      "CWE-306"
+    ],
+    "layer": "http_lib",
+    "layer_keyword": "requests",
+    "kev": false,
+    "description": "Weaver (Fanwei) E-cology 10.0 versions prior to\u00a020260312 contain an unauthenticated remote code execution vulnerability in the /papi/esearch/data/devops/dubboApi/debug/method endpoint that allows attackers to execute arbitrary commands by invoking exposed debug functionality. Attackers can craft POST requests with attacker-controlled interfaceName and methodName parameters to reach command-execution helpers and achieve arbitrary command execution on the system.\u00a0Exploitation evidence was first observed by the Shadowserver Foundation on 2026-03-31 (UTC)."
+  },
+  {
+    "cve": "CVE-2026-5734",
+    "published": "2026-04-07",
+    "cvss": 9.8,
+    "severity": "CRITICAL",
+    "cwes": [
+      "CWE-787",
+      "CWE-120"
+    ],
+    "layer": "browser",
+    "layer_keyword": "firefox",
+    "kev": false,
+    "description": "Memory safety bugs present in Firefox ESR 140.9.0, Thunderbird ESR 140.9.0, Firefox 149.0.1 and Thunderbird 149.0.1. Some of these bugs showed evidence of memory corruption and we presume that with enough effort some of these could have been exploited to run arbitrary code. This vulnerability was fixed in Firefox 149.0.2, Firefox ESR 140.9.1, Thunderbird 149.0.2, and Thunderbird 140.9.1."
+  },
+  {
+    "cve": "CVE-2026-5735",
+    "published": "2026-04-07",
+    "cvss": 9.8,
+    "severity": "CRITICAL",
+    "cwes": [
+      "CWE-787"
+    ],
+    "layer": "browser",
+    "layer_keyword": "firefox",
+    "kev": false,
+    "description": "Memory safety bugs present in Firefox 149.0.1 and Thunderbird 149.0.1. Some of these bugs showed evidence of memory corruption and we presume that with enough effort some of these could have been exploited to run arbitrary code. This vulnerability was fixed in Firefox 149.0.2 and Thunderbird 149.0.2."
+  },
+  {
+    "cve": "CVE-2026-39324",
+    "published": "2026-04-07",
+    "cvss": 9.8,
+    "severity": "CRITICAL",
+    "cwes": [
+      "CWE-287",
+      "CWE-345",
+      "CWE-502",
+      "CWE-565"
+    ],
+    "layer": "browser",
+    "layer_keyword": "edge",
+    "kev": false,
+    "description": "Rack::Session is a session management implementation for Rack. From 2.0.0 to before 2.1.2, Rack::Session::Cookie incorrectly handles decryption failures when configured with secrets:. If cookie decryption fails, the implementation falls back to a default decoder instead of rejecting the cookie. This allows an unauthenticated attacker to supply a crafted session cookie that is accepted as valid session data without knowledge of any configured secret. Because this mechanism is used to load session state, an attacker can manipulate session contents and potentially gain unauthorized access. This v"
+  },
+  {
+    "cve": "CVE-2026-31789",
+    "published": "2026-04-07",
+    "cvss": 9.8,
+    "severity": "CRITICAL",
+    "cwes": [
+      "CWE-787"
+    ],
+    "layer": "tls",
+    "layer_keyword": "openssl",
+    "kev": false,
+    "description": "Issue summary: Converting an excessively large OCTET STRING value to\na hexadecimal string leads to a heap buffer overflow on 32 bit platforms.\n\nImpact summary: A heap buffer overflow may lead to a crash or possibly\nan attacker controlled code execution or other undefined behavior.\n\nIf an attacker can supply a crafted X.509 certificate with an excessively\nlarge OCTET STRING value in extensions such as the Subject Key Identifier\n(SKID) or Authority Key Identifier (AKID) which are being converted to hex,\nthe size of the buffer needed for the result is calculated as multiplication\nof the input len"
+  },
+  {
+    "cve": "CVE-2026-34582",
+    "published": "2026-04-07",
+    "cvss": 9.1,
+    "severity": "CRITICAL",
+    "cwes": [
+      "CWE-841"
+    ],
+    "layer": "jwt_auth_cert",
+    "layer_keyword": "cryptography",
+    "kev": false,
+    "description": "Botan is a C++ cryptography library. Prior to version 3.11.1, the TLS 1.3 implementation allowed ApplicationData records to be processed prior to the Finished message being received. A server which is attempting to enforce client authentication via certificates can by bypassed by a client which entirely omits Certificate, CertificateVerify, and the Finished message and instead sends application data records. This vulnerability is fixed in 3.11.1."
+  },
+  {
+    "cve": "CVE-2026-39846",
+    "published": "2026-04-07",
+    "cvss": 9.0,
+    "severity": "CRITICAL",
+    "cwes": [
+      "CWE-79",
+      "CWE-94",
+      "CWE-79"
+    ],
+    "layer": "browser",
+    "layer_keyword": "edge",
+    "kev": false,
+    "description": "SiYuan is a personal knowledge management system. Prior to 3.6.4, a malicious note synced to another user can trigger remote code execution in the SiYuan Electron desktop client. The root cause is that table caption content is stored without safe escaping and later unescaped into rendered HTML, creating a stored XSS sink. Because the desktop renderer runs with nodeIntegration enabled and contextIsolation disabled, attacker-controlled JavaScript executes with access to Node.js APIs. In practice, an attacker can import a crafted note into a synced workspace, wait for the victim to sync, and achi"
+  },
+  {
+    "cve": "CVE-2026-5300",
+    "published": "2026-04-08",
+    "cvss": 5.9,
+    "severity": "MEDIUM",
+    "cwes": [
+      "CWE-306"
+    ],
+    "layer": "http_lib",
+    "layer_keyword": "requests",
+    "kev": false,
+    "description": "Unauthenticated functionality in  CoolerControl/coolercontrold <4.0.0 allows unauthenticated attackers to view and modify potentially sensitive data via HTTP requests"
+  },
+  {
+    "cve": "CVE-2026-31017",
+    "published": "2026-04-08",
+    "cvss": 9.1,
+    "severity": "CRITICAL",
+    "cwes": [
+      "CWE-918"
+    ],
+    "layer": "http_lib",
+    "layer_keyword": "requests",
+    "kev": false,
+    "description": "A Server-Side Request Forgery (SSRF) vulnerability exists in the Print Format functionality of ERPNext v16.0.1 and Frappe Framework v16.1.1, where user-supplied HTML is insufficiently sanitized before being rendered into PDF. When generating PDFs from user-controlled HTML content, the application allows the inclusion of HTML elements such as <iframe> that reference external resources. The PDF rendering engine automatically fetches these resources on the server side. An attacker can abuse this behavior to force the server to make arbitrary HTTP requests to internal services, including cloud met"
+  },
+  {
+    "cve": "CVE-2026-35477",
+    "published": "2026-04-08",
+    "cvss": 5.5,
+    "severity": "MEDIUM",
+    "cwes": [
+      "CWE-1336"
+    ],
+    "layer": "app_framework",
+    "layer_keyword": "express",
+    "kev": false,
+    "description": "InvenTree is an Open Source Inventory Management System. From 1.2.3 to 1.2.6, the fix for CVE-2026-27629 upgraded the PART_NAME_FORMAT validator to use jinja2.sandbox.SandboxedEnvironment. However, the actual renderer in part/helpers.py was not updated and still uses the non-sandboxed jinja2.Environment. Additionally, the validator uses a dummy Part instance with pk=None, which allows conditional template expressions to behave differently during validation versus production rendering. A staff user with settings access can craft a template that passes validation but executes arbitrary code duri"
+  },
+  {
+    "cve": "CVE-2026-39892",
+    "published": "2026-04-08",
+    "cvss": 9.8,
+    "severity": "CRITICAL",
+    "cwes": [
+      "CWE-119"
+    ],
+    "layer": "jwt_auth_cert",
+    "layer_keyword": "cryptography",
+    "kev": false,
+    "description": "cryptography is a package designed to expose cryptographic primitives and recipes to Python developers. From 45.0.0 to before 46.0.7, if a non-contiguous buffer was passed to APIs which accepted Python buffers (e.g. Hash.update()), this could lead to buffer overflows. This vulnerability is fixed in 46.0.7."
+  },
+  {
+    "cve": "CVE-2025-62718",
+    "published": "2026-04-09",
+    "cvss": 9.9,
+    "severity": "CRITICAL",
+    "cwes": [
+      "CWE-441",
+      "CWE-918"
+    ],
+    "layer": "http_lib",
+    "layer_keyword": "axios",
+    "kev": false,
+    "description": "Axios is a promise based HTTP client for the browser and Node.js. Prior to 1.15.0 and 0.31.0, Axios does not correctly handle hostname normalization when checking NO_PROXY rules. Requests to loopback addresses like localhost. (with a trailing dot) or [::1] (IPv6 literal) skip NO_PROXY matching and go through the configured proxy. This goes against what developers expect and lets attackers force requests through a proxy, even if NO_PROXY is set up to protect loopback or internal services. This issue leads to the possibility of proxy bypass and SSRF vulnerabilities allowing attackers to reach se"
+  },
+  {
+    "cve": "CVE-2026-39987",
+    "published": "2026-04-09",
+    "cvss": 9.8,
+    "severity": "CRITICAL",
+    "cwes": [
+      "CWE-306"
+    ],
+    "layer": "websocket",
+    "layer_keyword": "websocket",
+    "kev": true,
+    "description": "marimo is a reactive Python notebook. Prior to 0.23.0, Marimo has a Pre-Auth RCE vulnerability. The terminal WebSocket endpoint /terminal/ws lacks authentication validation, allowing an unauthenticated attacker to obtain a full PTY shell and execute arbitrary system commands. Unlike other WebSocket endpoints (e.g., /ws) that correctly call validate_auth() for authentication, the /terminal/ws endpoint only checks the running mode and platform support before accepting connections, completely skipping authentication verification. This vulnerability is fixed in 0.23.0."
+  },
+  {
+    "cve": "CVE-2026-5187",
+    "published": "2026-04-09",
+    "cvss": 9.8,
+    "severity": "CRITICAL",
+    "cwes": [
+      "CWE-122",
+      "CWE-787"
+    ],
+    "layer": "tls",
+    "layer_keyword": "wolfssl",
+    "kev": false,
+    "description": "Two potential heap out-of-bounds write locations existed in DecodeObjectId() in wolfcrypt/src/asn.c. First, a bounds check only validates one available slot before writing two OID arc values (out[0] and out[1]), enabling a 2-byte out-of-bounds write when outSz equals 1. Second, multiple callers pass sizeof(decOid) (64 bytes on 64-bit platforms) instead of the element count MAX_OID_SZ (32), causing the function to accept crafted OIDs with 33 or more arcs that write past the end of the allocated buffer."
+  },
+  {
+    "cve": "CVE-2026-5194",
+    "published": "2026-04-09",
+    "cvss": 9.1,
+    "severity": "CRITICAL",
+    "cwes": [
+      "CWE-295"
+    ],
+    "layer": "tls",
+    "layer_keyword": "wolfssl",
+    "kev": false,
+    "description": "Missing hash/digest size and OID checks allow digests smaller than allowed when verifying ECDSA certificates, or smaller than is appropriate for the relevant key type, to be accepted by signature verification functions. This could lead to reduced security of ECDSA certificate-based authentication if the public CA key used is also known. This affects ECDSA/ECC verification when EdDSA or ML-DSA is also enabled."
+  },
+  {
+    "cve": "CVE-2026-40114",
+    "published": "2026-04-09",
+    "cvss": 7.2,
+    "severity": "HIGH",
+    "cwes": [
+      "CWE-918"
+    ],
+    "layer": "http_lib",
+    "layer_keyword": "requests",
+    "kev": false,
+    "description": "PraisonAI is a multi-agent teams system. Prior to 4.5.128, the /api/v1/runs endpoint accepts an arbitrary webhook_url in the request body with no URL validation. When a submitted job completes (success or failure), the server makes an HTTP POST request to this URL using httpx.AsyncClient. An unauthenticated attacker can use this to make the server send POST requests to arbitrary internal or external destinations, enabling SSRF against cloud metadata services, internal APIs, and other network-adjacent services. This vulnerability is fixed in 4.5.128."
+  },
+  {
+    "cve": "CVE-2026-5483",
+    "published": "2026-04-10",
+    "cvss": 8.5,
+    "severity": "HIGH",
+    "cwes": [
+      "CWE-201"
+    ],
+    "layer": "template",
+    "layer_keyword": "ejs",
+    "kev": false,
+    "description": "A flaw was found in odh-dashboard in Red Hat Openshift AI. This vulnerability in the `odh-dashboard` component of Red Hat OpenShift AI (RHOAI) allows for the disclosure of Kubernetes Service Account tokens through a NodeJS endpoint. This could enable an attacker to gain unauthorized access to Kubernetes resources."
+  },
+  {
+    "cve": "CVE-2019-25697",
+    "published": "2026-04-12",
+    "cvss": 8.2,
+    "severity": "HIGH",
+    "cwes": [
+      "CWE-89"
+    ],
+    "layer": "http_lib",
+    "layer_keyword": "requests",
+    "kev": false,
+    "description": "CMSsite 1.0 contains an SQL injection vulnerability that allows unauthenticated attackers to manipulate database queries by injecting SQL code through the cat_id parameter. Attackers can send GET requests to category.php with malicious cat_id values to extract sensitive database information including usernames and credentials."
+  },
+  {
+    "cve": "CVE-2026-35033",
+    "published": "2026-04-14",
+    "cvss": 9.1,
+    "severity": "CRITICAL",
+    "cwes": [
+      "CWE-88",
+      "CWE-862"
+    ],
+    "layer": "app_framework",
+    "layer_keyword": "express",
+    "kev": false,
+    "description": "Jellyfin is an open source self hosted media server. Versions prior to 10.11.7 contain an unauthenticated arbitrary file read vulnerability via ffmpeg argument injection through the StreamOptions query parameter parsing mechanism. The ParseStreamOptions method in StreamingHelpers.cs adds any lowercase query parameter to a dictionary without validation, bypassing the RegularExpression attribute on the level controller parameter, and the unsanitized value is concatenated directly into the ffmpeg command line. By injecting a drawtext filter with a textfile argument, an attacker can read arbitrary"
+  },
+  {
+    "cve": "CVE-2026-35589",
+    "published": "2026-04-14",
+    "cvss": 8.0,
+    "severity": "HIGH",
+    "cwes": [
+      "CWE-1385"
+    ],
+    "layer": "websocket",
+    "layer_keyword": "websocket",
+    "kev": false,
+    "description": "nanobot is a personal AI assistant. Versions prior to 0.1.5 contain a Cross-Site WebSocket Hijacking (CSWSH) vulnerability exists in the bridge's WebSocket server in bridge/src/server.ts, resulting from an incomplete remediation of CVE-2026-2577. The original fix changed the binding from 0.0.0.0 to 127.0.0.1 and added an optional BRIDGE_TOKEN parameter, but token authentication is disabled by default and the server does not validate the Origin header during the WebSocket handshake. Because browsers do not enforce the Same-Origin Policy on WebSockets unless the server explicitly denies cross-or"
+  },
+  {
+    "cve": "CVE-2026-3461",
+    "published": "2026-04-15",
+    "cvss": 9.8,
+    "severity": "CRITICAL",
+    "cwes": [
+      "CWE-288"
+    ],
+    "layer": "app_framework",
+    "layer_keyword": "express",
+    "kev": false,
+    "description": "The Visa Acceptance Solutions plugin for WordPress is vulnerable to Authentication Bypass in all versions up to, and including, 2.1.0. This is due to the `express_pay_product_page_pay_for_order()` function logging users in based solely on a user-supplied billing email address during guest checkout for subscription products, without verifying email ownership, requiring a password, or validating a one-time token. This makes it possible for unauthenticated attackers to log in as any existing user, including administrators, by providing the target user's email address in the billing_details parame"
+  },
+  {
+    "cve": "CVE-2024-2374",
+    "published": "2026-04-16",
+    "cvss": 7.5,
+    "severity": "HIGH",
+    "cwes": [
+      "CWE-611"
+    ],
+    "layer": "api_gateway",
+    "layer_keyword": "wso2",
+    "kev": false,
+    "description": "The XML parsers within multiple WSO2 products accept user-supplied XML data without properly configuring to prevent the resolution of external entities. This omission allows malicious actors to craft XML payloads that exploit the parser's behavior, leading to the inclusion of external resources.\n\nBy leveraging this vulnerability, an attacker can read confidential files from the file system and access limited HTTP resources reachable by the product. Additionally, the vulnerability can be exploited to perform denial of service attacks by exhausting server resources through recursive entity expan"
+  },
+  {
+    "cve": "CVE-2026-33804",
+    "published": "2026-04-16",
+    "cvss": 7.4,
+    "severity": "HIGH",
+    "cwes": [
+      "CWE-436"
+    ],
+    "layer": "app_framework",
+    "layer_keyword": "fastify",
+    "kev": false,
+    "description": "@fastify/middie versions 9.3.1 and earlier are vulnerable to middleware bypass when the deprecated Fastify ignoreDuplicateSlashes option is enabled. The middleware path matching logic does not account for duplicate slash normalization performed by Fastify's router, allowing requests with duplicate slashes to bypass middleware authentication and authorization checks. This only affects applications using the deprecated ignoreDuplicateSlashes option. Upgrade to @fastify/middie 9.3.2 to fix this issue. There are no workarounds other than disabling the ignoreDuplicateSlashes option."
+  },
+  {
+    "cve": "CVE-2026-33082",
+    "published": "2026-04-16",
+    "cvss": 9.8,
+    "severity": "CRITICAL",
+    "cwes": [
+      "CWE-89"
+    ],
+    "layer": "app_framework",
+    "layer_keyword": "express",
+    "kev": false,
+    "description": "DataEase is an open source data visualization analysis tool. Versions 2.10.20 and below contain a SQL injection vulnerability in the dataset export functionality. The expressionTree parameter in POST /de2api/datasetTree/exportDataset is deserialized into a filtering object and passed to WhereTree2Str.transFilterTrees for SQL translation, where user-controlled values in \"like\" filter terms are directly concatenated into SQL fragments without sanitization. An attacker can inject arbitrary SQL commands by escaping the string literal in the filter value, enabling blind SQL injection through techni"
+  },
+  {
+    "cve": "CVE-2026-40487",
+    "published": "2026-04-18",
+    "cvss": 8.9,
+    "severity": "HIGH",
+    "cwes": [
+      "CWE-79",
+      "CWE-345",
+      "CWE-434"
+    ],
+    "layer": "web_server",
+    "layer_keyword": "nginx",
+    "kev": false,
+    "description": "Postiz is an AI social media scheduling tool. Prior to version 2.21.6, a file upload validation bypass allows any authenticated user to upload arbitrary HTML, SVG, or other executable file types to the server by spoofing the `Content-Type` header. The uploaded files are then served by nginx with a Content-Type derived from their original extension (`text/html`, `image/svg+xml`), enabling Stored Cross-Site Scripting (XSS) in the context of the application's origin. This can lead to session riding, account takeover, and full compromise of other users' accounts. Version 2.21.6 contains a fix."
+  },
+  {
+    "cve": "CVE-2026-41242",
+    "published": "2026-04-18",
+    "cvss": 9.8,
+    "severity": "CRITICAL",
+    "cwes": [
+      "CWE-94"
+    ],
+    "layer": "parser_lib",
+    "layer_keyword": "protobuf",
+    "kev": false,
+    "description": "protobufjs compiles protobuf definitions into JavaScript (JS) functions. In versions prior to 8.0.1 and 7.5.5, attackers can inject arbitrary code in the \"type\" fields of protobuf definitions, which will then execute during object decoding using that definition. Versions 8.0.1 and 7.5.5 patch the issue."
+  },
+  {
+    "cve": "CVE-2026-24467",
+    "published": "2026-04-20",
+    "cvss": 9.0,
+    "severity": "CRITICAL",
+    "cwes": [
+      "CWE-640"
+    ],
+    "layer": "http_lib",
+    "layer_keyword": "requests",
+    "kev": false,
+    "description": "OpenAEV is an open source platform allowing organizations to plan, schedule and conduct cyber adversary simulation campaign and tests. Starting in version 1.0.0 and prior to version 2.0.13, OpenAEV's password reset implementation contains multiple security weaknesses that together allow reliable account takeover. The primary issue is that password reset tokens do not expire. Once a token is generated, it remains valid indefinitely, even if significant time has passed or if newer tokens are issued for the same account. This allows an attacker to accumulate valid password reset tokens over time "
+  },
+  {
+    "cve": "CVE-2026-33432",
+    "published": "2026-04-20",
+    "cvss": 9.1,
+    "severity": "CRITICAL",
+    "cwes": [
+      "CWE-287"
+    ],
+    "layer": "web_server",
+    "layer_keyword": "nginx",
+    "kev": false,
+    "description": "Roxy-WI is a web interface for managing Haproxy, Nginx, Apache and Keepalived servers. In versions up to and including 8.2.8.2, when LDAP authentication is enabled, Roxy-WI constructs an LDAP search filter by directly concatenating the user-supplied login username into the filter string without escaping LDAP special characters. An unauthenticated attacker can inject LDAP filter metacharacters into the username field to manipulate the search query, cause the directory to return an unintended user entry, and bypass authentication entirely \u2014 gaining access to the application without knowing any v"
+  },
+  {
+    "cve": "CVE-2026-40498",
+    "published": "2026-04-21",
+    "cvss": 9.8,
+    "severity": "CRITICAL",
+    "cwes": [
+      "CWE-200",
+      "CWE-284",
+      "CWE-770"
+    ],
+    "layer": "http_lib",
+    "layer_keyword": "requests",
+    "kev": false,
+    "description": "FreeScout is a free self-hosted help desk and shared mailbox. Prior to version 1.8.213, an unauthenticated attacker can access diagnostic and system tools that should be restricted to administrators. The /system/cron endpoint relies on a static MD5 hash derived from the APP_KEY, which is exposed in the response and logs. Accessing these endpoints reveals sensitive server information (Full Path Disclosure), process IDs, and allows for Resource Exhaustion (DoS) by triggering heavy background tasks repeatedly without any rate limiting. The cron hash is generated using md5(APP_KEY . 'web_cron_hash"
+  },
+  {
+    "cve": "CVE-2026-40372",
+    "published": "2026-04-21",
+    "cvss": 9.1,
+    "severity": "CRITICAL",
+    "cwes": [
+      "CWE-347"
+    ],
+    "layer": "app_framework",
+    "layer_keyword": "asp.net",
+    "kev": false,
+    "description": "Improper verification of cryptographic signature in ASP.NET Core allows an unauthorized attacker to elevate privileges over a network."
+  },
+  {
+    "cve": "CVE-2026-6235",
+    "published": "2026-04-22",
+    "cvss": 9.8,
+    "severity": "CRITICAL",
+    "cwes": [
+      "CWE-862"
+    ],
+    "layer": "http_lib",
+    "layer_keyword": "requests",
+    "kev": false,
+    "description": "The Sendmachine for WordPress plugin for WordPress is vulnerable to authorization bypass via the 'manage_admin_requests' function in all versions up to, and including, 1.0.20. This is due to the plugin not properly verifying that a user is authorized to perform an action. This makes it possible for unauthenticated attackers to overwrite the plugin's SMTP configuration, which can be leveraged to intercept all outbound emails from the site (including password reset emails)."
+  },
+  {
+    "cve": "CVE-2018-25270",
+    "published": "2026-04-22",
+    "cvss": 9.8,
+    "severity": "CRITICAL",
+    "cwes": [
+      "CWE-639"
+    ],
+    "layer": "http_lib",
+    "layer_keyword": "requests",
+    "kev": false,
+    "description": "ThinkPHP 5.0.23 contains a remote code execution vulnerability that allows unauthenticated attackers to execute arbitrary PHP code by invoking functions through the routing parameter. Attackers can craft requests to the index.php endpoint with malicious function parameters to execute system commands with application privileges."
+  },
+  {
+    "cve": "CVE-2026-41268",
+    "published": "2026-04-23",
+    "cvss": 9.8,
+    "severity": "CRITICAL",
+    "cwes": [
+      "CWE-20"
+    ],
+    "layer": "browser",
+    "layer_keyword": "edge",
+    "kev": false,
+    "description": "Flowise is a drag & drop user interface to build a customized large language model flow. Prior to 3.1.0, Flowise is vulnerable to a critical unauthenticated remote command execution (RCE) vulnerability. It can be exploited via a parameter override bypass using the FILE-STORAGE:: keyword combined with a NODE_OPTIONS environment variable injection. This allows for the execution of arbitrary system commands with root privileges within the containerized Flowise instance, requiring only a single HTTP request and no authentication or knowledge of the instance. This vulnerability is fixed in 3.1.0."
+  },
+  {
+    "cve": "CVE-2026-41276",
+    "published": "2026-04-23",
+    "cvss": 9.8,
+    "severity": "CRITICAL",
+    "cwes": [
+      "CWE-287"
+    ],
+    "layer": "browser",
+    "layer_keyword": "edge",
+    "kev": false,
+    "description": "Flowise is a drag & drop user interface to build a customized large language model flow. Prior to 3.1.0, this vulnerability allows remote attackers to bypass authentication on affected installations of FlowiseAI Flowise. Authentication is not required to exploit this vulnerability. The specific flaw exists within the resetPassword method of the AccountService class. There is no check performed to ensure that a password reset token has actually been generated for a user account. By default the value of the reset token stored in a users account is null, or an empty string if they've reset their "
+  },
+  {
+    "cve": "CVE-2026-39920",
+    "published": "2026-04-24",
+    "cvss": 9.8,
+    "severity": "CRITICAL",
+    "cwes": [
+      "CWE-1188",
+      "CWE-1391"
+    ],
+    "layer": "http_lib",
+    "layer_keyword": "requests",
+    "kev": false,
+    "description": "BridgeHead FileStore versions prior to 24A (released in early 2024) expose the Apache Axis2 administration module on network-accessible endpoints with default credentials that allows unauthenticated remote attackers to execute arbitrary OS commands. Attackers can authenticate to the admin console using default credentials, upload a malicious Java archive as a web service, and execute arbitrary commands on the host via SOAP requests to the deployed service."
+  },
+  {
+    "cve": "CVE-2026-29070",
+    "published": "2026-03-27",
+    "cvss": 5.4,
+    "severity": "MEDIUM",
+    "cwes": [
+      "CWE-862"
+    ],
+    "layer": "browser",
+    "layer_keyword": "edge",
+    "kev": false,
+    "description": "Open WebUI is a self-hosted artificial intelligence platform designed to operate entirely offline. Prior to version 0.8.6, an access control check is missing when deleting a file from a knowledge base. The only check being done is that the user has write access to the knowledge base (or is admin), but NOT that the file actually belongs to this knowledge base. It is thus possible to delete arbitrary files from arbitrary knowledge bases (as long as one knows the file id). Version 0.8.6 patches the issue."
+  },
+  {
+    "cve": "CVE-2026-33935",
+    "published": "2026-03-27",
+    "cvss": 7.5,
+    "severity": "HIGH",
+    "cwes": [
+      "CWE-307"
+    ],
+    "layer": "http_lib",
+    "layer_keyword": "requests",
+    "kev": false,
+    "description": "MyTube is a self-hosted downloader and player for several video websites Prior to version 1.8.72, an unauthenticated attacker can lock out administrator and visitor accounts from password-based authentication by triggering failed login attempts. The application exposes three password verification endpoints, all of which are publicly accessible. All three endpoints share a single file-backed login attempt state stored in `login-attempts.json`. When any endpoint records a failed authentication attempt via `recordFailedAttempt()`, the shared login attempt state is updated, increasing the `failedA"
+  },
+  {
+    "cve": "CVE-2026-32695",
+    "published": "2026-03-27",
+    "cvss": 7.7,
+    "severity": "HIGH",
+    "cwes": [
+      "CWE-74"
+    ],
+    "layer": "app_framework",
+    "layer_keyword": "express",
+    "kev": false,
+    "description": "Traefik is an HTTP reverse proxy and load balancer. Prior to versions 3.6.11 and 3.7.0-ea.2, Traefik's Knative provider builds router rules by interpolating user-controlled values into backtick-delimited rule expressions without escaping. In live cluster validation, Knative `rules[].hosts[]` was exploitable for host restriction bypass (for example `tenant.example.com`) || Host(`attacker.com`), producing a router that serves attacker-controlled hosts. Knative `headers[].exact` also allows rule-syntax injection and proves unsafe rule construction. In multi-tenant clusters, this can route unautho"
+  },
+  {
+    "cve": "CVE-2026-33433",
+    "published": "2026-03-27",
+    "cvss": 8.8,
+    "severity": "HIGH",
+    "cwes": [
+      "CWE-290"
+    ],
+    "layer": "reverse_proxy",
+    "layer_keyword": "traefik",
+    "kev": false,
+    "description": "Traefik is an HTTP reverse proxy and load balancer. Prior to versions 2.11.42, 3.6.11, and 3.7.0-ea.3, when `headerField` is configured with a non-canonical HTTP header name (e.g., `x-auth-user` instead of `X-Auth-User`), an authenticated attacker can inject their own canonical version of that header to impersonate any identity to the backend. The backend receives two header entries \u2014 the attacker-injected canonical one is read first, overriding Traefik's non-canonical write. Versions 2.11.42, 3.6.11, and 3.7.0-ea.3 patch the issue."
+  },
+  {
+    "cve": "CVE-2026-33748",
+    "published": "2026-03-27",
+    "cvss": 7.5,
+    "severity": "HIGH",
+    "cwes": [
+      "CWE-22",
+      "CWE-59"
+    ],
+    "layer": "app_framework",
+    "layer_keyword": "express",
+    "kev": false,
+    "description": "BuildKit is a toolkit for converting source code to build artifacts in an efficient, expressive and repeatable manner. Prior to version 0.28.1, insufficient validation of Git URL fragment subdir components may allow access to files outside the checked-out Git repository root. Possible access is limited to files on the same mounted filesystem. The issue has been fixed in version v0.28.1 The issue affects only builds that use Git URLs with a subpath component. As a workaround, avoid building Dockerfiles from untrusted sources or using the subdir component from an untrusted Git repository where t"
+  },
+  {
+    "cve": "CVE-2026-32983",
+    "published": "2026-03-27",
+    "cvss": 5.8,
+    "severity": "MEDIUM",
+    "cwes": [
+      "CWE-276"
+    ],
+    "layer": "http_lib",
+    "layer_keyword": "requests",
+    "kev": false,
+    "description": "Wazuh Manager authd service in wazuh-manager packages through version 4.7.3 contains an improper restriction of client-initiated SSL/TLS renegotiation vulnerability that allows remote attackers to cause a denial of service by sending excessive renegotiation requests. Attackers can exploit the lack of renegotiation limits to consume CPU resources and render the authd service unavailable."
+  },
+  {
+    "cve": "CVE-2026-4959",
+    "published": "2026-03-27",
+    "cvss": 7.3,
+    "severity": "HIGH",
+    "cwes": [
+      "CWE-287",
+      "CWE-306"
+    ],
+    "layer": "websocket",
+    "layer_keyword": "websocket",
+    "kev": false,
+    "description": "A vulnerability was found in OpenBMB XAgent 1.0.0. This impacts the function check_user of the file XAgentServer/application/websockets/share.py of the component ShareServer WebSocket Endpoint. Performing a manipulation of the argument interaction_id results in missing authentication. Remote exploitation of the attack is possible. The exploit has been made public and could be used. The vendor was contacted early about this disclosure but did not respond in any way."
+  },
+  {
+    "cve": "CVE-2025-15615",
+    "published": "2026-03-27",
+    "cvss": 5.8,
+    "severity": "MEDIUM",
+    "cwes": [
+      "CWE-276"
+    ],
+    "layer": "http_lib",
+    "layer_keyword": "requests",
+    "kev": false,
+    "description": "Wazuh Manager authd service in wazuh-manager packages through version 4.7.3 contains an improper restriction of client-initiated SSL/TLS renegotiation vulnerability that allows remote attackers to cause a denial of service by sending excessive renegotiation requests. Attackers can exploit the lack of renegotiation limits to consume CPU resources and render the authd service unavailable."
+  },
+  {
+    "cve": "CVE-2025-15612",
+    "published": "2026-03-27",
+    "cvss": 4.8,
+    "severity": "MEDIUM",
+    "cwes": [
+      "CWE-295",
+      "CWE-829"
+    ],
+    "layer": "http_lib",
+    "layer_keyword": "curl",
+    "kev": false,
+    "description": "Wazuh provisioning scripts and Dockerfiles contain an insecure transport vulnerability where curl is invoked with the -k/--insecure flag, disabling SSL/TLS certificate validation. Attackers with network access can perform man-in-the-middle attacks to intercept and modify downloaded dependencies or code during the build process, leading to remote code execution and supply chain compromise."
+  },
+  {
+    "cve": "CVE-2026-33941",
+    "published": "2026-03-27",
+    "cvss": 8.2,
+    "severity": "HIGH",
+    "cwes": [
+      "CWE-79",
+      "CWE-94",
+      "CWE-116"
+    ],
+    "layer": "template",
+    "layer_keyword": "handlebars",
+    "kev": false,
+    "description": "Handlebars provides the power necessary to let users build semantic templates. In versions 4.0.0 through 4.7.8, the Handlebars CLI precompiler (`bin/handlebars` / `lib/precompiler.js`) concatenates user-controlled strings \u2014 template file names and several CLI options \u2014 directly into the JavaScript it emits, without any escaping or sanitization. An attacker who can influence template filenames or CLI arguments can inject arbitrary JavaScript that executes when the generated bundle is loaded in Node.js or a browser. Version 4.7.9 fixes the issue. Some workarounds are available. First, validate a"
+  },
+  {
+    "cve": "CVE-2026-5016",
+    "published": "2026-03-28",
+    "cvss": 7.3,
+    "severity": "HIGH",
+    "cwes": [
+      "CWE-918"
+    ],
+    "layer": "http_lib",
+    "layer_keyword": "axios",
+    "kev": false,
+    "description": "A vulnerability was identified in elecV2 elecV2P up to 3.8.3. This affects the function eAxios of the file /mock of the component URL Handler. Such manipulation of the argument req leads to server-side request forgery. It is possible to launch the attack remotely. The exploit is publicly available and might be used. The project was informed of the problem early through an issue report but has not responded yet."
+  },
+  {
+    "cve": "CVE-2026-32915",
+    "published": "2026-03-29",
+    "cvss": 8.8,
+    "severity": "HIGH",
+    "cwes": [
+      "CWE-863"
+    ],
+    "layer": "http_lib",
+    "layer_keyword": "requests",
+    "kev": false,
+    "description": "OpenClaw before 2026.3.11 contains a sandbox boundary bypass vulnerability allowing leaf subagents to access the subagents control surface and resolve against parent requester scope instead of their own session tree. A low-privilege sandboxed leaf worker can steer or kill sibling runs and cause execution with broader tool policies by exploiting insufficient authorization checks on subagent control requests."
+  },
+  {
+    "cve": "CVE-2026-32980",
+    "published": "2026-03-29",
+    "cvss": 7.5,
+    "severity": "HIGH",
+    "cwes": [
+      "CWE-770"
+    ],
+    "layer": "http_lib",
+    "layer_keyword": "requests",
+    "kev": false,
+    "description": "OpenClaw before 2026.3.13 reads and buffers Telegram webhook request bodies before validating the x-telegram-bot-api-secret-token header, allowing unauthenticated attackers to exhaust server resources. Attackers can send POST requests to the webhook endpoint to force memory consumption, socket time, and JSON parsing work before authentication validation occurs."
+  },
+  {
+    "cve": "CVE-2026-0560",
+    "published": "2026-03-29",
+    "cvss": 7.5,
+    "severity": "HIGH",
+    "cwes": [
+      "CWE-918"
+    ],
+    "layer": "http_lib",
+    "layer_keyword": "requests",
+    "kev": false,
+    "description": "A Server-Side Request Forgery (SSRF) vulnerability exists in parisneo/lollms versions prior to 2.2.0, specifically in the `/api/files/export-content` endpoint. The `_download_image_to_temp()` function in `backend/routers/files.py` fails to validate user-controlled URLs, allowing attackers to make arbitrary HTTP requests to internal services and cloud metadata endpoints. This vulnerability can lead to internal network access, cloud metadata access, information disclosure, port scanning, and potentially remote code execution."
+  },
+  {
+    "cve": "CVE-2026-0562",
+    "published": "2026-03-29",
+    "cvss": 8.3,
+    "severity": "HIGH",
+    "cwes": [
+      "CWE-863"
+    ],
+    "layer": "http_lib",
+    "layer_keyword": "requests",
+    "kev": false,
+    "description": "A critical security vulnerability in parisneo/lollms versions up to 2.2.0 allows any authenticated user to accept or reject friend requests belonging to other users. The `respond_request()` function in `backend/routers/friends.py` does not implement proper authorization checks, enabling Insecure Direct Object Reference (IDOR) attacks. Specifically, the `/api/friends/requests/{friendship_id}` endpoint fails to verify whether the authenticated user is part of the friendship or the intended recipient of the request. This vulnerability can lead to unauthorized access, privacy violations, and poten"
+  },
+  {
+    "cve": "CVE-2026-33028",
+    "published": "2026-03-30",
+    "cvss": 7.5,
+    "severity": "HIGH",
+    "cwes": [
+      "CWE-362"
+    ],
+    "layer": "web_server",
+    "layer_keyword": "nginx",
+    "kev": false,
+    "description": "Nginx UI is a web user interface for the Nginx web server. Prior to version 2.3.4, the nginx-ui application is vulnerable to a Race Condition. Due to the complete absence of synchronization mechanisms (Mutex) and non-atomic file writes, concurrent requests lead to the severe corruption of the primary configuration file (app.ini). This vulnerability results in a persistent Denial of Service (DoS) and introduces a non-deterministic path for Remote Code Execution (RCE) through configuration cross-contamination. This issue has been patched in version 2.3.4."
+  },
+  {
+    "cve": "CVE-2026-25627",
+    "published": "2026-03-30",
+    "cvss": 6.5,
+    "severity": "MEDIUM",
+    "cwes": [
+      "CWE-125"
+    ],
+    "layer": "browser",
+    "layer_keyword": "edge",
+    "kev": false,
+    "description": "NanoMQ MQTT Broker (NanoMQ) is an all-around Edge Messaging Platform. Prior to version 0.24.8, NanoMQ\u2019s MQTT-over-WebSocket transport can be crashed by sending an MQTT packet with a deliberately large Remaining Length in the fixed header while providing a much shorter actual payload. The code path copies Remaining Length bytes without verifying that the current receive buffer contains that many bytes, resulting in an out-of-bounds read (ASAN reports OOB / crash). This is remotely triggerable over the WebSocket listener. This issue has been patched in version 0.24.8."
+  },
+  {
+    "cve": "CVE-2026-32696",
+    "published": "2026-03-30",
+    "cvss": 3.1,
+    "severity": "LOW",
+    "cwes": [
+      "CWE-476"
+    ],
+    "layer": "browser",
+    "layer_keyword": "edge",
+    "kev": false,
+    "description": "NanoMQ MQTT Broker (NanoMQ) is an all-around Edge Messaging Platform. In NanoMQ version 0.24.6, after enabling auth.http_auth (HTTP authentication), when a client connects to the broker using MQTT CONNECT without providing username/password, and the configuration params uses the placeholders %u / %P (e.g., username=\"%u\", password=\"%P\"), the HTTP request construction phase enters auth_http.c:set_data(). This results in calling strlen() on a NULL pointer, causing a SIGSEGV crash. This crash can be triggered remotely, resulting in a denial of service. This issue has been patched in version 0.24.7"
+  },
+  {
+    "cve": "CVE-2026-32877",
+    "published": "2026-03-30",
+    "cvss": 8.2,
+    "severity": "HIGH",
+    "cwes": [
+      "CWE-125"
+    ],
+    "layer": "jwt_auth_cert",
+    "layer_keyword": "cryptography",
+    "kev": false,
+    "description": "Botan is a C++ cryptography library. From version 2.3.0 to before version 3.11.0, during SM2 decryption, the code that checked the authentication code value (C3) failed to check that the encoded value was of the expected length prior to comparison. An invalid ciphertext can cause a heap over-read of up to 31 bytes, resulting in a crash or potentially other undefined behavior. This issue has been patched in version 3.11.0."
+  },
+  {
+    "cve": "CVE-2026-34043",
+    "published": "2026-03-31",
+    "cvss": 5.9,
+    "severity": "MEDIUM",
+    "cwes": [
+      "CWE-400",
+      "CWE-834"
+    ],
+    "layer": "app_framework",
+    "layer_keyword": "express",
+    "kev": false,
+    "description": "Serialize JavaScript to a superset of JSON that includes regular expressions and functions. Prior to version 7.0.5, there is a Denial of Service (DoS) vulnerability caused by CPU exhaustion. When serializing a specially crafted \"array-like\" object (an object that inherits from Array.prototype but has a very large length property), the process enters an intensive loop that consumes 100% CPU and hangs indefinitely. This issue has been patched in version 7.0.5."
+  },
+  {
+    "cve": "CVE-2026-33581",
+    "published": "2026-03-31",
+    "cvss": 6.5,
+    "severity": "MEDIUM",
+    "cwes": [
+      "CWE-22"
+    ],
+    "layer": "http_lib",
+    "layer_keyword": "requests",
+    "kev": false,
+    "description": "OpenClaw before 2026.3.24 contains a sandbox bypass vulnerability in the message tool that allows attackers to read arbitrary local files by using mediaUrl and fileUrl alias parameters that bypass localRoots validation. Remote attackers can exploit this by routing file requests through unvalidated alias parameters to access files outside the intended sandbox directory."
+  },
+  {
+    "cve": "CVE-2026-34163",
+    "published": "2026-03-31",
+    "cvss": 7.7,
+    "severity": "HIGH",
+    "cwes": [
+      "CWE-918"
+    ],
+    "layer": "http_lib",
+    "layer_keyword": "requests",
+    "kev": false,
+    "description": "FastGPT is an AI Agent building platform. Prior to version 4.14.9.5, FastGPT's MCP (Model Context Protocol) tools endpoints (/api/core/app/mcpTools/getTools and /api/core/app/mcpTools/runTool) accept a user-supplied URL parameter and make server-side HTTP requests to it without validating whether the URL points to an internal/private network address. Although the application has a dedicated isInternalAddress() function for SSRF protection (used in other endpoints like the HTTP workflow node), the MCP tools endpoints do not call this function. An authenticated attacker can use these endpoints t"
+  },
+  {
+    "cve": "CVE-2026-34172",
+    "published": "2026-03-31",
+    "cvss": 8.8,
+    "severity": "HIGH",
+    "cwes": [
+      "CWE-1336"
+    ],
+    "layer": "template",
+    "layer_keyword": "jinja",
+    "kev": false,
+    "description": "Giskard is an open-source Python library for testing and evaluating agentic systems. Prior to versions 0.3.4 and 1.0.2b1, ChatWorkflow.chat(message) passes its string argument directly as a Jinja2 template source to a non-sandboxed Environment. A developer who passes user input to this method enables full remote code execution via Jinja2 class traversal. The method name chat and parameter name message naturally invite passing user input directly, but the string is silently parsed as a Jinja2 template, not treated as plain text. This issue has been patched in versions 0.3.4 and 1.0.2b1."
+  },
+  {
+    "cve": "CVE-2026-34200",
+    "published": "2026-03-31",
+    "cvss": 7.5,
+    "severity": "HIGH",
+    "cwes": [
+      "CWE-306",
+      "CWE-942",
+      "CWE-306"
+    ],
+    "layer": "http_lib",
+    "layer_keyword": "requests",
+    "kev": false,
+    "description": "Nhost is an open source Firebase alternative with GraphQL. Prior to version 1.41.0, The Nhost CLI MCP server, when explicitly configured to listen on a network port, applies no inbound authentication and does not enforce strict CORS. This allows a malicious website visited on the same machine to issue cross-origin requests to the MCP server and invoke privileged tools using the developer's locally configured credentials. This vulnerability requires two explicit, non-default configuration steps to be exploitable. The default nhost mcp start configuration is not affected. This issue has been pat"
+  },
+  {
+    "cve": "CVE-2026-34373",
+    "published": "2026-03-31",
+    "cvss": 8.8,
+    "severity": "HIGH",
+    "cwes": [
+      "CWE-346"
+    ],
+    "layer": "http_lib",
+    "layer_keyword": "requests",
+    "kev": false,
+    "description": "Parse Server is an open source backend that can be deployed to any infrastructure that can run Node.js. Prior to versions 8.6.66 and 9.7.0-alpha.10, the GraphQL API endpoint does not respect the allowOrigin server option and unconditionally allows cross-origin requests from any website. This bypasses origin restrictions that operators configure to control which websites can interact with the Parse Server API. The REST API correctly enforces the configured allowOrigin restriction. This issue has been patched in versions 8.6.66 and 9.7.0-alpha.10."
+  },
+  {
+    "cve": "CVE-2026-34503",
+    "published": "2026-03-31",
+    "cvss": 8.1,
+    "severity": "HIGH",
+    "cwes": [
+      "CWE-613"
+    ],
+    "layer": "websocket",
+    "layer_keyword": "websocket",
+    "kev": false,
+    "description": "OpenClaw before 2026.3.28 fails to disconnect active WebSocket sessions when devices are removed or tokens are revoked. Attackers with revoked credentials can maintain unauthorized access through existing live sessions until forced reconnection."
+  },
+  {
+    "cve": "CVE-2026-34573",
+    "published": "2026-03-31",
+    "cvss": 7.5,
+    "severity": "HIGH",
+    "cwes": [
+      "CWE-407"
+    ],
+    "layer": "graphql",
+    "layer_keyword": "graphql",
+    "kev": false,
+    "description": "Parse Server is an open source backend that can be deployed to any infrastructure that can run Node.js. Prior to versions 8.6.68 and 9.7.0-alpha.12, the GraphQL query complexity validator can be exploited to cause a denial-of-service by sending a crafted query with binary fan-out fragment spreads. A single unauthenticated request can block the Node.js event loop for seconds, denying service to all concurrent users. This only affects deployments that have enabled the requestComplexity.graphQLDepth or requestComplexity.graphQLFields configuration options. This issue has been patched in versions "
+  },
+  {
+    "cve": "CVE-2026-34784",
+    "published": "2026-03-31",
+    "cvss": 7.5,
+    "severity": "HIGH",
+    "cwes": [
+      "CWE-285"
+    ],
+    "layer": "http_lib",
+    "layer_keyword": "requests",
+    "kev": false,
+    "description": "Parse Server is an open source backend that can be deployed to any infrastructure that can run Node.js. Prior to versions 8.6.71 and 9.7.1-alpha.1, file downloads via HTTP Range requests bypass the afterFind(Parse.File) trigger and its validators on storage adapters that support streaming (e.g. the default GridFS adapter). This allows access to files that should be protected by afterFind trigger authorization logic or built-in validators such as requireUser. This issue has been patched in versions 8.6.71 and 9.7.1-alpha.1."
+  },
+  {
+    "cve": "CVE-2026-34733",
+    "published": "2026-03-31",
+    "cvss": 6.5,
+    "severity": "MEDIUM",
+    "cwes": [
+      "CWE-284"
+    ],
+    "layer": "app_framework",
+    "layer_keyword": "express",
+    "kev": false,
+    "description": "WWBN AVideo is an open source video platform. In versions 26.0 and prior, the AVideo installation script install/deleteSystemdPrivate.php contains a PHP operator precedence bug in its CLI-only access guard. The script is intended to run exclusively from the command line, but the guard condition !php_sapi_name() === 'cli' never evaluates to true due to how PHP resolves operator precedence. The ! (logical NOT) operator binds more tightly than === (strict comparison), causing the expression to always evaluate to false, which means the die() statement never executes. As a result, the script is acc"
+  },
+  {
+    "cve": "CVE-2026-34406",
+    "published": "2026-03-31",
+    "cvss": 8.8,
+    "severity": "HIGH",
+    "cwes": [
+      "CWE-915"
+    ],
+    "layer": "app_framework",
+    "layer_keyword": "django",
+    "kev": false,
+    "description": "APTRS (Automated Penetration Testing Reporting System) is a Python and Django-based automated reporting tool designed for penetration testers and security organizations. Prior to version 2.0.1, the edit_user endpoint (POST /api/auth/edituser/<pk>) allows Any user who can reach that endpoint and submit crafted permission to escalate their own account (or any other account) to superuser by including \"is_superuser\": true in the request body. The root cause is that CustomUserSerializer explicitly includes is_superuser in its fields list but omits it from read_only_fields, making it a writable fiel"
+  },
+  {
+    "cve": "CVE-2026-34585",
+    "published": "2026-03-31",
+    "cvss": 8.6,
+    "severity": "HIGH",
+    "cwes": [
+      "CWE-79",
+      "CWE-94"
+    ],
+    "layer": "browser",
+    "layer_keyword": "edge",
+    "kev": false,
+    "description": "SiYuan is a personal knowledge management system. Prior to version 3.6.2, a vulnerability allows crafted block attribute values to bypass server-side attribute escaping when an HTML entity is mixed with raw special characters. An attacker can embed a malicious IAL value inside a .sy document, package it as a .sy.zip, and have the victim import it through the normal Import -> SiYuan .sy.zip workflow. Once the note is opened, the malicious attribute breaks out of its original HTML context and injects an event handler, resulting in stored XSS. In the Electron desktop client, this XSS reaches remo"
+  },
+  {
+    "cve": "CVE-2026-5282",
+    "published": "2026-04-01",
+    "cvss": 8.1,
+    "severity": "HIGH",
+    "cwes": [
+      "CWE-125",
+      "CWE-125"
+    ],
+    "layer": "browser",
+    "layer_keyword": "chrome",
+    "kev": false,
+    "description": "Out of bounds read in WebCodecs in Google Chrome prior to 146.0.7680.178 allowed a remote attacker to perform an out of bounds memory read via a crafted HTML page. (Chromium security severity: High)"
+  },
+  {
+    "cve": "CVE-2026-5261",
+    "published": "2026-04-01",
+    "cvss": 7.3,
+    "severity": "HIGH",
+    "cwes": [
+      "CWE-284",
+      "CWE-434"
+    ],
+    "layer": "web_server",
+    "layer_keyword": "iis ",
+    "kev": false,
+    "description": "A vulnerability was identified in Shandong Hoteam InforCenter PLM up to 8.3.8. The impacted element is the function uploadFileToIIS of the file /Base/BaseHandler.ashx. The manipulation of the argument File leads to unrestricted upload. It is possible to initiate the attack remotely. The exploit is publicly available and might be used. The vendor was contacted early about this disclosure but did not respond in any way."
+  },
+  {
+    "cve": "CVE-2026-0932",
+    "published": "2026-04-01",
+    "cvss": 7.3,
+    "severity": "HIGH",
+    "cwes": [
+      "CWE-918"
+    ],
+    "layer": "http_lib",
+    "layer_keyword": "requests",
+    "kev": false,
+    "description": "Blind server-side request forgery (SSRF) vulnerability in legacy connection methods of document co-authoring features in M-Files Server before 26.3 allow an unauthenticated attacker to cause the server to send HTTP GET requests to arbitrary URLs."
+  },
+  {
+    "cve": "CVE-2026-0522",
+    "published": "2026-04-01",
+    "cvss": 8.8,
+    "severity": "HIGH",
+    "cwes": [
+      "CWE-610"
+    ],
+    "layer": "app_framework",
+    "layer_keyword": "asp.net",
+    "kev": false,
+    "description": "A local file inclusion vulnerability in the upload/download flow of the VertiGIS FM application allows authenticated attackers to read arbitrary files from the server by manipulating a file's path during its upload. When the file is subsequently downloaded, the file in the attacker controlled path is returned. Due to the application's ASP.NET architecture, this could potentially lead to remote code execution when the \"web.config\" file is obtained. Furthermore, the application resolves UNC paths which may enable NTLM-relaying attacks.\n\n\n\n\n\n\n\nThis issue affects VertiGIS FM: 10.5.00119 (0d29d428)"
+  },
+  {
+    "cve": "CVE-2026-34604",
+    "published": "2026-04-01",
+    "cvss": 7.1,
+    "severity": "HIGH",
+    "cwes": [
+      "CWE-22",
+      "CWE-59"
+    ],
+    "layer": "graphql",
+    "layer_keyword": "graphql",
+    "kev": false,
+    "description": "Tina is a headless content management system. Prior to version 2.2.2, @tinacms/graphql uses string-based path containment checks in FilesystemBridge. That blocks plain ../ traversal, but it does not resolve symlink or junction targets. If a symlink/junction already exists under the allowed content root, a path like content/posts/pivot/owned.md is still considered \"inside\" the base even though the real filesystem target can be outside it. As a result, FilesystemBridge.get(), put(), delete(), and glob() can operate on files outside the intended root. This issue has been patched in version 2.2.2."
+  },
+  {
+    "cve": "CVE-2026-34397",
+    "published": "2026-04-01",
+    "cvss": 6.3,
+    "severity": "MEDIUM",
+    "cwes": [
+      "CWE-269"
+    ],
+    "layer": "browser",
+    "layer_keyword": "edge",
+    "kev": false,
+    "description": "Himmelblau is an interoperability suite for Microsoft Azure Entra ID and Intune. From versions 2.0.0-alpha to before 2.3.9 and 3.0.0-alpha to before 3.1.1, there is a conditional local privilege escalation vulnerability in an edge-case naming collision. Only authenticated himmelblau users whose mapped CN/short name exactly matches a privileged local group name (e.g., \"sudo\", \"wheel\", \"docker\", \"adm\") can cause the NSS module to resolve that group name to their fake primary group. If the system uses NSS results for group-based authorization decisions (sudo, polkit, etc.), this can grant the att"
+  },
+  {
+    "cve": "CVE-2026-34747",
+    "published": "2026-04-01",
+    "cvss": 8.5,
+    "severity": "HIGH",
+    "cwes": [
+      "CWE-89"
+    ],
+    "layer": "http_lib",
+    "layer_keyword": "requests",
+    "kev": false,
+    "description": "Payload is a free and open source headless content management system. Prior to version 3.79.1, certain request inputs were not properly validated. An attacker could craft requests that influence SQL query execution, potentially exposing or modifying data in collections. This issue has been patched in version 3.79.1."
+  },
+  {
+    "cve": "CVE-2026-34513",
+    "published": "2026-04-01",
+    "cvss": 7.5,
+    "severity": "HIGH",
+    "cwes": [
+      "CWE-770"
+    ],
+    "layer": "http_lib",
+    "layer_keyword": "aiohttp",
+    "kev": false,
+    "description": "AIOHTTP is an asynchronous HTTP client/server framework for asyncio and Python. Prior to version 3.13.4, an unbounded DNS cache could result in excessive memory usage possibly resulting in a DoS situation. This issue has been patched in version 3.13.4."
+  },
+  {
+    "cve": "CVE-2026-34515",
+    "published": "2026-04-01",
+    "cvss": 7.5,
+    "severity": "HIGH",
+    "cwes": [
+      "CWE-36",
+      "CWE-918"
+    ],
+    "layer": "http_lib",
+    "layer_keyword": "aiohttp",
+    "kev": false,
+    "description": "AIOHTTP is an asynchronous HTTP client/server framework for asyncio and Python. Prior to version 3.13.4, on Windows the static resource handler may expose information about a NTLMv2 remote path. This issue has been patched in version 3.13.4."
+  },
+  {
+    "cve": "CVE-2026-34531",
+    "published": "2026-04-01",
+    "cvss": 6.5,
+    "severity": "MEDIUM",
+    "cwes": [
+      "CWE-287"
+    ],
+    "layer": "app_framework",
+    "layer_keyword": "flask",
+    "kev": false,
+    "description": "Flask-HTTPAuth provides Basic, Digest and Token HTTP authentication for Flask routes. Prior to version 4.8.1, in a situation where the client makes a request to a token protected resource without passing a token, or passing an empty token, Flask-HTTPAuth would invoke the application's token verification callback function with the token argument set to an empty string. If the application had any users in its database with an empty string set as their token, then it could potentially authenticate the client request against any of those users. This issue has been patched in version 4.8.1."
+  },
+  {
+    "cve": "CVE-2026-0686",
+    "published": "2026-04-02",
+    "cvss": 7.2,
+    "severity": "HIGH",
+    "cwes": [
+      "CWE-918"
+    ],
+    "layer": "http_lib",
+    "layer_keyword": "requests",
+    "kev": false,
+    "description": "The Webmention plugin for WordPress is vulnerable to Server-Side Request Forgery in all versions up to, and including, 5.6.2 in the 'MF2::parse_authorpage' function via the 'Receiver::post' function. This makes it possible for unauthenticated attackers to make web requests to arbitrary locations originating from the web application and can be used to query and modify information from internal services."
+  },
+  {
+    "cve": "CVE-2026-34791",
+    "published": "2026-04-02",
+    "cvss": 8.8,
+    "severity": "HIGH",
+    "cwes": [
+      "CWE-78"
+    ],
+    "layer": "app_framework",
+    "layer_keyword": "express",
+    "kev": false,
+    "description": "Endian Firewall version 3.3.25 and prior allow authenticated users to execute arbitrary OS commands via the DATE parameter to /cgi-bin/logs_proxy.cgi. The DATE parameter value is used to construct a file path that is passed to a Perl open() call, which allows command injection due to an incomplete regular expression validation."
+  },
+  {
+    "cve": "CVE-2026-34792",
+    "published": "2026-04-02",
+    "cvss": 8.8,
+    "severity": "HIGH",
+    "cwes": [
+      "CWE-78"
+    ],
+    "layer": "app_framework",
+    "layer_keyword": "express",
+    "kev": false,
+    "description": "Endian Firewall version 3.3.25 and prior allow authenticated users to execute arbitrary OS commands via the DATE parameter to /cgi-bin/logs_clamav.cgi. The DATE parameter value is used to construct a file path that is passed to a Perl open() call, which allows command injection due to an incomplete regular expression validation."
+  },
+  {
+    "cve": "CVE-2026-34793",
+    "published": "2026-04-02",
+    "cvss": 8.8,
+    "severity": "HIGH",
+    "cwes": [
+      "CWE-78"
+    ],
+    "layer": "app_framework",
+    "layer_keyword": "express",
+    "kev": false,
+    "description": "Endian Firewall version 3.3.25 and prior allow authenticated users to execute arbitrary OS commands via the DATE parameter to /cgi-bin/logs_firewall.cgi. The DATE parameter value is used to construct a file path that is passed to a Perl open() call, which allows command injection due to an incomplete regular expression validation."
+  },
+  {
+    "cve": "CVE-2026-34794",
+    "published": "2026-04-02",
+    "cvss": 8.8,
+    "severity": "HIGH",
+    "cwes": [
+      "CWE-78"
+    ],
+    "layer": "app_framework",
+    "layer_keyword": "express",
+    "kev": false,
+    "description": "Endian Firewall version 3.3.25 and prior allow authenticated users to execute arbitrary OS commands via the DATE parameter to /cgi-bin/logs_ids.cgi. The DATE parameter value is used to construct a file path that is passed to a Perl open() call, which allows command injection due to an incomplete regular expression validation."
+  },
+  {
+    "cve": "CVE-2026-34795",
+    "published": "2026-04-02",
+    "cvss": 8.8,
+    "severity": "HIGH",
+    "cwes": [
+      "CWE-78"
+    ],
+    "layer": "app_framework",
+    "layer_keyword": "express",
+    "kev": false,
+    "description": "Endian Firewall version 3.3.25 and prior allow authenticated users to execute arbitrary OS commands via the DATE parameter to /cgi-bin/logs_log.cgi. The DATE parameter value is used to construct a file path that is passed to a Perl open() call, which allows command injection due to an incomplete regular expression validation."
+  },
+  {
+    "cve": "CVE-2026-34796",
+    "published": "2026-04-02",
+    "cvss": 8.8,
+    "severity": "HIGH",
+    "cwes": [
+      "CWE-78"
+    ],
+    "layer": "app_framework",
+    "layer_keyword": "express",
+    "kev": false,
+    "description": "Endian Firewall version 3.3.25 and prior allow authenticated users to execute arbitrary OS commands via the DATE parameter to /cgi-bin/logs_openvpn.cgi. The DATE parameter value is used to construct a file path that is passed to a Perl open() call, which allows command injection due to an incomplete regular expression validation."
+  },
+  {
+    "cve": "CVE-2026-34797",
+    "published": "2026-04-02",
+    "cvss": 8.8,
+    "severity": "HIGH",
+    "cwes": [
+      "CWE-78"
+    ],
+    "layer": "app_framework",
+    "layer_keyword": "express",
+    "kev": false,
+    "description": "Endian Firewall version 3.3.25 and prior allow authenticated users to execute arbitrary OS commands via the DATE parameter to /cgi-bin/logs_smtp.cgi. The DATE parameter value is used to construct a file path that is passed to a Perl open() call, which allows command injection due to an incomplete regular expression validation."
+  },
+  {
+    "cve": "CVE-2026-34830",
+    "published": "2026-04-02",
+    "cvss": 5.9,
+    "severity": "MEDIUM",
+    "cwes": [
+      "CWE-625"
+    ],
+    "layer": "web_server",
+    "layer_keyword": "nginx",
+    "kev": false,
+    "description": "Rack is a modular Ruby web server interface. Prior to versions 2.2.23, 3.1.21, and 3.2.6, Rack::Sendfile#map_accel_path interpolates the value of the X-Accel-Mapping request header directly into a regular expression when rewriting file paths for X-Accel-Redirect. Because the header value is not escaped, an attacker who can supply X-Accel-Mapping to the backend can inject regex metacharacters and control the generated X-Accel-Redirect response header. In deployments using Rack::Sendfile with x-accel-redirect, this can allow an attacker to cause nginx to serve unintended files from configured in"
+  },
+  {
+    "cve": "CVE-2026-34576",
+    "published": "2026-04-02",
+    "cvss": 7.7,
+    "severity": "HIGH",
+    "cwes": [
+      "CWE-918"
+    ],
+    "layer": "http_lib",
+    "layer_keyword": "axios",
+    "kev": false,
+    "description": "Postiz is an AI social media scheduling tool. Prior to version 2.21.3, the POST /public/v1/upload-from-url endpoint accepts a user-supplied URL and fetches it server-side using axios.get() with no SSRF protections. The only validation is a file extension check (.png, .jpg, etc.) which is trivially bypassed by appending an image extension to any URL path. An authenticated API user can fetch internal network resources, cloud instance metadata, and other internal services, with the response data uploaded to storage and returned to the attacker. This issue has been patched in version 2.21.3."
+  },
+  {
+    "cve": "CVE-2026-34608",
+    "published": "2026-04-02",
+    "cvss": 4.9,
+    "severity": "MEDIUM",
+    "cwes": [
+      "CWE-125",
+      "CWE-457"
+    ],
+    "layer": "browser",
+    "layer_keyword": "edge",
+    "kev": false,
+    "description": "NanoMQ MQTT Broker (NanoMQ) is an all-around Edge Messaging Platform. Prior to version 0.24.10, in NanoMQ's webhook_inproc.c, the hook_work_cb() function processes nng messages by parsing the message body with cJSON_Parse(body). The body is obtained from nng_msg_body(msg), which is a binary buffer without a guaranteed null terminator. This leads to an out-of-bounds read (OOB read) as cJSON_Parse reads until it finds a \\0, potentially accessing memory beyond the allocated buffer (e.g., nng_msg metadata or adjacent heap/stack). The issue is often masked by nng's allocation padding (extra 32 byte"
+  },
+  {
+    "cve": "CVE-2026-35414",
+    "published": "2026-04-02",
+    "cvss": 4.2,
+    "severity": "MEDIUM",
+    "cwes": [
+      "CWE-670"
+    ],
+    "layer": "jwt_auth_cert",
+    "layer_keyword": "openssh",
+    "kev": false,
+    "description": "OpenSSH before 10.3 mishandles the authorized_keys principals option in uncommon scenarios involving a principals list in conjunction with a Certificate Authority that makes certain use of comma characters."
+  },
+  {
+    "cve": "CVE-2026-34742",
+    "published": "2026-04-02",
+    "cvss": 8.1,
+    "severity": "HIGH",
+    "cwes": [
+      "CWE-1188"
+    ],
+    "layer": "http_lib",
+    "layer_keyword": "requests",
+    "kev": false,
+    "description": "The Go MCP SDK used Go's standard encoding/json. Prior to version 1.4.0, the Model Context Protocol (MCP) Go SDK does not enable DNS rebinding protection by default for HTTP-based servers. When an HTTP-based MCP server is run on localhost without authentication with StreamableHTTPHandler or SSEHandler, a malicious website could exploit DNS rebinding to bypass same-origin policy restrictions and send requests to the local MCP server. This could allow an attacker to invoke tools or access resources exposed by the MCP server on behalf of the user in those limited circumstances. This issue has bee"
+  },
+  {
+    "cve": "CVE-2026-34759",
+    "published": "2026-04-02",
+    "cvss": 8.1,
+    "severity": "HIGH",
+    "cwes": [
+      "CWE-862"
+    ],
+    "layer": "web_server",
+    "layer_keyword": "nginx",
+    "kev": false,
+    "description": "OneUptime is an open-source monitoring and observability platform. Prior to version 10.0.42, multiple notification API endpoints are registered without authentication middleware, while sibling endpoints in the same codebase correctly use ClusterKeyAuthorization.isAuthorizedServiceMiddleware. These endpoints are externally reachable via the Nginx proxy at /notification/. Combined with a projectId leak from the public Status Page API, an unauthenticated attacker can purchase phone numbers on the victim's Twilio account and delete all existing alerting numbers. This issue has been patched in vers"
+  },
+  {
+    "cve": "CVE-2026-25043",
+    "published": "2026-04-03",
+    "cvss": 5.3,
+    "severity": "MEDIUM",
+    "cwes": [
+      "CWE-770"
+    ],
+    "layer": "http_lib",
+    "layer_keyword": "requests",
+    "kev": false,
+    "description": "Budibase is an open-source low-code platform. Prior to version 3.23.25, a business logic vulnerability exists in Budibase\u2019s password reset functionality due to the absence of rate limiting, CAPTCHA, or abuse prevention mechanisms on the \u201cForgot Password\u201d endpoint. An unauthenticated attacker can repeatedly trigger password reset requests for the same email address, resulting in hundreds of password reset emails being sent in a short time window. This enables large-scale email flooding, user harassment, denial of service (DoS) against user inboxes, and potential financial and reputational impac"
+  },
+  {
+    "cve": "CVE-2026-22663",
+    "published": "2026-04-03",
+    "cvss": 7.5,
+    "severity": "HIGH",
+    "cwes": [
+      "CWE-862"
+    ],
+    "layer": "http_lib",
+    "layer_keyword": "requests",
+    "kev": false,
+    "description": "prompts.chat prior to commit 7b81836 contains multiple authorization bypass vulnerabilities due to missing isPrivate checks across API endpoints and page metadata generation that allow unauthorized users to access sensitive data associated with private prompts. Attackers can exploit these missing authorization checks to retrieve private prompt version history, change requests, examples, current content, and metadata including titles and descriptions exposed via HTML meta tags."
+  },
+  {
+    "cve": "CVE-2026-34936",
+    "published": "2026-04-03",
+    "cvss": 7.7,
+    "severity": "HIGH",
+    "cwes": [
+      "CWE-918"
+    ],
+    "layer": "http_lib",
+    "layer_keyword": "requests",
+    "kev": false,
+    "description": "PraisonAI is a multi-agent teams system. Prior to version 4.5.90, passthrough() and apassthrough() in praisonai accept a caller-controlled api_base parameter that is concatenated with endpoint and passed directly to httpx.Client.request() when the litellm primary path raises AttributeError. No URL scheme validation, private IP filtering, or domain allowlist is applied, allowing requests to any host reachable from the server. This issue has been patched in version 4.5.90."
+  },
+  {
+    "cve": "CVE-2026-34939",
+    "published": "2026-04-03",
+    "cvss": 6.5,
+    "severity": "MEDIUM",
+    "cwes": [
+      "CWE-1333"
+    ],
+    "layer": "app_framework",
+    "layer_keyword": "express",
+    "kev": false,
+    "description": "PraisonAI is a multi-agent teams system. Prior to version 4.5.90, MCPToolIndex.search_tools() compiles a caller-supplied string directly as a Python regular expression with no validation, sanitization, or timeout. A crafted regex causes catastrophic backtracking in the re engine, blocking the Python thread for hundreds of seconds and causing a complete service outage. This issue has been patched in version 4.5.90."
+  },
+  {
+    "cve": "CVE-2026-34771",
+    "published": "2026-04-04",
+    "cvss": 7.5,
+    "severity": "HIGH",
+    "cwes": [
+      "CWE-416"
+    ],
+    "layer": "http_lib",
+    "layer_keyword": "requests",
+    "kev": false,
+    "description": "Electron is a framework for writing cross-platform desktop applications using JavaScript, HTML and CSS. Prior to versions 38.8.6, 39.8.0, 40.7.0, and 41.0.0-beta.8, apps that register an asynchronous session.setPermissionRequestHandler() may be vulnerable to a use-after-free when handling fullscreen, pointer-lock, or keyboard-lock permission requests. If the requesting frame navigates or the window closes while the permission handler is pending, invoking the stored callback dereferences freed memory, which may lead to a crash or memory corruption. Apps that do not set a permission request hand"
+  },
+  {
+    "cve": "CVE-2026-5577",
+    "published": "2026-04-05",
+    "cvss": 7.3,
+    "severity": "HIGH",
+    "cwes": [
+      "CWE-74",
+      "CWE-89"
+    ],
+    "layer": "app_framework",
+    "layer_keyword": "flask",
+    "kev": false,
+    "description": "A vulnerability has been found in Song-Li cross_browser up to ca690f0fe6954fd9bcda36d071b68ed8682a786a. This affects an unknown part of the file flask/uniquemachine_app.py of the component details Endpoint. Such manipulation of the argument ID leads to sql injection. The attack can be executed remotely. The exploit has been disclosed to the public and may be used. This product implements a rolling release for ongoing delivery, which means version information for affected or updated releases is unavailable. The vendor was contacted early about this disclosure but did not respond in any way."
+  },
+  {
+    "cve": "CVE-2019-25662",
+    "published": "2026-04-05",
+    "cvss": 8.2,
+    "severity": "HIGH",
+    "cwes": [
+      "CWE-89"
+    ],
+    "layer": "http_lib",
+    "layer_keyword": "requests",
+    "kev": false,
+    "description": "ResourceSpace 8.6 contains an SQL injection vulnerability that allows unauthenticated attackers to execute arbitrary SQL queries by injecting malicious code through the 'ref' parameter. Attackers can send GET requests to the watched_searches.php endpoint with crafted SQL payloads to extract sensitive database information including usernames and credentials."
+  },
+  {
+    "cve": "CVE-2019-25663",
+    "published": "2026-04-05",
+    "cvss": 7.1,
+    "severity": "HIGH",
+    "cwes": [
+      "CWE-89"
+    ],
+    "layer": "http_lib",
+    "layer_keyword": "requests",
+    "kev": false,
+    "description": "SuiteCRM 7.10.7 contains a SQL injection vulnerability that allows authenticated attackers to manipulate database queries by injecting SQL code through the parentTab parameter. Attackers can send GET requests to the email module with malicious parentTab values using boolean-based SQL injection techniques to extract sensitive database information."
+  },
+  {
+    "cve": "CVE-2019-25664",
+    "published": "2026-04-05",
+    "cvss": 7.1,
+    "severity": "HIGH",
+    "cwes": [
+      "CWE-89"
+    ],
+    "layer": "http_lib",
+    "layer_keyword": "requests",
+    "kev": false,
+    "description": "SuiteCRM 7.10.7 contains a time-based SQL injection vulnerability in the record parameter of the Users module DetailView action that allows authenticated attackers to manipulate database queries. Attackers can append SQL code to the record parameter in GET requests to the index.php endpoint to extract sensitive database information through time-based blind SQL injection techniques."
+  },
+  {
+    "cve": "CVE-2019-25668",
+    "published": "2026-04-05",
+    "cvss": 8.2,
+    "severity": "HIGH",
+    "cwes": [
+      "CWE-89"
+    ],
+    "layer": "http_lib",
+    "layer_keyword": "requests",
+    "kev": false,
+    "description": "News Website Script 2.0.5 contains an SQL injection vulnerability that allows unauthenticated attackers to manipulate database queries by injecting SQL code through the news ID parameter. Attackers can send GET requests to index.php/show/news/ with malicious SQL statements to extract sensitive database information."
+  },
+  {
+    "cve": "CVE-2019-25669",
+    "published": "2026-04-05",
+    "cvss": 8.2,
+    "severity": "HIGH",
+    "cwes": [
+      "CWE-89"
+    ],
+    "layer": "http_lib",
+    "layer_keyword": "requests",
+    "kev": false,
+    "description": "qdPM 9.1 contains an SQL injection vulnerability that allows attackers to manipulate database queries by injecting SQL code through the search_by_extrafields[] parameter. Attackers can send POST requests to the users endpoint with malicious search_by_extrafields[] values to trigger SQL syntax errors and extract database information."
+  },
+  {
+    "cve": "CVE-2019-25671",
+    "published": "2026-04-05",
+    "cvss": 8.8,
+    "severity": "HIGH",
+    "cwes": [
+      "CWE-22"
+    ],
+    "layer": "http_lib",
+    "layer_keyword": "requests",
+    "kev": false,
+    "description": "VA MAX 8.3.4 contains a remote code execution vulnerability that allows authenticated attackers to execute arbitrary commands by injecting shell metacharacters into the mtu_eth0 parameter. Attackers can send POST requests to the changeip.php endpoint with malicious payload in the mtu_eth0 field to execute commands as the apache user."
+  },
+  {
+    "cve": "CVE-2019-25672",
+    "published": "2026-04-05",
+    "cvss": 8.2,
+    "severity": "HIGH",
+    "cwes": [
+      "CWE-89"
+    ],
+    "layer": "http_lib",
+    "layer_keyword": "requests",
+    "kev": false,
+    "description": "PilusCart 1.4.1 contains a SQL injection vulnerability that allows unauthenticated attackers to manipulate database queries by injecting SQL code through the 'send' parameter. Attackers can submit POST requests to the comment submission endpoint with RLIKE-based boolean SQL injection payloads to extract sensitive database information."
+  },
+  {
+    "cve": "CVE-2019-25673",
+    "published": "2026-04-05",
+    "cvss": 8.8,
+    "severity": "HIGH",
+    "cwes": [
+      "CWE-434"
+    ],
+    "layer": "app_framework",
+    "layer_keyword": "laravel",
+    "kev": false,
+    "description": "UniSharp Laravel File Manager v2.0.0-alpha7 and v2.0 contain an arbitrary file upload vulnerability that allows authenticated attackers to upload malicious files by sending multipart form data to the upload endpoint. Attackers can upload PHP files with the type parameter set to Files and execute arbitrary code by accessing the uploaded file through the working directory path."
+  },
+  {
+    "cve": "CVE-2019-25678",
+    "published": "2026-04-05",
+    "cvss": 8.2,
+    "severity": "HIGH",
+    "cwes": [
+      "CWE-306",
+      "CWE-89"
+    ],
+    "layer": "http_lib",
+    "layer_keyword": "requests",
+    "kev": false,
+    "description": "C4G Basic Laboratory Information System 3.4 contains multiple SQL injection vulnerabilities that allow unauthenticated attackers to execute arbitrary SQL commands by injecting malicious code through the site parameter. Attackers can send GET requests to the users_select.php endpoint with crafted SQL payloads to extract sensitive database information including patient records and system credentials."
+  },
+  {
+    "cve": "CVE-2019-25684",
+    "published": "2026-04-05",
+    "cvss": 8.2,
+    "severity": "HIGH",
+    "cwes": [
+      "CWE-89"
+    ],
+    "layer": "http_lib",
+    "layer_keyword": "requests",
+    "kev": false,
+    "description": "OpenDocMan 1.3.4 contains an SQL injection vulnerability that allows unauthenticated attackers to manipulate database queries by injecting SQL code through the 'where' parameter. Attackers can send GET requests to search.php with malicious SQL payloads in the 'where' parameter to extract sensitive database information."
+  },
+  {
+    "cve": "CVE-2019-25690",
+    "published": "2026-04-05",
+    "cvss": 8.2,
+    "severity": "HIGH",
+    "cwes": [
+      "CWE-89"
+    ],
+    "layer": "http_lib",
+    "layer_keyword": "requests",
+    "kev": false,
+    "description": "Kados R10 GreenBee contains an SQL injection vulnerability that allows attackers to manipulate database queries by injecting SQL code through the mng_profile_id parameter. Attackers can send crafted requests with malicious SQL payloads in the mng_profile_id parameter to extract sensitive database information."
+  },
+  {
+    "cve": "CVE-2026-34969",
+    "published": "2026-04-06",
+    "cvss": 7.5,
+    "severity": "HIGH",
+    "cwes": [
+      "CWE-200",
+      "CWE-598"
+    ],
+    "layer": "graphql",
+    "layer_keyword": "graphql",
+    "kev": false,
+    "description": "Nhost is an open source Firebase alternative with GraphQL. Prior to 0.48.0, the auth service's OAuth provider callback flow places the refresh token directly into the redirect URL as a query parameter. Refresh tokens in URLs are logged in browser history, server access logs, HTTP Referer headers, and proxy/CDN logs. Note that the refresh token is one-time use and all of these leak vectors are on owned infrastructure or services integrated by the application developer. This vulnerability is fixed in 0.48.0."
+  },
+  {
+    "cve": "CVE-2026-35185",
+    "published": "2026-04-06",
+    "cvss": 7.5,
+    "severity": "HIGH",
+    "cwes": [
+      "CWE-284",
+      "CWE-522",
+      "CWE-532",
+      "CWE-532"
+    ],
+    "layer": "template",
+    "layer_keyword": "ejs",
+    "kev": false,
+    "description": "HAX CMS helps manage microsite universe with PHP or NodeJs backends. Prior to 25.0.0, the /server-status endpoint is publicly accessible and exposes sensitive information including authentication tokens (user_token), user activity, client IP addresses, and server configuration details. This allows any unauthenticated user to monitor real-time user interactions and gather internal infrastructure information. This vulnerability is fixed in 25.0.0."
+  },
+  {
+    "cve": "CVE-2026-35213",
+    "published": "2026-04-06",
+    "cvss": 7.5,
+    "severity": "HIGH",
+    "cwes": [
+      "CWE-1333"
+    ],
+    "layer": "app_framework",
+    "layer_keyword": "express",
+    "kev": false,
+    "description": "@hapi/content provided HTTP Content-* headers parsing. All versions of @hapi/content through 6.0.0 are vulnerable to Regular Expression Denial of Service (ReDoS) via crafted HTTP header values. Three regular expressions used to parse Content-Type and Content-Disposition headers contain patterns susceptible to catastrophic backtracking. This vulnerability is fixed in 6.0.1."
+  },
+  {
+    "cve": "CVE-2026-39384",
+    "published": "2026-04-07",
+    "cvss": 7.6,
+    "severity": "HIGH",
+    "cwes": [
+      "CWE-639"
+    ],
+    "layer": "app_framework",
+    "layer_keyword": "laravel",
+    "kev": false,
+    "description": "FreeScout is a free help desk and shared inbox built with PHP's Laravel framework. Prior to 1.8.212, FreeScout does not take the limit_user_customer_visibility parameter into account when merging customers. This vulnerability is fixed in 1.8.212."
+  },
+  {
+    "cve": "CVE-2026-39363",
+    "published": "2026-04-07",
+    "cvss": 7.5,
+    "severity": "HIGH",
+    "cwes": [
+      "CWE-200",
+      "CWE-306"
+    ],
+    "layer": "template",
+    "layer_keyword": "ejs",
+    "kev": false,
+    "description": "Vite is a frontend tooling framework for JavaScript. From 6.0.0 to before 6.4.2, 7.3.2, and 8.0.5, if it is possible to connect to the Vite dev server\u2019s WebSocket without an Origin header, an attacker can invoke fetchModule via the custom WebSocket event vite:invoke and combine file://... with ?raw (or ?inline) to retrieve the contents of arbitrary files on the server as a JavaScript string (e.g., export default \"...\"). The access control enforced in the HTTP request path (such as server.fs.allow) is not applied to this WebSocket-based execution path. This vulnerability is fixed in 6.4.2, 7.3."
+  },
+  {
+    "cve": "CVE-2026-39364",
+    "published": "2026-04-07",
+    "cvss": 7.5,
+    "severity": "HIGH",
+    "cwes": [
+      "CWE-180",
+      "CWE-284"
+    ],
+    "layer": "template",
+    "layer_keyword": "ejs",
+    "kev": false,
+    "description": "Vite is a frontend tooling framework for JavaScript. From 7.1.0 to before 7.3.2 and 8.0.5, on the Vite dev server, files that should be blocked by server.fs.deny (e.g., .env, *.crt) can be retrieved with HTTP 200 responses when query parameters such as ?raw, ?import&raw, or ?import&url&inline are appended. This vulnerability is fixed in 7.3.2 and 8.0.5."
+  },
+  {
+    "cve": "CVE-2026-28386",
+    "published": "2026-04-07",
+    "cvss": 7.5,
+    "severity": "HIGH",
+    "cwes": [
+      "CWE-125"
+    ],
+    "layer": "tls",
+    "layer_keyword": "openssl",
+    "kev": false,
+    "description": "Issue summary: Applications using AES-CFB128 encryption or decryption on\nsystems with AVX-512 and VAES support can trigger an out-of-bounds read\nof up to 15 bytes when processing partial cipher blocks.\n\nImpact summary: This out-of-bounds read may trigger a crash which leads to\nDenial of Service for an application if the input buffer ends at a memory\npage boundary and the following page is unmapped. There is no information\ndisclosure as the over-read bytes are not written to output.\n\nThe vulnerable code path is only reached when processing partial blocks\n(when a previous call left an incomplete"
+  },
+  {
+    "cve": "CVE-2026-28387",
+    "published": "2026-04-07",
+    "cvss": 8.1,
+    "severity": "HIGH",
+    "cwes": [
+      "CWE-416"
+    ],
+    "layer": "tls",
+    "layer_keyword": "openssl",
+    "kev": false,
+    "description": "Issue summary: An uncommon configuration of clients performing DANE TLSA-based\nserver authentication, when paired with uncommon server DANE TLSA records, may\nresult in a use-after-free and/or double-free on the client side.\n\nImpact summary: A use after free can have a range of potential consequences\nsuch as the corruption of valid data, crashes or execution of arbitrary code.\n\nHowever, the issue only affects clients that make use of TLSA records with both\nthe PKIX-TA(0/PKIX-EE(1) certificate usages and the DANE-TA(2) certificate\nusage.\n\nBy far the most common deployment of DANE is in SMTP MTAs"
+  },
+  {
+    "cve": "CVE-2026-28388",
+    "published": "2026-04-07",
+    "cvss": 7.5,
+    "severity": "HIGH",
+    "cwes": [
+      "CWE-476"
+    ],
+    "layer": "tls",
+    "layer_keyword": "openssl",
+    "kev": false,
+    "description": "Issue summary: When a delta CRL that contains a Delta CRL Indicator extension\nis processed a NULL pointer dereference might happen if the required CRL\nNumber extension is missing.\n\nImpact summary: A NULL pointer dereference can trigger a crash which\nleads to a Denial of Service for an application.\n\nWhen CRL processing and delta CRL processing is enabled during X.509\ncertificate verification, the delta CRL processing does not check\nwhether the CRL Number extension is NULL before dereferencing it.\nWhen a malformed delta CRL file is being processed, this parameter\ncan be NULL, causing a NULL poin"
+  },
+  {
+    "cve": "CVE-2026-28389",
+    "published": "2026-04-07",
+    "cvss": 7.5,
+    "severity": "HIGH",
+    "cwes": [
+      "CWE-476"
+    ],
+    "layer": "tls",
+    "layer_keyword": "openssl",
+    "kev": false,
+    "description": "Issue summary: During processing of a crafted CMS EnvelopedData message\nwith KeyAgreeRecipientInfo a NULL pointer dereference can happen.\n\nImpact summary: Applications that process attacker-controlled CMS data may\ncrash before authentication or cryptographic operations occur resulting in\nDenial of Service.\n\nWhen a CMS EnvelopedData message that uses KeyAgreeRecipientInfo is\nprocessed, the optional parameters field of KeyEncryptionAlgorithmIdentifier\nis examined without checking for its presence. This results in a NULL\npointer dereference if the field is missing.\n\nApplications and services that"
+  },
+  {
+    "cve": "CVE-2026-28390",
+    "published": "2026-04-07",
+    "cvss": 7.5,
+    "severity": "HIGH",
+    "cwes": [
+      "CWE-476"
+    ],
+    "layer": "tls",
+    "layer_keyword": "openssl",
+    "kev": false,
+    "description": "Issue summary: During processing of a crafted CMS EnvelopedData message\nwith KeyTransportRecipientInfo a NULL pointer dereference can happen.\n\nImpact summary: Applications that process attacker-controlled CMS data may\ncrash before authentication or cryptographic operations occur resulting in\nDenial of Service.\n\nWhen a CMS EnvelopedData message that uses KeyTransportRecipientInfo with\nRSA-OAEP encryption is processed, the optional parameters field of\nRSA-OAEP SourceFunc algorithm identifier is examined without checking\nfor its presence. This results in a NULL pointer dereference if the field\nis"
+  },
+  {
+    "cve": "CVE-2026-34580",
+    "published": "2026-04-07",
+    "cvss": 7.5,
+    "severity": "HIGH",
+    "cwes": [
+      "CWE-295"
+    ],
+    "layer": "jwt_auth_cert",
+    "layer_keyword": "cryptography",
+    "kev": false,
+    "description": "Botan is a C++ cryptography library. In 3.11.0, the function Certificate_Store::certificate_known had a misleading name; it would return true if any certificate in the store had a DN (and subject key identifier, if set) matching that of the argument. It did not check that the cert it found and the cert it was passed were actually the same certificate. In 3.11.0 an extension of path validation logic was made which assumed that certificate_known only returned true if the certificates were in fact identical. The impact is that if an end entity certificate is presented, and its DN (and subject key"
+  },
+  {
+    "cve": "CVE-2026-35525",
+    "published": "2026-04-08",
+    "cvss": 7.5,
+    "severity": "HIGH",
+    "cwes": [
+      "CWE-61"
+    ],
+    "layer": "template",
+    "layer_keyword": "liquid",
+    "kev": false,
+    "description": "LiquidJS is a Shopify / GitHub Pages compatible template engine in pure JavaScript. Prior to 10.25.3, for {% include %}, {% render %}, and {% layout %}, LiquidJS checks whether the candidate path is inside the configured partials or layouts roots before reading it. That check is path-based, not realpath-based. Because of that, a file like partials/link.liquid passes the directory containment check as long as its pathname is under the allowed root. If link.liquid is actually a symlink to a file outside the allowed root, the filesystem follows the symlink when the file is opened and LiquidJS ren"
+  },
+  {
+    "cve": "CVE-2026-39362",
+    "published": "2026-04-08",
+    "cvss": 7.1,
+    "severity": "HIGH",
+    "cwes": [
+      "CWE-918"
+    ],
+    "layer": "app_framework",
+    "layer_keyword": "django",
+    "kev": false,
+    "description": "InvenTree is an Open Source Inventory Management System. Prior to 1.2.7 and 1.3.0, when INVENTREE_DOWNLOAD_FROM_URL is enabled (opt-in), authenticated users can supply remote_image URLs that are fetched server-side via requests.get() with only Django's URLValidator check. There is no validation against private IP ranges or internal hostnames. Redirects are followed (allow_redirects=True), enabling bypass of any URL-format checks. This vulnerability is fixed in 1.2.7 and 1.3.0."
+  },
+  {
+    "cve": "CVE-2026-39412",
+    "published": "2026-04-08",
+    "cvss": 5.3,
+    "severity": "MEDIUM",
+    "cwes": [
+      "CWE-200"
+    ],
+    "layer": "template",
+    "layer_keyword": "liquid",
+    "kev": false,
+    "description": "LiquidJS is a Shopify / GitHub Pages compatible template engine in pure JavaScript. Prior to 10.25.4, the sort_natural filter bypasses the ownPropertyOnly security option, allowing template authors to extract values of prototype-inherited properties through a sorting side-channel attack. Applications relying on ownPropertyOnly: true as a security boundary (e.g., multi-tenant template systems) are exposed to information disclosure of sensitive prototype properties such as API keys and tokens. This vulnerability is fixed in 10.25.4."
+  },
+  {
+    "cve": "CVE-2026-40027",
+    "published": "2026-04-08",
+    "cvss": 7.3,
+    "severity": "HIGH",
+    "cwes": [
+      "CWE-22"
+    ],
+    "layer": "parser_lib",
+    "layer_keyword": "protobuf",
+    "kev": false,
+    "description": "ALEAPP (Android Logs Events And Protobuf Parser) through 3.4.0 contains a path traversal vulnerability in the NQ_Vault.py artifact parser that uses attacker-controlled file_name_from values from a database directly as the output filename, allowing arbitrary file writes outside the report output directory. An attacker can embed a path traversal payload such as ../../../outside_written.bin in the database to write files to arbitrary locations, potentially achieving code execution by overwriting executable files or configuration."
+  },
+  {
+    "cve": "CVE-2026-5883",
+    "published": "2026-04-08",
+    "cvss": 8.8,
+    "severity": "HIGH",
+    "cwes": [
+      "CWE-416"
+    ],
+    "layer": "browser",
+    "layer_keyword": "chrome",
+    "kev": false,
+    "description": "Use after free in Media in Google Chrome prior to 147.0.7727.55 allowed a remote attacker to execute arbitrary code inside a sandbox via a crafted HTML page. (Chromium security severity: Medium)"
+  },
+  {
+    "cve": "CVE-2026-39843",
+    "published": "2026-04-09",
+    "cvss": 7.7,
+    "severity": "HIGH",
+    "cwes": [
+      "CWE-918"
+    ],
+    "layer": "http_lib",
+    "layer_keyword": "requests",
+    "kev": false,
+    "description": "Plane is an an open-source project management tool. From 0.28.0 to before 1.3.0, the remediation of GHSA-jcc6-f9v6-f7jw is incomplete which could lead to the same full read Server-Side Request Forgery when a normal html page contains a link tag with an href that redirects to a private IP address is supplied to Add link by an authenticated attacker with low privileges. Redirects for the main page URL are validated, but not the favicon fetch path. fetch_and_encode_favicon() still uses requests.get(favicon_url, ...) with the default redirect-following. This vulnerability is fixed in 1.3.0."
+  },
+  {
+    "cve": "CVE-2026-1584",
+    "published": "2026-04-09",
+    "cvss": 7.5,
+    "severity": "HIGH",
+    "cwes": [
+      "CWE-476"
+    ],
+    "layer": "tls",
+    "layer_keyword": "gnutls",
+    "kev": false,
+    "description": "A flaw was found in gnutls. A remote, unauthenticated attacker can exploit this vulnerability by sending a specially crafted ClientHello message with an invalid Pre-Shared Key (PSK) binder value during the TLS handshake. This can lead to a NULL pointer dereference, causing the server to crash and resulting in a remote Denial of Service (DoS) condition."
+  },
+  {
+    "cve": "CVE-2026-39911",
+    "published": "2026-04-09",
+    "cvss": 8.8,
+    "severity": "HIGH",
+    "cwes": [
+      "CWE-668"
+    ],
+    "layer": "app_framework",
+    "layer_keyword": "express",
+    "kev": false,
+    "description": "Hashgraph Guardian through version 3.5.0 contains an unsandboxed JavaScript execution vulnerability in the Custom Logic policy block worker that allows authenticated Standard Registry users to execute arbitrary code by passing user-supplied JavaScript expressions directly to the Node.js Function() constructor without isolation. Attackers can import native Node.js modules to read arbitrary files from the container filesystem, access process environment variables containing sensitive credentials such as RSA private keys, JWT signing keys, and API tokens, and forge valid authentication tokens for"
+  },
+  {
+    "cve": "CVE-2026-39980",
+    "published": "2026-04-09",
+    "cvss": 9.1,
+    "severity": "CRITICAL",
+    "cwes": [
+      "CWE-1336"
+    ],
+    "layer": "template",
+    "layer_keyword": "ejs",
+    "kev": false,
+    "description": "OpenCTI is an open source platform for managing cyber threat intelligence knowledge and observables. Prior to 6.9.5, the safeEjs.ts file does not properly sanitize EJS templates. Users with the Manage customization capability can run arbitrary JavaScript in the context of the OpenCTI platform process during notifier template execution. This vulnerability is fixed in 6.9.5."
+  },
+  {
+    "cve": "CVE-2026-35577",
+    "published": "2026-04-09",
+    "cvss": 6.8,
+    "severity": "MEDIUM",
+    "cwes": [
+      "CWE-346"
+    ],
+    "layer": "http_lib",
+    "layer_keyword": "requests",
+    "kev": false,
+    "description": "Apollo MCP Server is a Model Context Protocol server that exposes GraphQL operations as MCP tools. Prior to version 1.7.0, the Apollo MCP Server did not validate the Host header on incoming HTTP requests when using StreamableHTTP transport. In configurations where an HTTP-based MCP server is run on localhost without additional authentication or network-level controls, this could potentially allow a malicious website\u2014visited by a user running the server locally\u2014to use DNS rebinding techniques to bypass same-origin policy restrictions and issue requests to the local MCP server. If successfully e"
+  },
+  {
+    "cve": "CVE-2023-54359",
+    "published": "2026-04-09",
+    "cvss": 8.2,
+    "severity": "HIGH",
+    "cwes": [
+      "CWE-89"
+    ],
+    "layer": "http_lib",
+    "layer_keyword": "requests",
+    "kev": false,
+    "description": "WordPress adivaha Travel Plugin 2.3 contains a time-based blind SQL injection vulnerability that allows unauthenticated attackers to manipulate database queries by injecting SQL code through the 'pid' GET parameter. Attackers can send requests to the /mobile-app/v3/ endpoint with crafted 'pid' values using XOR-based payloads to extract sensitive database information or cause denial of service."
+  },
+  {
+    "cve": "CVE-2026-34512",
+    "published": "2026-04-09",
+    "cvss": 8.1,
+    "severity": "HIGH",
+    "cwes": [
+      "CWE-863"
+    ],
+    "layer": "http_lib",
+    "layer_keyword": "requests",
+    "kev": false,
+    "description": "OpenClaw before 2026.3.25 contains an improper access control vulnerability in the HTTP /sessions/:sessionKey/kill route that allows any bearer-authenticated user to invoke admin-level session termination functions without proper scope validation. Attackers can exploit this by sending authenticated requests to kill arbitrary subagent sessions via the killSubagentRunAdmin function, bypassing ownership and operator scope restrictions."
+  },
+  {
+    "cve": "CVE-2026-35625",
+    "published": "2026-04-09",
+    "cvss": 7.8,
+    "severity": "HIGH",
+    "cwes": [
+      "CWE-648"
+    ],
+    "layer": "http_lib",
+    "layer_keyword": "requests",
+    "kev": false,
+    "description": "OpenClaw before 2026.3.25 contains a privilege escalation vulnerability where silent local shared-auth reconnects auto-approve scope-upgrade requests, widening paired device permissions from operator.read to operator.admin. Attackers can exploit this by triggering local reconnection to silently escalate privileges and achieve remote code execution on the node."
+  },
+  {
+    "cve": "CVE-2026-35629",
+    "published": "2026-04-09",
+    "cvss": 7.4,
+    "severity": "HIGH",
+    "cwes": [
+      "CWE-918"
+    ],
+    "layer": "http_lib",
+    "layer_keyword": "requests",
+    "kev": false,
+    "description": "OpenClaw before 2026.3.25 contains a server-side request forgery vulnerability in multiple channel extensions that fail to properly guard configured base URLs against SSRF attacks. Attackers can exploit unprotected fetch() calls against configured endpoints to rebind requests to blocked internal destinations and access restricted resources."
+  },
+  {
+    "cve": "CVE-2026-35639",
+    "published": "2026-04-09",
+    "cvss": 8.8,
+    "severity": "HIGH",
+    "cwes": [
+      "CWE-648"
+    ],
+    "layer": "http_lib",
+    "layer_keyword": "requests",
+    "kev": false,
+    "description": "OpenClaw before 2026.3.22 contains a privilege escalation vulnerability in the device.pair.approve method that allows an operator.pairing approver to approve pending device requests with broader operator scopes than the approver actually holds. Attackers can exploit insufficient scope validation to escalate privileges to operator.admin and achieve remote code execution on the Node infrastructure."
+  },
+  {
+    "cve": "CVE-2026-35640",
+    "published": "2026-04-09",
+    "cvss": 5.3,
+    "severity": "MEDIUM",
+    "cwes": [
+      "CWE-696"
+    ],
+    "layer": "http_lib",
+    "layer_keyword": "requests",
+    "kev": false,
+    "description": "OpenClaw before 2026.3.25 parses JSON request bodies before validating webhook signatures, allowing unauthenticated attackers to force resource-intensive parsing operations. Remote attackers can send malicious webhook requests to trigger denial of service by exhausting server resources through forced JSON parsing before signature rejection."
+  },
+  {
+    "cve": "CVE-2026-40115",
+    "published": "2026-04-09",
+    "cvss": 6.2,
+    "severity": "MEDIUM",
+    "cwes": [
+      "CWE-770"
+    ],
+    "layer": "http_lib",
+    "layer_keyword": "requests",
+    "kev": false,
+    "description": "PraisonAI is a multi-agent teams system. Prior to 4.5.128, the WSGI-based recipe registry server (server.py) reads the entire HTTP request body into memory based on the client-supplied Content-Length header with no upper bound. Combined with authentication being disabled by default (no token configured), any local process can send arbitrarily large POST requests to exhaust server memory and cause a denial of service. The Starlette-based server (serve.py) has RequestSizeLimitMiddleware with a 10MB limit, but the WSGI server lacks any equivalent protection. This vulnerability is fixed in 4.5.128"
+  },
+  {
+    "cve": "CVE-2026-29002",
+    "published": "2026-04-10",
+    "cvss": 7.2,
+    "severity": "HIGH",
+    "cwes": [
+      "CWE-639"
+    ],
+    "layer": "http_lib",
+    "layer_keyword": "requests",
+    "kev": false,
+    "description": "CouchCMS contains a privilege escalation vulnerability that allows authenticated Admin-level users to create SuperAdmin accounts by tampering with the f_k_levels_list parameter in user creation requests. Attackers can modify the parameter value from 4 to 10 in the HTTP request body to bypass authorization validation and gain full application control, circumventing restrictions on SuperAdmin account creation and privilege assignment."
+  },
+  {
+    "cve": "CVE-2026-34478",
+    "published": "2026-04-10",
+    "cvss": 7.5,
+    "severity": "HIGH",
+    "cwes": [
+      "CWE-117",
+      "CWE-684"
+    ],
+    "layer": "parser_lib",
+    "layer_keyword": "log4j",
+    "kev": false,
+    "description": "Apache Log4j Core's  Rfc5424Layout https://logging.apache.org/log4j/2.x/manual/layouts.html#RFC5424Layout , in versions 2.21.0 through 2.25.3, is vulnerable to log injection via CRLF sequences due to undocumented renames of security-relevant configuration attributes.\n\nTwo distinct issues affect users of stream-based syslog services who configure Rfc5424Layout directly:\n\n  *  The newLineEscape attribute was silently renamed, causing newline escaping to stop working for users of TCP framing (RFC 6587), exposing them to CRLF injection in log output.\n  *  The useTlsMessageFormat attribute was sile"
+  },
+  {
+    "cve": "CVE-2026-34480",
+    "published": "2026-04-10",
+    "cvss": 7.5,
+    "severity": "HIGH",
+    "cwes": [
+      "CWE-116"
+    ],
+    "layer": "parser_lib",
+    "layer_keyword": "log4j",
+    "kev": false,
+    "description": "Apache Log4j Core's  XmlLayout https://logging.apache.org/log4j/2.x/manual/layouts.html#XmlLayout , in versions up to and including 2.25.3, fails to sanitize characters forbidden by the  XML 1.0 specification https://www.w3.org/TR/xml/#charsets  producing invalid XML output whenever a log message or MDC value contains such characters.\n\nThe impact depends on the StAX implementation in use:\n\n  *  JRE built-in StAX: Forbidden characters are silently written to the output, producing malformed XML. Conforming parsers must reject such documents with a fatal error, which may cause downstream log-proc"
+  },
+  {
+    "cve": "CVE-2026-34481",
+    "published": "2026-04-10",
+    "cvss": 7.5,
+    "severity": "HIGH",
+    "cwes": [
+      "CWE-116"
+    ],
+    "layer": "parser_lib",
+    "layer_keyword": "log4j",
+    "kev": false,
+    "description": "Apache Log4j's  JsonTemplateLayout https://logging.apache.org/log4j/2.x/manual/json-template-layout.html , in versions up to and including 2.25.3, produces invalid JSON output when log events contain non-finite floating-point values (NaN, Infinity, or -Infinity), which are prohibited by RFC 8259. This may cause downstream log processing systems to reject or fail to index affected records.\n\nAn attacker can exploit this issue only if both of the following conditions are met:\n\n  *  The application uses JsonTemplateLayout.\n  *  The application logs a MapMessage containing an attacker-controlled fl"
+  },
+  {
+    "cve": "CVE-2026-40073",
+    "published": "2026-04-10",
+    "cvss": 7.5,
+    "severity": "HIGH",
+    "cwes": [
+      "CWE-770"
+    ],
+    "layer": "http_lib",
+    "layer_keyword": "requests",
+    "kev": false,
+    "description": "SvelteKit is a framework for rapidly developing robust, performant web applications using Svelte. Prior to 2.57.1, under certain circumstances, requests could bypass the BODY_SIZE_LIMIT on SvelteKit applications running with adapter-node. This bypass does not affect body size limits at other layers of the application stack, so limits enforced in the WAF, gateway, or at the platform level are unaffected. This vulnerability is fixed in 2.57.1."
+  },
+  {
+    "cve": "CVE-2026-5217",
+    "published": "2026-04-11",
+    "cvss": 7.2,
+    "severity": "HIGH",
+    "cwes": [
+      "CWE-79"
+    ],
+    "layer": "http_lib",
+    "layer_keyword": "requests",
+    "kev": false,
+    "description": "The Optimole \u2013 Optimize Images | Convert WebP & AVIF | CDN & Lazy Load | Image Optimization plugin for WordPress is vulnerable to Stored Cross-Site Scripting in all versions up to, and including, 4.2.2. This is due to insufficient input sanitization and output escaping on the user-supplied 's' parameter (srcset descriptor) in the unauthenticated /wp-json/optimole/v1/optimizations REST endpoint. The endpoint validates requests using an HMAC signature and timestamp, but these values are exposed directly in the frontend HTML making them accessible to any visitor. The plugin uses sanitize_text_fie"
+  },
+  {
+    "cve": "CVE-2019-25703",
+    "published": "2026-04-12",
+    "cvss": 7.1,
+    "severity": "HIGH",
+    "cwes": [
+      "CWE-89"
+    ],
+    "layer": "http_lib",
+    "layer_keyword": "requests",
+    "kev": false,
+    "description": "ImpressCMS 1.3.11 contains a time-based blind SQL injection vulnerability that allows authenticated attackers to manipulate database queries by injecting SQL code through the 'bid' parameter. Attackers can send POST requests to the admin.php endpoint with malicious 'bid' values containing SQL commands to extract sensitive database information."
+  },
+  {
+    "cve": "CVE-2019-25707",
+    "published": "2026-04-12",
+    "cvss": 7.1,
+    "severity": "HIGH",
+    "cwes": [
+      "CWE-89"
+    ],
+    "layer": "http_lib",
+    "layer_keyword": "requests",
+    "kev": false,
+    "description": "eBrigade ERP 4.5 contains an SQL injection vulnerability that allows authenticated attackers to execute arbitrary SQL queries by injecting malicious code through the 'id' parameter. Attackers can send GET requests to pdf.php with crafted SQL payloads in the 'id' parameter to extract sensitive database information including table names and schema details."
+  },
+  {
+    "cve": "CVE-2019-25713",
+    "published": "2026-04-12",
+    "cvss": 7.1,
+    "severity": "HIGH",
+    "cwes": [
+      "CWE-89"
+    ],
+    "layer": "http_lib",
+    "layer_keyword": "requests",
+    "kev": false,
+    "description": "MyT-PM 1.5.1 contains an SQL injection vulnerability that allows authenticated attackers to execute arbitrary SQL queries by injecting malicious code through the Charge[group_total] parameter. Attackers can submit crafted POST requests to the /charge/admin endpoint with error-based, time-based blind, or stacked query payloads to extract sensitive database information or manipulate data."
+  },
+  {
+    "cve": "CVE-2026-40394",
+    "published": "2026-04-12",
+    "cvss": 4.0,
+    "severity": "MEDIUM",
+    "cwes": [
+      "CWE-670"
+    ],
+    "layer": "reverse_proxy",
+    "layer_keyword": "varnish",
+    "kev": false,
+    "description": "Varnish Cache 9 before 9.0.1 and Varnish Enterprise before 6.0.16r11 allows a \"workspace overflow\" denial of service (daemon panic) for certain amounts of prefetched data. The setup of an HTTP/2 session starts with a speculative HTTP/1 transport, and upon upgrading to h2 the HTTP/1 request is repurposed as stream zero. During the upgrade, a buffer allocation is made to reserve space to send frames to the client. This allocation would split the original workspace, and depending on the amount of prefetched data, the next fetch could perform a pipelining operation that would run out of workspace."
+  },
+  {
+    "cve": "CVE-2026-40395",
+    "published": "2026-04-12",
+    "cvss": 4.0,
+    "severity": "MEDIUM",
+    "cwes": [
+      "CWE-770"
+    ],
+    "layer": "reverse_proxy",
+    "layer_keyword": "varnish",
+    "kev": false,
+    "description": "Varnish Enterprise before 6.0.16r12 allows a \"workspace overflow\" denial of service (daemon panic) for shared VCL. The headerplus.write_req0() function from vmod_headerplus updates the underlying req0, which is normally the original read-only request from which req is derived (readable and writable from VCL). This is useful in the active VCL, after amending req, to prepare a refined req0 before switching to a different VCL with the return (vcl(<label>)) action. This is for example how the Varnish Controller operates shared VCL deployments. If the amended req contained too many header fields fo"
+  },
+  {
+    "cve": "CVE-2026-40396",
+    "published": "2026-04-12",
+    "cvss": 4.0,
+    "severity": "MEDIUM",
+    "cwes": [
+      "CWE-670"
+    ],
+    "layer": "reverse_proxy",
+    "layer_keyword": "varnish",
+    "kev": false,
+    "description": "Varnish Cache 9 before 9.0.1 allows a \"workspace overflow\" denial of service (daemon panic) after timeout_linger. A malicious client could send an HTTP/1 request, wait long enough until the session releases its worker thread (timeout_linger) and resume traffic before the session is closed (timeout_idle) sending more than one request at once to trigger a pipelining operation between requests. This vulnerability affecting Varnish Cache 9.0.0 emerged from a port of the Varnish Enterprise non-blocking architecture for HTTP/2. New code was needed to adapt to a more recent workspace API that formali"
+  },
+  {
+    "cve": "CVE-2026-25654",
+    "published": "2026-04-14",
+    "cvss": 8.8,
+    "severity": "HIGH",
+    "cwes": [
+      "CWE-639"
+    ],
+    "layer": "http_lib",
+    "layer_keyword": "requests",
+    "kev": false,
+    "description": "A vulnerability has been identified in SINEC NMS (All versions < V4.0 SP3). Affected products do not properly validate user authorization when processing password reset requests. This could allow an authenticated remote attacker to bypass authorization checks, leading to the ability to reset the password of any arbitrary user account."
+  },
+  {
+    "cve": "CVE-2026-33892",
+    "published": "2026-04-14",
+    "cvss": 7.1,
+    "severity": "HIGH",
+    "cwes": [
+      "CWE-305"
+    ],
+    "layer": "browser",
+    "layer_keyword": "edge",
+    "kev": false,
+    "description": "A vulnerability has been identified in Industrial Edge Management Pro V1 (All versions >= V1.7.6 < V1.15.17), Industrial Edge Management Pro V2 (All versions >= V2.0.0 < V2.1.1), Industrial Edge Management Virtual (All versions >= V2.2.0 < V2.8.0). Affected management systems do not properly enforce user authentication on remote connections to devices.\r\nThis could facilitate an unauthenticated remote attacker to circumvent authentication and impersonate a legitimate user.\r\nSuccessful exploitation requires that the attacker has identified the header and port used for remote connections to devic"
+  },
+  {
+    "cve": "CVE-2026-33414",
+    "published": "2026-04-14",
+    "cvss": 7.8,
+    "severity": "HIGH",
+    "cwes": [
+      "CWE-78"
+    ],
+    "layer": "app_framework",
+    "layer_keyword": "express",
+    "kev": false,
+    "description": "Podman is a tool for managing OCI containers and pods. Versions 4.8.0 through 5.8.1 contain a command injection vulnerability in the HyperV machine backend in pkg/machine/hyperv/stubber.go, where the VM image path is inserted into a PowerShell double-quoted string without sanitization, allowing $() subexpression injection. Because PowerShell evaluates subexpressions inside double-quoted strings before executing the outer command, an attacker who can control the VM image path through a crafted machine name or image directory can execute arbitrary PowerShell commands with the privileges of the P"
+  },
+  {
+    "cve": "CVE-2024-8010",
+    "published": "2026-04-16",
+    "cvss": 3.5,
+    "severity": "LOW",
+    "cwes": [
+      "CWE-611"
+    ],
+    "layer": "api_gateway",
+    "layer_keyword": "wso2",
+    "kev": false,
+    "description": "The component accepts XML input through the publisher without disabling external entity resolution. This allows malicious actors to submit a crafted XML payload that exploits the unescaped external entity references.\n\nBy leveraging this vulnerability, a malicious actor can read confidential files from the product's file system or access limited HTTP resources reachable via HTTP GET requests to the vulnerable product."
+  },
+  {
+    "cve": "CVE-2026-40901",
+    "published": "2026-04-16",
+    "cvss": 8.8,
+    "severity": "HIGH",
+    "cwes": [
+      "CWE-502"
+    ],
+    "layer": "template",
+    "layer_keyword": "velocity",
+    "kev": false,
+    "description": "DataEase is an open-source data visualization and analytics platform. Versions 2.10.20 and below ship the legacy velocity-1.7.jar, which pulls in commons-collections-3.2.1.jar containing the InvokerTransformer deserialization gadget chain. Quartz 2.3.2, also bundled in the application, deserializes job data BLOBs from the qrtz_job_details table using ObjectInputStream with no deserialization filter or class allowlist. An authenticated attacker who can write to the Quartz job table, such as through the previously described SQL injection in previewSql, can replace a scheduled job's JOB_DATA with"
+  },
+  {
+    "cve": "CVE-2026-40320",
+    "published": "2026-04-17",
+    "cvss": 7.8,
+    "severity": "HIGH",
+    "cwes": [
+      "CWE-1336"
+    ],
+    "layer": "app_framework",
+    "layer_keyword": "express",
+    "kev": false,
+    "description": "Giskard is an open-source testing framework for AI models. In versions prior to 1.0.2b1, the ConformityCheck class rendered the rule parameter through Jinja2's default Template() constructor, silently interpreting template expressions at runtime. If check definitions are loaded from an untrusted source, a crafted rule string could achieve arbitrary code execution. Exploitation requires write access to a check definition and subsequent execution of the test suite. This issue has been fixed in giskard-checks version 1.0.2b1."
+  },
+  {
+    "cve": "CVE-2026-6577",
+    "published": "2026-04-19",
+    "cvss": 7.3,
+    "severity": "HIGH",
+    "cwes": [
+      "CWE-287",
+      "CWE-306"
+    ],
+    "layer": "app_framework",
+    "layer_keyword": "django",
+    "kev": false,
+    "description": "A vulnerability was identified in liangliangyy DjangoBlog up to 2.1.0.0. The impacted element is an unknown function of the file owntracks/views.py of the component logtracks Endpoint. The manipulation leads to missing authentication. The attack can be initiated remotely. The exploit is publicly available and might be used. The vendor was contacted early about this disclosure but did not respond in any way."
+  },
+  {
+    "cve": "CVE-2026-6580",
+    "published": "2026-04-19",
+    "cvss": 7.3,
+    "severity": "HIGH",
+    "cwes": [
+      "CWE-320",
+      "CWE-321"
+    ],
+    "layer": "app_framework",
+    "layer_keyword": "django",
+    "kev": false,
+    "description": "A security vulnerability has been detected in liangliangyy DjangoBlog up to 2.1.0.0. Affected is an unknown function of the file owntracks/views.py of the component Amap API Call Handler. Such manipulation of the argument key leads to use of hard-coded cryptographic key\r . The attack may be launched remotely. The exploit has been disclosed publicly and may be used. The vendor was contacted early about this disclosure but did not respond in any way."
+  },
+  {
+    "cve": "CVE-2026-41282",
+    "published": "2026-04-20",
+    "cvss": 4.0,
+    "severity": "MEDIUM",
+    "cwes": [
+      "CWE-94"
+    ],
+    "layer": "app_framework",
+    "layer_keyword": "express",
+    "kev": false,
+    "description": "ProjectDiscovery Nuclei 3 before 3.8.0 allows DSL expression injection. This affects use of -env-vars for multi-step templates against untrusted targets (not the default configuration)."
+  },
+  {
+    "cve": "CVE-2026-34427",
+    "published": "2026-04-20",
+    "cvss": 8.8,
+    "severity": "HIGH",
+    "cwes": [
+      "CWE-915"
+    ],
+    "layer": "http_lib",
+    "layer_keyword": "requests",
+    "kev": false,
+    "description": "Vvveb prior to\u00a01.0.8.1 contains a privilege escalation vulnerability in the admin user profile save endpoint that allows authenticated users to modify privileged fields on their own profile. Attackers can inject role_id=1 into profile save requests to escalate to Super Administrator privileges, enabling plugin upload functionality for remote code execution."
+  },
+  {
+    "cve": "CVE-2026-34428",
+    "published": "2026-04-20",
+    "cvss": 7.7,
+    "severity": "HIGH",
+    "cwes": [
+      "CWE-918"
+    ],
+    "layer": "http_lib",
+    "layer_keyword": "curl",
+    "kev": false,
+    "description": "Vvveb prior to\u00a01.0.8.1 contains a server-side request forgery vulnerability in the oEmbedProxy action of the editor/editor module where the url parameter is passed directly to getUrl() via curl without scheme or destination validation. Authenticated backend users can supply file:// URLs to read arbitrary files readable by the web server process or http:// URLs targeting internal network addresses to probe internal services, with response bodies returned directly to the caller."
+  },
+  {
+    "cve": "CVE-2026-40896",
+    "published": "2026-04-20",
+    "cvss": 6.5,
+    "severity": "MEDIUM",
+    "cwes": [
+      "CWE-367",
+      "CWE-639"
+    ],
+    "layer": "browser",
+    "layer_keyword": "edge",
+    "kev": false,
+    "description": "OpenProject is open-source, web-based project management software. Prior to version 17.3.0, a user with `manage_agendas` permission in any project can inject agenda items into meetings belonging to any other project on the instance \u2014 even projects they have no access to. No knowledge of the target project, meeting, or victim is required; the attacker can blindly spray items into every meeting on the instance by iterating sequential section IDs. Version 17.3.0 patches the issue."
+  },
+  {
+    "cve": "CVE-2026-6248",
+    "published": "2026-04-20",
+    "cvss": 8.1,
+    "severity": "HIGH",
+    "cwes": [
+      "CWE-22"
+    ],
+    "layer": "reverse_proxy",
+    "layer_keyword": "pound",
+    "kev": false,
+    "description": "The wpForo Forum plugin for WordPress is vulnerable to Arbitrary File Deletion in versions up to and including 3.0.5. This is due to two compounding flaws: the Members::update() method does not validate or restrict the value of file-type custom profile fields, allowing authenticated users to store an arbitrary path instead of a legitimate upload path; and the wpforo_fix_upload_dir() sanitization function in ucf_file_delete() only remaps paths that match the expected pattern, and it is passed directly to the unlink() function. This makes it possible for authenticated attackers, with subscriber-"
+  },
+  {
+    "cve": "CVE-2026-32135",
+    "published": "2026-04-20",
+    "cvss": 7.5,
+    "severity": "HIGH",
+    "cwes": [
+      "CWE-122"
+    ],
+    "layer": "browser",
+    "layer_keyword": "edge",
+    "kev": false,
+    "description": "NanoMQ MQTT Broker (NanoMQ) is an all-around Edge Messaging Platform. Versions prior to 0.24.11 have a remotely triggerable heap buffer overflow in the `uri_param_parse` function of NanoMQ's REST API. The vulnerability occurs due to an off-by-one error when allocating memory for query parameter keys and values, allowing an attacker to write a null byte beyond the allocated buffer. This can be triggered via a crafted HTTP request. Version 0.24.11 patches the issue."
+  },
+  {
+    "cve": "CVE-2026-33031",
+    "published": "2026-04-20",
+    "cvss": 8.1,
+    "severity": "HIGH",
+    "cwes": [
+      "CWE-284",
+      "CWE-863"
+    ],
+    "layer": "web_server",
+    "layer_keyword": "nginx",
+    "kev": false,
+    "description": "Nginx UI is a web user interface for the Nginx web server. Prior to version 2.3.4, a user who was disabled by an administrator can use previously issued API tokens for up to the token lifetime. In practice, disabling a compromised account does not actually terminate that user\u2019s access, so an attacker who already stole a JWT can continue reading and modifying protected resources after the account is marked disabled. Since tokens can be used to create new accounts, it is possible the disabled user to maintain the privilege. Version 2.3.4 patches the issue."
+  },
+  {
+    "cve": "CVE-2026-34403",
+    "published": "2026-04-20",
+    "cvss": 8.1,
+    "severity": "HIGH",
+    "cwes": [
+      "CWE-1385"
+    ],
+    "layer": "web_server",
+    "layer_keyword": "nginx",
+    "kev": false,
+    "description": "Nginx UI is a web user interface for the Nginx web server. Prior to version 2.3.5, all WebSocket endpoints in nginx-ui use a gorilla/websocket Upgrader with CheckOrigin unconditionally returning true, allowing Cross-Site WebSocket Hijacking (CSWSH). Combined with the fact that authentication tokens are stored in browser cookies (set via JavaScript without HttpOnly or explicit SameSite attributes), a malicious webpage can establish authenticated WebSocket connections to the nginx-ui instance when a logged-in administrator visits the attacker-controlled page. Version 2.3.5 patches the issue."
+  },
+  {
+    "cve": "CVE-2026-35587",
+    "published": "2026-04-21",
+    "cvss": 8.8,
+    "severity": "HIGH",
+    "cwes": [
+      "CWE-918"
+    ],
+    "layer": "http_lib",
+    "layer_keyword": "requests",
+    "kev": false,
+    "description": "Glances is an open-source system cross-platform monitoring tool. Prior to version 4.5.4, a Server-Side Request Forgery (SSRF) vulnerability exists in the Glances IP plugin due to improper validation of the public_api configuration parameter. The value of public_api is used directly in outbound HTTP requests without any scheme restriction or hostname/IP validation. An attacker who can modify the Glances configuration can force the application to send requests to arbitrary internal or external endpoints. Additionally, when public_username and public_password are set, Glances automatically includ"
+  },
+  {
+    "cve": "CVE-2026-41297",
+    "published": "2026-04-21",
+    "cvss": 7.6,
+    "severity": "HIGH",
+    "cwes": [
+      "CWE-918"
+    ],
+    "layer": "http_lib",
+    "layer_keyword": "requests",
+    "kev": false,
+    "description": "OpenClaw before 2026.3.31 contains a server-side request forgery vulnerability in the marketplace plugin download functionality that allows attackers to access internal resources by following unvalidated redirects. The marketplace.ts module fails to restrict redirect destinations during archive downloads, enabling remote attackers to redirect requests to arbitrary internal or external servers."
+  },
+  {
+    "cve": "CVE-2026-41299",
+    "published": "2026-04-21",
+    "cvss": 7.1,
+    "severity": "HIGH",
+    "cwes": [
+      "CWE-807"
+    ],
+    "layer": "websocket",
+    "layer_keyword": "websocket",
+    "kev": false,
+    "description": "OpenClaw before 2026.3.28 contains an authorization bypass vulnerability in the chat.send gateway method where ACP-only provenance fields are gated by self-declared client metadata from WebSocket handshake rather than verified authorization state. Authenticated operator clients can spoof ACP identity labels and inject reserved provenance fields intended only for the ACP bridge by manipulating client metadata during connection."
+  },
+  {
+    "cve": "CVE-2026-41302",
+    "published": "2026-04-21",
+    "cvss": 7.6,
+    "severity": "HIGH",
+    "cwes": [
+      "CWE-918"
+    ],
+    "layer": "http_lib",
+    "layer_keyword": "requests",
+    "kev": false,
+    "description": "OpenClaw before 2026.3.31 contains a server-side request forgery vulnerability in the marketplace plugin download functionality that allows remote attackers to make arbitrary network requests. Attackers can exploit unguarded fetch() calls to access internal resources or interact with external services on behalf of the affected system."
+  },
+  {
+    "cve": "CVE-2026-41303",
+    "published": "2026-04-21",
+    "cvss": 8.8,
+    "severity": "HIGH",
+    "cwes": [
+      "CWE-863"
+    ],
+    "layer": "http_lib",
+    "layer_keyword": "requests",
+    "kev": false,
+    "description": "OpenClaw before 2026.3.28 contains an authorization bypass vulnerability in Discord text approval commands that allows non-approvers to resolve pending exec approvals. Attackers can send Discord text commands to bypass the channels.discord.execApprovals.approvers allowlist and approve pending host execution requests."
+  },
+  {
+    "cve": "CVE-2026-40520",
+    "published": "2026-04-21",
+    "cvss": 7.2,
+    "severity": "HIGH",
+    "cwes": [
+      "CWE-78"
+    ],
+    "layer": "graphql",
+    "layer_keyword": "graphql",
+    "kev": false,
+    "description": "FreePBX api module version 17.0.8 and prior contain a command injection vulnerability in the initiateGqlAPIProcess() function where GraphQL mutation input fields are passed directly to shell_exec() without sanitization or escaping. An authenticated user with a valid bearer token can send a GraphQL moduleOperations mutation with backtick-wrapped commands in the module field to execute arbitrary commands on the underlying host as the web server user."
+  },
+  {
+    "cve": "CVE-2025-31958",
+    "published": "2026-04-21",
+    "cvss": 3.7,
+    "severity": "LOW",
+    "cwes": [
+      "CWE-444"
+    ],
+    "layer": "http_lib",
+    "layer_keyword": "requests",
+    "kev": false,
+    "description": "HCL BigFix Service Management is susceptible to HTTP Request Smuggling.\u00a0 HTTP request smuggling vulnerabilities arise when websites route HTTP requests through web servers with inconsistent HTTP parsing. HTTP Smuggling exploits inconsistencies in request parsing between front-end and back-end servers, allowing attackers to bypass security controls and perform attacks like cache poisoning or request hijacking."
+  },
+  {
+    "cve": "CVE-2026-40876",
+    "published": "2026-04-21",
+    "cvss": 8.8,
+    "severity": "HIGH",
+    "cwes": [
+      "CWE-22"
+    ],
+    "layer": "http_lib",
+    "layer_keyword": "requests",
+    "kev": false,
+    "description": "goshs is a SimpleHTTPServer written in Go. Prior to 2.0.0-beta.6, goshs contains an SFTP root escape caused by prefix-based path validation. An authenticated SFTP user can read from and write to filesystem paths outside the configured SFTP root, which breaks the intended jail boundary and can expose or modify unrelated server files. The SFTP subsystem routes requests through sftpserver/sftpserver.go into DefaultHandler.GetHandler() in sftpserver/handler.go, which forwards file operations into readFile, writeFile, listFile, and cmdFile. All of those sinks rely on sanitizePath() in sftpserver/he"
+  },
+  {
+    "cve": "CVE-2026-22747",
+    "published": "2026-04-22",
+    "cvss": 6.8,
+    "severity": "MEDIUM",
+    "cwes": [
+      "CWE-297"
+    ],
+    "layer": "app_framework",
+    "layer_keyword": "spring",
+    "kev": false,
+    "description": "Vulnerability in Spring Spring Security.\u00a0SubjectX500PrincipalExtractor\u00a0does not correctly handle certain malformed X.509 certificate\u00a0CN\u00a0values, which can lead to reading the wrong value for the username. In a carefully crafted certificate, this can lead to an attacker impersonating another user.\nThis issue affects Spring Security: from 7.0.0 through 7.0.4."
+  },
+  {
+    "cve": "CVE-2026-41455",
+    "published": "2026-04-22",
+    "cvss": 8.5,
+    "severity": "HIGH",
+    "cwes": [
+      "CWE-918"
+    ],
+    "layer": "http_lib",
+    "layer_keyword": "requests",
+    "kev": false,
+    "description": "WeKan before\u00a08.35 contains a server-side request forgery vulnerability in webhook integration URL handling where the url schema field accepts any string without protocol restriction or destination validation. Attackers who can create or modify integrations can set webhook URLs to internal network addresses, causing the server to issue HTTP POST requests to attacker-controlled internal targets with full board event payloads, and can additionally exploit response handling to overwrite arbitrary comment text without authorization checks."
+  },
+  {
+    "cve": "CVE-2026-41461",
+    "published": "2026-04-23",
+    "cvss": 8.5,
+    "severity": "HIGH",
+    "cwes": [
+      "CWE-918"
+    ],
+    "layer": "http_lib",
+    "layer_keyword": "requests",
+    "kev": false,
+    "description": "SocialEngine versions 7.8.0 and prior contain a blind server-side request forgery vulnerability in the /core/link/preview endpoint where user-supplied input passed via the uri request parameter is not sanitized before being used to construct outbound HTTP requests. Authenticated remote attackers can supply arbitrary URLs including internal network addresses and loopback addresses to cause the server to issue HTTP requests to attacker-controlled destinations, enabling internal network enumeration and access to services not intended to be externally reachable."
+  },
+  {
+    "cve": "CVE-2026-41266",
+    "published": "2026-04-23",
+    "cvss": 7.5,
+    "severity": "HIGH",
+    "cwes": [
+      "CWE-200",
+      "CWE-522",
+      "CWE-862"
+    ],
+    "layer": "browser",
+    "layer_keyword": "edge",
+    "kev": false,
+    "description": "Flowise is a drag & drop user interface to build a customized large language model flow. Prior to 3.1.0, /api/v1/public-chatbotConfig/:id ep exposes sensitive data including API keys, HTTP authorization headers and internal configuration without any authentication. An attacker with knowledge just of a chatflow UUID can retrieve credentials stored in password type fields and HTTP headers, leading to credential theft and more. This vulnerability is fixed in 3.1.0."
+  },
+  {
+    "cve": "CVE-2026-41270",
+    "published": "2026-04-23",
+    "cvss": 7.1,
+    "severity": "HIGH",
+    "cwes": [
+      "CWE-284",
+      "CWE-918"
+    ],
+    "layer": "http_lib",
+    "layer_keyword": "axios",
+    "kev": false,
+    "description": "Flowise is a drag & drop user interface to build a customized large language model flow. Prior to 3.1.0, a Server-Side Request Forgery (SSRF) protection bypass vulnerability exists in the Custom Function feature. While the application implements SSRF protection via HTTP_DENY_LIST for axios and node-fetch libraries, the built-in Node.js http, https, and net modules are allowed in the NodeVM sandbox without equivalent protection. This allows authenticated users to bypass SSRF controls and access internal network resources (e.g., cloud provider metadata services) This vulnerability is fixed in 3."
+  },
+  {
+    "cve": "CVE-2026-41271",
+    "published": "2026-04-23",
+    "cvss": 8.3,
+    "severity": "HIGH",
+    "cwes": [
+      "CWE-918"
+    ],
+    "layer": "http_lib",
+    "layer_keyword": "requests",
+    "kev": false,
+    "description": "Flowise is a drag & drop user interface to build a customized large language model flow. Prior to 3.1.0, a Server-Side Request Forgery (SSRF) vulnerability exists in FlowiseAI's POST/GET API Chain components that allows unauthenticated attackers to force the server to make arbitrary HTTP requests to internal and external systems. By injecting malicious prompt templates, attackers can bypass the intended API documentation constraints and redirect requests to sensitive internal services, potentially leading to internal network reconnaissance and data exfiltration. This vulnerability is fixed in "
+  },
+  {
+    "cve": "CVE-2026-41347",
+    "published": "2026-04-23",
+    "cvss": 7.1,
+    "severity": "HIGH",
+    "cwes": [
+      "CWE-352"
+    ],
+    "layer": "http_lib",
+    "layer_keyword": "requests",
+    "kev": false,
+    "description": "OpenClaw before 2026.3.31 lacks browser-origin validation in HTTP operator endpoints when operating in trusted-proxy mode, allowing cross-site request forgery attacks. Attackers can exploit this by sending malicious requests from a browser in trusted-proxy deployments to perform unauthorized actions on HTTP operator endpoints."
+  },
+  {
+    "cve": "CVE-2026-6977",
+    "published": "2026-04-25",
+    "cvss": 7.3,
+    "severity": "HIGH",
+    "cwes": [
+      "CWE-266",
+      "CWE-285"
+    ],
+    "layer": "app_framework",
+    "layer_keyword": "flask",
+    "kev": false,
+    "description": "A security vulnerability has been detected in vanna-ai vanna up to 2.0.2. The affected element is an unknown function of the component Legacy Flask API. The manipulation leads to improper authorization. It is possible to initiate the attack remotely. The exploit has been disclosed publicly and may be used. The vendor was contacted early about this disclosure but did not respond in any way."
+  }
+]

@@ -15,7 +15,7 @@ The site has been substantially restructured. Your reports and edits must use th
 - **Estate maturity:** Cat 1 (active development, BAU rebuild in hours) / Cat 2 (infrequent development, regular cadence) / Cat 3 (stable/stale, long governance-blocked rebuild). Defined in `docs/build-mechanics.html#categories`. Replaces the older "Tier 1/2/3 patching model" entirely. Don't reintroduce Tier-based language.
 - **Watch list now has a Hacker tier column** (in `docs/index.html` §11 and `docs/dashboard.html` if surfaced). When you add or update a watch-list entry, you are responsible for assigning a hacker tier. Apply the rubric:
   - **S** — unconditional one-shot RCE primitive at default config, internet-edge (Log4Shell, Marimo missing-auth, n8n Ni8mare).
-  - **A** — strong primitive with one near-default precondition (Spring4Shell, Thymeleaf SSTI, Cisco ISE auth+RCE, ActiveMQ Jolokia).
+  - **A** — strong primitive with one near-default precondition (Spring4Shell, Thymeleaf SSTI, Cisco ISE auth+RCE, ActiveMQ Jolokia, **Ivanti EPMM = canonical for "edge-appliance auth-bypass + RCE" — cite this anchor for Cisco SD-WAN, Fortinet FortiClient EMS, F5 BIG-IP, JetBrains TeamCity, Quest KACE, PaperCut, Kentico, Synacor Zimbra, Citrix NetScaler, and similar vendor-appliance management-plane RCEs**).
   - **B** — real precondition gates reach (Tomcat path traversal needs encoding bypass; HTTP PUT needs `readonly=false`; wolfSSL deployment-shape preconditions).
   - **C** — defense-in-depth weakening, MITM-required, or chain-into-only.
   - **D** — DoS only, info leak, weak crypto config.

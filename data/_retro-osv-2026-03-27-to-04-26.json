@@ -1,0 +1,1360 @@
+[
+  {
+    "osv_id": "GHSA-4h8f-2wvx-gg5w",
+    "aliases": [
+      "CVE-2024-34447"
+    ],
+    "eco": "Maven",
+    "package_file": "org_bouncycastle_bcprov-jdk18on",
+    "published": "2024-05-03",
+    "modified": "2026-04-17",
+    "severity_label": "MODERATE",
+    "summary": "Bouncy Castle Java Cryptography API vulnerable to DNS poisoning",
+    "cwes": [
+      "CWE-297"
+    ],
+    "affected_packages": [
+      "org.bouncycastle:bcprov-jdk12",
+      "org.bouncycastle:bcprov-jdk14",
+      "org.bouncycastle:bcprov-jdk15on",
+      "org.bouncycastle:bcprov-jdk15to18",
+      "org.bouncycastle:bcprov-jdk18on",
+      "org.bouncycastle:bcprov-lts8on",
+      "org.bouncycastle:bctls-fips"
+    ]
+  },
+  {
+    "osv_id": "GHSA-c3fc-8qff-9hwx",
+    "aliases": [
+      "CVE-2026-0636"
+    ],
+    "eco": "Maven",
+    "package_file": "org_bouncycastle_bcprov-jdk18on",
+    "published": "2026-04-17",
+    "modified": "2026-04-18",
+    "severity_label": "MODERATE",
+    "summary": "Bouncy Castle has an LDAP injection",
+    "cwes": [
+      "CWE-90"
+    ],
+    "affected_packages": [
+      "org.bouncycastle:bcprov-jdk14",
+      "org.bouncycastle:bcprov-jdk15to18",
+      "org.bouncycastle:bcprov-jdk18on"
+    ]
+  },
+  {
+    "osv_id": "GHSA-7432-952r-cw78",
+    "aliases": [
+      "CVE-2026-28490"
+    ],
+    "eco": "PyPI",
+    "package_file": "authlib",
+    "published": "2026-03-16",
+    "modified": "2026-04-21",
+    "severity_label": "HIGH",
+    "summary": "Authlib Vulnerable to JWE RSA1_5 Bleichenbacher Padding Oracle",
+    "cwes": [
+      "CWE-203",
+      "CWE-327"
+    ],
+    "affected_packages": [
+      "authlib"
+    ]
+  },
+  {
+    "osv_id": "GHSA-7wc2-qxgw-g8gg",
+    "aliases": [
+      "CVE-2026-28802"
+    ],
+    "eco": "PyPI",
+    "package_file": "authlib",
+    "published": "2026-03-04",
+    "modified": "2026-04-21",
+    "severity_label": "HIGH",
+    "summary": "Authlib: Setting `alg: none` and a blank signature appears to bypass signature verification",
+    "cwes": [
+      "CWE-347"
+    ],
+    "affected_packages": [
+      "authlib"
+    ]
+  },
+  {
+    "osv_id": "GHSA-fg6f-75jq-6523",
+    "aliases": [
+      "CVE-2025-68158"
+    ],
+    "eco": "PyPI",
+    "package_file": "authlib",
+    "published": "2026-01-08",
+    "modified": "2026-03-30",
+    "severity_label": "MODERATE",
+    "summary": "Authlib has 1-click Account Takeover vulnerability",
+    "cwes": [
+      "CWE-352"
+    ],
+    "affected_packages": [
+      "authlib"
+    ]
+  },
+  {
+    "osv_id": "GHSA-jj8c-mmj3-mmgv",
+    "aliases": [],
+    "eco": "PyPI",
+    "package_file": "authlib",
+    "published": "2026-04-16",
+    "modified": "2026-04-22",
+    "severity_label": "MODERATE",
+    "summary": "Authlib: Cross-site request forging when using cache",
+    "cwes": [
+      "CWE-352"
+    ],
+    "affected_packages": [
+      "authlib"
+    ]
+  },
+  {
+    "osv_id": "GHSA-m344-f55w-2m6j",
+    "aliases": [
+      "CVE-2026-28498"
+    ],
+    "eco": "PyPI",
+    "package_file": "authlib",
+    "published": "2026-03-16",
+    "modified": "2026-04-21",
+    "severity_label": "HIGH",
+    "summary": "Authlib: Fail-Open Cryptographic Verification in OIDC Hash Binding",
+    "cwes": [
+      "CWE-354",
+      "CWE-573"
+    ],
+    "affected_packages": [
+      "authlib"
+    ]
+  },
+  {
+    "osv_id": "GHSA-wvwj-cvrp-7pv5",
+    "aliases": [
+      "CVE-2026-27962"
+    ],
+    "eco": "PyPI",
+    "package_file": "authlib",
+    "published": "2026-03-16",
+    "modified": "2026-04-21",
+    "severity_label": "CRITICAL",
+    "summary": "Authlib JWS JWK Header Injection: Signature Verification Bypass",
+    "cwes": [
+      "CWE-347"
+    ],
+    "affected_packages": [
+      "authlib"
+    ]
+  },
+  {
+    "osv_id": "GHSA-h2f4-v4c4-6wx4",
+    "aliases": [
+      "CVE-2018-12545"
+    ],
+    "eco": "Maven",
+    "package_file": "org_eclipse_jetty_jetty-server",
+    "published": "2019-03-28",
+    "modified": "2026-03-30",
+    "severity_label": "HIGH",
+    "summary": "Uncontrolled Resource Consumption in org.eclipse.jetty:jetty-server",
+    "cwes": [
+      "CWE-400"
+    ],
+    "affected_packages": [
+      "org.eclipse.jetty:jetty-server"
+    ]
+  },
+  {
+    "osv_id": "GHSA-5f7q-jpqc-wp7h",
+    "aliases": [
+      "CVE-2025-59472"
+    ],
+    "eco": "npm",
+    "package_file": "next",
+    "published": "2026-01-28",
+    "modified": "2026-04-08",
+    "severity_label": "MODERATE",
+    "summary": "Next.js has Unbounded Memory Consumption via PPR Resume Endpoint ",
+    "cwes": [
+      "CWE-400",
+      "CWE-409",
+      "CWE-770"
+    ],
+    "affected_packages": [
+      "next"
+    ]
+  },
+  {
+    "osv_id": "GHSA-q4gf-8mx6-v5v3",
+    "aliases": [],
+    "eco": "npm",
+    "package_file": "next",
+    "published": "2026-04-10",
+    "modified": "2026-04-16",
+    "severity_label": "HIGH",
+    "summary": "Next.js has a Denial of Service with Server Components",
+    "cwes": [
+      "CWE-770"
+    ],
+    "affected_packages": [
+      "next"
+    ]
+  },
+  {
+    "osv_id": "GHSA-m959-cc7f-wv43",
+    "aliases": [
+      "CVE-2026-34073"
+    ],
+    "eco": "PyPI",
+    "package_file": "cryptography",
+    "published": "2026-03-27",
+    "modified": "2026-04-06",
+    "severity_label": "LOW",
+    "summary": "cryptography has incomplete DNS name constraint enforcement on peer names",
+    "cwes": [
+      "CWE-295"
+    ],
+    "affected_packages": [
+      "cryptography"
+    ]
+  },
+  {
+    "osv_id": "GHSA-p423-j2cm-9vmq",
+    "aliases": [
+      "CVE-2026-39892"
+    ],
+    "eco": "PyPI",
+    "package_file": "cryptography",
+    "published": "2026-04-08",
+    "modified": "2026-04-09",
+    "severity_label": "MODERATE",
+    "summary": "Cryptography vulnerable to buffer overflow if non-contiguous buffers were passed to APIs",
+    "cwes": [
+      "CWE-119"
+    ],
+    "affected_packages": [
+      "cryptography"
+    ]
+  },
+  {
+    "osv_id": "GHSA-w7pp-m8wf-vj6r",
+    "aliases": [
+      "CVE-2023-23931",
+      "PYSEC-2023-11"
+    ],
+    "eco": "PyPI",
+    "package_file": "cryptography",
+    "published": "2023-02-07",
+    "modified": "2026-03-30",
+    "severity_label": "MODERATE",
+    "summary": "Cipher.update_into can corrupt memory if passed an immutable python object as the outbuf",
+    "cwes": [
+      "CWE-754"
+    ],
+    "affected_packages": [
+      "cryptography"
+    ]
+  },
+  {
+    "osv_id": "GHSA-24j9-x2wg-9qv6",
+    "aliases": [
+      "BIT-tomcat-2026-34500",
+      "CVE-2026-34500"
+    ],
+    "eco": "Maven",
+    "package_file": "org_apache_tomcat_embed_tomcat-embed-core",
+    "published": "2026-04-09",
+    "modified": "2026-04-13",
+    "severity_label": "MODERATE",
+    "summary": "Apache Tomcat: CLIENT_CERT authentication does not fail as expected",
+    "cwes": [
+      "CWE-287"
+    ],
+    "affected_packages": [
+      "org.apache.tomcat.embed:tomcat-embed-core",
+      "org.apache.tomcat:tomcat",
+      "org.apache.tomcat:tomcat-catalina"
+    ]
+  },
+  {
+    "osv_id": "GHSA-69cc-cv78-qc8g",
+    "aliases": [
+      "BIT-tomcat-2026-29129",
+      "CVE-2026-29129"
+    ],
+    "eco": "Maven",
+    "package_file": "org_apache_tomcat_embed_tomcat-embed-core",
+    "published": "2026-04-09",
+    "modified": "2026-04-16",
+    "severity_label": "HIGH",
+    "summary": "Apache Tomcat: Configured cipher preference order not preserved",
+    "cwes": [
+      "CWE-327"
+    ],
+    "affected_packages": [
+      "org.apache.tomcat.embed:tomcat-embed-core",
+      "org.apache.tomcat:tomcat",
+      "org.apache.tomcat:tomcat-catalina"
+    ]
+  },
+  {
+    "osv_id": "GHSA-8mc5-53m5-3qj2",
+    "aliases": [
+      "BIT-tomcat-2026-32990",
+      "CVE-2026-32990"
+    ],
+    "eco": "Maven",
+    "package_file": "org_apache_tomcat_embed_tomcat-embed-core",
+    "published": "2026-04-09",
+    "modified": "2026-04-16",
+    "severity_label": "MODERATE",
+    "summary": "Apache Tomcat has an Improper Input Validation vulnerability",
+    "cwes": [
+      "CWE-20"
+    ],
+    "affected_packages": [
+      "org.apache.tomcat.embed:tomcat-embed-core",
+      "org.apache.tomcat:tomcat",
+      "org.apache.tomcat:tomcat-coyote"
+    ]
+  },
+  {
+    "osv_id": "GHSA-95jq-rwvf-vjx4",
+    "aliases": [
+      "BIT-tomcat-2026-29145",
+      "CVE-2026-29145"
+    ],
+    "eco": "Maven",
+    "package_file": "org_apache_tomcat_embed_tomcat-embed-core",
+    "published": "2026-04-09",
+    "modified": "2026-04-16",
+    "severity_label": "CRITICAL",
+    "summary": "Apache Tomcat: CLIENT_CERT authentication does not fail as expected",
+    "cwes": [
+      "CWE-287"
+    ],
+    "affected_packages": [
+      "org.apache.tomcat.embed:tomcat-embed-core",
+      "org.apache.tomcat:tomcat",
+      "org.apache.tomcat:tomcat-catalina"
+    ]
+  },
+  {
+    "osv_id": "GHSA-9m3c-qcxr-9x87",
+    "aliases": [
+      "BIT-tomcat-2026-25854",
+      "CVE-2026-25854"
+    ],
+    "eco": "Maven",
+    "package_file": "org_apache_tomcat_embed_tomcat-embed-core",
+    "published": "2026-04-09",
+    "modified": "2026-04-16",
+    "severity_label": "MODERATE",
+    "summary": "Apache Tomcat has an Open Redirect vulnerability",
+    "cwes": [
+      "CWE-601"
+    ],
+    "affected_packages": [
+      "org.apache.tomcat.embed:tomcat-embed-core",
+      "org.apache.tomcat:tomcat",
+      "org.apache.tomcat:tomcat-catalina"
+    ]
+  },
+  {
+    "osv_id": "GHSA-rv64-5gf8-9qq8",
+    "aliases": [
+      "BIT-tomcat-2026-34483",
+      "CVE-2026-34483"
+    ],
+    "eco": "Maven",
+    "package_file": "org_apache_tomcat_embed_tomcat-embed-core",
+    "published": "2026-04-09",
+    "modified": "2026-04-16",
+    "severity_label": "HIGH",
+    "summary": "Apache Tomcat has an Improper Encoding or Escaping of Output vulnerability in the JsonAccessLogValve",
+    "cwes": [
+      "CWE-116"
+    ],
+    "affected_packages": [
+      "org.apache.tomcat.embed:tomcat-embed-core",
+      "org.apache.tomcat:tomcat",
+      "org.apache.tomcat:tomcat-catalina"
+    ]
+  },
+  {
+    "osv_id": "GHSA-x4m4-345f-5h5g",
+    "aliases": [
+      "BIT-tomcat-2026-34487",
+      "CVE-2026-34487"
+    ],
+    "eco": "Maven",
+    "package_file": "org_apache_tomcat_embed_tomcat-embed-core",
+    "published": "2026-04-09",
+    "modified": "2026-04-13",
+    "severity_label": "HIGH",
+    "summary": "Apache Tomcat vulnerable to Insertion of Sensitive Information into Log File",
+    "cwes": [
+      "CWE-532"
+    ],
+    "affected_packages": [
+      "org.apache.tomcat.embed:tomcat-embed-core",
+      "org.apache.tomcat:tomcat",
+      "org.apache.tomcat:tomcat-catalina"
+    ]
+  },
+  {
+    "osv_id": "GHSA-fqwm-6jpj-5wxc",
+    "aliases": [
+      "CVE-2026-35536"
+    ],
+    "eco": "PyPI",
+    "package_file": "tornado",
+    "published": "2026-04-03",
+    "modified": "2026-04-17",
+    "severity_label": "HIGH",
+    "summary": "Tornado has cookie attribute injection via .RequestHandler.set_cookie",
+    "cwes": [
+      "CWE-159"
+    ],
+    "affected_packages": [
+      "tornado"
+    ]
+  },
+  {
+    "osv_id": "GHSA-qjxf-f2mg-c6mc",
+    "aliases": [
+      "CVE-2026-31958"
+    ],
+    "eco": "PyPI",
+    "package_file": "tornado",
+    "published": "2026-03-12",
+    "modified": "2026-04-06",
+    "severity_label": "HIGH",
+    "summary": "Tornado is vulnerable to DoS due to too many multipart parts",
+    "cwes": [
+      "CWE-400"
+    ],
+    "affected_packages": [
+      "tornado"
+    ]
+  },
+  {
+    "osv_id": "GHSA-3p68-rc4w-qgx5",
+    "aliases": [
+      "CVE-2025-62718"
+    ],
+    "eco": "npm",
+    "package_file": "axios",
+    "published": "2026-04-09",
+    "modified": "2026-04-16",
+    "severity_label": "MODERATE",
+    "summary": "Axios has a NO_PROXY Hostname Normalization Bypass that Leads to SSRF",
+    "cwes": [
+      "CWE-441",
+      "CWE-918"
+    ],
+    "affected_packages": [
+      "axios"
+    ]
+  },
+  {
+    "osv_id": "GHSA-fvcv-3m26-pcqx",
+    "aliases": [
+      "CVE-2026-40175"
+    ],
+    "eco": "npm",
+    "package_file": "axios",
+    "published": "2026-04-10",
+    "modified": "2026-04-16",
+    "severity_label": "MODERATE",
+    "summary": "Axios has Unrestricted Cloud Metadata Exfiltration via Header Injection Chain",
+    "cwes": [
+      "CWE-113",
+      "CWE-444",
+      "CWE-918"
+    ],
+    "affected_packages": [
+      "axios"
+    ]
+  },
+  {
+    "osv_id": "GHSA-qj83-cq47-w5f8",
+    "aliases": [
+      "CVE-2026-39865"
+    ],
+    "eco": "npm",
+    "package_file": "axios",
+    "published": "2026-04-08",
+    "modified": "2026-04-16",
+    "severity_label": "MODERATE",
+    "summary": "Axios HTTP/2 Session Cleanup State Corruption Vulnerability",
+    "cwes": [
+      "CWE-400"
+    ],
+    "affected_packages": [
+      "axios"
+    ]
+  },
+  {
+    "osv_id": "MAL-2026-2307",
+    "aliases": [
+      "GHSA-fw8c-xr5c-95f9"
+    ],
+    "eco": "npm",
+    "package_file": "axios",
+    "published": "2026-03-31",
+    "modified": "2026-04-07",
+    "severity_label": null,
+    "summary": "Malicious code in axios (npm)",
+    "cwes": [],
+    "affected_packages": [
+      "axios"
+    ]
+  },
+  {
+    "osv_id": "GHSA-r4v4-5mwr-2fwr",
+    "aliases": [
+      "CVE-2026-40477"
+    ],
+    "eco": "Maven",
+    "package_file": "org_thymeleaf_thymeleaf",
+    "published": "2026-04-15",
+    "modified": "2026-04-15",
+    "severity_label": "CRITICAL",
+    "summary": "Improper restriction of the scope of accessible objects in Thymeleaf expressions",
+    "cwes": [
+      "CWE-1336",
+      "CWE-917"
+    ],
+    "affected_packages": [
+      "org.thymeleaf:thymeleaf",
+      "org.thymeleaf:thymeleaf-spring5",
+      "org.thymeleaf:thymeleaf-spring6"
+    ]
+  },
+  {
+    "osv_id": "GHSA-xjw8-8c5c-9r79",
+    "aliases": [
+      "CVE-2026-40478"
+    ],
+    "eco": "Maven",
+    "package_file": "org_thymeleaf_thymeleaf",
+    "published": "2026-04-15",
+    "modified": "2026-04-15",
+    "severity_label": "CRITICAL",
+    "summary": "Improper neutralization of specific syntax patterns for unauthorized expressions in Thymeleaf",
+    "cwes": [
+      "CWE-1336",
+      "CWE-917"
+    ],
+    "affected_packages": [
+      "org.thymeleaf:thymeleaf",
+      "org.thymeleaf:thymeleaf-spring5",
+      "org.thymeleaf:thymeleaf-spring6"
+    ]
+  },
+  {
+    "osv_id": "GHSA-5mf9-h53q-7mhq",
+    "aliases": [
+      "BIT-django-2026-33033",
+      "CVE-2026-33033"
+    ],
+    "eco": "PyPI",
+    "package_file": "django",
+    "published": "2026-04-07",
+    "modified": "2026-04-17",
+    "severity_label": "MODERATE",
+    "summary": "Django has potential DoS via MultiPartParser through crafted multipart uploads",
+    "cwes": [
+      "CWE-407"
+    ],
+    "affected_packages": [
+      "django"
+    ]
+  },
+  {
+    "osv_id": "GHSA-6w2r-r2m5-xq5w",
+    "aliases": [
+      "BIT-django-2025-57833",
+      "CVE-2025-57833"
+    ],
+    "eco": "PyPI",
+    "package_file": "django",
+    "published": "2025-09-08",
+    "modified": "2026-04-21",
+    "severity_label": "HIGH",
+    "summary": "Django is subject to SQL injection through its column aliases",
+    "cwes": [
+      "CWE-89"
+    ],
+    "affected_packages": [
+      "django"
+    ]
+  },
+  {
+    "osv_id": "GHSA-8p8v-wh79-9r56",
+    "aliases": [
+      "BIT-django-2026-25673",
+      "CVE-2026-25673"
+    ],
+    "eco": "PyPI",
+    "package_file": "django",
+    "published": "2026-03-03",
+    "modified": "2026-04-21",
+    "severity_label": "HIGH",
+    "summary": "Django vulnerable to Uncontrolled Resource Consumption",
+    "cwes": [
+      "CWE-400",
+      "CWE-770"
+    ],
+    "affected_packages": [
+      "django"
+    ]
+  },
+  {
+    "osv_id": "GHSA-933h-hp56-hf7m",
+    "aliases": [
+      "BIT-django-2026-33034",
+      "CVE-2026-33034"
+    ],
+    "eco": "PyPI",
+    "package_file": "django",
+    "published": "2026-04-07",
+    "modified": "2026-04-21",
+    "severity_label": "HIGH",
+    "summary": "Django: SGI requests with a missing or understated `Content-Length` header could bypass the `DATA_UPLOAD_MAX_MEMORY_SIZE` limit",
+    "cwes": [
+      "CWE-770"
+    ],
+    "affected_packages": [
+      "django"
+    ]
+  },
+  {
+    "osv_id": "GHSA-frmv-pr5f-9mcr",
+    "aliases": [
+      "BIT-django-2025-64459",
+      "CVE-2025-64459"
+    ],
+    "eco": "PyPI",
+    "package_file": "django",
+    "published": "2025-11-05",
+    "modified": "2026-04-21",
+    "severity_label": "CRITICAL",
+    "summary": "Django vulnerable to SQL injection via _connector keyword argument in QuerySet and Q objects.",
+    "cwes": [
+      "CWE-89"
+    ],
+    "affected_packages": [
+      "django"
+    ]
+  },
+  {
+    "osv_id": "GHSA-gvg8-93h5-g6qq",
+    "aliases": [
+      "BIT-django-2026-1287",
+      "CVE-2026-1287"
+    ],
+    "eco": "PyPI",
+    "package_file": "django",
+    "published": "2026-02-03",
+    "modified": "2026-04-21",
+    "severity_label": "HIGH",
+    "summary": "Django has an SQL Injection issue",
+    "cwes": [
+      "CWE-89"
+    ],
+    "affected_packages": [
+      "django"
+    ]
+  },
+  {
+    "osv_id": "GHSA-hpr9-3m2g-3j9p",
+    "aliases": [
+      "BIT-django-2025-59681",
+      "CVE-2025-59681"
+    ],
+    "eco": "PyPI",
+    "package_file": "django",
+    "published": "2025-10-01",
+    "modified": "2026-04-21",
+    "severity_label": "HIGH",
+    "summary": "Django vulnerable to SQL injection in column aliases",
+    "cwes": [
+      "CWE-89"
+    ],
+    "affected_packages": [
+      "django"
+    ]
+  },
+  {
+    "osv_id": "GHSA-mmwr-2jhp-mc7j",
+    "aliases": [
+      "BIT-django-2026-4292",
+      "CVE-2026-4292"
+    ],
+    "eco": "PyPI",
+    "package_file": "django",
+    "published": "2026-04-07",
+    "modified": "2026-04-17",
+    "severity_label": "LOW",
+    "summary": "Django vulnerable to privilege abuse in ModelAdmin.list_editable",
+    "cwes": [
+      "CWE-862"
+    ],
+    "affected_packages": [
+      "django"
+    ]
+  },
+  {
+    "osv_id": "GHSA-mvfq-ggxm-9mc5",
+    "aliases": [
+      "BIT-django-2026-3902",
+      "CVE-2026-3902"
+    ],
+    "eco": "PyPI",
+    "package_file": "django",
+    "published": "2026-04-07",
+    "modified": "2026-04-21",
+    "severity_label": "HIGH",
+    "summary": "Django vulnerable to ASGI header spoofing via underscore/hyphen conflation",
+    "cwes": [
+      "CWE-290"
+    ],
+    "affected_packages": [
+      "django"
+    ]
+  },
+  {
+    "osv_id": "GHSA-mwm9-4648-f68q",
+    "aliases": [
+      "BIT-django-2026-1207",
+      "CVE-2026-1207"
+    ],
+    "eco": "PyPI",
+    "package_file": "django",
+    "published": "2026-02-03",
+    "modified": "2026-04-21",
+    "severity_label": "HIGH",
+    "summary": "Django has an SQL Injection issue",
+    "cwes": [
+      "CWE-89"
+    ],
+    "affected_packages": [
+      "django"
+    ]
+  },
+  {
+    "osv_id": "GHSA-pwjp-ccjc-ghwg",
+    "aliases": [
+      "BIT-django-2026-4277",
+      "CVE-2026-4277"
+    ],
+    "eco": "PyPI",
+    "package_file": "django",
+    "published": "2026-04-07",
+    "modified": "2026-04-17",
+    "severity_label": "LOW",
+    "summary": "Django vulnerable to privilege abuse in GenericInlineModelAdmin",
+    "cwes": [
+      "CWE-862"
+    ],
+    "affected_packages": [
+      "django"
+    ]
+  },
+  {
+    "osv_id": "GHSA-qw25-v68c-qjf3",
+    "aliases": [
+      "BIT-django-2025-64458",
+      "CVE-2025-64458"
+    ],
+    "eco": "PyPI",
+    "package_file": "django",
+    "published": "2025-11-05",
+    "modified": "2026-04-21",
+    "severity_label": "HIGH",
+    "summary": "Django has a denial-of-service vulnerability in HttpResponseRedirect and HttpResponsePermanentRedirect on Windows",
+    "cwes": [
+      "CWE-407"
+    ],
+    "affected_packages": [
+      "django"
+    ]
+  },
+  {
+    "osv_id": "GO-2025-4116",
+    "aliases": [
+      "CVE-2025-47913",
+      "GHSA-56w8-48fp-6mgv"
+    ],
+    "eco": "Go",
+    "package_file": "golang_org_x_crypto",
+    "published": "2025-11-13",
+    "modified": "2026-04-16",
+    "severity_label": null,
+    "summary": "Potential denial of service in golang.org/x/crypto/ssh/agent",
+    "cwes": [],
+    "affected_packages": [
+      "golang.org/x/crypto"
+    ]
+  },
+  {
+    "osv_id": "GHSA-gc5v-m9x4-r6x2",
+    "aliases": [
+      "CVE-2026-25645"
+    ],
+    "eco": "PyPI",
+    "package_file": "requests",
+    "published": "2026-03-25",
+    "modified": "2026-03-27",
+    "severity_label": "MODERATE",
+    "summary": "Requests has Insecure Temp File Reuse in its extract_zipped_paths() utility function",
+    "cwes": [
+      "CWE-377"
+    ],
+    "affected_packages": [
+      "requests"
+    ]
+  },
+  {
+    "osv_id": "GHSA-3x3v-w654-m28m",
+    "aliases": [
+      "CVE-2026-3260"
+    ],
+    "eco": "Maven",
+    "package_file": "io_undertow_undertow-core",
+    "published": "2026-03-24",
+    "modified": "2026-03-27",
+    "severity_label": "MODERATE",
+    "summary": "Undertow: Denial of Service via Multipart/Form-Data Parsing on HTTP GET Requests",
+    "cwes": [
+      "CWE-770"
+    ],
+    "affected_packages": [
+      "io.undertow:undertow-core"
+    ]
+  },
+  {
+    "osv_id": "GHSA-6h4f-pj3g-q8fq",
+    "aliases": [
+      "CVE-2024-3884"
+    ],
+    "eco": "Maven",
+    "package_file": "io_undertow_undertow-core",
+    "published": "2025-12-03",
+    "modified": "2026-03-30",
+    "severity_label": "HIGH",
+    "summary": "Undertow OutOfMemory when parsing form data encoding with application/x-www-form-urlencoded",
+    "cwes": [
+      "CWE-20"
+    ],
+    "affected_packages": [
+      "io.undertow:undertow-core"
+    ]
+  },
+  {
+    "osv_id": "GHSA-625h-95r8-8xpm",
+    "aliases": [
+      "CVE-2025-59830"
+    ],
+    "eco": "RubyGems",
+    "package_file": "rack",
+    "published": "2025-09-25",
+    "modified": "2026-04-04",
+    "severity_label": "HIGH",
+    "summary": "Rack has an unsafe default in Rack::QueryParser allows params_limit bypass via semicolon-separated parameters",
+    "cwes": [
+      "CWE-400",
+      "CWE-770"
+    ],
+    "affected_packages": [
+      "rack"
+    ]
+  },
+  {
+    "osv_id": "GHSA-7mqq-6cf9-v2qp",
+    "aliases": [
+      "CVE-2026-34763"
+    ],
+    "eco": "RubyGems",
+    "package_file": "rack",
+    "published": "2026-04-02",
+    "modified": "2026-04-06",
+    "severity_label": "MODERATE",
+    "summary": "Rack has a root directory disclosure via unescaped regex interpolation in Rack::Directory",
+    "cwes": [
+      "CWE-625"
+    ],
+    "affected_packages": [
+      "rack"
+    ]
+  },
+  {
+    "osv_id": "GHSA-8vqr-qjwx-82mw",
+    "aliases": [
+      "CVE-2026-34829"
+    ],
+    "eco": "RubyGems",
+    "package_file": "rack",
+    "published": "2026-04-02",
+    "modified": "2026-04-06",
+    "severity_label": "HIGH",
+    "summary": "Rack's multipart parsing without Content-Length header allows unbounded chunked file uploads",
+    "cwes": [
+      "CWE-400",
+      "CWE-770"
+    ],
+    "affected_packages": [
+      "rack"
+    ]
+  },
+  {
+    "osv_id": "GHSA-g2pf-xv49-m2h5",
+    "aliases": [
+      "CVE-2026-34835"
+    ],
+    "eco": "RubyGems",
+    "package_file": "rack",
+    "published": "2026-04-02",
+    "modified": "2026-04-06",
+    "severity_label": "MODERATE",
+    "summary": "Rack::Request accepts invalid Host characters, enabling host allowlist bypass",
+    "cwes": [
+      "CWE-1286"
+    ],
+    "affected_packages": [
+      "rack"
+    ]
+  },
+  {
+    "osv_id": "GHSA-h2jq-g4cq-5ppq",
+    "aliases": [
+      "CVE-2026-34785"
+    ],
+    "eco": "RubyGems",
+    "package_file": "rack",
+    "published": "2026-04-02",
+    "modified": "2026-04-06",
+    "severity_label": "HIGH",
+    "summary": "Rack::Static prefix matching can expose unintended files under the static root",
+    "cwes": [
+      "CWE-187",
+      "CWE-200"
+    ],
+    "affected_packages": [
+      "rack"
+    ]
+  },
+  {
+    "osv_id": "GHSA-q2ww-5357-x388",
+    "aliases": [
+      "CVE-2026-34831"
+    ],
+    "eco": "RubyGems",
+    "package_file": "rack",
+    "published": "2026-04-02",
+    "modified": "2026-04-06",
+    "severity_label": "MODERATE",
+    "summary": "Rack has Content-Length mismatch in Rack::Files error responses",
+    "cwes": [
+      "CWE-130",
+      "CWE-135"
+    ],
+    "affected_packages": [
+      "rack"
+    ]
+  },
+  {
+    "osv_id": "GHSA-q4qf-9j86-f5mh",
+    "aliases": [
+      "CVE-2026-34786"
+    ],
+    "eco": "RubyGems",
+    "package_file": "rack",
+    "published": "2026-04-02",
+    "modified": "2026-04-06",
+    "severity_label": "MODERATE",
+    "summary": "Rack:: Static header_rules bypass via URL-encoded paths",
+    "cwes": [
+      "CWE-180"
+    ],
+    "affected_packages": [
+      "rack"
+    ]
+  },
+  {
+    "osv_id": "GHSA-qfgr-crr9-7r49",
+    "aliases": [
+      "CVE-2026-32762"
+    ],
+    "eco": "RubyGems",
+    "package_file": "rack",
+    "published": "2026-04-02",
+    "modified": "2026-04-06",
+    "severity_label": "MODERATE",
+    "summary": "Rack: Forwarded Header semicolon injection enables Host and Scheme spoofing",
+    "cwes": [
+      "CWE-436"
+    ],
+    "affected_packages": [
+      "rack"
+    ]
+  },
+  {
+    "osv_id": "GHSA-qv7j-4883-hwh7",
+    "aliases": [
+      "CVE-2026-34830"
+    ],
+    "eco": "RubyGems",
+    "package_file": "rack",
+    "published": "2026-04-02",
+    "modified": "2026-04-06",
+    "severity_label": "MODERATE",
+    "summary": "Rack::Sendfile header-based X-Accel-Mapping regex injection enables unauthorized X-Accel-Redirect",
+    "cwes": [
+      "CWE-625"
+    ],
+    "affected_packages": [
+      "rack"
+    ]
+  },
+  {
+    "osv_id": "GHSA-rx22-g9mx-qrhv",
+    "aliases": [
+      "CVE-2026-26962"
+    ],
+    "eco": "RubyGems",
+    "package_file": "rack",
+    "published": "2026-04-02",
+    "modified": "2026-04-06",
+    "severity_label": "MODERATE",
+    "summary": "Rack's improper unfolding of folded multipart headers preserves CRLF in parsed parameter values",
+    "cwes": [
+      "CWE-93"
+    ],
+    "affected_packages": [
+      "rack"
+    ]
+  },
+  {
+    "osv_id": "GHSA-v569-hp3g-36wr",
+    "aliases": [
+      "CVE-2026-34230"
+    ],
+    "eco": "RubyGems",
+    "package_file": "rack",
+    "published": "2026-04-02",
+    "modified": "2026-04-06",
+    "severity_label": "MODERATE",
+    "summary": "Rack has quadratic complexity in Rack::Utils.select_best_encoding via wildcard Accept-Encoding header",
+    "cwes": [
+      "CWE-400",
+      "CWE-407"
+    ],
+    "affected_packages": [
+      "rack"
+    ]
+  },
+  {
+    "osv_id": "GHSA-v6x5-cg8r-vv6x",
+    "aliases": [
+      "CVE-2026-34827"
+    ],
+    "eco": "RubyGems",
+    "package_file": "rack",
+    "published": "2026-04-02",
+    "modified": "2026-04-06",
+    "severity_label": "HIGH",
+    "summary": "Rack's multipart header parsing allows Denial of Service via escape-heavy quoted parameters",
+    "cwes": [
+      "CWE-400",
+      "CWE-407",
+      "CWE-770"
+    ],
+    "affected_packages": [
+      "rack"
+    ]
+  },
+  {
+    "osv_id": "GHSA-vgpv-f759-9wx3",
+    "aliases": [
+      "CVE-2026-26961"
+    ],
+    "eco": "RubyGems",
+    "package_file": "rack",
+    "published": "2026-04-02",
+    "modified": "2026-04-06",
+    "severity_label": "LOW",
+    "summary": "Rack's greedy multipart boundary parsing can cause parser differentials and WAF bypass.",
+    "cwes": [
+      "CWE-436"
+    ],
+    "affected_packages": [
+      "rack"
+    ]
+  },
+  {
+    "osv_id": "GHSA-vpfw-47h7-xj4g",
+    "aliases": [
+      "CVE-2025-32441"
+    ],
+    "eco": "RubyGems",
+    "package_file": "rack",
+    "published": "2025-05-08",
+    "modified": "2026-04-04",
+    "severity_label": "MODERATE",
+    "summary": "Rack session gets restored after deletion",
+    "cwes": [
+      "CWE-362",
+      "CWE-367",
+      "CWE-613"
+    ],
+    "affected_packages": [
+      "rack"
+    ]
+  },
+  {
+    "osv_id": "GHSA-x8cg-fq8g-mxfx",
+    "aliases": [
+      "CVE-2026-34826"
+    ],
+    "eco": "RubyGems",
+    "package_file": "rack",
+    "published": "2026-04-02",
+    "modified": "2026-04-06",
+    "severity_label": "MODERATE",
+    "summary": "Rack's multipart byte range processing allows denial of service via excessive overlapping ranges",
+    "cwes": [
+      "CWE-400",
+      "CWE-770"
+    ],
+    "affected_packages": [
+      "rack"
+    ]
+  },
+  {
+    "osv_id": "GHSA-2qvq-rjwj-gvw9",
+    "aliases": [
+      "CVE-2026-33916"
+    ],
+    "eco": "npm",
+    "package_file": "handlebars",
+    "published": "2026-03-26",
+    "modified": "2026-03-28",
+    "severity_label": "MODERATE",
+    "summary": "Handlebars.js has Prototype Pollution Leading to XSS through Partial Template Injection",
+    "cwes": [
+      "CWE-1321",
+      "CWE-79"
+    ],
+    "affected_packages": [
+      "handlebars"
+    ]
+  },
+  {
+    "osv_id": "GHSA-2w6w-674q-4c4q",
+    "aliases": [
+      "CVE-2026-33937"
+    ],
+    "eco": "npm",
+    "package_file": "handlebars",
+    "published": "2026-03-27",
+    "modified": "2026-03-30",
+    "severity_label": "CRITICAL",
+    "summary": "Handlebars.js has JavaScript Injection via AST Type Confusion",
+    "cwes": [
+      "CWE-843",
+      "CWE-94"
+    ],
+    "affected_packages": [
+      "handlebars"
+    ]
+  },
+  {
+    "osv_id": "GHSA-3mfm-83xf-c92r",
+    "aliases": [
+      "CVE-2026-33938"
+    ],
+    "eco": "npm",
+    "package_file": "handlebars",
+    "published": "2026-03-27",
+    "modified": "2026-03-30",
+    "severity_label": "HIGH",
+    "summary": "Handlebars.js has JavaScript Injection via AST Type Confusion by tampering @partial-block",
+    "cwes": [
+      "CWE-843",
+      "CWE-94"
+    ],
+    "affected_packages": [
+      "handlebars"
+    ]
+  },
+  {
+    "osv_id": "GHSA-442j-39wm-28r2",
+    "aliases": [],
+    "eco": "npm",
+    "package_file": "handlebars",
+    "published": "2026-03-29",
+    "modified": "2026-03-30",
+    "severity_label": "LOW",
+    "summary": "Handlebars.js has a Property Access Validation Bypass in container.lookup",
+    "cwes": [
+      "CWE-367"
+    ],
+    "affected_packages": [
+      "handlebars"
+    ]
+  },
+  {
+    "osv_id": "GHSA-7rx3-28cr-v5wh",
+    "aliases": [],
+    "eco": "npm",
+    "package_file": "handlebars",
+    "published": "2026-03-29",
+    "modified": "2026-03-30",
+    "severity_label": "MODERATE",
+    "summary": "Handlebars.js has a Prototype Method Access Control Gap via Missing __lookupSetter__ Blocklist Entry",
+    "cwes": [
+      "CWE-1321"
+    ],
+    "affected_packages": [
+      "handlebars"
+    ]
+  },
+  {
+    "osv_id": "GHSA-9cx6-37pm-9jff",
+    "aliases": [
+      "CVE-2026-33939"
+    ],
+    "eco": "npm",
+    "package_file": "handlebars",
+    "published": "2026-03-27",
+    "modified": "2026-03-30",
+    "severity_label": "HIGH",
+    "summary": "Handlebars.js has Denial of Service via Malformed Decorator Syntax in Template Compilation",
+    "cwes": [
+      "CWE-754"
+    ],
+    "affected_packages": [
+      "handlebars"
+    ]
+  },
+  {
+    "osv_id": "GHSA-xhpv-hc6g-r9c6",
+    "aliases": [
+      "CVE-2026-33940"
+    ],
+    "eco": "npm",
+    "package_file": "handlebars",
+    "published": "2026-03-27",
+    "modified": "2026-03-30",
+    "severity_label": "HIGH",
+    "summary": "Handlebars.js has JavaScript Injection via AST Type Confusion when passing an object as dynamic partial",
+    "cwes": [
+      "CWE-843",
+      "CWE-94"
+    ],
+    "affected_packages": [
+      "handlebars"
+    ]
+  },
+  {
+    "osv_id": "GHSA-xjpj-3mr7-gcpf",
+    "aliases": [
+      "CVE-2026-33941"
+    ],
+    "eco": "npm",
+    "package_file": "handlebars",
+    "published": "2026-03-27",
+    "modified": "2026-03-30",
+    "severity_label": "HIGH",
+    "summary": "Handlebars.js has JavaScript Injection in CLI Precompiler via Unescaped Names and Options",
+    "cwes": [
+      "CWE-116",
+      "CWE-79",
+      "CWE-94"
+    ],
+    "affected_packages": [
+      "handlebars"
+    ]
+  },
+  {
+    "osv_id": "GHSA-57hq-95w6-v4fc",
+    "aliases": [
+      "CVE-2026-32700"
+    ],
+    "eco": "RubyGems",
+    "package_file": "devise",
+    "published": "2026-03-17",
+    "modified": "2026-03-30",
+    "severity_label": "MODERATE",
+    "summary": "Devise has a confirmable \"change email\" race condition permits user to confirm email they have no access to",
+    "cwes": [
+      "CWE-362"
+    ],
+    "affected_packages": [
+      "devise"
+    ]
+  },
+  {
+    "osv_id": "GHSA-247c-9743-5963",
+    "aliases": [
+      "CVE-2026-33806"
+    ],
+    "eco": "npm",
+    "package_file": "fastify",
+    "published": "2026-04-15",
+    "modified": "2026-04-15",
+    "severity_label": "HIGH",
+    "summary": "Fastify has a Body Schema Validation Bypass via Leading Space in Content-Type Header",
+    "cwes": [
+      "CWE-1287"
+    ],
+    "affected_packages": [
+      "fastify"
+    ]
+  },
+  {
+    "osv_id": "GO-2023-2102",
+    "aliases": [
+      "BIT-golang-2023-39325",
+      "CVE-2023-39325",
+      "GHSA-4374-p667-p6c8"
+    ],
+    "eco": "Go",
+    "package_file": "golang_org_x_net",
+    "published": "2023-10-11",
+    "modified": "2026-04-16",
+    "severity_label": null,
+    "summary": "HTTP/2 rapid reset can cause excessive work in net/http",
+    "cwes": [],
+    "affected_packages": [
+      "golang.org/x/net",
+      "stdlib"
+    ]
+  },
+  {
+    "osv_id": "GO-2025-3503",
+    "aliases": [
+      "CVE-2025-22870",
+      "GHSA-qxp5-gwg8-xv66"
+    ],
+    "eco": "Go",
+    "package_file": "golang_org_x_net",
+    "published": "2025-03-12",
+    "modified": "2026-04-16",
+    "severity_label": null,
+    "summary": "HTTP Proxy bypass using IPv6 Zone IDs in golang.org/x/net",
+    "cwes": [],
+    "affected_packages": [
+      "golang.org/x/net",
+      "stdlib"
+    ]
+  }
+]

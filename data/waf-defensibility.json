@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-04-26T11:08:16Z",
+  "generated_at": "2026-04-27T06:00:35Z",
   "generator": "scripts/build_hacker_tier_data.py",
   "source_reports": [
     "analyst-reports/2026-04-25-hacker-ranking-v3.md (R3 Java/Spring 175-event)",
@@ -7,7 +7,8 @@
     "analyst-reports/2026-04-25-hacker-ranking-v5-java-waf-aware.md (R5 WAF axis)",
     "analyst-reports/2026-04-26-hacker-ranking-v6-node-netty-12mo.md (R6 Node+Netty 12mo)",
     "analyst-reports/2026-04-26-hacker-ranking-v7-pre2018-backfill.md (R7 pre-2018 backfill)",
-    "analyst-reports/2026-04-26-hacker-ranking-v8-os-container.md (R8 OS container)"
+    "analyst-reports/2026-04-26-hacker-ranking-v8-os-container.md (R8 OS container)",
+    "analyst-reports/2026-04-27-retrospective-30day-sweep.md (R9-retro canonical anchor add)"
   ],
   "rounds_in_use_for_integrated_page": [
     "R3",
@@ -16,6 +17,13 @@
     "R7",
     "R8"
   ],
+  "canonical_anchors": {
+    "edge-appliance-auth-bypass-rce": {
+      "anchor_cve": "CVE-2026-1340",
+      "added": "2026-04-27",
+      "rationale": "Vendor-appliance management plane (MDM, SD-WAN, EMS, BIG-IP, etc.), unauthenticated or near-default auth, network-edge HTTP/HTTPS surface, primitive-direct RCE via input handling. Tier A."
+    }
+  },
   "n_cves": 13,
   "definitions": {
     "FRIENDLY": "Signature-able payload, generic OWASP rules cover, emergency rule ships within hours",
