@@ -6,54 +6,84 @@
 <title>Operational Model — How You Patch Determines What the Filter Is Worth</title>
 <link rel="alternate" type="text/markdown" title="LLM-friendly summary" href="llms.txt">
 <style>
-*{margin:0;padding:0;box-sizing:border-box}
-body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:#0f172a;color:#e2e8f0;padding:0;line-height:1.6}
-.container{max-width:1100px;margin:0 auto;padding:24px}
-h1{font-size:2.2em;margin:24px 0 8px;color:#f1f5f9;letter-spacing:-0.02em;text-align:center}
-.subtitle{text-align:center;color:#94a3b8;margin-bottom:32px;font-size:1.05em;font-style:italic}
-.lead{font-size:1.05em;color:#cbd5e1;margin-bottom:32px;padding:18px 22px;background:#1e293b;border-left:4px solid #6366f1;border-radius:0 8px 8px 0}
-h2{font-size:1.5em;color:#f1f5f9;margin:36px 0 12px;padding-bottom:8px;border-bottom:2px solid #334155}
-h3{font-size:1.15em;color:#a5b4fc;margin:24px 0 8px;font-weight:600}
-p{margin-bottom:16px;color:#cbd5e1}
-ul{margin:0 0 16px 20px;color:#cbd5e1}
+:root{--bg:#faf9f5;--surface:#f4f1e8;--border:#e6e1d3;--text:#334155;--muted:#6b6356;
+--accent:#4f46e5;--red:#dc2626;--amber:#d97706;--green:#059669;--cyan:#0891b2;
+--code-bg:#ede8db;
+--serif:'Charter','Bitstream Charter','Sitka Text',Cambria,Georgia,serif}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);color:var(--text);font-family:Inter,-apple-system,BlinkMacSystemFont,Segoe UI,sans-serif;line-height:1.7;margin:0}
+
+/* ===== LAYOUT ===== */
+.page{display:grid;grid-template-columns:260px 1fr;min-height:100vh}
+.sidebar{background:var(--surface);border-right:1px solid var(--border);padding:24px 0;position:sticky;top:0;height:100vh;overflow-y:auto}
+.sidebar-title{font-size:1.05em;font-weight:700;padding:0 20px 16px;color:var(--accent);border-bottom:1px solid var(--border);margin-bottom:12px;line-height:1.25}
+.sidebar a{display:block;padding:7px 20px;color:var(--muted);text-decoration:none;font-size:.88em;border-left:3px solid transparent;transition:all .15s}
+.sidebar a:hover,.sidebar a.active{color:var(--accent);background:#eef2ff;border-left-color:var(--accent)}
+.toc-num{color:var(--accent);font-weight:600;margin-right:4px}
+.main{max-width:1100px;margin:0 auto;padding:24px 32px 48px;counter-reset:section}
+@media(max-width:900px){.page{grid-template-columns:1fr} .sidebar{display:none} .main{padding:16px}}
+
+/* ===== TYPOGRAPHY ===== */
+h1{font-family:var(--serif);font-size:2.6em;font-weight:700;letter-spacing:-0.02em;line-height:1.1;margin-bottom:14px;color:#0f172a;text-align:center}
+.subtitle{font-family:var(--serif);font-style:italic;color:#475569;font-size:1.2em;line-height:1.55;margin-bottom:32px;text-align:center}
+h2{font-family:var(--serif);font-size:1.85em;font-weight:700;letter-spacing:-0.01em;line-height:1.2;margin:72px 0 18px;color:#0f172a;border-bottom:1px solid var(--border);padding-bottom:10px;counter-increment:section;scroll-margin-top:24px}
+h2::before{content:"§ " counter(section,decimal-leading-zero);display:block;font-family:var(--serif);font-style:italic;font-weight:400;font-size:0.5em;letter-spacing:0.02em;color:var(--muted);margin-bottom:8px;line-height:1}
+h3{font-family:var(--serif);font-size:1.3em;font-weight:600;margin:32px 0 10px;color:#1e293b;line-height:1.3}
+p{margin:8px 0 16px;color:var(--text)}
+ul{margin:0 0 16px 22px;color:var(--text)}
 li{margin-bottom:8px}
-strong{color:#f1f5f9}
-em{color:#94a3b8}
-.insight{background:#1e293b;border-left:4px solid #6366f1;padding:16px 20px;border-radius:0 8px 8px 0;margin:20px 0;color:#cbd5e1}
-.insight strong{color:#a5b4fc}
-.insight.warn{border-left-color:#f59e0b}
-.insight.warn strong{color:#fbbf24}
-.insight.danger{border-left-color:#ef4444}
-.insight.danger strong{color:#fca5a5}
+strong{color:#0f172a}
+em{color:var(--muted)}
+a{color:var(--accent)}
+
+/* ===== COMPONENTS ===== */
+.lead{font-size:1.05em;color:var(--text);margin:8px 0 32px;padding:18px 22px;background:var(--surface);border-left:4px solid var(--accent);border-radius:0 8px 8px 0}
+.lead em{color:var(--muted)}
+
+.insight{background:#eef2ff;border-left:4px solid var(--accent);padding:16px 20px;border-radius:0 8px 8px 0;margin:20px 0;color:#312e81}
+.insight strong{color:var(--accent)}
+.insight.warn{background:#fffbeb;border-left-color:var(--amber);color:#78350f}
+.insight.warn strong{color:var(--amber)}
+.insight.danger{background:#fef2f2;border-left-color:var(--red);color:#7f1d1d}
+.insight.danger strong{color:var(--red)}
+
 .tier-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px;margin:18px 0 12px}
-.tier-card{background:#1e293b;border-radius:12px;padding:18px;border:2px solid #334155}
-.tier-card h3{margin-top:0;color:#a5b4fc}
-.tier-card .tier-sla{display:inline-block;font-size:.78em;color:#64748b;background:#0f172a;padding:3px 8px;border-radius:6px;margin-left:6px;font-weight:500}
-.tier-card.cat1{border-color:#10b981}
-.tier-card.cat1 h3{color:#34d399}
-.tier-card.cat2{border-color:#f59e0b}
-.tier-card.cat2 h3{color:#fbbf24}
-.tier-card.cat3{border-color:#ef4444}
-.tier-card.cat3 h3{color:#fca5a5}
-.tier-card p{font-size:.92em;color:#94a3b8;margin-bottom:8px}
+.tier-card{background:var(--surface);border-radius:12px;padding:18px;border:2px solid var(--border)}
+.tier-card h3{margin-top:0;color:var(--accent)}
+.tier-card .tier-sla{display:inline-block;font-size:.78em;color:var(--muted);background:var(--bg);padding:3px 8px;border-radius:6px;margin-left:6px;font-weight:500}
+.tier-card.cat1{border-color:var(--green)}
+.tier-card.cat1 h3{color:var(--green)}
+.tier-card.cat2{border-color:var(--amber)}
+.tier-card.cat2 h3{color:var(--amber)}
+.tier-card.cat3{border-color:var(--red)}
+.tier-card.cat3 h3{color:var(--red)}
+.tier-card p{font-size:.92em;color:var(--text);margin-bottom:8px}
 @media(max-width:900px){.tier-grid{grid-template-columns:1fr}}
-.callout{background:#1e293b;border:1px solid #334155;border-radius:10px;padding:18px 22px;margin:20px 0;color:#cbd5e1}
-.callout strong{color:#f1f5f9}
-.page-nav{display:flex;gap:8px;justify-content:center;padding:12px 20px;background:#1e293b;border-bottom:1px solid #334155;flex-wrap:wrap}
-.page-nav a{padding:6px 16px;border-radius:20px;font-size:.85em;font-weight:600;text-decoration:none;color:#94a3b8;border:1px solid #475569;transition:all .15s}
-.page-nav a:hover{color:#6366f1;border-color:#6366f1}
-.page-nav a.current{background:#6366f1;color:#fff;border-color:#6366f1}
-.footer{text-align:center;color:#64748b;font-size:.8em;margin-top:48px;padding-top:20px;border-top:1px solid #334155}
+
+.callout{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:18px 22px;margin:20px 0;color:var(--text)}
+.callout strong{color:#0f172a}
+
+.page-nav{display:flex;gap:8px;justify-content:center;padding:12px 20px;background:var(--surface);border-bottom:1px solid var(--border);flex-wrap:wrap}
+.page-nav a{padding:6px 16px;border-radius:20px;font-size:.85em;font-weight:600;text-decoration:none;color:var(--muted);border:1px solid var(--border);transition:all .15s}
+.page-nav a:hover{color:var(--accent);border-color:var(--accent)}
+.page-nav a.current{background:var(--accent);color:#fff;border-color:var(--accent)}
+
+.footer{text-align:center;color:var(--muted);font-size:.8em;margin-top:48px;padding-top:20px;border-top:1px solid var(--border)}
+.footer a{color:var(--accent)}
+
 table{width:100%;border-collapse:collapse;font-size:.92em;margin:18px 0}
-th{background:#334155;color:#e2e8f0;padding:10px 14px;text-align:left;font-weight:600}
-td{padding:10px 14px;border-bottom:1px solid #1e293b;color:#cbd5e1;vertical-align:top}
-tr:hover td{background:#1e293b}
-.toc{background:#1e293b;border-radius:10px;padding:18px 24px;margin:20px 0 32px;border:1px solid #334155;font-size:.92em}
-.toc h3{margin-top:0;color:#a5b4fc;font-size:1em;font-weight:600}
-.toc ol{margin:8px 0 0 20px;color:#94a3b8}
+th{background:var(--surface);color:var(--accent);padding:10px 14px;text-align:left;font-weight:600;border-bottom:2px solid var(--border)}
+td{padding:10px 14px;border-bottom:1px solid var(--border);color:var(--text);vertical-align:top}
+tr:hover td{background:var(--surface)}
+
+.toc{background:var(--surface);border-radius:10px;padding:18px 24px;margin:20px 0 32px;border:1px solid var(--border);font-size:.92em}
+.toc h3{margin-top:0;color:var(--accent);font-size:1em;font-weight:600;font-family:var(--serif)}
+.toc ol{margin:8px 0 0 20px;color:var(--muted)}
 .toc li{margin-bottom:4px}
-.toc a{color:#94a3b8;text-decoration:none}
-.toc a:hover{color:#6366f1}
+.toc a{color:var(--muted);text-decoration:none}
+.toc a:hover{color:var(--accent)}
+
+code{background:var(--code-bg);padding:2px 6px;border-radius:4px;font-size:.88em;font-family:'SF Mono',Monaco,Consolas,monospace}
 </style>
 <link rel="sitemap" type="application/xml" title="Sitemap" href="sitemap.xml">
 <link rel="canonical" href="https://funwithscience.net/KEV-analysis/build-mechanics.html">
@@ -69,7 +99,27 @@ tr:hover td{background:#1e293b}
 <a href="cve-reference.html">CVE Reference</a>
 </nav>
 
-<div class="container">
+<div class="page">
+
+<!-- SIDEBAR NAV -->
+<nav class="sidebar">
+<a href="#" style="text-decoration:none;color:inherit"><div class="sidebar-title">Operational<br>Model</div></a>
+<a href="#two-modes"><span class="toc-num">1</span> Two operational modes</a>
+<a href="#fourteen"><span class="toc-num">2</span> The 14-emergencies-a-year math</a>
+<a href="#free"><span class="toc-num">3</span> "85% is free"</a>
+<a href="#non-stacking"><span class="toc-num">4</span> Vulnerabilities don't stack</a>
+<a href="#categories"><span class="toc-num">5</span> Three categories of estate maturity</a>
+<a href="#boundary"><span class="toc-num">6</span> The cat 2 / cat 3 boundary</a>
+<a href="#rot"><span class="toc-num">7</span> Cat 2's hidden cost: triggers rot</a>
+<a href="#variance"><span class="toc-num">8</span> Distribution varies by org</a>
+<a href="#wafs"><span class="toc-num">9</span> WAFs as spackle</a>
+<a href="#filter-value"><span class="toc-num">10</span> Filter value depends on response shape</a>
+<a href="#reduction"><span class="toc-num">11</span> What this means for the 64–86%</a>
+<a href="#enterprise-rules"><span class="toc-num">12</span> Practical implications for the enterprise</a>
+</nav>
+
+<!-- MAIN CONTENT -->
+<main class="main">
 
 <h1>Operational Model</h1>
 <p class="subtitle">Why the value of any vulnerability filter depends on how you patch</p>
@@ -91,12 +141,12 @@ This page sits underneath the main analysis. It's about the operational layer: h
 <li><a href="#variance">Distribution varies by organization</a></li>
 <li><a href="#wafs">WAFs as spackle</a></li>
 <li><a href="#filter-value">Filter value depends on response shape</a></li>
-<li><a href="#reduction">What this means for the 64–86% reduction claim</a></li>
+<li><a href="#reduction">What this means for the 64&ndash;86% reduction claim</a></li>
 <li><a href="#enterprise-rules">Practical implications for the enterprise</a></li>
 </ol>
 </div>
 
-<h2 id="two-modes">1. Two operational modes: BAU and floor sweeps</h2>
+<h2 id="two-modes">Two operational modes: BAU and floor sweeps</h2>
 
 <p>Vulnerability remediation in any real organization happens through two fundamentally different operational modes.</p>
 
@@ -108,7 +158,7 @@ This page sits underneath the main analysis. It's about the operational layer: h
 <strong>The same outcome through different shapes.</strong> Both modes produce the same end state (an upgraded dependency). BAU is invisible and cheap. Floor sweeps are visible and expensive. The strategic question for any security program is how to maximize the share of remediation that happens through BAU, and how to minimize the cost of the unavoidable floor sweeps.
 </div>
 
-<h2 id="fourteen">2. The 14-emergencies-a-year math</h2>
+<h2 id="fourteen">The 14-emergencies-a-year math</h2>
 
 <p>The data on the main page shows roughly 14 critical/high CVEs per year that match the network-parser + direct-injection (NP+DI) filter &mdash; events urgent enough to warrant emergency response. That's roughly one every two-to-three weeks. Whether 14 emergencies per year is "a lot" depends entirely on which population is absorbing them.</p>
 
@@ -120,7 +170,7 @@ This page sits underneath the main analysis. It's about the operational layer: h
 Same vulnerabilities, same year, two completely different operational realities. The headline rate of emergencies is identical; what differs is what an emergency <em>costs</em> when it lands.
 </div>
 
-<h2 id="free">3. "85% is free": routine rebuild absorbs patches</h2>
+<h2 id="free">"85% is free": routine rebuild absorbs patches</h2>
 
 <p>Here's the observation that reframes the whole conversation. Every application that's already on routine rebuild absorbs vulnerability patches as a side effect of normal release work. When a new emergency lands, those applications don't need anyone to chase them &mdash; the next BAU build pulls the fix in through normal channels. The cost is paid by the BAU pipeline that was running anyway. From the security program's perspective, that's free coverage.</p>
 
@@ -132,7 +182,7 @@ Same vulnerabilities, same year, two completely different operational realities.
 
 <p>The per-app question &mdash; "is it worth automating this one?" &mdash; almost always says no, which is why so many apps stay in the manual-only tail. The portfolio-level question &mdash; "what platform investment moves <em>any</em> app from manual to auto cheaply?" &mdash; gets to better answers (common base images, paved-road CI templates, central library mirrors) because the cost is amortized across the whole tail.</p>
 
-<h2 id="non-stacking">4. Vulnerabilities don't stack</h2>
+<h2 id="non-stacking">Vulnerabilities don't stack</h2>
 
 <p>A subtle point worth internalizing: <strong>BAU rebuild discipline does not reduce the rate of emergencies.</strong> New vulnerabilities arrive at whatever rate attacker discovery and disclosure produce them, which is exogenous to your hygiene. When a new NP+DI lands, you sweep 100% of affected infrastructure regardless of how clean your floor was last month.</p>
 
@@ -142,7 +192,7 @@ Same vulnerabilities, same year, two completely different operational realities.
 <strong>What the filter actually does.</strong> The filter doesn't prevent emergencies; emergencies are exogenous. What the filter does is <strong>discriminate which incoming CVEs require the floor-sweep coordination drill at all</strong>, versus which ones your normal BAU cadence will absorb on its natural timeline. The reduction is in <em>which fraction of disclosures trigger expensive coordination</em>, not in <em>how many disclosures happen</em>.
 </div>
 
-<h2 id="categories">5. Three categories of estate maturity</h2>
+<h2 id="categories">Three categories of estate maturity</h2>
 
 <p>In practice, applications fall into three operational categories defined by how fast they can credibly absorb a security patch.</p>
 
@@ -188,7 +238,7 @@ Same vulnerabilities, same year, two completely different operational realities.
 The 1/3 - 1/3 - 1/3 split isn't a recommendation or a typical case &mdash; it's a midpoint reference for thinking about the trade-offs. Cloud-native shops might be more like 60/30/10. M&amp;A-heavy or platform-shift-heavy shops might be more like 10/30/60. The framework applies regardless; only the operational pressure shifts. For a 60/30/10 estate, NP+DI emergencies are a non-event for two-thirds of the estate and a manageable trigger fire for the rest. For a 10/30/60 estate, the cat-3 60% dominates everything, and WAF maturity moves from "important" to "the entire defense."
 </div>
 
-<h2 id="boundary">6. The cat 2 / cat 3 boundary matters more than cat 1 / cat 2</h2>
+<h2 id="boundary">The cat 2 / cat 3 boundary matters more than cat 1 / cat 2</h2>
 
 <p>The economic argument for moving an application from cat 3 to cat 2 is much stronger than the argument for moving it from cat 2 to cat 1.</p>
 
@@ -198,7 +248,7 @@ The 1/3 - 1/3 - 1/3 split isn't a recommendation or a typical case &mdash; it's 
 
 <p>The investment delta is also different. Moving cat 3 &rarr; cat 2 is mostly tooling: standing up the CI pipeline, automating the build, getting the tests to pass. Moving cat 2 &rarr; cat 1 often requires team culture change &mdash; getting the team to ship more frequently, adopting trunk-based development, building deployment confidence &mdash; which is much harder. So the per-dollar return on investment tends to favor cat 3 &rarr; cat 2.</p>
 
-<h2 id="rot">7. Cat 2's hidden cost: triggers rot</h2>
+<h2 id="rot">Cat 2's hidden cost: triggers rot</h2>
 
 <p>The risk specific to cat 2 is that the trigger silently degrades. A manual CI pipeline that runs once a year on demand will, in the meantime, have its upstream dependencies move, its base image deprecated, its test suite assume Python 3.7. When the emergency strikes and someone pushes the button, they discover the "triggerable infrastructure" is actually cat 3 with a fig leaf.</p>
 
@@ -208,7 +258,7 @@ The 1/3 - 1/3 - 1/3 split isn't a recommendation or a typical case &mdash; it's 
 <strong>Practical rule of thumb.</strong> A cat 2 trigger that hasn't been exercised in 18 months should be assumed to be cat 3 until proven otherwise. The metric isn't "% of estate with a rebuild config" &mdash; it's "% of estate verified-rebuilding."
 </div>
 
-<h2 id="variance">8. Distribution varies by organization</h2>
+<h2 id="variance">Distribution varies by organization</h2>
 
 <p>The cat 1 / 2 / 3 split varies significantly by organization, and the variation correlates with predictable things:</p>
 
@@ -224,7 +274,7 @@ The 1/3 - 1/3 - 1/3 split isn't a recommendation or a typical case &mdash; it's 
 <strong>The honesty problem.</strong> Internal estimates of cat distribution skew optimistic because admitting cat 3 is admitting governance failure. The "we have a Dockerfile but no working CI" middle case tends to get counted as cat 2 in the slide deck and behave as cat 3 in the incident. An honest census is hard to take and harder to publish, which is part of why estates tend to have more cat 3 than people expect.
 </div>
 
-<h2 id="wafs">9. WAFs as spackle</h2>
+<h2 id="wafs">WAFs as spackle</h2>
 
 <p>Web Application Firewalls (WAFs) are the operational control that bridges the gaps between the three categories. They sit at the perimeter, inspect HTTP traffic for known attack patterns, and can block exploitation attempts at the edge &mdash; without requiring any change to the underlying application.</p>
 
@@ -259,7 +309,7 @@ The 1/3 - 1/3 - 1/3 split isn't a recommendation or a typical case &mdash; it's 
 
 <p>The response timeline isn't zero either. There's a window of hours-to-days between disclosure and good WAF rule coverage, depending on whether the vendor publishes a rule quickly or your team writes a custom one. So the WAF window is "much shorter than the rebuild timeline" rather than "instantaneous." Worth pricing into response-time SLAs.</p>
 
-<h2 id="filter-value">10. Filter value depends on response shape</h2>
+<h2 id="filter-value">Filter value depends on response shape</h2>
 
 <p>The triage filter on the main page assumes a reader who can credibly auto-rebuild <em>something</em> on demand. Its value to your organization scales with how many response speeds you actually have available.</p>
 
@@ -273,7 +323,7 @@ The 1/3 - 1/3 - 1/3 split isn't a recommendation or a typical case &mdash; it's 
 
 <p>This isn't a critique of the filter &mdash; it's an honest accounting of where its value comes from. The filter is most valuable where the response infrastructure exists to do something differential with the result. Without that infrastructure, every emergency goes through the same expensive channel and the filter just helps prioritize the queue.</p>
 
-<h2 id="reduction">11. What this means for the 64&ndash;86% reduction claim</h2>
+<h2 id="reduction">What this means for the 64&ndash;86% reduction claim</h2>
 
 <p>The headline claim on the main page &mdash; that the NP+DI filter reduces emergency rebuild triggers by 64&ndash;86% &mdash; should be read with this framing in mind. <strong>The reduction is in coordination overhead, not in vulnerability events.</strong> Vulnerability events arrive at a rate set by attacker discovery and disclosure cycles; that rate doesn't change because we filter our triage queue. What changes is which fraction of those events warrant interrupting normal team cadence to push patches through the manual coordination channel.</p>
 
@@ -287,7 +337,7 @@ Both readings are honest; the value to any specific organization sits somewhere 
 
 <p>That's the framework. The next section translates it into concrete operational rules &mdash; the metadata you need to track, how triage scope changes by auth posture, where the worst surfaces hide, and how all of this composes into a triage decision flow when a critical CVE lands.</p>
 
-<h2 id="enterprise-rules">12. Practical implications for the enterprise</h2>
+<h2 id="enterprise-rules">Practical implications for the enterprise</h2>
 
 <p>The framework so far has been about category structure (cat 1 / 2 / 3 estate maturity, the value of routine rebuild, where WAFs help) and filter mechanics (NP+DI as triage discriminator). This section is about the operational rules that fall out when you actually try to apply this in a real organization.</p>
 
@@ -295,7 +345,7 @@ Both readings are honest; the value to any specific organization sits somewhere 
 
 <p>This makes auth posture itself a first-class operational artifact. Most enterprises don't track it formally. They should.</p>
 
-<h3>12.1 Track API auth posture as first-class metadata</h3>
+<h3>Track API auth posture as first-class metadata</h3>
 
 <p>When a critical CVE drops in a widely-deployed library, the question that determines emergency response isn't "do we use this library?" &mdash; for popular libraries the answer is always yes. The question is <strong>which of our API endpoints reach the affected code path before our authentication filter has run.</strong> That's a question about endpoint metadata, not library SBOM data.</p>
 
@@ -314,7 +364,7 @@ Both readings are honest; the value to any specific organization sits somewhere 
 
 <p>Some of this exists in modern enterprises &mdash; SBOM tooling, ASPM platforms, service catalogs. Most of it doesn't, or exists in scattered systems that don't talk to each other. The minimum viable inventory is a wiki page per service that lists pre-auth endpoints; even that is enough to triage 80% of incidents at speed. Without it, you're reduced to grep-and-pray when a Log4Shell-class event lands.</p>
 
-<h3>12.2 Filter scope follows auth posture</h3>
+<h3>Filter scope follows auth posture</h3>
 
 <p>The NP+DI filter is calibrated for systems with strong auth boundaries. It catches the parts that fire before auth completes &mdash; exactly the things attackers can reach without credentials. For services where most of the API is post-auth, NP+DI is the right scope.</p>
 
@@ -341,7 +391,7 @@ Both readings are honest; the value to any specific organization sits somewhere 
 
 <p>The last row is the dangerous one because most enterprises have surfaces in that bucket they don't know about. The next subsection is a worked example of how this happens.</p>
 
-<h3>12.3 The framework-management-endpoint pattern: Spring Boot Actuator and Jolokia</h3>
+<h3>The framework-management-endpoint pattern: Spring Boot Actuator and Jolokia</h3>
 
 <p>A specific worked example of "unauthenticated by accident" that's so common it deserves its own callout.</p>
 
@@ -373,7 +423,7 @@ Both readings are honest; the value to any specific organization sits somewhere 
 
 <p>The real diagnostic is <strong>how many of your services have ever audited their actuator surface</strong>. Most haven't. The default Spring Boot starter still exposes <code>/actuator/health</code> and <code>/actuator/info</code> in 2.x; the latter leaks build/git/env info that's reconnaissance fuel for an attacker who's already mapped your attack surface. The gap between "knows about it" and "actually does it" on actuator hygiene is itself a maturity diagnostic &mdash; arguably a better one than CVE response time, because actuator hygiene is something you can audit at any time without waiting for a CVE.</p>
 
-<h3>12.4 Hygiene rules that follow from the auth-chain framing</h3>
+<h3>Hygiene rules that follow from the auth-chain framing</h3>
 
 <p>Two rules that work together to keep the unauth-surface problem from compounding.</p>
 
@@ -384,14 +434,14 @@ Both readings are honest; the value to any specific organization sits somewhere 
 <p>The two rules reinforce each other. Small unauth surface + broad filter = manageable rebuild cadence. Large unauth surface + broad filter = unsustainable. The unsustainability is itself a signal that too much functionality has been put in front of no authentication.</p>
 
 <div class="insight">
-<strong>The corollary worth flagging.</strong> When the filter scope rules in &sect;12.2 produce too many emergency events, the answer is usually <em>not</em> "loosen the filter." It's "reduce the unauth surface that the broader filter is firing on." The filter is just measuring what's already wrong.
+<strong>The corollary worth flagging.</strong> When the filter scope rules above produce too many emergency events, the answer is usually <em>not</em> "loosen the filter." It's "reduce the unauth surface that the broader filter is firing on." The filter is just measuring what's already wrong.
 </div>
 
-<h3>12.5 Putting it together: the triage decision flow</h3>
+<h3>Putting it together: the triage decision flow</h3>
 
 <p>When a critical CVE drops, the decision tree based on the rules above:</p>
 
-<ol>
+<ol style="margin:0 0 16px 24px">
 <li><strong>Is the affected library/component in our stack at all?</strong> SBOM lookup. If no, done.</li>
 <li><strong>Which endpoints in which apps reach the affected code path?</strong> Stack-composition metadata.</li>
 <li><strong>Of those endpoints, which are pre-auth?</strong> Auth-posture metadata.</li>
@@ -418,12 +468,14 @@ Both readings are honest; the value to any specific organization sits somewhere 
 The metadata-driven approach has real cost (an inventory that needs maintenance and won't be perfect on day one). But it converts panic-driven response into evidence-driven response. Once it exists, you stop reacting to news cycles and start reacting to actual exposure. That shift is worth more than any single CVE response improvement, because it compounds across every future incident.
 </div>
 
-<p>The honest pre-condition: this only works if the upstream rules have been applied. You need the cat 1/2/3 distribution from &sect;5 to be tracked. You need the auth-posture inventory from &sect;12.1. You need WAF coverage from &sect;9 to be real and current, not aspirational. Without those, the decision flow is theoretical. With them, it converts an entire category of organizational chaos into a routine triage ticket.</p>
+<p>The honest pre-condition: this only works if the upstream rules have been applied. You need the cat 1/2/3 distribution from &sect;5 to be tracked. You need the auth-posture inventory above. You need WAF coverage from &sect;9 to be real and current, not aspirational. Without those, the decision flow is theoretical. With them, it converts an entire category of organizational chaos into a routine triage ticket.</p>
 
 <div class="footer">
-KEV Analysis &mdash; Operational Model page. See <a href="index.html" style="color:#6366f1">Walkthrough</a> for the main analysis and <a href="dashboard.html" style="color:#6366f1">Dashboard</a> for interactive charts.
+KEV Analysis &mdash; Operational Model page. See <a href="index.html">Walkthrough</a> for the main analysis and <a href="dashboard.html">Dashboard</a> for interactive charts.
 </div>
 
+</main>
 </div>
+
 </body>
 </html>
