@@ -165,14 +165,15 @@
       "2026-01": 5143,
       "2026-02": 4808,
       "2026-03": 6304,
-      "2026-04": 5083
+      "2026-04": 5174
     },
-    "monthly_cve_2026_notes": "April MTD = 5083 as of 2026-04-26 04:00Z (NVD totalResults). Extrapolated full-month: 5083/26*30 = 5865 (rounded). Q1-2026 actuals: 5143 / 4808 / 6304 \u2014 re-verified against NVD this run. Day-over-day delta: 5037 \u2192 5083 (+46 CVEs in last 24h; well below the running ~200/day average \u2014 typical Sunday lull). Counter-argument: NVD publishing latency is 4-8 weeks; the post-Glasswing Mythos disclosures may not yet have reached NVD assignment. Even at 5865 extrapolated, April lands meaningfully below March (6304) and consistent with normal Q1 churn \u2014 no positive evidence of a Glasswing-driven volume shock.",
+    "monthly_cve_2026_notes": "April MTD = 5174 as of 2026-04-27 04:00Z (NVD totalResults). Extrapolated full-month: 5174/27*30 = 5748 (rounded). Q1-2026 actuals: 5143 / 4808 / 6304 \u2014 re-verified against NVD this run. Day-over-day delta: 5083 \u2192 5174 (+91 CVEs in last 24h; closer to the ~190/day running average \u2014 Sunday lull recovered). Counter-argument: NVD publishing latency is 4-8 weeks; the post-Glasswing Mythos disclosures may not yet have reached NVD assignment. Even at 5748 extrapolated, April lands meaningfully below March (6304) and consistent with normal Q1 churn \u2014 no positive evidence of a Glasswing-driven volume shock.",
     "weekly_cve_2026": {
       "2026-W14_Mar30_Apr05": 1304,
       "2026-W15_Apr06_Apr12": 1615,
       "2026-W16_Apr13_Apr19": 1178,
-      "2026-W17_Apr20_Apr26_partial": 1399
+      "2026-W17_Apr20_Apr26": 1469,
+      "2026-W18_Apr27_May03_partial": 21
     },
     "ms_patch_tuesday": {
       "2025-01": 157,
@@ -586,6 +587,6 @@
         "last_checked": "2026-04-24T03:00Z"
       }
     },
-    "last_incremental_check": "2026-04-26T04:14Z"
+    "last_incremental_check": "2026-04-27T04:30Z"
   }
 }
