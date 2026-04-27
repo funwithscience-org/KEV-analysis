@@ -125,6 +125,89 @@ def main() -> int:
                 fails += 1
                 print(f"FAIL — {thr_key} {model}: marginal+absorbed != standalone")
 
+    # ---- Timing comparison headline (avg days faster + caught-before-exploit) ----
+    tc = data["summary"].get("timing_comparison")
+    if tc is None:
+        fails += 1
+        print("FAIL — summary.timing_comparison missing from JSON")
+    else:
+        # Page placeholders use rounded-to-1-decimal averages
+        avg10 = tc["avg_days_faster_vs_epss_10"]
+        avg50 = tc["avg_days_faster_vs_epss_50"]
+        cbe = tc["caught_before_exploit"]
+
+        page_avg10 = re.search(
+            r"<span data-epss-avg-d10>([0-9.]+)</span>", page,
+        )
+        page_avg50 = re.search(
+            r"<span data-epss-avg-d50>([0-9.]+)</span>", page,
+        )
+        page_y_model = re.search(
+            r"<span data-epss-y-model>(\d+)</span>", page,
+        )
+        page_y_e10 = re.search(
+            r"<span data-epss-y-e10>(\d+)</span>", page,
+        )
+        page_y_e50 = re.search(
+            r"<span data-epss-y-e50>(\d+)</span>", page,
+        )
+        page_marg10 = re.search(
+            r"<span data-epss-marginal-10>(\d+)</span>", page,
+        )
+        page_marg50 = re.search(
+            r"<span data-epss-marginal-50>(\d+)</span>", page,
+        )
+
+        # Avg days faster — page rounds to 1 decimal; tolerate ±0.05 for rounding.
+        for label, page_match, json_val in [
+            ("avg_days_faster_vs_epss_10", page_avg10, avg10),
+            ("avg_days_faster_vs_epss_50", page_avg50, avg50),
+        ]:
+            if page_match is None:
+                fails += 1
+                print(f"FAIL — page placeholder for {label} not found")
+                continue
+            page_val = float(page_match.group(1))
+            if abs(page_val - json_val) > 0.05:
+                fails += 1
+                print(f"FAIL — page {label} = {page_val} but JSON = {json_val:.4f}")
+
+        # Caught-before-exploit fractions (model = "Y/8")
+        def parse_y(frac: str) -> int:
+            return int(frac.split("/")[0])
+
+        for label, page_match, expected in [
+            ("y_model", page_y_model, parse_y(cbe["model"])),
+            ("y_epss10", page_y_e10, parse_y(cbe["epss_ge_10"])),
+            ("y_epss50", page_y_e50, parse_y(cbe["epss_ge_50"])),
+            ("marginal_10", page_marg10, cbe["marginal_model_minus_epss_10"]),
+            ("marginal_50", page_marg50, cbe["marginal_model_minus_epss_50"]),
+        ]:
+            if page_match is None:
+                fails += 1
+                print(f"FAIL — page placeholder for {label} not found")
+                continue
+            page_val = int(page_match.group(1))
+            if page_val != expected:
+                fails += 1
+                print(f"FAIL — page {label} = {page_val} but JSON = {expected}")
+
+        # Cohort-size sanity
+        if tc["cohort_size"] != 8:
+            fails += 1
+            print(f"FAIL — timing_comparison.cohort_size = {tc['cohort_size']}, expected 8")
+        # Per-CVE rows sum should match cohort_size
+        if len(tc["per_cve"]) != tc["cohort_size"]:
+            fails += 1
+            print(f"FAIL — timing_comparison.per_cve has {len(tc['per_cve'])} rows, "
+                  f"expected {tc['cohort_size']}")
+        # Pre-EPSS handling: avg_n_with_epss_coverage = cohort_size - len(pre_epss_cves)
+        expected_n = tc["cohort_size"] - len(tc["pre_epss_cves"])
+        if tc["avg_n_with_epss_coverage"] != expected_n:
+            fails += 1
+            print(f"FAIL — avg_n_with_epss_coverage = {tc['avg_n_with_epss_coverage']}, "
+                  f"expected {expected_n}")
+
     if fails:
         print(f"\n[epss-marginal] {fails} FAILED")
         return 1
