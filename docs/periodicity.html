@@ -11,7 +11,16 @@
 --spring:#d97706;--node:#059669;--django:#0891b2;--netty:#7c3aed;--hacker:#a855f7;
 --serif:'Charter','Bitstream Charter','Sitka Text',Cambria,Georgia,serif}
 *{box-sizing:border-box;margin:0;padding:0}
-body{background:var(--bg);color:var(--text);font-family:Inter,-apple-system,BlinkMacSystemFont,Segoe UI,sans-serif;line-height:1.7;padding:24px;max-width:1200px;margin:0 auto;counter-reset:section}
+body{background:var(--bg);color:var(--text);font-family:Inter,-apple-system,BlinkMacSystemFont,Segoe UI,sans-serif;line-height:1.7;margin:0}
+/* ===== LAYOUT ===== */
+.page{display:grid;grid-template-columns:260px 1fr;min-height:100vh}
+.sidebar{background:var(--surface);border-right:1px solid var(--border);padding:24px 0;position:sticky;top:0;height:100vh;overflow-y:auto}
+.sidebar-title{font-size:1.05em;font-weight:700;padding:0 20px 16px;color:var(--accent);border-bottom:1px solid var(--border);margin-bottom:12px;line-height:1.25}
+.sidebar a{display:block;padding:7px 20px;color:var(--muted);text-decoration:none;font-size:.88em;border-left:3px solid transparent;transition:all .15s}
+.sidebar a:hover,.sidebar a.active{color:var(--accent);background:#eef2ff;border-left-color:var(--accent)}
+.toc-num{color:var(--accent);font-weight:600;margin-right:4px}
+.main{max-width:1100px;margin:0 auto;padding:24px 32px 48px;counter-reset:section}
+@media(max-width:900px){.page{grid-template-columns:1fr} .sidebar{display:none} .main{padding:16px}}
 h1{font-family:var(--serif);font-size:2.6em;font-weight:700;letter-spacing:-0.02em;line-height:1.1;margin-bottom:14px;color:#0f172a}
 h2{font-family:var(--serif);font-size:1.85em;font-weight:700;letter-spacing:-0.01em;line-height:1.2;margin:72px 0 18px;color:#0f172a;border-bottom:1px solid var(--border);padding-bottom:10px;counter-increment:section;scroll-margin-top:24px}
 h2::before{content:"§ " counter(section,decimal-leading-zero);display:block;font-family:var(--serif);font-style:italic;font-weight:400;font-size:0.5em;letter-spacing:0.02em;color:var(--muted);margin-bottom:8px;line-height:1}
@@ -86,12 +95,41 @@ details summary:hover{color:var(--cyan)}
 <a href="glasswing.html">Mythos</a>
 </nav>
 
+<div class="page">
+
+<!-- SIDEBAR NAV -->
+<nav class="sidebar">
+<a href="#" style="text-decoration:none;color:inherit"><div class="sidebar-title">Periodicity<br>Analysis</div></a>
+<a href="#question"><span class="toc-num">1</span> The Question</a>
+<a href="#headline"><span class="toc-num">2</span> Cross-Framework Headline</a>
+<a href="#sample-stacks"><span class="toc-num">3</span> The Four Sample Stacks</a>
+<a href="#periodicity-comparison"><span class="toc-num">4</span> Periodicity Comparison</a>
+<a href="#caught"><span class="toc-num">5</span> What the Filter Caught</a>
+<a href="#skipped"><span class="toc-num">6</span> What the Filter Skipped</a>
+<a href="#seven-year"><span class="toc-num">7</span> 7-Year Real-World Manifest</a>
+<a href="#tomcat-put-timeline" class="sub">Tomcat HTTP PUT worked example</a>
+<a href="#strategy-efficiency" class="sub">Strategy efficiency</a>
+<a href="#heatmaps"><span class="toc-num">8</span> Monthly Heatmaps</a>
+<a href="#cross-ecosystem"><span class="toc-num">9</span> Cross-Ecosystem Pattern</a>
+<a href="#django-weak"><span class="toc-num">10</span> Django: Honest Weak Case</a>
+<a href="#deserialization"><span class="toc-num">11</span> The Deserialization Question</a>
+<a href="#april-spike"><span class="toc-num">12</span> April 2026 Spike</a>
+<a href="#limitations"><span class="toc-num">13</span> Limitations &amp; Caveats</a>
+<a href="#chaining"><span class="toc-num">14</span> The OS Layer (Chaining)</a>
+<a href="#external-validation"><span class="toc-num">15</span> External Validation</a>
+<a href="#epss-comparison" class="sub">EPSS comparison</a>
+<a href="#conclusion"><span class="toc-num">16</span> Conclusion</a>
+</nav>
+
+<!-- MAIN CONTENT -->
+<main class="main">
+
 <h1>Cross-Framework Patch Periodicity Analysis</h1>
 <p class="subtitle">Three triage strategies — NP+DI, NP+DI + DQ, and a hacker discriminator (default-config × network-edge × primitive-direct, with auth-missing co-tag rule) — scored against the same Spring Boot, Node.js/Express, Django, and Netty sample stacks plus a 7-year production manifest. WAF-defensibility added as a fourth axis on the actually-exploited events.</p>
 <p style="color:var(--muted);font-size:.8em">Working document — April 26, 2026 &bull; Data: OSV.dev, CISA KEV, Metasploit, ExploitDB, EPSS &bull; 12-month window: Apr 2025 – Apr 2026 &bull; 7-year window: 2018-Q4 – 2026-Q2</p>
 
 <!-- ═══════════════════════════════════════════════════════════ -->
-<h2>The Question</h2>
+<h2 id="question">The Question</h2>
 
 <div class="card">
 <p><strong>In patch management, the binary decision is "do we rebuild or not."</strong> CVSS doesn't matter much because when you patch, you install everything. The old question was "is there a critical?" — but there's always a critical, so the trigger fires constantly.</p>
@@ -105,7 +143,7 @@ details summary:hover{color:var(--cyan)}
 </div>
 
 <!-- ═══════════════════════════════════════════════════════════ -->
-<h2>The Cross-Framework Headline</h2>
+<h2 id="headline">The Cross-Framework Headline</h2>
 
 <div class="hero-stat">
 <div class="stat red">
@@ -136,7 +174,7 @@ details summary:hover{color:var(--cyan)}
 </div>
 
 <!-- ═══════════════════════════════════════════════════════════ -->
-<h2>The Four Sample Stacks</h2>
+<h2 id="sample-stacks">The Four Sample Stacks</h2>
 
 <div class="grid-3">
 <div class="card">
@@ -181,7 +219,7 @@ details summary:hover{color:var(--cyan)}
 </div>
 
 <!-- ═══════════════════════════════════════════════════════════ -->
-<h2>Periodicity Comparison</h2>
+<h2 id="periodicity-comparison">Periodicity Comparison</h2>
 
 <div class="callout callout-warning">
 <strong>Why averages lie here.</strong> The NP+DI filter doesn't produce evenly spaced events. It produces <em>silence punctuated by bursts</em>. Spring had 5.5 months of silence, then two hits in a week. Node.js had 10 months of silence, then two hits in 29 days. Averaging obscures the real operational picture. The burst pattern is actually <em>better</em> than a steady cadence — it means the filter truly clears the noise floor, and when it does fire, you know to take it seriously.
@@ -242,7 +280,7 @@ details summary:hover{color:var(--cyan)}
 </div>
 
 <!-- ═══════════════════════════════════════════════════════════ -->
-<h2>What the Filter Caught (and Why It Was Right)</h2>
+<h2 id="caught">What the Filter Caught (and Why It Was Right)</h2>
 
 <div class="grid-3">
 <div class="card">
@@ -277,7 +315,7 @@ details summary:hover{color:var(--cyan)}
 </div>
 
 <!-- ═══════════════════════════════════════════════════════════ -->
-<h2>What the Filter Skipped (and Why That's OK)</h2>
+<h2 id="skipped">What the Filter Skipped (and Why That's OK)</h2>
 
 <div class="card">
 <p>Across all three stacks, the filter let <strong>34 C/H events</strong> ride the team's normal update process — whatever that looks like in practice. (Mileage varies by <a href="build-mechanics.html#categories" style="color:var(--accent)">estate-maturity category</a>: Cat 1 teams absorb these in BAU; Cat 2 teams pick them up on a regular cadence; Cat 3 teams pick them up reactively when something forces an update. The discriminator's job is to keep these out of emergency response, not to dictate which category they land in afterwards.) These fell into predictable categories:</p>
@@ -303,7 +341,7 @@ details summary:hover{color:var(--cyan)}
 </div>
 
 <!-- ═══════════════════════════════════════════════════════════ -->
-<h2>Real-World Manifest: 7 Years of NP+DI History</h2>
+<h2 id="seven-year">Real-World Manifest: 7 Years of NP+DI History</h2>
 
 <div class="card">
 <p>The synthetic stacks above test 12-month windows. Here we run all four strategies against a <strong>real enterprise Java manifest</strong> (60 packages across 176 version-pinned entries with full version sprawl — Spring 4.x and 5.x lines side by side, multiple Tomcat/Jackson/SnakeYAML versions, both <code>log4j:log4j</code> 1.x and <code>log4j-core</code> 2.x) across its entire CVE history: Q4 2018 through Q2 2026.</p>
@@ -337,7 +375,7 @@ details summary:hover{color:var(--cyan)}
 <p style="margin-top:8px;font-size:.88rem;color:#64748b"><strong>Patch events</strong> merge triggers within a 7-day window — if you're already in rebuild/test when the next CVE drops, that's one forced march, not two. 7-day-clustered patch events: <strong>80 / 39 / 36 / 17</strong> across the four strategies (patch-all C+H / patch-criticals-only / NP+DI+DQ / hacker S+A) — see efficiency table below.</p>
 <p style="margin-top:4px;font-size:.88rem;color:#64748b"><strong>Exploited</strong> = confirmed in CISA KEV ∪ Metasploit ∪ ExploitDB. <sup>†</sup> Stars are placed at the quarter the exploitation evidence landed in the source database, not necessarily the CVE disclosure quarter — both 2017 Tomcat HTTP PUT events get plotted in the years their KEV/EDB records were created (2018 and 2022). Yellow rows mark years where the DQ rescues a KEV-confirmed event NP+DI raw missed (Ghostcat 2020, partial-PUT 2025, Jolokia 2026). Pink rows mark famous-bug clusters (2021 Log4Shell, 2022 Spring4Shell + Text4Shell + SnakeYAML).</p>
 
-<h3 style="margin-top:24px">Strategy efficiency — 7-year totals</h3>
+<h3 id="strategy-efficiency" style="margin-top:24px">Strategy efficiency — 7-year totals</h3>
 
 <table>
 <thead><tr><th>Strategy</th><th>Patch events (7-day clustered)</th><th>Raw triggers</th><th>Exploits caught</th><th>Effectiveness</th><th>Efficiency (overhead per exploit)</th></tr></thead>
@@ -432,7 +470,7 @@ details summary:hover{color:var(--cyan)}
 </div>
 
 <!-- ═══════════════════════════════════════════════════════════ -->
-<h2>Monthly Heatmaps</h2>
+<h2 id="heatmaps">Monthly Heatmaps</h2>
 
 <p>Per-framework month-by-month view of the 12-month window. Grey = events no strategy flags. Framework colour = NP+DI raw (the original filter). Cyan = DQ rescues that NP+DI raw would have missed (events where the surface CWE underweights the primitive — for Spring this rescues nothing in the window, for Node it adds sequelize SQLi and lodash <code>_.template</code>, for Django it adds the ASGI header spoof). Purple ★ = hacker S+A trigger date — placed slightly above the bar for visibility and not contributing to the stacked total.</p>
 
@@ -450,7 +488,7 @@ details summary:hover{color:var(--cyan)}
 </div>
 
 <!-- ═══════════════════════════════════════════════════════════ -->
-<h2>The Cross-Ecosystem Pattern</h2>
+<h2 id="cross-ecosystem">The Cross-Ecosystem Pattern</h2>
 
 <div class="card">
 <p>Four different stacks (Spring, Express, Django, Netty), three package ecosystems (Maven, npm, PyPI), different dependency philosophies — but the same structural result:</p>
@@ -461,7 +499,7 @@ details summary:hover{color:var(--cyan)}
 </div>
 
 <!-- ═══════════════════════════════════════════════════════════ -->
-<h2>Django: The Honest Weak Case</h2>
+<h2 id="django-weak">Django: The Honest Weak Case</h2>
 
 <div class="callout callout-warning">
 <strong>Django is the weakest result, and that's worth understanding.</strong> Unlike Spring and Node.js (which had long silence windows), Django produced 4 NP+DI triggers in 12 months — roughly quarterly. All four were CWE-89 (SQL injection) in Django's ORM layer itself. The Django security team kept finding and patching variants of the same underlying issue (column alias handling, QuerySet connector kwargs).
@@ -470,7 +508,7 @@ details summary:hover{color:var(--cyan)}
 </div>
 
 <!-- ═══════════════════════════════════════════════════════════ -->
-<h2>The Deserialization Question (Revisited)</h2>
+<h2 id="deserialization">The Deserialization Question (Revisited)</h2>
 
 <div class="callout callout-finding">
 <strong>Deserialization generated zero rebuild triggers across all three stacks.</strong>
@@ -481,7 +519,7 @@ details summary:hover{color:var(--cyan)}
 </div>
 
 <!-- ═══════════════════════════════════════════════════════════ -->
-<h2>April 2026 Spike</h2>
+<h2 id="april-spike">April 2026 Spike</h2>
 
 <div class="card">
 <p>April was anomalous for Spring specifically. The Spring manifest saw <strong>8 C/H events in April</strong> versus 14 in the prior 11 months combined. All 8 were in network-parser components (Tomcat, Thymeleaf). 6 of 8 were direct injection (including auth bypass via input manipulation).</p>
@@ -490,7 +528,7 @@ details summary:hover{color:var(--cyan)}
 </div>
 
 <!-- ═══════════════════════════════════════════════════════════ -->
-<h2>Limitations & Caveats</h2>
+<h2 id="limitations">Limitations & Caveats</h2>
 
 <div class="card">
 <p><strong>OSV severity gaps.</strong> ~26% of OSV advisories lack parseable severity data. Some C/H events may be missed, though major ones (with GHSA or NVD backing) are captured.</p>
@@ -502,7 +540,7 @@ details summary:hover{color:var(--cyan)}
 </div>
 
 <!-- ═══════════════════════════════════════════════════════════ -->
-<h2>The OS Layer: Vulnerability Chaining</h2>
+<h2 id="chaining">The OS Layer: Vulnerability Chaining</h2>
 
 <p>The analysis above treats the application as the unit of patching. But production applications run on base images — a container OS with its own libraries, its own CVEs, and its own patch cadence. We took a real production container image (RHEL-based, ~450 executables) and ran the same 12-month NVD backtest to answer two questions: does the OS layer generate independent emergency rebuild triggers, and does it matter for blast radius when the app layer is breached?</p>
 
@@ -617,7 +655,7 @@ details summary:hover{color:var(--cyan)}
 </div>
 
 <!-- ═══════════════════════════════════════════════════════════ -->
-<h2>External Validation</h2>
+<h2 id="external-validation">External Validation</h2>
 
 <div class="callout callout-finding">
 <strong>The right question isn't "does the filter match what exploitation sources already know?" — it's "did we miss anything?"</strong>
@@ -771,7 +809,7 @@ details summary:hover{color:var(--cyan)}
 </div>
 
 <!-- ═══════════════════════════════════════════════════════════ -->
-<h2>Conclusion</h2>
+<h2 id="conclusion">Conclusion</h2>
 
 <div class="callout callout-good">
 <strong>The filter works across ecosystems — and the OS layer confirms the model.</strong>
@@ -788,6 +826,9 @@ details summary:hover{color:var(--cyan)}
 
 <div class="footer">
 Working document for KEV exploitation analysis &bull; Data: OSV.dev + NVD API 2.0 (queried April 21, 2026), CISA KEV catalog, EPSS (FIRST.org), ExploitDB, Nuclei (ProjectDiscovery), Metasploit (Rapid7) &bull; Manifests: Spring Boot 3.x (48 deps), Node.js/Express (45 deps), Django/DRF (40 deps), Amazon Linux 2023 container (~25 components)
+</div>
+
+</main>
 </div>
 
 <!-- ═══════════════════════════════════════════════════════════ -->
