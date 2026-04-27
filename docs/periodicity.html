@@ -102,8 +102,8 @@ details summary:hover{color:var(--cyan)}
 <nav class="sidebar">
 <a href="#" style="text-decoration:none;color:inherit"><div class="sidebar-title">Periodicity<br>Analysis</div></a>
 <a href="#question"><span class="toc-num">1</span> The Question</a>
-<a href="#headline"><span class="toc-num">2</span> Cross-Framework Headline</a>
-<a href="#sample-stacks"><span class="toc-num">3</span> The Four Sample Stacks</a>
+<a href="#sample-stacks"><span class="toc-num">2</span> The Four Sample Stacks</a>
+<a href="#headline"><span class="toc-num">3</span> Cross-Framework Headline</a>
 <a href="#periodicity-comparison"><span class="toc-num">4</span> Periodicity Comparison</a>
 <a href="#caught"><span class="toc-num">5</span> What the Filter Caught</a>
 <a href="#skipped"><span class="toc-num">6</span> What the Filter Skipped</a>
@@ -143,39 +143,9 @@ details summary:hover{color:var(--cyan)}
 </div>
 
 <!-- ═══════════════════════════════════════════════════════════ -->
-<h2 id="headline">The Cross-Framework Headline</h2>
-
-<div class="hero-stat">
-<div class="stat red">
-<div class="number">14</div>
-<div class="label">All C/H trigger dates<br><em>identical across all 3 stacks</em></div>
-</div>
-<div class="stat accent">
-<div class="number">2 – 6</div>
-<div class="label">NP+DI trigger dates<br>per stack (64–86% reduction)</div>
-</div>
-<div class="stat" style="border-color:var(--hacker)">
-<div class="number" style="color:var(--hacker)">1 – 5</div>
-<div class="label">Hacker S+A trigger dates<br>per stack (64–93% reduction)</div>
-</div>
-<div class="stat" style="border-color:var(--cyan)">
-<div class="number" style="color:var(--cyan)"><a href="cve-reference.html" style="color:var(--cyan);text-decoration:none">129</a></div>
-<div class="label"><a href="cve-reference.html" style="color:var(--muted);text-decoration:none">CVEs individually classified<br>→ full reference list</a></div>
-</div>
-</div>
-
-<div class="callout callout-finding">
-<strong>Both operationalizations of threat-centric prioritization clear the efficiency bar across ecosystems, and clear most of the safety bar.</strong> Same starting point each year: 14 distinct all-C/H trigger dates per stack — roughly one rebuild every 2-3 weeks under pure-CVSS. Under the structure test (NP+DI), Spring drops to 5 events (64% reduction), Node.js to 2 (86%), Django to 6 (67%), Netty to 1 (93%). The attacker test (hacker S+A) cuts more aggressively still — Spring 5, Node 1, Django 4, Netty 1 (64-93%). Both methods produce burst patterns separated by long silences rather than a steady drip — operationally easier to respond to than a constant cadence.
-<p style="margin-top:8px"><strong>On safety, the two methods agree more than they disagree</strong> and complement each other where they differ. On the 7-year backtest of 13 actually-exploited events: NP+DI raw catches 6/13; NP+DI + DQ (data-quality re-validation, see <a href="#epss-comparison">§15</a>) catches 9/13 by rescuing CWE-misclassified events like Ghostcat (tagged CWE-269 instead of CWE-22) and ActiveMQ Jolokia (tagged CWE-20 instead of CWE-94); hacker S+A catches 10/13 directly. <strong>Their union catches 11/13</strong> on disclosure day, before any external exploitation signal exists. The remaining 2 are the Tomcat HTTP PUT 2017 pair — disclosed in 2017, didn't appear in KEV until 2018 and 2022, absorbed by floor-sweep on adjacent NP+DI Tomcat rebuilds plus normal cadence (threat-intel monitoring is the third defense-in-depth layer for the future case where exploitation accelerates). Detail per event in <a href="#seven-year">§7</a>; cross-strategy tables in <a href="#periodicity-comparison">§4</a>.</p>
-<p style="margin-top:8px"><strong>Honest caveat on the 12-month synthetic stacks:</strong> across all four manifests in this window, only one CVE was actually exploited (Django <code>CVE-2025-64459</code>, ExploitDB-only). Every strategy catches it. So "the filter caught every exploit in window" is technically true but operationally vacuous — N=1 across 4 manifests can't score discrimination. The 12-month view scores workload (efficiency); the 7-year backtest scores discrimination (safety). Don't conflate them.</p>
-</div>
-
-<div class="chart-wrap">
-<canvas id="crossFrameworkChart" height="100"></canvas>
-</div>
-
-<!-- ═══════════════════════════════════════════════════════════ -->
 <h2 id="sample-stacks">The Four Sample Stacks</h2>
+
+<p>Before the headline numbers, the stacks themselves. We deliberately picked four <em>modern, widely-divergent</em> manifests so the result isn't a Java-and-Tomcat artifact: a Spring Boot 3.x REST API (Java/JVM, 48 deps), a Node.js / Express service (JavaScript/V8, 45 deps), a Django/DRF API (Python, 40 deps), and a Netty-based high-throughput microservice (Java but a fundamentally different I/O model, 32 deps). They share <em>almost no transitive dependencies</em> — the network-parser populations are disjoint across ecosystems. If the model only worked on one of them, that would tell us we'd overfit to one community's coding style. The fact that the reduction profile holds across all four is what makes "ecosystem-portable" a defensible claim.</p>
 
 <div class="grid-3">
 <div class="card">
@@ -217,6 +187,38 @@ details summary:hover{color:var(--cyan)}
 <p><strong>Non-NP:</strong> netty-buffer, grpc-protobuf, grpc-stub, jackson-core, protobuf-java, logback-classic, slf4j-api, micrometer-core, micrometer-registry-prometheus, guava, commons-lang3, commons-codec</p>
 </details>
 </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════ -->
+<h2 id="headline">The Cross-Framework Headline</h2>
+
+<div class="hero-stat">
+<div class="stat red">
+<div class="number">14</div>
+<div class="label">All C/H trigger dates<br><em>identical across all 3 stacks</em></div>
+</div>
+<div class="stat accent">
+<div class="number">2 – 6</div>
+<div class="label">NP+DI trigger dates<br>per stack (64–86% reduction)</div>
+</div>
+<div class="stat" style="border-color:var(--hacker)">
+<div class="number" style="color:var(--hacker)">1 – 5</div>
+<div class="label">Hacker S+A trigger dates<br>per stack (64–93% reduction)</div>
+</div>
+<div class="stat" style="border-color:var(--cyan)">
+<div class="number" style="color:var(--cyan)"><a href="cve-reference.html" style="color:var(--cyan);text-decoration:none">129</a></div>
+<div class="label"><a href="cve-reference.html" style="color:var(--muted);text-decoration:none">CVEs individually classified<br>→ full reference list</a></div>
+</div>
+</div>
+
+<div class="callout callout-finding">
+<strong>Both operationalizations of threat-centric prioritization clear the efficiency bar across ecosystems, and clear most of the safety bar.</strong> Same starting point each year: 14 distinct all-C/H trigger dates per stack — roughly one rebuild every 2-3 weeks under pure-CVSS. Under the structure test (NP+DI), Spring drops to 5 events (64% reduction), Node.js to 2 (86%), Django to 6 (67%), Netty to 1 (93%). The attacker test (hacker S+A) cuts more aggressively still — Spring 5, Node 1, Django 4, Netty 1 (64-93%). Both methods produce burst patterns separated by long silences rather than a steady drip — operationally easier to respond to than a constant cadence.
+<p style="margin-top:8px"><strong>On safety, the two methods agree more than they disagree</strong> and complement each other where they differ. On the 7-year backtest of 13 actually-exploited events: NP+DI raw catches 6/13; NP+DI + DQ (data-quality re-validation, see <a href="#epss-comparison">§15</a>) catches 9/13 by rescuing CWE-misclassified events like Ghostcat (tagged CWE-269 instead of CWE-22) and ActiveMQ Jolokia (tagged CWE-20 instead of CWE-94); hacker S+A catches 10/13 directly. <strong>Their union catches 11/13</strong> on disclosure day, before any external exploitation signal exists. The remaining 2 are the Tomcat HTTP PUT 2017 pair — disclosed in 2017, didn't appear in KEV until 2018 and 2022, absorbed by floor-sweep on adjacent NP+DI Tomcat rebuilds plus normal cadence (threat-intel monitoring is the third defense-in-depth layer for the future case where exploitation accelerates). Detail per event in <a href="#seven-year">§7</a>; cross-strategy tables in <a href="#periodicity-comparison">§4</a>.</p>
+<p style="margin-top:8px"><strong>Honest caveat on the 12-month synthetic stacks:</strong> across all four manifests in this window, only one CVE was actually exploited (Django <code>CVE-2025-64459</code>, ExploitDB-only). Every strategy catches it. So "the filter caught every exploit in window" is technically true but operationally vacuous — N=1 across 4 manifests can't score discrimination. The 12-month view scores workload (efficiency); the 7-year backtest scores discrimination (safety). Don't conflate them.</p>
+</div>
+
+<div class="chart-wrap">
+<canvas id="crossFrameworkChart" height="100"></canvas>
 </div>
 
 <!-- ═══════════════════════════════════════════════════════════ -->
