@@ -844,6 +844,8 @@ The key word is "constrain," not "prevent." It's a seatbelt, not an airbag.
 
 <p>If the network-parser thesis holds, we should be able to predict which newly disclosed CVEs are most likely to end up in KEV. This section tracks those predictions, split by server-side and client-side attack vectors.</p>
 
+<div class="callout callout-info" style="margin-top:8px"><strong>Daily run detail.</strong> The model itself runs every morning against new inbound CVEs (NVD critical+high in HTTP-adjacent layers, plus all KEV inbound, plus OSV-flagged library advisories). Each event gets the full battery — NP, DI, DQ, hacker tier — and a routing verdict (triggered / autobuild / BAU / out-of-scope). Per-event rationale and the running scorecard live on the <a href="glasswing.html#today" style="color:var(--accent)"><strong>Mythos page</strong></a>.</div>
+
 <h3>Selection Criteria</h3>
 
 <p>A CVE is added when it meets at least three of five indicators: (1) HTTP-parsing adjacency, (2) low/no authentication requirement, (3) high exploitability signal (public PoC, pattern-match to prior exploits), (4) broad deployment footprint, (5) CWE family match to high-KEV-rate families.</p>

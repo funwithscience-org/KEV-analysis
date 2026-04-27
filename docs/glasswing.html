@@ -123,6 +123,50 @@ details.dash-expand .detail-content{padding:16px;background:#0f172a}
 <p class="subtitle">Tracking Anthropic's Project Glasswing and Mythos-class AI vulnerability discovery</p>
 <div class="draft-notice">Intelligence assessment &mdash; speculative analysis based on pattern-matching, not confirmed attribution unless explicitly stated.</div>
 
+<!-- SECTION: TODAY'S MODEL RUN -->
+<div class="section" id="today">
+<div class="section-title">Today's Model Run — Threat-Centric Prioritization on Inbound CVEs</div>
+
+<p style="color:#94a3b8;font-size:.9em;margin-bottom:8px">Every in-scope CVE from the last 24h gets the full battery: <strong style="color:#cbd5e1">NP</strong> (network parser), <strong style="color:#cbd5e1">DI</strong> (decision input), <strong style="color:#cbd5e1">DQ</strong> (data-quality re-validation, run on every NP-positive event), <strong style="color:#cbd5e1">Hacker tier</strong> (S/A/B/C/D), and a <strong style="color:#cbd5e1">combined verdict</strong>. This is the model running prospectively against new inbound — the same way the 7-year backtest ran it retrospectively. Full per-event log: <a href="https://github.com/funwithscience-org/KEV-analysis/blob/main/data/model-run-log.json" style="color:#6366f1">model-run-log.json</a>.</p>
+
+<p style="color:#94a3b8;font-size:.85em;margin-bottom:16px"><strong>In-scope filter:</strong> all KEV inbound (regardless of layer) plus NVD critical+high in HTTP-parsing-adjacent layers (web servers, app frameworks, template engines, TLS terminators, reverse proxies, API gateways, browser engines, JWT/auth/cert libs, watch-list packages). OS / kernel / firmware out of scope unless KEV-listed.</p>
+
+<div style="color:#94a3b8;font-size:.85em;margin-bottom:12px">Last run: <strong id="modelRunDate" style="color:#fbbf24">awaiting first analyst pass</strong> &middot; <span id="modelRunCounts">— in-scope events tier'd</span></div>
+
+<div style="overflow-x:auto">
+<table style="width:100%;font-size:.82em;border-collapse:collapse">
+<thead><tr style="border-bottom:1px solid #475569">
+<th style="text-align:left;padding:6px;color:#94a3b8">CVE</th>
+<th style="text-align:left;padding:6px;color:#94a3b8">Vendor / Package</th>
+<th style="text-align:left;padding:6px;color:#94a3b8">CWE</th>
+<th style="text-align:center;padding:6px;color:#94a3b8">CVSS</th>
+<th style="text-align:center;padding:6px;color:#94a3b8">NP</th>
+<th style="text-align:center;padding:6px;color:#94a3b8">DI</th>
+<th style="text-align:center;padding:6px;color:#94a3b8">DQ</th>
+<th style="text-align:center;padding:6px;color:#94a3b8">Hacker</th>
+<th style="text-align:left;padding:6px;color:#94a3b8">Verdict</th>
+<th style="text-align:left;padding:6px;color:#94a3b8">Anchor / Note</th>
+</tr></thead>
+<tbody id="modelRunBody">
+<tr><td colspan="10" style="padding:18px;color:#64748b;text-align:center;font-style:italic">Awaiting first daily analyst run. Rows will appear here after the next 6:10 AM run.</td></tr>
+</tbody>
+</table>
+</div>
+
+<div style="margin-top:14px;padding:12px 16px;background:rgba(99,102,241,.08);border-left:3px solid #6366f1;color:#cbd5e1;font-size:.85em">
+<strong style="color:#a5b4fc">Verdict legend.</strong> <strong style="color:#ef4444">Triggered</strong> = the model fires; pull into the active rebuild queue (hacker S/A · or · NP+DI raw · or · NP+DQ-rescue). <strong style="color:#fbbf24">Autobuild</strong> = open-source dependency, not triggered; ride your dep-update tooling on next release. <strong style="color:#10b981">BAU patch process</strong> = commercial / OS / appliance, not triggered; vendor patch cycle on normal cadence. <strong style="color:#94a3b8">Out of scope</strong> = layer filter excluded it and not in KEV.
+<br><br>
+<em style="color:#94a3b8">Triggered/autobuild/BAU is about routing, not severity. A non-triggered B-tier library bug and a non-triggered B-tier OS bug are equally non-urgent — but they go to different teams via different tooling. The model's job is to assign the lane.</em>
+</div>
+
+<details style="margin-top:14px">
+<summary style="cursor:pointer;color:#6366f1;font-size:.85em">Cumulative running scorecard (across all model runs to date)</summary>
+<div style="padding:12px 0;color:#cbd5e1;font-size:.85em" id="modelRunCumulative">
+Cumulative counters update after each analyst run. After ~30 days of runs we'll have enough sample to publish prospective precision/recall by tier.
+</div>
+</details>
+</div>
+
 <!-- SECTION: MYTHOS DETECTOR -->
 <div class="section">
 <div class="section-title">Mythos Detector: AI-Driven CVE Volume Impact</div>

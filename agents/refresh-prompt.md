@@ -187,22 +187,24 @@ POST https://api.osv.dev/v1/query
 }
 ```
 
-Check at minimum these high-priority NP packages across ecosystems:
-- **Maven**: spring-webmvc, spring-boot, tomcat-embed-core, jackson-databind, jetty-server, undertow-core
-- **npm**: express, next, fastify, axios, socket.io, graphql
-- **PyPI**: django, flask, tornado, twisted, urllib3, requests, gunicorn
-- **Go**: golang.org/x/net, golang.org/x/crypto, fiber, gin-gonic/gin
-- **RubyGems**: rack, actionpack, puma, nokogiri
-- **crates.io**: hyper, actix-web, reqwest, rustls
+Check at minimum these high-priority NP packages across ecosystems. The list intentionally spans HTTP servers/frameworks AND auth/cert/JWT libraries AND template engines — the trust-boundary rule says all three are NP:
+- **Maven**: spring-webmvc, spring-boot, spring-security, tomcat-embed-core, jackson-databind, jetty-server, undertow-core, thymeleaf, freemarker, bcprov-jdk18on (BouncyCastle), jjwt, java-jwt
+- **npm**: express, next, fastify, axios, socket.io, graphql, jsonwebtoken, jose, passport, handlebars, ejs, pug
+- **PyPI**: django, flask, tornado, twisted, urllib3, requests, gunicorn, pyjwt, cryptography, authlib, jinja2
+- **Go**: golang.org/x/net, golang.org/x/crypto, fiber, gin-gonic/gin, golang-jwt/jwt
+- **RubyGems**: rack, actionpack, puma, nokogiri, jwt, devise
+- **crates.io**: hyper, actix-web, reqwest, rustls, jsonwebtoken
 
 For each, query OSV and filter results to advisories with:
 - Severity: Critical or High (CVSS 7.0+ or ecosystem-equivalent)
 - Published date: within last 48 hours
 - Not already in NVD results from step 1
 
-**NP+DI filter criteria** (apply to all three sources):
-- **Network Parser**: vulnerable component parses untrusted network input (HTTP, TLS, DNS, SMTP, template expressions, auth tokens)
-- **Direct Injection CWE**: CWE-78, -77, -22, -23, -36, -94, -95, -89, -918, -917, -1336, -116, -74, -75, -113, -93, -611, -91, -90, -79, -444
+**NP+DI filter criteria** (apply to all three sources). Use the widened DI definition — the analyst depends on this list being complete:
+- **Network Parser (NP)**: package's primary purpose is processing untrusted inputs that arrive over the network OR drives security decisions from untrusted input. Includes HTTP servers, app frameworks, JSON/XML/YAML parsers handling HTTP bodies, template engines rendering HTTP-sourced content, JWT/cert/auth libraries (spring-security, pyjwt, cryptography, BouncyCastle when used for verification). Excludes ORM, business logic, utility libraries.
+- **Direct Injection (DI) CWE — widened**: classical injection (CWE-77, -78, -79, -89, -90, -91, -93, -94, -95, -113, -116, -22, -23, -36, -74, -75, -444, -502, -611, -917, -918, -1336) PLUS auth-bypass via input manipulation (CWE-287, -289, -306, -345, -693, -863, -1321). The unifying principle: untrusted input changes a security outcome. The auth-bypass tags were added 2026-04-23 to capture Ghostcat-shape rescues; do not regress to the narrower list.
+
+**These OSV candidates feed the analyst's daily model run.** The analyst (running 1 hour later) reads `np_di_candidates` from kev-tracking.json as part of its in-scope universe and tier's every entry through the full battery (NP, DI, DQ, hacker tier, combined verdict). If you skip OSV here, the analyst's prospective model run is blind to library exploitation — which is most of the actually-interesting exploitation in the open-source layer. Do not skip.
 
 For flagged CVEs, record in the tracking JSON under `np_di_candidates`:
 ```json

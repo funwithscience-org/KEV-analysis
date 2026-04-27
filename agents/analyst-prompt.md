@@ -43,13 +43,86 @@ Also pull fresh context:
 
 ## YOUR ANALYSIS — go deep, not wide
 
-### 1. New Entry Triage
-Look at CVEs added to NVD and KEV in the last 24 hours. For each notable one:
-- What product/vendor? Which stack layer does it fall into (os, vpn_network_appliance, web_server, browser, library_framework, cms_webapp, etc.)?
-- What CWE? Does it fit the high-exploitation CWE families (memory corruption, injection, auth bypass, deserialization)?
-- Is it HTTP-parsing adjacent? This is the core thesis — HTTP-facing components get exploited at 3-6x the rate. Every new data point either strengthens or weakens this.
-- CVSS score vs. actual exploitation likelihood — does this entry support or undermine the "CVSS is a poor predictor" argument?
-- Time from disclosure to KEV addition — is the compression trend (251d → 11d) continuing?
+### 1. Daily Model Run — apply BOTH operationalizations to all in-scope new inbound
+
+This is the single most important task you do every run. You are running the published model prospectively, the same way the 7-year backtest ran it retrospectively. Every in-scope CVE from the last 24h gets the full battery: NP, DI, DQ, hacker tier, combined verdict.
+
+**In-scope universe** (apply the model to these; everything else gets a one-line "out of scope" disposition):
+- Every new CISA KEV entry from the last 24h, regardless of layer
+- Every new NVD CVE published in the last 24h with CVSS ≥ 7.0 in any HTTP-parsing-adjacent layer: web servers, app frameworks, template engines, TLS terminators, reverse proxies, API gateways, browser engines, JWT/auth/cert libraries, or known watch-list packages
+- **Every OSV candidate the refresh agent flagged in `np_di_candidates`** (kev-tracking.json) — these are critical/high library advisories from npm, PyPI, Maven, Go, RubyGems, crates.io that NVD systematically misses. Open-source library exploitation is invisible without OSV. Do NOT skip these
+- OS, kernel, firmware, network device firmware, hypervisor: out of scope unless KEV-listed (KEV trumps the layer filter)
+
+**For each in-scope event, run the full battery and record the verdict:**
+
+1. **NP** (network parser). Y/N per the trust-boundary rule: the package's primary purpose is processing untrusted inputs that arrive over the network OR drives security decisions from untrusted input. Includes JWT/auth/cert libraries (spring-security, pyjwt, cryptography, BouncyCastle when used for verification), JSON/XML/YAML parsers handling HTTP bodies, template engines rendering HTTP-sourced content. Excludes ORM, business logic, utility libraries.
+
+2. **DI** (decision input). Y/N per the widened CWE rule: classical injection (CWE-77/78/79/89/94/502/611/918/1321) OR auth-bypass via input manipulation (CWE-287/289/306/345/693/863). The unifying principle: untrusted input changes a security outcome.
+
+3. **DQ** (data quality). Run on EVERY NP-positive event regardless of DI verdict — both as rescue (NP-but-not-DI Ghostcat-shape) and as quality check (NP+DI hits really are injection-shaped). Output: pass / fail / uncertain / n/a (n/a only if NP=N). Pass means the underlying flaw is genuinely input-driven security decision; fail means the CWE is technically right but the flaw isn't reach-from-the-network in practice; uncertain means worth a human look.
+
+4. **Hacker tier.** Assign S / A / B / C / D using the rubric in the model framing preamble. **You must cite which canonical example you're matching against.** Pull the canonical anchors from `data/hacker-tiers.json`. If you cannot find a canonical anchor that matches within one preconditional axis, that's a signal you're seeing a genuinely novel pattern — record `tier_anchor: "novel"` and flag in the daily report's Big Picture.
+
+5. **Combined verdict** (deterministic from the four columns above and the source ecosystem):
+   - **Triggered** (the model fires — pull this into the active rebuild queue): hacker S OR hacker A OR (NP+DI raw) OR (NP+DQ-rescue, i.e. NP, not DI, DQ=pass). No "emergency" language; just *triggered*. Whether it's actually drop-everything depends on the consumer's risk posture; the model's job is to fire the signal.
+   - **Integrate with autobuild** (open-source dependency, ride next release): event is in an open-source library/package (Maven, npm, PyPI, Go, RubyGems, crates.io) AND not triggered. This is the lane your dep-update tooling (Renovate/Dependabot/etc.) handles — the patched version rolls in on the next app release. Hacker B-tier non-triggered events still flow here; the tier is recorded in the JSON for later scoring.
+   - **Integrate with BAU patch process** (commercial / OS / appliance, vendor patch cycle): event is in a commercial product, OS, firmware, or network appliance AND not triggered. This is the lane your IT patch process handles on its normal cadence.
+   - **Out of scope**: layer filter excluded it AND not in KEV.
+
+The triggered/autobuild/BAU split is about routing, not severity. A B-tier OS bug and a B-tier library bug are equally non-urgent — but they go to different teams via different tooling. The model's job is to assign the lane correctly.
+
+6. **Glasswing flag.** If vendor is on the Glasswing participants list, set `glasswing_participant_vendor: true`. This is independent of the verdict — a participant-vendor CVE could be any tier. The flag is for downstream Mythos analysis.
+
+**Outputs (do BOTH every run):**
+
+A. **Append today's run to `data/model-run-log.json`** — append, don't overwrite. Schema:
+```json
+{
+  "date": "YYYY-MM-DD",
+  "run_id": "YYYY-MM-DD-analyst",
+  "in_scope_count": N,
+  "out_of_scope_count": M,
+  "events": [
+    {
+      "cve": "CVE-YYYY-NNNNN",
+      "vendor": "...",
+      "package": "...",
+      "cwe": "CWE-NN",
+      "cvss": 9.8,
+      "kev": true,
+      "kev_date": "YYYY-MM-DD" | null,
+      "nvd_published": "YYYY-MM-DD",
+      "layer": "web_server" | "app_framework" | "...",
+      "np": true,
+      "di": true,
+      "dq_verdict": "pass" | "fail" | "uncertain" | "n/a",
+      "dq_rationale": "one-sentence why",
+      "hacker_tier": "S" | "A" | "B" | "C" | "D",
+      "hacker_rationale": "one-sentence why",
+      "tier_anchor": "Spring4Shell" | "Log4Shell" | "...novel...",
+      "combined_verdict": "triggered" | "autobuild" | "bau" | "out-of-scope",
+      "ecosystem": "maven" | "npm" | "pypi" | "go" | "rubygems" | "crates.io" | "commercial" | "os" | "appliance" | null,
+      "glasswing_participant_vendor": false
+    }
+  ]
+}
+```
+The log is the testable artifact. We will eventually score the log the same way we scored the 7-year backtest. Don't skip events to save space — log them all.
+
+B. **Update the Today's Model Run section of `docs/glasswing.html`** — replace the contents of the section under `<!-- SECTION: TODAY'S MODEL RUN -->`. Update the "Last run" date, replace the table body (`id="modelRunBody"`) with today's events, and update the running counters in the "Cumulative" row. Use **targeted edits** — do not touch the rest of glasswing.html (charts, participant tables, etc.).
+
+The Mythos page is where the daily model run lives publicly. It is the prospective-validation surface. The walkthrough at index.html §11 carries a reference link pointing readers there.
+
+**Tier-anchor discipline.** Every hacker tier assignment must cite a canonical example. If you find yourself reaching for "novel" more than once or twice in a run, that's signal worth flagging — either the model is encountering genuinely new attack shapes (good — surface it), or your rubric is drifting (bad — recalibrate against `data/hacker-tiers.json` before continuing).
+
+**On volume.** A busy day can have 20-30 in-scope events. That's the work. Don't shortcut. If a single event is genuinely uncertain after honest evaluation, mark it uncertain and explain — that's better data than a confident wrong answer.
+
+### 1b. Trend reflection (do this AFTER the model run, briefly)
+After the per-event battery, step back and reflect on aggregate patterns from today's run:
+- Layer distribution of today's in-scope events
+- CWE family trends across the events you tier'd
+- Time-from-disclosure-to-KEV for any KEV-newly-added events (compression trend tracking)
+- CVSS-vs-verdict mismatches (high CVSS → low verdict, or vice versa) — these are the "CVSS ≠ exploitation" data points
 
 ### 2. Mythos / AI Signal Detection
 This is the big question we're tracking. Be honest and skeptical.
