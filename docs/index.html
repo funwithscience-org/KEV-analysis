@@ -383,6 +383,14 @@ A network-parsing HIGH (7.0-7.9) at 0.89% beats a non-parsing CRITICAL (9.0-9.9)
 <tr><td><code>CWE-90</code></td><td>LDAP Injection</td><td>Directory injection</td><td><code>*)(uid=*)</code> in a username field — attacker enumerates the directory or bypasses auth</td></tr>
 <tr><td><code>CWE-79</code></td><td>Cross-site Scripting (XSS)</td><td>Client-side injection</td><td><code>&lt;script&gt;...&lt;/script&gt;</code> reflected in a response — attacker JavaScript runs in the victim's browser session</td></tr>
 <tr><td><code>CWE-444</code></td><td>HTTP Request Smuggling<sup id="fnref-444"><a href="#fn-444">1</a></sup></td><td>HTTP protocol manipulation</td><td>Conflicting Content-Length / Transfer-Encoding headers — front-end sees one request, back-end sees two; attacker smuggles a request behind the proxy</td></tr>
+<tr style="border-top:2px solid var(--border)"><td colspan="4" style="background:var(--card-bg);font-weight:600;color:var(--accent);padding:8px 14px">Auth-bypass widening (added 2026-04-23) — untrusted input that changes a security decision is the same pattern as injection</td></tr>
+<tr><td><code>CWE-287</code></td><td>Improper Authentication</td><td>Auth bypass</td><td>Missing or weak credential check on a sensitive endpoint (Tomcat CLIENT_CERT auth bypass; Cisco ISE auth+RCE)</td></tr>
+<tr><td><code>CWE-289</code></td><td>Authentication Bypass via Alternate Path</td><td>Auth bypass</td><td>Attacker reaches the protected resource through a route the auth check doesn't cover</td></tr>
+<tr><td><code>CWE-306</code></td><td>Missing Authentication for Critical Function</td><td>Auth bypass</td><td>Admin/management endpoint exposed without any auth (Marimo missing-auth, n8n unauthenticated RCE)</td></tr>
+<tr><td><code>CWE-345</code></td><td>Insufficient Verification of Data Authenticity</td><td>Trust validation</td><td>Server accepts forged tokens / certs / signatures (wolfSSL ECDSA forgery, JWT signature-not-verified)</td></tr>
+<tr><td><code>CWE-693</code></td><td>Protection Mechanism Failure</td><td>Auth bypass</td><td>Security control silently fails open (Spring Security annotation detection failure → method-level auth skipped)</td></tr>
+<tr><td><code>CWE-863</code></td><td>Incorrect Authorization</td><td>Auth bypass</td><td>Auth check passes when it shouldn't — wrong principal, wrong scope, wrong predicate (Spring authz bypass on private methods)</td></tr>
+<tr><td><code>CWE-1321</code></td><td>Prototype Pollution</td><td>Object injection</td><td>Attacker mutates Object.prototype via crafted JSON, downstream code reads attacker-controlled values as if they were defaults</td></tr>
 </tbody></table>
 
 <p>Notably <strong>absent</strong>: CWE-502 (Deserialization). The reasoning needs care, because at the library level deserialization absolutely <em>can</em> be an exploitation driver (XStream pre-1.4.18, SnakeYAML constructor deser, the Tomcat partial-PUT chain — see §4f). What the data shows is that <strong>raw CWE-502 volume hugely overstates how often deserialization is actually reachable</strong>. Most CWE-502 disclosures are gadget-chain-dependent: they require very specific classes to be on the classpath, very specific application code to call the unsafe API on attacker-controlled bytes, and a deployment shape that exposes the path. Jackson-databind alone accumulated 67 historical CWE-502 entries; a rounding-error fraction reached KEV. So CWE-502 is excluded from the mechanical DI filter — adding it would drown the real signal in noise. Catching the exploited subset of deserialization needs a different cut of the same data, which we develop next. Also absent from the DI set: CWE-400 (Resource Exhaustion / DoS) — denial of service doesn't produce code execution.</p>
@@ -434,8 +442,10 @@ A network-parsing HIGH (7.0-7.9) at 0.89% beats a non-parsing CRITICAL (9.0-9.9)
 <div class="hero-stat">
 <div class="stat red"><div class="number">14</div><div class="label">All C/H trigger dates<br>(identical across all 3 stacks)</div></div>
 <div class="stat"><div class="number">2 - 6</div><div class="label">NP+DI trigger dates<br>per stack (64-86% reduction)</div></div>
-<div class="stat green"><div class="number">0</div><div class="label">Skipped events later<br>confirmed exploited</div></div>
+<div class="stat green"><div class="number">11/13</div><div class="label">7-year backtest catch<br>(union NP+DI+DQ ∪ Hacker S+A)</div></div>
 </div>
+
+<p style="font-size:.85em;color:var(--muted);margin-top:-8px;margin-bottom:20px">The 12-month synthetic-stack window has N=1 actually-exploited CVE — it scores workload, not discrimination. Discrimination comes from the 7-year backtest in §4f.</p>
 
 <p>All three stacks produced exactly 14 distinct all-C/H trigger dates in 12 months -- roughly one every 2-3 weeks. If you rebuild on any critical/high, you're on a treadmill regardless of your tech stack. The noise floor is ecosystem-independent.</p>
 
@@ -630,13 +640,13 @@ A network-parsing HIGH (7.0-7.9) at 0.89% beats a non-parsing CRITICAL (9.0-9.9)
 <p>Production applications run on base images with their own libraries and CVEs. We took a real container image (Amazon Linux 2023, ~25 queryable components: 10 NP, 15 non-NP) and ran the same 12-month NVD backtest.</p>
 
 <div class="hero-stat">
-<div class="stat"><div class="number">69</div><div class="label">Total C/H CVEs<br>(OS layer, 12mo)</div></div>
+<div class="stat"><div class="number">~18</div><div class="label">OS-component C/H CVEs<br>(12mo, after NVD-noise cleanup)</div></div>
 <div class="stat green"><div class="number">0</div><div class="label">NP + Direct Injection<br>(OS layer)</div></div>
-<div class="stat red"><div class="number">21</div><div class="label">LOCAL privesc CVEs<br>(chaining risk)</div></div>
-<div class="stat amber"><div class="number">48</div><div class="label">NETWORK vector<br>(no direct injection)</div></div>
+<div class="stat red"><div class="number">10–12</div><div class="label">LPE-relevant CVEs<br>(chaining risk, cleaned)</div></div>
+<div class="stat amber"><div class="number">~50</div><div class="label">NVD-keyword false matches<br>(downstream apps, kernel→systemd, etc.)</div></div>
 </div>
 
-<p>The NP+DI filter produced <strong>zero events</strong> at the OS layer in 12 months. The OS layer's 69 C/H CVEs break down: 48 NETWORK (mostly sqlite, systemd, zlib -- none with direct injection CWEs) and 21 LOCAL (privilege escalation). <strong>The OS layer does not generate independent emergency rebuild triggers under the NP+DI filter.</strong> The app layer drives the cadence.</p>
+<p>Of the 69 raw NVD matches at the OS layer in 12 months, only ~18 are bugs in components actually present in Amazon Linux 2023 — the other ~50 are downstream applications that NVD keyword-matched into the wrong component (sqlite-using apps tagged "sqlite," kernel CVEs tagged via systemd, snapd which isn't on the image). The NP+DI filter produced <strong>zero events</strong> on the cleaned OS-component set in 12 months. <strong>The OS layer does not generate independent emergency rebuild triggers under the NP+DI filter.</strong> The app layer drives the cadence.</p>
 
 <h3>Privesc Accumulation at Spring Trigger Dates</h3>
 
@@ -659,7 +669,7 @@ A network-parsing HIGH (7.0-7.9) at 0.89% beats a non-parsing CRITICAL (9.0-9.9)
 <canvas id="chainingChart" height="180"></canvas>
 </div>
 
-<p>At the first Spring trigger (Oct 27), an attacker who gets initial access has 11 local privesc CVEs to chain. By the April triggers, the container has 21 privesc paths and hasn't been patched in nearly a year. Monthly container refresh drops the worst-case privesc exposure from 21 CVEs to 5 — a 76% reduction.</p>
+<p>At the first Spring trigger (Oct 27), an attacker who gets initial access has a real backlog of local privesc CVEs to chain. By the April triggers, the container hasn't been patched in nearly a year and the chain depth is at its worst. Monthly container refresh drops the worst-case privesc exposure from the full 12-month backlog to roughly one month's worth — on the cleaned (NVD-noise-filtered) LPE-relevant set, that's a reduction of around 60-70%, not the higher 76% the raw 21-vs-5 ratio implied. The structural finding is unchanged: the OS layer doesn't drive trigger cadence, but monthly refresh meaningfully caps blast radius for the chain that does exist.</p>
 
 <p>Hacker S+A and NP+DI agree on five of the six dates and diverge on two: Apr 28 (spring-boot actuator) fires under hacker only because CWE-862 isn't in the DI set; Oct 27 (Tomcat path traversal) fires under NP+DI only because the hacker B-tiers narrow-precondition / WAF-friendly events. The April 9–15 cluster fires identically under both.</p>
 

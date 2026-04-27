@@ -149,7 +149,7 @@ details.dash-expand .detail-content{padding:16px;background:#0f172a}
 <div class="npdi-hero-stats">
 <span><span class="highlight">14</span> all-C/H dates &rarr; <span class="highlight">2&ndash;6</span> NP+DI dates</span>
 <span><span class="highlight">64&ndash;86%</span> reduction</span>
-<span><span class="highlight">0</span> misses in 12&nbsp;months</span>
+<span><span class="highlight">11/13</span> 7-year backtest catch (union)</span>
 <span><a href="cve-reference.html" style="color:#6366f1;text-decoration:none;font-weight:600">CVE Reference &rarr;</a></span>
 </div>
 
@@ -323,21 +323,22 @@ Attackers favor high-impact, easy-to-trigger vulnerabilities. <strong>186 window
 <a href="glasswing.html" style="color:#6366f1;text-decoration:none;border:1px solid #6366f1;border-radius:6px;padding:8px 20px;display:inline-block">View Glasswing Analysis &rarr;</a>
 </div>
 
-<!-- SECTION 7: Three-Tier Patching Model -->
+<!-- SECTION 7: Response Lanes -->
 <div class="section">
-<div class="section-title">Three-Tier Patching Model</div>
+<div class="section-title">Three Response Lanes</div>
+<p style="color:#94a3b8;font-size:.85em;margin-bottom:12px">What the model fires versus what rides the cycle. Estate-maturity dimension (Cat 1 / 2 / 3 — who can absorb a patch) is independent and lives on the <a href="index.html#patching-model" style="color:#6366f1">walkthrough §9</a>.</p>
 <div class="grid-3">
 <div class="tier-card" style="border-color:#ef4444">
-<h3 style="color:#f87171">Tier 1 &mdash; Emergency</h3>
-<p>NP+DI in app layer. <strong style="color:#fca5a5">14 events/year &rarr; 2&ndash;6 after filter.</strong> Rebuild app + container base image.</p>
+<h3 style="color:#f87171">Triggered &mdash; rebuild now</h3>
+<p>NP+DI in app layer or hacker S+A. <strong style="color:#fca5a5">14 events/year &rarr; 2&ndash;6 after filter.</strong> Rebuild app + container base image.</p>
 </div>
 <div class="tier-card" style="border-color:#f59e0b">
-<h3 style="color:#fbbf24">Tier 2 &mdash; Regular Cadence</h3>
-<p>Monthly container refresh. <strong style="color:#fde68a">Caps blast radius at 5 privesc CVEs vs 21.</strong> Not responding to specific CVEs &mdash; reducing attack surface.</p>
+<h3 style="color:#fbbf24">Monthly cadence &mdash; cap blast radius</h3>
+<p>OS container refresh on a regular drumbeat. <strong style="color:#fde68a">Reduces chain depth ~60-70% on the noise-cleaned LPE set.</strong> Not responding to specific CVEs &mdash; reducing attack surface.</p>
 </div>
 <div class="tier-card" style="border-color:#10b981">
-<h3 style="color:#34d399">Tier 3 &mdash; Ride the Release Cycle</h3>
-<p>Everything else. <strong style="color:#86efac">0 of 113 non-triggers in KEV.</strong> Swept up in next scheduled release.</p>
+<h3 style="color:#34d399">Release cycle &mdash; ride it</h3>
+<p>Everything else &mdash; autobuild for open-source deps, BAU patch process for commercial / OS / appliance. <strong style="color:#86efac">No special action; the model didn't fire.</strong></p>
 </div>
 </div>
 </div>
