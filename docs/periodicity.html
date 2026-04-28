@@ -138,7 +138,7 @@ details summary:hover{color:var(--cyan)}
 <p style="margin-top:8px">A model that replaces the CVSS treadmill has to clear two bars at once. This page works through both:</p>
 <ul style="margin:8px 0 0 24px">
 <li><strong>Efficiency.</strong> Does it actually reduce workload and churn? If the trigger still fires every week, you've added complexity without gaining anything. Measured here as: how many emergency-rebuild events does each strategy generate, across multiple ecosystems, vs the all-C/H baseline.</li>
-<li><strong>Safety / effectiveness.</strong> Does it catch the vulnerabilities that actually get exploited, before they get exploited? Measured here as: across the 7-year production manifest, how many of the 13 actually-exploited events does each strategy catch on disclosure day, and what happens to the rest.</li>
+<li><strong>Safety / effectiveness.</strong> Does it catch the vulnerabilities that actually get exploited, before they get exploited? Measured here as: across the 7-year production manifest, how many of the 11 actually-exploited events does each strategy catch on disclosure day, and what happens to the rest.</li>
 </ul>
 </div>
 
@@ -213,7 +213,7 @@ details summary:hover{color:var(--cyan)}
 
 <div class="callout callout-finding">
 <strong>Both operationalizations of the model clear the efficiency bar across ecosystems, and clear most of the safety bar.</strong> Same starting point each year: 14 distinct all-C/H trigger dates per stack — roughly one rebuild every 2-3 weeks under pure-CVSS. Under the structure test (NP+DI), Spring drops to 5 events (64% reduction), Node.js to 2 (86%), Django to 6 (67%), Netty to 1 (93%). The attacker test (hacker S+A) cuts more aggressively still — Spring 5, Node 1, Django 4, Netty 1 (64-93%). Both methods produce burst patterns separated by long silences rather than a steady drip — operationally easier to respond to than a constant cadence.
-<p style="margin-top:8px"><strong>On safety, the two methods agree more than they disagree</strong> and complement each other where they differ. On the 7-year backtest of 13 actually-exploited events: NP+DI raw catches 6/13; NP+DI + DQ (data-quality re-validation, see <a href="#epss-comparison">§15</a>) catches 9/13 by rescuing CWE-misclassified events like Ghostcat (tagged CWE-269 instead of CWE-22) and ActiveMQ Jolokia (tagged CWE-20 instead of CWE-94); hacker S+A catches 10/13 directly. <strong>Their union catches 11/13</strong> on disclosure day, before any external exploitation signal exists. The remaining 2 are the Tomcat HTTP PUT 2017 pair — disclosed in 2017, didn't appear in KEV until 2018 and 2022, absorbed by floor-sweep on adjacent NP+DI Tomcat rebuilds plus normal cadence (threat-intel monitoring is the third defense-in-depth layer for the future case where exploitation accelerates). Detail per event in <a href="#seven-year">§7</a>; cross-strategy tables in <a href="#periodicity-comparison">§4</a>.</p>
+<p style="margin-top:8px"><strong>On safety, the two methods agree more than they disagree</strong> and complement each other where they differ. On the 7-year backtest of 11 actually-exploited events on the canonical 58-package runtime manifest: NP+DI raw catches 5/11; NP+DI + DQ (data-quality re-validation, see <a href="#epss-comparison">§15</a>) catches 8/11 by rescuing CWE-misclassified events like Ghostcat (tagged CWE-269 instead of CWE-22) and ActiveMQ Jolokia (tagged CWE-20 instead of CWE-94); hacker S+A catches 9/11 directly. <strong>Their union catches 10/11</strong> on disclosure day, before any external exploitation signal exists. The 1 event the union misses is the ActiveMQ OpenWire RCE (CVE-2023-46604) — NP-yes / DI-no under the strict CWE rule, B-tiered by the hacker rubric, absorbed by floor-sweep on adjacent ActiveMQ rebuilds plus the threat-intel watch list. The 2 pre-2018 Tomcat HTTP PUT events (CVE-2017-12615/-12617) sit outside the 2018+ canonical-manifest window entirely and are absorbed by the same supplementary controls. Detail per event in <a href="#seven-year">§7</a>; cross-strategy tables in <a href="#periodicity-comparison">§4</a>.</p>
 <p style="margin-top:8px"><strong>Honest caveat on the 12-month synthetic stacks:</strong> across all four manifests in this window, only one CVE was actually exploited (Django <code>CVE-2025-64459</code>, ExploitDB-only). Every strategy catches it. So "the filter caught every exploit in window" is technically true but operationally vacuous — N=1 across 4 manifests can't score discrimination. The 12-month view scores workload (efficiency); the 7-year backtest scores discrimination (safety). Don't conflate them.</p>
 </div>
 
@@ -347,8 +347,8 @@ details summary:hover{color:var(--cyan)}
 <h2 id="seven-year">Real-World Manifest: 7 Years of NP+DI History</h2>
 
 <div class="card">
-<p>The synthetic stacks above test 12-month windows. Here we run all four strategies against a <strong>real enterprise Java manifest</strong> (60 packages across 176 version-pinned entries with full version sprawl — Spring 4.x and 5.x lines side by side, multiple Tomcat/Jackson/SnakeYAML versions, both <code>log4j:log4j</code> 1.x and <code>log4j-core</code> 2.x) across its entire CVE history: Q4 2018 through Q2 2026.</p>
-<p style="margin-top:8px"><strong>223 critical/high CVEs → 46 NP+DI raw → 49 NP+DI + DQ → 20 hacker S+A → 13 actually exploited</strong> (KEV ∪ Metasploit ∪ ExploitDB). Patch events under 7-day clustering: 80 / 36 / 17 (patch-all / NP+DI+DQ / hacker S+A). A "patch event" merges triggers within a 7-day window — if you're already rebuilding when the next CVE drops, that's one cycle, not two.</p>
+<p>The synthetic stacks above test 12-month windows. Here we run all four strategies against a <strong>real enterprise Java manifest</strong> (58 runtime libraries with full version sprawl — Spring 4.x and 5.x lines side by side, multiple Tomcat/Jackson/SnakeYAML versions, both <code>log4j:log4j</code> 1.x and <code>log4j-core</code> 2.x, plus Apache CXF, MINA, SSHD, and Hazelcast) across its entire CVE history: Q4 2018 through Q2 2026. Pure build tooling (Maven core, Plexus, Surefire) and dual-use scripting runtimes (Groovy, JRuby, Jython) are excluded from the canonical denominator — they don't have network-exploitable surface in the deployed app.</p>
+<p style="margin-top:8px"><strong>194 critical/high CVEs → 40 NP+DI raw → 43 NP+DI + DQ → 16 hacker S+A → 11 actually exploited</strong> (KEV ∪ Metasploit ∪ ExploitDB). Patch events under 7-day clustering: 83 / 30 / 11 (patch-all / NP+DI+DQ / hacker S+A). A "patch event" merges triggers within a 7-day window — if you're already rebuilding when the next CVE drops, that's one cycle, not two.</p>
 </div>
 
 <div class="chart-wrap">
@@ -362,38 +362,38 @@ details summary:hover{color:var(--cyan)}
 <table>
 <thead><tr><th>Year</th><th>All C/H</th><th>NP+DI raw</th><th>NP+DI + DQ</th><th>Hacker S+A</th><th>Exploited</th><th>Hacker catches</th><th>Notable</th></tr></thead>
 <tbody>
-<tr><td>2018</td><td>16</td><td>4</td><td>4</td><td>0</td><td>1<sup>†</sup></td><td>0/1</td><td>Tomcat HTTP PUT 2017-12615 [KEV] — out-of-scope CWE-434</td></tr>
-<tr><td>2019</td><td>26</td><td>8</td><td>8</td><td>0</td><td>2</td><td>1/2</td><td>XStream cmd inj 2013-7285 [MSF] (hacker A); Tomcat CGI Win [KEV] (hacker B; missed)</td></tr>
-<tr style="background:#fef9c3"><td>2020</td><td>38</td><td>4</td><td>5</td><td>2</td><td>1</td><td>1/1</td><td>Ghostcat AJP [KEV] — DQ rescue + hacker A</td></tr>
-<tr style="background:#fee2e2"><td><strong>2021</strong></td><td>46</td><td>10</td><td>10</td><td>3</td><td>3</td><td>3/3</td><td>XStream RCE [KEV]; <strong>Log4Shell</strong> [KEV] + follow-on [KEV]</td></tr>
-<tr style="background:#fee2e2"><td><strong>2022</strong></td><td>46</td><td>7</td><td>7</td><td>5</td><td>4</td><td>3/4</td><td><strong>Spring4Shell</strong> [KEV]; Text4Shell [KEV] + SnakeYAML [KEV] (NP+DI/DQ miss; hacker S/A); Tomcat HTTP PUT 2017-12617 [KEV] (out-of-scope)</td></tr>
-<tr><td>2023</td><td>17</td><td>3</td><td>3</td><td>2</td><td>0</td><td>—</td><td>SpEL injection, Tomcat smuggling — flagged but not exploited</td></tr>
-<tr><td>2024</td><td>15</td><td>4</td><td>4</td><td>2</td><td>0</td><td>—</td><td>Spring path traversal, CXF SSRF, MINA code inj — flagged but not exploited</td></tr>
-<tr style="background:#fef9c3"><td>2025</td><td>10</td><td>4</td><td>5</td><td>4</td><td>1</td><td>1/1</td><td>Tomcat partial-PUT [KEV] — DQ rescue + hacker A</td></tr>
-<tr style="background:#fef9c3"><td>2026 (Q1+Q2)</td><td>9</td><td>2</td><td>3</td><td>2</td><td>1</td><td>1/1</td><td>ActiveMQ Jolokia [KEV] — DQ rescue + hacker A; Thymeleaf SSTI</td></tr>
+<tr><td>2018</td><td>9</td><td>1</td><td>1</td><td>0</td><td>0</td><td>—</td><td>dom4j XPath injection, spring-messaging SpEL — flagged but not exploited</td></tr>
+<tr><td>2019</td><td>25</td><td>8</td><td>8</td><td>0</td><td>1</td><td>0/1</td><td>Tomcat CGI Win [KEV/MSF] (hacker B; missed); XStream cmd inj cluster</td></tr>
+<tr style="background:#fef9c3"><td>2020</td><td>30</td><td>1</td><td>2</td><td>1</td><td>1</td><td>1/1</td><td>Ghostcat AJP [KEV/MSF/EDB] — DQ rescue + hacker A</td></tr>
+<tr style="background:#fee2e2"><td><strong>2021</strong></td><td>42</td><td>10</td><td>10</td><td>3</td><td>3</td><td>3/3</td><td>XStream RCE [KEV/MSF]; <strong>Log4Shell</strong> [KEV/MSF/EDB] + follow-on [KEV/MSF]</td></tr>
+<tr style="background:#fee2e2"><td><strong>2022</strong></td><td>29</td><td>6</td><td>6</td><td>3</td><td>3</td><td>3/3</td><td><strong>Spring4Shell</strong> [KEV/MSF]; Text4Shell [MSF/EDB] + SnakeYAML [MSF] (NP+DI/DQ miss; hacker S/A)</td></tr>
+<tr><td>2023</td><td>16</td><td>2</td><td>2</td><td>0</td><td>1</td><td>0/1</td><td>ActiveMQ OpenWire RCE [KEV/MSF] (NP-only, DI-no — out-of-scope CWE-502); SpEL injection flagged not exploited</td></tr>
+<tr><td>2024</td><td>19</td><td>5</td><td>5</td><td>0</td><td>0</td><td>—</td><td>Spring path traversal, CXF SSRF, MINA code inj, Hazelcast SQLi — flagged but not exploited</td></tr>
+<tr style="background:#fef9c3"><td>2025</td><td>14</td><td>3</td><td>4</td><td>5</td><td>1</td><td>1/1</td><td>Tomcat partial-PUT [KEV/MSF/EDB] — DQ rescue + hacker A</td></tr>
+<tr style="background:#fef9c3"><td>2026 (Q1+Q2)</td><td>10</td><td>4</td><td>5</td><td>4</td><td>1</td><td>1/1</td><td>ActiveMQ Jolokia [KEV] — DQ rescue + hacker A; Thymeleaf SSTI</td></tr>
 </tbody>
-<tfoot><tr style="font-weight:600"><td>Total</td><td>223</td><td>46</td><td>49</td><td>20</td><td>13</td><td>10/13 (77%)</td><td>4 KEV + 4 KEV+MSF + 1 MSF-only + 4 recent KEV + 2 out-of-scope CWE-434</td></tr></tfoot>
+<tfoot><tr style="font-weight:600"><td>Total</td><td>194</td><td>40</td><td>43</td><td>16</td><td>11</td><td>9/11 (82%)</td><td>5 KEV + KEV-MSF combos + 2 NP-only out-of-scope (Text4Shell/SnakeYAML CWE-502) + 1 NP-only OpenWire</td></tr></tfoot>
 </table>
 
-<p style="margin-top:8px;font-size:.88rem;color:#64748b"><strong>Patch events</strong> merge triggers within a 7-day window — if you're already in rebuild/test when the next CVE drops, that's one forced march, not two. 7-day-clustered patch events: <strong>80 / 39 / 36 / 17</strong> across the four strategies (patch-all C+H / patch-criticals-only / NP+DI+DQ / hacker S+A) — see efficiency table below.</p>
-<p style="margin-top:4px;font-size:.88rem;color:#64748b"><strong>Exploited</strong> = confirmed in CISA KEV ∪ Metasploit ∪ ExploitDB. <sup>†</sup> Stars are placed at the quarter the exploitation evidence landed in the source database, not necessarily the CVE disclosure quarter — both 2017 Tomcat HTTP PUT events get plotted in the years their KEV/EDB records were created (2018 and 2022). Yellow rows mark years where the DQ rescues a KEV-confirmed event NP+DI raw missed (Ghostcat 2020, partial-PUT 2025, Jolokia 2026). Pink rows mark famous-bug clusters (2021 Log4Shell, 2022 Spring4Shell + Text4Shell + SnakeYAML).</p>
+<p style="margin-top:8px;font-size:.88rem;color:#64748b"><strong>Patch events</strong> merge triggers within a 7-day window — if you're already in rebuild/test when the next CVE drops, that's one forced march, not two. 7-day-clustered patch events: <strong>83 / 31 / 30 / 11</strong> across the four strategies (patch-all C+H / patch-criticals-only / NP+DI+DQ / hacker S+A) — see efficiency table below.</p>
+<p style="margin-top:4px;font-size:.88rem;color:#64748b"><strong>Exploited</strong> = confirmed in CISA KEV ∪ Metasploit ∪ ExploitDB. The 2 pre-2018 Tomcat HTTP PUT events (CVE-2017-12615, -12617) sit outside the 18Q4-26Q2 chart window and outside the canonical-manifest cohort and are absorbed via floor-sweep on adjacent NP+DI rebuilds (see worked example below). Yellow rows mark years where the DQ rescues a KEV-confirmed event NP+DI raw missed (Ghostcat 2020, partial-PUT 2025, Jolokia 2026). Pink rows mark famous-bug clusters (2021 Log4Shell, 2022 Spring4Shell + Text4Shell + SnakeYAML).</p>
 
 <h3 id="strategy-efficiency" style="margin-top:24px">Strategy efficiency — 7-year totals</h3>
 
 <table>
 <thead><tr><th>Strategy</th><th>Patch events (7-day clustered)</th><th>Raw triggers</th><th>Exploits caught</th><th>Effectiveness</th><th>Efficiency (overhead per exploit)</th></tr></thead>
 <tbody>
-<tr><td>Patch all C+H</td><td>80</td><td>223</td><td>13/13</td><td>100%</td><td>6.2x</td></tr>
-<tr><td>Patch criticals only</td><td>39</td><td>75</td><td>7/13</td><td>54%</td><td>5.6x</td></tr>
-<tr><td>NP+DI raw</td><td>34</td><td>46</td><td>6/13</td><td>46%</td><td>5.7x</td></tr>
-<tr style="background:#ecfdf5"><td><strong>NP+DI + DQ</strong></td><td><strong>36</strong></td><td>49</td><td><strong>9/13</strong></td><td><strong>69%</strong></td><td><strong>4.0x</strong></td></tr>
-<tr style="background:#faf5ff"><td><strong>Hacker S+A</strong></td><td><strong>17</strong></td><td>20</td><td><strong>10/13</strong></td><td><strong>77%</strong></td><td><strong>1.7x</strong></td></tr>
-<tr style="border-top:2px solid var(--border);font-weight:600"><td>Union (NP+DI+DQ ∪ Hacker S+A)</td><td>39</td><td>56</td><td>11/13</td><td>85%</td><td>3.6x</td></tr>
+<tr><td>Patch all C+H</td><td>83</td><td>194</td><td>11/11</td><td>100%</td><td>7.5x</td></tr>
+<tr><td>Patch criticals only</td><td>31</td><td>48</td><td>7/11</td><td>64%</td><td>4.4x</td></tr>
+<tr><td>NP+DI raw</td><td>28</td><td>40</td><td>5/11</td><td>45%</td><td>5.6x</td></tr>
+<tr style="background:#ecfdf5"><td><strong>NP+DI + DQ</strong></td><td><strong>30</strong></td><td>43</td><td><strong>8/11</strong></td><td><strong>73%</strong></td><td><strong>3.8x</strong></td></tr>
+<tr style="background:#faf5ff"><td><strong>Hacker S+A</strong></td><td><strong>11</strong></td><td>16</td><td><strong>9/11</strong></td><td><strong>82%</strong></td><td><strong>1.2x</strong></td></tr>
+<tr style="border-top:2px solid var(--border);font-weight:600"><td>Union (NP+DI+DQ ∪ Hacker S+A)</td><td>32</td><td>47</td><td>10/11</td><td>91%</td><td>3.2x</td></tr>
 </tbody>
 </table>
 
 <div class="callout callout-finding" style="border-color:var(--hacker);background:#faf5ff;color:#581c87">
-<strong>Hacker S+A and NP+DI+DQ catch overlapping but non-identical sets.</strong> 9 events sit in both filters' catches; 1 (XStream 2013-7285) is hacker-only direct (NP+DI catches it via floor sweep too); 0 are NP+DI-only. The remaining 2 events are the Tomcat HTTP PUT 2017 pair — out-of-scope by design (CWE-434 file uploads sit outside both filters and the hacker discriminator B-tiers them on the narrow-precondition rule).
+<strong>Hacker S+A and NP+DI+DQ catch overlapping but non-identical sets.</strong> 7 events sit in both filters' catches; 2 (SnakeYAML 2022-1471 and Text4Shell 2022-42889) are hacker-only — the structural filter excludes them (SnakeYAML is non-NP at the package level despite being a YAML parser; Text4Shell sits in commons-text which is OTHER-roled). The remaining 1 event the union does not catch is the ActiveMQ OpenWire RCE (CVE-2023-46604) — NP-positive but DI-negative under the strict CWE rule, and B-tiered by the hacker rubric (deserialization gadget chain, broker-internal protocol). It is absorbed by floor-sweep on adjacent ActiveMQ rebuilds and the threat-intel watch list. The 2 pre-2018 Tomcat HTTP PUT events sit outside the 2018+ canonical-manifest window entirely.
 </div>
 
 <div class="callout callout-warning" id="tomcat-put-timeline">
@@ -409,7 +409,7 @@ details summary:hover{color:var(--cyan)}
 <li>2022 Spring4Shell + Tomcat CLIENT_CERT</li>
 </ul>
 <p style="margin-top:8px">Six emergency rebuilds in the four-year window between disclosure and KEV. Any one of them would have absorbed the file-upload patches via floor-sweep. The hacker's B-tier was right: low immediate-exploitation risk, narrow precondition, supplements handle it on the normal cadence rather than emergency.</p>
-<p style="margin-top:8px"><strong>The third defense-in-depth layer: threat intel.</strong> Floor-sweep + cadence is what actually caught the 2017 pair. Threat intel didn't need to fire here — but it's the third layer of defense for a different future scenario where a B-tier event's exploitation accelerates faster than natural cadence would catch it (exploit lands in 30 days, not 4 years). In that case the watch list flags it and the event is promoted out of B. With all three layers in place — floor-sweep, cadence, and threat-intel monitoring — the model is <em>never worse than EPSS</em>: structure tests fire on disclosure day for the 11/13 the model directly catches, cadence + floor-sweep handle the long-latency tail, and threat intel covers the accelerated-exploitation case EPSS would otherwise be the only catch for. (EPSS is introduced and benchmarked in detail in <a href="#epss-comparison" style="color:var(--accent)">§15</a>.)</p>
+<p style="margin-top:8px"><strong>The third defense-in-depth layer: threat intel.</strong> Floor-sweep + cadence is what actually caught the 2017 pair. Threat intel didn't need to fire here — but it's the third layer of defense for a different future scenario where a B-tier event's exploitation accelerates faster than natural cadence would catch it (exploit lands in 30 days, not 4 years). In that case the watch list flags it and the event is promoted out of B. With all three layers in place — floor-sweep, cadence, and threat-intel monitoring — the model is <em>never worse than EPSS</em>: structure tests fire on disclosure day for the 10/11 the model directly catches via union, cadence + floor-sweep handle the long-latency tail (including the 2017 pair and the OpenWire RCE), and threat intel covers the accelerated-exploitation case EPSS would otherwise be the only catch for. (EPSS is introduced and benchmarked in detail in <a href="#epss-comparison" style="color:var(--accent)">§15</a>.)</p>
 <p style="margin-top:8px"><strong>The misreading to guard against:</strong> "B-tier means ignore." It doesn't. The model's claim is "B-tier handled by supplements" — and that depends on actually running the supplements. A team that drops get-newest builds, regular cadence, threat-intel monitoring, application metadata, and targeted WAFs doesn't get the B-tier-absorbed-by-supplements behavior; they get the B-tier-eventually-exploited behavior. The model is the structure tests <em>and</em> the supplementary controls together.</p>
 </div>
 
@@ -1026,12 +1026,17 @@ const rmLabels = [
     '25Q1','25Q2','25Q3','25Q4',
     '26Q1','26Q2'
 ];
-const rmOther = [9,5,2,5,5,3,9,1,0,3,6,10,17,5,14,2,9,1,1,5,1,3,1,1,3,2,1,2,0,2,2];
-const rmNPDI  = [4,0,3,1,1,1,1,0,1,0,1,3,3,1,1,0,2,0,1,0,1,3,0,0,1,0,0,0,1,0,0];
+// Chart arrays derived from data/seven-year-manifest-events.json via
+// scripts/build_hacker_tier_data.py — see data/integrated-page-aggregates.json
+// (seven_year_per_quarter.other / .npdi_ai). Sums match strategy-efficiency
+// table row 1 (194 = 28 + 166 unhandled? No: rmOther+rmNPDI = 194 = total C/H).
+const rmOther = [8,6,2,4,5,3,25,0,0,3,2,11,16,6,4,4,9,4,2,4,4,6,1,2,5,1,5,4,0,2,3];
+const rmNPDI  = [1,2,3,2,1,0,1,0,1,1,2,4,3,2,1,0,3,1,0,0,1,2,0,1,2,1,1,1,1,0,5];
 // Exploited events placed at the disclosure quarter on the chart axis. Tooltips
 // show the CVEs that landed in each quarter. The 2 Tomcat HTTP PUT 2017 events
 // (CVE-2017-12615, CVE-2017-12617) were disclosed before 18Q4 and don't appear
-// here — see the table above for full provenance.
+// here — they sit outside the 2018+ canonical-manifest window and are absorbed
+// by floor-sweep on adjacent NP+DI rebuilds (see worked example below).
 const rmExploitEvents = {
     2:  [{cve:'CVE-2019-0232',  lib:'Tomcat CGI'}],
     6:  [{cve:'CVE-2020-1938',  lib:'Ghostcat (DQ rescue)'}],
@@ -1039,6 +1044,7 @@ const rmExploitEvents = {
     12: [{cve:'CVE-2021-44228', lib:'Log4Shell'}, {cve:'CVE-2021-45046', lib:'Log4Shell f/u'}],
     13: [{cve:'CVE-2022-22965', lib:'Spring4Shell'}],
     16: [{cve:'CVE-2022-1471',  lib:'SnakeYAML'}, {cve:'CVE-2022-42889', lib:'Text4Shell'}],
+    20: [{cve:'CVE-2023-46604', lib:'ActiveMQ OpenWire RCE'}],
     25: [{cve:'CVE-2025-24813', lib:'Tomcat partial-PUT (DQ rescue)'}],
     30: [{cve:'CVE-2026-34197', lib:'ActiveMQ Jolokia (DQ rescue)'}]
 };

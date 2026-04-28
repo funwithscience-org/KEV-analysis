@@ -423,7 +423,7 @@ A network-parsing HIGH (7.0-7.9) at 0.89% beats a non-parsing CRITICAL (9.0-9.9)
 <li><strong>D</strong> — DoS, info-leak, weak crypto config. Real bugs, but not exploitation primitives.</li>
 </ul>
 
-<p>The hacker S+A bar is "events I'd actually put on my campaign list." It produces a different cut of the same CVE feed than NP+DI: more selective in some ways (ignores SQLi clusters with cluster-mean preconditions), more aggressive in others (catches Spring Boot actuator exposure that CWE-862-tagged events would slip past NP+DI on). On the 7-year production manifest, NP+DI raw catches 6 of 13 actually-exploited events; NP+DI+DQ catches 9; hacker S+A catches 10. Their union catches 11. Same story, different angle of attack on the same triage decision. Detail on the <a href="periodicity.html" style="color:var(--accent)">periodicity page</a>.</p>
+<p>The hacker S+A bar is "events I'd actually put on my campaign list." It produces a different cut of the same CVE feed than NP+DI: more selective in some ways (ignores SQLi clusters with cluster-mean preconditions), more aggressive in others (catches Spring Boot actuator exposure that CWE-862-tagged events would slip past NP+DI on). On the canonical 58-package runtime manifest, NP+DI raw catches 5 of 11 actually-exploited events; NP+DI+DQ catches 8; hacker S+A catches 9. Their union catches 10. Same story, different angle of attack on the same triage decision. Detail on the <a href="periodicity.html" style="color:var(--accent)">periodicity page</a>.</p>
 
 <h3>3e. The hidden cost of <em>not</em> filtering: churn crowds out better practices</h3>
 
@@ -443,7 +443,7 @@ A network-parsing HIGH (7.0-7.9) at 0.89% beats a non-parsing CRITICAL (9.0-9.9)
 <div class="hero-stat">
 <div class="stat red"><div class="number">14</div><div class="label">All C/H trigger dates<br>(identical across all 3 stacks)</div></div>
 <div class="stat"><div class="number">2 - 6</div><div class="label">NP+DI trigger dates<br>per stack (64-86% reduction)</div></div>
-<div class="stat green"><div class="number">11/13</div><div class="label">7-year backtest catch<br>(union NP+DI+DQ ∪ Hacker S+A)</div></div>
+<div class="stat green"><div class="number">10/11</div><div class="label">7-year backtest catch<br>(union NP+DI+DQ ∪ Hacker S+A)</div></div>
 </div>
 
 <p style="font-size:.85em;color:var(--muted);margin-top:-8px;margin-bottom:20px">The 12-month synthetic-stack window has N=1 actually-exploited CVE — it scores workload, not discrimination. Discrimination comes from the 7-year backtest in §4f.</p>
@@ -492,40 +492,40 @@ A network-parsing HIGH (7.0-7.9) at 0.89% beats a non-parsing CRITICAL (9.0-9.9)
 
 <h3 id="real-manifest">4f. Real-World Case Study: Enterprise Java Portfolio</h3>
 
-<div class="translation"><strong>In plain English:</strong> The synthetic manifests above prove the filter works in theory. This section tests it against a real enterprise dependency list — 60 libraries from a portfolio of Spring apps, with all the version sprawl and legacy baggage that implies.</div>
+<div class="translation"><strong>In plain English:</strong> The synthetic manifests above prove the filter works in theory. This section tests it against a real enterprise dependency list — 58 runtime libraries from a portfolio of Spring apps, with all the version sprawl and legacy baggage that implies.</div>
 
-<p>A real enterprise Java manifest: 60 unique libraries across multiple Spring-based applications. Unlike the synthetic manifests, this includes build tooling (Maven, Plexus, Surefire), legacy versions (jackson-databind across 7 major versions, log4j 1.x alongside 2.x), and components that have accumulated years of CVEs (XStream, SnakeYAML). This is what a scanner actually flags when it runs against your artifact repository.</p>
+<p>A real enterprise Java manifest: 58 unique runtime libraries across multiple Spring-based applications. The canonical denominator includes legacy versions (jackson-databind across 7 major versions, log4j 1.x alongside 2.x), components that have accumulated years of CVEs (XStream, SnakeYAML), and the network-edge frameworks that ship with most Spring deployments (Apache CXF, MINA, SSHD, Hazelcast). Pure build tooling (Maven core, Plexus, Surefire) and dual-use scripting runtimes (Groovy, JRuby, Jython) are excluded — they don't have network-exploitable surface in the deployed app.</p>
 
 <h4>Strategy comparison on the 7-year backtest</h4>
 
-<p>Across the manifest's full 7-year CVE history (Q4 2018 – Q2 2026): <strong>223 critical/high CVEs</strong>, <strong>13 actually exploited</strong> (KEV ∪ Metasploit ∪ ExploitDB). Both operationalizations of the model run independently against this set:</p>
+<p>Across the manifest's full 7-year CVE history (Q4 2018 – Q2 2026): <strong>194 critical/high CVEs</strong>, <strong>11 actually exploited</strong> (KEV ∪ Metasploit ∪ ExploitDB). Both operationalizations of the model run independently against this set:</p>
 
 <table class="data-table">
 <thead><tr><th>Strategy</th><th>Patch events (7-day clustered)</th><th>Raw triggers</th><th>Exploits caught</th><th>Effectiveness</th><th>Efficiency (overhead per exploit)</th></tr></thead>
 <tbody>
-<tr><td>Patch all C+H (no filter)</td><td>80</td><td>223</td><td>13/13</td><td>100%</td><td>6.2x</td></tr>
-<tr><td>Patch criticals only</td><td>39</td><td>75</td><td>7/13</td><td>54%</td><td>5.6x</td></tr>
-<tr><td>NP+DI raw (structure test)</td><td>34</td><td>46</td><td>6/13</td><td>46%</td><td>5.7x</td></tr>
-<tr style="background:rgba(14,165,233,.08)"><td><strong>NP+DI + DQ</strong></td><td><strong>36</strong></td><td>49</td><td><strong>9/13</strong></td><td><strong>69%</strong></td><td><strong>4.0x</strong></td></tr>
-<tr style="background:rgba(168,85,247,.08)"><td><strong>Hacker S+A (attacker test)</strong></td><td><strong>17</strong></td><td>20</td><td><strong>10/13</strong></td><td><strong>77%</strong></td><td><strong>1.7x</strong></td></tr>
-<tr style="background:rgba(16,185,129,.08)"><td><strong>Union (NP+DI+DQ ∪ Hacker S+A)</strong></td><td>39</td><td>56</td><td><strong>11/13</strong></td><td><strong>85%</strong></td><td>3.6x</td></tr>
+<tr><td>Patch all C+H (no filter)</td><td>83</td><td>194</td><td>11/11</td><td>100%</td><td>7.5x</td></tr>
+<tr><td>Patch criticals only</td><td>31</td><td>48</td><td>7/11</td><td>64%</td><td>4.4x</td></tr>
+<tr><td>NP+DI raw (structure test)</td><td>28</td><td>40</td><td>5/11</td><td>45%</td><td>5.6x</td></tr>
+<tr style="background:rgba(14,165,233,.08)"><td><strong>NP+DI + DQ</strong></td><td><strong>30</strong></td><td>43</td><td><strong>8/11</strong></td><td><strong>73%</strong></td><td><strong>3.8x</strong></td></tr>
+<tr style="background:rgba(168,85,247,.08)"><td><strong>Hacker S+A (attacker test)</strong></td><td><strong>11</strong></td><td>16</td><td><strong>9/11</strong></td><td><strong>82%</strong></td><td><strong>1.2x</strong></td></tr>
+<tr style="background:rgba(16,185,129,.08)"><td><strong>Union (NP+DI+DQ ∪ Hacker S+A)</strong></td><td>32</td><td>47</td><td><strong>10/11</strong></td><td><strong>91%</strong></td><td>3.2x</td></tr>
 </tbody></table>
 
 <p style="font-size:.88em;color:#64748b">Patch events cluster triggers within a 7-day window (one rebuild absorbs adjacent patches). Effectiveness = exploited events caught directly. Efficiency = patch-event-to-exploit overhead ratio. Full per-event breakdown on the <a href="periodicity.html#strategy-efficiency" style="color:var(--accent)">periodicity page</a>.</p>
 
 <div class="callout callout-finding">
-<strong>The two operationalizations agree more than they disagree.</strong> Both methods catch the same backbone of famous-bug events (Log4Shell, Spring4Shell, XStream RCE, Tomcat partial-PUT). The differences are at the boundary: NP+DI raw + DQ catches 9 (the structure-visible primitives plus DQ rescues for CWE-misclassified events like Ghostcat, ActiveMQ Jolokia); the hacker catches 10 (a slightly different set, including XStream 2013-7285 which the structural filter only catches via floor-sweep, and Spring Boot actuator on CWE-862). Their union catches 11 of 13. The remaining 2 are the Tomcat HTTP PUT 2017 file-upload pair: NP+DI excludes CWE-434 deliberately (noise control); the hacker tier'd them B (narrow precondition, requires <code>readonly=false</code>). <strong>Floor-sweep on adjacent NP+DI rebuilds plus normal update cadence is what actually caught this pair</strong>: both were disclosed in 2017 and didn't appear in KEV until 2018 and 2022 — roughly 1 to 5 years later — and across that window several unrelated NP+DI Tomcat triggers fired (CVE-2020-1938 Ghostcat, CVE-2025-24813 partial-PUT, the Tomcat path-traversal series), so any Cat 1 or Cat 2 team would have rolled the base image past the affected versions on normal cadence well before the exploitation evidence surfaced. <strong>Threat-intel monitoring on the watch list and B-tier events is the third defense-in-depth layer</strong> — it didn't need to fire for this pair, but it's the EPSS-equivalent backstop for a different future scenario where a B-tier event's exploitation accelerates faster than natural cadence would catch it. Full timeline on the <a href="periodicity.html#tomcat-put-timeline" style="color:var(--accent)">periodicity page</a>.
+<strong>The two operationalizations agree more than they disagree.</strong> Both methods catch the same backbone of famous-bug events (Log4Shell, Spring4Shell, XStream RCE, Tomcat partial-PUT). The differences are at the boundary: NP+DI raw + DQ catches 8 (the structure-visible primitives plus DQ rescues for CWE-misclassified events like Ghostcat, Tomcat partial-PUT, and ActiveMQ Jolokia); the hacker catches 9 (a slightly different set, including SnakeYAML and Text4Shell which the structural filter excludes at the package-role level). Their union catches 10 of 11. The 1 event the union doesn't catch is the ActiveMQ OpenWire RCE (CVE-2023-46604) — NP-positive but DI-negative under the strict CWE rule, B-tiered by the hacker rubric (deserialization gadget chain, broker-internal protocol). It is absorbed by floor-sweep on adjacent ActiveMQ rebuilds plus the threat-intel watch list. The 2 pre-2018 Tomcat HTTP PUT events (CVE-2017-12615/-12617) sit outside the canonical 2018+ manifest window entirely; they are absorbed by the same supplementary controls — disclosed in 2017, didn't appear in KEV until 2018 and 2022, and across that gap several unrelated NP+DI Tomcat triggers fired (CVE-2020-1938 Ghostcat, CVE-2025-24813 partial-PUT, the Tomcat path-traversal series), so any Cat 1 or Cat 2 team would have rolled the base image past the affected versions on normal cadence well before the exploitation evidence surfaced. <strong>Threat-intel monitoring on the watch list and B-tier events is the third defense-in-depth layer</strong> — it didn't need to fire for any of these, but it's the EPSS-equivalent backstop for a different future scenario where a B-tier event's exploitation accelerates faster than natural cadence would catch it. Full timeline on the <a href="periodicity.html#tomcat-put-timeline" style="color:var(--accent)">periodicity page</a>.
 </div>
 
 <div class="chart-wrap">
 <h4>The NP+DI Funnel: From Scanner Noise to Actionable Signal</h4>
-<p style="font-size:.85em;color:#64748b;margin-bottom:12px">Visual of the structure-test cut alone, for orientation. Each bar shows what remains after applying the next filter stage. Data: 60 libraries queried against OSV.dev (older dedup; current 7-year per-CVE counts above).</p>
+<p style="font-size:.85em;color:#64748b;margin-bottom:12px">Visual of the structure-test cut alone, for orientation. Each bar shows what remains after applying the next filter stage. Data: 58 runtime libraries queried against OSV.dev (older dedup; current 7-year per-CVE counts above).</p>
 <canvas id="funnelChart" height="160"></canvas>
 </div>
 
 <h4>The 13 Libraries Where NP+DI Risk Lives</h4>
 
-<p>Of 60 libraries in the manifest, 13 (22%) produce all 24 NP+DI vulnerabilities. These are the libraries your NP+DI monitoring should cover:</p>
+<p>Of 58 libraries in the canonical manifest, 13 (22%) produce all 24 NP+DI vulnerabilities (older dedup; current per-CVE NP+DI count is 40 across the same 13 libraries plus the 4 runtime additions). These are the libraries your NP+DI monitoring should cover:</p>
 
 <table class="data-table">
 <thead><tr><th>Library</th><th>Total C/H</th><th>NP+DI</th><th>What triggers</th></tr></thead>
@@ -548,12 +548,12 @@ A network-parsing HIGH (7.0-7.9) at 0.89% beats a non-parsing CRITICAL (9.0-9.9)
 <p><strong>The jackson-databind story:</strong> This library alone accounts for 45 C/H vulnerabilities — 27% of all C/H in the manifest. Under an "all C/H" policy, jackson-databind is a permanent emergency. Under NP+DI, 44 of 45 are correctly excluded (they're CWE-502 deserialization chains requiring specific gadget classes on the classpath). The one that qualifies (CWE-94 code injection) is a genuinely different bug class — directly exploitable without a gadget chain.</p>
 
 <div class="callout callout-success">
-<strong>The practical test:</strong> This manifest contains Log4Shell, Spring4Shell, Tomcat path traversal, and XStream command injection — the highest-profile Java exploits of the last several years. The NP+DI filter catches every one of them. It also correctly excludes 208 vulnerabilities that, while real, represent attack patterns that don't reach KEV.
+<strong>The practical test:</strong> This manifest contains Log4Shell, Spring4Shell, Tomcat path traversal, and XStream command injection — the highest-profile Java exploits of the last several years. The NP+DI filter catches every one of them. It also correctly excludes the bulk (194 − 43 = 151) of vulnerabilities that, while real, represent attack patterns that don't reach KEV.
 </div>
 
 <h4>Where the structure test struggles, and what closes the gap</h4>
 
-<p>The structure test alone (NP+DI raw) catches 6 of 13. The 3 events it misses on its own — and that the DQ pass rescues — are CWE-classification failures upstream:</p>
+<p>The structure test alone (NP+DI raw) catches 5 of 11. The 3 events it misses on its own — and that the DQ pass rescues — are CWE-classification failures upstream:</p>
 
 <table class="data-table">
 <thead><tr><th>CVE</th><th>Library</th><th>Assigned CWE</th><th>Actual Mechanism</th><th>Why NP+DI raw missed</th></tr></thead>
@@ -571,7 +571,7 @@ A network-parsing HIGH (7.0-7.9) at 0.89% beats a non-parsing CRITICAL (9.0-9.9)
 
 <h4>What the attacker test catches that the structure test doesn't</h4>
 
-<p>The hacker S+A catches a slightly different set of 10 of 13. The differences are operationally informative:</p>
+<p>The hacker S+A catches a slightly different set of 9 of 11. The differences are operationally informative:</p>
 
 <ul style="margin:10px 0 10px 20px">
 <li><strong>XStream 2013-7285</strong> — caught by both methods, but for different reasons: structure test catches the CWE-78 command-injection tag; hacker tiers it A on the unsafe-default-config rule for pre-1.4.18 XStream.</li>
@@ -579,10 +579,10 @@ A network-parsing HIGH (7.0-7.9) at 0.89% beats a non-parsing CRITICAL (9.0-9.9)
 <li><strong>Tomcat path traversal (CVE-2025-55752)</strong> — structure test catches it on CWE-23; hacker B-tiers it on the narrow-precondition rule (path traversal needs specific encoding bypass + non-default reach). One of the few events where the hacker is <em>more</em> conservative than the structure test.</li>
 </ul>
 
-<p>These divergences aren't bugs in either method — they're the methods seeing the same events from different angles and disagreeing on the margin. The agreements (8 of the 11 union catches fire under both) are the validation.</p>
+<p>These divergences aren't bugs in either method — they're the methods seeing the same events from different angles and disagreeing on the margin. The agreements (7 of the 10 union catches fire under both) are the validation.</p>
 
 <div class="callout callout-finding">
-<strong>Backtest summary:</strong> The union of NP+DI+DQ and Hacker S+A catches <strong>11 of 13</strong> directly, on disclosure day, before any external exploitation signal exists. The remaining 2 are the Tomcat HTTP PUT 2017 pair — the hacker B-tier'd them on a narrow precondition, and floor-sweep on adjacent Tomcat triggers plus normal update cadence absorbed them well before the exploits surfaced in KEV — <strong>~1 to 5 years after disclosure</strong>. Threat-intel monitoring on the watch list is the third defense-in-depth layer — it didn't need to fire for this pair, but it's the backstop for the future case where exploitation accelerates. The B-tier rating was operationally correct; full timeline and the "B-tier handled by supplements" caveat on the <a href="periodicity.html#tomcat-put-timeline" style="color:var(--accent)">periodicity page</a>. The model — structure test + attacker test + defense-in-depth supplements — handles 13 of 13.
+<strong>Backtest summary:</strong> The union of NP+DI+DQ and Hacker S+A catches <strong>10 of 11</strong> directly, on disclosure day, before any external exploitation signal exists. The 1 union-miss is the ActiveMQ OpenWire RCE (CVE-2023-46604) — NP-yes / DI-no, B-tiered — absorbed by floor-sweep on adjacent ActiveMQ rebuilds and the threat-intel watch list. The 2 pre-2018 Tomcat HTTP PUT events sit outside the canonical 2018+ window entirely; they were absorbed by the same pattern of supplementary controls (six adjacent Tomcat emergency rebuilds in the 2018-2022 disclosure-to-KEV window). Threat-intel monitoring on the watch list is the third defense-in-depth layer — it didn't need to fire for any of these, but it's the backstop for the future case where exploitation accelerates. Full timeline and the "B-tier handled by supplements" caveat on the <a href="periodicity.html#tomcat-put-timeline" style="color:var(--accent)">periodicity page</a>. The model — structure test + attacker test + defense-in-depth supplements — handles every event in the canonical cohort plus the 2 pre-2018 historicals.
 </div>
 
 <!-- ========== 7. KILL CHAIN ========== -->
@@ -686,7 +686,7 @@ A network-parsing HIGH (7.0-7.9) at 0.89% beats a non-parsing CRITICAL (9.0-9.9)
 <p>We cross-referenced the C/H CVEs from both the 12-month synthetic stacks and the 7-year production-manifest backtest against five independent data sources, asking two things: do triggers correlate with higher exploitation signals, and did any non-trigger accumulate evidence we should have caught?</p>
 
 <div class="callout callout-warning">
-<strong>Up-front honesty about the 12-month sample.</strong> Across all four 12-month framework manifests there is only <strong>one in-scope exploited CVE</strong> (Django <code>CVE-2025-64459</code> _connector SQLi, ExploitDB-only — no KEV, no Metasploit). Every strategy catches it. So "zero misses on the 12-month window" is technically true but operationally vacuous — N=1 doesn't differentiate strategies from random. Real effectiveness scoring happens on the 7-year production-manifest backtest below, which has 13 exploited events and the room to actually score discrimination. The 12-month view's honest purpose is showing how much workload each strategy demands, not which one is most accurate.
+<strong>Up-front honesty about the 12-month sample.</strong> Across all four 12-month framework manifests there is only <strong>one in-scope exploited CVE</strong> (Django <code>CVE-2025-64459</code> _connector SQLi, ExploitDB-only — no KEV, no Metasploit). Every strategy catches it. So "zero misses on the 12-month window" is technically true but operationally vacuous — N=1 doesn't differentiate strategies from random. Real effectiveness scoring happens on the 7-year production-manifest backtest below, which has 11 exploited events on the canonical 58-package runtime manifest and the room to actually score discrimination. The 12-month view's honest purpose is showing how much workload each strategy demands, not which one is most accurate.
 </div>
 
 <h3>EPSS: Complementary, Not Competitive (7-year backtest)</h3>
@@ -696,15 +696,15 @@ A network-parsing HIGH (7.0-7.9) at 0.89% beats a non-parsing CRITICAL (9.0-9.9)
 <table class="data-table" style="font-size:.92rem">
 <thead><tr><th>Model</th><th>Day 0</th><th>Day 7</th><th>Day 30</th><th>Eventually</th><th>Notes</th></tr></thead>
 <tbody>
-<tr><td><strong>NP+DI raw</strong></td><td>6/13</td><td>6/13</td><td>6/13</td><td>6/13</td><td>Mechanical CWE+package filter</td></tr>
-<tr style="background:rgba(14,165,233,.08)"><td><strong>NP+DI + DQ</strong></td><td><strong>9/13</strong></td><td><strong>9/13</strong></td><td><strong>9/13</strong></td><td><strong>9/13</strong></td><td>Adds CWE-misclass rescues (Ghostcat, Tomcat partial-PUT, ActiveMQ Jolokia)</td></tr>
-<tr style="background:rgba(168,85,247,.08)"><td><strong>Hacker S+A</strong></td><td><strong>10/13</strong></td><td><strong>10/13</strong></td><td><strong>10/13</strong></td><td><strong>10/13</strong></td><td>Catches a slightly different set; gets XStream 2013-7285 the mechanical filter misses</td></tr>
-<tr style="background:rgba(16,185,129,.08)"><td><strong>NP+DI+DQ ∪ Hacker S+A</strong></td><td><strong>11/13</strong></td><td><strong>11/13</strong></td><td><strong>11/13</strong></td><td><strong>11/13</strong></td><td>Union of the two methods — operational answer</td></tr>
-<tr><td>EPSS ≥ 0.10</td><td>1/13</td><td>4/13</td><td>4/13</td><td>11/13</td><td>Eventually catches up; can't act on day 0</td></tr>
-<tr><td>EPSS ≥ 0.50</td><td>0/13</td><td>2/13</td><td>4/13</td><td>9/13</td><td>Stricter threshold; never catches the long-tail</td></tr>
+<tr><td><strong>NP+DI raw</strong></td><td>5/11</td><td>5/11</td><td>5/11</td><td>5/11</td><td>Mechanical CWE+package filter</td></tr>
+<tr style="background:rgba(14,165,233,.08)"><td><strong>NP+DI + DQ</strong></td><td><strong>8/11</strong></td><td><strong>8/11</strong></td><td><strong>8/11</strong></td><td><strong>8/11</strong></td><td>Adds CWE-misclass rescues (Ghostcat, Tomcat partial-PUT, ActiveMQ Jolokia)</td></tr>
+<tr style="background:rgba(168,85,247,.08)"><td><strong>Hacker S+A</strong></td><td><strong>9/11</strong></td><td><strong>9/11</strong></td><td><strong>9/11</strong></td><td><strong>9/11</strong></td><td>Catches a slightly different set; includes SnakeYAML and Text4Shell that the mechanical filter excludes at the package level</td></tr>
+<tr style="background:rgba(16,185,129,.08)"><td><strong>NP+DI+DQ ∪ Hacker S+A</strong></td><td><strong>10/11</strong></td><td><strong>10/11</strong></td><td><strong>10/11</strong></td><td><strong>10/11</strong></td><td>Union of the two methods — operational answer</td></tr>
+<tr><td>EPSS ≥ 0.10</td><td>1/11</td><td>3/11</td><td>3/11</td><td>10/11</td><td>Eventually catches up; can't act on day 0</td></tr>
+<tr><td>EPSS ≥ 0.50</td><td>0/11</td><td>2/11</td><td>3/11</td><td>8/11</td><td>Stricter threshold; never catches the long-tail</td></tr>
 </tbody>
 </table>
-<p style="margin-top:8px;font-size:.88rem;color:#64748b">13 actually-exploited events on the 7-year production-manifest backtest (KEV ∪ Metasploit ∪ ExploitDB). The 2 events that don't fire under either method as S/A-tier are the Tomcat HTTP PUT 2017 pair (CWE-434 file uploads). NP+DI excludes CWE-434 deliberately from the DI set (raw inclusion would generate massive noise); the hacker evaluated both and tier'd them B (narrow-precondition rule — both require <code>readonly=false</code>, which is non-default). Either way, the model absorbs these via its supplementary controls (floor-sweep on adjacent Tomcat NP+DI rebuilds, normal update cadence, and threat-intel monitoring on B-tier events) — see callout below. Day 0/7/30 EPSS scores from the <a href="https://www.first.org/epss/" target="_blank" style="color:var(--accent)">FIRST.org historical API</a>; pre-EPSS events (Ghostcat 2020, Tomcat CGI 2019) and events without early data scored as 0. Full per-event breakdown in the <a href="periodicity.html#epss-comparison" style="color:var(--accent)">periodicity analysis</a>.</p>
+<p style="margin-top:8px;font-size:.88rem;color:#64748b">11 actually-exploited events on the canonical 58-package runtime manifest (KEV ∪ Metasploit ∪ ExploitDB). The 1 event that the union does not catch is the ActiveMQ OpenWire RCE (CVE-2023-46604), NP-yes / DI-no, B-tiered by the hacker rubric — absorbed by floor-sweep on adjacent ActiveMQ rebuilds plus the threat-intel watch list. The 2 pre-2018 Tomcat HTTP PUT events sit outside the canonical 2018+ window entirely; same supplementary controls (floor-sweep on adjacent Tomcat NP+DI rebuilds, normal update cadence, and threat-intel monitoring on B-tier events) absorb them — see callout below. Day 0/7/30 EPSS scores from the <a href="https://www.first.org/epss/" target="_blank" style="color:var(--accent)">FIRST.org historical API</a>; pre-EPSS events (Ghostcat 2020, Tomcat CGI 2019) and events without early data scored as 0. Full per-event breakdown in the <a href="periodicity.html#epss-comparison" style="color:var(--accent)">periodicity analysis</a>.</p>
 
 <p>EPSS needs the world to react before it can score. Only Log4Shell crossed 0.10 on day 1 — because the entire internet was on fire. XStream sat at 0.018 for a month and didn't cross 0.50 until 19 months later (EPSS v3 model change, not new signal). ActiveMQ still hasn't crossed 0.50. The structure-based filters fire on disclosure day because they read CVE structure, not exploitation signal — which is the only way to act before the exploit kits do.</p>
 
@@ -713,15 +713,15 @@ A network-parsing HIGH (7.0-7.9) at 0.89% beats a non-parsing CRITICAL (9.0-9.9)
 <table class="data-table">
 <thead><tr><th>Source</th><th>What It Measures</th><th>Trigger Signal</th><th>Non-Trigger Signal</th><th>Misses?</th></tr></thead>
 <tbody>
-<tr><td><strong>EPSS</strong></td><td>Exploitation probability</td><td>Structure filters catch 11/13 on day 0 vs EPSS 1/13 day 1; threat-intel supplement covers the late tail EPSS would also catch</td><td>Model dominates — never worse than EPSS, days-to-years faster on the structure-visible 11</td><td><span class="tag tag-amber">2 absorbed by supplements</span></td></tr>
-<tr><td><strong>CISA KEV</strong></td><td>Confirmed exploitation</td><td>0 app-layer 12-month hits (N=1 caveat); 9 of 13 on 7-year</td><td>1 hit (zlib — exploited via MongoDB, different deployment context)</td><td><span class="tag tag-amber">2 absorbed (CWE-434, hacker B)</span></td></tr>
+<tr><td><strong>EPSS</strong></td><td>Exploitation probability</td><td>Structure filters catch 10/11 on day 0 vs EPSS 1/11 day 1; threat-intel supplement covers the late tail EPSS would also catch</td><td>Model dominates — never worse than EPSS, days-to-years faster on the structure-visible 10</td><td><span class="tag tag-amber">1 absorbed by supplements (OpenWire B-tier)</span></td></tr>
+<tr><td><strong>CISA KEV</strong></td><td>Confirmed exploitation</td><td>0 app-layer 12-month hits (N=1 caveat); 8 of 11 on 7-year (KEV subset)</td><td>1 hit (zlib — exploited via MongoDB, different deployment context)</td><td><span class="tag tag-amber">1 absorbed (OpenWire NP-only / hacker B)</span></td></tr>
 <tr><td><strong>ExploitDB</strong></td><td>Public exploit code</td><td>1 hit (Django SQLi, the one 12-month catch)</td><td>1 hit (sqlite — local access only, NVD keyword noise risk)</td><td><span class="tag tag-green">No</span></td></tr>
 <tr><td><strong>Nuclei</strong></td><td>Active scanning</td><td>1 template (Django SQLi)</td><td>0 app-layer templates</td><td><span class="tag tag-green">No</span></td></tr>
 <tr><td><strong>Metasploit</strong></td><td>Weaponized exploits</td><td>0 app-layer modules</td><td>1 module (zlib/MongoDB — different context)</td><td><span class="tag tag-green">No</span></td></tr>
 </tbody></table>
 
 <div class="callout callout-finding">
-<strong>The honest scorecard on the 7-year backtest:</strong> the union of NP+DI + DQ and Hacker S+A catches <strong>11 of 13</strong> exploited events directly, on disclosure day, before any external exploitation signal exists. The remaining 2 are the Tomcat HTTP PUT 2017 pair (CWE-434 file uploads). NP+DI excludes CWE-434 deliberately (raw inclusion would generate massive noise); the hacker evaluated both and tier'd them B (narrow precondition: requires <code>readonly=false</code>, which is non-default). They're <em>not</em> uncaught — for this specific pair, <strong>floor-sweep on adjacent Tomcat NP+DI rebuilds plus the team's normal update cadence</strong> is what actually absorbed them (1-5 year disclosure-to-KEV gap, six adjacent Tomcat emergency rebuilds in window). <strong>Threat-intel monitoring on the watch list and B-tier events</strong> is the third defense-in-depth layer — it didn't need to fire for the 2017 pair, but it's the EPSS-equivalent backstop for a different future scenario where a B-tier event's exploitation accelerates and natural cadence wouldn't catch it in time. (Note: WAFs would have been useful for the 2017 pair in principle, but no team writes WAF rules for B-tier events with no exploitation signal — that's the point of the B-tier rating in the first place.) <strong>Net result: with all three layers in place, the model is never worse than EPSS on any event, and on the structure-visible ones it's days to years faster.</strong> Structure filters fire on disclosure day; cadence + floor-sweep handle the long-latency tail; threat intel covers the accelerated-exploitation case EPSS would otherwise be the only catch for.
+<strong>The honest scorecard on the 7-year backtest:</strong> the union of NP+DI + DQ and Hacker S+A catches <strong>10 of 11</strong> exploited events directly, on disclosure day, before any external exploitation signal exists. The 1 union-miss is the ActiveMQ OpenWire RCE (CVE-2023-46604) — NP-positive but DI-negative under the strict CWE rule, B-tiered by the hacker rubric (deserialization gadget chain, broker-internal protocol). It's <em>not</em> uncaught — <strong>floor-sweep on adjacent ActiveMQ rebuilds plus the threat-intel watch list</strong> absorbs it. The 2 pre-2018 Tomcat HTTP PUT events (CVE-2017-12615/-12617, CWE-434 file uploads) sit outside the canonical 2018+ window entirely; same supplementary controls absorbed them historically (1-5 year disclosure-to-KEV gap, six adjacent Tomcat emergency rebuilds in window). <strong>Threat-intel monitoring on the watch list and B-tier events</strong> is the third defense-in-depth layer — it didn't need to fire for any of these, but it's the EPSS-equivalent backstop for a different future scenario where a B-tier event's exploitation accelerates and natural cadence wouldn't catch it in time. (Note: WAFs would have been useful for the 2017 pair in principle, but no team writes WAF rules for B-tier events with no exploitation signal — that's the point of the B-tier rating in the first place.) <strong>Net result: with all three layers in place, the model is never worse than EPSS on any event, and on the structure-visible ones it's days to years faster.</strong> Structure filters fire on disclosure day; cadence + floor-sweep handle the long-latency tail; threat intel covers the accelerated-exploitation case EPSS would otherwise be the only catch for.
 </div>
 
 <div class="callout callout-warning">
@@ -732,7 +732,7 @@ A network-parsing HIGH (7.0-7.9) at 0.89% beats a non-parsing CRITICAL (9.0-9.9)
 
 <div class="translation"><strong>In plain English:</strong> Some bugs a WAF can hold the line on for days while you patch. Others a WAF cannot meaningfully help with at all. That distinction tells you which patches genuinely have to ship fast.</div>
 
-<p>For each of the 13 exploited events on the 7-year production-manifest backtest, we tagged WAF defensibility along a third axis (developed in detail on the <a href="periodicity.html" style="color:var(--accent)">periodicity page</a>):</p>
+<p>For each of the 11 exploited events on the canonical 58-package runtime manifest (plus the 2 pre-2018 Tomcat HTTP PUT events the periodicity page tracks for completeness), we tagged WAF defensibility along a third axis (developed in detail on the <a href="periodicity.html" style="color:var(--accent)">periodicity page</a>):</p>
 
 <ul style="margin:10px 0 10px 20px">
 <li><strong>WAF-FRIENDLY</strong> — signature-able payload, generic OWASP rules cover it, emergency rule ships within hours. Examples: Spring4Shell (<code>class.module.classLoader</code>), Text4Shell (<code>${url:}</code>), Tomcat HTTP PUT (PUT method + .jsp upload pattern), Tomcat CGI command injection.</li>

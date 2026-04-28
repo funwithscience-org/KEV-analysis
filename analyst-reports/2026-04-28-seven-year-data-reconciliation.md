@@ -159,3 +159,81 @@ These gaps allowed the divergence to develop without a single red test.
 - `/sessions/bold-nice-euler/KEV-analysis/scripts/build_seven_year_quarterly.py` — produces orphaned quarterly aggregator
 - `/sessions/bold-nice-euler/KEV-analysis/tests/test_seven_year_npdi.py` — covers different (24-pkg-OSV) dataset; manifest events file is uncovered
 - Key commits: `dc972d2` (60-pkg manifest pivot, 2026-04-26), `efc8f3d` (prose lands, 2026-04-26), `60165e5` (aggregates JSON materialized, 2026-04-26), `a12f8ba` (data file frozen, 2026-04-25), `6b0ddb6` (chart authored, 2026-04-22), `83af848` (DI widen +5 NP+DI on chart, 2026-04-23), `2af1344` (chart touched today without value update, 2026-04-28)
+
+---
+
+## Reconciliation execution (2026-04-28, after user decision)
+
+**User decision:** **Option 2 — runtime-only canonical manifest.** Pure build tooling (Maven core, plexus, surefire) and dual-use scripting runtimes (Groovy, JRuby, Jython) are excluded from the canonical denominator on methodology grounds: build-only CVEs don't have network-exploitable surface in the deployed app. The 4 runtime additions are included via the same OSV-backed pipeline as the existing 54 packages.
+
+**Final canonical manifest:** 58 logical packages (54 existing + 4 runtime additions: Apache CXF, Apache MINA, Apache SSHD, Hazelcast). Apache CXF and SSHD are split across multiple Maven coordinates (cxf parent + 5 cxf-rt-* submodules; sshd-core + sshd-common), so the cache key count is 64.
+
+### New canonical totals (was → is)
+
+| Metric | Prior prose (60-pkg, hand-curated) | Canonical (58-pkg, derived) | Δ |
+|---|---:|---:|---:|
+| All C/H | 223 | **194** | -29 |
+| NP+DI raw | 46 | **40** | -6 |
+| NP+DI + DQ | 49 | **43** | -6 |
+| Hacker S+A | 20 | **16** | -4 |
+| Exploited | 13 (incl. 2 pre-2018) | **11** | -2 |
+| Patch events: patch-all | 80 | **83** | +3 |
+| Patch events: patch-criticals | 39 | **31** | -8 |
+| Patch events: NP+DI raw | 34 | **28** | -6 |
+| Patch events: NP+DI+DQ | 36 | **30** | -6 |
+| Patch events: hacker S+A | 17 | **11** | -6 |
+| Patch events: union | 39 | **32** | -7 |
+| Catches: NP+DI raw | 6/13 | **5/11** | n.c. |
+| Catches: NP+DI+DQ | 9/13 | **8/11** | n.c. |
+| Catches: Hacker S+A | 10/13 | **9/11** | n.c. |
+| Catches: Union | 11/13 (85%) | **10/11 (91%)** | +ratio |
+
+The 2 pre-2018 Tomcat HTTP PUT events (CVE-2017-12615, -12617) sit outside the canonical 2018+ manifest window. They are absorbed by the same supplementary controls (floor-sweep on adjacent NP+DI Tomcat rebuilds + threat-intel watch list) the model documented for them historically. Section §7 prose retains the worked-example callout because it's a useful illustration of the supplementary-controls argument — but the canonical denominator is now 11, not 13.
+
+### What each runtime addition contributed (within 2018-Q4 → 2026-Q2 window)
+
+| Package | C/H added | NP+DI raw added | Exploited added |
+|---|---:|---:|---:|
+| Apache CXF (parent + 5 submodules) | 8 | 3 | 0 |
+| Apache MINA (mina-core) | 2 | 1 | 0 |
+| Apache SSHD (sshd-core + sshd-common, deduped) | 3 | 0 | 0 |
+| Hazelcast (com.hazelcast:hazelcast) | 6 | 2 | 0 |
+| **Total** | **19** | **6** | **0** |
+
+None of the 4 additions contributed an exploited event in window. The CXF NP+DI events are all SSRF / authentication-bypass advisories that have not been exploited (CVE-2022-46364, CVE-2021-22696, CVE-2019-12419). MINA's CVE-2024-52046 is a CWE-502 deserialization advisory that has likewise not been exploited. Hazelcast's two NP+DI events (CVE-2023-45860 SQLi, CVE-2022-0265 XXE) have GHSA advisories but no KEV / Metasploit / ExploitDB record. **Documented explicitly:** the runtime additions widen the denominator without changing the exploited-cohort count, which is the correct outcome — these packages are real attack surface that the prior 54-pkg cache was missing, and their absence had been pretending the manifest was narrower than it actually is.
+
+### Surprise from the new derivation: CVE-2023-46604
+
+The reconciliation surfaced one event not visible in the prior prose: **CVE-2023-46604** (ActiveMQ Classic OpenWire RCE, 2023-10-27, KEV+MSF). It is NP-positive (activemq-client is in the manifest, with role=NP via override) but DI-negative under the strict CWE-set rule (CWE-502 deserialization is excluded from the DI set on noise-control grounds), and not in the hacker S+A judgments. The model's union doesn't catch it directly. It is absorbed by floor-sweep on adjacent ActiveMQ rebuilds (the activemq-broker / -client / -core packages have multiple disclosures across the same window) and by the threat-intel watch list. The page now footnotes this explicitly rather than implicitly excluding it, and the union catch-rate is reported honestly as 10/11 rather than 11/11.
+
+### What changed in the codebase
+
+- **`scripts/extend_manifest_cache_runtime_additions.py`** (new): one-shot script that queries OSV.dev for the 4 runtime additions (10 Maven coordinates) and merges them into `data/_manifest-osv-cache.json` with role=NP. Idempotent. Documents the user's Option-2 exclusion rationale inline.
+- **`data/_manifest-osv-cache.json`**: extended from 54 → 64 cache keys (58 logical packages).
+- **`data/seven-year-manifest-events.json`**: regenerated. summary.total_ch_events: 175 → 194; npdi_events: 34 → 40; exploited_total: 11 → 11. methodology.scope updated to reflect the 58-pkg canonical scope.
+- **`scripts/build_seven_year_manifest_events.py`**: methodology scope text updated.
+- **`scripts/build_hacker_tier_data.py`**: removed the hardcoded `SEVEN_YEAR_PER_QUARTER` / `SEVEN_YEAR_PER_YEAR` / `STRATEGY_EFFICIENCY_7YR` Python literals. Replaced with a `_build_seven_year_aggregates()` function that derives all three from `data/seven-year-manifest-events.json` plus the in-script `HACKER_TIERS` dict. The `DQ_RESCUE_CVES` set and a 7-day clustering function are now first-class constants. **The audit's Priority 2(a) recommendation is now executed.**
+- **`scripts/compute_epss_marginal.py`**: header text updated 175 → 194.
+- **`scripts/build_cve_reference.py`**: header comment updated 175 → 194.
+- **`docs/periodicity.html`**: §7 lead prose, per-year table, strategy-efficiency table, chart `rmOther`/`rmNPDI` arrays, `rmExploitEvents` (added CVE-2023-46604 marker at index 20), §1 hero-card prose, §2 "11 actually-exploited events" reference, callout under strategy-efficiency table all updated to canonical 58-pkg / 194 / 40 / 43 / 16 / 11 / 10-of-11.
+- **`docs/index.html`**: §3d/3e prose, §4a hero stat (11/13 → 10/11), §4f §heading and lead, §4f strategy-efficiency table (all 6 rows), §4f §callout, §4 EPSS table, §4 validation summary table, "where the structure test struggles" prose, "what the attacker test catches" prose, backtest summary callout, "60 unique libraries" → "58 unique runtime libraries" + Option-2 exclusion rationale.
+- **`docs/cve-reference.html`**: §1 hero text, §5 "60-package Spring Boot manifest" → "canonical 58-package runtime manifest", §5 cohort prose fractions (5/8/8/9 → 5/8/9/10).
+- **`tests/test_seven_year_reconciliation.py`** (new): regression test that re-derives all canonical totals from `seven-year-manifest-events.json` + `hacker-tiers.json` and asserts the chart arrays, prose totals, per-year table tfoot, strategy efficiency cells, EPSS table denominators, hero-stat fractions, and cve-reference §5 cohort match. Wired into `tests/run.sh`.
+
+### Test coverage that locks this in
+
+`tests/test_seven_year_reconciliation.py` runs 52 assertions covering:
+
+- `build_seven_year_manifest_events.py --check` succeeds (events file is reproducible from cache)
+- `data/integrated-page-aggregates.json` per-year, per-quarter, and strategy-efficiency dicts match what the events file actually implies
+- `docs/periodicity.html` chart `rmOther`+`rmNPDI` sum and per-quarter shape match canonical
+- `docs/periodicity.html` §7 lead prose contains the canonical 5-tuple totals string
+- `docs/periodicity.html` §7 per-year table tfoot row contains canonical totals
+- `docs/index.html` §4a hero stat = `<canonical_union>/<canonical_exploited>`
+- `docs/index.html` §4f lead prose has canonical `<all_ch>` and `<exploited>` numbers
+- `docs/index.html` §4f strategy-efficiency table union row has canonical `<union_caught>/<exploited>`
+- `docs/index.html` §3d prose has canonical "NP+DI raw catches X of N..." sentence
+- `docs/cve-reference.html` §5 heading and prose fractions match canonical
+- `docs/cve-reference.html` §5 cohort table includes every exploited CVE from the events file
+
+If any of those fall out of sync, the test fails red. The CLAUDE.md "claims without tests rot" rule is satisfied for every numeric claim in the 7-year backtest.
