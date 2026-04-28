@@ -117,16 +117,14 @@ code{background:var(--code-bg);padding:2px 6px;border-radius:4px;font-size:.88em
 <a href="#two-modes"><span class="toc-num">1</span> Two operational modes</a>
 <a href="#categories"><span class="toc-num">2</span> Three categories of estate maturity</a>
 <a href="#auto-deps"><span class="toc-num">3</span> Automatic dependency update</a>
-<a href="#fourteen"><span class="toc-num">4</span> The 14-emergencies-a-year math</a>
-<a href="#free"><span class="toc-num">5</span> "85% is free"</a>
-<a href="#non-stacking"><span class="toc-num">6</span> Vulnerabilities don't stack</a>
-<a href="#boundary"><span class="toc-num">7</span> The cat 2 / cat 3 boundary</a>
-<a href="#rot"><span class="toc-num">8</span> Cat 2's hidden cost: triggers rot</a>
-<a href="#variance"><span class="toc-num">9</span> Distribution varies by org</a>
-<a href="#wafs"><span class="toc-num">10</span> WAFs as spackle</a>
-<a href="#filter-value"><span class="toc-num">11</span> Filter value depends on response shape</a>
-<a href="#reduction"><span class="toc-num">12</span> What this means for the 64–86%</a>
-<a href="#enterprise-rules"><span class="toc-num">13</span> Practical implications for the enterprise</a>
+<a href="#non-stacking"><span class="toc-num">4</span> Vulnerabilities don't stack</a>
+<a href="#boundary"><span class="toc-num">5</span> The cat 2 / cat 3 boundary</a>
+<a href="#rot"><span class="toc-num">6</span> Cat 2's hidden cost: triggers rot</a>
+<a href="#variance"><span class="toc-num">7</span> Distribution varies by org</a>
+<a href="#wafs"><span class="toc-num">8</span> WAFs as spackle</a>
+<a href="#filter-value"><span class="toc-num">9</span> Filter value depends on response shape</a>
+<a href="#reduction"><span class="toc-num">10</span> What this means for the 64–86%</a>
+<a href="#enterprise-rules"><span class="toc-num">11</span> Practical implications for the enterprise</a>
 </nav>
 
 <!-- MAIN CONTENT -->
@@ -231,6 +229,8 @@ code{background:var(--code-bg);padding:2px 6px;border-radius:4px;font-size:.88em
 
 <p><strong>Use auto-pull coverage as a modifier on the category.</strong> A Cat 1 app with fully-pinned dependencies is effectively Cat 3 from a vulnerability-management standpoint. A Cat 2 app with comprehensive auto-pull behaves much closer to Cat 1. The category from <a href="#categories">§2</a> tells you about pipeline cadence; the auto-pull coverage from this section tells you whether the cadence is actually moving dependencies forward. The combined view is what determines how much of the estate quietly absorbs patches versus piles up debt invisibly.</p>
 
+<p><strong>Increase coverage at the portfolio level, not the per-app level.</strong> The per-app question — "is it worth automating this one app?" — almost always says no, which is why so many apps stay in the manual-only tail. The portfolio-level question — "what platform investment moves <em>any</em> app from manual to auto cheaply?" — gets to better answers: common base images, paved-road CI templates, central library mirrors, the safe-latest registry above. The cost amortizes across the whole tail. Every app moved from pinned-and-manual to semver-auto-pull (whether by direct change or by adopting a paved-road template) reduces the steady-state human cost of every future floor sweep, forever. Slow-burn investment, very large cumulative payoff.</p>
+
 <div class="callout">
 <strong>Operational rules of thumb:</strong>
 <ul style="margin:8px 0 0 22px">
@@ -240,36 +240,11 @@ code{background:var(--code-bg);padding:2px 6px;border-radius:4px;font-size:.88em
 <li>Combine cadence category (§2) with auto-pull coverage to get the <em>effective</em> vulnerability-management profile. A Cat 1 app with pinned deps is effectively Cat 3; the model under-prices its floor-sweep cost otherwise.</li>
 </ul>
 </div>
-
-<h2 id="fourteen">The 14-emergencies-a-year math</h2>
-
-<p>The data on the main page shows roughly 14 critical/high CVEs per year that match the network-parser + direct-injection (NP+DI) filter &mdash; events urgent enough to warrant emergency response. That's roughly one every two-to-three weeks. Whether 14 emergencies per year is "a lot" depends entirely on which population is absorbing them.</p>
-
-<p>For a Cat 1 application with a hundred developers shipping multiple times a week, an emergency every few weeks is barely an emergency at all. The next routine release will pull in the patched dependency. The team does what they do every release; the security event becomes a footnote in the changelog. The cost per emergency for this population is approximately zero marginal effort.</p>
-
-<p>For a thousand mostly-Cat-3 applications, the same fourteen events are fourteen separate cross-team coordination drills. Each one requires identifying which of those thousand apps use the affected dependency, contacting the owners, getting them to interrupt their roadmap, validating the patch landed, and confirming nothing broke. The cost per emergency for this population is enormous, and fourteen of them per year is not sustainable as a steady state.</p>
-
-<div class="callout">
-Same vulnerabilities, same year, two completely different operational realities. The headline rate of emergencies is identical; what differs is what an emergency <em>costs</em> when it lands.
-</div>
-
-<h2 id="free">"85% is free": routine rebuild absorbs patches</h2>
-
-<p>Here's the observation that reframes the whole conversation. Every application that's already on routine rebuild absorbs vulnerability patches as a side effect of normal release work. When a new emergency lands, those applications don't need anyone to chase them &mdash; the next BAU build pulls the fix in through normal channels. The cost is paid by the BAU pipeline that was running anyway. From the security program's perspective, that's free coverage.</p>
-
-<p>If 85% of an estate is on routine rebuild and 15% is not, then a floor sweep doesn't have to touch all 100% of affected apps. The 85% pick the patch up automatically. The remaining 15% &mdash; the apps that don't auto-rebuild &mdash; are where the human chasing concentrates. The management overhead of a floor sweep scales with the size of the non-auto-rebuild population, not with the size of the estate.</p>
-
-<div class="insight">
-<strong>The portfolio metric.</strong> This argues for a portfolio-level capability metric distinct from per-incident metrics: <strong>percentage of estate on auto-rebuild</strong>, tracked over multi-year horizons. Every app moved from the 15% bucket into the 85% bucket reduces the steady-state human cost of every future floor sweep, forever. Slow-burn investment, very large cumulative payoff.
-</div>
-
-<p>The per-app question &mdash; "is it worth automating this one?" &mdash; almost always says no, which is why so many apps stay in the manual-only tail. The portfolio-level question &mdash; "what platform investment moves <em>any</em> app from manual to auto cheaply?" &mdash; gets to better answers (common base images, paved-road CI templates, central library mirrors) because the cost is amortized across the whole tail.</p>
-
 <h2 id="non-stacking">Vulnerabilities don't stack</h2>
 
 <p>A subtle point worth internalizing: <strong>BAU rebuild discipline does not reduce the rate of emergencies.</strong> New vulnerabilities arrive at whatever rate attacker discovery and disclosure produce them, which is exogenous to your hygiene. When a new NP+DI lands, you sweep 100% of affected infrastructure regardless of how clean your floor was last month.</p>
 
-<p>Patching last month's RCE doesn't earn a discount on this month's RCE. Tier-1 break-in vulnerabilities don't queue against each other or compound. So the value of monthly rebuild isn't "85% fewer emergencies" &mdash; emergencies still happen at the same rate. The value is <strong>"85% fewer apps to chase per emergency."</strong></p>
+<p>Patching last month's RCE doesn't earn a discount on this month's RCE. Triggered events don't queue against each other or compound. So the value of routine rebuild isn't "fewer emergencies" — emergencies arrive at the same rate regardless. The value is <strong>fewer apps to chase per emergency</strong>. On the 1/3-1/3-1/3 illustration from <a href="#categories">§2</a>: when an emergency lands, the 33% Cat 1 share absorbs it in BAU automatically, the 33% Cat 2 share rides triggers and routine cadence, and only the 33% Cat 3 share consumes the expensive coordination drill. Roughly <strong>two-thirds of the estate is covered for free</strong>; the floor-sweep cost concentrates on the remaining third. Shift the mix toward Cat 1 and Cat 2 and the per-emergency human cost drops proportionally — but the count of emergencies the model fires on stays the same.</p>
 
 <div class="insight warn">
 <strong>What the filter actually does.</strong> The filter doesn't prevent emergencies; emergencies are exogenous. What the filter does is <strong>discriminate which incoming CVEs require the floor-sweep coordination drill at all</strong>, versus which ones your normal BAU cadence will absorb on its natural timeline. The reduction is in <em>which fraction of disclosures trigger expensive coordination</em>, not in <em>how many disclosures happen</em>.
