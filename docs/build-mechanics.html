@@ -142,9 +142,15 @@ code{background:var(--code-bg);padding:2px 6px;border-radius:4px;font-size:.88em
 <li><strong>Two modes, very different costs.</strong> BAU rides existing pipelines at whatever speed the team already runs (cheap, invisible). Floor sweeps demand exhaustive coverage on a forced timeline (visible, expensive). The cost difference isn't per-patch — it's coordination overhead.</li>
 <li><strong>Estate maturity decides the mix.</strong> Cat 1/2/3 categorizes how much of an estate quietly absorbs patches in BAU versus requires sweep coordination. The portfolio's Cat 1 share is the single biggest determinant of vulnerability-program cost.</li>
 <li><strong>The model compounds with cadence.</strong> A 64–86% reduction in emergencies only converts to operational value when BAU absorbs the rest. Without the BAU layer, every "non-emergency" still has to be patched manually — the model's noise reduction is wasted.</li>
-<li><strong>Portfolio metric worth tracking.</strong> Percentage of estate on auto-rebuild. Every app moved into the auto-rebuild bucket reduces the steady-state cost of every future floor sweep, forever. Slow-burn investment, very large cumulative payoff.</li>
+<li><strong>Portfolio metrics worth tracking.</strong> Three things, all at the deployable-unit level (not per service / per application name):
+<ul style="margin:6px 0 0 22px">
+<li>Split your apps into <strong>categories based on release frequency</strong> (Cat 1 / Cat 2 / Cat 3 — see <a href="#categories">§2</a>). Pull 12 months of deploy timestamps and bucket on cadence.</li>
+<li>Track which apps use <strong>"get latest" in their build models</strong> (auto-pull coverage — see <a href="#auto-deps">§3</a>). A Cat 1 app with pinned dependencies is effectively Cat 3; the metric exposes that.</li>
+<li>Track which apps are <strong>inherently unauthenticated</strong> (auth posture — see <a href="#unauth">§4</a>). Public APIs, framework management endpoints, marketing surfaces. Auth posture changes which filter applies to the dependency stack.</li>
+</ul>
+Every app moved in the right direction on any of these reduces the steady-state cost of every future floor sweep, forever. Slow-burn investment, very large cumulative payoff.</li>
 <li><strong>WAFs are spackle, not the model.</strong> They buy time on the perimeter while the rebuild propagates through the estate; they don't replace the rebuild. The right framing is "WAF holds for the rebuild window" — and that window is whatever your slowest in-scope estate cat takes.</li>
-<li><strong>The model assumes meaningful authentication.</strong> NP+DI narrows because most exploitable surface lives behind auth. Unauthenticated surface — public APIs, accidentally-exposed actuators, framework management endpoints — needs a wider filter and tighter architectural constraints. Auth posture is a first-class operational artifact.</li>
+<li><strong>The model assumes meaningful authentication.</strong> NP+DI narrows because most exploitable surface lives behind auth. Unauthenticated surface needs a wider CWE filter and tighter architectural constraints — minimal libraries, no general-purpose deserialization, ideally a separate deploy unit on its own cadence.</li>
 </ul>
 </div>
 
