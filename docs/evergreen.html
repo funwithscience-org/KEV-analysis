@@ -126,8 +126,8 @@ code{background:var(--code-bg);padding:2px 6px;border-radius:4px;font-size:.88em
 <h2 id="short-answer">The Short Answer</h2>
 
 <div class="verdict-box">
-<div class="number">It depends on the ecosystem — and the answer isn't what you'd expect.</div>
-<div class="label" style="margin-top:12px">Across Java, Node.js, RHEL, and Windows Server — evergreening doesn't consistently reduce CVE exposure. In some cases (Java 11) it eliminates confirmed exploitation. In others (Node.js 18+) it <em>adds</em> attack surface. The consistent finding: the runtime/platform generates CVEs that nobody exploits; the library/ecosystem layer is where confirmed damage happens.</div>
+<div class="number">Stay current — but not because it cuts CVE exposure.</div>
+<div class="label" style="margin-top:12px"><strong>Evergreening is the right default</strong> for performance, hiring, ecosystem support, free OSS patch windows, and modern security mitigations. <strong>It is <em>not</em>, on a real runtime manifest, a vulnerability-reduction lever.</strong> Across Java, Node.js, RHEL, and Windows Server, generation shifts don't consistently reduce CVE exposure: in some cases (Java 11) old-gen-only CVEs disappear; in others (Node.js 18+) staying current <em>adds</em> attack surface. The consistent finding: the runtime/platform layer generates CVEs that nobody exploits, while the library/ecosystem layer is where confirmed damage happens — and the lever for that layer is patch currency and dependency pruning, not generation upgrade.</div>
 </div>
 
 <div class="hero-row">
@@ -187,7 +187,7 @@ code{background:var(--code-bg);padding:2px 6px;border-radius:4px;font-size:.88em
 
 <p class="footnote">This is a <strong>directional shift</strong> from the prior page narrative, and it's worth being honest about: the "evergreening avoids 2" claim relied on counting fire-drills against dead packages a modern team wouldn't be running anyway. On a manifest reflective of current runtime reality, that lever returns nothing. The dependency-pruning insight still holds — drop dead deps — but it's a separate lever from generation shift.</p>
 
-<p>The 2 events that evergreening made <em>worse</em> (Spring4Shell, ActiveMQ Jolokia) are both <strong>confirmed exploited</strong> with KEV entries and Metasploit modules. So the cross-tab is now stark: <strong>0 avoided / 2 worse, both worse cases exploited.</strong> Evergreening's net effect on the in-scope cohort is unambiguously negative.</p>
+<p>The 2 events that evergreening made <em>worse</em> (Spring4Shell, ActiveMQ Jolokia) are both <strong>confirmed exploited</strong> with KEV entries and Metasploit modules. So the cross-tab is stark: <strong>0 avoided / 2 worse, both worse cases exploited.</strong> Evergreening's net effect on the canonical in-scope cohort, <em>measured purely as vulnerability reduction</em>, is negative. That doesn't make staying current the wrong call — it makes the case for it sit on a different axis (free patch access, performance, ecosystem support, modern mitigations). What the data does <em>not</em> support is using "fewer CVEs" as the argument.</p>
 
 <h3>Made worse: the new stack was the vulnerable one</h3>
 
@@ -411,7 +411,7 @@ code{background:var(--code-bg);padding:2px 6px;border-radius:4px;font-size:.88em
 </table>
 
 <div class="callout callout-finding">
-<strong>Finding:</strong> Evergreening is irrelevant for 14 of 40 NP+DI raw events (XStream, jackson-databind, Hazelcast, MINA — all app-level deps with no Spring/Java gen axis). It's a "no difference" answer for 25 more (Tomcat, Spring Security, log4j, CXF, Thymeleaf, ActiveMQ — shared code across both generations). It made things <em>worse</em> for 1 (Spring4Shell). It avoided zero. The levers that actually map to library health state are <strong>dependency pruning</strong> (drop XStream: -6 NP+DI events) and <strong>patch currency</strong> (stay on latest minor: handles all 25 no-difference events). Generation shifts are orthogonal — and the only directional effect they have on this canonical manifest is negative (Spring4Shell).
+<strong>Finding:</strong> Evergreening is irrelevant for 14 of 40 NP+DI raw events (XStream, jackson-databind, Hazelcast, MINA — all app-level deps with no Spring/Java gen axis). It's a "no difference" answer for 25 more (Tomcat, Spring Security, log4j, CXF, Thymeleaf, ActiveMQ — shared code across both generations). It made things <em>worse</em> for 1 (Spring4Shell). It avoided zero. The levers that actually map to library health state are <strong>dependency pruning</strong> (drop XStream: -6 NP+DI events) and <strong>patch currency</strong> (stay on latest minor: handles all 25 no-difference events). <strong>Generation shifts are orthogonal to vulnerability reduction</strong> — and on this canonical manifest, the only directional vuln-reduction effect they have is negative (Spring4Shell). That's an argument against using vulnerability counts as the case for evergreening; it isn't an argument against evergreening on its other merits (performance, ecosystem, free patches, hiring).
 </div>
 
 <h3>The Java evergreening funnel: C/H → NP+DI → Exploited</h3>
@@ -436,7 +436,9 @@ code{background:var(--code-bg);padding:2px 6px;border-radius:4px;font-size:.88em
 </div>
 
 <div class="callout callout-warning">
-<strong>The pattern is stark.</strong> The only CVEs in this canonical manifest that are confirmed exploited on the <em>new</em> generation (Spring4Shell + ActiveMQ Jolokia) are ones that evergreening <em>introduced</em>. The "old-gen-only" cohort that evergreening would have avoided is empty on the canonical manifest. And the CVEs that hit both generations equally (Log4Shell, the Tomcat pair) are the ones where the generation is irrelevant. Evergreening's net directional effect on the Java stack: <strong>0 wins, 2 losses</strong>, with everything else either unaffected by the generation axis or affected equally on both sides. The lever doesn't work.
+<strong>The pattern is stark.</strong> The only CVEs in this canonical manifest that are confirmed exploited on the <em>new</em> generation (Spring4Shell + ActiveMQ Jolokia) are ones that evergreening <em>introduced</em>. The "old-gen-only" cohort that evergreening would have avoided is empty on the canonical manifest. And the CVEs that hit both generations equally (Log4Shell, the Tomcat pair) are the ones where the generation is irrelevant. Evergreening's net directional effect on the Java stack — <em>scored purely as vulnerability reduction</em> — is <strong>0 wins, 2 losses</strong>, with everything else either unaffected by the generation axis or affected equally on both sides.
+
+<p style="margin-top:10px"><strong>To be unambiguous about what this does and doesn't say:</strong> staying current is still the right default for most organizations. The case for it is performance, hiring, ecosystem support, preserved access to free OSS patch windows, and modern compiler/runtime security mitigations (Spring 6's structured concurrency, JDK 17+'s sealed types and pattern matching, modern TLS defaults, etc.). What this section refutes is the <em>vulnerability-reduction</em> argument for generation shifts. If your case for evergreening is "we'll have fewer CVEs," the data on this manifest doesn't support it. If your case is anything else, evergreening is still the right answer — just on different evidence than CVE counts.
 </div>
 
 <!-- ===== JVM PLATFORM ===== -->
