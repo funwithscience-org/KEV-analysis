@@ -643,7 +643,7 @@ details summary:hover{color:var(--cyan)}
 <div class="callout callout-finding">
 <strong>Operational response depends on estate maturity — see <a href="build-mechanics.html#categories" style="color:var(--accent);text-decoration:underline">Operational Model §5</a> for the full treatment.</strong>
 <p style="margin-top:6px"><strong style="color:var(--green)">Cat 1</strong> — apps that absorb a security patch in hours via routine BAU rebuild.</p>
-<p style="margin-top:6px"><strong style="color:var(--amber)">Cat 2</strong> — apps on a regular cadence (weekly to monthly). Discriminator-driven floor sweeps land cleanly. Most healthy estates live here.</p>
+<p style="margin-top:6px"><strong style="color:var(--amber)">Cat 2</strong> — semi-active development and/or triggerable rebuild infrastructure (regular weekly-to-monthly cadence, or button-press rebuild that runs cleanly when fired). Discriminator-driven floor sweeps land cleanly. Most healthy estates live here.</p>
 <p style="margin-top:6px"><strong style="color:var(--red)">Cat 3</strong> — apps with a long, unscheduled, or governance-blocked rebuild path. Often larger than people admit. Every emergency becomes a project.</p>
 <p style="margin-top:8px"><strong>The discriminator's value depends on which category an app sits in.</strong> A Cat 1 estate barely needs the discriminator (everything gets absorbed in BAU). A Cat 3 estate needs it most (every false-positive emergency is weeks of project work). The hacker S+A bar of ~2.4 emergencies per year is the threshold below which a Cat 2 team can run on routine cadence and still cover real exploitation; the all-C/H bar of ~11 per year drives Cat 2 estates back into Cat 3 reactive mode.</p>
 </div>
