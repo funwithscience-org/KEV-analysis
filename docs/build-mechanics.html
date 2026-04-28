@@ -116,16 +116,17 @@ code{background:var(--code-bg);padding:2px 6px;border-radius:4px;font-size:.88em
 <a href="#" style="text-decoration:none;color:inherit"><div class="sidebar-title">Operational<br>Model</div></a>
 <a href="#two-modes"><span class="toc-num">1</span> Two operational modes</a>
 <a href="#categories"><span class="toc-num">2</span> Three categories of estate maturity</a>
-<a href="#fourteen"><span class="toc-num">3</span> The 14-emergencies-a-year math</a>
-<a href="#free"><span class="toc-num">4</span> "85% is free"</a>
-<a href="#non-stacking"><span class="toc-num">5</span> Vulnerabilities don't stack</a>
-<a href="#boundary"><span class="toc-num">6</span> The cat 2 / cat 3 boundary</a>
-<a href="#rot"><span class="toc-num">7</span> Cat 2's hidden cost: triggers rot</a>
-<a href="#variance"><span class="toc-num">8</span> Distribution varies by org</a>
-<a href="#wafs"><span class="toc-num">9</span> WAFs as spackle</a>
-<a href="#filter-value"><span class="toc-num">10</span> Filter value depends on response shape</a>
-<a href="#reduction"><span class="toc-num">11</span> What this means for the 64–86%</a>
-<a href="#enterprise-rules"><span class="toc-num">12</span> Practical implications for the enterprise</a>
+<a href="#auto-deps"><span class="toc-num">3</span> Automatic dependency update</a>
+<a href="#fourteen"><span class="toc-num">4</span> The 14-emergencies-a-year math</a>
+<a href="#free"><span class="toc-num">5</span> "85% is free"</a>
+<a href="#non-stacking"><span class="toc-num">6</span> Vulnerabilities don't stack</a>
+<a href="#boundary"><span class="toc-num">7</span> The cat 2 / cat 3 boundary</a>
+<a href="#rot"><span class="toc-num">8</span> Cat 2's hidden cost: triggers rot</a>
+<a href="#variance"><span class="toc-num">9</span> Distribution varies by org</a>
+<a href="#wafs"><span class="toc-num">10</span> WAFs as spackle</a>
+<a href="#filter-value"><span class="toc-num">11</span> Filter value depends on response shape</a>
+<a href="#reduction"><span class="toc-num">12</span> What this means for the 64–86%</a>
+<a href="#enterprise-rules"><span class="toc-num">13</span> Practical implications for the enterprise</a>
 </nav>
 
 <!-- MAIN CONTENT -->
@@ -211,6 +212,32 @@ code{background:var(--code-bg);padding:2px 6px;border-radius:4px;font-size:.88em
 <ul style="margin:8px 0 0 22px">
 <li><strong>Distributions vary widely.</strong> The 1/3 - 1/3 - 1/3 split isn't a recommendation or a typical case &mdash; it's a midpoint reference for thinking about the trade-offs. Cloud-native shops might be more like 60/30/10. M&amp;A-heavy or platform-shift-heavy shops might be more like 10/30/60. The framework applies regardless; only the operational pressure shifts. For a 60/30/10 estate, NP+DI emergencies are a non-event for two-thirds of the estate and a manageable trigger fire for the rest. For a 10/30/60 estate, the cat-3 60% dominates everything, and WAF maturity moves from "important" to "the entire defense."</li>
 <li><strong>Categorize at the deployable-unit level.</strong> A first-pass on release-cadence metadata is cheap; the harder discipline is decomposing "services" into the individual deployable units that actually have pipelines. Without that decomposition, a Cat 3 sub-component hides behind a Cat 1 service name and the model under-prices the floor-sweep cost. Track the categorization where the patch actually has to land.</li>
+</ul>
+</div>
+
+<h2 id="auto-deps">Automatic dependency update: BAU's hidden prerequisite</h2>
+
+<p>You only get patches "for free" in BAU if your build infrastructure actually pulls in updated dependencies. The whole "BAU absorbs the patch" story assumes that running the pipeline today produces a binary built against today's library versions. If your build is fully declarative and version-pinned, that assumption collapses — and the category mapping you just made becomes misleading.</p>
+
+<p><strong>The pinning anti-pattern.</strong> Suppose you have a Cat 1 app: three builds a day, mature CI, the team is on it. But the dependency manifest hardcodes <code>snakeyaml = 2.3</code>. SnakeYAML 2.3 has a CVE; the maintainers ship 2.4. Your three builds today produce three identical binaries that all still contain the vulnerable 2.3. From a vulnerability-management standpoint, this app is now functionally Cat 3 — it doesn't matter how often you build, the build doesn't move the dependency. Fully-pinned, declarative builds are anathema to vulnerability management for exactly this reason: they trade reproducibility for an invisible patching debt.</p>
+
+<p><strong>The middle path: semver-aware auto-update.</strong> Most ecosystems give you a way to express "auto-update within the safe range." Maven version ranges, npm's <code>^</code> and <code>~</code> prefixes, pip's <code>~=</code>, Go's minimum-version selection — they all let you pin a major version and let minor and patch updates flow in. The convention is sound: 1.17 → 1.23 is supposed to be backward-compatible; 5.x → 6.x usually isn't. For most upstream libraries this works well enough that Renovate, Dependabot, or the equivalent can pull the new patch on the next build with no human in the loop.</p>
+
+<p><strong>Where semver breaks down.</strong> Particularly with internal libraries, "safe" doesn't always map cleanly to version numbers. Some 2.0 upgrades are transparent (a major-version bump driven by tooling, no API change). Some 1.14 → 1.15 patch bumps quietly require a config change you'll miss. And forks happen: a library you maintain for company-specific reasons might publish as <code>1.17-company</code> or <code>1.17-internal</code>, which standard auto-update tooling doesn't reason about correctly. The semver convention is a useful default, not a guarantee.</p>
+
+<p><strong>The infrastructure escape hatch: a "safe latest" registry.</strong> When semver isn't enough, the right move is to build a small internal service that maps <code>(library, current-version) → latest-safe-version</code> based on whatever criteria your organization actually trusts (passing internal CI, used in production by another service for N days, signed off by a maintainer, etc.). Auto-builds query this service instead of the public registry. The same registry handles forks cleanly — <code>1.17-company</code> knows where it's headed because you control the mapping. Building this is a small project, but it's exactly the kind of platform investment that lets you increase the auto-build share of the estate without taking on more breakage risk.</p>
+
+<p><strong>Track coverage at the deployable-unit level.</strong> Same caveat as the categorization itself in <a href="#categories">§2</a>: auto-pull coverage has to be tracked per deployable unit, not per service or application. A service can have one deployable unit on full auto-pull and another with pinned dependencies inherited from an old fork; both ride the same release name but they have very different vulnerability-absorption properties. Without per-unit tracking, the auto-pull metric over-reports.</p>
+
+<p><strong>Use auto-pull coverage as a modifier on the category.</strong> A Cat 1 app with fully-pinned dependencies is effectively Cat 3 from a vulnerability-management standpoint. A Cat 2 app with comprehensive auto-pull behaves much closer to Cat 1. The category from <a href="#categories">§2</a> tells you about pipeline cadence; the auto-pull coverage from this section tells you whether the cadence is actually moving dependencies forward. The combined view is what determines how much of the estate quietly absorbs patches versus piles up debt invisibly.</p>
+
+<div class="callout">
+<strong>Operational rules of thumb:</strong>
+<ul style="margin:8px 0 0 22px">
+<li>Pin only what you have to. Default to semver-aware auto-update.</li>
+<li>Build a "safe latest" registry when semver isn't enough — internal libraries, forks, custom builds (the <code>1.17-company</code> pattern).</li>
+<li>Track auto-pull coverage at the deployable-unit level, not the service or application name.</li>
+<li>Combine cadence category (§2) with auto-pull coverage to get the <em>effective</em> vulnerability-management profile. A Cat 1 app with pinned deps is effectively Cat 3; the model under-prices its floor-sweep cost otherwise.</li>
 </ul>
 </div>
 
