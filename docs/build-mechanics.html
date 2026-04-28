@@ -117,14 +117,14 @@ code{background:var(--code-bg);padding:2px 6px;border-radius:4px;font-size:.88em
 <a href="#two-modes"><span class="toc-num">1</span> Two operational modes</a>
 <a href="#categories"><span class="toc-num">2</span> Three categories of estate maturity</a>
 <a href="#auto-deps"><span class="toc-num">3</span> Automatic dependency update</a>
-<a href="#non-stacking"><span class="toc-num">4</span> Vulnerabilities don't stack</a>
-<a href="#boundary"><span class="toc-num">5</span> The cat 2 / cat 3 boundary</a>
-<a href="#rot"><span class="toc-num">6</span> Cat 2's hidden cost: triggers rot</a>
-<a href="#variance"><span class="toc-num">7</span> Distribution varies by org</a>
-<a href="#wafs"><span class="toc-num">8</span> WAFs as spackle</a>
-<a href="#filter-value"><span class="toc-num">9</span> Filter value depends on response shape</a>
-<a href="#reduction"><span class="toc-num">10</span> What this means for the 64–86%</a>
-<a href="#enterprise-rules"><span class="toc-num">11</span> Practical implications for the enterprise</a>
+<a href="#unauth"><span class="toc-num">4</span> Unauthenticated surface</a>
+<a href="#non-stacking"><span class="toc-num">5</span> Vulnerabilities don't stack</a>
+<a href="#boundary"><span class="toc-num">6</span> The cat 2 / cat 3 boundary</a>
+<a href="#rot"><span class="toc-num">7</span> Cat 2's hidden cost: triggers rot</a>
+<a href="#variance"><span class="toc-num">8</span> Distribution varies by org</a>
+<a href="#wafs"><span class="toc-num">9</span> WAFs as spackle</a>
+<a href="#filter-value"><span class="toc-num">10</span> Filter value depends on response shape</a>
+<a href="#reduction"><span class="toc-num">11</span> What this means for the 64–86%</a>
 </nav>
 
 <!-- MAIN CONTENT -->
@@ -144,6 +144,7 @@ code{background:var(--code-bg);padding:2px 6px;border-radius:4px;font-size:.88em
 <li><strong>The model compounds with cadence.</strong> A 64–86% reduction in emergencies only converts to operational value when BAU absorbs the rest. Without the BAU layer, every "non-emergency" still has to be patched manually — the model's noise reduction is wasted.</li>
 <li><strong>Portfolio metric worth tracking.</strong> Percentage of estate on auto-rebuild. Every app moved into the auto-rebuild bucket reduces the steady-state cost of every future floor sweep, forever. Slow-burn investment, very large cumulative payoff.</li>
 <li><strong>WAFs are spackle, not the model.</strong> They buy time on the perimeter while the rebuild propagates through the estate; they don't replace the rebuild. The right framing is "WAF holds for the rebuild window" — and that window is whatever your slowest in-scope estate cat takes.</li>
+<li><strong>The model assumes meaningful authentication.</strong> NP+DI narrows because most exploitable surface lives behind auth. Unauthenticated surface — public APIs, accidentally-exposed actuators, framework management endpoints — needs a wider filter and tighter architectural constraints. Auth posture is a first-class operational artifact.</li>
 </ul>
 </div>
 
@@ -240,122 +241,12 @@ code{background:var(--code-bg);padding:2px 6px;border-radius:4px;font-size:.88em
 <li>Combine cadence category (§2) with auto-pull coverage to get the <em>effective</em> vulnerability-management profile. A Cat 1 app with pinned deps is effectively Cat 3; the model under-prices its floor-sweep cost otherwise.</li>
 </ul>
 </div>
-<h2 id="non-stacking">Vulnerabilities don't stack</h2>
 
-<p>A subtle point worth internalizing: <strong>BAU rebuild discipline does not reduce the rate of emergencies.</strong> New vulnerabilities arrive at whatever rate attacker discovery and disclosure produce them, which is exogenous to your hygiene. When a new NP+DI lands, you sweep 100% of affected infrastructure regardless of how clean your floor was last month.</p>
+<h2 id="unauth">Unauthenticated surface: the model's hidden assumption</h2>
 
-<p>Patching last month's RCE doesn't earn a discount on this month's RCE. Triggered events don't queue against each other or compound. So the value of routine rebuild isn't "fewer emergencies" — emergencies arrive at the same rate regardless. The value is <strong>fewer apps to chase per emergency</strong>. On the 1/3-1/3-1/3 illustration from <a href="#categories">§2</a>: when an emergency lands, the 33% Cat 1 share absorbs it in BAU automatically, the 33% Cat 2 share rides triggers and routine cadence, and only the 33% Cat 3 share consumes the expensive coordination drill. Roughly <strong>two-thirds of the estate is covered for free</strong>; the floor-sweep cost concentrates on the remaining third. Shift the mix toward Cat 1 and Cat 2 and the per-emergency human cost drops proportionally — but the count of emergencies the model fires on stays the same.</p>
+<p>The model has three foundational prerequisites: cadence (<a href="#categories">§2</a>), dependency hygiene (<a href="#auto-deps">§3</a>), and — this section — <strong>authentication</strong>. NP+DI narrows the way it does because it assumes most exploitable surface lives behind a meaningful auth boundary; the filter focuses on what fires <em>before</em> auth completes because that's where attackers can reach without credentials. When the auth assumption breaks — for unauthenticated services, for misconfigured management endpoints, for surfaces that grew public without anyone deciding they should be — the model still works in principle, but the filter scope has to widen and the operational rules around it change.</p>
 
-<div class="insight warn">
-<strong>What the filter actually does.</strong> The filter doesn't prevent emergencies; emergencies are exogenous. What the filter does is <strong>discriminate which incoming CVEs require the floor-sweep coordination drill at all</strong>, versus which ones your normal BAU cadence will absorb on its natural timeline. The reduction is in <em>which fraction of disclosures trigger expensive coordination</em>, not in <em>how many disclosures happen</em>.
-</div>
-
-<h2 id="boundary">The cat 2 / cat 3 boundary matters more than cat 1 / cat 2</h2>
-
-<p>The economic argument for moving an application from cat 3 to cat 2 is much stronger than the argument for moving it from cat 2 to cat 1.</p>
-
-<p><strong>Cat 1 vs cat 2</strong> is about marginal speed during a sweep. The difference between hours and days matters only for the most aggressive emergencies &mdash; the kind where exploitation begins within 72 hours of disclosure. For most CVEs, cat 2 with a tested manual trigger gets the same operational result as cat 1.</p>
-
-<p><strong>Cat 2 vs cat 3</strong> is about whether you can respond at all within reasonable time. An app that can be force-rebuilt in a week is operationally manageable; an app that needs a multi-month archeology project before you can patch is essentially unprotected during that window. WAF coverage helps but doesn't eliminate the gap.</p>
-
-<p>The investment delta is also different. Moving cat 3 &rarr; cat 2 is mostly tooling: standing up the CI pipeline, automating the build, getting the tests to pass. Moving cat 2 &rarr; cat 1 often requires team culture change &mdash; getting the team to ship more frequently, adopting trunk-based development, building deployment confidence &mdash; which is much harder. So the per-dollar return on investment tends to favor cat 3 &rarr; cat 2.</p>
-
-<h2 id="rot">Cat 2's hidden cost: triggers rot</h2>
-
-<p>The risk specific to cat 2 is that the trigger silently degrades. A manual CI pipeline that runs once a year on demand will, in the meantime, have its upstream dependencies move, its base image deprecated, its test suite assume Python 3.7. When the emergency strikes and someone pushes the button, they discover the "triggerable infrastructure" is actually cat 3 with a fig leaf.</p>
-
-<p>Cat 1 doesn't pay this cost because the pipeline is exercised continuously &mdash; anything that breaks gets noticed and fixed within days. Cat 2 needs an explicit fire-drill cadence: <strong>rebuild from scratch quarterly even when nothing has changed</strong>, just to surface drift early. This is the cat-2-specific maintenance cost that should be planned for and budgeted.</p>
-
-<div class="insight danger">
-<strong>Practical rule of thumb.</strong> A cat 2 trigger that hasn't been exercised in 18 months should be assumed to be cat 3 until proven otherwise. The metric isn't "% of estate with a rebuild config" &mdash; it's "% of estate verified-rebuilding."
-</div>
-
-<h2 id="variance">Distribution varies by organization</h2>
-
-<p>The cat 1 / 2 / 3 split varies significantly by organization, and the variation correlates with predictable things:</p>
-
-<ul>
-<li><strong>M&amp;A-heavy organizations</strong> inherit cat 3 estates faster than they can convert them. Acquired companies bring acquired tooling, acquired technical debt, and acquired apps that nobody on the new team understands.</li>
-<li><strong>Organizations through multiple platform shifts</strong> &mdash; mainframe to distributed, on-prem to cloud, monolith to microservices &mdash; accumulated cat 3 each migration because old apps got "we'll deal with that later" decisions that never got dealt with.</li>
-<li><strong>Cloud-native organizations</strong> that grew up after CI/CD norms solidified have much higher cat 1 + cat 2 ratios by default, almost as a side effect of when they were born.</li>
-</ul>
-
-<p>An honest cat 1 / 2 / 3 distribution is itself a maturity diagnostic, possibly more telling than per-incident metrics. It summarizes years of compounding decisions about whether to build, when to refactor, and what to leave alone.</p>
-
-<div class="insight warn">
-<strong>The honesty problem.</strong> Internal estimates of cat distribution skew optimistic because admitting cat 3 is admitting governance failure. The "we have a Dockerfile but no working CI" middle case tends to get counted as cat 2 in the slide deck and behave as cat 3 in the incident. An honest census is hard to take and harder to publish, which is part of why estates tend to have more cat 3 than people expect.
-</div>
-
-<h2 id="wafs">WAFs as spackle</h2>
-
-<p>Web Application Firewalls (WAFs) are the operational control that bridges the gaps between the three categories. They sit at the perimeter, inspect HTTP traffic for known attack patterns, and can block exploitation attempts at the edge &mdash; without requiring any change to the underlying application.</p>
-
-<p>The layer-specificity is what makes WAFs a freakishly well-matched control here, rather than generic defense-in-depth. <strong>WAFs are uniquely good at HTTP-parser pattern matching, and HTTP parsers are exactly the attack class identified by the NP+DI filter as the dominant exploitation vector.</strong> That asymmetry is part of why "WAF first, rebuild on sustainable pace" works as a response template. For OS kernel privilege escalation, local file inclusion through non-HTTP channels, or supply chain attacks, no WAF maturity buys you bridging time. But those aren't the categories generating the emergency calls in the first place.</p>
-
-<h3>How WAFs change the categorical math</h3>
-
-<p>Without WAF, the gap between categories matters enormously. Cat 1 fixes in hours, cat 3 fixes in months &mdash; that's the difference between "barely a story" and "front-page incident." With mature WAF coverage on the HTTP-parser surface, those gaps shrink:</p>
-
-<table>
-<thead><tr><th>Category</th><th>Without WAF</th><th>With mature WAF</th></tr></thead>
-<tbody>
-<tr><td><strong>Cat 1</strong></td><td>Rebuild in hours; minimal exposure window.</td><td>WAF blocks immediately while rebuild propagates. Belt and suspenders.</td></tr>
-<tr><td><strong>Cat 2</strong></td><td>Rebuild in days&ndash;weeks; meaningful exposure window during which exploitation is likely.</td><td>WAF blocks at the edge while the manual rebuild trigger fires on the team's pace. The WAF holds for the rebuild window.</td></tr>
-<tr><td><strong>Cat 3</strong></td><td>Rebuild in months or never; effectively unprotected during the window, severe risk.</td><td>WAF blocks at the edge and may hold for years if the underlying app never gets properly rebuilt. Perimeter protection persists indefinitely.</td></tr>
-</tbody>
-</table>
-
-<p>For HTTP-parser vulnerabilities specifically &mdash; the dominant attack class &mdash; the cat 1 / 2 / 3 categorical distribution stops being the dominant operational factor in the presence of mature WAF coverage. The categories still matter for non-HTTP attack classes and as a maturity diagnostic, but they stop driving incident severity for the largest chunk of emergencies.</p>
-
-<h3>Strategic implication: WAF maturity is the highest-leverage cat-3 investment</h3>
-
-<p>For an organization that can't cheaply move applications up the categories, <strong>WAF maturity is the highest-leverage defensive investment available</strong>. Building a fast custom-rule capability, paying for premium vendor rule coverage, and tuning observe-to-enforce promotion processes effectively bridges cat 3 to cat-2-effective response speed for the NP+DI subset, without touching the underlying applications. That's a different investment shape than the "modernize the build pipeline" argument, and for some organizations it's the only realistic path.</p>
-
-<h3>"Can be worked around": the spackle stays spackle</h3>
-
-<p>WAF rules trigger on signatures. Specific evasions exist: encoding tricks, header smuggling, fragmented attacks, novel payload variants, attacks via authenticated paths. A determined attacker who specifically targets your organization will eventually find a bypass, especially against generic vendor rules versus custom-written rules for the specific CVE. Defense-in-depth principle still applies; WAFs are not a replacement for fixing the underlying issue.</p>
-
-<div class="insight">
-<strong>The honest framing.</strong> WAF turns the question from "can we patch this in 24 hours" into "can we patch this in 30 days." That's a much easier question for cat 2 and a sometimes-tractable question for cat 3. WAF buys <em>time</em>, not <em>resolution</em>. The rebuild still has to happen for cat 3 apps when the vulnerability is severe and broadly targeted, just at sustainable pace rather than emergency pace.
-</div>
-
-<p>The response timeline isn't zero either. There's a window of hours-to-days between disclosure and good WAF rule coverage, depending on whether the vendor publishes a rule quickly or your team writes a custom one. So the WAF window is "much shorter than the rebuild timeline" rather than "instantaneous." Worth pricing into response-time SLAs.</p>
-
-<h2 id="filter-value">Filter value depends on response shape</h2>
-
-<p>The triage filter on the main page assumes a reader who can credibly auto-rebuild <em>something</em> on demand. Its value to your organization scales with how many response speeds you actually have available.</p>
-
-<p><strong>For a multi-speed organization</strong> (some cat 1, some cat 2, some cat 3 with WAF), the filter is a router. It tells you which incoming CVEs need the cat-1 fast track ("this is the kind that will outrun normal cadence &mdash; escalate now") versus which ones can ride the BAU cadence ("normal hygiene will absorb this"). Different value for different parts of the estate, same filter.</p>
-
-<p><strong>For a single-speed organization</strong> that only has the slow manual queue, the filter doesn't change which queue work goes to (there's only one). It changes priorities <em>within</em> that queue: knowing that 4 of 14 events are real is much better than treating all 14 as crises, even if every escalation goes through the same expensive channel. Less leveraged value, but still meaningful.</p>
-
-<div class="insight">
-<strong>The mature framing.</strong> The filter saves coordination overhead in proportion to how much auto-rebuild and WAF infrastructure you've already built. For organizations with healthy cat 1 / cat 2 ratios and good WAF coverage, the filter is the marginal discriminator that protects the small remaining manual-attention budget. For organizations dominated by cat 3 with limited WAF, the filter is still useful but the response options are constrained, and the leverage is smaller.
-</div>
-
-<p>This isn't a critique of the filter &mdash; it's an honest accounting of where its value comes from. The filter is most valuable where the response infrastructure exists to do something differential with the result. Without that infrastructure, every emergency goes through the same expensive channel and the filter just helps prioritize the queue.</p>
-
-<h2 id="reduction">What this means for the 64&ndash;86% reduction claim</h2>
-
-<p>The headline claim on the main page &mdash; that the NP+DI filter reduces emergency rebuild triggers by 64&ndash;86% &mdash; should be read with this framing in mind. <strong>The reduction is in coordination overhead, not in vulnerability events.</strong> Vulnerability events arrive at a rate set by attacker discovery and disclosure cycles; that rate doesn't change because we filter our triage queue. What changes is which fraction of those events warrant interrupting normal team cadence to push patches through the manual coordination channel.</p>
-
-<p>For a population already on monthly auto-rebuild, the 85% non-NP+DI events ride the routine cadence; the 15% NP+DI events get escalation. That's roughly a 6&times; reduction in escalation work for the same rate of underlying disclosures.</p>
-
-<p>For a population without auto-rebuild infrastructure, the 85% non-NP+DI events still need <em>some</em> attention but can wait until the next ordinary maintenance cycle without being escalated to emergency status. The 15% NP+DI events get the emergency drill. The reduction is in how many fire alarms are pulled, not in how many fixes have to ship eventually.</p>
-
-<div class="callout">
-Both readings are honest; the value to any specific organization sits somewhere on the spectrum between them. The framework on this page is meant to help locate where on the spectrum a given estate actually lives, which depends on the cat 1 / 2 / 3 distribution, the WAF maturity, and the political ability to interrupt teams that aren't on auto-rebuild.
-</div>
-
-<p>That's the framework. The next section translates it into concrete operational rules &mdash; the metadata you need to track, how triage scope changes by auth posture, where the worst surfaces hide, and how all of this composes into a triage decision flow when a critical CVE lands.</p>
-
-<h2 id="enterprise-rules">Practical implications for the enterprise</h2>
-
-<p>The framework so far has been about category structure (cat 1 / 2 / 3 estate maturity, the value of routine rebuild, where WAFs help) and filter mechanics (NP+DI as triage discriminator). This section is about the operational rules that fall out when you actually try to apply this in a real organization.</p>
-
-<p>The pivotal insight is one the filter relies on implicitly: <strong>NP+DI assumes the system has meaningful authentication that attackers need to bypass.</strong> The filter narrows because most exploitable surface lives behind auth, so we focus on the parts that fire <em>before</em> auth completes. When that assumption breaks &mdash; for unauthenticated services, for misconfigured management endpoints, for surfaces that grew without anyone deciding they should be public &mdash; the filter still works in principle, but its scope has to widen. The auth posture of an endpoint determines which filter to apply to its dependency stack.</p>
-
-<p>This makes auth posture itself a first-class operational artifact. Most enterprises don't track it formally. They should.</p>
+<p>This makes auth posture itself a first-class operational artifact. Most enterprises don't track it formally. They should — and the rest of this section is what falls out of doing so.</p>
 
 <h3>Track API auth posture as first-class metadata</h3>
 
@@ -370,7 +261,7 @@ Both readings are honest; the value to any specific organization sits somewhere 
 <li><strong>Internet exposure</strong> &mdash; public DNS, internal-only, VPN-only, partner-network. Per endpoint or per service tier.</li>
 <li><strong>Tenant boundary</strong> &mdash; single-tenant, multi-tenant, control-plane. Determines blast radius if compromised.</li>
 <li><strong>Stack composition</strong> &mdash; which dependencies are in the request path. Per endpoint or per service.</li>
-<li><strong>Build category</strong> &mdash; cat 1 / cat 2 / cat 3 (from &sect;5). Determines how fast you can patch.</li>
+<li><strong>Build category</strong> &mdash; cat 1 / cat 2 / cat 3 (from <a href="#categories">&sect;2</a>). Determines how fast you can patch.</li>
 <li><strong>WAF coverage</strong> &mdash; yes / partial / no. Determines bridging time.</li>
 </ul>
 
@@ -480,7 +371,115 @@ Both readings are honest; the value to any specific organization sits somewhere 
 The metadata-driven approach has real cost (an inventory that needs maintenance and won't be perfect on day one). But it converts panic-driven response into evidence-driven response. Once it exists, you stop reacting to news cycles and start reacting to actual exposure. That shift is worth more than any single CVE response improvement, because it compounds across every future incident.
 </div>
 
-<p>The honest pre-condition: this only works if the upstream rules have been applied. You need the cat 1/2/3 distribution from &sect;5 to be tracked. You need the auth-posture inventory above. You need WAF coverage from &sect;9 to be real and current, not aspirational. Without those, the decision flow is theoretical. With them, it converts an entire category of organizational chaos into a routine triage ticket.</p>
+<p>The honest pre-condition: this only works if the upstream rules have been applied. You need the cat 1/2/3 distribution from <a href="#categories">&sect;2</a> to be tracked. You need the auth-posture inventory above. You need WAF coverage from <a href="#wafs">&sect;9</a> to be real and current, not aspirational. Without those, the decision flow is theoretical. With them, it converts an entire category of organizational chaos into a routine triage ticket.</p>
+<h2 id="non-stacking">Vulnerabilities don't stack</h2>
+
+<p>A subtle point worth internalizing: <strong>BAU rebuild discipline does not reduce the rate of emergencies.</strong> New vulnerabilities arrive at whatever rate attacker discovery and disclosure produce them, which is exogenous to your hygiene. When a new NP+DI lands, you sweep 100% of affected infrastructure regardless of how clean your floor was last month.</p>
+
+<p>Patching last month's RCE doesn't earn a discount on this month's RCE. Triggered events don't queue against each other or compound. So the value of routine rebuild isn't "fewer emergencies" — emergencies arrive at the same rate regardless. The value is <strong>fewer apps to chase per emergency</strong>. On the 1/3-1/3-1/3 illustration from <a href="#categories">§2</a>: when an emergency lands, the 33% Cat 1 share absorbs it in BAU automatically, the 33% Cat 2 share rides triggers and routine cadence, and only the 33% Cat 3 share consumes the expensive coordination drill. Roughly <strong>two-thirds of the estate is covered for free</strong>; the floor-sweep cost concentrates on the remaining third. Shift the mix toward Cat 1 and Cat 2 and the per-emergency human cost drops proportionally — but the count of emergencies the model fires on stays the same.</p>
+
+<div class="insight warn">
+<strong>What the filter actually does.</strong> The filter doesn't prevent emergencies; emergencies are exogenous. What the filter does is <strong>discriminate which incoming CVEs require the floor-sweep coordination drill at all</strong>, versus which ones your normal BAU cadence will absorb on its natural timeline. The reduction is in <em>which fraction of disclosures trigger expensive coordination</em>, not in <em>how many disclosures happen</em>.
+</div>
+
+<h2 id="boundary">The cat 2 / cat 3 boundary matters more than cat 1 / cat 2</h2>
+
+<p>The economic argument for moving an application from cat 3 to cat 2 is much stronger than the argument for moving it from cat 2 to cat 1.</p>
+
+<p><strong>Cat 1 vs cat 2</strong> is about marginal speed during a sweep. The difference between hours and days matters only for the most aggressive emergencies &mdash; the kind where exploitation begins within 72 hours of disclosure. For most CVEs, cat 2 with a tested manual trigger gets the same operational result as cat 1.</p>
+
+<p><strong>Cat 2 vs cat 3</strong> is about whether you can respond at all within reasonable time. An app that can be force-rebuilt in a week is operationally manageable; an app that needs a multi-month archeology project before you can patch is essentially unprotected during that window. WAF coverage helps but doesn't eliminate the gap.</p>
+
+<p>The investment delta is also different. Moving cat 3 &rarr; cat 2 is mostly tooling: standing up the CI pipeline, automating the build, getting the tests to pass. Moving cat 2 &rarr; cat 1 often requires team culture change &mdash; getting the team to ship more frequently, adopting trunk-based development, building deployment confidence &mdash; which is much harder. So the per-dollar return on investment tends to favor cat 3 &rarr; cat 2.</p>
+
+<h2 id="rot">Cat 2's hidden cost: triggers rot</h2>
+
+<p>The risk specific to cat 2 is that the trigger silently degrades. A manual CI pipeline that runs once a year on demand will, in the meantime, have its upstream dependencies move, its base image deprecated, its test suite assume Python 3.7. When the emergency strikes and someone pushes the button, they discover the "triggerable infrastructure" is actually cat 3 with a fig leaf.</p>
+
+<p>Cat 1 doesn't pay this cost because the pipeline is exercised continuously &mdash; anything that breaks gets noticed and fixed within days. Cat 2 needs an explicit fire-drill cadence: <strong>rebuild from scratch quarterly even when nothing has changed</strong>, just to surface drift early. This is the cat-2-specific maintenance cost that should be planned for and budgeted.</p>
+
+<div class="insight danger">
+<strong>Practical rule of thumb.</strong> A cat 2 trigger that hasn't been exercised in 18 months should be assumed to be cat 3 until proven otherwise. The metric isn't "% of estate with a rebuild config" &mdash; it's "% of estate verified-rebuilding."
+</div>
+
+<h2 id="variance">Distribution varies by organization</h2>
+
+<p>The cat 1 / 2 / 3 split varies significantly by organization, and the variation correlates with predictable things:</p>
+
+<ul>
+<li><strong>M&amp;A-heavy organizations</strong> inherit cat 3 estates faster than they can convert them. Acquired companies bring acquired tooling, acquired technical debt, and acquired apps that nobody on the new team understands.</li>
+<li><strong>Organizations through multiple platform shifts</strong> &mdash; mainframe to distributed, on-prem to cloud, monolith to microservices &mdash; accumulated cat 3 each migration because old apps got "we'll deal with that later" decisions that never got dealt with.</li>
+<li><strong>Cloud-native organizations</strong> that grew up after CI/CD norms solidified have much higher cat 1 + cat 2 ratios by default, almost as a side effect of when they were born.</li>
+</ul>
+
+<p>An honest cat 1 / 2 / 3 distribution is itself a maturity diagnostic, possibly more telling than per-incident metrics. It summarizes years of compounding decisions about whether to build, when to refactor, and what to leave alone.</p>
+
+<div class="insight warn">
+<strong>The honesty problem.</strong> Internal estimates of cat distribution skew optimistic because admitting cat 3 is admitting governance failure. The "we have a Dockerfile but no working CI" middle case tends to get counted as cat 2 in the slide deck and behave as cat 3 in the incident. An honest census is hard to take and harder to publish, which is part of why estates tend to have more cat 3 than people expect.
+</div>
+
+<h2 id="wafs">WAFs as spackle</h2>
+
+<p>Web Application Firewalls (WAFs) are the operational control that bridges the gaps between the three categories. They sit at the perimeter, inspect HTTP traffic for known attack patterns, and can block exploitation attempts at the edge &mdash; without requiring any change to the underlying application.</p>
+
+<p>The layer-specificity is what makes WAFs a freakishly well-matched control here, rather than generic defense-in-depth. <strong>WAFs are uniquely good at HTTP-parser pattern matching, and HTTP parsers are exactly the attack class identified by the NP+DI filter as the dominant exploitation vector.</strong> That asymmetry is part of why "WAF first, rebuild on sustainable pace" works as a response template. For OS kernel privilege escalation, local file inclusion through non-HTTP channels, or supply chain attacks, no WAF maturity buys you bridging time. But those aren't the categories generating the emergency calls in the first place.</p>
+
+<h3>How WAFs change the categorical math</h3>
+
+<p>Without WAF, the gap between categories matters enormously. Cat 1 fixes in hours, cat 3 fixes in months &mdash; that's the difference between "barely a story" and "front-page incident." With mature WAF coverage on the HTTP-parser surface, those gaps shrink:</p>
+
+<table>
+<thead><tr><th>Category</th><th>Without WAF</th><th>With mature WAF</th></tr></thead>
+<tbody>
+<tr><td><strong>Cat 1</strong></td><td>Rebuild in hours; minimal exposure window.</td><td>WAF blocks immediately while rebuild propagates. Belt and suspenders.</td></tr>
+<tr><td><strong>Cat 2</strong></td><td>Rebuild in days&ndash;weeks; meaningful exposure window during which exploitation is likely.</td><td>WAF blocks at the edge while the manual rebuild trigger fires on the team's pace. The WAF holds for the rebuild window.</td></tr>
+<tr><td><strong>Cat 3</strong></td><td>Rebuild in months or never; effectively unprotected during the window, severe risk.</td><td>WAF blocks at the edge and may hold for years if the underlying app never gets properly rebuilt. Perimeter protection persists indefinitely.</td></tr>
+</tbody>
+</table>
+
+<p>For HTTP-parser vulnerabilities specifically &mdash; the dominant attack class &mdash; the cat 1 / 2 / 3 categorical distribution stops being the dominant operational factor in the presence of mature WAF coverage. The categories still matter for non-HTTP attack classes and as a maturity diagnostic, but they stop driving incident severity for the largest chunk of emergencies.</p>
+
+<h3>Strategic implication: WAF maturity is the highest-leverage cat-3 investment</h3>
+
+<p>For an organization that can't cheaply move applications up the categories, <strong>WAF maturity is the highest-leverage defensive investment available</strong>. Building a fast custom-rule capability, paying for premium vendor rule coverage, and tuning observe-to-enforce promotion processes effectively bridges cat 3 to cat-2-effective response speed for the NP+DI subset, without touching the underlying applications. That's a different investment shape than the "modernize the build pipeline" argument, and for some organizations it's the only realistic path.</p>
+
+<h3>"Can be worked around": the spackle stays spackle</h3>
+
+<p>WAF rules trigger on signatures. Specific evasions exist: encoding tricks, header smuggling, fragmented attacks, novel payload variants, attacks via authenticated paths. A determined attacker who specifically targets your organization will eventually find a bypass, especially against generic vendor rules versus custom-written rules for the specific CVE. Defense-in-depth principle still applies; WAFs are not a replacement for fixing the underlying issue.</p>
+
+<div class="insight">
+<strong>The honest framing.</strong> WAF turns the question from "can we patch this in 24 hours" into "can we patch this in 30 days." That's a much easier question for cat 2 and a sometimes-tractable question for cat 3. WAF buys <em>time</em>, not <em>resolution</em>. The rebuild still has to happen for cat 3 apps when the vulnerability is severe and broadly targeted, just at sustainable pace rather than emergency pace.
+</div>
+
+<p>The response timeline isn't zero either. There's a window of hours-to-days between disclosure and good WAF rule coverage, depending on whether the vendor publishes a rule quickly or your team writes a custom one. So the WAF window is "much shorter than the rebuild timeline" rather than "instantaneous." Worth pricing into response-time SLAs.</p>
+
+<h2 id="filter-value">Filter value depends on response shape</h2>
+
+<p>The triage filter on the main page assumes a reader who can credibly auto-rebuild <em>something</em> on demand. Its value to your organization scales with how many response speeds you actually have available.</p>
+
+<p><strong>For a multi-speed organization</strong> (some cat 1, some cat 2, some cat 3 with WAF), the filter is a router. It tells you which incoming CVEs need the cat-1 fast track ("this is the kind that will outrun normal cadence &mdash; escalate now") versus which ones can ride the BAU cadence ("normal hygiene will absorb this"). Different value for different parts of the estate, same filter.</p>
+
+<p><strong>For a single-speed organization</strong> that only has the slow manual queue, the filter doesn't change which queue work goes to (there's only one). It changes priorities <em>within</em> that queue: knowing that 4 of 14 events are real is much better than treating all 14 as crises, even if every escalation goes through the same expensive channel. Less leveraged value, but still meaningful.</p>
+
+<div class="insight">
+<strong>The mature framing.</strong> The filter saves coordination overhead in proportion to how much auto-rebuild and WAF infrastructure you've already built. For organizations with healthy cat 1 / cat 2 ratios and good WAF coverage, the filter is the marginal discriminator that protects the small remaining manual-attention budget. For organizations dominated by cat 3 with limited WAF, the filter is still useful but the response options are constrained, and the leverage is smaller.
+</div>
+
+<p>This isn't a critique of the filter &mdash; it's an honest accounting of where its value comes from. The filter is most valuable where the response infrastructure exists to do something differential with the result. Without that infrastructure, every emergency goes through the same expensive channel and the filter just helps prioritize the queue.</p>
+
+<h2 id="reduction">What this means for the 64&ndash;86% reduction claim</h2>
+
+<p>The headline claim on the main page &mdash; that the NP+DI filter reduces emergency rebuild triggers by 64&ndash;86% &mdash; should be read with this framing in mind. <strong>The reduction is in coordination overhead, not in vulnerability events.</strong> Vulnerability events arrive at a rate set by attacker discovery and disclosure cycles; that rate doesn't change because we filter our triage queue. What changes is which fraction of those events warrant interrupting normal team cadence to push patches through the manual coordination channel.</p>
+
+<p>For a population already on monthly auto-rebuild, the 85% non-NP+DI events ride the routine cadence; the 15% NP+DI events get escalation. That's roughly a 6&times; reduction in escalation work for the same rate of underlying disclosures.</p>
+
+<p>For a population without auto-rebuild infrastructure, the 85% non-NP+DI events still need <em>some</em> attention but can wait until the next ordinary maintenance cycle without being escalated to emergency status. The 15% NP+DI events get the emergency drill. The reduction is in how many fire alarms are pulled, not in how many fixes have to ship eventually.</p>
+
+<div class="callout">
+Both readings are honest; the value to any specific organization sits somewhere on the spectrum between them. The framework on this page is meant to help locate where on the spectrum a given estate actually lives, which depends on the cat 1 / 2 / 3 distribution, the WAF maturity, and the political ability to interrupt teams that aren't on auto-rebuild.
+</div>
+
+<p>That's the framework. The next section translates it into concrete operational rules &mdash; the metadata you need to track, how triage scope changes by auth posture, where the worst surfaces hide, and how all of this composes into a triage decision flow when a critical CVE lands.</p>
 
 <div class="footer">
 KEV Analysis &mdash; Operational Model page. See <a href="index.html">Walkthrough</a> for the main analysis and <a href="dashboard.html">Dashboard</a> for interactive charts.
