@@ -237,3 +237,70 @@ The reconciliation surfaced one event not visible in the prior prose: **CVE-2023
 - `docs/cve-reference.html` §5 cohort table includes every exploited CVE from the events file
 
 If any of those fall out of sync, the test fails red. The CLAUDE.md "claims without tests rot" rule is satisfied for every numeric claim in the 7-year backtest.
+
+---
+
+## Evergreen Java reconciliation (2026-04-28, follow-up)
+
+The `docs/evergreen.html` Java section was a known stale citation: it claimed "Spring Boot app, ~40 dependencies / 28 CVEs / ~35 total" against a much-earlier cut. With the canonical 58-pkg / 194-event manifest reconciled above, the Java section now had to re-foot too. Done in a follow-up pass:
+
+### What changed
+
+- **New file `data/evergreen-generation-mapping.json`** — per-CVE classification for all 194 canonical events into one of four evergreen categories: `avoids` (old-gen-only — evergreening helps), `makes_worse` (new-gen-only — evergreening introduced the bug), `no_difference` (both generations affected — patch currency, not generation shift, is the lever), `irrelevant` (no Spring/Java generation axis — app-level dep). Built from a hybrid of hand-curated per-CVE entries (for events where the prior page narrative made specific generation claims) plus per-family defaults derived from the package's role on the Spring/Java generation axis.
+- **New script `scripts/build_evergreen_java.py`** — emits the mapping file and prints headline tallies. Idempotent; supports `--check` for the test suite.
+- **New test `tests/test_evergreen_java.py`** — 408 assertions: reproducibility (`--check` succeeds), every event has a mapping, every entry has a valid category and rationale, the narrative outcome (every makes_worse event is also exploited; no exploited events in the avoids cohort) holds, and the page hero cards / lead prose / per-family counts / breakdown table footer all match canonical. Wired into `tests/run.sh`.
+- **`docs/evergreen.html` Java section** rewritten end-to-end (the JVM Platform / RHEL / Windows / Node.js sections are unchanged): hero cards, lead paragraph, three "Avoided / Made worse / Both gens" subsections, paywalled-Spring discussion, full breakdown table (now 40 NP+DI raw rows instead of 28 mixed rows), library-health table, evergreening funnel.
+
+### Canonical numbers used in the Java section (was → is)
+
+| Metric | Prior (28-CVE / ~35 cut) | Canonical (58-pkg, NP+DI raw scope) |
+|---|---:|---:|
+| Manifest packages | ~40 | **58** |
+| Total C/H in 7y window | ~35 | **194** |
+| NP+DI raw | 28 | **40** |
+| NP+DI + DQ | n/a | **43** |
+| Hacker S+A | n/a | **16** |
+| Actually exploited | 4 | **11** (5 in NP+DI raw) |
+| **Evergreening avoids** | 2 (jackson-mapper-asl + Springfox) | **0** |
+| **Evergreening makes worse** | 2 (Spring4Shell, ActiveMQ Jolokia) | **1 NP+DI raw** (Spring4Shell) + **1 DQ-rescue** (ActiveMQ Jolokia) — **2 total**, both still exploited |
+| No-difference (both gens affected) | ~24 | **25** |
+| Irrelevant (no gen axis) | (implicit XStream 6) | **14** |
+
+### Per-package NP+DI raw shifts
+
+| Family | Prior cut | Canonical | Notes |
+|---|---:|---:|---|
+| Tomcat | 7 | **7** | Same headline count; specific CVEs differ (canonical includes the 2026 cluster) |
+| XStream | 6 | **6** | Same |
+| Spring Framework/Boot | 3 | **3** | Same |
+| Log4j | 2 | **2** | Same |
+| **Spring Security** | not separately broken out | **8** | Largest new bucket — 8 auth-bypass / authz events affecting both 5.x and 6.x |
+| **jackson-databind** | 1 (folded with "others") | **5** | Polymorphic-deserialization gadget chain, reclassified as irrelevant (same library across Spring Boot 2/3) |
+| **Apache CXF** | 1 (folded with "others") | **3** | Three SSRF / OAuth2 / OIDC events — new package family added in the 2026-04-28 reconciliation |
+| **Thymeleaf** | not in prior cut | **2** | 2026 expression-scope pair |
+| **Hazelcast** | 1 | **2** | New runtime-additions package |
+| **MINA / ActiveMQ** | 1 each | **1 each** | MINA new in canonical; ActiveMQ event is CVE-2019-0222 (distinct from the Jolokia DQ-rescue case) |
+
+### Did the directional conclusion flip?
+
+**Yes — sharper.** The prior page narrative was "evergreening avoids 2 / makes worse 2, with the avoidance set never-exploited and the makes-worse set always exploited." On the canonical 58-pkg manifest the avoids cohort is **empty**: jackson-mapper-asl and Springfox aren't in the runtime portfolio because no modern Spring Boot app ships them. So the new headline is **"0 avoids / 2 makes-worse, both makes-worse cases exploited."** Evergreening's directional effect on the Java stack is now unambiguously negative; the prior framing's symmetry is gone.
+
+The "patch currency handles it" framing (most events fall into no-difference, not avoidance) is reinforced: 25 of 40 NP+DI raw events are no-difference, and 14 more are irrelevant (app-level dep, not on the gen axis). Together that's 39 of 40 events for which evergreening does nothing helpful, leaving only the 1 NP+DI raw event (Spring4Shell) where it does something — and that something is "introduces the bug."
+
+### Items flagged for human review
+
+- **CVE-2019-0222** (ActiveMQ OpenWire on 5.15.x). Classified `no_difference` because at disclosure (April 2019) the 6.x line didn't exist; the 5.x line is the only generation. Defensible but borderline — could equally be argued as `irrelevant` since activemq is an app-level dep. Flagged.
+- **CVE-2018-15801** (Spring Security OAuth 2.3.x). Classified `no_difference`. Spring Security OAuth is the legacy package that was deprecated in favor of `spring-security-oauth2`; the gen-axis question is genuinely murky here. Flagged.
+- **The "irrelevant vs no_difference" line for jackson-databind events.** Treating jackson-databind as `irrelevant` (its version is selected independently of Spring/Java generation) is a defensible call but the prior page treated jackson-databind as a `no_difference` library. Operationally the answer is the same — neither generation shift nor evergreening helps; only patch currency on jackson does — but the bookkeeping shifts ~5 events from no_difference to irrelevant, which changes the headline tally. Flagged for stylistic preference.
+
+### File-and-commit summary
+
+- `data/evergreen-generation-mapping.json` (new)
+- `scripts/build_evergreen_java.py` (new)
+- `docs/evergreen.html` — Java section rewritten (JVM Platform / RHEL / Windows / Node.js sections untouched)
+- `tests/test_evergreen_java.py` (new) + `tests/run.sh` updated
+- This audit report appended
+
+### Test result
+
+`bash tests/run.sh` — all green. `tests/test_evergreen_java.py` runs 408 assertions covering reproducibility, mapping completeness, narrative-outcome invariants, and 11 specific page numeric claims.

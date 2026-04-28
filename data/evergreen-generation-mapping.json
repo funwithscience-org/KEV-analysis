@@ -1,0 +1,1698 @@
+{
+  "description": "Per-CVE evergreen-generation mapping for the docs/evergreen.html Java section. Built by scripts/build_evergreen_java.py from data/seven-year-manifest-events.json. The evergreen_category answers: did upgrading from the old Java/Spring/Tomcat generation to the new one help (avoids), hurt (makes_worse), make no difference (no_difference), or fall outside the generation axis entirely (irrelevant)?",
+  "categories": {
+    "avoids": "CVE only affects the old generation; new gen is not vulnerable.",
+    "makes_worse": "CVE only affects the new generation; old gen was immune.",
+    "no_difference": "CVE affects both old and new generations equally.",
+    "irrelevant": "Package has no Spring/Java generation axis (app-level dep)."
+  },
+  "evergreen_old_gen": "Java 8 + Spring 5 + Spring Boot 2.x + Tomcat 8.5/9",
+  "evergreen_new_gen": "Java 17/21 + Spring 6 + Spring Boot 3 + Tomcat 10.x/11",
+  "scope_note": "Mapping covers all 194 events in the canonical 58-pkg manifest. The evergreen.html Java section's headline tallies are computed against the NP+DI raw subset (40 events) - the events the structure test would flag for emergency rebuilds. Other categories (no_difference, irrelevant) on the wider 194 are reported in the breakdown but not in the headline.",
+  "input_source": "data/seven-year-manifest-events.json",
+  "mapping": {
+    "CVE-2022-22965": {
+      "package": "spring-beans",
+      "evergreen_category": "makes_worse",
+      "old_gen_affected": [],
+      "new_gen_affected": [
+        "Spring 5.2.x/5.3.x on JDK 9+",
+        "Spring 6.0.x on JDK 17+"
+      ],
+      "rationale": "Spring4Shell. Requires JDK 9+ to exploit via the Class.getModule() chain. Java 8 stacks (running Spring 4.x or even Spring 5.x on JDK 8) were completely immune. The evergreen path (Java 11/17 + Spring 5.3+) was the vulnerable path. KEV + Metasploit confirmed exploited."
+    },
+    "CVE-2021-45046": {
+      "package": "log4j-core",
+      "evergreen_category": "no_difference",
+      "old_gen_affected": [
+        "log4j-core 2.0 - 2.15.0"
+      ],
+      "new_gen_affected": [
+        "log4j-core 2.0 - 2.15.0"
+      ],
+      "rationale": "Incomplete fix for Log4Shell; same generation-agnostic story."
+    },
+    "CVE-2021-44228": {
+      "package": "log4j-core",
+      "evergreen_category": "no_difference",
+      "old_gen_affected": [
+        "log4j-core 2.0-beta9 - 2.14.1"
+      ],
+      "new_gen_affected": [
+        "log4j-core 2.0-beta9 - 2.14.1"
+      ],
+      "rationale": "Log4Shell. Affected log4j-core regardless of Spring/Java version. Spring Boot defaults to Logback, but if you opted into log4j2, both old and new Spring Boot generations were equally vulnerable. KEV + MSF + EDB confirmed exploited."
+    },
+    "CVE-2021-39144": {
+      "package": "xstream",
+      "evergreen_category": "irrelevant",
+      "old_gen_affected": [],
+      "new_gen_affected": [],
+      "rationale": "XStream is an app-level dep; no Spring/Java gen axis. Drop or pin to 1.4.18+."
+    },
+    "CVE-2019-0232": {
+      "package": "tomcat-embed-core",
+      "evergreen_category": "no_difference",
+      "old_gen_affected": [
+        "Tomcat 7.x/8.5.x/9.x (Windows only)"
+      ],
+      "new_gen_affected": [
+        "Tomcat 10.x didn't exist at disclosure (April 2019)"
+      ],
+      "rationale": "Windows-only CGI command injection. Affected the 7/8.5/9 lines that existed at disclosure. Tomcat 10.0.0 wasn't released until December 2020 (>1.5y later). The fix (7.0.94 / 8.5.40 / 9.0.19) was a same-day point release - evergreening within a generation handled it. KEV-listed via MSF/EDB. Not a generation-axis bug."
+    },
+    "CVE-2026-34197": {
+      "package": "activemq-broker",
+      "evergreen_category": "makes_worse",
+      "old_gen_affected": [],
+      "new_gen_affected": [
+        "ActiveMQ 6.0.0-6.2.2 (default Jolokia auth removed)"
+      ],
+      "rationale": "ActiveMQ 6.0.0-6.1.1 removed default Jolokia authentication (CVE-2024-32114), making the new 6.x generation more exploitable than 5.x until 6.2.3 patched it. KEV-listed. An old-gen ActiveMQ 5.x team was protected by default."
+    },
+    "CVE-2025-24813": {
+      "package": "tomcat-embed-core",
+      "evergreen_category": "no_difference",
+      "old_gen_affected": [
+        "Tomcat 9.x"
+      ],
+      "new_gen_affected": [
+        "Tomcat 10.1.x",
+        "Tomcat 11.x"
+      ],
+      "rationale": "Tomcat partial-PUT RCE. Affected 9.0.x AND 10.1.x AND 11.0.x simultaneously - the partial-PUT request handling code is shared across generations. Patch currency on any generation closes it; evergreening neither helps nor hurts."
+    },
+    "CVE-2023-46604": {
+      "package": "activemq-client",
+      "evergreen_category": "irrelevant",
+      "old_gen_affected": [],
+      "new_gen_affected": [],
+      "rationale": "activemq version is selected independently of Spring/Java generation. Patch-currency on the dep, not evergreening."
+    },
+    "CVE-2022-1471": {
+      "package": "snakeyaml",
+      "evergreen_category": "irrelevant",
+      "old_gen_affected": [],
+      "new_gen_affected": [],
+      "rationale": "snakeyaml version is selected independently of Spring/Java generation. Patch-currency on the dep, not evergreening."
+    },
+    "CVE-2022-42889": {
+      "package": "commons-text",
+      "evergreen_category": "irrelevant",
+      "old_gen_affected": [],
+      "new_gen_affected": [],
+      "rationale": "commons-text version is selected independently of Spring/Java generation. Patch-currency on the dep, not evergreening."
+    },
+    "CVE-2020-1938": {
+      "package": "tomcat-embed-core",
+      "evergreen_category": "no_difference",
+      "old_gen_affected": [
+        "Tomcat 7.x/8.5.x/9.x"
+      ],
+      "new_gen_affected": [
+        "AJP enabled by default in 7/8.5/9; 10+ disables AJP by default"
+      ],
+      "rationale": "Ghostcat. Affects all Tomcat generations that ship AJP enabled by default. Tomcat 10+ disabled AJP by default but the underlying CVE still applies if you re-enable it - the shared connector code is the same. Patch currency (8.5.51+ / 9.0.31+) closes it without an evergreen jump."
+    },
+    "CVE-2026-40477": {
+      "package": "thymeleaf",
+      "evergreen_category": "no_difference",
+      "old_gen_affected": [
+        "thymeleaf 3.1.x with Spring 5"
+      ],
+      "new_gen_affected": [
+        "thymeleaf 3.1.x with Spring 6 (thymeleaf-spring6)"
+      ],
+      "rationale": "Expression scope bug affects the core thymeleaf 3.1.x + the thymeleaf-spring6 binding. Both old (5) and new (6) Spring generations are affected via the matching binding."
+    },
+    "CVE-2026-40478": {
+      "package": "thymeleaf",
+      "evergreen_category": "no_difference",
+      "old_gen_affected": [
+        "thymeleaf 3.1.x with Spring 5"
+      ],
+      "new_gen_affected": [
+        "thymeleaf 3.1.x with Spring 6 (thymeleaf-spring6)"
+      ],
+      "rationale": "Same shared-template-engine pattern as CVE-2026-40477."
+    },
+    "CVE-2026-39304": {
+      "package": "activemq-broker",
+      "evergreen_category": "irrelevant",
+      "old_gen_affected": [],
+      "new_gen_affected": [],
+      "rationale": "activemq version is selected independently of Spring/Java generation. Patch-currency on the dep, not evergreening."
+    },
+    "CVE-2026-29129": {
+      "package": "tomcat-embed-core",
+      "evergreen_category": "no_difference",
+      "old_gen_affected": [
+        "Tomcat 8.5.x/9.x"
+      ],
+      "new_gen_affected": [
+        "Tomcat 10.x/11.x"
+      ],
+      "rationale": "Default: Tomcat shared-code bug. See per-CVE NVD CPE for ranges."
+    },
+    "CVE-2026-29145": {
+      "package": "tomcat-embed-core",
+      "evergreen_category": "no_difference",
+      "old_gen_affected": [
+        "Tomcat 9.x"
+      ],
+      "new_gen_affected": [
+        "Tomcat 10.1.x",
+        "Tomcat 11.x"
+      ],
+      "rationale": "CLIENT_CERT auth failure logic shared across 9/10.1/11."
+    },
+    "CVE-2026-34483": {
+      "package": "tomcat-embed-core",
+      "evergreen_category": "no_difference",
+      "old_gen_affected": [
+        "Tomcat 9.x"
+      ],
+      "new_gen_affected": [
+        "Tomcat 10.1.x",
+        "Tomcat 11.x"
+      ],
+      "rationale": "JsonAccessLogValve escaping bug; shared code."
+    },
+    "CVE-2026-34487": {
+      "package": "tomcat-embed-core",
+      "evergreen_category": "no_difference",
+      "old_gen_affected": [
+        "Tomcat 8.5.x/9.x"
+      ],
+      "new_gen_affected": [
+        "Tomcat 10.x/11.x"
+      ],
+      "rationale": "Default: Tomcat shared-code bug. See per-CVE NVD CPE for ranges."
+    },
+    "CVE-2026-22732": {
+      "package": "spring-security-web",
+      "evergreen_category": "no_difference",
+      "old_gen_affected": [
+        "Spring Security 5.x"
+      ],
+      "new_gen_affected": [
+        "Spring Security 6.x"
+      ],
+      "rationale": "Default: Spring Security shared-code bug across 5/6 lines."
+    },
+    "CVE-2026-24734": {
+      "package": "tomcat-embed-core",
+      "evergreen_category": "no_difference",
+      "old_gen_affected": [
+        "Tomcat 8.5.x/9.x"
+      ],
+      "new_gen_affected": [
+        "Tomcat 10.x/11.x"
+      ],
+      "rationale": "Default: Tomcat shared-code bug. See per-CVE NVD CPE for ranges."
+    },
+    "CVE-2025-55752": {
+      "package": "tomcat-embed-core",
+      "evergreen_category": "no_difference",
+      "old_gen_affected": [
+        "Tomcat 9.x"
+      ],
+      "new_gen_affected": [
+        "Tomcat 10.1.x",
+        "Tomcat 11.x"
+      ],
+      "rationale": "Relative path traversal across all current generations."
+    },
+    "CVE-2025-41248": {
+      "package": "spring-security-core",
+      "evergreen_category": "no_difference",
+      "old_gen_affected": [
+        "Spring Security 5.x",
+        "Spring Security 6.x"
+      ],
+      "new_gen_affected": [
+        "Spring Security 7.0.0-M1"
+      ],
+      "rationale": "Authorization bypass via annotation detection. Affects all supported Spring Security 5.x and 6.x lines (and the 7.0 M1 milestone). Fixed by patch release, not generation."
+    },
+    "CVE-2025-41249": {
+      "package": "spring-core",
+      "evergreen_category": "no_difference",
+      "old_gen_affected": [
+        "Spring 5.x / Spring Boot 2.x"
+      ],
+      "new_gen_affected": [
+        "Spring 6.x / Spring Boot 3.x"
+      ],
+      "rationale": "Default: Spring/Boot shared-code bug across 5/6 lines."
+    },
+    "CVE-2025-48989": {
+      "package": "tomcat-embed-core",
+      "evergreen_category": "no_difference",
+      "old_gen_affected": [
+        "Tomcat 8.5.x/9.x"
+      ],
+      "new_gen_affected": [
+        "Tomcat 10.x/11.x"
+      ],
+      "rationale": "Default: Tomcat shared-code bug. See per-CVE NVD CPE for ranges."
+    },
+    "CVE-2025-53506": {
+      "package": "tomcat-embed-core",
+      "evergreen_category": "no_difference",
+      "old_gen_affected": [
+        "Tomcat 8.5.x/9.x"
+      ],
+      "new_gen_affected": [
+        "Tomcat 10.x/11.x"
+      ],
+      "rationale": "Default: Tomcat shared-code bug. See per-CVE NVD CPE for ranges."
+    },
+    "CVE-2025-52520": {
+      "package": "tomcat-embed-core",
+      "evergreen_category": "no_difference",
+      "old_gen_affected": [
+        "Tomcat 8.5.x/9.x"
+      ],
+      "new_gen_affected": [
+        "Tomcat 10.x/11.x"
+      ],
+      "rationale": "Default: Tomcat shared-code bug. See per-CVE NVD CPE for ranges."
+    },
+    "CVE-2025-52999": {
+      "package": "jackson-core",
+      "evergreen_category": "irrelevant",
+      "old_gen_affected": [],
+      "new_gen_affected": [],
+      "rationale": "jackson-databind 2.x is the same library across Spring Boot 2 and 3. CVE applies by jackson version, not generation. Patch-currency on jackson, not evergreening."
+    },
+    "CVE-2025-48988": {
+      "package": "tomcat-embed-core",
+      "evergreen_category": "no_difference",
+      "old_gen_affected": [
+        "Tomcat 8.5.x/9.x"
+      ],
+      "new_gen_affected": [
+        "Tomcat 10.x/11.x"
+      ],
+      "rationale": "Default: Tomcat shared-code bug. See per-CVE NVD CPE for ranges."
+    },
+    "CVE-2025-49146": {
+      "package": "postgresql",
+      "evergreen_category": "irrelevant",
+      "old_gen_affected": [],
+      "new_gen_affected": [],
+      "rationale": "postgresql version is selected independently of Spring/Java generation. Patch-currency on the dep, not evergreening."
+    },
+    "CVE-2025-41232": {
+      "package": "spring-security-core",
+      "evergreen_category": "no_difference",
+      "old_gen_affected": [
+        "Spring Security 5.x",
+        "Spring Security 6.x"
+      ],
+      "new_gen_affected": [
+        "Spring Security 6.x"
+      ],
+      "rationale": "Authorization bypass for method security on private methods. Affects 5.x and 6.x equally - shared annotation processor."
+    },
+    "CVE-2025-22235": {
+      "package": "spring-boot",
+      "evergreen_category": "no_difference",
+      "old_gen_affected": [
+        "Spring 5.x / Spring Boot 2.x"
+      ],
+      "new_gen_affected": [
+        "Spring 6.x / Spring Boot 3.x"
+      ],
+      "rationale": "Default: Spring/Boot shared-code bug across 5/6 lines."
+    },
+    "CVE-2025-27820": {
+      "package": "httpclient5",
+      "evergreen_category": "irrelevant",
+      "old_gen_affected": [],
+      "new_gen_affected": [],
+      "rationale": "httpclient version is selected independently of Spring/Java generation. Patch-currency on the dep, not evergreening."
+    },
+    "CVE-2025-23184": {
+      "package": "cxf-core",
+      "evergreen_category": "irrelevant",
+      "old_gen_affected": [],
+      "new_gen_affected": [],
+      "rationale": "cxf version is selected independently of Spring/Java generation. Patch-currency on the dep, not evergreening."
+    },
+    "CVE-2024-52046": {
+      "package": "mina-core",
+      "evergreen_category": "irrelevant",
+      "old_gen_affected": [
+        "MINA 2.0.x/2.1.x/2.2.x"
+      ],
+      "new_gen_affected": [
+        "MINA 2.0.x/2.1.x/2.2.x"
+      ],
+      "rationale": "MINA is an app-level networking framework. Pinned in the manifest independently of Spring/Java generation. Dependency-pruning or patch currency, not evergreening."
+    },
+    "CVE-2024-56337": {
+      "package": "tomcat-embed-core",
+      "evergreen_category": "no_difference",
+      "old_gen_affected": [
+        "Tomcat 8.5.x/9.x"
+      ],
+      "new_gen_affected": [
+        "Tomcat 10.x/11.x"
+      ],
+      "rationale": "Default: Tomcat shared-code bug. See per-CVE NVD CPE for ranges."
+    },
+    "CVE-2024-38819": {
+      "package": "spring-webmvc",
+      "evergreen_category": "no_difference",
+      "old_gen_affected": [
+        "Spring Framework 5.3.x (commercial-only fix)"
+      ],
+      "new_gen_affected": [
+        "Spring Framework 6.0.x/6.1.x"
+      ],
+      "rationale": "Path traversal in static-resource handling. Affects 5.3 AND 6.x. Same paywall pattern as CVE-2024-38816."
+    },
+    "CVE-2024-50379": {
+      "package": "tomcat-embed-core",
+      "evergreen_category": "no_difference",
+      "old_gen_affected": [
+        "Tomcat 8.5.x/9.x"
+      ],
+      "new_gen_affected": [
+        "Tomcat 10.x/11.x"
+      ],
+      "rationale": "Default: Tomcat shared-code bug. See per-CVE NVD CPE for ranges."
+    },
+    "CVE-2024-47072": {
+      "package": "xstream",
+      "evergreen_category": "irrelevant",
+      "old_gen_affected": [],
+      "new_gen_affected": [],
+      "rationale": "XStream is an app-level dep; no Spring/Java gen axis. Drop or pin to 1.4.18+."
+    },
+    "CVE-2024-38821": {
+      "package": "spring-security-web",
+      "evergreen_category": "no_difference",
+      "old_gen_affected": [
+        "Spring Security 5.x"
+      ],
+      "new_gen_affected": [
+        "Spring Security 6.x"
+      ],
+      "rationale": "Default: Spring Security shared-code bug across 5/6 lines."
+    },
+    "CVE-2024-47554": {
+      "package": "commons-io",
+      "evergreen_category": "irrelevant",
+      "old_gen_affected": [],
+      "new_gen_affected": [],
+      "rationale": "commons-io version is selected independently of Spring/Java generation. Patch-currency on the dep, not evergreening."
+    },
+    "CVE-2024-38816": {
+      "package": "spring-webmvc",
+      "evergreen_category": "no_difference",
+      "old_gen_affected": [
+        "Spring Framework 5.3.x (commercial-only fix)"
+      ],
+      "new_gen_affected": [
+        "Spring Framework 6.0.x/6.1.x"
+      ],
+      "rationale": "Path traversal in functional web frameworks. Affects 5.3 AND 6.x. Free patch only on 6.x (5.3.x post-EOL needs Broadcom commercial subscription). No evergreen avoidance, but evergreening preserves free-patch access."
+    },
+    "CVE-2024-41909": {
+      "package": "sshd-common",
+      "evergreen_category": "irrelevant",
+      "old_gen_affected": [],
+      "new_gen_affected": [],
+      "rationale": "sshd version is selected independently of Spring/Java generation. Patch-currency on the dep, not evergreening."
+    },
+    "CVE-2024-34750": {
+      "package": "tomcat-embed-core",
+      "evergreen_category": "no_difference",
+      "old_gen_affected": [
+        "Tomcat 8.5.x/9.x"
+      ],
+      "new_gen_affected": [
+        "Tomcat 10.x/11.x"
+      ],
+      "rationale": "Default: Tomcat shared-code bug. See per-CVE NVD CPE for ranges."
+    },
+    "CVE-2024-22262": {
+      "package": "spring-web",
+      "evergreen_category": "no_difference",
+      "old_gen_affected": [
+        "Spring 5.x / Spring Boot 2.x"
+      ],
+      "new_gen_affected": [
+        "Spring 6.x / Spring Boot 3.x"
+      ],
+      "rationale": "Default: Spring/Boot shared-code bug across 5/6 lines."
+    },
+    "CVE-2024-22257": {
+      "package": "spring-security-core",
+      "evergreen_category": "no_difference",
+      "old_gen_affected": [
+        "Spring Security 5.7.x-5.8.x",
+        "Spring Security 6.x"
+      ],
+      "new_gen_affected": [
+        "Spring Security 6.x"
+      ],
+      "rationale": "Erroneous authentication pass with AuthenticatedVoter. Affects 5.7+/5.8.x AND 6.0/6.1/6.2. Shared core."
+    },
+    "CVE-2024-22259": {
+      "package": "spring-web",
+      "evergreen_category": "no_difference",
+      "old_gen_affected": [
+        "Spring 5.x / Spring Boot 2.x"
+      ],
+      "new_gen_affected": [
+        "Spring 6.x / Spring Boot 3.x"
+      ],
+      "rationale": "Default: Spring/Boot shared-code bug across 5/6 lines."
+    },
+    "CVE-2023-45859": {
+      "package": "hazelcast",
+      "evergreen_category": "irrelevant",
+      "old_gen_affected": [],
+      "new_gen_affected": [],
+      "rationale": "hazelcast version is selected independently of Spring/Java generation. Patch-currency on the dep, not evergreening."
+    },
+    "CVE-2024-22243": {
+      "package": "spring-web",
+      "evergreen_category": "no_difference",
+      "old_gen_affected": [
+        "Spring 5.x / Spring Boot 2.x"
+      ],
+      "new_gen_affected": [
+        "Spring 6.x / Spring Boot 3.x"
+      ],
+      "rationale": "Default: Spring/Boot shared-code bug across 5/6 lines."
+    },
+    "CVE-2024-1597": {
+      "package": "postgresql",
+      "evergreen_category": "irrelevant",
+      "old_gen_affected": [],
+      "new_gen_affected": [],
+      "rationale": "postgresql version is selected independently of Spring/Java generation. Patch-currency on the dep, not evergreening."
+    },
+    "CVE-2024-22234": {
+      "package": "spring-security-core",
+      "evergreen_category": "no_difference",
+      "old_gen_affected": [
+        "Spring Security 5.x"
+      ],
+      "new_gen_affected": [
+        "Spring Security 6.x"
+      ],
+      "rationale": "Default: Spring Security shared-code bug across 5/6 lines."
+    },
+    "CVE-2023-45860": {
+      "package": "hazelcast",
+      "evergreen_category": "irrelevant",
+      "old_gen_affected": [
+        "Hazelcast Platform 5.x"
+      ],
+      "new_gen_affected": [
+        "Hazelcast Platform 5.x"
+      ],
+      "rationale": "Hazelcast is a standalone runtime dep. Its version is selected independently of Spring/Java generation - evergreening Spring or Java doesn't change which Hazelcast you run."
+    },
+    "CVE-2024-22233": {
+      "package": "spring-core",
+      "evergreen_category": "no_difference",
+      "old_gen_affected": [
+        "Spring 5.x / Spring Boot 2.x"
+      ],
+      "new_gen_affected": [
+        "Spring 6.x / Spring Boot 3.x"
+      ],
+      "rationale": "Default: Spring/Boot shared-code bug across 5/6 lines."
+    },
+    "CVE-2023-6481": {
+      "package": "logback-core",
+      "evergreen_category": "irrelevant",
+      "old_gen_affected": [],
+      "new_gen_affected": [],
+      "rationale": "logback version is selected independently of Spring/Java generation. Patch-currency on the dep, not evergreening."
+    },
+    "CVE-2023-6378": {
+      "package": "logback-classic",
+      "evergreen_category": "irrelevant",
+      "old_gen_affected": [],
+      "new_gen_affected": [],
+      "rationale": "logback version is selected independently of Spring/Java generation. Patch-currency on the dep, not evergreening."
+    },
+    "CVE-2023-46589": {
+      "package": "tomcat-embed-core",
+      "evergreen_category": "no_difference",
+      "old_gen_affected": [
+        "Tomcat 8.5.x/9.x"
+      ],
+      "new_gen_affected": [
+        "Tomcat 10.1.x/11.x"
+      ],
+      "rationale": "HTTP/1.1 header smuggling; shared connector code."
+    },
+    "CVE-2023-34053": {
+      "package": "spring-webmvc",
+      "evergreen_category": "no_difference",
+      "old_gen_affected": [
+        "Spring 5.x / Spring Boot 2.x"
+      ],
+      "new_gen_affected": [
+        "Spring 6.x / Spring Boot 3.x"
+      ],
+      "rationale": "Default: Spring/Boot shared-code bug across 5/6 lines."
+    },
+    "CVE-2023-33265": {
+      "package": "hazelcast",
+      "evergreen_category": "irrelevant",
+      "old_gen_affected": [],
+      "new_gen_affected": [],
+      "rationale": "hazelcast version is selected independently of Spring/Java generation. Patch-currency on the dep, not evergreening."
+    },
+    "CVE-2023-34034": {
+      "package": "spring-security-config",
+      "evergreen_category": "no_difference",
+      "old_gen_affected": [
+        "Spring Security 5.x"
+      ],
+      "new_gen_affected": [
+        "Spring Security 6.x"
+      ],
+      "rationale": "Default: Spring Security shared-code bug across 5/6 lines."
+    },
+    "CVE-2023-34035": {
+      "package": "spring-security-config",
+      "evergreen_category": "no_difference",
+      "old_gen_affected": [
+        "Spring Security 5.x"
+      ],
+      "new_gen_affected": [
+        "Spring Security 6.x"
+      ],
+      "rationale": "Default: Spring Security shared-code bug across 5/6 lines."
+    },
+    "CVE-2023-28709": {
+      "package": "tomcat-embed-core",
+      "evergreen_category": "no_difference",
+      "old_gen_affected": [
+        "Tomcat 8.5.x/9.x"
+      ],
+      "new_gen_affected": [
+        "Tomcat 10.x/11.x"
+      ],
+      "rationale": "Default: Tomcat shared-code bug. See per-CVE NVD CPE for ranges."
+    },
+    "CVE-2023-34981": {
+      "package": "tomcat-embed-core",
+      "evergreen_category": "no_difference",
+      "old_gen_affected": [
+        "Tomcat 8.5.x/9.x"
+      ],
+      "new_gen_affected": [
+        "Tomcat 10.x/11.x"
+      ],
+      "rationale": "Default: Tomcat shared-code bug. See per-CVE NVD CPE for ranges."
+    },
+    "CVE-2023-20883": {
+      "package": "spring-boot-autoconfigure",
+      "evergreen_category": "no_difference",
+      "old_gen_affected": [
+        "Spring 5.x / Spring Boot 2.x"
+      ],
+      "new_gen_affected": [
+        "Spring 6.x / Spring Boot 3.x"
+      ],
+      "rationale": "Default: Spring/Boot shared-code bug across 5/6 lines."
+    },
+    "CVE-2023-20860": {
+      "package": "spring-webmvc",
+      "evergreen_category": "no_difference",
+      "old_gen_affected": [
+        "Spring 5.x / Spring Boot 2.x"
+      ],
+      "new_gen_affected": [
+        "Spring 6.x / Spring Boot 3.x"
+      ],
+      "rationale": "Default: Spring/Boot shared-code bug across 5/6 lines."
+    },
+    "CVE-2021-46877": {
+      "package": "jackson-databind",
+      "evergreen_category": "irrelevant",
+      "old_gen_affected": [],
+      "new_gen_affected": [],
+      "rationale": "jackson-databind 2.x is the same library across Spring Boot 2 and 3. CVE applies by jackson version, not generation. Patch-currency on jackson, not evergreening."
+    },
+    "CVE-2023-26464": {
+      "package": "log4j-core",
+      "evergreen_category": "no_difference",
+      "old_gen_affected": [
+        "log4j-core 2.x"
+      ],
+      "new_gen_affected": [
+        "log4j-core 2.x"
+      ],
+      "rationale": "log4j-core 2.x line; same library across all Java/Spring versions."
+    },
+    "CVE-2023-24998": {
+      "package": "tomcat-embed-core",
+      "evergreen_category": "no_difference",
+      "old_gen_affected": [
+        "Tomcat 8.5.x/9.x"
+      ],
+      "new_gen_affected": [
+        "Tomcat 10.x/11.x"
+      ],
+      "rationale": "Default: Tomcat shared-code bug. See per-CVE NVD CPE for ranges."
+    },
+    "CVE-2022-45143": {
+      "package": "tomcat-embed-core",
+      "evergreen_category": "no_difference",
+      "old_gen_affected": [
+        "Tomcat 8.5.x/9.x"
+      ],
+      "new_gen_affected": [
+        "Tomcat 10.0.x/10.1.x"
+      ],
+      "rationale": "JsonErrorReportValve escaping; shared error-reporter code."
+    },
+    "CVE-2022-40151": {
+      "package": "xstream",
+      "evergreen_category": "irrelevant",
+      "old_gen_affected": [],
+      "new_gen_affected": [],
+      "rationale": "XStream is an app-level dep; no Spring/Java gen axis. Drop or pin to 1.4.18+."
+    },
+    "CVE-2022-41966": {
+      "package": "xstream",
+      "evergreen_category": "irrelevant",
+      "old_gen_affected": [],
+      "new_gen_affected": [],
+      "rationale": "XStream is an app-level dep; no Spring/Java gen axis. Drop or pin to 1.4.18+."
+    },
+    "CVE-2022-36437": {
+      "package": "hazelcast",
+      "evergreen_category": "irrelevant",
+      "old_gen_affected": [],
+      "new_gen_affected": [],
+      "rationale": "hazelcast version is selected independently of Spring/Java generation. Patch-currency on the dep, not evergreening."
+    },
+    "CVE-2022-46363": {
+      "package": "cxf-core",
+      "evergreen_category": "irrelevant",
+      "old_gen_affected": [],
+      "new_gen_affected": [],
+      "rationale": "cxf version is selected independently of Spring/Java generation. Patch-currency on the dep, not evergreening."
+    },
+    "CVE-2022-46364": {
+      "package": "cxf-core",
+      "evergreen_category": "no_difference",
+      "old_gen_affected": [
+        "CXF 3.4.x/3.5.x"
+      ],
+      "new_gen_affected": [
+        "CXF 3.5.x/3.6.x/4.0.x"
+      ],
+      "rationale": "SSRF in MTOM attachment handling; shared across major lines."
+    },
+    "CVE-2022-45047": {
+      "package": "sshd-common",
+      "evergreen_category": "irrelevant",
+      "old_gen_affected": [],
+      "new_gen_affected": [],
+      "rationale": "sshd version is selected independently of Spring/Java generation. Patch-currency on the dep, not evergreening."
+    },
+    "CVE-2022-42252": {
+      "package": "tomcat-embed-core",
+      "evergreen_category": "no_difference",
+      "old_gen_affected": [
+        "Tomcat 8.5.x/9.x"
+      ],
+      "new_gen_affected": [
+        "Tomcat 10.0.x/10.1.x"
+      ],
+      "rationale": "Content-Length header validation; shared code."
+    },
+    "CVE-2022-31692": {
+      "package": "spring-security-core",
+      "evergreen_category": "no_difference",
+      "old_gen_affected": [
+        "Spring Security 5.x"
+      ],
+      "new_gen_affected": [
+        "Spring Security 5.7+ / 6.0"
+      ],
+      "rationale": "forward/include dispatcher bypass. Affects 5.x and the then-current 5.7/6.0 lines. Not generation-axis."
+    },
+    "CVE-2022-42003": {
+      "package": "jackson-databind",
+      "evergreen_category": "irrelevant",
+      "old_gen_affected": [],
+      "new_gen_affected": [],
+      "rationale": "jackson-databind 2.x is the same library across Spring Boot 2 and 3. CVE applies by jackson version, not generation. Patch-currency on jackson, not evergreening."
+    },
+    "CVE-2022-42004": {
+      "package": "jackson-databind",
+      "evergreen_category": "irrelevant",
+      "old_gen_affected": [],
+      "new_gen_affected": [],
+      "rationale": "jackson-databind 2.x is the same library across Spring Boot 2 and 3. CVE applies by jackson version, not generation. Patch-currency on jackson, not evergreening."
+    },
+    "CVE-2022-25857": {
+      "package": "snakeyaml",
+      "evergreen_category": "irrelevant",
+      "old_gen_affected": [],
+      "new_gen_affected": [],
+      "rationale": "snakeyaml version is selected independently of Spring/Java generation. Patch-currency on the dep, not evergreening."
+    },
+    "CVE-2022-31197": {
+      "package": "postgresql",
+      "evergreen_category": "irrelevant",
+      "old_gen_affected": [],
+      "new_gen_affected": [],
+      "rationale": "postgresql version is selected independently of Spring/Java generation. Patch-currency on the dep, not evergreening."
+    },
+    "CVE-2020-10650": {
+      "package": "jackson-databind",
+      "evergreen_category": "irrelevant",
+      "old_gen_affected": [],
+      "new_gen_affected": [],
+      "rationale": "jackson-databind 2.x is the same library across Spring Boot 2 and 3. CVE applies by jackson version, not generation. Patch-currency on jackson, not evergreening."
+    },
+    "CVE-2022-27772": {
+      "package": "spring-boot",
+      "evergreen_category": "no_difference",
+      "old_gen_affected": [
+        "Spring 5.x / Spring Boot 2.x"
+      ],
+      "new_gen_affected": [
+        "Spring 6.x / Spring Boot 3.x"
+      ],
+      "rationale": "Default: Spring/Boot shared-code bug across 5/6 lines."
+    },
+    "CVE-2019-0231": {
+      "package": "mina-core",
+      "evergreen_category": "irrelevant",
+      "old_gen_affected": [],
+      "new_gen_affected": [],
+      "rationale": "mina version is selected independently of Spring/Java generation. Patch-currency on the dep, not evergreening."
+    },
+    "CVE-2021-22118": {
+      "package": "spring-web",
+      "evergreen_category": "no_difference",
+      "old_gen_affected": [
+        "Spring 5.x / Spring Boot 2.x"
+      ],
+      "new_gen_affected": [
+        "Spring 6.x / Spring Boot 3.x"
+      ],
+      "rationale": "Default: Spring/Boot shared-code bug across 5/6 lines."
+    },
+    "CVE-2022-22978": {
+      "package": "spring-security-core",
+      "evergreen_category": "no_difference",
+      "old_gen_affected": [
+        "Spring Security 5.5.x/5.6.x"
+      ],
+      "new_gen_affected": [
+        "Spring Security 5.5.x/5.6.x"
+      ],
+      "rationale": "RegexRequestMatcher authorization bypass. The 5.x line is the only one that exists at disclosure time; 6.0 wasn't released until November 2022. Not a generation-axis question."
+    },
+    "CVE-2022-22970": {
+      "package": "spring-beans",
+      "evergreen_category": "no_difference",
+      "old_gen_affected": [
+        "Spring 5.x / Spring Boot 2.x"
+      ],
+      "new_gen_affected": [
+        "Spring 6.x / Spring Boot 3.x"
+      ],
+      "rationale": "Default: Spring/Boot shared-code bug across 5/6 lines."
+    },
+    "CVE-2022-22968": {
+      "package": "spring-context",
+      "evergreen_category": "no_difference",
+      "old_gen_affected": [
+        "Spring 5.x / Spring Boot 2.x"
+      ],
+      "new_gen_affected": [
+        "Spring 6.x / Spring Boot 3.x"
+      ],
+      "rationale": "Default: Spring/Boot shared-code bug across 5/6 lines."
+    },
+    "CVE-2020-36518": {
+      "package": "jackson-databind",
+      "evergreen_category": "irrelevant",
+      "old_gen_affected": [],
+      "new_gen_affected": [],
+      "rationale": "jackson-databind 2.x is the same library across Spring Boot 2 and 3. CVE applies by jackson version, not generation. Patch-currency on jackson, not evergreening."
+    },
+    "CVE-2022-0265": {
+      "package": "hazelcast",
+      "evergreen_category": "irrelevant",
+      "old_gen_affected": [
+        "Hazelcast 4.x/5.x"
+      ],
+      "new_gen_affected": [
+        "Hazelcast 4.x/5.x"
+      ],
+      "rationale": "XXE in config parser. Hazelcast version is independent of Spring/Java gen."
+    },
+    "CVE-2020-13692": {
+      "package": "postgresql",
+      "evergreen_category": "irrelevant",
+      "old_gen_affected": [],
+      "new_gen_affected": [],
+      "rationale": "postgresql version is selected independently of Spring/Java generation. Patch-currency on the dep, not evergreening."
+    },
+    "CVE-2022-21724": {
+      "package": "postgresql",
+      "evergreen_category": "irrelevant",
+      "old_gen_affected": [],
+      "new_gen_affected": [],
+      "rationale": "postgresql version is selected independently of Spring/Java generation. Patch-currency on the dep, not evergreening."
+    },
+    "CVE-2021-43859": {
+      "package": "xstream",
+      "evergreen_category": "irrelevant",
+      "old_gen_affected": [],
+      "new_gen_affected": [],
+      "rationale": "XStream is an app-level dep; no Spring/Java gen axis. Drop or pin to 1.4.18+."
+    },
+    "GHSA-v57x-gxfj-484q": {
+      "package": "hazelcast",
+      "evergreen_category": "irrelevant",
+      "old_gen_affected": [],
+      "new_gen_affected": [],
+      "rationale": "hazelcast version is selected independently of Spring/Java generation. Patch-currency on the dep, not evergreening."
+    },
+    "CVE-2021-30468": {
+      "package": "cxf",
+      "evergreen_category": "irrelevant",
+      "old_gen_affected": [],
+      "new_gen_affected": [],
+      "rationale": "cxf version is selected independently of Spring/Java generation. Patch-currency on the dep, not evergreening."
+    },
+    "CVE-2021-45105": {
+      "package": "log4j-core",
+      "evergreen_category": "no_difference",
+      "old_gen_affected": [
+        "log4j-core 2.x"
+      ],
+      "new_gen_affected": [
+        "log4j-core 2.x"
+      ],
+      "rationale": "log4j-core 2.x line; same library across all Java/Spring versions."
+    },
+    "CVE-2020-35728": {
+      "package": "jackson-databind",
+      "evergreen_category": "irrelevant",
+      "old_gen_affected": [],
+      "new_gen_affected": [],
+      "rationale": "jackson-databind 2.x is the same library across Spring Boot 2 and 3. CVE applies by jackson version, not generation. Patch-currency on jackson, not evergreening."
+    },
+    "CVE-2020-36182": {
+      "package": "jackson-databind",
+      "evergreen_category": "irrelevant",
+      "old_gen_affected": [],
+      "new_gen_affected": [],
+      "rationale": "jackson-databind 2.x is the same library across Spring Boot 2 and 3. CVE applies by jackson version, not generation. Patch-currency on jackson, not evergreening."
+    },
+    "CVE-2020-36180": {
+      "package": "jackson-databind",
+      "evergreen_category": "irrelevant",
+      "old_gen_affected": [],
+      "new_gen_affected": [],
+      "rationale": "jackson-databind 2.x is the same library across Spring Boot 2 and 3. CVE applies by jackson version, not generation. Patch-currency on jackson, not evergreening."
+    },
+    "CVE-2020-36185": {
+      "package": "jackson-databind",
+      "evergreen_category": "irrelevant",
+      "old_gen_affected": [],
+      "new_gen_affected": [],
+      "rationale": "jackson-databind 2.x is the same library across Spring Boot 2 and 3. CVE applies by jackson version, not generation. Patch-currency on jackson, not evergreening."
+    },
+    "CVE-2020-36179": {
+      "package": "jackson-databind",
+      "evergreen_category": "irrelevant",
+      "old_gen_affected": [],
+      "new_gen_affected": [],
+      "rationale": "jackson-databind 2.x is the same library across Spring Boot 2 and 3. CVE applies by jackson version, not generation. Patch-currency on jackson, not evergreening."
+    },
+    "CVE-2020-36183": {
+      "package": "jackson-databind",
+      "evergreen_category": "irrelevant",
+      "old_gen_affected": [],
+      "new_gen_affected": [],
+      "rationale": "jackson-databind 2.x is the same library across Spring Boot 2 and 3. CVE applies by jackson version, not generation. Patch-currency on jackson, not evergreening."
+    },
+    "CVE-2020-36181": {
+      "package": "jackson-databind",
+      "evergreen_category": "irrelevant",
+      "old_gen_affected": [],
+      "new_gen_affected": [],
+      "rationale": "jackson-databind 2.x is the same library across Spring Boot 2 and 3. CVE applies by jackson version, not generation. Patch-currency on jackson, not evergreening."
+    },
+    "CVE-2020-36188": {
+      "package": "jackson-databind",
+      "evergreen_category": "irrelevant",
+      "old_gen_affected": [],
+      "new_gen_affected": [],
+      "rationale": "jackson-databind 2.x is the same library across Spring Boot 2 and 3. CVE applies by jackson version, not generation. Patch-currency on jackson, not evergreening."
+    },
+    "CVE-2020-24616": {
+      "package": "jackson-databind",
+      "evergreen_category": "irrelevant",
+      "old_gen_affected": [],
+      "new_gen_affected": [],
+      "rationale": "jackson-databind 2.x is the same library across Spring Boot 2 and 3. CVE applies by jackson version, not generation. Patch-currency on jackson, not evergreening."
+    },
+    "CVE-2020-36184": {
+      "package": "jackson-databind",
+      "evergreen_category": "irrelevant",
+      "old_gen_affected": [],
+      "new_gen_affected": [],
+      "rationale": "jackson-databind 2.x is the same library across Spring Boot 2 and 3. CVE applies by jackson version, not generation. Patch-currency on jackson, not evergreening."
+    },
+    "CVE-2020-24750": {
+      "package": "jackson-databind",
+      "evergreen_category": "irrelevant",
+      "old_gen_affected": [],
+      "new_gen_affected": [],
+      "rationale": "jackson-databind 2.x is the same library across Spring Boot 2 and 3. CVE applies by jackson version, not generation. Patch-currency on jackson, not evergreening."
+    },
+    "CVE-2020-35491": {
+      "package": "jackson-databind",
+      "evergreen_category": "irrelevant",
+      "old_gen_affected": [],
+      "new_gen_affected": [],
+      "rationale": "jackson-databind 2.x is the same library across Spring Boot 2 and 3. CVE applies by jackson version, not generation. Patch-currency on jackson, not evergreening."
+    },
+    "CVE-2020-36187": {
+      "package": "jackson-databind",
+      "evergreen_category": "irrelevant",
+      "old_gen_affected": [],
+      "new_gen_affected": [],
+      "rationale": "jackson-databind 2.x is the same library across Spring Boot 2 and 3. CVE applies by jackson version, not generation. Patch-currency on jackson, not evergreening."
+    },
+    "CVE-2020-36189": {
+      "package": "jackson-databind",
+      "evergreen_category": "irrelevant",
+      "old_gen_affected": [],
+      "new_gen_affected": [],
+      "rationale": "jackson-databind 2.x is the same library across Spring Boot 2 and 3. CVE applies by jackson version, not generation. Patch-currency on jackson, not evergreening."
+    },
+    "CVE-2020-35490": {
+      "package": "jackson-databind",
+      "evergreen_category": "irrelevant",
+      "old_gen_affected": [],
+      "new_gen_affected": [],
+      "rationale": "jackson-databind 2.x is the same library across Spring Boot 2 and 3. CVE applies by jackson version, not generation. Patch-currency on jackson, not evergreening."
+    },
+    "CVE-2020-36186": {
+      "package": "jackson-databind",
+      "evergreen_category": "irrelevant",
+      "old_gen_affected": [],
+      "new_gen_affected": [],
+      "rationale": "jackson-databind 2.x is the same library across Spring Boot 2 and 3. CVE applies by jackson version, not generation. Patch-currency on jackson, not evergreening."
+    },
+    "CVE-2021-39153": {
+      "package": "xstream",
+      "evergreen_category": "irrelevant",
+      "old_gen_affected": [],
+      "new_gen_affected": [],
+      "rationale": "XStream is an app-level dep; no Spring/Java gen axis. Drop or pin to 1.4.18+."
+    },
+    "CVE-2021-39149": {
+      "package": "xstream",
+      "evergreen_category": "irrelevant",
+      "old_gen_affected": [],
+      "new_gen_affected": [],
+      "rationale": "XStream is an app-level dep; no Spring/Java gen axis. Drop or pin to 1.4.18+."
+    },
+    "CVE-2021-39139": {
+      "package": "xstream",
+      "evergreen_category": "irrelevant",
+      "old_gen_affected": [],
+      "new_gen_affected": [],
+      "rationale": "XStream is an app-level dep; no Spring/Java gen axis. Drop or pin to 1.4.18+."
+    },
+    "CVE-2021-39154": {
+      "package": "xstream",
+      "evergreen_category": "irrelevant",
+      "old_gen_affected": [],
+      "new_gen_affected": [],
+      "rationale": "XStream is an app-level dep; no Spring/Java gen axis. Drop or pin to 1.4.18+."
+    },
+    "CVE-2021-39145": {
+      "package": "xstream",
+      "evergreen_category": "irrelevant",
+      "old_gen_affected": [],
+      "new_gen_affected": [],
+      "rationale": "XStream is an app-level dep; no Spring/Java gen axis. Drop or pin to 1.4.18+."
+    },
+    "CVE-2021-39150": {
+      "package": "xstream",
+      "evergreen_category": "irrelevant",
+      "old_gen_affected": [],
+      "new_gen_affected": [],
+      "rationale": "XStream is an app-level dep; no Spring/Java gen axis. Drop or pin to 1.4.18+."
+    },
+    "CVE-2021-39141": {
+      "package": "xstream",
+      "evergreen_category": "irrelevant",
+      "old_gen_affected": [],
+      "new_gen_affected": [],
+      "rationale": "XStream is an app-level dep; no Spring/Java gen axis. Drop or pin to 1.4.18+."
+    },
+    "CVE-2021-39147": {
+      "package": "xstream",
+      "evergreen_category": "irrelevant",
+      "old_gen_affected": [],
+      "new_gen_affected": [],
+      "rationale": "XStream is an app-level dep; no Spring/Java gen axis. Drop or pin to 1.4.18+."
+    },
+    "CVE-2021-39151": {
+      "package": "xstream",
+      "evergreen_category": "irrelevant",
+      "old_gen_affected": [],
+      "new_gen_affected": [],
+      "rationale": "XStream is an app-level dep; no Spring/Java gen axis. Drop or pin to 1.4.18+."
+    },
+    "CVE-2021-39146": {
+      "package": "xstream",
+      "evergreen_category": "irrelevant",
+      "old_gen_affected": [],
+      "new_gen_affected": [],
+      "rationale": "XStream is an app-level dep; no Spring/Java gen axis. Drop or pin to 1.4.18+."
+    },
+    "CVE-2021-39148": {
+      "package": "xstream",
+      "evergreen_category": "irrelevant",
+      "old_gen_affected": [],
+      "new_gen_affected": [],
+      "rationale": "XStream is an app-level dep; no Spring/Java gen axis. Drop or pin to 1.4.18+."
+    },
+    "CVE-2021-39152": {
+      "package": "xstream",
+      "evergreen_category": "irrelevant",
+      "old_gen_affected": [],
+      "new_gen_affected": [],
+      "rationale": "XStream is an app-level dep; no Spring/Java gen axis. Drop or pin to 1.4.18+."
+    },
+    "CVE-2021-30129": {
+      "package": "sshd-core",
+      "evergreen_category": "irrelevant",
+      "old_gen_affected": [],
+      "new_gen_affected": [],
+      "rationale": "sshd version is selected independently of Spring/Java generation. Patch-currency on the dep, not evergreening."
+    },
+    "CVE-2021-22119": {
+      "package": "spring-security-core",
+      "evergreen_category": "no_difference",
+      "old_gen_affected": [
+        "Spring Security 5.5.x and earlier"
+      ],
+      "new_gen_affected": [
+        "Spring Security 5.5.x and earlier"
+      ],
+      "rationale": "Affects all 5.x at disclosure. No 6.x exists yet."
+    },
+    "CVE-2021-25122": {
+      "package": "tomcat-embed-core",
+      "evergreen_category": "no_difference",
+      "old_gen_affected": [
+        "Tomcat 8.5.x/9.x"
+      ],
+      "new_gen_affected": [
+        "Tomcat 10.x/11.x"
+      ],
+      "rationale": "Default: Tomcat shared-code bug. See per-CVE NVD CPE for ranges."
+    },
+    "CVE-2021-29505": {
+      "package": "xstream",
+      "evergreen_category": "irrelevant",
+      "old_gen_affected": [],
+      "new_gen_affected": [],
+      "rationale": "XStream is an app-level dep; no Spring/Java gen axis. Drop or pin to 1.4.18+."
+    },
+    "CVE-2021-22696": {
+      "package": "cxf",
+      "evergreen_category": "no_difference",
+      "old_gen_affected": [
+        "CXF 3.4.x"
+      ],
+      "new_gen_affected": [
+        "CXF 3.4.x"
+      ],
+      "rationale": "OAuth2 DoS; affects all 3.4.x at disclosure."
+    },
+    "CVE-2021-22112": {
+      "package": "spring-security-web",
+      "evergreen_category": "no_difference",
+      "old_gen_affected": [
+        "Spring Security 5.x"
+      ],
+      "new_gen_affected": [
+        "Spring Security 6.x"
+      ],
+      "rationale": "Default: Spring Security shared-code bug across 5/6 lines."
+    },
+    "CVE-2021-21341": {
+      "package": "xstream",
+      "evergreen_category": "irrelevant",
+      "old_gen_affected": [],
+      "new_gen_affected": [],
+      "rationale": "XStream is an app-level dep; no Spring/Java gen axis. Drop or pin to 1.4.18+."
+    },
+    "CVE-2021-25329": {
+      "package": "tomcat-embed-core",
+      "evergreen_category": "no_difference",
+      "old_gen_affected": [
+        "Tomcat 8.5.x/9.x"
+      ],
+      "new_gen_affected": [
+        "Tomcat 10.x/11.x"
+      ],
+      "rationale": "Default: Tomcat shared-code bug. See per-CVE NVD CPE for ranges."
+    },
+    "CVE-2020-25649": {
+      "package": "jackson-databind",
+      "evergreen_category": "irrelevant",
+      "old_gen_affected": [],
+      "new_gen_affected": [],
+      "rationale": "jackson-databind 2.x is the same library across Spring Boot 2 and 3. CVE applies by jackson version, not generation. Patch-currency on jackson, not evergreening."
+    },
+    "CVE-2021-20190": {
+      "package": "jackson-databind",
+      "evergreen_category": "irrelevant",
+      "old_gen_affected": [],
+      "new_gen_affected": [],
+      "rationale": "jackson-databind 2.x is the same library across Spring Boot 2 and 3. CVE applies by jackson version, not generation. Patch-currency on jackson, not evergreening."
+    },
+    "CVE-2020-26217": {
+      "package": "xstream",
+      "evergreen_category": "irrelevant",
+      "old_gen_affected": [],
+      "new_gen_affected": [],
+      "rationale": "XStream is an app-level dep; no Spring/Java gen axis. Drop or pin to 1.4.18+."
+    },
+    "CVE-2018-5968": {
+      "package": "jackson-databind",
+      "evergreen_category": "irrelevant",
+      "old_gen_affected": [],
+      "new_gen_affected": [],
+      "rationale": "jackson-databind 2.x is the same library across Spring Boot 2 and 3. CVE applies by jackson version, not generation. Patch-currency on jackson, not evergreening."
+    },
+    "CVE-2020-14062": {
+      "package": "jackson-databind",
+      "evergreen_category": "irrelevant",
+      "old_gen_affected": [],
+      "new_gen_affected": [],
+      "rationale": "jackson-databind 2.x is the same library across Spring Boot 2 and 3. CVE applies by jackson version, not generation. Patch-currency on jackson, not evergreening."
+    },
+    "CVE-2020-14061": {
+      "package": "jackson-databind",
+      "evergreen_category": "irrelevant",
+      "old_gen_affected": [],
+      "new_gen_affected": [],
+      "rationale": "jackson-databind 2.x is the same library across Spring Boot 2 and 3. CVE applies by jackson version, not generation. Patch-currency on jackson, not evergreening."
+    },
+    "CVE-2020-14060": {
+      "package": "jackson-databind",
+      "evergreen_category": "irrelevant",
+      "old_gen_affected": [],
+      "new_gen_affected": [],
+      "rationale": "jackson-databind 2.x is the same library across Spring Boot 2 and 3. CVE applies by jackson version, not generation. Patch-currency on jackson, not evergreening."
+    },
+    "CVE-2020-14195": {
+      "package": "jackson-databind",
+      "evergreen_category": "irrelevant",
+      "old_gen_affected": [],
+      "new_gen_affected": [],
+      "rationale": "jackson-databind 2.x is the same library across Spring Boot 2 and 3. CVE applies by jackson version, not generation. Patch-currency on jackson, not evergreening."
+    },
+    "CVE-2018-12023": {
+      "package": "jackson-databind",
+      "evergreen_category": "irrelevant",
+      "old_gen_affected": [],
+      "new_gen_affected": [],
+      "rationale": "jackson-databind 2.x is the same library across Spring Boot 2 and 3. CVE applies by jackson version, not generation. Patch-currency on jackson, not evergreening."
+    },
+    "CVE-2019-17267": {
+      "package": "jackson-databind",
+      "evergreen_category": "irrelevant",
+      "old_gen_affected": [],
+      "new_gen_affected": [],
+      "rationale": "jackson-databind 2.x is the same library across Spring Boot 2 and 3. CVE applies by jackson version, not generation. Patch-currency on jackson, not evergreening."
+    },
+    "CVE-2019-0199": {
+      "package": "tomcat-embed-core",
+      "evergreen_category": "no_difference",
+      "old_gen_affected": [
+        "Tomcat 8.5.x/9.x"
+      ],
+      "new_gen_affected": [
+        "Tomcat 10.x/11.x"
+      ],
+      "rationale": "Default: Tomcat shared-code bug. See per-CVE NVD CPE for ranges."
+    },
+    "CVE-2018-15756": {
+      "package": "spring-core",
+      "evergreen_category": "no_difference",
+      "old_gen_affected": [
+        "Spring 5.x / Spring Boot 2.x"
+      ],
+      "new_gen_affected": [
+        "Spring 6.x / Spring Boot 3.x"
+      ],
+      "rationale": "Default: Spring/Boot shared-code bug across 5/6 lines."
+    },
+    "CVE-2020-11112": {
+      "package": "jackson-databind",
+      "evergreen_category": "irrelevant",
+      "old_gen_affected": [],
+      "new_gen_affected": [],
+      "rationale": "jackson-databind 2.x is the same library across Spring Boot 2 and 3. CVE applies by jackson version, not generation. Patch-currency on jackson, not evergreening."
+    },
+    "CVE-2020-5407": {
+      "package": "spring-security-core",
+      "evergreen_category": "no_difference",
+      "old_gen_affected": [
+        "Spring Security 5.x"
+      ],
+      "new_gen_affected": [
+        "Spring Security 6.x"
+      ],
+      "rationale": "Default: Spring Security shared-code bug across 5/6 lines."
+    },
+    "CVE-2019-12423": {
+      "package": "cxf",
+      "evergreen_category": "irrelevant",
+      "old_gen_affected": [],
+      "new_gen_affected": [],
+      "rationale": "cxf version is selected independently of Spring/Java generation. Patch-currency on the dep, not evergreening."
+    },
+    "CVE-2020-11619": {
+      "package": "jackson-databind",
+      "evergreen_category": "irrelevant",
+      "old_gen_affected": [],
+      "new_gen_affected": [],
+      "rationale": "jackson-databind 2.x is the same library across Spring Boot 2 and 3. CVE applies by jackson version, not generation. Patch-currency on jackson, not evergreening."
+    },
+    "CVE-2020-11113": {
+      "package": "jackson-databind",
+      "evergreen_category": "irrelevant",
+      "old_gen_affected": [],
+      "new_gen_affected": [],
+      "rationale": "jackson-databind 2.x is the same library across Spring Boot 2 and 3. CVE applies by jackson version, not generation. Patch-currency on jackson, not evergreening."
+    },
+    "CVE-2019-14892": {
+      "package": "jackson-databind",
+      "evergreen_category": "irrelevant",
+      "old_gen_affected": [],
+      "new_gen_affected": [],
+      "rationale": "jackson-databind 2.x is the same library across Spring Boot 2 and 3. CVE applies by jackson version, not generation. Patch-currency on jackson, not evergreening."
+    },
+    "CVE-2020-10673": {
+      "package": "jackson-databind",
+      "evergreen_category": "irrelevant",
+      "old_gen_affected": [],
+      "new_gen_affected": [],
+      "rationale": "jackson-databind 2.x is the same library across Spring Boot 2 and 3. CVE applies by jackson version, not generation. Patch-currency on jackson, not evergreening."
+    },
+    "CVE-2020-9548": {
+      "package": "jackson-databind",
+      "evergreen_category": "irrelevant",
+      "old_gen_affected": [],
+      "new_gen_affected": [],
+      "rationale": "jackson-databind 2.x is the same library across Spring Boot 2 and 3. CVE applies by jackson version, not generation. Patch-currency on jackson, not evergreening."
+    },
+    "CVE-2020-9547": {
+      "package": "jackson-databind",
+      "evergreen_category": "irrelevant",
+      "old_gen_affected": [],
+      "new_gen_affected": [],
+      "rationale": "jackson-databind 2.x is the same library across Spring Boot 2 and 3. CVE applies by jackson version, not generation. Patch-currency on jackson, not evergreening."
+    },
+    "CVE-2019-14893": {
+      "package": "jackson-databind",
+      "evergreen_category": "irrelevant",
+      "old_gen_affected": [],
+      "new_gen_affected": [],
+      "rationale": "jackson-databind 2.x is the same library across Spring Boot 2 and 3. CVE applies by jackson version, not generation. Patch-currency on jackson, not evergreening."
+    },
+    "CVE-2020-10968": {
+      "package": "jackson-databind",
+      "evergreen_category": "irrelevant",
+      "old_gen_affected": [],
+      "new_gen_affected": [],
+      "rationale": "jackson-databind 2.x is the same library across Spring Boot 2 and 3. CVE applies by jackson version, not generation. Patch-currency on jackson, not evergreening."
+    },
+    "CVE-2020-11111": {
+      "package": "jackson-databind",
+      "evergreen_category": "irrelevant",
+      "old_gen_affected": [],
+      "new_gen_affected": [],
+      "rationale": "jackson-databind 2.x is the same library across Spring Boot 2 and 3. CVE applies by jackson version, not generation. Patch-currency on jackson, not evergreening."
+    },
+    "CVE-2020-9546": {
+      "package": "jackson-databind",
+      "evergreen_category": "irrelevant",
+      "old_gen_affected": [],
+      "new_gen_affected": [],
+      "rationale": "jackson-databind 2.x is the same library across Spring Boot 2 and 3. CVE applies by jackson version, not generation. Patch-currency on jackson, not evergreening."
+    },
+    "CVE-2020-10969": {
+      "package": "jackson-databind",
+      "evergreen_category": "irrelevant",
+      "old_gen_affected": [],
+      "new_gen_affected": [],
+      "rationale": "jackson-databind 2.x is the same library across Spring Boot 2 and 3. CVE applies by jackson version, not generation. Patch-currency on jackson, not evergreening."
+    },
+    "CVE-2020-10672": {
+      "package": "jackson-databind",
+      "evergreen_category": "irrelevant",
+      "old_gen_affected": [],
+      "new_gen_affected": [],
+      "rationale": "jackson-databind 2.x is the same library across Spring Boot 2 and 3. CVE applies by jackson version, not generation. Patch-currency on jackson, not evergreening."
+    },
+    "CVE-2020-11620": {
+      "package": "jackson-databind",
+      "evergreen_category": "irrelevant",
+      "old_gen_affected": [],
+      "new_gen_affected": [],
+      "rationale": "jackson-databind 2.x is the same library across Spring Boot 2 and 3. CVE applies by jackson version, not generation. Patch-currency on jackson, not evergreening."
+    },
+    "CVE-2020-8840": {
+      "package": "jackson-databind",
+      "evergreen_category": "irrelevant",
+      "old_gen_affected": [],
+      "new_gen_affected": [],
+      "rationale": "jackson-databind 2.x is the same library across Spring Boot 2 and 3. CVE applies by jackson version, not generation. Patch-currency on jackson, not evergreening."
+    },
+    "CVE-2019-20330": {
+      "package": "jackson-databind",
+      "evergreen_category": "irrelevant",
+      "old_gen_affected": [],
+      "new_gen_affected": [],
+      "rationale": "jackson-databind 2.x is the same library across Spring Boot 2 and 3. CVE applies by jackson version, not generation. Patch-currency on jackson, not evergreening."
+    },
+    "CVE-2020-5398": {
+      "package": "spring-webmvc",
+      "evergreen_category": "no_difference",
+      "old_gen_affected": [
+        "Spring 5.x / Spring Boot 2.x"
+      ],
+      "new_gen_affected": [
+        "Spring 6.x / Spring Boot 3.x"
+      ],
+      "rationale": "Default: Spring/Boot shared-code bug across 5/6 lines."
+    },
+    "CVE-2019-17563": {
+      "package": "tomcat-embed-core",
+      "evergreen_category": "no_difference",
+      "old_gen_affected": [
+        "Tomcat 8.5.x/9.x"
+      ],
+      "new_gen_affected": [
+        "Tomcat 10.x/11.x"
+      ],
+      "rationale": "Default: Tomcat shared-code bug. See per-CVE NVD CPE for ranges."
+    },
+    "CVE-2019-12418": {
+      "package": "tomcat-embed-core",
+      "evergreen_category": "no_difference",
+      "old_gen_affected": [
+        "Tomcat 8.5.x/9.x"
+      ],
+      "new_gen_affected": [
+        "Tomcat 10.x/11.x"
+      ],
+      "rationale": "Default: Tomcat shared-code bug. See per-CVE NVD CPE for ranges."
+    },
+    "CVE-2019-16943": {
+      "package": "jackson-databind",
+      "evergreen_category": "irrelevant",
+      "old_gen_affected": [],
+      "new_gen_affected": [],
+      "rationale": "jackson-databind 2.x is the same library across Spring Boot 2 and 3. CVE applies by jackson version, not generation. Patch-currency on jackson, not evergreening."
+    },
+    "CVE-2019-17531": {
+      "package": "jackson-databind",
+      "evergreen_category": "irrelevant",
+      "old_gen_affected": [],
+      "new_gen_affected": [],
+      "rationale": "jackson-databind 2.x is the same library across Spring Boot 2 and 3. CVE applies by jackson version, not generation. Patch-currency on jackson, not evergreening."
+    },
+    "CVE-2019-12419": {
+      "package": "cxf",
+      "evergreen_category": "no_difference",
+      "old_gen_affected": [
+        "CXF 3.2.x/3.3.x"
+      ],
+      "new_gen_affected": [
+        "CXF 3.2.x/3.3.x"
+      ],
+      "rationale": "OIDC session hijack; affects all then-current minor lines."
+    },
+    "CVE-2019-16942": {
+      "package": "jackson-databind",
+      "evergreen_category": "irrelevant",
+      "old_gen_affected": [],
+      "new_gen_affected": [],
+      "rationale": "jackson-databind 2.x is the same library across Spring Boot 2 and 3. CVE applies by jackson version, not generation. Patch-currency on jackson, not evergreening."
+    },
+    "CVE-2019-16335": {
+      "package": "jackson-databind",
+      "evergreen_category": "irrelevant",
+      "old_gen_affected": [],
+      "new_gen_affected": [],
+      "rationale": "jackson-databind 2.x is the same library across Spring Boot 2 and 3. CVE applies by jackson version, not generation. Patch-currency on jackson, not evergreening."
+    },
+    "CVE-2019-14540": {
+      "package": "jackson-databind",
+      "evergreen_category": "irrelevant",
+      "old_gen_affected": [],
+      "new_gen_affected": [],
+      "rationale": "jackson-databind 2.x is the same library across Spring Boot 2 and 3. CVE applies by jackson version, not generation. Patch-currency on jackson, not evergreening."
+    },
+    "CVE-2019-14379": {
+      "package": "jackson-databind",
+      "evergreen_category": "irrelevant",
+      "old_gen_affected": [],
+      "new_gen_affected": [],
+      "rationale": "jackson-databind 2.x is the same library across Spring Boot 2 and 3. CVE applies by jackson version, not generation. Patch-currency on jackson, not evergreening."
+    },
+    "CVE-2019-14439": {
+      "package": "jackson-databind",
+      "evergreen_category": "irrelevant",
+      "old_gen_affected": [],
+      "new_gen_affected": [],
+      "rationale": "jackson-databind 2.x is the same library across Spring Boot 2 and 3. CVE applies by jackson version, not generation. Patch-currency on jackson, not evergreening."
+    },
+    "CVE-2019-10173": {
+      "package": "xstream",
+      "evergreen_category": "irrelevant",
+      "old_gen_affected": [],
+      "new_gen_affected": [],
+      "rationale": "XStream is an app-level dep; no Spring/Java gen axis. Drop or pin to 1.4.18+."
+    },
+    "CVE-2018-11307": {
+      "package": "jackson-databind",
+      "evergreen_category": "irrelevant",
+      "old_gen_affected": [],
+      "new_gen_affected": [],
+      "rationale": "jackson-databind 2.x is the same library across Spring Boot 2 and 3. CVE applies by jackson version, not generation. Patch-currency on jackson, not evergreening."
+    },
+    "CVE-2019-11272": {
+      "package": "spring-security-core",
+      "evergreen_category": "no_difference",
+      "old_gen_affected": [
+        "Spring Security 4.2.x",
+        "Spring Security 5.0.x/5.1.x"
+      ],
+      "new_gen_affected": [
+        "Spring Security 5.0.x/5.1.x"
+      ],
+      "rationale": "Affects 4.x AND 5.x security-core. Shared password handling."
+    },
+    "CVE-2019-10072": {
+      "package": "tomcat-embed-core",
+      "evergreen_category": "no_difference",
+      "old_gen_affected": [
+        "Tomcat 8.5.x/9.x"
+      ],
+      "new_gen_affected": [
+        "Tomcat 10.x/11.x"
+      ],
+      "rationale": "Default: Tomcat shared-code bug. See per-CVE NVD CPE for ranges."
+    },
+    "CVE-2019-12086": {
+      "package": "jackson-databind",
+      "evergreen_category": "irrelevant",
+      "old_gen_affected": [],
+      "new_gen_affected": [],
+      "rationale": "jackson-databind 2.x is the same library across Spring Boot 2 and 3. CVE applies by jackson version, not generation. Patch-currency on jackson, not evergreening."
+    },
+    "CVE-2019-0222": {
+      "package": "activemq-client",
+      "evergreen_category": "no_difference",
+      "old_gen_affected": [
+        "ActiveMQ 5.15.x"
+      ],
+      "new_gen_affected": [
+        "ActiveMQ 5.15.x"
+      ],
+      "rationale": "OpenWire deserialization; pre-6.x, no generation axis."
+    },
+    "CVE-2018-12022": {
+      "package": "jackson-databind",
+      "evergreen_category": "irrelevant",
+      "old_gen_affected": [],
+      "new_gen_affected": [],
+      "rationale": "jackson-databind 2.x is the same library across Spring Boot 2 and 3. CVE applies by jackson version, not generation. Patch-currency on jackson, not evergreening."
+    },
+    "CVE-2018-14719": {
+      "package": "jackson-databind",
+      "evergreen_category": "irrelevant",
+      "old_gen_affected": [],
+      "new_gen_affected": [],
+      "rationale": "jackson-databind 2.x is the same library across Spring Boot 2 and 3. CVE applies by jackson version, not generation. Patch-currency on jackson, not evergreening."
+    },
+    "CVE-2018-14718": {
+      "package": "jackson-databind",
+      "evergreen_category": "irrelevant",
+      "old_gen_affected": [],
+      "new_gen_affected": [],
+      "rationale": "jackson-databind 2.x is the same library across Spring Boot 2 and 3. CVE applies by jackson version, not generation. Patch-currency on jackson, not evergreening."
+    },
+    "CVE-2018-14721": {
+      "package": "jackson-databind",
+      "evergreen_category": "irrelevant",
+      "old_gen_affected": [],
+      "new_gen_affected": [],
+      "rationale": "jackson-databind 2.x is the same library across Spring Boot 2 and 3. CVE applies by jackson version, not generation. Patch-currency on jackson, not evergreening."
+    },
+    "CVE-2018-19362": {
+      "package": "jackson-databind",
+      "evergreen_category": "irrelevant",
+      "old_gen_affected": [],
+      "new_gen_affected": [],
+      "rationale": "jackson-databind 2.x is the same library across Spring Boot 2 and 3. CVE applies by jackson version, not generation. Patch-currency on jackson, not evergreening."
+    },
+    "CVE-2018-19360": {
+      "package": "jackson-databind",
+      "evergreen_category": "irrelevant",
+      "old_gen_affected": [],
+      "new_gen_affected": [],
+      "rationale": "jackson-databind 2.x is the same library across Spring Boot 2 and 3. CVE applies by jackson version, not generation. Patch-currency on jackson, not evergreening."
+    },
+    "CVE-2018-19361": {
+      "package": "jackson-databind",
+      "evergreen_category": "irrelevant",
+      "old_gen_affected": [],
+      "new_gen_affected": [],
+      "rationale": "jackson-databind 2.x is the same library across Spring Boot 2 and 3. CVE applies by jackson version, not generation. Patch-currency on jackson, not evergreening."
+    },
+    "CVE-2018-14720": {
+      "package": "jackson-databind",
+      "evergreen_category": "irrelevant",
+      "old_gen_affected": [],
+      "new_gen_affected": [],
+      "rationale": "jackson-databind 2.x is the same library across Spring Boot 2 and 3. CVE applies by jackson version, not generation. Patch-currency on jackson, not evergreening."
+    },
+    "CVE-2018-15801": {
+      "package": "spring-security-core",
+      "evergreen_category": "no_difference",
+      "old_gen_affected": [
+        "Spring Security OAuth 2.3.x"
+      ],
+      "new_gen_affected": [
+        "Spring Security OAuth 2.3.x"
+      ],
+      "rationale": "OAuth library predates the 5/6 generation axis."
+    },
+    "CVE-2018-11775": {
+      "package": "activemq-client",
+      "evergreen_category": "irrelevant",
+      "old_gen_affected": [],
+      "new_gen_affected": [],
+      "rationale": "activemq version is selected independently of Spring/Java generation. Patch-currency on the dep, not evergreening."
+    },
+    "CVE-2018-8039": {
+      "package": "cxf-rt-transports-http",
+      "evergreen_category": "irrelevant",
+      "old_gen_affected": [],
+      "new_gen_affected": [],
+      "rationale": "cxf version is selected independently of Spring/Java generation. Patch-currency on the dep, not evergreening."
+    },
+    "CVE-2018-8034": {
+      "package": "tomcat-embed-core",
+      "evergreen_category": "no_difference",
+      "old_gen_affected": [
+        "Tomcat 8.5.x/9.x"
+      ],
+      "new_gen_affected": [
+        "Tomcat 10.x/11.x"
+      ],
+      "rationale": "Default: Tomcat shared-code bug. See per-CVE NVD CPE for ranges."
+    },
+    "CVE-2018-1336": {
+      "package": "tomcat-embed-core",
+      "evergreen_category": "no_difference",
+      "old_gen_affected": [
+        "Tomcat 8.5.x/9.x"
+      ],
+      "new_gen_affected": [
+        "Tomcat 10.x/11.x"
+      ],
+      "rationale": "Default: Tomcat shared-code bug. See per-CVE NVD CPE for ranges."
+    },
+    "CVE-2018-8014": {
+      "package": "tomcat-embed-core",
+      "evergreen_category": "no_difference",
+      "old_gen_affected": [
+        "Tomcat 8.5.x/9.x"
+      ],
+      "new_gen_affected": [
+        "Tomcat 10.x/11.x"
+      ],
+      "rationale": "Default: Tomcat shared-code bug. See per-CVE NVD CPE for ranges."
+    },
+    "CVE-2018-1272": {
+      "package": "spring-core",
+      "evergreen_category": "no_difference",
+      "old_gen_affected": [
+        "Spring 5.x / Spring Boot 2.x"
+      ],
+      "new_gen_affected": [
+        "Spring 6.x / Spring Boot 3.x"
+      ],
+      "rationale": "Default: Spring/Boot shared-code bug across 5/6 lines."
+    },
+    "CVE-2018-1258": {
+      "package": "spring-core",
+      "evergreen_category": "no_difference",
+      "old_gen_affected": [
+        "Spring 5.x / Spring Boot 2.x"
+      ],
+      "new_gen_affected": [
+        "Spring 6.x / Spring Boot 3.x"
+      ],
+      "rationale": "Default: Spring/Boot shared-code bug across 5/6 lines."
+    },
+    "CVE-2018-7489": {
+      "package": "jackson-databind",
+      "evergreen_category": "irrelevant",
+      "old_gen_affected": [],
+      "new_gen_affected": [],
+      "rationale": "jackson-databind 2.x is the same library across Spring Boot 2 and 3. CVE applies by jackson version, not generation. Patch-currency on jackson, not evergreening."
+    }
+  }
+}

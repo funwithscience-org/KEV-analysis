@@ -132,12 +132,12 @@ code{background:var(--code-bg);padding:2px 6px;border-radius:4px;font-size:.88em
 
 <div class="hero-row">
 <div class="hero-card">
-<div class="num" style="color:var(--accent)">2 of ~35</div>
-<div class="lbl">Java library CVEs avoided<br>by evergreening (neither exploited)</div>
+<div class="num" style="color:var(--accent)">0 of 40</div>
+<div class="lbl">NP+DI raw CVEs avoided<br>by evergreening (canonical 58-pkg)</div>
 </div>
 <div class="hero-card">
-<div class="num" style="color:var(--red)">2 of ~35</div>
-<div class="lbl">Java library CVEs <em>worse</em><br>on the new stack (both exploited)</div>
+<div class="num" style="color:var(--red)">2 of 11</div>
+<div class="lbl">exploited CVEs <em>worse</em><br>on the new stack (Spring4Shell, ActiveMQ Jolokia)</div>
 </div>
 <div class="hero-card">
 <div class="num" style="color:var(--amber)">7</div>
@@ -152,73 +152,95 @@ code{background:var(--code-bg);padding:2px 6px;border-radius:4px;font-size:.88em
 <!-- ===== JAVA / OPEN SOURCE ===== -->
 <h2 id="java-libraries">Java Libraries — The Real-World Manifest</h2>
 
-<p>Our <a href="periodicity.html">periodicity analysis</a> backtested a real-world Java manifest (Spring Boot app, ~40 dependencies) over 8 years (2018–2026). The NP+DI filter produced 28 CVEs. Expanding to all Critical/High CVEs in the Spring ecosystem post-EOL adds 7 more, for ~35 total. The manifest was built on the "old generation": Java 8, Spring 5, Spring Boot 1.x, Tomcat 9.</p>
+<div class="callout">
+<strong>Reproducibility:</strong> This section's tallies derive from <code>data/seven-year-manifest-events.json</code> (the canonical 58-package, 194-event runtime manifest reconciled 2026-04-28) cross-referenced with <code>data/evergreen-generation-mapping.json</code> (per-CVE old-gen-vs-new-gen classification). To regenerate the mapping and re-emit headline tallies: <code>python3 scripts/build_evergreen_java.py</code>. The reconciliation that produced these totals is documented in <a href="https://github.com/funwithscience-org/KEV-analysis/blob/main/analyst-reports/2026-04-28-seven-year-data-reconciliation.md"><code>analyst-reports/2026-04-28-seven-year-data-reconciliation.md</code></a>.
+</div>
+
+<p>Our <a href="periodicity.html">periodicity analysis</a> backtested a real-world Java runtime manifest — <strong>58 packages</strong> covering Spring Framework, Spring Boot, Spring Security, Tomcat, jackson-databind, log4j-core, XStream, Apache CXF, MINA, SSHD, Hazelcast, ActiveMQ and the rest of a typical enterprise Spring Boot deployment — over 7+ years (2018–2026). That window contains <strong>194 Critical/High CVEs</strong> across those packages: <strong>40 NP+DI raw</strong> events (the structure test's emergency-rebuild flag), <strong>43 NP+DI+DQ</strong> after the data-quality re-validation rescues 3 more, and <strong>11 actually-exploited</strong> events with KEV / Metasploit / ExploitDB confirmation.</p>
+
+<p>The evergreening question is operationally meaningful for the events that <em>warrant</em> emergency response — i.e. the <strong>NP+DI raw set (40 events)</strong>. So we apply the per-CVE generation classification primarily to those 40, with the wider 194 reported as breakdown context. The manifest was built on the "old generation": Java 8, Spring 5, Spring Boot 2.x, Tomcat 8.5/9.</p>
 
 <p><strong>The evergreen alternative:</strong> upgrade to Java 11 (2018) → 17 (2021) → 21 (2023), Spring 6 (2022), Spring Boot 3 (2022), Tomcat 10 (2021) as each became available. For each CVE, we ask two questions: (1) does the new generation avoid the vulnerability? and (2) can you get a free patch?</p>
 
 <div class="hero-row">
 <div class="hero-card" style="border-color:var(--green)">
-<div class="num" style="color:var(--green)">2</div>
-<div class="lbl">Avoided by evergreening<br><span style="font-size:.9em">(neither exploited)</span></div>
+<div class="num" style="color:var(--green)">0</div>
+<div class="lbl">NP+DI raw events avoided<br><span style="font-size:.9em">by evergreening (of 40)</span></div>
 </div>
 <div class="hero-card" style="border-color:var(--red)">
-<div class="num" style="color:var(--red)">2</div>
-<div class="lbl">Made <em>worse</em><br><span style="font-size:.9em">(both exploited)</span></div>
+<div class="num" style="color:var(--red)">1</div>
+<div class="lbl">NP+DI raw made <em>worse</em><br><span style="font-size:.9em">Spring4Shell — KEV+MSF exploited</span></div>
 </div>
 <div class="hero-card">
-<div class="num" style="color:var(--muted)">~31</div>
-<div class="lbl">Both generations affected<br><span style="font-size:.9em">(7 paywalled on old gen)</span></div>
+<div class="num" style="color:var(--muted)">25</div>
+<div class="lbl">No difference (both gens)<br><span style="font-size:.9em">patch currency handles them</span></div>
+</div>
+<div class="hero-card">
+<div class="num" style="color:var(--muted)">14</div>
+<div class="lbl">Irrelevant (no gen axis)<br><span style="font-size:.9em">app-level deps; pin or drop</span></div>
 </div>
 </div>
 
-<h3>Avoided: dead libraries forced out by the generation shift</h3>
+<h3>Avoided: empty cohort on the canonical manifest</h3>
 
-<table>
-<thead><tr><th>CVE</th><th>Library</th><th>Why avoided</th></tr></thead>
-<tbody>
-<tr><td><code>CVE-2019-10172</code></td><td>jackson-mapper-asl (Jackson 1.x)</td><td>Jackson 1.x is EOL since 2013, <strong>never patched</strong>. Spring Boot 2+ uses jackson-databind (Jackson 2.x). Evergreening forces migration — the only remediation.</td></tr>
-<tr><td><code>CVE-2019-17495</code></td><td>Swagger UI (via Springfox)</td><td>Springfox is abandoned and incompatible with Spring Boot 3. Migration to springdoc-openapi bundles a current Swagger UI. Indirect benefit.</td></tr>
-</tbody>
-</table>
+<p>The canonical 58-package runtime manifest contains <strong>zero</strong> NP+DI raw events that evergreening would have avoided. The prior version of this page cited two — <code>CVE-2019-10172</code> (jackson-mapper-asl, Jackson 1.x) and <code>CVE-2019-17495</code> (Swagger UI via Springfox) — both of which arose from <em>dead</em> dependencies that the new-generation Spring Boot stack drops entirely. Neither package is in the canonical manifest because that manifest is built around the live runtime portfolio (jackson-databind 2.x, springdoc-openapi), not legacy abandoned deps. So the prior 2/2 framing was correct on its narrower scope but doesn't survive the reconciliation: when you backtest only the dependencies a real Spring Boot app <em>actually ships with today</em>, there are no "old-gen-only" emergency events for evergreening to rescue you from.</p>
 
-<p class="footnote">Both are cases where a library was abandoned entirely — no patch exists. The generation shift forces you off the dead dependency. This is <strong>dependency pruning</strong>, not platform improvement.</p>
+<p class="footnote">This is a <strong>directional shift</strong> from the prior page narrative, and it's worth being honest about: the "evergreening avoids 2" claim relied on counting fire-drills against dead packages a modern team wouldn't be running anyway. On a manifest reflective of current runtime reality, that lever returns nothing. The dependency-pruning insight still holds — drop dead deps — but it's a separate lever from generation shift.</p>
 
-<p>Both were NP+DI triggers, so the filter would have flagged them for a rebuild. But neither was ever exploited — no KEV entry, no Metasploit module, no ExploitDB entry. The 2 CVEs that evergreening avoids were fire drills that turned out to be false alarms. Meanwhile, the 2 CVEs that evergreening made <em>worse</em> (Spring4Shell, ActiveMQ) were both <strong>confirmed exploited</strong> with KEV entries and Metasploit modules.</p>
+<p>The 2 events that evergreening made <em>worse</em> (Spring4Shell, ActiveMQ Jolokia) are both <strong>confirmed exploited</strong> with KEV entries and Metasploit modules. So the cross-tab is now stark: <strong>0 avoided / 2 worse, both worse cases exploited.</strong> Evergreening's net effect on the in-scope cohort is unambiguously negative.</p>
 
 <h3>Made worse: the new stack was the vulnerable one</h3>
 
 <table>
 <thead><tr><th>CVE</th><th>Library</th><th>What happened</th></tr></thead>
 <tbody>
-<tr><td><code>CVE-2022-22965</code></td><td>Spring Framework<br>(Spring4Shell)</td><td class="worse">Requires JDK 9+ to exploit. <strong>Java 8 was completely immune.</strong> The evergreen path (Java 11/17) was the vulnerable path. Spring 6 didn't exist yet (released Nov 2022; bug was March 2022).</td></tr>
-<tr><td><code>CVE-2026-34197</code></td><td>ActiveMQ (Jolokia)</td><td class="worse">ActiveMQ 6.0.0–6.1.1 <strong>removed Jolokia authentication</strong> by default (CVE-2024-32114), making the newer generation more exploitable than 5.x until 6.2.3 patched it.</td></tr>
+<tr><td><code>CVE-2022-22965</code></td><td>Spring Framework<br>(Spring4Shell, NP+DI raw)</td><td class="worse">Requires JDK 9+ to exploit. <strong>Java 8 was completely immune.</strong> The evergreen path (Java 11/17) was the vulnerable path. Spring 6 didn't exist yet (released Nov 2022; bug was March 2022). KEV + Metasploit confirmed exploited.</td></tr>
+<tr><td><code>CVE-2026-34197</code></td><td>ActiveMQ Jolokia<br>(NP-only, DQ-rescue)</td><td class="worse">ActiveMQ 6.0.0–6.1.1 <strong>removed Jolokia authentication</strong> by default (CVE-2024-32114), making the newer generation more exploitable than 5.x until 6.2.3 patched it. KEV-listed. NP-only (DI-negative) so the structure test would have <em>missed</em> it; rescued by the data-quality re-validation tier.</td></tr>
 </tbody>
 </table>
 
 <div class="callout callout-warning">
-<strong>Spring4Shell is the headliner.</strong> The single most impactful exploited CVE in this dataset was one where the "old" stack (Java 8) was immune and the "modern" stack (JDK 9+) was vulnerable. An evergreener would have had to emergency-patch; the team that stayed on Java 8 could have ignored it entirely.
+<strong>Spring4Shell is the headliner.</strong> The single most impactful exploited CVE in this dataset was one where the "old" stack (Java 8) was immune and the "modern" stack (JDK 9+) was vulnerable. An evergreener would have had to emergency-patch; the team that stayed on Java 8 could have ignored it entirely. ActiveMQ Jolokia repeats the pattern at smaller scale.
 </div>
 
-<h3>Both generations affected: ~31 of ~35 CVEs</h3>
+<h3>Both generations affected: 25 of the 40 NP+DI raw events</h3>
 
-<p>The vast majority affected all supported major versions simultaneously — the generation doesn't determine whether you have the bug. But for 7 of these (Spring ecosystem post-EOL), the generation determines whether you can get a <em>free patch</em>. The patterns:</p>
+<p>The plurality of NP+DI raw events affected both old and new generations simultaneously — the generation doesn't determine whether you have the bug. For these, evergreening doesn't help; <em>patch currency</em> on whichever generation you're running does. The patterns:</p>
 
 <div class="card">
-<p><strong>Tomcat (7 CVEs):</strong> Every Tomcat CVE — Ghostcat, request smuggling, PUT deserialization, path traversal — affected all generations (8.5, 9, 10, 10.1, 11) equally. Tomcat's core request-handling code is shared across generations. Fixed by minor patch, not generation upgrade.</p>
+<p><strong>Tomcat (7 of 7 NP+DI events):</strong> Every Tomcat NP+DI event in the canonical manifest — CLIENT_CERT auth bypass, JsonAccessLogValve escaping, relative path traversal, header smuggling (CVE-2023-46589), JsonErrorReportValve escaping, Content-Length validation (CVE-2022-42252), Windows CGI injection (CVE-2019-0232) — affected all generations (8.5, 9, 10.1, 11) that existed at disclosure. Tomcat's core request-handling code is shared across generations. Fixed by minor patch, not generation upgrade.</p>
 
-<p style="margin-top:12px"><strong>XStream (6 CVEs):</strong> XStream is an application-level dependency. Its version is unrelated to Spring/Java generation. All 6 CVEs would only have been avoided by <strong>dropping XStream entirely</strong> — dependency pruning, not evergreening.</p>
+<p style="margin-top:12px"><strong>Spring Security (8 of 8 NP+DI events):</strong> Authorization-bypass and broken-auth events affecting both 5.x and 6.x. The annotation-detection bypass (CVE-2025-41248), method-security private-method bypass (CVE-2025-41232), AuthenticatedVoter mispass (CVE-2024-22257), forward/include dispatcher bypass (CVE-2022-31692), RegexRequestMatcher bypass (CVE-2022-22978), and the older 5.x DoS (CVE-2021-22119), 4.x/5.x password handler (CVE-2019-11272), and OAuth (CVE-2018-15801) all affect the same code paths in both generations.</p>
 
-<p style="margin-top:12px"><strong>Spring Framework (3 CVEs):</strong> CVE-2018-1275/1270 (SpEL RCE) affected Spring 4.x AND 5.x. CVE-2023-20863 (SpEL injection) affected Spring 5 AND Spring 6. Both generations vulnerable, fixed by patch release.</p>
+<p style="margin-top:12px"><strong>Spring Framework (2 of 3 NP+DI events, no_difference):</strong> The path-traversal pair CVE-2024-38816 and CVE-2024-38819 both affect Spring 5.3 AND 6.x. Free patch only on 6.x — but the bug is shared. Generation shift doesn't avoid the CVE; it preserves free-patch access (paywalled pattern, see below).</p>
 
-<p style="margin-top:12px"><strong>Log4j (2 CVEs):</strong> Log4Shell affected Log4j 2.0–2.14.1 regardless of what Spring/Java version you run. Spring Boot defaults to Logback; if you opted into Log4j2, both Spring Boot 2 and 3 are equally affected.</p>
+<p style="margin-top:12px"><strong>Apache CXF (3 of 3 NP+DI events):</strong> SSRF in MTOM (CVE-2022-46364), OAuth2 DoS (CVE-2021-22696), OIDC session hijack (CVE-2019-12419) — all in shared code across the 3.x major lines. Patch on whichever 3.x line you're on.</p>
 
-<p style="margin-top:12px"><strong>Everything else</strong> (dom4j, jackson-databind, Hazelcast, Apache CXF, Apache MINA): All generations affected. These are transitive or application-level dependencies whose vulnerability is version-of-the-library specific, not platform-generation specific.</p>
+<p style="margin-top:12px"><strong>Log4j (2 of 2 NP+DI events):</strong> Log4Shell (CVE-2021-44228) and the incomplete fix (CVE-2021-45046) affected log4j-core 2.x regardless of what Spring/Java version you run. Spring Boot defaults to Logback; if you opted into log4j2, both Spring Boot 2 and 3 are equally affected.</p>
+
+<p style="margin-top:12px"><strong>Thymeleaf (2 of 2 NP+DI events):</strong> Expression-scope and unauthorized-expression bugs (CVE-2026-40477, CVE-2026-40478) affect thymeleaf 3.1.x regardless of whether you bind via thymeleaf-spring5 or thymeleaf-spring6.</p>
+
+<p style="margin-top:12px"><strong>ActiveMQ (1 of 1 NP+DI event):</strong> CVE-2019-0222 — OpenWire deserialization on the 5.15.x line. The Jolokia "made-worse" event (CVE-2026-34197) is a separate NP-only DQ-rescue case, not in the NP+DI raw 25.</p>
+</div>
+
+<h3>Irrelevant: 14 of the 40 NP+DI raw events have no generation axis</h3>
+
+<p>For these, the package version is selected independently of Spring/Java generation — evergreening Spring or Java doesn't change which version you ship. The right lever is dependency-pruning or patch currency on the dep itself.</p>
+
+<div class="card">
+<p><strong>XStream (6 NP+DI events):</strong> Application-level dependency. All 6 events would only have been mitigated by <strong>dropping XStream entirely</strong> or pinning to ≥ 1.4.18 (which switched from denylist to allowlist). The XStream version isn't tied to Spring or Java. CVE-2021-39144 is the headline — KEV-listed, exploited via VMware Cloud Foundation.</p>
+
+<p style="margin-top:12px"><strong>jackson-databind (5 NP+DI events):</strong> Same library across Spring Boot 2 and 3 — CVE applies by jackson version, not by Spring/Java generation. The polymorphic-deserialization gadget chains (CVE-2020-24616, CVE-2020-25649, CVE-2019-14379, CVE-2018-14721, CVE-2018-14720) are mitigated by patch currency on jackson, not generation shift.</p>
+
+<p style="margin-top:12px"><strong>Hazelcast (2 NP+DI events):</strong> Standalone runtime dep. Its 5.x line is selected independently of Spring/Java. SQLi in CSV connector (CVE-2023-45860) and XXE in config parser (CVE-2022-0265) require pinning Hazelcast itself.</p>
+
+<p style="margin-top:12px"><strong>Apache MINA (1 NP+DI event):</strong> CVE-2024-52046 — deserialization RCE in the networking framework. App-level dep; pin or replace.</p>
 </div>
 
 <h3>Does evergreening change the NP+DI answer?</h3>
 
 <div class="callout callout-finding">
-<strong>No.</strong> NP+DI fires on CWE pattern + network parser classification, not library version. The 2 avoided CVEs (jackson-mapper-asl, Swagger UI) were both NP+DI triggers — so the filter would have fired either way. The 2 "made worse" CVEs were also NP+DI triggers. You'd rebuild the same number of times on either generation. The filter is generation-agnostic because the vulnerability classes it targets (injection, parser abuse, auth bypass) exist in every generation.
+<strong>No.</strong> NP+DI fires on CWE pattern + network-parser classification, not library version. Across the 40 NP+DI raw events: 1 makes-worse, 25 no-difference, 14 irrelevant, 0 avoided. You'd rebuild the same number of times on either generation. The filter is generation-agnostic because the vulnerability classes it targets (injection, parser abuse, auth bypass) exist in every generation.
 </div>
 
 <h3>The 7 paywalled CVEs: Spring 5.x after EOL</h3>
@@ -255,108 +277,141 @@ code{background:var(--code-bg);padding:2px 6px;border-radius:4px;font-size:.88em
 </table>
 </div>
 
-<p>To be clear: every one of these CVEs affects <strong>both</strong> Spring 5.x and 6.x. An evergreener on Spring 6 has the same bugs — the difference is purely that they can get a free OSS patch. These would all be "no difference" rows in the 28-CVE table, bringing the total to ~35 CVEs with the evergreening score still at 2 avoided / 2 worse. The gap is about patch access, not vulnerability avoidance. Broadcom held the commercial-only line even for the CVSS 9.1 auth bypass — no EternalBlue-style free exception.</p>
+<p>To be clear: every one of these CVEs affects <strong>both</strong> Spring 5.x and 6.x. An evergreener on Spring 6 has the same bugs — the difference is purely that they can get a free OSS patch. These all sit in the "no difference" bucket of the canonical NP+DI raw set (CVE-2024-38816 and CVE-2024-38819 are explicitly there; the others fall outside the strict NP+DI raw filter but exhibit the same shared-bug-with-paywalled-fix pattern). The gap is about patch access, not vulnerability avoidance. Broadcom held the commercial-only line even for the CVSS 9.1 auth bypass — no EternalBlue-style free exception.</p>
 
 <div class="callout callout-finding">
 <strong>But none of them are being exploited.</strong> Zero KEV entries, zero Metasploit modules, zero ExploitDB entries across all 7 CVEs. The path traversals require functional web framework endpoints (a minority of Spring apps). The auth bypass requires WebFlux + static resources + specific security config. The actuator bypass requires CloudFoundry deployment. The conditions are narrow enough that despite high CVSS scores and unpatched target populations, attackers haven't shown interest.
-<p style="margin-top:8px">This is consistent with the pattern already visible in the NP+DI backtest: the 2 CVEs evergreening <em>avoids</em> (jackson-mapper-asl, Swagger UI) were never exploited either. Meanwhile the 2 it made <em>worse</em> (Spring4Shell, ActiveMQ) were both confirmed exploited. High CVSS + unpatched ≠ exploitation. The lifecycle debt is accumulating, but so far it's been a difference without a distinction.</p>
+<p style="margin-top:8px">This is consistent with the pattern already visible in the canonical NP+DI backtest: the only events evergreening would have <em>avoided</em> (the prior page's jackson-mapper-asl + Springfox examples) aren't in the canonical manifest at all because no modern Spring Boot app ships them. Meanwhile the 2 it made <em>worse</em> (Spring4Shell, ActiveMQ Jolokia) were both confirmed exploited. High CVSS + unpatched ≠ exploitation. The lifecycle debt is accumulating, but so far it's been a difference without a distinction.</p>
 </div>
 
 <p><strong>The open question:</strong> does this stay true? The post-EOL window is only ~18 months old. The RHEL 6 ELS story took years to develop a meaningful patch gap. And these are NP+DI-class vulnerabilities on one of the most widely deployed web frameworks — the kind of target that could become attractive if the holdout population persists long enough. But the current evidence says: you can see the lifecycle risk accumulating on paper, and it's not translating to exploitation in practice.</p>
 
 <details>
-<summary>Full 28-CVE breakdown table</summary>
+<summary>Full 40-event NP+DI raw breakdown table (canonical 58-pkg manifest)</summary>
+<p class="footnote">Auto-derived from <code>data/seven-year-manifest-events.json</code> + <code>data/evergreen-generation-mapping.json</code>. Re-run <code>python3 scripts/build_evergreen_java.py</code> if the canonical events file changes.</p>
 <table style="font-size:.84em">
-<thead><tr><th>CVE</th><th>Library</th><th>Type</th><th>Affected versions</th><th>Evergreen?</th></tr></thead>
+<thead><tr><th>CVE</th><th>Library</th><th>Affected gens</th><th>Evergreen?</th><th>Exploited</th></tr></thead>
 <tbody>
-<tr><td><code>CVE-2018-1000632</code></td><td>dom4j</td><td>NP+DI</td><td>All dom4j &lt; 2.1.1 (transitive via Hibernate, present in Spring Boot 2 and 3)</td><td class="no">No diff</td></tr>
-<tr><td><code>CVE-2018-1275</code></td><td>Spring Framework</td><td>NP+DI</td><td>Spring 4.3.0–4.3.15, 5.0.0–5.0.4</td><td class="no">No diff</td></tr>
-<tr><td><code>CVE-2018-1270</code></td><td>Spring Framework</td><td>NP+DI</td><td>Spring &lt; 4.3.16, 5.0.0–5.0.4</td><td class="no">No diff</td></tr>
-<tr><td><code>CVE-2019-0232</code></td><td>Tomcat</td><td>NP+DI</td><td>Tomcat 7/8.5/9 (Windows only; Tomcat 10 didn't exist)</td><td class="no">No diff</td></tr>
-<tr><td><code>CVE-2013-7285</code></td><td>XStream</td><td>NP+DI</td><td>XStream ≤ 1.4.6 / 1.4.10</td><td class="no">No diff</td></tr>
-<tr><td><code>CVE-2019-10173</code></td><td>XStream</td><td>NP+DI</td><td>XStream 1.4.10</td><td class="no">No diff</td></tr>
-<tr><td><code>CVE-2019-17495</code></td><td>Swagger UI</td><td>NP+DI</td><td>Swagger UI &lt; 3.23.11 (via Springfox)</td><td class="yes">Avoided</td></tr>
-<tr><td><code>CVE-2019-10172</code></td><td>jackson-mapper-asl</td><td>NP+DI</td><td>All 1.9.x (EOL, no fix)</td><td class="yes">Avoided</td></tr>
-<tr><td><code>CVE-2020-10683</code></td><td>dom4j</td><td>NP+DI</td><td>dom4j &lt; 2.1.3 (via Hibernate)</td><td class="no">No diff</td></tr>
-<tr><td><code>CVE-2020-26217</code></td><td>XStream</td><td>NP+DI</td><td>XStream &lt; 1.4.14</td><td class="no">No diff</td></tr>
-<tr><td><code>CVE-2021-29505</code></td><td>XStream</td><td>NP+DI</td><td>XStream &lt; 1.4.17</td><td class="no">No diff</td></tr>
-<tr><td><code>CVE-2021-39150</code></td><td>XStream</td><td>NP+DI</td><td>XStream &lt; 1.4.18</td><td class="no">No diff</td></tr>
-<tr><td><code>CVE-2021-39144</code></td><td>XStream</td><td>NP+DI</td><td>XStream &lt; 1.4.18</td><td class="no">No diff</td></tr>
-<tr><td><code>CVE-2021-39152</code></td><td>XStream</td><td>NP+DI</td><td>XStream &lt; 1.4.18</td><td class="no">No diff</td></tr>
-<tr><td><code>CVE-2020-24616</code></td><td>jackson-databind</td><td>NP+DI</td><td>jackson-databind 2.x &lt; 2.9.10.6</td><td class="no">No diff</td></tr>
-<tr><td><code>CVE-2021-44228</code></td><td>Log4j 2</td><td>NP+DI</td><td>Log4j 2.0-beta9 to 2.14.1</td><td class="no">No diff</td></tr>
-<tr><td><code>CVE-2021-45046</code></td><td>Log4j 2</td><td>NP+DI</td><td>Log4j 2.0–2.15.0</td><td class="no">No diff</td></tr>
-<tr><td><code>CVE-2022-22965</code></td><td>Spring Framework</td><td>NP+DI</td><td>Spring 5.2.x/5.3.x on JDK 9+</td><td class="worse">Worse</td></tr>
-<tr><td><code>CVE-2022-42252</code></td><td>Tomcat</td><td>NP+DI</td><td>Tomcat 8.5/9/10.0/10.1</td><td class="no">No diff</td></tr>
-<tr><td><code>CVE-2023-20863</code></td><td>Spring Expression</td><td>NP+DI</td><td>Spring 5.x AND 6.0.x</td><td class="no">No diff</td></tr>
-<tr><td><code>CVE-2023-46589</code></td><td>Tomcat</td><td>NP+DI</td><td>Tomcat 8.5/9/10.1/11.0</td><td class="no">No diff</td></tr>
-<tr><td><code>CVE-2023-45860</code></td><td>Hazelcast</td><td>NP+DI</td><td>Hazelcast ≤ 5.3.4</td><td class="no">No diff</td></tr>
-<tr><td><code>CVE-2024-28752</code></td><td>Apache CXF</td><td>NP+DI</td><td>CXF &lt; 3.5.8 / &lt; 3.6.3 / &lt; 4.0.4</td><td class="no">No diff</td></tr>
-<tr><td><code>CVE-2024-52046</code></td><td>Apache MINA</td><td>NP+DI</td><td>MINA 2.0.x/2.1.x/2.2.x</td><td class="no">No diff</td></tr>
-<tr><td><code>CVE-2025-55752</code></td><td>Tomcat</td><td>NP+DI</td><td>Tomcat 8.5/9/10.1/11.0</td><td class="no">No diff</td></tr>
-<tr><td><code>CVE-2020-1938</code></td><td>Tomcat (Ghostcat)</td><td>Miss</td><td>Tomcat 7/8.5/9</td><td class="no">No diff</td></tr>
-<tr><td><code>CVE-2025-24813</code></td><td>Tomcat</td><td>Miss</td><td>Tomcat 9/10.1/11</td><td class="no">No diff</td></tr>
-<tr><td><code>CVE-2026-34197</code></td><td>ActiveMQ</td><td>Miss</td><td>ActiveMQ &lt; 5.19.4 AND 6.0.0–6.2.2</td><td class="worse">Worse</td></tr>
+<tr><td><code>CVE-2022-22965</code></td><td>Spring Framework</td><td>Spring 5.3+ on JDK 9+; old Java 8 stacks immune</td><td class="worse">Worse</td><td>KEV+MSF</td></tr>
+<tr><td><code>CVE-2021-45046</code></td><td>Log4j 2</td><td>log4j-core 2.0–2.15.0 (all gens)</td><td class="no">No diff</td><td>KEV+MSF</td></tr>
+<tr><td><code>CVE-2021-44228</code></td><td>Log4j 2</td><td>log4j-core 2.0-beta9–2.14.1 (all gens)</td><td class="no">No diff</td><td>KEV+MSF+EDB</td></tr>
+<tr><td><code>CVE-2021-39144</code></td><td>XStream</td><td>App-level dep; no gen axis</td><td>Irrelevant</td><td>KEV+MSF</td></tr>
+<tr><td><code>CVE-2019-0232</code></td><td>Tomcat</td><td>Tomcat 7/8.5/9 (Windows); 10 didn't exist</td><td class="no">No diff</td><td>MSF+EDB</td></tr>
+<tr><td><code>CVE-2026-40477</code></td><td>Thymeleaf</td><td>thymeleaf 3.1.x with both Spring 5/6</td><td class="no">No diff</td><td>—</td></tr>
+<tr><td><code>CVE-2026-40478</code></td><td>Thymeleaf</td><td>thymeleaf 3.1.x with both Spring 5/6</td><td class="no">No diff</td><td>—</td></tr>
+<tr><td><code>CVE-2026-29145</code></td><td>Tomcat</td><td>Tomcat 9/10.1/11</td><td class="no">No diff</td><td>—</td></tr>
+<tr><td><code>CVE-2026-34483</code></td><td>Tomcat</td><td>Tomcat 9/10.1/11</td><td class="no">No diff</td><td>—</td></tr>
+<tr><td><code>CVE-2025-55752</code></td><td>Tomcat</td><td>Tomcat 9/10.1/11</td><td class="no">No diff</td><td>—</td></tr>
+<tr><td><code>CVE-2025-41248</code></td><td>Spring Security</td><td>Spring Security 5.x AND 6.x AND 7.0-M1</td><td class="no">No diff</td><td>—</td></tr>
+<tr><td><code>CVE-2025-41232</code></td><td>Spring Security</td><td>Spring Security 5.x AND 6.x</td><td class="no">No diff</td><td>—</td></tr>
+<tr><td><code>CVE-2024-52046</code></td><td>Apache MINA</td><td>App-level dep; no gen axis</td><td>Irrelevant</td><td>—</td></tr>
+<tr><td><code>CVE-2024-38819</code></td><td>Spring Framework</td><td>Spring 5.3 (paywalled) AND 6.x</td><td class="no">No diff</td><td>—</td></tr>
+<tr><td><code>CVE-2024-38816</code></td><td>Spring Framework</td><td>Spring 5.3 (paywalled) AND 6.x</td><td class="no">No diff</td><td>—</td></tr>
+<tr><td><code>CVE-2024-22257</code></td><td>Spring Security</td><td>Spring Security 5.7+/5.8 AND 6.x</td><td class="no">No diff</td><td>—</td></tr>
+<tr><td><code>CVE-2023-45860</code></td><td>Hazelcast</td><td>App-level dep; no gen axis</td><td>Irrelevant</td><td>—</td></tr>
+<tr><td><code>CVE-2023-46589</code></td><td>Tomcat</td><td>Tomcat 8.5/9/10.1/11</td><td class="no">No diff</td><td>—</td></tr>
+<tr><td><code>CVE-2022-45143</code></td><td>Tomcat</td><td>Tomcat 8.5/9/10.0/10.1</td><td class="no">No diff</td><td>—</td></tr>
+<tr><td><code>CVE-2022-46364</code></td><td>Apache CXF</td><td>CXF 3.4–3.6 AND 4.0</td><td class="no">No diff</td><td>—</td></tr>
+<tr><td><code>CVE-2022-42252</code></td><td>Tomcat</td><td>Tomcat 8.5/9/10.0/10.1</td><td class="no">No diff</td><td>—</td></tr>
+<tr><td><code>CVE-2022-31692</code></td><td>Spring Security</td><td>Spring Security 5.x AND 5.7+/6.0</td><td class="no">No diff</td><td>—</td></tr>
+<tr><td><code>CVE-2022-22978</code></td><td>Spring Security</td><td>Spring Security 5.5/5.6 (pre-6.0)</td><td class="no">No diff</td><td>—</td></tr>
+<tr><td><code>CVE-2022-0265</code></td><td>Hazelcast</td><td>App-level dep; no gen axis</td><td>Irrelevant</td><td>—</td></tr>
+<tr><td><code>CVE-2020-24616</code></td><td>jackson-databind</td><td>App-level dep; no gen axis</td><td>Irrelevant</td><td>—</td></tr>
+<tr><td><code>CVE-2021-39150</code></td><td>XStream</td><td>App-level dep; no gen axis</td><td>Irrelevant</td><td>—</td></tr>
+<tr><td><code>CVE-2021-39152</code></td><td>XStream</td><td>App-level dep; no gen axis</td><td>Irrelevant</td><td>—</td></tr>
+<tr><td><code>CVE-2021-22119</code></td><td>Spring Security</td><td>Spring Security 5.5 (pre-6.0)</td><td class="no">No diff</td><td>—</td></tr>
+<tr><td><code>CVE-2021-29505</code></td><td>XStream</td><td>App-level dep; no gen axis</td><td>Irrelevant</td><td>—</td></tr>
+<tr><td><code>CVE-2021-22696</code></td><td>Apache CXF</td><td>CXF 3.4.x</td><td class="no">No diff</td><td>—</td></tr>
+<tr><td><code>CVE-2020-25649</code></td><td>jackson-databind</td><td>App-level dep; no gen axis</td><td>Irrelevant</td><td>—</td></tr>
+<tr><td><code>CVE-2020-26217</code></td><td>XStream</td><td>App-level dep; no gen axis</td><td>Irrelevant</td><td>—</td></tr>
+<tr><td><code>CVE-2019-12419</code></td><td>Apache CXF</td><td>CXF 3.2/3.3</td><td class="no">No diff</td><td>—</td></tr>
+<tr><td><code>CVE-2019-14379</code></td><td>jackson-databind</td><td>App-level dep; no gen axis</td><td>Irrelevant</td><td>—</td></tr>
+<tr><td><code>CVE-2019-10173</code></td><td>XStream</td><td>App-level dep; no gen axis</td><td>Irrelevant</td><td>—</td></tr>
+<tr><td><code>CVE-2019-11272</code></td><td>Spring Security</td><td>Spring Security 4.2 AND 5.0/5.1</td><td class="no">No diff</td><td>—</td></tr>
+<tr><td><code>CVE-2019-0222</code></td><td>ActiveMQ</td><td>ActiveMQ 5.15 (pre-6.0)</td><td class="no">No diff</td><td>—</td></tr>
+<tr><td><code>CVE-2018-14721</code></td><td>jackson-databind</td><td>App-level dep; no gen axis</td><td>Irrelevant</td><td>—</td></tr>
+<tr><td><code>CVE-2018-14720</code></td><td>jackson-databind</td><td>App-level dep; no gen axis</td><td>Irrelevant</td><td>—</td></tr>
+<tr><td><code>CVE-2018-15801</code></td><td>Spring Security</td><td>Spring Security OAuth 2.3 (pre-gen-axis)</td><td class="no">No diff</td><td>—</td></tr>
 </tbody>
+<tfoot><tr style="font-weight:700;background:rgba(255,255,255,.04)"><td>40 NP+DI raw</td><td colspan="2">+ 3 DQ-rescue (Ghostcat, Tomcat partial-PUT, ActiveMQ Jolokia) → 43 NP+DI+DQ</td><td>0 / 1 / 25 / 14</td><td>5 of 40 exploited</td></tr></tfoot>
 </table>
+<p class="footnote">Headline: <strong>0 avoided / 1 made worse / 25 no-difference / 14 irrelevant</strong>. The "made worse" event (Spring4Shell) is exploited (KEV+MSF). The 5 exploited NP+DI raw events are: Spring4Shell (worse), the two Log4Shell entries (no-difference), CVE-2019-0232 Tomcat (no-difference), and CVE-2021-39144 XStream (irrelevant — KEV via VMware Cloud Foundation).</p>
 </details>
 
 <h3>Library health matters more than library generation</h3>
 
-<p>The 28-CVE manifest contains libraries in three different health states, and the right remediation depends on which state the library is in — not what generation you're running.</p>
+<p>The 40-event NP+DI raw set spans libraries in distinct health states, and the right remediation tracks the state — not the platform generation.</p>
 
 <table>
 <thead>
-<tr><th>Library</th><th>CVEs</th><th>Health State</th><th>Remediation</th><th>Notes</th></tr>
+<tr><th>Library</th><th>NP+DI raw / total C/H</th><th>Health State</th><th>Remediation</th><th>Notes</th></tr>
 </thead>
 <tbody>
 <tr>
-<td>XStream</td><td>6</td>
+<td>Spring Security</td><td>8 / 15</td>
+<td><span class="tag tag-amber">Active but auth-bypass-prone</span></td>
+<td>Patch currency on whichever 5.x/6.x line you're on</td>
+<td>All 8 NP+DI events affect both 5.x and 6.x. Generation-shift doesn't help.</td>
+</tr>
+<tr>
+<td>Tomcat</td><td>7 / 31</td>
+<td><span class="tag tag-green">Healthy</span><br><span class="footnote">Multi-contributor, regular releases</span></td>
+<td>Patch currency — stay on latest minor</td>
+<td>All generations affected equally; CVEs are shared-code, not version-specific.</td>
+</tr>
+<tr>
+<td>XStream</td><td>6 / 21</td>
 <td><span class="tag tag-red">Architecturally broken</span><br><span class="footnote">Sole maintainer, denylist whack-a-mole 2013–2021</span></td>
-<td>Drop it or ensure &ge; 1.4.18</td>
+<td>Drop it or pin &ge; 1.4.18</td>
 <td>No 2.0 exists. 1.4.18 switched to allowlist; RCE stream stopped. CVE-2021-39144 is in CISA KEV (exploited via VMware).</td>
 </tr>
 <tr>
-<td>dom4j</td><td>2</td>
-<td><span class="tag tag-amber">Undermaintained</span><br><span class="footnote">Sole maintainer, multi-year release gaps</span></td>
-<td>Invisible transitive dep via Hibernate — monitor or pin version</td>
-<td>Last release Jan 2023. Most projects don't know they depend on it.</td>
-</tr>
-<tr>
-<td>Spring Framework / Security / Boot</td><td>5 (in backtest) + 7 post-EOL</td>
-<td><span class="tag tag-amber">Vendor-paywalled after EOL</span></td>
-<td>Pay Broadcom, migrate to Spring 6 / Boot 3, or accept risk</td>
-<td>Post-EOL CVEs include NP+DI but none exploited. No free "EternalBlue exception."</td>
-</tr>
-<tr>
-<td>Tomcat</td><td>7</td>
-<td><span class="tag tag-green">Healthy</span><br><span class="footnote">Multi-contributor, regular releases</span></td>
-<td>Patch currency — stay on latest minor</td>
-<td>All generations affected equally. CVEs are shared-code, not version-specific.</td>
-</tr>
-<tr>
-<td>Log4j 2</td><td>2</td>
-<td><span class="tag tag-green">Healthy</span><br><span class="footnote">Post-Log4Shell renaissance</span></td>
-<td>Patch currency</td>
-<td>Regular quarterly releases, multiple active contributors.</td>
-</tr>
-<tr>
-<td>jackson-databind</td><td>1</td>
+<td>jackson-databind</td><td>5 / 65</td>
 <td><span class="tag tag-green">Healthy but bus-factor risk</span><br><span class="footnote">Tatu Saloranta = 11k+ commits</span></td>
 <td>Patch currency</td>
-<td>Jackson 3.x migration in progress.</td>
+<td>Same library across Spring Boot 2 and 3. Jackson 3.x migration in progress.</td>
 </tr>
 <tr>
-<td>Others (Hazelcast, CXF, MINA, Swagger, jackson-mapper-asl)</td><td>1 each</td>
-<td><span class="tag tag-gray">Various</span></td>
-<td>Depends on library</td>
-<td>jackson-mapper-asl and Springfox are dead (the 2 "avoided" CVEs).</td>
+<td>Spring Framework / Boot</td><td>3 / 20</td>
+<td><span class="tag tag-amber">Vendor-paywalled after EOL</span></td>
+<td>Pay Broadcom, migrate to Spring 6 / Boot 3, or accept risk</td>
+<td>Includes Spring4Shell ("made worse" by evergreening) + the two paywalled path-traversal events.</td>
+</tr>
+<tr>
+<td>Apache CXF</td><td>3 / 8</td>
+<td><span class="tag tag-amber">Active but server-side</span></td>
+<td>Patch currency on the 3.x line</td>
+<td>Three SSRF / OAuth / OIDC events; all shared across 3.x major lines.</td>
+</tr>
+<tr>
+<td>Log4j 2</td><td>2 / 4</td>
+<td><span class="tag tag-green">Healthy</span><br><span class="footnote">Post-Log4Shell renaissance</span></td>
+<td>Patch currency</td>
+<td>Both NP+DI events (44228, 45046) affect log4j-core 2.x regardless of Spring/Java gen.</td>
+</tr>
+<tr>
+<td>Thymeleaf</td><td>2 / 2</td>
+<td><span class="tag tag-amber">App-level template engine</span></td>
+<td>Patch currency on thymeleaf 3.1.x</td>
+<td>2026 expression-scope pair; both bind variants (5/6) affected.</td>
+</tr>
+<tr>
+<td>Hazelcast</td><td>2 / 6</td>
+<td><span class="tag tag-amber">Standalone runtime</span></td>
+<td>Pin Hazelcast version directly</td>
+<td>Independent of Spring/Java gen.</td>
+</tr>
+<tr>
+<td>MINA / ActiveMQ</td><td>1 each</td>
+<td><span class="tag tag-gray">App-level deps</span></td>
+<td>Pin or replace</td>
+<td>The Jolokia "made worse" event (CVE-2026-34197) is NP-only DQ-rescue, not in this NP+DI raw 40.</td>
 </tr>
 </tbody>
 </table>
 
 <div class="callout callout-finding">
-<strong>Finding:</strong> Evergreening is irrelevant for 6 of 28 CVEs (XStream) because there's only one version line. It's irrelevant for 7 more (Tomcat) because all generations are affected equally. It matters for Spring — but only for patch access, not vulnerability avoidance, and the paywalled CVEs aren't being exploited. The lever that actually maps to library health state is <strong>dependency pruning</strong> (drop XStream: &minus;6 CVEs) and <strong>patch currency</strong> (stay on latest minor: handles 24 of 28). Generation shifts are orthogonal.
+<strong>Finding:</strong> Evergreening is irrelevant for 14 of 40 NP+DI raw events (XStream, jackson-databind, Hazelcast, MINA — all app-level deps with no Spring/Java gen axis). It's a "no difference" answer for 25 more (Tomcat, Spring Security, log4j, CXF, Thymeleaf, ActiveMQ — shared code across both generations). It made things <em>worse</em> for 1 (Spring4Shell). It avoided zero. The levers that actually map to library health state are <strong>dependency pruning</strong> (drop XStream: -6 NP+DI events) and <strong>patch currency</strong> (stay on latest minor: handles all 25 no-difference events). Generation shifts are orthogonal — and the only directional effect they have on this canonical manifest is negative (Spring4Shell).
 </div>
 
 <h3>The Java evergreening funnel: C/H → NP+DI → Exploited</h3>
@@ -365,22 +420,23 @@ code{background:var(--code-bg);padding:2px 6px;border-radius:4px;font-size:.88em
 
 <div class="card">
 <table style="font-size:.84em">
-<thead><tr><th>Generation</th><th>Layer</th><th>C/H CVEs</th><th>NP+DI</th><th>Exploited (KEV/MSF)</th><th>Verdict</th></tr></thead>
+<thead><tr><th>Generation</th><th>Layer</th><th>C/H CVEs</th><th>NP+DI raw</th><th>Exploited</th><th>Verdict</th></tr></thead>
 <tbody>
-<tr style="background:rgba(16,185,129,.06)"><td><strong>Old gen only</strong><br>(avoided by evergreening)</td><td>Libraries</td><td>2</td><td>2</td><td style="color:var(--green);font-weight:700">0</td><td>Dead libraries (jackson-mapper-asl, Springfox). Neither exploited.</td></tr>
+<tr style="background:rgba(16,185,129,.06)"><td><strong>Old gen only</strong><br>(avoided by evergreening)</td><td>Libraries</td><td>0</td><td>0</td><td style="color:var(--green);font-weight:700">0</td><td>Empty cohort on canonical 58-pkg manifest. Prior page's jackson-mapper-asl + Springfox examples are not in the runtime portfolio.</td></tr>
 <tr style="background:rgba(16,185,129,.06)"><td></td><td>JVM (desktop)</td><td>13+</td><td>varies</td><td style="color:var(--green);font-weight:700">0 server</td><td>Applet/sandbox escapes. All 13 KEV entries are desktop-only — zero server risk.</td></tr>
 <tr style="background:rgba(16,185,129,.06)"><td></td><td>JVM (server)</td><td>~3–5/yr</td><td>few</td><td style="color:var(--green);font-weight:700">0</td><td>Nashorn, RMI, legacy Hotspot. Low severity, none exploited.</td></tr>
-<tr style="background:rgba(239,68,68,.06)"><td><strong>New gen only</strong><br>(introduced by evergreening)</td><td>Libraries</td><td>2</td><td>2</td><td style="color:var(--red);font-weight:700">2</td><td>Spring4Shell (KEV + MSF), ActiveMQ Jolokia (KEV + MSF). Both confirmed exploited.</td></tr>
+<tr style="background:rgba(239,68,68,.06)"><td><strong>New gen only</strong><br>(introduced by evergreening)</td><td>Libraries</td><td>2</td><td>1 NP+DI raw + 1 DQ-rescue</td><td style="color:var(--red);font-weight:700">2</td><td>Spring4Shell (NP+DI raw, KEV+MSF), ActiveMQ Jolokia CVE-2026-34197 (NP-only DQ-rescue, KEV). Both confirmed exploited.</td></tr>
 <tr style="background:rgba(239,68,68,.06)"><td></td><td>JVM</td><td>~2–3/yr</td><td>some</td><td style="color:var(--green);font-weight:700">0</td><td>Psychic Signatures (CVSS 7.5, Java 15-18 only). Not exploited.</td></tr>
-<tr><td><strong>Both gens</strong><br>(no difference)</td><td>Libraries</td><td>~24</td><td>~22</td><td style="color:var(--red);font-weight:700">2</td><td>Log4Shell (KEV), XStream CVE-2021-39144 (KEV, via VMware). Shared-code bugs.</td></tr>
+<tr><td><strong>Both gens</strong><br>(no difference)</td><td>Libraries</td><td>92 of 194</td><td>25 of 40</td><td style="color:var(--red);font-weight:700">3</td><td>Log4Shell pair (KEV+MSF), CVE-2019-0232 Tomcat (MSF+EDB). Plus the Tomcat partial-PUT and Ghostcat DQ-rescue events (KEV+MSF+EDB) are also no-difference (NP-only, not in NP+DI raw).</td></tr>
 <tr><td></td><td>JVM</td><td>70–80%/yr</td><td>most (AV:N ~90%)</td><td style="color:var(--green);font-weight:700">0</td><td>JSSE, Networking, 2D, JAXP. Shared code, same-day patches, never exploited on servers.</td></tr>
-<tr style="background:rgba(245,158,11,.06)"><td><strong>Both gens, paywalled on old</strong><br>(patch access gap)</td><td>Libraries</td><td>7</td><td>4</td><td style="color:var(--green);font-weight:700">0</td><td>Spring post-EOL. Broadcom paywall, no free patch. None exploited.</td></tr>
+<tr><td><strong>Irrelevant</strong><br>(no gen axis)</td><td>App-level libs</td><td>117 of 194</td><td>14 of 40</td><td style="color:var(--red);font-weight:700">2</td><td>XStream CVE-2021-39144 (KEV via VMware), ActiveMQ-Classic CVE-2023-46604 (KEV+MSF). Drop or pin the dep.</td></tr>
+<tr style="background:rgba(245,158,11,.06)"><td><strong>Both gens, paywalled on old</strong><br>(patch access gap)</td><td>Libraries</td><td>7</td><td>2 in NP+DI raw</td><td style="color:var(--green);font-weight:700">0</td><td>Spring post-EOL. Broadcom paywall, no free patch. None exploited.</td></tr>
 </tbody>
 </table>
 </div>
 
 <div class="callout callout-warning">
-<strong>The pattern is stark.</strong> The only CVEs in this entire dataset that are confirmed exploited on the <em>new</em> generation (Spring4Shell, ActiveMQ) are ones that evergreening <em>introduced</em>. The CVEs that evergreening avoids (dead libraries, desktop applets, legacy JVM subsystems) have zero server-side exploitation. And the CVEs that hit both generations equally (Log4Shell, XStream) are the ones where the generation is irrelevant. Evergreening's net effect on the Java stack: you trade unexploited old-gen-only CVEs for exploited new-gen-only CVEs.
+<strong>The pattern is stark.</strong> The only CVEs in this canonical manifest that are confirmed exploited on the <em>new</em> generation (Spring4Shell + ActiveMQ Jolokia) are ones that evergreening <em>introduced</em>. The "old-gen-only" cohort that evergreening would have avoided is empty on the canonical manifest. And the CVEs that hit both generations equally (Log4Shell, the Tomcat pair) are the ones where the generation is irrelevant. Evergreening's net directional effect on the Java stack: <strong>0 wins, 2 losses</strong>, with everything else either unaffected by the generation axis or affected equally on both sides. The lever doesn't work.
 </div>
 
 <!-- ===== JVM PLATFORM ===== -->
@@ -964,16 +1020,16 @@ code{background:var(--code-bg);padding:2px 6px;border-radius:4px;font-size:.88em
 <table>
 <thead><tr><th>Strategy</th><th>Reduces CVE count?</th><th>Reduces exploitation risk?</th><th>Mechanism</th></tr></thead>
 <tbody>
-<tr><td><strong>Evergreening</strong> (new major versions)</td><td><span class="tag tag-red">No — equal or more</span></td><td><span class="tag tag-amber">Depends on layer</span></td><td><strong>Kernel: best case</strong> — 10 of 24 KEV entries (42%) exist only in old-gen code, vs 3 (12%) new-gen-only. Net reduction of 7 confirmed-exploited CVEs, plus SMEP/SMAP/KASLR make remaining CVEs harder to exploit. <strong>Java libraries: neutral-to-worse</strong> — old-gen-only CVEs had zero server exploitation; new-gen-only had 2 confirmed exploited (Spring4Shell, ActiveMQ). <strong>JVM: irrelevant</strong> — 13 KEV entries were desktop/applet only, zero server risk at any version. <strong>Node.js: worse</strong> — adds attack surface (permission model, undici, io_uring), ecosystem risk is version-independent.</td></tr>
-<tr><td><strong>Patch currency</strong> (latest minor/patch)</td><td><span class="tag tag-green">Yes</span></td><td><span class="tag tag-green">Yes</span></td><td>26 of 28 Java CVEs fixed by point releases within existing major lines</td></tr>
-<tr><td><strong>Dependency pruning</strong> (drop unused libs)</td><td><span class="tag tag-green">Yes</span></td><td><span class="tag tag-green">Yes</span></td><td>Dropping XStream alone eliminates 6 of 28 CVEs regardless of generation</td></tr>
+<tr><td><strong>Evergreening</strong> (new major versions)</td><td><span class="tag tag-red">No — equal or more</span></td><td><span class="tag tag-amber">Depends on layer</span></td><td><strong>Kernel: best case</strong> — 10 of 24 KEV entries (42%) exist only in old-gen code, vs 3 (12%) new-gen-only. Net reduction of 7 confirmed-exploited CVEs, plus SMEP/SMAP/KASLR make remaining CVEs harder to exploit. <strong>Java libraries: unambiguously worse</strong> — on the canonical 58-pkg manifest, the old-gen-only cohort is empty (0 events); the new-gen-only cohort has 2 confirmed exploited (Spring4Shell, ActiveMQ Jolokia). <strong>JVM: irrelevant</strong> — 13 KEV entries were desktop/applet only, zero server risk at any version. <strong>Node.js: worse</strong> — adds attack surface (permission model, undici, io_uring), ecosystem risk is version-independent.</td></tr>
+<tr><td><strong>Patch currency</strong> (latest minor/patch)</td><td><span class="tag tag-green">Yes</span></td><td><span class="tag tag-green">Yes</span></td><td>25 of the 40 Java NP+DI raw events are no-difference across generations and fixed by point releases within existing major lines</td></tr>
+<tr><td><strong>Dependency pruning</strong> (drop unused libs)</td><td><span class="tag tag-green">Yes</span></td><td><span class="tag tag-green">Yes</span></td><td>Dropping XStream alone eliminates 6 of the 40 NP+DI raw events regardless of generation</td></tr>
 <tr><td><strong>NP+DI filter</strong></td><td><span class="tag tag-green">Yes (80% reduction)</span></td><td><span class="tag tag-green">Yes</span></td><td>Works identically across generations — fires on CVE structure, not version</td></tr>
 </tbody>
 </table>
 </div>
 
 <div class="callout callout-success">
-<strong>The tactical answer:</strong> If you're trying to reduce how often you drop everything and rebuild, evergreening is not the lever. <strong>Patch currency within your current generation</strong> (staying on the latest minor release) handles 24 of 28 CVEs. <strong>Dependency pruning</strong> (do you actually need XStream?) handles another 6. And <strong>NP+DI</strong> tells you which of the remaining patches actually require an emergency rebuild vs. riding the normal cycle.
+<strong>The tactical answer:</strong> If you're trying to reduce how often you drop everything and rebuild, evergreening is not the lever. On the canonical 40-event NP+DI raw set, <strong>patch currency within your current generation</strong> (staying on the latest minor release) handles 25 no-difference events. <strong>Dependency pruning</strong> (do you actually need XStream?) handles 6 of the 14 irrelevant-cohort events. And <strong>NP+DI</strong> tells you which of the remaining patches actually require an emergency rebuild vs. riding the normal cycle.
 <p style="margin-top:12px">Evergreening is still the right long-term strategy — you need to stay inside the support window, and the exploitation mitigations are real. But it's a strategic decision (lifecycle planning), not a tactical one (fewer fire drills). Spring 5.x post-EOL is accumulating NP+DI-class CVEs with no free patches — but none are being exploited yet, so the lifecycle debt remains theoretical.</p>
 </div>
 
