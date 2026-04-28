@@ -10,17 +10,67 @@ Outputs:
     all hacker rounds (R3 Java/Spring, R4 Django, R6 Node+Netty 12mo,
     R7 pre-2018 backfill, R8 OS container).
   - data/waf-defensibility.json — FRIENDLY/MEDIUM/HOSTILE tag for each
-    of the 13 actually-exploited events on the 7-year production
+    of the actually-exploited events on the 7-year production
     manifest, sourced from R5 (WAF-aware Java run).
   - data/integrated-page-aggregates.json — derived per-month and
-    per-year strategy counts that the integrated page renders.
+    per-year strategy counts that the integrated page renders. The 7-year
+    aggregates (per-quarter, per-year, strategy-efficiency) are
+    re-derived on every run from data/seven-year-manifest-events.json
+    plus the HACKER_TIERS dict below; no longer hardcoded as Python
+    literals.
 """
 from __future__ import annotations
 import datetime as dt
 import json
+from collections import defaultdict
+from datetime import datetime, timedelta
 from pathlib import Path
 
 REPO = Path(__file__).resolve().parent.parent
+
+# ── 7-year manifest derivation constants ──────────────────────────
+# DQ rescue CVEs: events that are NP-positive but DI-negative under
+# the strict CWE rule, rescued by AI-assisted CWE re-validation. Documented
+# in analyst-reports/2026-04-{25,26}-hacker-ranking-v*.md and the
+# periodicity §7 prose.
+DQ_RESCUE_CVES = {"CVE-2020-1938", "CVE-2025-24813", "CVE-2026-34197"}
+
+# Quarter labels for the 18Q4 → 26Q2 chart window (31 buckets).
+SEVEN_YEAR_QUARTER_LABELS = []
+for _y in range(2018, 2027):
+    for _q in range(1, 5):
+        if _y == 2018 and _q < 4:
+            continue
+        if _y == 2026 and _q > 2:
+            continue
+        SEVEN_YEAR_QUARTER_LABELS.append(f"{_y}-Q{_q}")
+assert len(SEVEN_YEAR_QUARTER_LABELS) == 31
+
+# Year-row labels matching the existing periodicity §7 table.
+SEVEN_YEAR_ROW_LABELS = ["2018", "2019", "2020", "2021", "2022", "2023", "2024", "2025", "2026 (Q1+Q2)"]
+
+
+def _quarter_of(iso_date: str) -> str:
+    y, m = int(iso_date[:4]), int(iso_date[5:7])
+    return f"{y}-Q{(m - 1) // 3 + 1}"
+
+
+def _cluster_count(dates: list[str], window_days: int = 7) -> int:
+    """Number of 7-day-clustered patch events for a list of disclosure dates.
+
+    A cluster is a maximal run of consecutive sorted dates where each
+    adjacent pair sits within `window_days`. Matches the periodicity
+    §7 framing: 'if you're already rebuilding when the next CVE drops,
+    that's one cycle, not two.'
+    """
+    if not dates:
+        return 0
+    parsed = sorted(datetime.strptime(d, "%Y-%m-%d") for d in dates)
+    clusters = 1
+    for prev, cur in zip(parsed, parsed[1:]):
+        if (cur - prev).days > window_days:
+            clusters += 1
+    return clusters
 
 # ── Hacker tier judgments per CVE ─────────────────────────────────
 # Sourced from analyst reports R3-R8. Tier values: S, A, B, C, D, "n/a"
@@ -218,37 +268,151 @@ PER_MONTH_FRAMEWORK = {
     "netty":  {"other": [0,0,1,0,1,0,0,0,0,0,0,1,0], "npdi_raw": [0,0,0,0,0,0,0,0,0,0,0,1,0], "ai_rescue_added": [0,0,0,0,0,0,0,0,0,0,0,0,0], "hacker_sa": [0,0,0,0,0,0,0,0,0,0,0,1,0]},
 }
 
-# ── 7-year per-quarter strategy counts (production manifest) ──
-SEVEN_YEAR_PER_QUARTER = {
-    "quarters": ["2018-Q1","2018-Q2","2018-Q3","2018-Q4","2019-Q1","2019-Q2","2019-Q3","2019-Q4","2020-Q1","2020-Q2","2020-Q3","2020-Q4","2021-Q1","2021-Q2","2021-Q3","2021-Q4","2022-Q1","2022-Q2","2022-Q3","2022-Q4","2023-Q1","2023-Q2","2023-Q3","2023-Q4","2024-Q1","2024-Q2","2024-Q3","2024-Q4","2025-Q1","2025-Q2","2025-Q3","2025-Q4","2026-Q1","2026-Q2"],
-    "all_ch":  [0,0,0,16,9,5,6,6,5,29,3,1,4,7,15,20,8,23,2,13,4,3,8,2,8,1,1,5,2,2,5,1,3,6],
-    "npdi_ai": [0,0,0,4,3,3,2,0,1,2,1,1,1,2,4,3,3,2,0,2,1,0,1,1,3,0,0,1,2,1,1,1,0,3],
-    "hacker_sa": [0,0,0,0,0,0,0,0,0,2,0,0,0,0,1,2,1,1,0,3,0,0,1,1,1,0,0,1,1,1,2,0,0,2],
-}
+# ── 7-year aggregates (production manifest) — DERIVED FROM EVENTS FILE ──
+#
+# As of 2026-04-28 these are no longer hardcoded. They are derived from
+# data/seven-year-manifest-events.json (which itself derives from
+# data/_manifest-osv-cache.json) plus the HACKER_TIERS dict above. The
+# user-decided canonical scope is "runtime-only" — pure build tooling
+# (Maven core, plexus, surefire) and dual-use scripting runtimes (Groovy,
+# JRuby, Jython) are excluded; the 4 runtime additions (Apache CXF, MINA,
+# SSHD, Hazelcast) are included via the same OSV-backed pipeline as the
+# existing 54 packages. See analyst-reports/2026-04-28-seven-year-data-
+# reconciliation.md for the audit trail.
 
-# ── Year-by-year aggregates (production manifest) ──
-SEVEN_YEAR_PER_YEAR = {
-    "2018":         {"all_ch": 16, "npdi_raw": 4,  "npdi_ai": 4,  "hacker_sa": 0, "exploited": 1, "hacker_catches": "0/1"},
-    "2019":         {"all_ch": 26, "npdi_raw": 8,  "npdi_ai": 8,  "hacker_sa": 0, "exploited": 2, "hacker_catches": "1/2"},
-    "2020":         {"all_ch": 38, "npdi_raw": 4,  "npdi_ai": 5,  "hacker_sa": 2, "exploited": 1, "hacker_catches": "1/1"},
-    "2021":         {"all_ch": 46, "npdi_raw": 10, "npdi_ai": 10, "hacker_sa": 3, "exploited": 3, "hacker_catches": "3/3"},
-    "2022":         {"all_ch": 46, "npdi_raw": 7,  "npdi_ai": 7,  "hacker_sa": 5, "exploited": 4, "hacker_catches": "3/4"},
-    "2023":         {"all_ch": 17, "npdi_raw": 3,  "npdi_ai": 3,  "hacker_sa": 2, "exploited": 0, "hacker_catches": None},
-    "2024":         {"all_ch": 15, "npdi_raw": 4,  "npdi_ai": 4,  "hacker_sa": 2, "exploited": 0, "hacker_catches": None},
-    "2025":         {"all_ch": 10, "npdi_raw": 4,  "npdi_ai": 5,  "hacker_sa": 4, "exploited": 1, "hacker_catches": "1/1"},
-    "2026 (Q1+Q2)": {"all_ch": 9,  "npdi_raw": 2,  "npdi_ai": 3,  "hacker_sa": 2, "exploited": 1, "hacker_catches": "1/1"},
-    "Total":        {"all_ch": 223, "npdi_raw": 46, "npdi_ai": 49, "hacker_sa": 20, "exploited": 13, "hacker_catches": "10/13"},
-}
+def _build_seven_year_aggregates() -> tuple[dict, dict, dict]:
+    """Derive the per-quarter, per-year, and strategy-efficiency dicts
+    from data/seven-year-manifest-events.json plus HACKER_TIERS."""
+    events_path = REPO / "data" / "seven-year-manifest-events.json"
+    if not events_path.exists():
+        raise FileNotFoundError(
+            f"{events_path.relative_to(REPO)} missing. Run "
+            f"scripts/build_seven_year_manifest_events.py first."
+        )
+    events = json.load(open(events_path))["events"]
 
-# ── Strategy efficiency 7-year totals ──
-STRATEGY_EFFICIENCY_7YR = {
-    "patch_all_ch":     {"patch_events_clustered": 80, "raw_triggers": 223, "exploits_caught": 13, "effectiveness": 1.00, "efficiency_overhead": 6.2},
-    "patch_criticals":  {"patch_events_clustered": 39, "raw_triggers": 75,  "exploits_caught": 7,  "effectiveness": 0.54, "efficiency_overhead": 5.6},
-    "npdi_raw":         {"patch_events_clustered": 34, "raw_triggers": 46,  "exploits_caught": 6,  "effectiveness": 0.46, "efficiency_overhead": 5.7},
-    "npdi_ai":          {"patch_events_clustered": 36, "raw_triggers": 49,  "exploits_caught": 9,  "effectiveness": 0.69, "efficiency_overhead": 4.0},
-    "hacker_sa":        {"patch_events_clustered": 17, "raw_triggers": 20,  "exploits_caught": 10, "effectiveness": 0.77, "efficiency_overhead": 1.7},
-    "union_npdi_ai_hacker": {"patch_events_clustered": 39, "raw_triggers": 56, "exploits_caught": 11, "effectiveness": 0.85, "efficiency_overhead": 3.6},
-}
+    sa_set = {cve for cve, t in HACKER_TIERS.items() if t.get("tier") in ("S", "A")}
+
+    def _is_npdi_raw(e):
+        return e["is_np"] and e["is_di"]
+
+    def _is_npdi_dq(e):
+        return _is_npdi_raw(e) or e["cve"] in DQ_RESCUE_CVES
+
+    def _is_sa(e):
+        return e["cve"] in sa_set
+
+    def _is_critical(e):
+        return e.get("severity") == "CRITICAL"
+
+    # ── Per-quarter ──
+    q_total = defaultdict(int)
+    q_npdi_dq = defaultdict(int)
+    q_hacker_sa = defaultdict(int)
+    for e in events:
+        q = _quarter_of(e["published"])
+        q_total[q] += 1
+        if _is_npdi_dq(e):
+            q_npdi_dq[q] += 1
+        if _is_sa(e):
+            q_hacker_sa[q] += 1
+    per_quarter = {
+        "quarters": list(SEVEN_YEAR_QUARTER_LABELS),
+        # rmOther = all - NP+DI+DQ; rmNPDI = NP+DI+DQ
+        "all_ch":     [q_total[q] for q in SEVEN_YEAR_QUARTER_LABELS],
+        "npdi_ai":    [q_npdi_dq[q] for q in SEVEN_YEAR_QUARTER_LABELS],
+        "hacker_sa":  [q_hacker_sa[q] for q in SEVEN_YEAR_QUARTER_LABELS],
+        # convenience: rmOther derived for the chart
+        "other":      [q_total[q] - q_npdi_dq[q] for q in SEVEN_YEAR_QUARTER_LABELS],
+    }
+
+    # ── Per-year (last row is "2026 (Q1+Q2)") ──
+    y_buckets = {label: defaultdict(int) for label in SEVEN_YEAR_ROW_LABELS}
+
+    def _year_label(iso_date: str) -> str:
+        return "2026 (Q1+Q2)" if iso_date.startswith("2026") else iso_date[:4]
+
+    for e in events:
+        yl = _year_label(e["published"])
+        b = y_buckets[yl]
+        b["all_ch"] += 1
+        if _is_npdi_raw(e):
+            b["npdi_raw"] += 1
+        if _is_npdi_dq(e):
+            b["npdi_ai"] += 1
+        if _is_sa(e):
+            b["hacker_sa"] += 1
+        if e["exploited"]:
+            b["exploited"] += 1
+        if e["exploited"] and _is_sa(e):
+            b["hacker_caught"] += 1
+
+    per_year = {}
+    totals = defaultdict(int)
+    for label in SEVEN_YEAR_ROW_LABELS:
+        b = y_buckets[label]
+        row = {
+            "all_ch":     b["all_ch"],
+            "npdi_raw":   b["npdi_raw"],
+            "npdi_ai":    b["npdi_ai"],
+            "hacker_sa":  b["hacker_sa"],
+            "exploited":  b["exploited"],
+            "hacker_catches": (
+                f"{b['hacker_caught']}/{b['exploited']}"
+                if b["exploited"] else None
+            ),
+        }
+        per_year[label] = row
+        for k in ("all_ch", "npdi_raw", "npdi_ai", "hacker_sa", "exploited"):
+            totals[k] += row[k]
+        totals["hacker_caught"] += b["hacker_caught"]
+    per_year["Total"] = {
+        "all_ch":     totals["all_ch"],
+        "npdi_raw":   totals["npdi_raw"],
+        "npdi_ai":    totals["npdi_ai"],
+        "hacker_sa":  totals["hacker_sa"],
+        "exploited":  totals["exploited"],
+        "hacker_catches": f"{totals['hacker_caught']}/{totals['exploited']}",
+    }
+
+    # ── Strategy efficiency ──
+    def _strategy_row(filtered):
+        dates = [e["published"] for e in filtered]
+        pe = _cluster_count(dates)
+        rt = len(filtered)
+        ec = sum(1 for e in filtered if e["exploited"])
+        total_exp = totals["exploited"]
+        eff = ec / total_exp if total_exp else 0.0
+        overhead = pe / ec if ec else None
+        return {
+            "patch_events_clustered": pe,
+            "raw_triggers": rt,
+            "exploits_caught": ec,
+            "effectiveness": round(eff, 3),
+            "efficiency_overhead": round(overhead, 2) if overhead is not None else None,
+        }
+
+    npdi_raw_set = [e for e in events if _is_npdi_raw(e)]
+    npdi_dq_set = [e for e in events if _is_npdi_dq(e)]
+    hacker_sa_set = [e for e in events if _is_sa(e)]
+    union_set_cves = {e["cve"] for e in npdi_dq_set} | {e["cve"] for e in hacker_sa_set}
+    union_set = [e for e in events if e["cve"] in union_set_cves]
+    criticals_set = [e for e in events if _is_critical(e)]
+
+    strategy_efficiency = {
+        "patch_all_ch":         _strategy_row(events),
+        "patch_criticals":      _strategy_row(criticals_set),
+        "npdi_raw":             _strategy_row(npdi_raw_set),
+        "npdi_ai":              _strategy_row(npdi_dq_set),
+        "hacker_sa":            _strategy_row(hacker_sa_set),
+        "union_npdi_ai_hacker": _strategy_row(union_set),
+    }
+
+    return per_quarter, per_year, strategy_efficiency
+
+
+SEVEN_YEAR_PER_QUARTER, SEVEN_YEAR_PER_YEAR, STRATEGY_EFFICIENCY_7YR = \
+    _build_seven_year_aggregates()
 
 
 def main() -> int:

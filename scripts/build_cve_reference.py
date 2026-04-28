@@ -6,7 +6,7 @@ model.
 
 Sources (all relative to repo root):
   - data/retro-model-run-2026-03-27-to-04-26.json   (311 events; richest)
-  - data/seven-year-manifest-events.json            (175 events; KEV/MSF/EDB)
+  - data/seven-year-manifest-events.json            (194 events; KEV/MSF/EDB)
   - data/seven-year-npdi-events.json                (101 events; OSV NP+DI)
   - data/retro-baseline-april-2022.json             ( 45 events; KEV baseline)
   - data/hacker-tiers.json                          ( 75 tier judgments)
@@ -258,8 +258,8 @@ def ingest_retro_model_run(rows: dict[str, dict], source_counts: dict[str, int])
 
 
 def ingest_seven_year_manifest(rows: dict[str, dict], source_counts: dict[str, int]) -> None:
-    """data/seven-year-manifest-events.json — 175 events.
-    Has in_kev / in_metasploit / in_exploitdb flags."""
+    """data/seven-year-manifest-events.json — 194 events on the canonical
+    58-pkg runtime manifest. Has in_kev / in_metasploit / in_exploitdb flags."""
     src = "seven-year-manifest-events"
     blob = _load_json(DATA / f"{src}.json", {}) or {}
     events = blob.get("events", []) or []

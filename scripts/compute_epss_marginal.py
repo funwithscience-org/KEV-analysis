@@ -31,7 +31,7 @@ direction of error is to over-credit absorption.
 
 Inputs
 ------
-  - data/seven-year-manifest-events.json (175 events, NP+DI/exploited flags,
+  - data/seven-year-manifest-events.json (194 events, NP+DI/exploited flags,
     publication dates)
   - data/hacker-tiers.json (per-CVE S/A/B/C/D)
   - FIRST.org EPSS API (live HTTP query, cached locally)
@@ -654,7 +654,7 @@ def main() -> int:
         "generated_at": dt.datetime.utcnow().isoformat(timespec="seconds") + "Z",
         "description": (
             "EPSS-marginal-on-top-of-model patch event counts for the 7-year "
-            "manifest backtest (175 C/H events). Floor-sweep model: any model "
+            "manifest backtest (194 C/H events). Floor-sweep model: any model "
             "trigger fires a manifest-wide rebuild that absorbs adjacent "
             "patched CVEs whose EPSS hasn't yet crossed the action threshold."
         ),
@@ -697,7 +697,7 @@ def main() -> int:
     # Print human-readable to stdout
     print()
     print("=" * 78)
-    print("EPSS-MARGINAL-ON-TOP-OF-MODEL — 7-year manifest, 175 events")
+    print("EPSS-MARGINAL-ON-TOP-OF-MODEL — 7-year manifest, 194 events")
     print("=" * 78)
     print()
     print(f"Model trigger counts (full manifest, 7-day clustered):")
