@@ -1,8 +1,8 @@
 {
-  "generated_at": "2026-04-25T10:31:44Z",
+  "generated_at": "2026-04-28T08:57:55Z",
   "description": "Per-CVE event dataset for the 7-year manifest backtest. Built from data/_manifest-osv-cache.json with package-role-aware NP classification (a package is NP iff its role in the manifest is 'NP' OR its short name is in NP_OVERRIDES_TO_TRUE). DI is CWE-set based, excluding CWE-434 (file upload) per the doc's filter.",
   "methodology": {
-    "scope": "manifest from data/_manifest-osv-cache.json (54 packages)",
+    "scope": "manifest from data/_manifest-osv-cache.json (58 logical packages: 54 existing + 4 runtime additions Apache CXF, MINA, SSHD, Hazelcast; CXF and SSHD are split across multiple Maven coordinates so the cache key count is 64)",
     "time_window": "2018-01-01 through 2026-06-30",
     "severity": "OSV CRITICAL or HIGH",
     "np_rule": "Package-role-aware: role=='NP' OR short-name in NP_OVERRIDES_TO_TRUE. Auth-boundary libraries (cryptography, bouncycastle, JWT libs) are NP via override.",
@@ -66,12 +66,12 @@
   },
   "input_sources": {
     "manifest_cache": "data/_manifest-osv-cache.json",
-    "manifest_cache_sha256_16": "5cc4558f8fb9cd54",
+    "manifest_cache_sha256_16": "ac53d76e570b9e62",
     "kev_snapshot": "data/kev-snapshot-2026-04-23.json"
   },
   "summary": {
-    "total_ch_events": 175,
-    "npdi_events": 34,
+    "total_ch_events": 194,
+    "npdi_events": 40,
     "exploited_total": 11,
     "exploited_npdi": 5,
     "exploited_np_not_di": 4,
@@ -916,6 +916,58 @@
       "exploited": false
     },
     {
+      "cve": "CVE-2025-23184",
+      "osv_id": "GHSA-fh5r-crhr-qrrq",
+      "packages": [
+        "org.apache.cxf:cxf-core"
+      ],
+      "package_roles": [
+        "NP"
+      ],
+      "cwes": [
+        "CWE-400"
+      ],
+      "cwe_nums": [
+        400
+      ],
+      "severity": "HIGH",
+      "published": "2025-01-21",
+      "summary": "Apache CXF: Denial of Service vulnerability with temporary files",
+      "is_np": true,
+      "is_di": false,
+      "in_kev": false,
+      "in_metasploit": false,
+      "in_exploitdb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2024-52046",
+      "osv_id": "GHSA-76h9-2vwh-w278",
+      "packages": [
+        "org.apache.mina:mina-core"
+      ],
+      "package_roles": [
+        "NP"
+      ],
+      "cwes": [
+        "CWE-502",
+        "CWE-94"
+      ],
+      "cwe_nums": [
+        502,
+        94
+      ],
+      "severity": "CRITICAL",
+      "published": "2024-12-25",
+      "summary": "Apache MINA Deserialization RCE Vulnerability",
+      "is_np": true,
+      "is_di": true,
+      "in_kev": false,
+      "in_metasploit": false,
+      "in_exploitdb": false,
+      "exploited": false
+    },
+    {
       "cve": "CVE-2024-56337",
       "osv_id": "GHSA-27hp-xhwr-wr2m",
       "packages": [
@@ -1095,6 +1147,31 @@
       "exploited": false
     },
     {
+      "cve": "CVE-2024-41909",
+      "osv_id": "GHSA-2326-hx7g-3m9r",
+      "packages": [
+        "org.apache.sshd:sshd-common"
+      ],
+      "package_roles": [
+        "NP"
+      ],
+      "cwes": [
+        "CWE-354"
+      ],
+      "cwe_nums": [
+        354
+      ],
+      "severity": "HIGH",
+      "published": "2024-08-12",
+      "summary": "Apache MINA SSHD: integrity check bypass",
+      "is_np": true,
+      "is_di": false,
+      "in_kev": false,
+      "in_metasploit": false,
+      "in_exploitdb": false,
+      "exploited": false
+    },
+    {
       "cve": "CVE-2024-34750",
       "osv_id": "GHSA-wm9w-rjj3-j356",
       "packages": [
@@ -1199,6 +1276,33 @@
       "exploited": false
     },
     {
+      "cve": "CVE-2023-45859",
+      "osv_id": "GHSA-xh6m-7cr7-xx66",
+      "packages": [
+        "com.hazelcast:hazelcast"
+      ],
+      "package_roles": [
+        "NP"
+      ],
+      "cwes": [
+        "CWE-281",
+        "CWE-922"
+      ],
+      "cwe_nums": [
+        281,
+        922
+      ],
+      "severity": "HIGH",
+      "published": "2024-02-27",
+      "summary": "Missing permission checks on Hazelcast client protocol",
+      "is_np": true,
+      "is_di": false,
+      "in_kev": false,
+      "in_metasploit": false,
+      "in_exploitdb": false,
+      "exploited": false
+    },
+    {
       "cve": "CVE-2024-22243",
       "osv_id": "GHSA-ccgv-vj62-xf9h",
       "packages": [
@@ -1268,6 +1372,31 @@
       "summary": "Broken Access Control in Spring Security With Direct Use of isFullyAuthenticated",
       "is_np": true,
       "is_di": false,
+      "in_kev": false,
+      "in_metasploit": false,
+      "in_exploitdb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2023-45860",
+      "osv_id": "GHSA-8h4x-xvjp-vf99",
+      "packages": [
+        "com.hazelcast:hazelcast"
+      ],
+      "package_roles": [
+        "NP"
+      ],
+      "cwes": [
+        "CWE-89"
+      ],
+      "cwe_nums": [
+        89
+      ],
+      "severity": "HIGH",
+      "published": "2024-02-16",
+      "summary": "Hazelcast Platform permission checking in CSV File Source connector",
+      "is_np": true,
+      "is_di": true,
       "in_kev": false,
       "in_metasploit": false,
       "in_exploitdb": false,
@@ -1386,6 +1515,31 @@
       "severity": "HIGH",
       "published": "2023-11-28",
       "summary": "Spring Framework vulnerable to denial of service",
+      "is_np": true,
+      "is_di": false,
+      "in_kev": false,
+      "in_metasploit": false,
+      "in_exploitdb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2023-33265",
+      "osv_id": "GHSA-c5vj-wp4v-mmvx",
+      "packages": [
+        "com.hazelcast:hazelcast"
+      ],
+      "package_roles": [
+        "NP"
+      ],
+      "cwes": [
+        "CWE-862"
+      ],
+      "cwe_nums": [
+        862
+      ],
+      "severity": "HIGH",
+      "published": "2023-07-19",
+      "summary": "Hazelcast Executor Services don't check client permissions properly",
       "is_np": true,
       "is_di": false,
       "in_kev": false,
@@ -1706,6 +1860,109 @@
       "exploited": false
     },
     {
+      "cve": "CVE-2022-36437",
+      "osv_id": "GHSA-c5hg-mr8r-f6jp",
+      "packages": [
+        "com.hazelcast:hazelcast"
+      ],
+      "package_roles": [
+        "NP"
+      ],
+      "cwes": [
+        "CWE-384"
+      ],
+      "cwe_nums": [
+        384
+      ],
+      "severity": "CRITICAL",
+      "published": "2022-12-27",
+      "summary": "Hazelcast connection caching",
+      "is_np": true,
+      "is_di": false,
+      "in_kev": false,
+      "in_metasploit": false,
+      "in_exploitdb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2022-46363",
+      "osv_id": "GHSA-3w37-5p3p-jv92",
+      "packages": [
+        "org.apache.cxf:cxf-core"
+      ],
+      "package_roles": [
+        "NP"
+      ],
+      "cwes": [
+        "CWE-20",
+        "CWE-200"
+      ],
+      "cwe_nums": [
+        20,
+        200
+      ],
+      "severity": "HIGH",
+      "published": "2022-12-13",
+      "summary": "Apache CXF vulnerable to Exposure of Sensitive Information",
+      "is_np": true,
+      "is_di": false,
+      "in_kev": false,
+      "in_metasploit": false,
+      "in_exploitdb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2022-46364",
+      "osv_id": "GHSA-x3x3-qwjq-8gj4",
+      "packages": [
+        "org.apache.cxf:cxf-core"
+      ],
+      "package_roles": [
+        "NP"
+      ],
+      "cwes": [
+        "CWE-918"
+      ],
+      "cwe_nums": [
+        918
+      ],
+      "severity": "CRITICAL",
+      "published": "2022-12-13",
+      "summary": "Apache CXF Server-Side Request Forgery vulnerability",
+      "is_np": true,
+      "is_di": true,
+      "in_kev": false,
+      "in_metasploit": false,
+      "in_exploitdb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2022-45047",
+      "osv_id": "GHSA-fhw8-8j55-vwgq",
+      "packages": [
+        "org.apache.sshd:sshd-common",
+        "org.apache.sshd:sshd-core"
+      ],
+      "package_roles": [
+        "NP"
+      ],
+      "cwes": [
+        "CWE-502"
+      ],
+      "cwe_nums": [
+        502
+      ],
+      "severity": "CRITICAL",
+      "published": "2022-11-16",
+      "summary": "Unsafe deserialization in Apache MINA SSHD",
+      "is_np": true,
+      "is_di": false,
+      "in_kev": false,
+      "in_metasploit": false,
+      "in_exploitdb": false,
+      "exploited": false
+    },
+    {
       "cve": "CVE-2022-42252",
       "osv_id": "GHSA-p22x-g9px-3945",
       "packages": [
@@ -1918,6 +2175,31 @@
       "exploited": false
     },
     {
+      "cve": "CVE-2019-0231",
+      "osv_id": "GHSA-5h29-qq92-wj7f",
+      "packages": [
+        "org.apache.mina:mina-core"
+      ],
+      "package_roles": [
+        "NP"
+      ],
+      "cwes": [
+        "CWE-319"
+      ],
+      "cwe_nums": [
+        319
+      ],
+      "severity": "HIGH",
+      "published": "2022-05-24",
+      "summary": "Cleartext Transmission of Sensitive Information in Apache MINA",
+      "is_np": true,
+      "is_di": false,
+      "in_kev": false,
+      "in_metasploit": false,
+      "in_exploitdb": false,
+      "exploited": false
+    },
+    {
       "cve": "CVE-2021-22118",
       "osv_id": "GHSA-gfwj-fwqj-fp3v",
       "packages": [
@@ -2048,6 +2330,31 @@
       "exploited": false
     },
     {
+      "cve": "CVE-2022-0265",
+      "osv_id": "GHSA-99wh-973f-779p",
+      "packages": [
+        "com.hazelcast:hazelcast"
+      ],
+      "package_roles": [
+        "NP"
+      ],
+      "cwes": [
+        "CWE-611"
+      ],
+      "cwe_nums": [
+        611
+      ],
+      "severity": "CRITICAL",
+      "published": "2022-03-04",
+      "summary": "XML External Entity Reference in Hazelcast",
+      "is_np": true,
+      "is_di": true,
+      "in_kev": false,
+      "in_metasploit": false,
+      "in_exploitdb": false,
+      "exploited": false
+    },
+    {
       "cve": "CVE-2020-13692",
       "osv_id": "GHSA-88cc-g835-76rp",
       "packages": [
@@ -2121,6 +2428,62 @@
       "severity": "HIGH",
       "published": "2022-02-01",
       "summary": "Denial of Service by injecting highly recursive collections or maps in XStream",
+      "is_np": true,
+      "is_di": false,
+      "in_kev": false,
+      "in_metasploit": false,
+      "in_exploitdb": false,
+      "exploited": false
+    },
+    {
+      "cve": "GHSA-v57x-gxfj-484q",
+      "osv_id": "GHSA-v57x-gxfj-484q",
+      "packages": [
+        "com.hazelcast:hazelcast"
+      ],
+      "package_roles": [
+        "NP"
+      ],
+      "cwes": [
+        "CWE-20",
+        "CWE-400",
+        "CWE-502"
+      ],
+      "cwe_nums": [
+        20,
+        400,
+        502
+      ],
+      "severity": "CRITICAL",
+      "published": "2022-01-21",
+      "summary": "Security Advisory for \"Log4Shell\"",
+      "is_np": true,
+      "is_di": false,
+      "in_kev": false,
+      "in_metasploit": false,
+      "in_exploitdb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2021-30468",
+      "osv_id": "GHSA-g23v-p5jq-jvh4",
+      "packages": [
+        "org.apache.cxf:cxf"
+      ],
+      "package_roles": [
+        "NP"
+      ],
+      "cwes": [
+        "CWE-400",
+        "CWE-835"
+      ],
+      "cwe_nums": [
+        400,
+        835
+      ],
+      "severity": "HIGH",
+      "published": "2022-01-06",
+      "summary": "Infinite loop in Apache CFX",
       "is_np": true,
       "is_di": false,
       "in_kev": false,
@@ -2870,6 +3233,31 @@
       "exploited": false
     },
     {
+      "cve": "CVE-2021-30129",
+      "osv_id": "GHSA-9279-7hph-r3xw",
+      "packages": [
+        "org.apache.sshd:sshd-core"
+      ],
+      "package_roles": [
+        "NP"
+      ],
+      "cwes": [
+        "CWE-772"
+      ],
+      "cwe_nums": [
+        772
+      ],
+      "severity": "HIGH",
+      "published": "2021-08-02",
+      "summary": "Buffer Overflow in Apache Mina SSHD",
+      "is_np": true,
+      "is_di": false,
+      "in_kev": false,
+      "in_metasploit": false,
+      "in_exploitdb": false,
+      "exploited": false
+    },
+    {
       "cve": "CVE-2021-22119",
       "osv_id": "GHSA-w9jg-gvgr-354m",
       "packages": [
@@ -2943,6 +3331,33 @@
       "severity": "HIGH",
       "published": "2021-05-18",
       "summary": "XStream is vulnerable to a Remote Command Execution attack",
+      "is_np": true,
+      "is_di": true,
+      "in_kev": false,
+      "in_metasploit": false,
+      "in_exploitdb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2021-22696",
+      "osv_id": "GHSA-7q4h-pj78-j7vg",
+      "packages": [
+        "org.apache.cxf:cxf"
+      ],
+      "package_roles": [
+        "NP"
+      ],
+      "cwes": [
+        "CWE-400",
+        "CWE-918"
+      ],
+      "cwe_nums": [
+        400,
+        918
+      ],
+      "severity": "HIGH",
+      "published": "2021-05-13",
+      "summary": "Authorization service vulnerable to DDos attacks in Apache CFX",
       "is_np": true,
       "is_di": true,
       "in_kev": false,
@@ -3370,6 +3785,31 @@
       "severity": "HIGH",
       "published": "2020-06-05",
       "summary": "Signature wrapping vulnerability in Spring Security",
+      "is_np": true,
+      "is_di": false,
+      "in_kev": false,
+      "in_metasploit": false,
+      "in_exploitdb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2019-12423",
+      "osv_id": "GHSA-42f2-f9vc-6365",
+      "packages": [
+        "org.apache.cxf:cxf"
+      ],
+      "package_roles": [
+        "NP"
+      ],
+      "cwes": [
+        "CWE-522"
+      ],
+      "cwe_nums": [
+        522
+      ],
+      "severity": "HIGH",
+      "published": "2020-05-22",
+      "summary": "Private key leak in Apache CXF",
       "is_np": true,
       "is_di": false,
       "in_kev": false,
@@ -3876,6 +4316,31 @@
       "summary": "jackson-databind polymorphic typing issue",
       "is_np": true,
       "is_di": false,
+      "in_kev": false,
+      "in_metasploit": false,
+      "in_exploitdb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2019-12419",
+      "osv_id": "GHSA-cw6w-q88j-6mqf",
+      "packages": [
+        "org.apache.cxf:cxf"
+      ],
+      "package_roles": [
+        "NP"
+      ],
+      "cwes": [
+        "CWE-863"
+      ],
+      "cwe_nums": [
+        863
+      ],
+      "severity": "CRITICAL",
+      "published": "2019-11-08",
+      "summary": "Potential session hijack in Apache CXF ",
+      "is_np": true,
+      "is_di": true,
       "in_kev": false,
       "in_metasploit": false,
       "in_exploitdb": false,
@@ -4407,6 +4872,31 @@
       "severity": "HIGH",
       "published": "2018-10-19",
       "summary": "Improper Certificate Validation in Apache activemq-client",
+      "is_np": true,
+      "is_di": false,
+      "in_kev": false,
+      "in_metasploit": false,
+      "in_exploitdb": false,
+      "exploited": false
+    },
+    {
+      "cve": "CVE-2018-8039",
+      "osv_id": "GHSA-jc7r-v6fg-2gpf",
+      "packages": [
+        "org.apache.cxf:cxf-rt-transports-http"
+      ],
+      "package_roles": [
+        "NP"
+      ],
+      "cwes": [
+        "CWE-755"
+      ],
+      "cwe_nums": [
+        755
+      ],
+      "severity": "HIGH",
+      "published": "2018-10-19",
+      "summary": "Apache CXF TLS hostname verification does not work correctly with com.sun.net.ssl.*",
       "is_np": true,
       "is_di": false,
       "in_kev": false,

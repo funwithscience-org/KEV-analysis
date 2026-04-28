@@ -191,7 +191,7 @@ def build() -> dict:
             "set based, excluding CWE-434 (file upload) per the doc's filter."
         ),
         "methodology": {
-            "scope": "manifest from data/_manifest-osv-cache.json (54 packages)",
+            "scope": "manifest from data/_manifest-osv-cache.json (58 logical packages: 54 existing + 4 runtime additions Apache CXF, MINA, SSHD, Hazelcast; CXF and SSHD are split across multiple Maven coordinates so the cache key count is 64)",
             "time_window": "2018-01-01 through 2026-06-30",
             "severity": "OSV CRITICAL or HIGH",
             "np_rule": (
