@@ -56,7 +56,7 @@
       "CVE-2026-6757": "Firefox 150 JavaScript invalid pointer \u2014 officially credited to Claude in MFSA 2026-30",
       "CVE-2026-6758": "Firefox 150 JavaScript use-after-free \u2014 officially credited to Claude in MFSA 2026-30"
     },
-    "last_verified": "2026-04-24T16:40Z",
+    "last_verified": "2026-04-28T04:14:54Z",
     "participants": [
       "AWS",
       "Anthropic",
@@ -165,15 +165,15 @@
       "2026-01": 5143,
       "2026-02": 4808,
       "2026-03": 6304,
-      "2026-04": 5174
+      "2026-04": 5371
     },
-    "monthly_cve_2026_notes": "April MTD = 5174 as of 2026-04-27 04:00Z (NVD totalResults). Extrapolated full-month: 5174/27*30 = 5748 (rounded). Q1-2026 actuals: 5143 / 4808 / 6304 \u2014 re-verified against NVD this run. Day-over-day delta: 5083 \u2192 5174 (+91 CVEs in last 24h; closer to the ~190/day running average \u2014 Sunday lull recovered). Counter-argument: NVD publishing latency is 4-8 weeks; the post-Glasswing Mythos disclosures may not yet have reached NVD assignment. Even at 5748 extrapolated, April lands meaningfully below March (6304) and consistent with normal Q1 churn \u2014 no positive evidence of a Glasswing-driven volume shock.",
+    "monthly_cve_2026_notes": "2026-04 MTD through Apr-28 23:59Z = 5371 (NVD totalResults). Days elapsed 28; extrapolated full-month = 5755 (used as chart anchor in glasswing.html). Q1 average 5418/mo; April pace consistent with steady-state, no Mythos volume shock visible. Counter-argument: NVD publication latency 4-8 weeks, so Mythos disclosures from April may not appear until mid-May.",
     "weekly_cve_2026": {
       "2026-W14_Mar30_Apr05": 1304,
       "2026-W15_Apr06_Apr12": 1615,
       "2026-W16_Apr13_Apr19": 1178,
       "2026-W17_Apr20_Apr26": 1469,
-      "2026-W18_Apr27_May03_partial": 21
+      "2026-W18_Apr27_May03_partial": 218
     },
     "ms_patch_tuesday": {
       "2025-01": 157,
@@ -200,7 +200,7 @@
       "2026_monthly_avg": 23,
       "2026-04_actual": 17,
       "2026_ytd_total": 115,
-      "note": "stack.watch dropped the /8.0 version-specific path; use parent URL (covers all RHEL versions). 2026 YTD: 115 per stack.watch as of 2026-04-25 (Q1 = 98, April = 17). April 2026 RHEL count of 17 is below the 23-25/month Q1 pace."
+      "note": "stack.watch dropped the /8.0 version-specific path; use parent URL (covers all RHEL versions). 2026 YTD: 115 per stack.watch fetched 2026-04-28 (Q1 = 98, April delta = 17). April 2026 RHEL count of 17 is below the 23-25/month Q1 pace but consistent with steady April lacking RHEL-9/10 backports."
     },
     "kev_monthly_2026": {
       "2026-01": 17,
@@ -587,6 +587,7 @@
         "last_checked": "2026-04-24T03:00Z"
       }
     },
-    "last_incremental_check": "2026-04-27T04:30Z"
+    "last_incremental_check": "2026-04-28T04:14:54Z",
+    "notes_2026_04_28": "Incremental re-check 2026-04-28: no new public exploit code observed for any of the 14 watch list CVEs since the 2026-04-25 full scan and 2026-04-27 incremental. Cisco ISE/Webex (CVE-2026-20180/20186/20147/20184) remain at maturity=none; wolfSSL pair (-5194/-5501) remain none; Thymeleaf pair (-40477/-40478) remain poc; n8n -21858 remains functional (Cyera PoC); five KEV-confirmed CVEs (-39987/-32201/-34197/-34621/-33825) remain weaponized. No KEV catalog change in last 24h (still 2026.04.24 / 1583 entries / 28 April adds)."
   }
 }
