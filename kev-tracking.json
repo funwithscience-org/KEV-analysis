@@ -382,8 +382,8 @@
     "verdict": "on_track_conservative",
     "note": "April extrapolation (5755) is +7 above the conservative anchor (5748) and identical to the aggressive anchor (5748). Both anchors converge for April since it's the 'present' point in the projection lines. May (conservative 6427 vs aggressive 7927) is where divergence begins. No Glasswing inflection visible in April actuals."
   },
-  "changes_pushed": false,
-  "commit_sha": null,
+  "changes_pushed": true,
+  "commit_sha": "26509b08dead93f7249396313c62cf81a6211262",
   "errors": [
     "Pre-existing env: tests/test_seven_year_npdi.py and tests/test_twelve_month_per_framework.py fail because their build scripts hard-code /sessions/bold-nice-euler/mnt/vulnerability\\ analysis/cached-data/ paths that aren't mounted in the scheduled-task session. Same as prior run (2026-04-27). Datasets themselves were not regenerated - none of their inputs (KEV snapshot, OSV cache, manifest) changed today. All other tests (classifier 69/69, data-invariants 178/178, http-data 53/53, classifications 4773/4773, llms.txt, mythos baseline, cve-reference 46/46, epss-marginal) pass."
   ]
