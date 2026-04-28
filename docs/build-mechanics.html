@@ -40,6 +40,16 @@ a{color:var(--accent)}
 .lead{font-size:1.05em;color:var(--text);margin:8px 0 32px;padding:18px 22px;background:var(--surface);border-left:4px solid var(--accent);border-radius:0 8px 8px 0}
 .lead em{color:var(--muted)}
 
+/* Hero / exec summary at top of page */
+.hero-summary{margin:8px 0 36px;padding:22px 26px 18px;background:var(--surface);border:1px solid var(--border);border-radius:10px}
+.hero-lede{font-family:var(--serif);font-size:1.18em;line-height:1.5;color:var(--text);margin:0 0 18px;font-style:italic}
+.hero-lede strong{font-style:normal;color:#0f172a}
+.hero-takeaways-title{font-family:var(--serif);font-size:.78em;font-weight:600;letter-spacing:0.12em;text-transform:uppercase;color:var(--accent);margin:0 0 8px;border-top:1px solid var(--border);padding-top:14px}
+.hero-takeaways{margin:0 0 0 22px;color:var(--text);font-size:.95em;line-height:1.6}
+.hero-takeaways li{margin-bottom:8px}
+.hero-takeaways li:last-child{margin-bottom:0}
+.hero-takeaways strong{color:var(--accent)}
+
 .insight{background:#eef2ff;border-left:4px solid var(--accent);padding:16px 20px;border-radius:0 8px 8px 0;margin:20px 0;color:#312e81}
 .insight strong{color:var(--accent)}
 .insight.warn{background:#fffbeb;border-left-color:var(--amber);color:#78350f}
@@ -126,26 +136,16 @@ code{background:var(--code-bg);padding:2px 6px;border-radius:4px;font-size:.88em
 
 <div class="insight warn"><strong>Work in progress.</strong> This page is still being checked for errors and enhanced. Numbers and claims should be considered preliminary; expect revisions as the analysis is verified against fresh data and reviewer feedback.</div>
 
-<div class="lead">
-This page sits underneath the main analysis. It's about the operational layer: how vulnerabilities actually get fixed once you know they matter. The triage filter on the main page tells you <em>which</em> CVEs warrant emergency response. This page is about what "emergency response" looks like in practice, why the same filter delivers very different value in different organizations, and where the real leverage lives.
-</div>
-
-<div class="toc">
-<h3>On this page</h3>
-<ol>
-<li><a href="#two-modes">Two operational modes: BAU and floor sweeps</a></li>
-<li><a href="#fourteen">The 14-emergencies-a-year math</a></li>
-<li><a href="#free">"85% is free": routine rebuild absorbs patches</a></li>
-<li><a href="#non-stacking">Vulnerabilities don't stack</a></li>
-<li><a href="#categories">Three categories of estate maturity</a></li>
-<li><a href="#boundary">The cat 2 / cat 3 boundary matters more</a></li>
-<li><a href="#rot">Cat 2's hidden cost: triggers rot</a></li>
-<li><a href="#variance">Distribution varies by organization</a></li>
-<li><a href="#wafs">WAFs as spackle</a></li>
-<li><a href="#filter-value">Filter value depends on response shape</a></li>
-<li><a href="#reduction">What this means for the 64&ndash;86% reduction claim</a></li>
-<li><a href="#enterprise-rules">Practical implications for the enterprise</a></li>
-</ol>
+<div class="hero-summary">
+<p class="hero-lede"><strong>Operational shape determines what the model is worth.</strong> The triage model on the main page tells you <em>which</em> CVEs warrant emergency response. This page is about what "emergency response" looks like in practice — why the same trigger delivers very different value in different organizations, and where the leverage actually lives.</p>
+<div class="hero-takeaways-title">Bottom line</div>
+<ul class="hero-takeaways">
+<li><strong>Two modes, very different costs.</strong> BAU rides existing pipelines at whatever speed the team already runs (cheap, invisible). Floor sweeps demand exhaustive coverage on a forced timeline (visible, expensive). The cost difference isn't per-patch — it's coordination overhead.</li>
+<li><strong>Estate maturity decides the mix.</strong> Cat 1/2/3 categorizes how much of an estate quietly absorbs patches in BAU versus requires sweep coordination. The portfolio's Cat 1 share is the single biggest determinant of vulnerability-program cost.</li>
+<li><strong>The model compounds with cadence.</strong> A 64–86% reduction in emergencies only converts to operational value when BAU absorbs the rest. Without the BAU layer, every "non-emergency" still has to be patched manually — the model's noise reduction is wasted.</li>
+<li><strong>Portfolio metric worth tracking.</strong> Percentage of estate on auto-rebuild. Every app moved into the auto-rebuild bucket reduces the steady-state cost of every future floor sweep, forever. Slow-burn investment, very large cumulative payoff.</li>
+<li><strong>WAFs are spackle, not the model.</strong> They buy time on the perimeter while the rebuild propagates through the estate; they don't replace the rebuild. The right framing is "WAF holds for the rebuild window" — and that window is whatever your slowest in-scope estate cat takes.</li>
+</ul>
 </div>
 
 <h2 id="two-modes">Two operational modes: BAU and floor sweeps</h2>
