@@ -435,6 +435,101 @@ def ingest_di_reclassification(rows: dict[str, dict], source_counts: dict[str, i
             row["di_rationale"] = ev["rationale"]
 
 
+_TWELVE_MONTH_CACHE_DIR = Path("/sessions/bold-nice-euler/mnt/vulnerability analysis/cached-data/periodicity")
+
+
+def _resolve_event_cves(ev: dict, alias_cache: dict) -> list[str]:
+    """Return CVE aliases for a periodicity-cache event, looking inline
+    aliases first, then the local OSV alias cache by vuln_id."""
+    inline = ev.get("aliases") or []
+    if inline:
+        cves = [a for a in inline if isinstance(a, str) and a.upper().startswith("CVE-")]
+        if cves:
+            return cves
+    vid = ev.get("vuln_id") or ev.get("primary_cve")
+    if not vid:
+        return []
+    if isinstance(vid, str) and vid.upper().startswith("CVE-"):
+        return [vid]
+    entry = alias_cache.get(vid)
+    if not entry:
+        return []
+    return [a for a in entry.get("aliases", []) if isinstance(a, str) and a.upper().startswith("CVE-")]
+
+
+def ingest_twelve_month_per_framework(rows: dict[str, dict], source_counts: dict[str, int]) -> None:
+    """Each per-framework cache (Spring/Node/Django/Netty) holds the
+    12-month event lists that back periodicity §3-§4. We ingest each
+    framework under its own source label so the cve-reference page can
+    expose a per-framework cohort section."""
+    alias_cache_path = DATA / "_osv-alias-cache.json"
+    alias_cache = _load_json(alias_cache_path, {}) or {}
+
+    framework_event_lists: list[tuple[str, list[dict]]] = []
+
+    spring_path = _TWELVE_MONTH_CACHE_DIR / "spring_periodicity_data.json"
+    if spring_path.exists():
+        spring = _load_json(spring_path, {}) or {}
+        framework_event_lists.append(("spring", spring.get("all_events", []) or []))
+
+    multi_path = _TWELVE_MONTH_CACHE_DIR / "multi_framework_periodicity.json"
+    if multi_path.exists():
+        multi = _load_json(multi_path, {}) or {}
+        for fw in ("nodejs", "django"):
+            framework_event_lists.append((fw, (multi.get(fw, {}) or {}).get("all_events", []) or []))
+
+    netty_path = DATA / "_netty-osv-cache.json"
+    if netty_path.exists():
+        netty = _load_json(netty_path, {}) or {}
+        framework_event_lists.append(("netty", netty.get("all_events", []) or []))
+
+    for fw, events in framework_event_lists:
+        src = f"twelve-month-{fw}"
+        seen_in_cohort: set[str] = set()
+        for ev in events:
+            cves = _resolve_event_cves(ev, alias_cache)
+            for cve_raw in cves:
+                cve = _norm_cve(cve_raw)
+                if not cve:
+                    continue
+                row = rows.setdefault(cve, _new_row(cve))
+                if cve in seen_in_cohort:
+                    # Same CVE appears twice in this framework's cache (e.g.
+                    # duplicate vuln_id rows in the spring cache). The
+                    # provenance is already recorded on the row; don't
+                    # double-count.
+                    continue
+                seen_in_cohort.add(cve)
+                _add_source(row, src)
+                source_counts[src] = source_counts.get(src, 0) + 1
+                pkg = ev.get("full_package") or ev.get("package")
+                if pkg:
+                    _merge_field(row, "package", pkg, src)
+                ecosystem = None
+                fp = ev.get("full_package") or ""
+                if fp.startswith("maven/") or ":" in (ev.get("full_package") or ""):
+                    ecosystem = "Maven"
+                elif fw == "nodejs":
+                    ecosystem = "npm"
+                elif fw == "django":
+                    ecosystem = "PyPI"
+                elif fw == "netty":
+                    ecosystem = "Maven"
+                elif fw == "spring":
+                    ecosystem = "Maven"
+                if ecosystem:
+                    _merge_field(row, "ecosystem", ecosystem, src)
+                _merge_field(row, "layer", "app_framework", src)
+                _merge_field(row, "nvd_published", ev.get("date"), src)
+                _merge_field(row, "cvss", _normalize_severity(ev.get("severity")), src)
+                _merge_field(row, "np", ev.get("is_np"), src)
+                _merge_field(row, "di", ev.get("is_di"), src)
+                _merge_field(row, "description", ev.get("summary"), src)
+                cwe = _normalize_cwe(ev.get("cwes"))
+                if cwe and not row["cwe"]:
+                    row["cwe"] = cwe
+
+
 def ingest_doc_canonical(rows: dict[str, dict], source_counts: dict[str, int]) -> None:
     src = "doc-canonical-npdi-events"
     blob = _load_json(DATA / f"{src}.json", {}) or {}
@@ -559,11 +654,16 @@ def ingest_legacy_static_rows(rows: dict[str, dict], source_counts: dict[str, in
         "Django/Python (PyPI)":     ("PyPI",    "app_framework"),
         "OS Container (AL2023)":    ("os",      "os"),
     }
+    seen_in_cohort: set[str] = set()
     for ev in blob.get("rows", []) or []:
         cve = _norm_cve(ev.get("cve"))
         if not cve:
             continue
         row = rows.setdefault(cve, _new_row(cve))
+        if cve in seen_in_cohort:
+            # Duplicate row for same CVE in legacy snapshot — don't double-count.
+            continue
+        seen_in_cohort.add(cve)
         _add_source(row, src)
         source_counts[src] = source_counts.get(src, 0) + 1
         eco_norm, layer_norm = eco_map.get(ev.get("ecosystem_label", ""), (None, None))
@@ -714,6 +814,7 @@ def build() -> dict:
     ingest_retro_model_run(rows, counts)
     ingest_seven_year_manifest(rows, counts)
     ingest_seven_year_npdi(rows, counts)
+    ingest_twelve_month_per_framework(rows, counts)
     ingest_retro_baseline(rows, counts)
     ingest_di_reclassification(rows, counts)
     ingest_doc_canonical(rows, counts)

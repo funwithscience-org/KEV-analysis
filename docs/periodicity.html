@@ -206,8 +206,8 @@ details summary:hover{color:var(--cyan)}
 <div class="label">Hacker S+A trigger dates<br>per stack (64–93% reduction)</div>
 </div>
 <div class="stat" style="border-color:var(--cyan)">
-<div class="number" style="color:var(--cyan)"><a href="cve-reference.html" style="color:var(--cyan);text-decoration:none">129</a></div>
-<div class="label"><a href="cve-reference.html" style="color:var(--muted);text-decoration:none">CVEs individually classified<br>→ full reference list</a></div>
+<div class="number" style="color:var(--cyan)"><a href="cve-reference.html#data-pulls" style="color:var(--cyan);text-decoration:none">721</a></div>
+<div class="label"><a href="cve-reference.html#data-pulls" style="color:var(--muted);text-decoration:none">CVEs individually classified<br>→ full reference list</a></div>
 </div>
 </div>
 
@@ -333,7 +333,7 @@ details summary:hover{color:var(--cyan)}
 </tbody>
 </table>
 
-<p style="margin-top:12px"><strong>Zero of the 34 skipped events appeared in CISA KEV.</strong> The filter correctly deprioritized all of them. <a href="cve-reference.html" style="color:var(--cyan)">See every CVE with its classification →</a></p>
+<p style="margin-top:12px"><strong>Zero of the 34 skipped events appeared in CISA KEV.</strong> The filter correctly deprioritized all of them. <a href="cve-reference.html#cohort-12m" style="color:var(--cyan)">See every CVE with its classification →</a></p>
 </div>
 
 <div class="callout callout-finding">
@@ -348,7 +348,7 @@ details summary:hover{color:var(--cyan)}
 
 <div class="card">
 <p>The synthetic stacks above test 12-month windows. Here we run all four strategies against a <strong>real enterprise Java manifest</strong> (58 runtime libraries with full version sprawl — Spring 4.x and 5.x lines side by side, multiple Tomcat/Jackson/SnakeYAML versions, both <code>log4j:log4j</code> 1.x and <code>log4j-core</code> 2.x, plus Apache CXF, MINA, SSHD, and Hazelcast) across its entire CVE history: Q4 2018 through Q2 2026. Pure build tooling (Maven core, Plexus, Surefire) and dual-use scripting runtimes (Groovy, JRuby, Jython) are excluded from the canonical denominator — they don't have network-exploitable surface in the deployed app.</p>
-<p style="margin-top:8px"><strong>194 critical/high CVEs → 40 NP+DI raw → 43 NP+DI + DQ → 16 hacker S+A → 11 actually exploited</strong> (KEV ∪ Metasploit ∪ ExploitDB). Patch events under 7-day clustering: 83 / 30 / 11 (patch-all / NP+DI+DQ / hacker S+A). A "patch event" merges triggers within a 7-day window — if you're already rebuilding when the next CVE drops, that's one cycle, not two.</p>
+<p style="margin-top:8px"><strong>194 critical/high CVEs → 40 NP+DI raw → 43 NP+DI + DQ → 16 hacker S+A → 11 actually exploited</strong> (KEV ∪ Metasploit ∪ ExploitDB). Patch events under 7-day clustering: 83 / 30 / 11 (patch-all / NP+DI+DQ / hacker S+A). A "patch event" merges triggers within a 7-day window — if you're already rebuilding when the next CVE drops, that's one cycle, not two. Per-CVE detail with KEV / Metasploit / ExploitDB flags: <a href="cve-reference.html#cohort-7yr-manifest" style="color:var(--accent)">CVE Reference §4 →</a></p>
 </div>
 
 <div class="chart-wrap">
@@ -538,7 +538,7 @@ details summary:hover{color:var(--cyan)}
 <p style="margin-top:8px"><strong>CWE classification is imperfect.</strong> Some vulns classified as "not direct injection" might have injection characteristics under the right conditions. CWE-20 ("Improper Input Validation") is particularly ambiguous.</p>
 <p style="margin-top:8px"><strong>KEV lag.</strong> Zero KEV entries for these manifests in 12 months doesn't mean none of these vulns matter — it means CISA hasn't observed confirmed exploitation yet. The filter is predictive, not retrospective.</p>
 <p style="margin-top:8px"><strong>Transitive depth.</strong> Real apps pull far more transitive dependencies than modeled (Spring: 200+ JARs, Node.js: hundreds of npm packages). The full tree would push "all C/H" periodicity even shorter (more noise) while NP+DI events would grow proportionally less (more signal).</p>
-<p style="margin-top:8px"><strong>NP classification is judgment-call.</strong> We classified koa, fastify, handlebars, etc. as NP because they parse HTTP request/response data or render templates from potentially attacker-controlled input. Reasonable people could draw the line differently. The <a href="cve-reference.html" style="color:var(--cyan)">full CVE reference list</a> shows every classification so you can audit and re-draw the line yourself.</p>
+<p style="margin-top:8px"><strong>NP classification is judgment-call.</strong> We classified koa, fastify, handlebars, etc. as NP because they parse HTTP request/response data or render templates from potentially attacker-controlled input. Reasonable people could draw the line differently. The <a href="cve-reference.html#cohort-12m" style="color:var(--cyan)">full CVE reference list</a> shows every classification so you can audit and re-draw the line yourself.</p>
 <p style="margin-top:8px"><strong>Django's ORM SQLi pattern may not generalize.</strong> Django happened to have a persistent SQL injection issue during this 12-month window. A different 12-month window might show a different pattern. That said, the filter handled it correctly — it flagged every genuine SQLi.</p>
 </div>
 
@@ -836,7 +836,7 @@ details summary:hover{color:var(--cyan)}
 </div>
 
 <div class="callout callout-good">
-<strong>The 12-month synthetic stacks have zero misses.</strong> Across every validation source, nothing the filter deprioritized in the 12-month window accumulated meaningful exploitation evidence. The 113 non-trigger CVEs have zero KEV entries, zero Metasploit modules, and one ExploitDB entry (a sqlite heap overflow requiring local access). CVE-2026-1207 (Django SQLi) has converged across three independent sources: EPSS top trigger score (89th percentile), ExploitDB exploit code, and active Nuclei scanning template. <a href="cve-reference.html" style="color:var(--cyan)">Every CVE's classification and reasoning is auditable →</a>
+<strong>The 12-month synthetic stacks have zero misses.</strong> Across every validation source, nothing the filter deprioritized in the 12-month window accumulated meaningful exploitation evidence. The 113 non-trigger CVEs have zero KEV entries, zero Metasploit modules, and one ExploitDB entry (a sqlite heap overflow requiring local access). CVE-2026-1207 (Django SQLi) has converged across three independent sources: EPSS top trigger score (89th percentile), ExploitDB exploit code, and active Nuclei scanning template. <a href="cve-reference.html#cohort-12m" style="color:var(--cyan)">Every CVE's classification and reasoning is auditable →</a>
 <p style="margin-top:8px"><strong>The 7-year real manifest tells a more honest story:</strong> NP+DI catches 5 of 8 in-scope exploited CVEs. The 3 misses are all CWE misclassification on network parsers (Ghostcat, Tomcat PUT, ActiveMQ). Two additional exploited CVEs (commons-text, SnakeYAML) are out of NP+DI's scope entirely. EPSS ≥ 0.50 catches all 10 at roughly the same patch-event cost (~21 vs ~19). The two filters are complementary — NP+DI fires immediately on disclosure before EPSS has signal; EPSS catches what broken CWE metadata hides from NP+DI.</p>
 <p style="margin-top:8px">The one CVE that lit up every exploitation source in the 12-month window (CVE-2025-14847, zlib — KEV, Metasploit, EPSS 0.77) is a non-trigger, exploited through MongoDB's wire protocol, not through the Spring/Node/Django apps. <strong>Deployment context matters:</strong> the filter correctly treats it as non-triggering for these applications even though it's genuinely dangerous elsewhere.</p>
 </div>

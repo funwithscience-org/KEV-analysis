@@ -649,5 +649,322 @@
       "CVE-2016-0752"
     ],
     "published": "2017-10-24T18:33:35Z"
+  },
+  "GHSA-247c-9743-5963": {
+    "aliases": [
+      "CVE-2026-33806"
+    ],
+    "published": "2026-04-15T19:24:41Z"
+  },
+  "GHSA-25xr-qj8w-c4vf": {
+    "aliases": [
+      "BIT-tomcat-2025-53506",
+      "CVE-2025-53506"
+    ],
+    "published": "2025-07-10T21:31:53Z"
+  },
+  "GHSA-2xpw-w6gg-jr37": {
+    "aliases": [
+      "CVE-2025-66471"
+    ],
+    "published": "2025-12-05T18:15:54Z"
+  },
+  "GHSA-38jv-5279-wg99": {
+    "aliases": [
+      "CVE-2026-21441"
+    ],
+    "published": "2026-01-07T19:18:14Z"
+  },
+  "GHSA-3936-cmfr-pm3m": {
+    "aliases": [
+      "CVE-2026-32274"
+    ],
+    "published": "2026-03-12T18:33:10Z"
+  },
+  "GHSA-43fc-jf86-j433": {
+    "aliases": [
+      "CVE-2026-25639"
+    ],
+    "published": "2026-02-09T17:46:14Z"
+  },
+  "GHSA-44fp-w29j-9vj5": {
+    "aliases": [
+      "CVE-2025-47935"
+    ],
+    "published": "2025-05-19T22:04:17Z"
+  },
+  "GHSA-4hjh-wcwx-xvwj": {
+    "aliases": [
+      "CVE-2025-58754"
+    ],
+    "published": "2025-09-11T21:07:55Z"
+  },
+  "GHSA-4pg4-qvpc-4q3h": {
+    "aliases": [
+      "CVE-2025-47944"
+    ],
+    "published": "2025-05-19T22:16:30Z"
+  },
+  "GHSA-5528-5vmv-3xc2": {
+    "aliases": [
+      "CVE-2026-3520"
+    ],
+    "published": "2026-03-05T00:27:50Z"
+  },
+  "GHSA-6457-6jrx-69cr": {
+    "aliases": [
+      "CVE-2026-30951"
+    ],
+    "published": "2026-03-11T00:18:48Z"
+  },
+  "GHSA-69cc-cv78-qc8g": {
+    "aliases": [
+      "BIT-tomcat-2026-29129",
+      "CVE-2026-29129"
+    ],
+    "published": "2026-04-09T21:31:29Z"
+  },
+  "GHSA-73m2-qfq3-56cx": {
+    "aliases": [
+      "CVE-2025-27820"
+    ],
+    "published": "2025-04-24T12:31:28Z"
+  },
+  "GHSA-752w-5fwx-jx9f": {
+    "aliases": [
+      "CVE-2026-32597"
+    ],
+    "published": "2026-03-13T20:05:04Z"
+  },
+  "GHSA-7gcc-r8m5-44qm": {
+    "aliases": [
+      "CVE-2026-27959"
+    ],
+    "published": "2026-02-26T22:42:57Z"
+  },
+  "GHSA-8p8v-wh79-9r56": {
+    "aliases": [
+      "BIT-django-2026-25673",
+      "CVE-2026-25673"
+    ],
+    "published": "2026-03-03T15:31:41Z"
+  },
+  "GHSA-8v5q-rhf3-jphm": {
+    "aliases": [
+      "CVE-2025-41248"
+    ],
+    "published": "2025-09-16T15:32:34Z"
+  },
+  "GHSA-933h-hp56-hf7m": {
+    "aliases": [
+      "BIT-django-2026-33034",
+      "CVE-2026-33034"
+    ],
+    "published": "2026-04-07T15:30:51Z"
+  },
+  "GHSA-9cx6-37pm-9jff": {
+    "aliases": [
+      "CVE-2026-33939"
+    ],
+    "published": "2026-03-27T18:21:15Z"
+  },
+  "GHSA-9pp5-9c7g-4r83": {
+    "aliases": [
+      "CVE-2025-41232"
+    ],
+    "published": "2025-05-21T15:30:33Z"
+  },
+  "GHSA-cfh3-3jmp-rvhc": {
+    "aliases": [
+      "BIT-pillow-2026-25990",
+      "CVE-2026-25990"
+    ],
+    "published": "2026-02-11T14:22:50Z"
+  },
+  "GHSA-fjgf-rc76-4x9p": {
+    "aliases": [
+      "CVE-2025-7338"
+    ],
+    "published": "2025-07-17T21:01:54Z"
+  },
+  "GHSA-g5hg-p3ph-g8qg": {
+    "aliases": [
+      "CVE-2025-48997"
+    ],
+    "published": "2025-06-05T01:09:35Z"
+  },
+  "GHSA-gm62-xv2j-4w53": {
+    "aliases": [
+      "CVE-2025-66418"
+    ],
+    "published": "2025-12-05T18:15:19Z"
+  },
+  "GHSA-gqp3-2cvr-x8m3": {
+    "aliases": [
+      "BIT-tomcat-2025-48989",
+      "CVE-2025-48989"
+    ],
+    "published": "2025-08-13T15:30:34Z"
+  },
+  "GHSA-h3gc-qfqq-6h8f": {
+    "aliases": [
+      "BIT-tomcat-2025-48988",
+      "CVE-2025-48988"
+    ],
+    "published": "2025-06-16T15:32:28Z"
+  },
+  "GHSA-h46c-h94j-95f3": {
+    "aliases": [
+      "CVE-2025-52999"
+    ],
+    "published": "2025-06-27T15:22:22Z"
+  },
+  "GHSA-hq9p-pm7w-8p54": {
+    "aliases": [
+      "BIT-postgresql-jdbc-driver-2025-49146",
+      "CVE-2025-49146"
+    ],
+    "published": "2025-06-11T14:44:04Z"
+  },
+  "GHSA-jmp9-x22r-554x": {
+    "aliases": [
+      "CVE-2025-41249"
+    ],
+    "published": "2025-09-16T15:32:34Z"
+  },
+  "GHSA-jx2c-rxcm-jvmq": {
+    "aliases": [
+      "CVE-2026-25223"
+    ],
+    "published": "2026-02-02T22:23:29Z"
+  },
+  "GHSA-mf92-479x-3373": {
+    "aliases": [
+      "CVE-2026-22732"
+    ],
+    "published": "2026-03-20T00:31:28Z"
+  },
+  "GHSA-mgp5-rv84-w37q": {
+    "aliases": [
+      "BIT-tomcat-2026-24734",
+      "CVE-2026-24734"
+    ],
+    "published": "2026-02-17T21:31:13Z"
+  },
+  "GHSA-mvfq-ggxm-9mc5": {
+    "aliases": [
+      "BIT-django-2026-3902",
+      "CVE-2026-3902"
+    ],
+    "published": "2026-04-07T15:30:52Z"
+  },
+  "GHSA-prj3-ccx8-p6x4": {
+    "aliases": [
+      "CVE-2025-55163"
+    ],
+    "published": "2025-08-13T19:06:56Z"
+  },
+  "GHSA-pwqr-wmgm-9rr8": {
+    "aliases": [
+      "CVE-2026-33870"
+    ],
+    "published": "2026-03-26T18:48:55Z"
+  },
+  "GHSA-qw25-v68c-qjf3": {
+    "aliases": [
+      "BIT-django-2025-64458",
+      "CVE-2025-64458"
+    ],
+    "published": "2025-11-05T15:31:07Z"
+  },
+  "GHSA-r4v4-5mwr-2fwr": {
+    "aliases": [
+      "CVE-2026-40477"
+    ],
+    "published": "2026-04-15T19:46:04Z"
+  },
+  "GHSA-r5fr-rjxr-66jc": {
+    "aliases": [
+      "CVE-2026-4800"
+    ],
+    "published": "2026-04-01T23:51:12Z"
+  },
+  "GHSA-r6ph-v2qm-q3c2": {
+    "aliases": [
+      "CVE-2026-26007"
+    ],
+    "published": "2026-02-10T21:27:06Z"
+  },
+  "GHSA-rc42-6c7j-7h5r": {
+    "aliases": [
+      "CVE-2025-22235"
+    ],
+    "published": "2025-04-28T09:31:53Z"
+  },
+  "GHSA-rcmh-qjqh-p98v": {
+    "aliases": [
+      "CVE-2025-14874"
+    ],
+    "published": "2025-12-01T20:44:25Z"
+  },
+  "GHSA-rv64-5gf8-9qq8": {
+    "aliases": [
+      "BIT-tomcat-2026-34483",
+      "CVE-2026-34483"
+    ],
+    "published": "2026-04-09T21:31:30Z"
+  },
+  "GHSA-v52c-386h-88mc": {
+    "aliases": [
+      "CVE-2026-2359"
+    ],
+    "published": "2026-03-01T01:18:27Z"
+  },
+  "GHSA-w9fj-cfpg-grvv": {
+    "aliases": [
+      "CVE-2026-33871"
+    ],
+    "published": "2026-03-26T18:49:21Z"
+  },
+  "GHSA-whj4-6x5x-4v2j": {
+    "aliases": [
+      "BIT-pillow-2026-40192",
+      "CVE-2026-40192"
+    ],
+    "published": "2026-04-13T19:22:35Z"
+  },
+  "GHSA-wr62-c79q-cv37": {
+    "aliases": [
+      "BIT-tomcat-2025-52520",
+      "CVE-2025-52520"
+    ],
+    "published": "2025-07-10T21:31:52Z"
+  },
+  "GHSA-x4m4-345f-5h5g": {
+    "aliases": [
+      "BIT-tomcat-2026-34487",
+      "CVE-2026-34487"
+    ],
+    "published": "2026-04-09T21:31:30Z"
+  },
+  "GHSA-xf7r-hgr6-v32p": {
+    "aliases": [
+      "CVE-2026-3304"
+    ],
+    "published": "2026-03-01T01:18:50Z"
+  },
+  "GHSA-xg8h-j46f-w952": {
+    "aliases": [
+      "BIT-pillow-2025-48379",
+      "CVE-2025-48379",
+      "PYSEC-2025-61"
+    ],
+    "published": "2025-07-01T17:29:37Z"
+  },
+  "GHSA-xjw8-8c5c-9r79": {
+    "aliases": [
+      "CVE-2026-40478"
+    ],
+    "published": "2026-04-15T19:46:23Z"
   }
 }

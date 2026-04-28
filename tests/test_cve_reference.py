@@ -179,6 +179,36 @@ def main() -> int:
         r.check(s.get("rows_contributed", 0) > 0,
                 f"source {s.get('artifact')} contributed >0 rows; got {s.get('rows_contributed')}")
 
+    # 7b. Twelve-month per-framework cohorts present and roughly the right size.
+    # The doc cites Spring 22, Node 20, Django 18, Netty 3 raw events. The
+    # cve-reference cohort counts unique CVEs per framework, so Spring is 20
+    # (the cache contains two duplicate vuln_id rows for the 2026-04-15
+    # Tomcat pair); the others are unique-equal.
+    expected_12m_unique_cves = {
+        "twelve-month-spring": 20,
+        "twelve-month-nodejs": 20,
+        "twelve-month-django": 18,
+        "twelve-month-netty": 3,
+    }
+    sa_by_name = {s["artifact"]: s["rows_contributed"] for s in sa}
+    for name, n in expected_12m_unique_cves.items():
+        r.check(sa_by_name.get(name) == n,
+                f"twelve-month cohort {name} contributed {n} unique CVEs; got {sa_by_name.get(name)}")
+
+    # 7c. Cohort row counts per source artifact (rows whose `sources` includes the artifact)
+    # must match what the section table will render. Each section's table is just
+    # rows.filter(sources includes srcName), so this guards the section sizes too.
+    cohort_sizes = {}
+    for row in rows:
+        for s in row.get("sources", []):
+            cohort_sizes[s] = cohort_sizes.get(s, 0) + 1
+    # The rows-contributed counts in the JSON header should equal the per-row tally.
+    for s in sa:
+        name = s["artifact"]
+        tally = cohort_sizes.get(name, 0)
+        r.check(tally == s["rows_contributed"],
+                f"cohort {name} per-row tally ({tally}) matches rows_contributed ({s['rows_contributed']})")
+
     # 8. HTML inline DATA matches JSON (count check)
     if HTML_OUT.exists():
         text = HTML_OUT.read_text()
