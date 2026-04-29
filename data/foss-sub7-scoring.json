@@ -1,0 +1,4812 @@
+{
+  "metadata": {
+    "generated": "2026-04-29",
+    "source": "foss-low-severity-exploited.json (135 distinct CVEs)",
+    "np_rule": "package primary purpose is parsing untrusted network input OR security decisions from untrusted input",
+    "di_cwes": [
+      22,
+      23,
+      35,
+      73,
+      74,
+      77,
+      78,
+      79,
+      89,
+      90,
+      91,
+      93,
+      94,
+      95,
+      96,
+      97,
+      113,
+      116,
+      287,
+      289,
+      306,
+      345,
+      444,
+      502,
+      611,
+      693,
+      776,
+      863,
+      917,
+      918,
+      1321
+    ],
+    "aggregate": {
+      "total_cves": 135,
+      "np_total": 134,
+      "di_total": 112,
+      "np_di_raw": 111,
+      "np_di_raw_pct": "82.2%",
+      "np_di_dq": 116,
+      "np_di_dq_pct": "85.9%",
+      "hacker_sa": 35,
+      "hacker_sa_pct": "25.9%",
+      "union": 118,
+      "union_pct": "87.4%",
+      "intersection": 33,
+      "intersection_pct": "24.4%",
+      "tier_dist": {
+        "B": 85,
+        "D": 15,
+        "A": 26,
+        "S": 9
+      },
+      "primitive_kind_dist": {
+        "xss": 67,
+        "info-disc": 6,
+        "path-traversal": 19,
+        "path-traversal,rce": 4,
+        "rce": 3,
+        "xxe,path-traversal": 1,
+        "xxe,info-disc": 1,
+        "authbypass": 3,
+        "sqli": 4,
+        "csrf": 6,
+        "xxe,deser": 2,
+        "csrf,open-redirect": 1,
+        "ssrf": 2,
+        "open-redirect": 4,
+        "xss,prototype-pollution": 1,
+        "ssrf,path-traversal": 1,
+        "csv": 1,
+        "deser,rce": 1,
+        "dos": 1,
+        "xss,authbypass": 1,
+        "idor": 2,
+        "unknown": 2,
+        "improper-input-val": 1,
+        "brute-force": 1
+      },
+      "by_ecosystem": {
+        "Maven": {
+          "n": 45,
+          "npdi": 35,
+          "npdiqd": 37,
+          "sa": 13,
+          "union": 38,
+          "npdi_pct": "77.8%",
+          "npdiqd_pct": "82.2%",
+          "sa_pct": "28.9%",
+          "union_pct": "84.4%"
+        },
+        "Packagist": {
+          "n": 53,
+          "npdi": 43,
+          "npdiqd": 46,
+          "sa": 11,
+          "union": 46,
+          "npdi_pct": "81.1%",
+          "npdiqd_pct": "86.8%",
+          "sa_pct": "20.8%",
+          "union_pct": "86.8%"
+        },
+        "PyPI": {
+          "n": 23,
+          "npdi": 20,
+          "npdiqd": 20,
+          "sa": 5,
+          "union": 21,
+          "npdi_pct": "87.0%",
+          "npdiqd_pct": "87.0%",
+          "sa_pct": "21.7%",
+          "union_pct": "91.3%"
+        },
+        "Go": {
+          "n": 6,
+          "npdi": 5,
+          "npdiqd": 5,
+          "sa": 3,
+          "union": 5,
+          "npdi_pct": "83.3%",
+          "npdiqd_pct": "83.3%",
+          "sa_pct": "50.0%",
+          "union_pct": "83.3%"
+        },
+        "npm": {
+          "n": 5,
+          "npdi": 5,
+          "npdiqd": 5,
+          "sa": 2,
+          "union": 5,
+          "npdi_pct": "100.0%",
+          "npdiqd_pct": "100.0%",
+          "sa_pct": "40.0%",
+          "union_pct": "100.0%"
+        },
+        "NuGet": {
+          "n": 2,
+          "npdi": 2,
+          "npdiqd": 2,
+          "sa": 1,
+          "union": 2,
+          "npdi_pct": "100.0%",
+          "npdiqd_pct": "100.0%",
+          "sa_pct": "50.0%",
+          "union_pct": "100.0%"
+        },
+        "RubyGems": {
+          "n": 1,
+          "npdi": 1,
+          "npdiqd": 1,
+          "sa": 0,
+          "union": 1,
+          "npdi_pct": "100.0%",
+          "npdiqd_pct": "100.0%",
+          "sa_pct": "0.0%",
+          "union_pct": "100.0%"
+        }
+      },
+      "by_evidence": {
+        "KEV": {
+          "n": 4,
+          "npdi": 2,
+          "npdiqd": 2,
+          "sa": 0,
+          "union": 2,
+          "npdi_pct": "50.0%",
+          "npdiqd_pct": "50.0%",
+          "sa_pct": "0.0%",
+          "union_pct": "50.0%"
+        },
+        "Metasploit": {
+          "n": 18,
+          "npdi": 16,
+          "npdiqd": 16,
+          "sa": 10,
+          "union": 17,
+          "npdi_pct": "88.9%",
+          "npdiqd_pct": "88.9%",
+          "sa_pct": "55.6%",
+          "union_pct": "94.4%"
+        },
+        "ExploitDB": {
+          "n": 124,
+          "npdi": 102,
+          "npdiqd": 107,
+          "sa": 33,
+          "union": 109,
+          "npdi_pct": "82.3%",
+          "npdiqd_pct": "86.3%",
+          "sa_pct": "26.6%",
+          "union_pct": "87.9%"
+        }
+      }
+    }
+  },
+  "records": [
+    {
+      "cve": "CVE-2007-1355",
+      "package": "org.apache.tomcat:jsp-api",
+      "all_packages": [
+        "org.apache.tomcat:jsp-api",
+        "org.apache.tomcat:servlet-api"
+      ],
+      "ecosystem": "Maven",
+      "cvss_score": 5.3,
+      "cvss_vector": "CVSS:4.0/AV:N/AC:L/AT:N/PR:N/UI:P/VC:N/VI:N/VA:N/SC:L/SI:L/SA:N",
+      "evidence_sources": [
+        "ExploitDB"
+      ],
+      "np": true,
+      "di": true,
+      "di_cwe_basis": [
+        79
+      ],
+      "inferred_cwes": [
+        79
+      ],
+      "inferred_kinds": [
+        "xss"
+      ],
+      "dq_rescue": false,
+      "dq_rationale": "",
+      "hacker_default_config": true,
+      "hacker_network_edge": true,
+      "hacker_primitive_direct": false,
+      "hacker_auth_missing": true,
+      "hacker_primitive_kind": "xss",
+      "hacker_tier": "B",
+      "summary": "Apache Tomcat Vulnerable to Cross-Site Scripting",
+      "notes": ""
+    },
+    {
+      "cve": "CVE-2007-2353",
+      "package": "org.apache.axis:axis",
+      "all_packages": [
+        "org.apache.axis:axis"
+      ],
+      "ecosystem": "Maven",
+      "cvss_score": 5.3,
+      "cvss_vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:N/A:N",
+      "evidence_sources": [
+        "ExploitDB"
+      ],
+      "np": true,
+      "di": false,
+      "di_cwe_basis": [],
+      "inferred_cwes": [
+        200
+      ],
+      "inferred_kinds": [
+        "info-disc"
+      ],
+      "dq_rescue": false,
+      "dq_rationale": "",
+      "hacker_default_config": true,
+      "hacker_network_edge": true,
+      "hacker_primitive_direct": false,
+      "hacker_auth_missing": true,
+      "hacker_primitive_kind": "info-disc",
+      "hacker_tier": "D",
+      "summary": "Apache Axis allows Exposure of Sensitive Information to an Unauthorized Actor",
+      "notes": ""
+    },
+    {
+      "cve": "CVE-2008-1045",
+      "package": "org.opencms:opencms-core",
+      "all_packages": [
+        "org.opencms:opencms-core"
+      ],
+      "ecosystem": "Maven",
+      "cvss_score": 1.3,
+      "cvss_vector": "CVSS:4.0/AV:N/AC:L/AT:N/PR:N/UI:P/VC:N/VI:N/VA:N/SC:N/SI:L/SA:N/E:U",
+      "evidence_sources": [
+        "ExploitDB"
+      ],
+      "np": true,
+      "di": true,
+      "di_cwe_basis": [
+        79
+      ],
+      "inferred_cwes": [
+        79
+      ],
+      "inferred_kinds": [
+        "xss"
+      ],
+      "dq_rescue": false,
+      "dq_rationale": "",
+      "hacker_default_config": true,
+      "hacker_network_edge": true,
+      "hacker_primitive_direct": false,
+      "hacker_auth_missing": true,
+      "hacker_primitive_kind": "xss",
+      "hacker_tier": "B",
+      "summary": "Alkacon OpenCMS XSS via file tree navigation in system/workplace/views/explorer/tree_files.jsp",
+      "notes": ""
+    },
+    {
+      "cve": "CVE-2008-1300",
+      "package": "org.opencms:opencms-core",
+      "all_packages": [
+        "org.opencms:opencms-core"
+      ],
+      "ecosystem": "Maven",
+      "cvss_score": 1.3,
+      "cvss_vector": "CVSS:4.0/AV:N/AC:L/AT:N/PR:N/UI:P/VC:N/VI:N/VA:N/SC:L/SI:L/SA:N/E:U",
+      "evidence_sources": [
+        "ExploitDB"
+      ],
+      "np": true,
+      "di": true,
+      "di_cwe_basis": [
+        79
+      ],
+      "inferred_cwes": [
+        79
+      ],
+      "inferred_kinds": [
+        "xss"
+      ],
+      "dq_rescue": false,
+      "dq_rationale": "",
+      "hacker_default_config": true,
+      "hacker_network_edge": true,
+      "hacker_primitive_direct": false,
+      "hacker_auth_missing": false,
+      "hacker_primitive_kind": "xss",
+      "hacker_tier": "B",
+      "summary": "Alkacon Open CMS XSS via Logfile Viewer Settings function",
+      "notes": ""
+    },
+    {
+      "cve": "CVE-2008-1301",
+      "package": "org.opencms:opencms-core",
+      "all_packages": [
+        "org.opencms:opencms-core"
+      ],
+      "ecosystem": "Maven",
+      "cvss_score": 4.6,
+      "cvss_vector": "CVSS:4.0/AV:N/AC:L/AT:N/PR:H/UI:N/VC:H/VI:N/VA:N/SC:N/SI:N/SA:N/E:U",
+      "evidence_sources": [
+        "ExploitDB"
+      ],
+      "np": true,
+      "di": true,
+      "di_cwe_basis": [
+        22
+      ],
+      "inferred_cwes": [
+        22
+      ],
+      "inferred_kinds": [
+        "path-traversal"
+      ],
+      "dq_rescue": false,
+      "dq_rationale": "",
+      "hacker_default_config": true,
+      "hacker_network_edge": true,
+      "hacker_primitive_direct": true,
+      "hacker_auth_missing": false,
+      "hacker_primitive_kind": "path-traversal",
+      "hacker_tier": "A",
+      "summary": "Alkacon OpenCMS Absolute Path Traversal via pathname in filePath.0 parameter",
+      "notes": ""
+    },
+    {
+      "cve": "CVE-2008-1510",
+      "package": "org.opencms:opencms-core",
+      "all_packages": [
+        "org.opencms:opencms-core"
+      ],
+      "ecosystem": "Maven",
+      "cvss_score": 1.3,
+      "cvss_vector": "CVSS:4.0/AV:N/AC:L/AT:N/PR:N/UI:P/VC:N/VI:N/VA:N/SC:L/SI:L/SA:N/E:U",
+      "evidence_sources": [
+        "ExploitDB"
+      ],
+      "np": true,
+      "di": true,
+      "di_cwe_basis": [
+        79
+      ],
+      "inferred_cwes": [
+        79
+      ],
+      "inferred_kinds": [
+        "xss"
+      ],
+      "dq_rescue": false,
+      "dq_rationale": "",
+      "hacker_default_config": true,
+      "hacker_network_edge": true,
+      "hacker_primitive_direct": false,
+      "hacker_auth_missing": false,
+      "hacker_primitive_kind": "xss",
+      "hacker_tier": "B",
+      "summary": "Alkacon OpenCMS XSS via searchfilter or listSearchFilter parameter",
+      "notes": ""
+    },
+    {
+      "cve": "CVE-2009-0815",
+      "package": "typo3/cms",
+      "all_packages": [
+        "typo3/cms"
+      ],
+      "ecosystem": "Packagist",
+      "cvss_score": 6.9,
+      "cvss_vector": "CVSS:4.0/AV:N/AC:L/AT:N/PR:N/UI:N/VC:L/VI:N/VA:N/SC:N/SI:N/SA:N",
+      "evidence_sources": [
+        "ExploitDB",
+        "Metasploit"
+      ],
+      "np": true,
+      "di": true,
+      "di_cwe_basis": [
+        22
+      ],
+      "inferred_cwes": [
+        22
+      ],
+      "inferred_kinds": [
+        "path-traversal"
+      ],
+      "dq_rescue": false,
+      "dq_rationale": "",
+      "hacker_default_config": true,
+      "hacker_network_edge": true,
+      "hacker_primitive_direct": true,
+      "hacker_auth_missing": true,
+      "hacker_primitive_kind": "path-traversal",
+      "hacker_tier": "S",
+      "summary": "TYPO3 leaks a hash secret in an error message",
+      "notes": ""
+    },
+    {
+      "cve": "CVE-2009-1523",
+      "package": "org.mortbay.jetty:jetty",
+      "all_packages": [
+        "org.mortbay.jetty:jetty"
+      ],
+      "ecosystem": "Maven",
+      "cvss_score": 5.3,
+      "cvss_vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:N/A:N",
+      "evidence_sources": [
+        "ExploitDB"
+      ],
+      "np": true,
+      "di": true,
+      "di_cwe_basis": [
+        22
+      ],
+      "inferred_cwes": [
+        22
+      ],
+      "inferred_kinds": [
+        "path-traversal"
+      ],
+      "dq_rescue": false,
+      "dq_rationale": "",
+      "hacker_default_config": true,
+      "hacker_network_edge": true,
+      "hacker_primitive_direct": true,
+      "hacker_auth_missing": true,
+      "hacker_primitive_kind": "path-traversal",
+      "hacker_tier": "S",
+      "summary": "Directory traversal in Mort Bay Jetty",
+      "notes": ""
+    },
+    {
+      "cve": "CVE-2009-5065",
+      "package": "feedparser",
+      "all_packages": [
+        "feedparser"
+      ],
+      "ecosystem": "PyPI",
+      "cvss_score": 6.1,
+      "cvss_vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:C/C:L/I:L/A:N",
+      "evidence_sources": [
+        "ExploitDB"
+      ],
+      "np": true,
+      "di": true,
+      "di_cwe_basis": [
+        79
+      ],
+      "inferred_cwes": [
+        79
+      ],
+      "inferred_kinds": [
+        "xss"
+      ],
+      "dq_rescue": false,
+      "dq_rationale": "",
+      "hacker_default_config": true,
+      "hacker_network_edge": true,
+      "hacker_primitive_direct": false,
+      "hacker_auth_missing": true,
+      "hacker_primitive_kind": "xss",
+      "hacker_tier": "B",
+      "summary": "feedparser Cross-site Scripting vulnerability",
+      "notes": ""
+    },
+    {
+      "cve": "CVE-2010-5099",
+      "package": "typo3/cms",
+      "all_packages": [
+        "typo3/cms"
+      ],
+      "ecosystem": "Packagist",
+      "cvss_score": 6.6,
+      "cvss_vector": "CVSS:4.0/AV:N/AC:L/AT:N/PR:N/UI:N/VC:H/VI:N/VA:N/SC:N/SI:N/SA:N/E:U",
+      "evidence_sources": [
+        "ExploitDB"
+      ],
+      "np": true,
+      "di": true,
+      "di_cwe_basis": [
+        22,
+        94
+      ],
+      "inferred_cwes": [
+        22,
+        94
+      ],
+      "inferred_kinds": [
+        "path-traversal",
+        "rce"
+      ],
+      "dq_rescue": false,
+      "dq_rationale": "",
+      "hacker_default_config": true,
+      "hacker_network_edge": true,
+      "hacker_primitive_direct": true,
+      "hacker_auth_missing": true,
+      "hacker_primitive_kind": "path-traversal,rce",
+      "hacker_tier": "S",
+      "summary": "TYPO3 Path Traversal vulnerability",
+      "notes": ""
+    },
+    {
+      "cve": "CVE-2011-1571",
+      "package": "com.liferay.portal:portal-service",
+      "all_packages": [
+        "com.liferay.portal:portal-service"
+      ],
+      "ecosystem": "Maven",
+      "cvss_score": 6.9,
+      "cvss_vector": "CVSS:4.0/AV:N/AC:L/AT:N/PR:N/UI:N/VC:L/VI:L/VA:L/SC:N/SI:N/SA:N",
+      "evidence_sources": [
+        "ExploitDB"
+      ],
+      "np": true,
+      "di": true,
+      "di_cwe_basis": [
+        94
+      ],
+      "inferred_cwes": [
+        94
+      ],
+      "inferred_kinds": [
+        "rce"
+      ],
+      "dq_rescue": false,
+      "dq_rationale": "",
+      "hacker_default_config": true,
+      "hacker_network_edge": true,
+      "hacker_primitive_direct": true,
+      "hacker_auth_missing": true,
+      "hacker_primitive_kind": "rce",
+      "hacker_tier": "S",
+      "summary": "Liferay Portal vulnerable to arbitrary command injection",
+      "notes": ""
+    },
+    {
+      "cve": "CVE-2011-4107",
+      "package": "phpmyadmin/phpmyadmin",
+      "all_packages": [
+        "phpmyadmin/phpmyadmin"
+      ],
+      "ecosystem": "Packagist",
+      "cvss_score": 6.5,
+      "cvss_vector": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:U/C:H/I:N/A:N",
+      "evidence_sources": [
+        "ExploitDB"
+      ],
+      "np": true,
+      "di": true,
+      "di_cwe_basis": [
+        22,
+        611
+      ],
+      "inferred_cwes": [
+        22,
+        611
+      ],
+      "inferred_kinds": [
+        "xxe",
+        "path-traversal"
+      ],
+      "dq_rescue": false,
+      "dq_rationale": "",
+      "hacker_default_config": true,
+      "hacker_network_edge": true,
+      "hacker_primitive_direct": true,
+      "hacker_auth_missing": false,
+      "hacker_primitive_kind": "xxe,path-traversal",
+      "hacker_tier": "A",
+      "summary": "phpMyAdmin vulnerable to XML external entity (XXE) injection attack",
+      "notes": ""
+    },
+    {
+      "cve": "CVE-2011-4340",
+      "package": "symphonycms/symphony-2",
+      "all_packages": [
+        "symphonycms/symphony-2"
+      ],
+      "ecosystem": "Packagist",
+      "cvss_score": 1.3,
+      "cvss_vector": "CVSS:4.0/AV:N/AC:L/AT:N/PR:N/UI:P/VC:N/VI:N/VA:N/SC:L/SI:L/SA:N/E:U",
+      "evidence_sources": [
+        "ExploitDB"
+      ],
+      "np": true,
+      "di": true,
+      "di_cwe_basis": [
+        79
+      ],
+      "inferred_cwes": [
+        79
+      ],
+      "inferred_kinds": [
+        "xss"
+      ],
+      "dq_rescue": false,
+      "dq_rationale": "",
+      "hacker_default_config": true,
+      "hacker_network_edge": true,
+      "hacker_primitive_direct": false,
+      "hacker_auth_missing": false,
+      "hacker_primitive_kind": "xss",
+      "hacker_tier": "B",
+      "summary": "Symphony CMS vulnerable to Cross-site Scripting",
+      "notes": ""
+    },
+    {
+      "cve": "CVE-2012-6081",
+      "package": "moin",
+      "all_packages": [
+        "moin"
+      ],
+      "ecosystem": "PyPI",
+      "cvss_score": 6.3,
+      "cvss_vector": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:U/C:L/I:L/A:L/E:F",
+      "evidence_sources": [
+        "ExploitDB",
+        "Metasploit"
+      ],
+      "np": true,
+      "di": true,
+      "di_cwe_basis": [
+        94
+      ],
+      "inferred_cwes": [
+        94,
+        434
+      ],
+      "inferred_kinds": [
+        "rce"
+      ],
+      "dq_rescue": false,
+      "dq_rationale": "",
+      "hacker_default_config": true,
+      "hacker_network_edge": true,
+      "hacker_primitive_direct": true,
+      "hacker_auth_missing": false,
+      "hacker_primitive_kind": "rce",
+      "hacker_tier": "A",
+      "summary": "MoinMoin Multiple unrestricted file upload vulnerabilities",
+      "notes": ""
+    },
+    {
+      "cve": "CVE-2012-6495",
+      "package": "moin",
+      "all_packages": [
+        "moin"
+      ],
+      "ecosystem": "PyPI",
+      "cvss_score": 4.3,
+      "cvss_vector": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:U/C:N/I:L/A:N",
+      "evidence_sources": [
+        "ExploitDB"
+      ],
+      "np": true,
+      "di": true,
+      "di_cwe_basis": [
+        22,
+        94
+      ],
+      "inferred_cwes": [
+        22,
+        94
+      ],
+      "inferred_kinds": [
+        "path-traversal",
+        "rce"
+      ],
+      "dq_rescue": false,
+      "dq_rationale": "",
+      "hacker_default_config": true,
+      "hacker_network_edge": true,
+      "hacker_primitive_direct": true,
+      "hacker_auth_missing": false,
+      "hacker_primitive_kind": "path-traversal,rce",
+      "hacker_tier": "A",
+      "summary": "MoinMoin Multiple vulnerable to directory traversal",
+      "notes": ""
+    },
+    {
+      "cve": "CVE-2013-4295",
+      "package": "org.apache.shindig:shindig-php",
+      "all_packages": [
+        "org.apache.shindig:shindig-php"
+      ],
+      "ecosystem": "Maven",
+      "cvss_score": 5.3,
+      "cvss_vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:N/A:N",
+      "evidence_sources": [
+        "ExploitDB"
+      ],
+      "np": true,
+      "di": true,
+      "di_cwe_basis": [
+        611
+      ],
+      "inferred_cwes": [
+        200,
+        611
+      ],
+      "inferred_kinds": [
+        "xxe",
+        "info-disc"
+      ],
+      "dq_rescue": false,
+      "dq_rationale": "",
+      "hacker_default_config": true,
+      "hacker_network_edge": true,
+      "hacker_primitive_direct": false,
+      "hacker_auth_missing": true,
+      "hacker_primitive_kind": "xxe,info-disc",
+      "hacker_tier": "A",
+      "summary": "Apache Shindig PHP Sensitive Information Disclosure",
+      "notes": ""
+    },
+    {
+      "cve": "CVE-2013-5123",
+      "package": "pip",
+      "all_packages": [
+        "pip"
+      ],
+      "ecosystem": "PyPI",
+      "cvss_score": 5.9,
+      "cvss_vector": "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:N/I:H/A:N",
+      "evidence_sources": [
+        "ExploitDB"
+      ],
+      "np": true,
+      "di": true,
+      "di_cwe_basis": [
+        287
+      ],
+      "inferred_cwes": [
+        287,
+        295
+      ],
+      "inferred_kinds": [
+        "authbypass"
+      ],
+      "dq_rescue": false,
+      "dq_rationale": "",
+      "hacker_default_config": true,
+      "hacker_network_edge": true,
+      "hacker_primitive_direct": false,
+      "hacker_auth_missing": true,
+      "hacker_primitive_kind": "authbypass",
+      "hacker_tier": "B",
+      "summary": "Improper Authentication in pip",
+      "notes": ""
+    },
+    {
+      "cve": "CVE-2013-5573",
+      "package": "org.jenkins-ci.main:jenkins-core",
+      "all_packages": [
+        "org.jenkins-ci.main:jenkins-core"
+      ],
+      "ecosystem": "Maven",
+      "cvss_score": 2.1,
+      "cvss_vector": "CVSS:4.0/AV:N/AC:L/AT:P/PR:N/UI:A/VC:N/VI:N/VA:N/SC:N/SI:L/SA:N",
+      "evidence_sources": [
+        "ExploitDB"
+      ],
+      "np": true,
+      "di": true,
+      "di_cwe_basis": [
+        79
+      ],
+      "inferred_cwes": [
+        79
+      ],
+      "inferred_kinds": [
+        "xss"
+      ],
+      "dq_rescue": false,
+      "dq_rationale": "",
+      "hacker_default_config": true,
+      "hacker_network_edge": true,
+      "hacker_primitive_direct": false,
+      "hacker_auth_missing": true,
+      "hacker_primitive_kind": "xss",
+      "hacker_tier": "B",
+      "summary": "Jenkins allows Cross-Site Scripting (XSS) in User Configuration",
+      "notes": ""
+    },
+    {
+      "cve": "CVE-2013-5676",
+      "package": "org.jenkins-ci.plugins:sonar",
+      "all_packages": [
+        "org.jenkins-ci.plugins:sonar"
+      ],
+      "ecosystem": "Maven",
+      "cvss_score": 5.3,
+      "cvss_vector": "CVSS:4.0/AV:N/AC:L/AT:N/PR:L/UI:N/VC:L/VI:N/VA:N/SC:N/SI:N/SA:N",
+      "evidence_sources": [
+        "ExploitDB"
+      ],
+      "np": true,
+      "di": false,
+      "di_cwe_basis": [],
+      "inferred_cwes": [
+        200
+      ],
+      "inferred_kinds": [
+        "info-disc"
+      ],
+      "dq_rescue": false,
+      "dq_rationale": "",
+      "hacker_default_config": true,
+      "hacker_network_edge": true,
+      "hacker_primitive_direct": false,
+      "hacker_auth_missing": false,
+      "hacker_primitive_kind": "info-disc",
+      "hacker_tier": "D",
+      "summary": "Jenkins SonarQube Plugin Stores Passwords in Cleartext",
+      "notes": ""
+    },
+    {
+      "cve": "CVE-2014-3146",
+      "package": "lxml",
+      "all_packages": [
+        "lxml"
+      ],
+      "ecosystem": "PyPI",
+      "cvss_score": 6.1,
+      "cvss_vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:C/C:L/I:L/A:N",
+      "evidence_sources": [
+        "ExploitDB"
+      ],
+      "np": true,
+      "di": true,
+      "di_cwe_basis": [
+        79
+      ],
+      "inferred_cwes": [
+        79
+      ],
+      "inferred_kinds": [
+        "xss"
+      ],
+      "dq_rescue": false,
+      "dq_rationale": "",
+      "hacker_default_config": true,
+      "hacker_network_edge": true,
+      "hacker_primitive_direct": false,
+      "hacker_auth_missing": true,
+      "hacker_primitive_kind": "xss",
+      "hacker_tier": "B",
+      "summary": "lxml Cross-site Scripting Via Control Characters",
+      "notes": ""
+    },
+    {
+      "cve": "CVE-2014-3840",
+      "package": "mayan-edms",
+      "all_packages": [
+        "mayan-edms"
+      ],
+      "ecosystem": "PyPI",
+      "cvss_score": 5.1,
+      "cvss_vector": "CVSS:4.0/AV:N/AC:L/AT:N/PR:L/UI:P/VC:N/VI:N/VA:N/SC:L/SI:L/SA:N",
+      "evidence_sources": [
+        "ExploitDB"
+      ],
+      "np": true,
+      "di": true,
+      "di_cwe_basis": [
+        79
+      ],
+      "inferred_cwes": [
+        79
+      ],
+      "inferred_kinds": [
+        "xss"
+      ],
+      "dq_rescue": false,
+      "dq_rationale": "",
+      "hacker_default_config": true,
+      "hacker_network_edge": true,
+      "hacker_primitive_direct": false,
+      "hacker_auth_missing": false,
+      "hacker_primitive_kind": "xss",
+      "hacker_tier": "B",
+      "summary": "Mayan EDMS multiple cross-site scripting (XSS) vulnerabilities",
+      "notes": ""
+    },
+    {
+      "cve": "CVE-2014-8681",
+      "package": "github.com/gogits/gogs",
+      "all_packages": [
+        "github.com/gogits/gogs",
+        "gogs.io/gogs"
+      ],
+      "ecosystem": "Go",
+      "cvss_score": 6.5,
+      "cvss_vector": "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:C/C:L/I:L/A:L",
+      "evidence_sources": [
+        "ExploitDB"
+      ],
+      "np": true,
+      "di": true,
+      "di_cwe_basis": [
+        89
+      ],
+      "inferred_cwes": [
+        89
+      ],
+      "inferred_kinds": [
+        "sqli"
+      ],
+      "dq_rescue": false,
+      "dq_rationale": "",
+      "hacker_default_config": true,
+      "hacker_network_edge": true,
+      "hacker_primitive_direct": true,
+      "hacker_auth_missing": true,
+      "hacker_primitive_kind": "sqli",
+      "hacker_tier": "S",
+      "summary": "SQL Injection in gogs.io/gogs",
+      "notes": ""
+    },
+    {
+      "cve": "CVE-2015-7562",
+      "package": "nilsteampassnet/teampass",
+      "all_packages": [
+        "nilsteampassnet/teampass"
+      ],
+      "ecosystem": "Packagist",
+      "cvss_score": 6.1,
+      "cvss_vector": "CVSS:3.0/AV:N/AC:L/PR:N/UI:R/S:C/C:L/I:L/A:N",
+      "evidence_sources": [
+        "ExploitDB"
+      ],
+      "np": true,
+      "di": true,
+      "di_cwe_basis": [
+        79
+      ],
+      "inferred_cwes": [
+        79
+      ],
+      "inferred_kinds": [
+        "xss"
+      ],
+      "dq_rescue": false,
+      "dq_rationale": "",
+      "hacker_default_config": true,
+      "hacker_network_edge": true,
+      "hacker_primitive_direct": false,
+      "hacker_auth_missing": true,
+      "hacker_primitive_kind": "xss",
+      "hacker_tier": "B",
+      "summary": "TeamPass vulnerable to Cross-site Scripting",
+      "notes": ""
+    },
+    {
+      "cve": "CVE-2015-8309",
+      "package": "cherrymusic",
+      "all_packages": [
+        "cherrymusic"
+      ],
+      "ecosystem": "PyPI",
+      "cvss_score": 4.3,
+      "cvss_vector": "CVSS:3.0/AV:N/AC:L/PR:L/UI:N/S:U/C:L/I:N/A:N",
+      "evidence_sources": [
+        "ExploitDB"
+      ],
+      "np": true,
+      "di": true,
+      "di_cwe_basis": [
+        22
+      ],
+      "inferred_cwes": [
+        22
+      ],
+      "inferred_kinds": [
+        "path-traversal"
+      ],
+      "dq_rescue": false,
+      "dq_rationale": "",
+      "hacker_default_config": true,
+      "hacker_network_edge": true,
+      "hacker_primitive_direct": true,
+      "hacker_auth_missing": false,
+      "hacker_primitive_kind": "path-traversal",
+      "hacker_tier": "A",
+      "summary": "Cherry Music directory traversal vulnerability",
+      "notes": ""
+    },
+    {
+      "cve": "CVE-2016-0784",
+      "package": "org.apache.openmeetings:openmeetings-install",
+      "all_packages": [
+        "org.apache.openmeetings:openmeetings-install"
+      ],
+      "ecosystem": "Maven",
+      "cvss_score": 6.5,
+      "cvss_vector": "CVSS:3.0/AV:N/AC:L/PR:L/UI:N/S:U/C:N/I:H/A:N",
+      "evidence_sources": [
+        "ExploitDB"
+      ],
+      "np": true,
+      "di": true,
+      "di_cwe_basis": [
+        22
+      ],
+      "inferred_cwes": [
+        22
+      ],
+      "inferred_kinds": [
+        "path-traversal"
+      ],
+      "dq_rescue": false,
+      "dq_rationale": "",
+      "hacker_default_config": true,
+      "hacker_network_edge": true,
+      "hacker_primitive_direct": true,
+      "hacker_auth_missing": false,
+      "hacker_primitive_kind": "path-traversal",
+      "hacker_tier": "A",
+      "summary": "Apache OpenMeetings Directory Traversal vulnerability",
+      "notes": ""
+    },
+    {
+      "cve": "CVE-2016-3670",
+      "package": "com.liferay:com.liferay.portal.search.web",
+      "all_packages": [
+        "com.liferay:com.liferay.portal.search.web"
+      ],
+      "ecosystem": "Maven",
+      "cvss_score": 6.1,
+      "cvss_vector": "CVSS:3.0/AV:N/AC:L/PR:N/UI:R/S:C/C:L/I:L/A:N",
+      "evidence_sources": [
+        "ExploitDB"
+      ],
+      "np": true,
+      "di": true,
+      "di_cwe_basis": [
+        79
+      ],
+      "inferred_cwes": [
+        79
+      ],
+      "inferred_kinds": [
+        "xss"
+      ],
+      "dq_rescue": false,
+      "dq_rationale": "",
+      "hacker_default_config": true,
+      "hacker_network_edge": true,
+      "hacker_primitive_direct": false,
+      "hacker_auth_missing": true,
+      "hacker_primitive_kind": "xss",
+      "hacker_tier": "B",
+      "summary": "Liferay Portal Vulnerable to XSS in Profile Search Functionality",
+      "notes": ""
+    },
+    {
+      "cve": "CVE-2016-4314",
+      "package": "org.wso2.carbon.commons:org.wso2.carbon.logging.view.ui",
+      "all_packages": [
+        "org.wso2.carbon.commons:org.wso2.carbon.logging.view.ui"
+      ],
+      "ecosystem": "Maven",
+      "cvss_score": 4.9,
+      "cvss_vector": "CVSS:3.0/AV:N/AC:L/PR:H/UI:N/S:U/C:H/I:N/A:N",
+      "evidence_sources": [
+        "ExploitDB"
+      ],
+      "np": true,
+      "di": true,
+      "di_cwe_basis": [
+        22
+      ],
+      "inferred_cwes": [
+        22
+      ],
+      "inferred_kinds": [
+        "path-traversal"
+      ],
+      "dq_rescue": false,
+      "dq_rationale": "",
+      "hacker_default_config": true,
+      "hacker_network_edge": true,
+      "hacker_primitive_direct": true,
+      "hacker_auth_missing": false,
+      "hacker_primitive_kind": "path-traversal",
+      "hacker_tier": "A",
+      "summary": "WSO2 Carbon directory traversal vulnerability",
+      "notes": ""
+    },
+    {
+      "cve": "CVE-2016-4316",
+      "package": "org.wso2.carbon.commons:org.wso2.carbon.messageflows.ui",
+      "all_packages": [
+        "org.wso2.carbon.commons:org.wso2.carbon.messageflows.ui",
+        "org.wso2.carbon.commons:org.wso2.carbon.ndatasource.ui",
+        "org.wso2.carbon.identity.framework:org.wso2.carbon.identity.mgt.ui"
+      ],
+      "ecosystem": "Maven",
+      "cvss_score": 6.1,
+      "cvss_vector": "CVSS:3.0/AV:N/AC:L/PR:N/UI:R/S:C/C:L/I:L/A:N",
+      "evidence_sources": [
+        "ExploitDB"
+      ],
+      "np": true,
+      "di": true,
+      "di_cwe_basis": [
+        79
+      ],
+      "inferred_cwes": [
+        79
+      ],
+      "inferred_kinds": [
+        "xss"
+      ],
+      "dq_rescue": false,
+      "dq_rationale": "",
+      "hacker_default_config": true,
+      "hacker_network_edge": true,
+      "hacker_primitive_direct": false,
+      "hacker_auth_missing": true,
+      "hacker_primitive_kind": "xss",
+      "hacker_tier": "B",
+      "summary": "WSO2 Carbon vulnerable to Cross-site Scripting",
+      "notes": ""
+    },
+    {
+      "cve": "CVE-2016-4807",
+      "package": "web2py",
+      "all_packages": [
+        "web2py"
+      ],
+      "ecosystem": "PyPI",
+      "cvss_score": 4.8,
+      "cvss_vector": "CVSS:3.0/AV:N/AC:L/PR:H/UI:R/S:C/C:L/I:L/A:N",
+      "evidence_sources": [
+        "ExploitDB"
+      ],
+      "np": true,
+      "di": true,
+      "di_cwe_basis": [
+        79
+      ],
+      "inferred_cwes": [
+        79
+      ],
+      "inferred_kinds": [
+        "xss"
+      ],
+      "dq_rescue": false,
+      "dq_rationale": "",
+      "hacker_default_config": true,
+      "hacker_network_edge": true,
+      "hacker_primitive_direct": false,
+      "hacker_auth_missing": false,
+      "hacker_primitive_kind": "xss",
+      "hacker_tier": "B",
+      "summary": "Web2py Reflected XSS vulnerability",
+      "notes": ""
+    },
+    {
+      "cve": "CVE-2016-4808",
+      "package": "web2py",
+      "all_packages": [
+        "web2py"
+      ],
+      "ecosystem": "PyPI",
+      "cvss_score": 4.5,
+      "cvss_vector": "CVSS:3.1/AV:N/AC:L/PR:H/UI:R/S:U/C:N/I:N/A:H",
+      "evidence_sources": [
+        "ExploitDB"
+      ],
+      "np": true,
+      "di": false,
+      "di_cwe_basis": [],
+      "inferred_cwes": [
+        352
+      ],
+      "inferred_kinds": [
+        "csrf"
+      ],
+      "dq_rescue": false,
+      "dq_rationale": "",
+      "hacker_default_config": true,
+      "hacker_network_edge": true,
+      "hacker_primitive_direct": false,
+      "hacker_auth_missing": false,
+      "hacker_primitive_kind": "csrf",
+      "hacker_tier": "B",
+      "summary": "Web2py Cross-Site Request Forgery vulnerability",
+      "notes": ""
+    },
+    {
+      "cve": "CVE-2016-6186",
+      "package": "django",
+      "all_packages": [
+        "django"
+      ],
+      "ecosystem": "PyPI",
+      "cvss_score": 6.1,
+      "cvss_vector": "CVSS:3.0/AV:N/AC:L/PR:N/UI:R/S:C/C:L/I:L/A:N",
+      "evidence_sources": [
+        "ExploitDB"
+      ],
+      "np": true,
+      "di": true,
+      "di_cwe_basis": [
+        79
+      ],
+      "inferred_cwes": [
+        79
+      ],
+      "inferred_kinds": [
+        "xss"
+      ],
+      "dq_rescue": false,
+      "dq_rationale": "",
+      "hacker_default_config": true,
+      "hacker_network_edge": true,
+      "hacker_primitive_direct": false,
+      "hacker_auth_missing": false,
+      "hacker_primitive_kind": "xss",
+      "hacker_tier": "B",
+      "summary": "Django Cross-site scripting Vulnerability",
+      "notes": ""
+    },
+    {
+      "cve": "CVE-2017-13098",
+      "package": "org.bouncycastle:bcprov-jdk15on",
+      "all_packages": [
+        "org.bouncycastle:bcprov-jdk15on"
+      ],
+      "ecosystem": "Maven",
+      "cvss_score": 5.9,
+      "cvss_vector": "CVSS:3.0/AV:N/AC:H/PR:N/UI:N/S:U/C:H/I:N/A:N",
+      "evidence_sources": [
+        "Metasploit"
+      ],
+      "np": true,
+      "di": false,
+      "di_cwe_basis": [],
+      "inferred_cwes": [
+        200,
+        295
+      ],
+      "inferred_kinds": [
+        "info-disc"
+      ],
+      "dq_rescue": false,
+      "dq_rationale": "",
+      "hacker_default_config": false,
+      "hacker_network_edge": true,
+      "hacker_primitive_direct": false,
+      "hacker_auth_missing": true,
+      "hacker_primitive_kind": "info-disc",
+      "hacker_tier": "D",
+      "summary": "Observable Discrepancy in BouncyCastle",
+      "notes": ""
+    },
+    {
+      "cve": "CVE-2017-15284",
+      "package": "october/rain",
+      "all_packages": [
+        "october/rain"
+      ],
+      "ecosystem": "Packagist",
+      "cvss_score": 5.4,
+      "cvss_vector": "CVSS:3.0/AV:N/AC:L/PR:L/UI:R/S:C/C:L/I:L/A:N",
+      "evidence_sources": [
+        "ExploitDB"
+      ],
+      "np": true,
+      "di": true,
+      "di_cwe_basis": [
+        79
+      ],
+      "inferred_cwes": [
+        79
+      ],
+      "inferred_kinds": [
+        "xss"
+      ],
+      "dq_rescue": false,
+      "dq_rationale": "",
+      "hacker_default_config": true,
+      "hacker_network_edge": true,
+      "hacker_primitive_direct": false,
+      "hacker_auth_missing": false,
+      "hacker_primitive_kind": "xss",
+      "hacker_tier": "B",
+      "summary": "OctoberCMS Cross-Site Scripting",
+      "notes": ""
+    },
+    {
+      "cve": "CVE-2017-15374",
+      "package": "shopware/shopware",
+      "all_packages": [
+        "shopware/shopware"
+      ],
+      "ecosystem": "Packagist",
+      "cvss_score": 6.1,
+      "cvss_vector": "CVSS:3.0/AV:N/AC:L/PR:N/UI:R/S:C/C:L/I:L/A:N",
+      "evidence_sources": [
+        "ExploitDB"
+      ],
+      "np": true,
+      "di": true,
+      "di_cwe_basis": [
+        79
+      ],
+      "inferred_cwes": [
+        79
+      ],
+      "inferred_kinds": [
+        "xss"
+      ],
+      "dq_rescue": false,
+      "dq_rationale": "",
+      "hacker_default_config": true,
+      "hacker_network_edge": true,
+      "hacker_primitive_direct": false,
+      "hacker_auth_missing": true,
+      "hacker_primitive_kind": "xss",
+      "hacker_tier": "B",
+      "summary": "Shopware XSS Vulnerability",
+      "notes": ""
+    },
+    {
+      "cve": "CVE-2017-15878",
+      "package": "keystone",
+      "all_packages": [
+        "keystone"
+      ],
+      "ecosystem": "npm",
+      "cvss_score": 6.1,
+      "cvss_vector": "CVSS:3.0/AV:N/AC:L/PR:N/UI:R/S:C/C:L/I:L/A:N",
+      "evidence_sources": [
+        "ExploitDB"
+      ],
+      "np": true,
+      "di": true,
+      "di_cwe_basis": [
+        79
+      ],
+      "inferred_cwes": [
+        79
+      ],
+      "inferred_kinds": [
+        "xss"
+      ],
+      "dq_rescue": false,
+      "dq_rationale": "",
+      "hacker_default_config": true,
+      "hacker_network_edge": true,
+      "hacker_primitive_direct": false,
+      "hacker_auth_missing": true,
+      "hacker_primitive_kind": "xss",
+      "hacker_tier": "B",
+      "summary": "Cross-Site Scripting in keystone",
+      "notes": ""
+    },
+    {
+      "cve": "CVE-2017-16807",
+      "package": "getkirby/cms",
+      "all_packages": [
+        "getkirby/cms"
+      ],
+      "ecosystem": "Packagist",
+      "cvss_score": 5.4,
+      "cvss_vector": "CVSS:3.0/AV:N/AC:L/PR:L/UI:R/S:C/C:L/I:L/A:N",
+      "evidence_sources": [
+        "ExploitDB"
+      ],
+      "np": true,
+      "di": true,
+      "di_cwe_basis": [
+        79
+      ],
+      "inferred_cwes": [
+        79
+      ],
+      "inferred_kinds": [
+        "xss"
+      ],
+      "dq_rescue": false,
+      "dq_rationale": "",
+      "hacker_default_config": true,
+      "hacker_network_edge": true,
+      "hacker_primitive_direct": false,
+      "hacker_auth_missing": true,
+      "hacker_primitive_kind": "xss",
+      "hacker_tier": "B",
+      "summary": "Kirby XSS Vulnerability",
+      "notes": ""
+    },
+    {
+      "cve": "CVE-2017-18357",
+      "package": "shopware/shopware",
+      "all_packages": [
+        "shopware/shopware"
+      ],
+      "ecosystem": "Packagist",
+      "cvss_score": 6.5,
+      "cvss_vector": "CVSS:3.0/AV:N/AC:L/PR:L/UI:N/S:U/C:H/I:N/A:N",
+      "evidence_sources": [
+        "ExploitDB",
+        "Metasploit"
+      ],
+      "np": true,
+      "di": true,
+      "di_cwe_basis": [
+        502,
+        611
+      ],
+      "inferred_cwes": [
+        502,
+        611
+      ],
+      "inferred_kinds": [
+        "xxe",
+        "deser"
+      ],
+      "dq_rescue": false,
+      "dq_rationale": "",
+      "hacker_default_config": true,
+      "hacker_network_edge": true,
+      "hacker_primitive_direct": true,
+      "hacker_auth_missing": false,
+      "hacker_primitive_kind": "xxe,deser",
+      "hacker_tier": "A",
+      "summary": "Shopware XXE Vulnerability",
+      "notes": ""
+    },
+    {
+      "cve": "CVE-2017-5223",
+      "package": "phpmailer/phpmailer",
+      "all_packages": [
+        "phpmailer/phpmailer"
+      ],
+      "ecosystem": "Packagist",
+      "cvss_score": 5.5,
+      "cvss_vector": "CVSS:3.0/AV:L/AC:L/PR:L/UI:N/S:U/C:H/I:N/A:N",
+      "evidence_sources": [
+        "ExploitDB"
+      ],
+      "np": true,
+      "di": true,
+      "di_cwe_basis": [
+        22
+      ],
+      "inferred_cwes": [
+        22
+      ],
+      "inferred_kinds": [
+        "path-traversal"
+      ],
+      "dq_rescue": false,
+      "dq_rationale": "",
+      "hacker_default_config": true,
+      "hacker_network_edge": true,
+      "hacker_primitive_direct": false,
+      "hacker_auth_missing": true,
+      "hacker_primitive_kind": "path-traversal",
+      "hacker_tier": "A",
+      "summary": "Local file disclosure in PHPMailer",
+      "notes": ""
+    },
+    {
+      "cve": "CVE-2017-7620",
+      "package": "mantisbt/mantisbt",
+      "all_packages": [
+        "mantisbt/mantisbt"
+      ],
+      "ecosystem": "Packagist",
+      "cvss_score": 6.5,
+      "cvss_vector": "CVSS:3.0/AV:N/AC:L/PR:N/UI:R/S:U/C:N/I:H/A:N",
+      "evidence_sources": [
+        "ExploitDB"
+      ],
+      "np": true,
+      "di": false,
+      "di_cwe_basis": [],
+      "inferred_cwes": [
+        352,
+        601
+      ],
+      "inferred_kinds": [
+        "csrf",
+        "open-redirect"
+      ],
+      "dq_rescue": true,
+      "dq_rationale": "CSRF that yields privileged operation reaches auth-decision boundary",
+      "hacker_default_config": true,
+      "hacker_network_edge": true,
+      "hacker_primitive_direct": false,
+      "hacker_auth_missing": true,
+      "hacker_primitive_kind": "csrf,open-redirect",
+      "hacker_tier": "B",
+      "summary": "MantisBT vulnerable to CSRF and Open Redirect attacks",
+      "notes": ""
+    },
+    {
+      "cve": "CVE-2017-7725",
+      "package": "concrete5/concrete5",
+      "all_packages": [
+        "concrete5/concrete5"
+      ],
+      "ecosystem": "Packagist",
+      "cvss_score": 6.1,
+      "cvss_vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:C/C:L/I:L/A:N",
+      "evidence_sources": [
+        "ExploitDB"
+      ],
+      "np": true,
+      "di": true,
+      "di_cwe_basis": [
+        79
+      ],
+      "inferred_cwes": [
+        79
+      ],
+      "inferred_kinds": [
+        "xss"
+      ],
+      "dq_rescue": false,
+      "dq_rationale": "",
+      "hacker_default_config": true,
+      "hacker_network_edge": true,
+      "hacker_primitive_direct": false,
+      "hacker_auth_missing": true,
+      "hacker_primitive_kind": "xss",
+      "hacker_tier": "B",
+      "summary": "Concrete CMS vulnerable to cross-site scripting (XSS)",
+      "notes": ""
+    },
+    {
+      "cve": "CVE-2017-8382",
+      "package": "admidio/admidio",
+      "all_packages": [
+        "admidio/admidio"
+      ],
+      "ecosystem": "Packagist",
+      "cvss_score": 4.5,
+      "cvss_vector": "CVSS:3.0/AV:N/AC:L/PR:H/UI:R/S:U/C:N/I:N/A:H",
+      "evidence_sources": [
+        "ExploitDB"
+      ],
+      "np": true,
+      "di": false,
+      "di_cwe_basis": [],
+      "inferred_cwes": [
+        352
+      ],
+      "inferred_kinds": [
+        "csrf"
+      ],
+      "dq_rescue": true,
+      "dq_rationale": "CSRF that yields privileged operation reaches auth-decision boundary",
+      "hacker_default_config": true,
+      "hacker_network_edge": true,
+      "hacker_primitive_direct": false,
+      "hacker_auth_missing": true,
+      "hacker_primitive_kind": "csrf",
+      "hacker_tier": "B",
+      "summary": "admidio CSRF Vulnerability",
+      "notes": ""
+    },
+    {
+      "cve": "CVE-2017-9516",
+      "package": "craftcms/cms",
+      "all_packages": [
+        "craftcms/cms"
+      ],
+      "ecosystem": "Packagist",
+      "cvss_score": 5.4,
+      "cvss_vector": "CVSS:3.0/AV:N/AC:L/PR:L/UI:R/S:C/C:L/I:L/A:N",
+      "evidence_sources": [
+        "ExploitDB"
+      ],
+      "np": true,
+      "di": true,
+      "di_cwe_basis": [
+        79
+      ],
+      "inferred_cwes": [
+        79
+      ],
+      "inferred_kinds": [
+        "xss"
+      ],
+      "dq_rescue": false,
+      "dq_rationale": "",
+      "hacker_default_config": true,
+      "hacker_network_edge": true,
+      "hacker_primitive_direct": false,
+      "hacker_auth_missing": true,
+      "hacker_primitive_kind": "xss",
+      "hacker_tier": "B",
+      "summary": "Craft CMS XSS Vulnerability",
+      "notes": ""
+    },
+    {
+      "cve": "CVE-2018-10366",
+      "package": "rainlab/user-plugin",
+      "all_packages": [
+        "rainlab/user-plugin"
+      ],
+      "ecosystem": "Packagist",
+      "cvss_score": 6.1,
+      "cvss_vector": "CVSS:3.0/AV:N/AC:L/PR:N/UI:R/S:C/C:L/I:L/A:N",
+      "evidence_sources": [
+        "ExploitDB"
+      ],
+      "np": true,
+      "di": true,
+      "di_cwe_basis": [
+        79
+      ],
+      "inferred_cwes": [
+        79
+      ],
+      "inferred_kinds": [
+        "xss"
+      ],
+      "dq_rescue": false,
+      "dq_rationale": "",
+      "hacker_default_config": true,
+      "hacker_network_edge": true,
+      "hacker_primitive_direct": false,
+      "hacker_auth_missing": true,
+      "hacker_primitive_kind": "xss",
+      "hacker_tier": "B",
+      "summary": "User Plugin for October CSS Allows XSS",
+      "notes": ""
+    },
+    {
+      "cve": "CVE-2018-1042",
+      "package": "moodle/moodle",
+      "all_packages": [
+        "moodle/moodle"
+      ],
+      "ecosystem": "Packagist",
+      "cvss_score": 6.5,
+      "cvss_vector": "CVSS:3.0/AV:N/AC:L/PR:L/UI:N/S:U/C:H/I:N/A:N",
+      "evidence_sources": [
+        "ExploitDB"
+      ],
+      "np": true,
+      "di": true,
+      "di_cwe_basis": [
+        918
+      ],
+      "inferred_cwes": [
+        918
+      ],
+      "inferred_kinds": [
+        "ssrf"
+      ],
+      "dq_rescue": false,
+      "dq_rationale": "",
+      "hacker_default_config": true,
+      "hacker_network_edge": true,
+      "hacker_primitive_direct": false,
+      "hacker_auth_missing": true,
+      "hacker_primitive_kind": "ssrf",
+      "hacker_tier": "A",
+      "summary": "Moodle SSRF Vulnerability",
+      "notes": ""
+    },
+    {
+      "cve": "CVE-2018-11564",
+      "package": "pagekit/pagekit",
+      "all_packages": [
+        "pagekit/pagekit"
+      ],
+      "ecosystem": "Packagist",
+      "cvss_score": 4.8,
+      "cvss_vector": "CVSS:3.0/AV:N/AC:L/PR:H/UI:R/S:C/C:L/I:L/A:N",
+      "evidence_sources": [
+        "ExploitDB"
+      ],
+      "np": true,
+      "di": true,
+      "di_cwe_basis": [
+        79
+      ],
+      "inferred_cwes": [
+        79
+      ],
+      "inferred_kinds": [
+        "xss"
+      ],
+      "dq_rescue": false,
+      "dq_rationale": "",
+      "hacker_default_config": true,
+      "hacker_network_edge": true,
+      "hacker_primitive_direct": false,
+      "hacker_auth_missing": false,
+      "hacker_primitive_kind": "xss",
+      "hacker_tier": "B",
+      "summary": "Pagekit Stored Cross-site Scripting",
+      "notes": ""
+    },
+    {
+      "cve": "CVE-2018-11770",
+      "package": "org.apache.spark:spark-core_2.10",
+      "all_packages": [
+        "org.apache.spark:spark-core_2.10",
+        "org.apache.spark:spark-core_2.11"
+      ],
+      "ecosystem": "Maven",
+      "cvss_score": 4.2,
+      "cvss_vector": "CVSS:3.1/AV:N/AC:H/PR:L/UI:N/S:U/C:L/I:L/A:N",
+      "evidence_sources": [
+        "Metasploit"
+      ],
+      "np": true,
+      "di": true,
+      "di_cwe_basis": [
+        287
+      ],
+      "inferred_cwes": [
+        287
+      ],
+      "inferred_kinds": [
+        "authbypass"
+      ],
+      "dq_rescue": false,
+      "dq_rationale": "",
+      "hacker_default_config": false,
+      "hacker_network_edge": true,
+      "hacker_primitive_direct": false,
+      "hacker_auth_missing": true,
+      "hacker_primitive_kind": "authbypass",
+      "hacker_tier": "B",
+      "summary": "org.apache.spark:spark-core_2.10 and org.apache.spark:spark-core_2.11 Improper Authentication vulnerability",
+      "notes": ""
+    },
+    {
+      "cve": "CVE-2018-11784",
+      "package": "org.apache.tomcat.embed:tomcat-embed-core",
+      "all_packages": [
+        "org.apache.tomcat.embed:tomcat-embed-core"
+      ],
+      "ecosystem": "Maven",
+      "cvss_score": 4.3,
+      "cvss_vector": "CVSS:3.0/AV:N/AC:L/PR:N/UI:R/S:U/C:N/I:L/A:N",
+      "evidence_sources": [
+        "ExploitDB"
+      ],
+      "np": true,
+      "di": false,
+      "di_cwe_basis": [],
+      "inferred_cwes": [
+        601
+      ],
+      "inferred_kinds": [
+        "open-redirect"
+      ],
+      "dq_rescue": false,
+      "dq_rationale": "",
+      "hacker_default_config": true,
+      "hacker_network_edge": true,
+      "hacker_primitive_direct": false,
+      "hacker_auth_missing": true,
+      "hacker_primitive_kind": "open-redirect",
+      "hacker_tier": "D",
+      "summary": "Apache Tomcat Open Redirect vulnerability",
+      "notes": ""
+    },
+    {
+      "cve": "CVE-2018-1322",
+      "package": "org.apache.syncope:syncope-core",
+      "all_packages": [
+        "org.apache.syncope:syncope-core"
+      ],
+      "ecosystem": "Maven",
+      "cvss_score": 4.9,
+      "cvss_vector": "CVSS:3.0/AV:N/AC:L/PR:H/UI:N/S:U/C:H/I:N/A:N",
+      "evidence_sources": [
+        "ExploitDB"
+      ],
+      "np": true,
+      "di": false,
+      "di_cwe_basis": [],
+      "inferred_cwes": [
+        200
+      ],
+      "inferred_kinds": [
+        "info-disc"
+      ],
+      "dq_rescue": false,
+      "dq_rationale": "",
+      "hacker_default_config": true,
+      "hacker_network_edge": true,
+      "hacker_primitive_direct": false,
+      "hacker_auth_missing": false,
+      "hacker_primitive_kind": "info-disc",
+      "hacker_tier": "D",
+      "summary": "Exposure of Sensitive Information to an Unauthorized Actor in Apache syncope-cope",
+      "notes": ""
+    },
+    {
+      "cve": "CVE-2018-14058",
+      "package": "pimcore/pimcore",
+      "all_packages": [
+        "pimcore/pimcore"
+      ],
+      "ecosystem": "Packagist",
+      "cvss_score": 6.5,
+      "cvss_vector": "CVSS:3.0/AV:N/AC:L/PR:L/UI:N/S:U/C:H/I:N/A:N",
+      "evidence_sources": [
+        "ExploitDB",
+        "Metasploit"
+      ],
+      "np": true,
+      "di": true,
+      "di_cwe_basis": [
+        89
+      ],
+      "inferred_cwes": [
+        89
+      ],
+      "inferred_kinds": [
+        "sqli"
+      ],
+      "dq_rescue": false,
+      "dq_rationale": "",
+      "hacker_default_config": true,
+      "hacker_network_edge": true,
+      "hacker_primitive_direct": true,
+      "hacker_auth_missing": false,
+      "hacker_primitive_kind": "sqli",
+      "hacker_tier": "A",
+      "summary": "Pimcore SQLi Vulnerability",
+      "notes": ""
+    },
+    {
+      "cve": "CVE-2018-14059",
+      "package": "pimcore/pimcore",
+      "all_packages": [
+        "pimcore/pimcore"
+      ],
+      "ecosystem": "Packagist",
+      "cvss_score": 5.4,
+      "cvss_vector": "CVSS:3.0/AV:N/AC:L/PR:L/UI:R/S:C/C:L/I:L/A:N",
+      "evidence_sources": [
+        "ExploitDB"
+      ],
+      "np": true,
+      "di": true,
+      "di_cwe_basis": [
+        79
+      ],
+      "inferred_cwes": [
+        79
+      ],
+      "inferred_kinds": [
+        "xss"
+      ],
+      "dq_rescue": false,
+      "dq_rationale": "",
+      "hacker_default_config": true,
+      "hacker_network_edge": true,
+      "hacker_primitive_direct": false,
+      "hacker_auth_missing": true,
+      "hacker_primitive_kind": "xss",
+      "hacker_tier": "B",
+      "summary": "Pimcore XSS Vulnerability",
+      "notes": ""
+    },
+    {
+      "cve": "CVE-2018-14840",
+      "package": "intelliants/subrion",
+      "all_packages": [
+        "intelliants/subrion"
+      ],
+      "ecosystem": "Packagist",
+      "cvss_score": 6.1,
+      "cvss_vector": "CVSS:3.0/AV:N/AC:L/PR:N/UI:R/S:C/C:L/I:L/A:N",
+      "evidence_sources": [
+        "ExploitDB"
+      ],
+      "np": true,
+      "di": true,
+      "di_cwe_basis": [
+        79
+      ],
+      "inferred_cwes": [
+        79
+      ],
+      "inferred_kinds": [
+        "xss"
+      ],
+      "dq_rescue": false,
+      "dq_rationale": "",
+      "hacker_default_config": true,
+      "hacker_network_edge": true,
+      "hacker_primitive_direct": false,
+      "hacker_auth_missing": true,
+      "hacker_primitive_kind": "xss",
+      "hacker_tier": "B",
+      "summary": "Subrion CMS Cross-site Scripting",
+      "notes": ""
+    },
+    {
+      "cve": "CVE-2018-18548",
+      "package": "ajenti",
+      "all_packages": [
+        "ajenti"
+      ],
+      "ecosystem": "PyPI",
+      "cvss_score": 6.1,
+      "cvss_vector": "CVSS:3.0/AV:N/AC:L/PR:N/UI:R/S:C/C:L/I:L/A:N",
+      "evidence_sources": [
+        "ExploitDB"
+      ],
+      "np": true,
+      "di": true,
+      "di_cwe_basis": [
+        79
+      ],
+      "inferred_cwes": [
+        79
+      ],
+      "inferred_kinds": [
+        "xss"
+      ],
+      "dq_rescue": false,
+      "dq_rationale": "",
+      "hacker_default_config": true,
+      "hacker_network_edge": true,
+      "hacker_primitive_direct": false,
+      "hacker_auth_missing": true,
+      "hacker_primitive_kind": "xss",
+      "hacker_tier": "B",
+      "summary": "Ajenti Cross-site Scripting Via Filename",
+      "notes": ""
+    },
+    {
+      "cve": "CVE-2018-19799",
+      "package": "dolibarr/dolibarr",
+      "all_packages": [
+        "dolibarr/dolibarr"
+      ],
+      "ecosystem": "Packagist",
+      "cvss_score": 6.1,
+      "cvss_vector": "CVSS:3.0/AV:N/AC:L/PR:N/UI:R/S:C/C:L/I:L/A:N",
+      "evidence_sources": [
+        "ExploitDB"
+      ],
+      "np": true,
+      "di": true,
+      "di_cwe_basis": [
+        79
+      ],
+      "inferred_cwes": [
+        79
+      ],
+      "inferred_kinds": [
+        "xss"
+      ],
+      "dq_rescue": false,
+      "dq_rationale": "",
+      "hacker_default_config": true,
+      "hacker_network_edge": true,
+      "hacker_primitive_direct": false,
+      "hacker_auth_missing": true,
+      "hacker_primitive_kind": "xss",
+      "hacker_tier": "B",
+      "summary": "Dolibarr ERP and CRM contain XSS Vulnerability",
+      "notes": ""
+    },
+    {
+      "cve": "CVE-2018-19933",
+      "package": "bolt/bolt",
+      "all_packages": [
+        "bolt/bolt"
+      ],
+      "ecosystem": "Packagist",
+      "cvss_score": 6.1,
+      "cvss_vector": "CVSS:3.0/AV:N/AC:L/PR:N/UI:R/S:C/C:L/I:L/A:N",
+      "evidence_sources": [
+        "ExploitDB"
+      ],
+      "np": true,
+      "di": true,
+      "di_cwe_basis": [
+        79
+      ],
+      "inferred_cwes": [
+        79
+      ],
+      "inferred_kinds": [
+        "xss"
+      ],
+      "dq_rescue": false,
+      "dq_rationale": "",
+      "hacker_default_config": true,
+      "hacker_network_edge": true,
+      "hacker_primitive_direct": false,
+      "hacker_auth_missing": true,
+      "hacker_primitive_kind": "xss",
+      "hacker_tier": "B",
+      "summary": "Bolt Cross-site Scripting (XSS) via text input click preview button",
+      "notes": ""
+    },
+    {
+      "cve": "CVE-2018-20418",
+      "package": "craftcms/cms",
+      "all_packages": [
+        "craftcms/cms"
+      ],
+      "ecosystem": "Packagist",
+      "cvss_score": 4.8,
+      "cvss_vector": "CVSS:3.0/AV:N/AC:L/PR:H/UI:R/S:C/C:L/I:L/A:N",
+      "evidence_sources": [
+        "ExploitDB"
+      ],
+      "np": true,
+      "di": true,
+      "di_cwe_basis": [
+        79
+      ],
+      "inferred_cwes": [
+        79
+      ],
+      "inferred_kinds": [
+        "xss"
+      ],
+      "dq_rescue": false,
+      "dq_rationale": "",
+      "hacker_default_config": true,
+      "hacker_network_edge": true,
+      "hacker_primitive_direct": false,
+      "hacker_auth_missing": true,
+      "hacker_primitive_kind": "xss",
+      "hacker_tier": "B",
+      "summary": "Craft CMS Cross-site Scripting (XSS) Vulnerability",
+      "notes": ""
+    },
+    {
+      "cve": "CVE-2018-25080",
+      "package": "mobiledetect/mobiledetectlib",
+      "all_packages": [
+        "mobiledetect/mobiledetectlib"
+      ],
+      "ecosystem": "Packagist",
+      "cvss_score": 6.1,
+      "cvss_vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:C/C:L/I:L/A:N",
+      "evidence_sources": [
+        "ExploitDB"
+      ],
+      "np": true,
+      "di": true,
+      "di_cwe_basis": [
+        79
+      ],
+      "inferred_cwes": [
+        79
+      ],
+      "inferred_kinds": [
+        "xss"
+      ],
+      "dq_rescue": false,
+      "dq_rationale": "",
+      "hacker_default_config": true,
+      "hacker_network_edge": true,
+      "hacker_primitive_direct": false,
+      "hacker_auth_missing": true,
+      "hacker_primitive_kind": "xss",
+      "hacker_tier": "B",
+      "summary": "Cross-site Scripting in MobileDetect",
+      "notes": ""
+    },
+    {
+      "cve": "CVE-2018-7198",
+      "package": "rainlab/blog-plugin",
+      "all_packages": [
+        "rainlab/blog-plugin"
+      ],
+      "ecosystem": "Packagist",
+      "cvss_score": 6.1,
+      "cvss_vector": "CVSS:3.0/AV:N/AC:L/PR:N/UI:R/S:C/C:L/I:L/A:N",
+      "evidence_sources": [
+        "ExploitDB"
+      ],
+      "np": true,
+      "di": true,
+      "di_cwe_basis": [
+        79
+      ],
+      "inferred_cwes": [
+        79
+      ],
+      "inferred_kinds": [
+        "xss"
+      ],
+      "dq_rescue": false,
+      "dq_rationale": "",
+      "hacker_default_config": true,
+      "hacker_network_edge": true,
+      "hacker_primitive_direct": false,
+      "hacker_auth_missing": true,
+      "hacker_primitive_kind": "xss",
+      "hacker_tier": "B",
+      "summary": "October CMS - RainLab Blog Plugin XSS",
+      "notes": ""
+    },
+    {
+      "cve": "CVE-2019-0186",
+      "package": "org.apache.portals.pluto:chatRoomDemo",
+      "all_packages": [
+        "org.apache.portals.pluto:chatRoomDemo"
+      ],
+      "ecosystem": "Maven",
+      "cvss_score": 6.1,
+      "cvss_vector": "CVSS:3.0/AV:N/AC:L/PR:N/UI:R/S:C/C:L/I:L/A:N",
+      "evidence_sources": [
+        "ExploitDB"
+      ],
+      "np": true,
+      "di": true,
+      "di_cwe_basis": [
+        79
+      ],
+      "inferred_cwes": [
+        79
+      ],
+      "inferred_kinds": [
+        "xss"
+      ],
+      "dq_rescue": false,
+      "dq_rationale": "",
+      "hacker_default_config": true,
+      "hacker_network_edge": true,
+      "hacker_primitive_direct": false,
+      "hacker_auth_missing": true,
+      "hacker_primitive_kind": "xss",
+      "hacker_tier": "B",
+      "summary": "Cross-site Scripting in Apache Pluto Chatroom demo",
+      "notes": ""
+    },
+    {
+      "cve": "CVE-2019-0221",
+      "package": "org.apache.tomcat.embed:tomcat-embed-core",
+      "all_packages": [
+        "org.apache.tomcat.embed:tomcat-embed-core"
+      ],
+      "ecosystem": "Maven",
+      "cvss_score": 6.1,
+      "cvss_vector": "CVSS:3.0/AV:N/AC:L/PR:N/UI:R/S:C/C:L/I:L/A:N",
+      "evidence_sources": [
+        "ExploitDB"
+      ],
+      "np": true,
+      "di": true,
+      "di_cwe_basis": [
+        79
+      ],
+      "inferred_cwes": [
+        79
+      ],
+      "inferred_kinds": [
+        "xss"
+      ],
+      "dq_rescue": false,
+      "dq_rationale": "",
+      "hacker_default_config": false,
+      "hacker_network_edge": true,
+      "hacker_primitive_direct": false,
+      "hacker_auth_missing": true,
+      "hacker_primitive_kind": "xss",
+      "hacker_tier": "B",
+      "summary": "Cross-site scripting in Apache Tomcat",
+      "notes": ""
+    },
+    {
+      "cve": "CVE-2019-10349",
+      "package": "org.jenkins-ci.plugins:depgraph-view",
+      "all_packages": [
+        "org.jenkins-ci.plugins:depgraph-view"
+      ],
+      "ecosystem": "Maven",
+      "cvss_score": 5.4,
+      "cvss_vector": "CVSS:3.1/AV:N/AC:L/PR:L/UI:R/S:C/C:L/I:L/A:N",
+      "evidence_sources": [
+        "ExploitDB"
+      ],
+      "np": true,
+      "di": true,
+      "di_cwe_basis": [
+        79
+      ],
+      "inferred_cwes": [
+        79
+      ],
+      "inferred_kinds": [
+        "xss"
+      ],
+      "dq_rescue": false,
+      "dq_rationale": "",
+      "hacker_default_config": true,
+      "hacker_network_edge": true,
+      "hacker_primitive_direct": false,
+      "hacker_auth_missing": false,
+      "hacker_primitive_kind": "xss",
+      "hacker_tier": "B",
+      "summary": "Jenkins Dependency Graph Viewer Plugin contains Cross-site Scripting",
+      "notes": ""
+    },
+    {
+      "cve": "CVE-2019-10475",
+      "package": "org.jenkins-ci.plugins:build-metrics",
+      "all_packages": [
+        "org.jenkins-ci.plugins:build-metrics"
+      ],
+      "ecosystem": "Maven",
+      "cvss_score": 6.1,
+      "cvss_vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:C/C:L/I:L/A:N",
+      "evidence_sources": [
+        "ExploitDB"
+      ],
+      "np": true,
+      "di": true,
+      "di_cwe_basis": [
+        79
+      ],
+      "inferred_cwes": [
+        79
+      ],
+      "inferred_kinds": [
+        "xss"
+      ],
+      "dq_rescue": false,
+      "dq_rationale": "",
+      "hacker_default_config": true,
+      "hacker_network_edge": true,
+      "hacker_primitive_direct": false,
+      "hacker_auth_missing": true,
+      "hacker_primitive_kind": "xss",
+      "hacker_tier": "B",
+      "summary": "Jenkins build-metrics Plugin reflected cross-site scripting vulnerability",
+      "notes": ""
+    },
+    {
+      "cve": "CVE-2019-11269",
+      "package": "org.springframework.security.oauth:spring-security-oauth",
+      "all_packages": [
+        "org.springframework.security.oauth:spring-security-oauth"
+      ],
+      "ecosystem": "Maven",
+      "cvss_score": 5.4,
+      "cvss_vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:L/I:L/A:N",
+      "evidence_sources": [
+        "ExploitDB"
+      ],
+      "np": true,
+      "di": false,
+      "di_cwe_basis": [],
+      "inferred_cwes": [
+        601
+      ],
+      "inferred_kinds": [
+        "open-redirect"
+      ],
+      "dq_rescue": true,
+      "dq_rationale": "open redirect leaks auth code (auth-flow input)",
+      "hacker_default_config": true,
+      "hacker_network_edge": true,
+      "hacker_primitive_direct": false,
+      "hacker_auth_missing": true,
+      "hacker_primitive_kind": "open-redirect",
+      "hacker_tier": "D",
+      "summary": "Open Redirect in Spring Security OAuth",
+      "notes": ""
+    },
+    {
+      "cve": "CVE-2019-11358",
+      "package": "django",
+      "all_packages": [
+        "django"
+      ],
+      "ecosystem": "PyPI",
+      "cvss_score": 6.1,
+      "cvss_vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:C/C:L/I:L/A:N",
+      "evidence_sources": [
+        "ExploitDB"
+      ],
+      "np": true,
+      "di": true,
+      "di_cwe_basis": [
+        79,
+        1321
+      ],
+      "inferred_cwes": [
+        79,
+        1321
+      ],
+      "inferred_kinds": [
+        "xss",
+        "prototype-pollution"
+      ],
+      "dq_rescue": false,
+      "dq_rationale": "",
+      "hacker_default_config": true,
+      "hacker_network_edge": true,
+      "hacker_primitive_direct": false,
+      "hacker_auth_missing": true,
+      "hacker_primitive_kind": "xss,prototype-pollution",
+      "hacker_tier": "B",
+      "summary": "XSS in jQuery as used in Drupal, Backdrop CMS, and other products",
+      "notes": ""
+    },
+    {
+      "cve": "CVE-2019-12562",
+      "package": "DotNetNuke.Core",
+      "all_packages": [
+        "DotNetNuke.Core"
+      ],
+      "ecosystem": "NuGet",
+      "cvss_score": 6.1,
+      "cvss_vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:C/C:L/I:L/A:N",
+      "evidence_sources": [
+        "ExploitDB"
+      ],
+      "np": true,
+      "di": true,
+      "di_cwe_basis": [
+        79
+      ],
+      "inferred_cwes": [
+        79
+      ],
+      "inferred_kinds": [
+        "xss"
+      ],
+      "dq_rescue": false,
+      "dq_rationale": "",
+      "hacker_default_config": true,
+      "hacker_network_edge": true,
+      "hacker_primitive_direct": false,
+      "hacker_auth_missing": false,
+      "hacker_primitive_kind": "xss",
+      "hacker_tier": "B",
+      "summary": "Stored Cross-Site Scripting vulnerability in admin component of DotNetNuke",
+      "notes": ""
+    },
+    {
+      "cve": "CVE-2019-12616",
+      "package": "phpmyadmin/phpmyadmin",
+      "all_packages": [
+        "phpmyadmin/phpmyadmin"
+      ],
+      "ecosystem": "Packagist",
+      "cvss_score": 6.5,
+      "cvss_vector": "CVSS:3.0/AV:N/AC:L/PR:N/UI:R/S:U/C:N/I:H/A:N",
+      "evidence_sources": [
+        "ExploitDB"
+      ],
+      "np": true,
+      "di": false,
+      "di_cwe_basis": [],
+      "inferred_cwes": [
+        352
+      ],
+      "inferred_kinds": [
+        "csrf"
+      ],
+      "dq_rescue": false,
+      "dq_rationale": "",
+      "hacker_default_config": true,
+      "hacker_network_edge": true,
+      "hacker_primitive_direct": false,
+      "hacker_auth_missing": false,
+      "hacker_primitive_kind": "csrf",
+      "hacker_tier": "B",
+      "summary": "phpMyAdmin CSRF Vulnerability",
+      "notes": ""
+    },
+    {
+      "cve": "CVE-2019-12922",
+      "package": "phpmyadmin/phpmyadmin",
+      "all_packages": [
+        "phpmyadmin/phpmyadmin"
+      ],
+      "ecosystem": "Packagist",
+      "cvss_score": 6.5,
+      "cvss_vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:N/I:H/A:N",
+      "evidence_sources": [
+        "ExploitDB"
+      ],
+      "np": true,
+      "di": false,
+      "di_cwe_basis": [],
+      "inferred_cwes": [
+        352
+      ],
+      "inferred_kinds": [
+        "csrf"
+      ],
+      "dq_rescue": false,
+      "dq_rationale": "",
+      "hacker_default_config": true,
+      "hacker_network_edge": true,
+      "hacker_primitive_direct": false,
+      "hacker_auth_missing": true,
+      "hacker_primitive_kind": "csrf",
+      "hacker_tier": "B",
+      "summary": "phpMyAdmin Cross-Site Request Forgery (CSRF)",
+      "notes": ""
+    },
+    {
+      "cve": "CVE-2019-13068",
+      "package": "github.com/grafana/grafana",
+      "all_packages": [
+        "github.com/grafana/grafana"
+      ],
+      "ecosystem": "Go",
+      "cvss_score": 5.4,
+      "cvss_vector": "CVSS:3.0/AV:N/AC:L/PR:N/UI:R/S:U/C:L/I:L/A:N",
+      "evidence_sources": [
+        "ExploitDB"
+      ],
+      "np": true,
+      "di": true,
+      "di_cwe_basis": [
+        79
+      ],
+      "inferred_cwes": [
+        79
+      ],
+      "inferred_kinds": [
+        "xss"
+      ],
+      "dq_rescue": false,
+      "dq_rationale": "",
+      "hacker_default_config": true,
+      "hacker_network_edge": true,
+      "hacker_primitive_direct": false,
+      "hacker_auth_missing": true,
+      "hacker_primitive_kind": "xss",
+      "hacker_tier": "B",
+      "summary": "Grafana Cross-site Scripting vulnerability",
+      "notes": ""
+    },
+    {
+      "cve": "CVE-2019-13234",
+      "package": "org.opencms:opencms-core",
+      "all_packages": [
+        "org.opencms:opencms-core"
+      ],
+      "ecosystem": "Maven",
+      "cvss_score": 6.1,
+      "cvss_vector": "CVSS:3.0/AV:N/AC:L/PR:N/UI:R/S:C/C:L/I:L/A:N",
+      "evidence_sources": [
+        "ExploitDB"
+      ],
+      "np": true,
+      "di": true,
+      "di_cwe_basis": [
+        79
+      ],
+      "inferred_cwes": [
+        79
+      ],
+      "inferred_kinds": [
+        "xss"
+      ],
+      "dq_rescue": false,
+      "dq_rationale": "",
+      "hacker_default_config": true,
+      "hacker_network_edge": true,
+      "hacker_primitive_direct": false,
+      "hacker_auth_missing": true,
+      "hacker_primitive_kind": "xss",
+      "hacker_tier": "B",
+      "summary": "XSS in search engine",
+      "notes": ""
+    },
+    {
+      "cve": "CVE-2019-13235",
+      "package": "org.opencms:opencms-core",
+      "all_packages": [
+        "org.opencms:opencms-core"
+      ],
+      "ecosystem": "Maven",
+      "cvss_score": 6.1,
+      "cvss_vector": "CVSS:3.0/AV:N/AC:L/PR:N/UI:R/S:C/C:L/I:L/A:N",
+      "evidence_sources": [
+        "ExploitDB"
+      ],
+      "np": true,
+      "di": true,
+      "di_cwe_basis": [
+        79
+      ],
+      "inferred_cwes": [
+        79
+      ],
+      "inferred_kinds": [
+        "xss"
+      ],
+      "dq_rescue": false,
+      "dq_rationale": "",
+      "hacker_default_config": true,
+      "hacker_network_edge": true,
+      "hacker_primitive_direct": false,
+      "hacker_auth_missing": true,
+      "hacker_primitive_kind": "xss",
+      "hacker_tier": "B",
+      "summary": "XSS in login form",
+      "notes": ""
+    },
+    {
+      "cve": "CVE-2019-13236",
+      "package": "org.opencms:opencms-core",
+      "all_packages": [
+        "org.opencms:opencms-core"
+      ],
+      "ecosystem": "Maven",
+      "cvss_score": 6.1,
+      "cvss_vector": "CVSS:3.0/AV:N/AC:L/PR:N/UI:R/S:C/C:L/I:L/A:N",
+      "evidence_sources": [
+        "ExploitDB"
+      ],
+      "np": true,
+      "di": true,
+      "di_cwe_basis": [
+        79
+      ],
+      "inferred_cwes": [
+        79
+      ],
+      "inferred_kinds": [
+        "xss"
+      ],
+      "dq_rescue": false,
+      "dq_rationale": "",
+      "hacker_default_config": true,
+      "hacker_network_edge": true,
+      "hacker_primitive_direct": false,
+      "hacker_auth_missing": false,
+      "hacker_primitive_kind": "xss",
+      "hacker_tier": "B",
+      "summary": "XSS issues in the management interface",
+      "notes": ""
+    },
+    {
+      "cve": "CVE-2019-13237",
+      "package": "org.opencms:opencms-core",
+      "all_packages": [
+        "org.opencms:opencms-core"
+      ],
+      "ecosystem": "Maven",
+      "cvss_score": 4.3,
+      "cvss_vector": "CVSS:3.0/AV:N/AC:L/PR:L/UI:N/S:U/C:L/I:N/A:N",
+      "evidence_sources": [
+        "ExploitDB"
+      ],
+      "np": true,
+      "di": true,
+      "di_cwe_basis": [
+        22,
+        94
+      ],
+      "inferred_cwes": [
+        22,
+        94
+      ],
+      "inferred_kinds": [
+        "path-traversal",
+        "rce"
+      ],
+      "dq_rescue": false,
+      "dq_rationale": "",
+      "hacker_default_config": true,
+      "hacker_network_edge": true,
+      "hacker_primitive_direct": true,
+      "hacker_auth_missing": false,
+      "hacker_primitive_kind": "path-traversal,rce",
+      "hacker_tier": "A",
+      "summary": "Local file inclusion allows unauthorized access to internal resources in Alkacon OpenCms",
+      "notes": ""
+    },
+    {
+      "cve": "CVE-2019-14470",
+      "package": "cosenary/instagram",
+      "all_packages": [
+        "cosenary/instagram"
+      ],
+      "ecosystem": "Packagist",
+      "cvss_score": 6.1,
+      "cvss_vector": "CVSS:3.0/AV:N/AC:L/PR:N/UI:R/S:C/C:L/I:L/A:N",
+      "evidence_sources": [
+        "ExploitDB"
+      ],
+      "np": true,
+      "di": true,
+      "di_cwe_basis": [
+        79
+      ],
+      "inferred_cwes": [
+        79
+      ],
+      "inferred_kinds": [
+        "xss"
+      ],
+      "dq_rescue": false,
+      "dq_rationale": "",
+      "hacker_default_config": true,
+      "hacker_network_edge": true,
+      "hacker_primitive_direct": false,
+      "hacker_auth_missing": true,
+      "hacker_primitive_kind": "xss",
+      "hacker_tier": "B",
+      "summary": "Cosenary Instagram-PHP-API contains reflected XSS vulnerability",
+      "notes": ""
+    },
+    {
+      "cve": "CVE-2019-16172",
+      "package": "limesurvey/limesurvey",
+      "all_packages": [
+        "limesurvey/limesurvey"
+      ],
+      "ecosystem": "Packagist",
+      "cvss_score": 5.4,
+      "cvss_vector": "CVSS:3.1/AV:N/AC:L/PR:L/UI:R/S:C/C:L/I:L/A:N",
+      "evidence_sources": [
+        "ExploitDB"
+      ],
+      "np": true,
+      "di": true,
+      "di_cwe_basis": [
+        79
+      ],
+      "inferred_cwes": [
+        79
+      ],
+      "inferred_kinds": [
+        "xss"
+      ],
+      "dq_rescue": false,
+      "dq_rationale": "",
+      "hacker_default_config": true,
+      "hacker_network_edge": true,
+      "hacker_primitive_direct": false,
+      "hacker_auth_missing": false,
+      "hacker_primitive_kind": "xss",
+      "hacker_tier": "B",
+      "summary": "Cross-site Scripting in LimeSurvey",
+      "notes": ""
+    },
+    {
+      "cve": "CVE-2019-16173",
+      "package": "limesurvey/limesurvey",
+      "all_packages": [
+        "limesurvey/limesurvey"
+      ],
+      "ecosystem": "Packagist",
+      "cvss_score": 5.4,
+      "cvss_vector": "CVSS:3.1/AV:N/AC:L/PR:L/UI:R/S:C/C:L/I:L/A:N",
+      "evidence_sources": [
+        "ExploitDB"
+      ],
+      "np": true,
+      "di": true,
+      "di_cwe_basis": [
+        79
+      ],
+      "inferred_cwes": [
+        79
+      ],
+      "inferred_kinds": [
+        "xss"
+      ],
+      "dq_rescue": false,
+      "dq_rationale": "",
+      "hacker_default_config": true,
+      "hacker_network_edge": true,
+      "hacker_primitive_direct": false,
+      "hacker_auth_missing": false,
+      "hacker_primitive_kind": "xss",
+      "hacker_tier": "B",
+      "summary": "Cross-site Scripting in LimeSurvey",
+      "notes": ""
+    },
+    {
+      "cve": "CVE-2019-16197",
+      "package": "dolibarr/dolibarr",
+      "all_packages": [
+        "dolibarr/dolibarr"
+      ],
+      "ecosystem": "Packagist",
+      "cvss_score": 6.1,
+      "cvss_vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:C/C:L/I:L/A:N",
+      "evidence_sources": [
+        "ExploitDB"
+      ],
+      "np": true,
+      "di": true,
+      "di_cwe_basis": [
+        79
+      ],
+      "inferred_cwes": [
+        79
+      ],
+      "inferred_kinds": [
+        "xss"
+      ],
+      "dq_rescue": false,
+      "dq_rationale": "",
+      "hacker_default_config": true,
+      "hacker_network_edge": true,
+      "hacker_primitive_direct": false,
+      "hacker_auth_missing": true,
+      "hacker_primitive_kind": "xss",
+      "hacker_tier": "B",
+      "summary": "Cross-site scripting in Dolibarr",
+      "notes": ""
+    },
+    {
+      "cve": "CVE-2019-17554",
+      "package": "org.apache.olingo:odata-client-core",
+      "all_packages": [
+        "org.apache.olingo:odata-client-core",
+        "org.apache.olingo:odata-server-core"
+      ],
+      "ecosystem": "Maven",
+      "cvss_score": 5.5,
+      "cvss_vector": "CVSS:3.1/AV:L/AC:L/PR:N/UI:R/S:U/C:H/I:N/A:N",
+      "evidence_sources": [
+        "ExploitDB"
+      ],
+      "np": true,
+      "di": true,
+      "di_cwe_basis": [
+        502,
+        611
+      ],
+      "inferred_cwes": [
+        502,
+        611
+      ],
+      "inferred_kinds": [
+        "xxe",
+        "deser"
+      ],
+      "dq_rescue": false,
+      "dq_rationale": "",
+      "hacker_default_config": true,
+      "hacker_network_edge": true,
+      "hacker_primitive_direct": true,
+      "hacker_auth_missing": true,
+      "hacker_primitive_kind": "xxe,deser",
+      "hacker_tier": "S",
+      "summary": "Improper Restriction of XML External Entity Reference in Apache Olingo",
+      "notes": ""
+    },
+    {
+      "cve": "CVE-2019-3778",
+      "package": "org.springframework.security.oauth:spring-security-oauth",
+      "all_packages": [
+        "org.springframework.security.oauth:spring-security-oauth",
+        "org.springframework.security.oauth:spring-security-oauth2"
+      ],
+      "ecosystem": "Maven",
+      "cvss_score": 6.5,
+      "cvss_vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:L/A:N",
+      "evidence_sources": [
+        "ExploitDB"
+      ],
+      "np": true,
+      "di": false,
+      "di_cwe_basis": [],
+      "inferred_cwes": [
+        601
+      ],
+      "inferred_kinds": [
+        "open-redirect"
+      ],
+      "dq_rescue": true,
+      "dq_rationale": "open redirect leaks auth code (auth-flow input)",
+      "hacker_default_config": true,
+      "hacker_network_edge": true,
+      "hacker_primitive_direct": false,
+      "hacker_auth_missing": true,
+      "hacker_primitive_kind": "open-redirect",
+      "hacker_tier": "D",
+      "summary": "spring-security-oauth and spring-security-oauth2 Open Redirect vulnerability",
+      "notes": ""
+    },
+    {
+      "cve": "CVE-2019-3799",
+      "package": "org.springframework.cloud:spring-cloud-config-server",
+      "all_packages": [
+        "org.springframework.cloud:spring-cloud-config-server"
+      ],
+      "ecosystem": "Maven",
+      "cvss_score": 6.5,
+      "cvss_vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:H/I:N/A:N",
+      "evidence_sources": [
+        "ExploitDB",
+        "Metasploit"
+      ],
+      "np": true,
+      "di": true,
+      "di_cwe_basis": [
+        22
+      ],
+      "inferred_cwes": [
+        22
+      ],
+      "inferred_kinds": [
+        "path-traversal"
+      ],
+      "dq_rescue": false,
+      "dq_rationale": "",
+      "hacker_default_config": true,
+      "hacker_network_edge": true,
+      "hacker_primitive_direct": false,
+      "hacker_auth_missing": true,
+      "hacker_primitive_kind": "path-traversal",
+      "hacker_tier": "A",
+      "summary": "Path Traversal in Spring Cloud Config",
+      "notes": ""
+    },
+    {
+      "cve": "CVE-2019-3810",
+      "package": "moodle/moodle",
+      "all_packages": [
+        "moodle/moodle"
+      ],
+      "ecosystem": "Packagist",
+      "cvss_score": 5.3,
+      "cvss_vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:N/A:N",
+      "evidence_sources": [
+        "ExploitDB"
+      ],
+      "np": true,
+      "di": true,
+      "di_cwe_basis": [
+        79
+      ],
+      "inferred_cwes": [
+        79
+      ],
+      "inferred_kinds": [
+        "xss"
+      ],
+      "dq_rescue": false,
+      "dq_rationale": "",
+      "hacker_default_config": true,
+      "hacker_network_edge": true,
+      "hacker_primitive_direct": false,
+      "hacker_auth_missing": true,
+      "hacker_primitive_kind": "xss",
+      "hacker_tier": "B",
+      "summary": "Moodle XSS Vulnerability",
+      "notes": ""
+    },
+    {
+      "cve": "CVE-2019-6588",
+      "package": "com.liferay.portal:release.portal.bom",
+      "all_packages": [
+        "com.liferay.portal:release.portal.bom"
+      ],
+      "ecosystem": "Maven",
+      "cvss_score": 4.7,
+      "cvss_vector": "CVSS:3.0/AV:N/AC:H/PR:N/UI:R/S:C/C:L/I:L/A:N",
+      "evidence_sources": [
+        "ExploitDB"
+      ],
+      "np": true,
+      "di": true,
+      "di_cwe_basis": [
+        79
+      ],
+      "inferred_cwes": [
+        79
+      ],
+      "inferred_kinds": [
+        "xss"
+      ],
+      "dq_rescue": false,
+      "dq_rationale": "",
+      "hacker_default_config": false,
+      "hacker_network_edge": true,
+      "hacker_primitive_direct": false,
+      "hacker_auth_missing": true,
+      "hacker_primitive_kind": "xss",
+      "hacker_tier": "B",
+      "summary": "Liferay Portal Allows Cross-Site Scripting (XSS) via the SimpleCaptcha API",
+      "notes": ""
+    },
+    {
+      "cve": "CVE-2019-6804",
+      "package": "org.rundeck:rundeck",
+      "all_packages": [
+        "org.rundeck:rundeck"
+      ],
+      "ecosystem": "Maven",
+      "cvss_score": 6.1,
+      "cvss_vector": "CVSS:3.0/AV:N/AC:L/PR:N/UI:R/S:C/C:L/I:L/A:N",
+      "evidence_sources": [
+        "ExploitDB"
+      ],
+      "np": true,
+      "di": true,
+      "di_cwe_basis": [
+        79
+      ],
+      "inferred_cwes": [
+        79
+      ],
+      "inferred_kinds": [
+        "xss"
+      ],
+      "dq_rescue": false,
+      "dq_rationale": "",
+      "hacker_default_config": true,
+      "hacker_network_edge": true,
+      "hacker_primitive_direct": false,
+      "hacker_auth_missing": true,
+      "hacker_primitive_kind": "xss",
+      "hacker_tier": "B",
+      "summary": "Rundeck Community Edition vulnerable to Cross-site Scripting",
+      "notes": ""
+    },
+    {
+      "cve": "CVE-2019-9553",
+      "package": "bolt/bolt",
+      "all_packages": [
+        "bolt/bolt"
+      ],
+      "ecosystem": "Packagist",
+      "cvss_score": 6.1,
+      "cvss_vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:C/C:L/I:L/A:N",
+      "evidence_sources": [
+        "ExploitDB"
+      ],
+      "np": true,
+      "di": true,
+      "di_cwe_basis": [
+        79
+      ],
+      "inferred_cwes": [
+        79
+      ],
+      "inferred_kinds": [
+        "xss"
+      ],
+      "dq_rescue": false,
+      "dq_rationale": "",
+      "hacker_default_config": true,
+      "hacker_network_edge": true,
+      "hacker_primitive_direct": false,
+      "hacker_auth_missing": true,
+      "hacker_primitive_kind": "xss",
+      "hacker_tier": "B",
+      "summary": "Bolt Cross-site Scripting via the slug, teaser or title parameters",
+      "notes": ""
+    },
+    {
+      "cve": "CVE-2020-10596",
+      "package": "opencart/opencart",
+      "all_packages": [
+        "opencart/opencart"
+      ],
+      "ecosystem": "Packagist",
+      "cvss_score": 5.4,
+      "cvss_vector": "CVSS:3.1/AV:N/AC:L/PR:L/UI:R/S:C/C:L/I:L/A:N",
+      "evidence_sources": [
+        "ExploitDB"
+      ],
+      "np": true,
+      "di": true,
+      "di_cwe_basis": [
+        79
+      ],
+      "inferred_cwes": [
+        79
+      ],
+      "inferred_kinds": [
+        "xss"
+      ],
+      "dq_rescue": false,
+      "dq_rationale": "",
+      "hacker_default_config": true,
+      "hacker_network_edge": true,
+      "hacker_primitive_direct": false,
+      "hacker_auth_missing": false,
+      "hacker_primitive_kind": "xss",
+      "hacker_tier": "B",
+      "summary": "Cross-site Scripting in OpenCart",
+      "notes": ""
+    },
+    {
+      "cve": "CVE-2020-10770",
+      "package": "org.keycloak:keycloak-core",
+      "all_packages": [
+        "org.keycloak:keycloak-core"
+      ],
+      "ecosystem": "Maven",
+      "cvss_score": 5.3,
+      "cvss_vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:L/A:N",
+      "evidence_sources": [
+        "ExploitDB"
+      ],
+      "np": true,
+      "di": true,
+      "di_cwe_basis": [
+        918
+      ],
+      "inferred_cwes": [
+        918
+      ],
+      "inferred_kinds": [
+        "ssrf"
+      ],
+      "dq_rescue": false,
+      "dq_rationale": "",
+      "hacker_default_config": true,
+      "hacker_network_edge": true,
+      "hacker_primitive_direct": false,
+      "hacker_auth_missing": true,
+      "hacker_primitive_kind": "ssrf",
+      "hacker_tier": "A",
+      "summary": "Keycloak vulnerable to Server-Side Request Forgery",
+      "notes": ""
+    },
+    {
+      "cve": "CVE-2020-11652",
+      "package": "salt",
+      "all_packages": [
+        "salt"
+      ],
+      "ecosystem": "PyPI",
+      "cvss_score": 6.5,
+      "cvss_vector": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:U/C:H/I:N/A:N/E:H",
+      "evidence_sources": [
+        "ExploitDB",
+        "KEV",
+        "Metasploit"
+      ],
+      "np": true,
+      "di": true,
+      "di_cwe_basis": [
+        22
+      ],
+      "inferred_cwes": [
+        22
+      ],
+      "inferred_kinds": [
+        "path-traversal"
+      ],
+      "dq_rescue": false,
+      "dq_rationale": "",
+      "hacker_default_config": true,
+      "hacker_network_edge": true,
+      "hacker_primitive_direct": false,
+      "hacker_auth_missing": false,
+      "hacker_primitive_kind": "path-traversal",
+      "hacker_tier": "B",
+      "summary": "SaltStack Salt is vulnerable Arbitrary Directory Access",
+      "notes": ""
+    },
+    {
+      "cve": "CVE-2020-15500",
+      "package": "tileserver-gl",
+      "all_packages": [
+        "tileserver-gl"
+      ],
+      "ecosystem": "npm",
+      "cvss_score": 6.1,
+      "cvss_vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:C/C:L/I:L/A:N",
+      "evidence_sources": [
+        "ExploitDB"
+      ],
+      "np": true,
+      "di": true,
+      "di_cwe_basis": [
+        79
+      ],
+      "inferred_cwes": [
+        79
+      ],
+      "inferred_kinds": [
+        "xss"
+      ],
+      "dq_rescue": false,
+      "dq_rationale": "",
+      "hacker_default_config": true,
+      "hacker_network_edge": true,
+      "hacker_primitive_direct": false,
+      "hacker_auth_missing": true,
+      "hacker_primitive_kind": "xss",
+      "hacker_tier": "B",
+      "summary": "Cross-site scripting in TileServer GL",
+      "notes": ""
+    },
+    {
+      "cve": "CVE-2020-2096",
+      "package": "org.jenkins-ci.ruby-plugins:gitlab-hook",
+      "all_packages": [
+        "org.jenkins-ci.ruby-plugins:gitlab-hook"
+      ],
+      "ecosystem": "Maven",
+      "cvss_score": 6.1,
+      "cvss_vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:C/C:L/I:L/A:N",
+      "evidence_sources": [
+        "ExploitDB"
+      ],
+      "np": true,
+      "di": true,
+      "di_cwe_basis": [
+        79
+      ],
+      "inferred_cwes": [
+        79
+      ],
+      "inferred_kinds": [
+        "xss"
+      ],
+      "dq_rescue": false,
+      "dq_rationale": "",
+      "hacker_default_config": true,
+      "hacker_network_edge": true,
+      "hacker_primitive_direct": false,
+      "hacker_auth_missing": true,
+      "hacker_primitive_kind": "xss",
+      "hacker_tier": "B",
+      "summary": "Reflected XSS vulnerability in Jenkins gitlab-hook Plugin",
+      "notes": ""
+    },
+    {
+      "cve": "CVE-2020-2231",
+      "package": "org.jenkins-ci.main:jenkins-core",
+      "all_packages": [
+        "org.jenkins-ci.main:jenkins-core"
+      ],
+      "ecosystem": "Maven",
+      "cvss_score": 5.4,
+      "cvss_vector": "CVSS:3.1/AV:N/AC:L/PR:L/UI:R/S:C/C:L/I:L/A:N",
+      "evidence_sources": [
+        "ExploitDB"
+      ],
+      "np": true,
+      "di": true,
+      "di_cwe_basis": [
+        79
+      ],
+      "inferred_cwes": [
+        79
+      ],
+      "inferred_kinds": [
+        "xss"
+      ],
+      "dq_rescue": false,
+      "dq_rationale": "",
+      "hacker_default_config": true,
+      "hacker_network_edge": true,
+      "hacker_primitive_direct": false,
+      "hacker_auth_missing": false,
+      "hacker_primitive_kind": "xss",
+      "hacker_tier": "B",
+      "summary": "Improper Neutralization of Input During Web Page Generation in Jenkins",
+      "notes": ""
+    },
+    {
+      "cve": "CVE-2020-28413",
+      "package": "mantisbt/mantisbt",
+      "all_packages": [
+        "mantisbt/mantisbt"
+      ],
+      "ecosystem": "Packagist",
+      "cvss_score": 5.3,
+      "cvss_vector": "CVSS:3.1/AV:N/AC:H/PR:L/UI:N/S:U/C:H/I:N/A:N",
+      "evidence_sources": [
+        "ExploitDB"
+      ],
+      "np": true,
+      "di": true,
+      "di_cwe_basis": [
+        89
+      ],
+      "inferred_cwes": [
+        89
+      ],
+      "inferred_kinds": [
+        "sqli"
+      ],
+      "dq_rescue": false,
+      "dq_rationale": "",
+      "hacker_default_config": true,
+      "hacker_network_edge": true,
+      "hacker_primitive_direct": true,
+      "hacker_auth_missing": true,
+      "hacker_primitive_kind": "sqli",
+      "hacker_tier": "S",
+      "summary": "MantisBT SQL Injection via mc_project_get_users function",
+      "notes": ""
+    },
+    {
+      "cve": "CVE-2020-29470",
+      "package": "opencart/opencart",
+      "all_packages": [
+        "opencart/opencart"
+      ],
+      "ecosystem": "Packagist",
+      "cvss_score": 4.8,
+      "cvss_vector": "CVSS:3.1/AV:N/AC:L/PR:H/UI:R/S:C/C:L/I:L/A:N",
+      "evidence_sources": [
+        "ExploitDB"
+      ],
+      "np": true,
+      "di": true,
+      "di_cwe_basis": [
+        79
+      ],
+      "inferred_cwes": [
+        79
+      ],
+      "inferred_kinds": [
+        "xss"
+      ],
+      "dq_rescue": false,
+      "dq_rationale": "",
+      "hacker_default_config": true,
+      "hacker_network_edge": true,
+      "hacker_primitive_direct": false,
+      "hacker_auth_missing": true,
+      "hacker_primitive_kind": "xss",
+      "hacker_tier": "B",
+      "summary": "OpenCart Cross-site Scripting (XSS) in the Subject field of mail.",
+      "notes": ""
+    },
+    {
+      "cve": "CVE-2020-29471",
+      "package": "opencart/opencart",
+      "all_packages": [
+        "opencart/opencart"
+      ],
+      "ecosystem": "Packagist",
+      "cvss_score": 4.8,
+      "cvss_vector": "CVSS:3.1/AV:N/AC:L/PR:H/UI:R/S:C/C:L/I:L/A:N",
+      "evidence_sources": [
+        "ExploitDB"
+      ],
+      "np": true,
+      "di": true,
+      "di_cwe_basis": [
+        79
+      ],
+      "inferred_cwes": [
+        79
+      ],
+      "inferred_kinds": [
+        "xss"
+      ],
+      "dq_rescue": false,
+      "dq_rationale": "",
+      "hacker_default_config": true,
+      "hacker_network_edge": true,
+      "hacker_primitive_direct": false,
+      "hacker_auth_missing": false,
+      "hacker_primitive_kind": "xss",
+      "hacker_tier": "B",
+      "summary": "OpenCart Stored Cross-Site Scripting",
+      "notes": ""
+    },
+    {
+      "cve": "CVE-2020-5295",
+      "package": "october/cms",
+      "all_packages": [
+        "october/cms"
+      ],
+      "ecosystem": "Packagist",
+      "cvss_score": 4.8,
+      "cvss_vector": "CVSS:3.1/AV:N/AC:L/PR:H/UI:R/S:C/C:L/I:L/A:N",
+      "evidence_sources": [
+        "ExploitDB"
+      ],
+      "np": true,
+      "di": true,
+      "di_cwe_basis": [
+        22
+      ],
+      "inferred_cwes": [
+        22
+      ],
+      "inferred_kinds": [
+        "path-traversal"
+      ],
+      "dq_rescue": false,
+      "dq_rationale": "",
+      "hacker_default_config": true,
+      "hacker_network_edge": true,
+      "hacker_primitive_direct": false,
+      "hacker_auth_missing": true,
+      "hacker_primitive_kind": "path-traversal",
+      "hacker_tier": "A",
+      "summary": "Local File read vulnerability in OctoberCMS",
+      "notes": ""
+    },
+    {
+      "cve": "CVE-2020-5811",
+      "package": "UmbracoCms",
+      "all_packages": [
+        "UmbracoCms"
+      ],
+      "ecosystem": "NuGet",
+      "cvss_score": 6.5,
+      "cvss_vector": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:U/C:N/I:H/A:N",
+      "evidence_sources": [
+        "ExploitDB"
+      ],
+      "np": true,
+      "di": true,
+      "di_cwe_basis": [
+        22
+      ],
+      "inferred_cwes": [
+        22
+      ],
+      "inferred_kinds": [
+        "path-traversal"
+      ],
+      "dq_rescue": false,
+      "dq_rationale": "",
+      "hacker_default_config": true,
+      "hacker_network_edge": true,
+      "hacker_primitive_direct": false,
+      "hacker_auth_missing": true,
+      "hacker_primitive_kind": "path-traversal",
+      "hacker_tier": "A",
+      "summary": "Authenticated path traversal in Umbraco CMS",
+      "notes": ""
+    },
+    {
+      "cve": "CVE-2020-7934",
+      "package": "com.liferay.portal:release.portal.bom",
+      "all_packages": [
+        "com.liferay.portal:release.portal.bom"
+      ],
+      "ecosystem": "Maven",
+      "cvss_score": 5.4,
+      "cvss_vector": "CVSS:3.1/AV:N/AC:L/PR:L/UI:R/S:C/C:L/I:L/A:N",
+      "evidence_sources": [
+        "ExploitDB"
+      ],
+      "np": true,
+      "di": true,
+      "di_cwe_basis": [
+        79
+      ],
+      "inferred_cwes": [
+        79
+      ],
+      "inferred_kinds": [
+        "xss"
+      ],
+      "dq_rescue": false,
+      "dq_rationale": "",
+      "hacker_default_config": true,
+      "hacker_network_edge": true,
+      "hacker_primitive_direct": false,
+      "hacker_auth_missing": false,
+      "hacker_primitive_kind": "xss",
+      "hacker_tier": "B",
+      "summary": "Liferay Portal Vulnerable to Persistent Cross-Site Scripting (XSS) in MyAccountPortlet",
+      "notes": ""
+    },
+    {
+      "cve": "CVE-2021-21337",
+      "package": "products-pluggableauthservice",
+      "all_packages": [
+        "products-pluggableauthservice"
+      ],
+      "ecosystem": "PyPI",
+      "cvss_score": 5.7,
+      "cvss_vector": "CVSS:3.1/AV:N/AC:L/PR:L/UI:R/S:U/C:H/I:N/A:N",
+      "evidence_sources": [
+        "ExploitDB"
+      ],
+      "np": true,
+      "di": false,
+      "di_cwe_basis": [],
+      "inferred_cwes": [
+        601
+      ],
+      "inferred_kinds": [
+        "open-redirect"
+      ],
+      "dq_rescue": false,
+      "dq_rationale": "",
+      "hacker_default_config": true,
+      "hacker_network_edge": true,
+      "hacker_primitive_direct": false,
+      "hacker_auth_missing": true,
+      "hacker_primitive_kind": "open-redirect",
+      "hacker_tier": "D",
+      "summary": "URL Redirection to Untrusted Site ('Open Redirect') in Products.PluggableAuthService",
+      "notes": ""
+    },
+    {
+      "cve": "CVE-2021-22145",
+      "package": "org.elasticsearch.client:elasticsearch-rest-client",
+      "all_packages": [
+        "org.elasticsearch.client:elasticsearch-rest-client"
+      ],
+      "ecosystem": "Maven",
+      "cvss_score": 6.5,
+      "cvss_vector": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:U/C:H/I:N/A:N",
+      "evidence_sources": [
+        "ExploitDB",
+        "Metasploit"
+      ],
+      "np": true,
+      "di": false,
+      "di_cwe_basis": [],
+      "inferred_cwes": [
+        200
+      ],
+      "inferred_kinds": [
+        "info-disc"
+      ],
+      "dq_rescue": false,
+      "dq_rationale": "",
+      "hacker_default_config": true,
+      "hacker_network_edge": true,
+      "hacker_primitive_direct": true,
+      "hacker_auth_missing": false,
+      "hacker_primitive_kind": "info-disc",
+      "hacker_tier": "A",
+      "summary": "Generation of Error Message Containing Sensitive Information in Elasticsearch",
+      "notes": ""
+    },
+    {
+      "cve": "CVE-2021-22557",
+      "package": "slo-generator",
+      "all_packages": [
+        "slo-generator"
+      ],
+      "ecosystem": "PyPI",
+      "cvss_score": 5.3,
+      "cvss_vector": "CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:U/C:L/I:L/A:L",
+      "evidence_sources": [
+        "ExploitDB"
+      ],
+      "np": false,
+      "di": true,
+      "di_cwe_basis": [
+        94
+      ],
+      "inferred_cwes": [
+        94
+      ],
+      "inferred_kinds": [
+        "rce"
+      ],
+      "dq_rescue": false,
+      "dq_rationale": "",
+      "hacker_default_config": true,
+      "hacker_network_edge": true,
+      "hacker_primitive_direct": true,
+      "hacker_auth_missing": true,
+      "hacker_primitive_kind": "rce",
+      "hacker_tier": "S",
+      "summary": "Code Injection in SLO Generator",
+      "notes": ""
+    },
+    {
+      "cve": "CVE-2021-28164",
+      "package": "org.eclipse.jetty:jetty-webapp",
+      "all_packages": [
+        "org.eclipse.jetty:jetty-webapp"
+      ],
+      "ecosystem": "Maven",
+      "cvss_score": 5.3,
+      "cvss_vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:N/A:N",
+      "evidence_sources": [
+        "ExploitDB",
+        "Metasploit"
+      ],
+      "np": true,
+      "di": true,
+      "di_cwe_basis": [
+        22
+      ],
+      "inferred_cwes": [
+        22
+      ],
+      "inferred_kinds": [
+        "path-traversal"
+      ],
+      "dq_rescue": false,
+      "dq_rationale": "",
+      "hacker_default_config": true,
+      "hacker_network_edge": true,
+      "hacker_primitive_direct": false,
+      "hacker_auth_missing": true,
+      "hacker_primitive_kind": "path-traversal",
+      "hacker_tier": "A",
+      "summary": "Authorization Before Parsing and Canonicalization in jetty",
+      "notes": ""
+    },
+    {
+      "cve": "CVE-2021-33561",
+      "package": "com.shopizer:shopizer",
+      "all_packages": [
+        "com.shopizer:shopizer"
+      ],
+      "ecosystem": "Maven",
+      "cvss_score": 4.8,
+      "cvss_vector": "CVSS:3.1/AV:N/AC:L/PR:H/UI:R/S:C/C:L/I:L/A:N",
+      "evidence_sources": [
+        "ExploitDB"
+      ],
+      "np": true,
+      "di": true,
+      "di_cwe_basis": [
+        79
+      ],
+      "inferred_cwes": [
+        79
+      ],
+      "inferred_kinds": [
+        "xss"
+      ],
+      "dq_rescue": false,
+      "dq_rationale": "",
+      "hacker_default_config": true,
+      "hacker_network_edge": true,
+      "hacker_primitive_direct": false,
+      "hacker_auth_missing": true,
+      "hacker_primitive_kind": "xss",
+      "hacker_tier": "B",
+      "summary": "Cross-site scripting in Shopizer",
+      "notes": ""
+    },
+    {
+      "cve": "CVE-2021-33562",
+      "package": "com.shopizer:shopizer",
+      "all_packages": [
+        "com.shopizer:shopizer"
+      ],
+      "ecosystem": "Maven",
+      "cvss_score": 4.8,
+      "cvss_vector": "CVSS:3.1/AV:N/AC:L/PR:H/UI:R/S:C/C:L/I:L/A:N",
+      "evidence_sources": [
+        "ExploitDB"
+      ],
+      "np": true,
+      "di": true,
+      "di_cwe_basis": [
+        79
+      ],
+      "inferred_cwes": [
+        79
+      ],
+      "inferred_kinds": [
+        "xss"
+      ],
+      "dq_rescue": false,
+      "dq_rationale": "",
+      "hacker_default_config": true,
+      "hacker_network_edge": true,
+      "hacker_primitive_direct": false,
+      "hacker_auth_missing": true,
+      "hacker_primitive_kind": "xss",
+      "hacker_tier": "B",
+      "summary": "Cross-site scripting in Shopizer",
+      "notes": ""
+    },
+    {
+      "cve": "CVE-2021-34429",
+      "package": "org.eclipse.jetty:jetty-webapp",
+      "all_packages": [
+        "org.eclipse.jetty:jetty-webapp"
+      ],
+      "ecosystem": "Maven",
+      "cvss_score": 5.3,
+      "cvss_vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:N/A:N",
+      "evidence_sources": [
+        "ExploitDB",
+        "Metasploit"
+      ],
+      "np": true,
+      "di": true,
+      "di_cwe_basis": [
+        22
+      ],
+      "inferred_cwes": [
+        22
+      ],
+      "inferred_kinds": [
+        "path-traversal"
+      ],
+      "dq_rescue": false,
+      "dq_rationale": "",
+      "hacker_default_config": true,
+      "hacker_network_edge": true,
+      "hacker_primitive_direct": false,
+      "hacker_auth_missing": true,
+      "hacker_primitive_kind": "path-traversal",
+      "hacker_tier": "A",
+      "summary": "Encoded URIs can access WEB-INF directory in Eclipse Jetty",
+      "notes": ""
+    },
+    {
+      "cve": "CVE-2021-42053",
+      "package": "django-unicorn",
+      "all_packages": [
+        "django-unicorn"
+      ],
+      "ecosystem": "PyPI",
+      "cvss_score": 6.1,
+      "cvss_vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:C/C:L/I:L/A:N",
+      "evidence_sources": [
+        "ExploitDB"
+      ],
+      "np": true,
+      "di": true,
+      "di_cwe_basis": [
+        79
+      ],
+      "inferred_cwes": [
+        79
+      ],
+      "inferred_kinds": [
+        "xss"
+      ],
+      "dq_rescue": false,
+      "dq_rationale": "",
+      "hacker_default_config": true,
+      "hacker_network_edge": true,
+      "hacker_primitive_direct": false,
+      "hacker_auth_missing": true,
+      "hacker_primitive_kind": "xss",
+      "hacker_tier": "B",
+      "summary": "Cross-site scripting in Unicorn framework",
+      "notes": ""
+    },
+    {
+      "cve": "CVE-2022-0088",
+      "package": "yourls/yourls",
+      "all_packages": [
+        "yourls/yourls"
+      ],
+      "ecosystem": "Packagist",
+      "cvss_score": 3.5,
+      "cvss_vector": "CVSS:3.0/AV:N/AC:L/PR:L/UI:R/S:U/C:L/I:N/A:N",
+      "evidence_sources": [
+        "ExploitDB"
+      ],
+      "np": true,
+      "di": false,
+      "di_cwe_basis": [],
+      "inferred_cwes": [
+        352
+      ],
+      "inferred_kinds": [
+        "csrf"
+      ],
+      "dq_rescue": false,
+      "dq_rationale": "",
+      "hacker_default_config": true,
+      "hacker_network_edge": true,
+      "hacker_primitive_direct": false,
+      "hacker_auth_missing": true,
+      "hacker_primitive_kind": "csrf",
+      "hacker_tier": "B",
+      "summary": "Cross-Site Request Forgery in YOURLS",
+      "notes": ""
+    },
+    {
+      "cve": "CVE-2022-0967",
+      "package": "showdoc/showdoc",
+      "all_packages": [
+        "showdoc/showdoc"
+      ],
+      "ecosystem": "Packagist",
+      "cvss_score": 6.9,
+      "cvss_vector": "CVSS:3.0/AV:P/AC:H/PR:H/UI:N/S:C/C:H/I:H/A:H",
+      "evidence_sources": [
+        "ExploitDB"
+      ],
+      "np": true,
+      "di": true,
+      "di_cwe_basis": [
+        79
+      ],
+      "inferred_cwes": [
+        79
+      ],
+      "inferred_kinds": [
+        "xss"
+      ],
+      "dq_rescue": false,
+      "dq_rationale": "",
+      "hacker_default_config": true,
+      "hacker_network_edge": true,
+      "hacker_primitive_direct": false,
+      "hacker_auth_missing": true,
+      "hacker_primitive_kind": "xss",
+      "hacker_tier": "B",
+      "summary": "Stored Cross-site Scripting in showdoc",
+      "notes": ""
+    },
+    {
+      "cve": "CVE-2022-34140",
+      "package": "feehi/cms",
+      "all_packages": [
+        "feehi/cms"
+      ],
+      "ecosystem": "Packagist",
+      "cvss_score": 5.4,
+      "cvss_vector": "CVSS:3.1/AV:N/AC:L/PR:L/UI:R/S:C/C:L/I:L/A:N",
+      "evidence_sources": [
+        "ExploitDB"
+      ],
+      "np": true,
+      "di": true,
+      "di_cwe_basis": [
+        79
+      ],
+      "inferred_cwes": [
+        79
+      ],
+      "inferred_kinds": [
+        "xss"
+      ],
+      "dq_rescue": false,
+      "dq_rationale": "",
+      "hacker_default_config": true,
+      "hacker_network_edge": true,
+      "hacker_primitive_direct": false,
+      "hacker_auth_missing": true,
+      "hacker_primitive_kind": "xss",
+      "hacker_tier": "B",
+      "summary": "Feehi CMS Cross-site Scripting",
+      "notes": ""
+    },
+    {
+      "cve": "CVE-2022-36551",
+      "package": "label-studio",
+      "all_packages": [
+        "label-studio"
+      ],
+      "ecosystem": "PyPI",
+      "cvss_score": 6.5,
+      "cvss_vector": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:U/C:H/I:N/A:N",
+      "evidence_sources": [
+        "ExploitDB"
+      ],
+      "np": true,
+      "di": true,
+      "di_cwe_basis": [
+        22,
+        918
+      ],
+      "inferred_cwes": [
+        22,
+        918
+      ],
+      "inferred_kinds": [
+        "ssrf",
+        "path-traversal"
+      ],
+      "dq_rescue": false,
+      "dq_rationale": "",
+      "hacker_default_config": false,
+      "hacker_network_edge": true,
+      "hacker_primitive_direct": true,
+      "hacker_auth_missing": false,
+      "hacker_primitive_kind": "ssrf,path-traversal",
+      "hacker_tier": "B",
+      "summary": "Heartex - Label Studio Community Edition vulnerable to SSRF in the Data Import module",
+      "notes": ""
+    },
+    {
+      "cve": "CVE-2022-3766",
+      "package": "thorsten/phpmyfaq",
+      "all_packages": [
+        "thorsten/phpmyfaq"
+      ],
+      "ecosystem": "Packagist",
+      "cvss_score": 6.1,
+      "cvss_vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:C/C:L/I:L/A:N",
+      "evidence_sources": [
+        "ExploitDB"
+      ],
+      "np": true,
+      "di": true,
+      "di_cwe_basis": [
+        79
+      ],
+      "inferred_cwes": [
+        79
+      ],
+      "inferred_kinds": [
+        "xss"
+      ],
+      "dq_rescue": false,
+      "dq_rationale": "",
+      "hacker_default_config": true,
+      "hacker_network_edge": true,
+      "hacker_primitive_direct": false,
+      "hacker_auth_missing": true,
+      "hacker_primitive_kind": "xss",
+      "hacker_tier": "B",
+      "summary": "phpMyFAQ vulnerable to reflected Cross-site Scripting",
+      "notes": ""
+    },
+    {
+      "cve": "CVE-2022-4407",
+      "package": "thorsten/phpmyfaq",
+      "all_packages": [
+        "thorsten/phpmyfaq"
+      ],
+      "ecosystem": "Packagist",
+      "cvss_score": 6.1,
+      "cvss_vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:C/C:L/I:L/A:N",
+      "evidence_sources": [
+        "ExploitDB"
+      ],
+      "np": true,
+      "di": true,
+      "di_cwe_basis": [
+        79
+      ],
+      "inferred_cwes": [
+        79
+      ],
+      "inferred_kinds": [
+        "xss"
+      ],
+      "dq_rescue": false,
+      "dq_rationale": "",
+      "hacker_default_config": true,
+      "hacker_network_edge": true,
+      "hacker_primitive_direct": false,
+      "hacker_auth_missing": true,
+      "hacker_primitive_kind": "xss",
+      "hacker_tier": "B",
+      "summary": "phpMyFAQ vulnerable to Cross-site Scripting",
+      "notes": ""
+    },
+    {
+      "cve": "CVE-2023-28458",
+      "package": "pretalx",
+      "all_packages": [
+        "pretalx"
+      ],
+      "ecosystem": "PyPI",
+      "cvss_score": 4.3,
+      "cvss_vector": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:U/C:N/I:L/A:N",
+      "evidence_sources": [
+        "Metasploit"
+      ],
+      "np": true,
+      "di": true,
+      "di_cwe_basis": [
+        22
+      ],
+      "inferred_cwes": [
+        22
+      ],
+      "inferred_kinds": [
+        "path-traversal"
+      ],
+      "dq_rescue": false,
+      "dq_rationale": "",
+      "hacker_default_config": false,
+      "hacker_network_edge": true,
+      "hacker_primitive_direct": false,
+      "hacker_auth_missing": true,
+      "hacker_primitive_kind": "path-traversal",
+      "hacker_tier": "B",
+      "summary": "pretalx allows path traversal in HTML export",
+      "notes": ""
+    },
+    {
+      "cve": "CVE-2023-29918",
+      "package": "francoisjacquet/rosariosis",
+      "all_packages": [
+        "francoisjacquet/rosariosis"
+      ],
+      "ecosystem": "Packagist",
+      "cvss_score": 5.4,
+      "cvss_vector": "CVSS:3.1/AV:N/AC:L/PR:L/UI:R/S:C/C:L/I:L/A:N",
+      "evidence_sources": [
+        "ExploitDB"
+      ],
+      "np": true,
+      "di": false,
+      "di_cwe_basis": [],
+      "inferred_cwes": [
+        1236
+      ],
+      "inferred_kinds": [
+        "csv"
+      ],
+      "dq_rescue": false,
+      "dq_rationale": "",
+      "hacker_default_config": true,
+      "hacker_network_edge": true,
+      "hacker_primitive_direct": false,
+      "hacker_auth_missing": true,
+      "hacker_primitive_kind": "csv",
+      "hacker_tier": "D",
+      "summary": "RosarioSIS vulnerable to CSV Injection",
+      "notes": ""
+    },
+    {
+      "cve": "CVE-2023-34927",
+      "package": "github.com/casdoor/casdoor",
+      "all_packages": [
+        "github.com/casdoor/casdoor"
+      ],
+      "ecosystem": "Go",
+      "cvss_score": 6.5,
+      "cvss_vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:N/I:H/A:N",
+      "evidence_sources": [
+        "ExploitDB"
+      ],
+      "np": true,
+      "di": false,
+      "di_cwe_basis": [],
+      "inferred_cwes": [
+        352
+      ],
+      "inferred_kinds": [
+        "csrf"
+      ],
+      "dq_rescue": false,
+      "dq_rationale": "",
+      "hacker_default_config": true,
+      "hacker_network_edge": true,
+      "hacker_primitive_direct": false,
+      "hacker_auth_missing": true,
+      "hacker_primitive_kind": "csrf",
+      "hacker_tier": "B",
+      "summary": "Casdoor Cross-Site Request Forgery vulnerability",
+      "notes": ""
+    },
+    {
+      "cve": "CVE-2023-37269",
+      "package": "wintercms/winter",
+      "all_packages": [
+        "wintercms/winter"
+      ],
+      "ecosystem": "Packagist",
+      "cvss_score": 2.0,
+      "cvss_vector": "CVSS:3.1/AV:N/AC:H/PR:H/UI:R/S:U/C:N/I:L/A:N",
+      "evidence_sources": [
+        "ExploitDB"
+      ],
+      "np": true,
+      "di": true,
+      "di_cwe_basis": [
+        79
+      ],
+      "inferred_cwes": [
+        79
+      ],
+      "inferred_kinds": [
+        "xss"
+      ],
+      "dq_rescue": false,
+      "dq_rationale": "",
+      "hacker_default_config": true,
+      "hacker_network_edge": true,
+      "hacker_primitive_direct": false,
+      "hacker_auth_missing": false,
+      "hacker_primitive_kind": "xss",
+      "hacker_tier": "B",
+      "summary": "Winter CMS stored XSS through privileged upload of SVG file",
+      "notes": ""
+    },
+    {
+      "cve": "CVE-2023-37941",
+      "package": "apache-superset",
+      "all_packages": [
+        "apache-superset"
+      ],
+      "ecosystem": "PyPI",
+      "cvss_score": 6.6,
+      "cvss_vector": "CVSS:3.1/AV:N/AC:H/PR:H/UI:N/S:U/C:H/I:H/A:H",
+      "evidence_sources": [
+        "Metasploit"
+      ],
+      "np": true,
+      "di": true,
+      "di_cwe_basis": [
+        94,
+        502
+      ],
+      "inferred_cwes": [
+        94,
+        502
+      ],
+      "inferred_kinds": [
+        "deser",
+        "rce"
+      ],
+      "dq_rescue": false,
+      "dq_rationale": "",
+      "hacker_default_config": false,
+      "hacker_network_edge": true,
+      "hacker_primitive_direct": true,
+      "hacker_auth_missing": false,
+      "hacker_primitive_kind": "deser,rce",
+      "hacker_tier": "B",
+      "summary": "Apache Superset Deserialization of Untrusted Data vulnerability",
+      "notes": ""
+    },
+    {
+      "cve": "CVE-2023-38501",
+      "package": "copyparty",
+      "all_packages": [
+        "copyparty"
+      ],
+      "ecosystem": "PyPI",
+      "cvss_score": 6.3,
+      "cvss_vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:L/I:L/A:L",
+      "evidence_sources": [
+        "ExploitDB"
+      ],
+      "np": true,
+      "di": true,
+      "di_cwe_basis": [
+        79
+      ],
+      "inferred_cwes": [
+        79
+      ],
+      "inferred_kinds": [
+        "xss"
+      ],
+      "dq_rescue": false,
+      "dq_rationale": "",
+      "hacker_default_config": true,
+      "hacker_network_edge": true,
+      "hacker_primitive_direct": false,
+      "hacker_auth_missing": true,
+      "hacker_primitive_kind": "xss",
+      "hacker_tier": "B",
+      "summary": "copyparty vulnerable to reflected cross-site scripting via k304 parameter",
+      "notes": ""
+    },
+    {
+      "cve": "CVE-2023-39265",
+      "package": "apache-superset",
+      "all_packages": [
+        "apache-superset"
+      ],
+      "ecosystem": "PyPI",
+      "cvss_score": 6.5,
+      "cvss_vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:L/A:N",
+      "evidence_sources": [
+        "Metasploit"
+      ],
+      "np": true,
+      "di": true,
+      "di_cwe_basis": [
+        89
+      ],
+      "inferred_cwes": [
+        20,
+        89
+      ],
+      "inferred_kinds": [
+        "sqli"
+      ],
+      "dq_rescue": false,
+      "dq_rationale": "",
+      "hacker_default_config": false,
+      "hacker_network_edge": true,
+      "hacker_primitive_direct": true,
+      "hacker_auth_missing": true,
+      "hacker_primitive_kind": "sqli",
+      "hacker_tier": "A",
+      "summary": "Apache Superset Improper Input Validation vulnerability",
+      "notes": ""
+    },
+    {
+      "cve": "CVE-2023-40028",
+      "package": "ghost",
+      "all_packages": [
+        "ghost"
+      ],
+      "ecosystem": "npm",
+      "cvss_score": 4.9,
+      "cvss_vector": "CVSS:3.1/AV:N/AC:L/PR:H/UI:N/S:U/C:H/I:N/A:N",
+      "evidence_sources": [
+        "ExploitDB"
+      ],
+      "np": true,
+      "di": true,
+      "di_cwe_basis": [
+        22
+      ],
+      "inferred_cwes": [
+        22
+      ],
+      "inferred_kinds": [
+        "path-traversal"
+      ],
+      "dq_rescue": false,
+      "dq_rationale": "",
+      "hacker_default_config": true,
+      "hacker_network_edge": true,
+      "hacker_primitive_direct": true,
+      "hacker_auth_missing": false,
+      "hacker_primitive_kind": "path-traversal",
+      "hacker_tier": "A",
+      "summary": "Ghost vulnerable to arbitrary file read via symlinks in content import",
+      "notes": ""
+    },
+    {
+      "cve": "CVE-2023-40315",
+      "package": "org.opennms:opennms-webapp-rest",
+      "all_packages": [
+        "org.opennms:opennms-webapp-rest"
+      ],
+      "ecosystem": "Maven",
+      "cvss_score": 5.3,
+      "cvss_vector": "CVSS:3.1/AV:A/AC:H/PR:H/UI:N/S:U/C:L/I:H/A:L",
+      "evidence_sources": [
+        "Metasploit"
+      ],
+      "np": true,
+      "di": true,
+      "di_cwe_basis": [
+        287
+      ],
+      "inferred_cwes": [
+        287
+      ],
+      "inferred_kinds": [
+        "authbypass"
+      ],
+      "dq_rescue": false,
+      "dq_rationale": "",
+      "hacker_default_config": true,
+      "hacker_network_edge": true,
+      "hacker_primitive_direct": false,
+      "hacker_auth_missing": false,
+      "hacker_primitive_kind": "authbypass",
+      "hacker_tier": "B",
+      "summary": "OpenNMS privilege escalation vulnerability",
+      "notes": ""
+    },
+    {
+      "cve": "CVE-2023-44487",
+      "package": "com.typesafe.akka:akka-http-core",
+      "all_packages": [
+        "com.typesafe.akka:akka-http-core",
+        "com.typesafe.akka:akka-http-core_2.11",
+        "com.typesafe.akka:akka-http-core_2.12",
+        "com.typesafe.akka:akka-http-core_2.13",
+        "golang.org/x/net",
+        "org.apache.tomcat.embed:tomcat-embed-core",
+        "org.apache.tomcat:tomcat-coyote",
+        "org.eclipse.jetty.http2:http2-common",
+        "org.eclipse.jetty.http2:http2-server",
+        "org.eclipse.jetty.http2:jetty-http2-common",
+        "org.eclipse.jetty.http2:jetty-http2-server"
+      ],
+      "ecosystem": "Maven",
+      "cvss_score": 5.3,
+      "cvss_vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:L/E:H",
+      "evidence_sources": [
+        "ExploitDB",
+        "KEV"
+      ],
+      "np": true,
+      "di": false,
+      "di_cwe_basis": [],
+      "inferred_cwes": [
+        400
+      ],
+      "inferred_kinds": [
+        "dos"
+      ],
+      "dq_rescue": false,
+      "dq_rationale": "",
+      "hacker_default_config": true,
+      "hacker_network_edge": true,
+      "hacker_primitive_direct": false,
+      "hacker_auth_missing": true,
+      "hacker_primitive_kind": "dos",
+      "hacker_tier": "D",
+      "summary": "HTTP/2 Stream Cancellation Attack",
+      "notes": ""
+    },
+    {
+      "cve": "CVE-2024-31839",
+      "package": "github.com/tiagorlampert/CHAOS",
+      "all_packages": [
+        "github.com/tiagorlampert/CHAOS"
+      ],
+      "ecosystem": "Go",
+      "cvss_score": 4.8,
+      "cvss_vector": "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:L/I:L/A:N",
+      "evidence_sources": [
+        "Metasploit"
+      ],
+      "np": true,
+      "di": true,
+      "di_cwe_basis": [
+        79,
+        287
+      ],
+      "inferred_cwes": [
+        79,
+        287
+      ],
+      "inferred_kinds": [
+        "xss",
+        "authbypass"
+      ],
+      "dq_rescue": false,
+      "dq_rationale": "",
+      "hacker_default_config": true,
+      "hacker_network_edge": true,
+      "hacker_primitive_direct": false,
+      "hacker_auth_missing": true,
+      "hacker_primitive_kind": "xss,authbypass",
+      "hacker_tier": "B",
+      "summary": "tiagorlampert CHAOS vulnerable to Cross Site Scripting",
+      "notes": ""
+    },
+    {
+      "cve": "CVE-2024-45440",
+      "package": "drupal/core",
+      "all_packages": [
+        "drupal/core",
+        "drupal/core-recommended",
+        "drupal/drupal"
+      ],
+      "ecosystem": "Packagist",
+      "cvss_score": 5.3,
+      "cvss_vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:N/A:N",
+      "evidence_sources": [
+        "ExploitDB"
+      ],
+      "np": true,
+      "di": false,
+      "di_cwe_basis": [],
+      "inferred_cwes": [
+        200
+      ],
+      "inferred_kinds": [
+        "info-disc"
+      ],
+      "dq_rescue": false,
+      "dq_rationale": "",
+      "hacker_default_config": true,
+      "hacker_network_edge": true,
+      "hacker_primitive_direct": false,
+      "hacker_auth_missing": true,
+      "hacker_primitive_kind": "info-disc",
+      "hacker_tier": "D",
+      "summary": "Drupal Full Path Disclosure",
+      "notes": ""
+    },
+    {
+      "cve": "CVE-2024-46528",
+      "package": "github.com/kubesphere/kubesphere",
+      "all_packages": [
+        "github.com/kubesphere/kubesphere"
+      ],
+      "ecosystem": "Go",
+      "cvss_score": 6.5,
+      "cvss_vector": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:U/C:H/I:N/A:N",
+      "evidence_sources": [
+        "ExploitDB"
+      ],
+      "np": true,
+      "di": true,
+      "di_cwe_basis": [
+        863
+      ],
+      "inferred_cwes": [
+        863
+      ],
+      "inferred_kinds": [
+        "idor"
+      ],
+      "dq_rescue": false,
+      "dq_rationale": "",
+      "hacker_default_config": true,
+      "hacker_network_edge": true,
+      "hacker_primitive_direct": true,
+      "hacker_auth_missing": false,
+      "hacker_primitive_kind": "idor",
+      "hacker_tier": "A",
+      "summary": "KubeSphere IDOR vulnerability",
+      "notes": ""
+    },
+    {
+      "cve": "CVE-2024-46987",
+      "package": "camaleon_cms",
+      "all_packages": [
+        "camaleon_cms"
+      ],
+      "ecosystem": "RubyGems",
+      "cvss_score": 6.5,
+      "cvss_vector": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:U/C:H/I:N/A:N",
+      "evidence_sources": [
+        "Metasploit"
+      ],
+      "np": true,
+      "di": true,
+      "di_cwe_basis": [
+        22
+      ],
+      "inferred_cwes": [
+        22
+      ],
+      "inferred_kinds": [
+        "path-traversal"
+      ],
+      "dq_rescue": false,
+      "dq_rationale": "",
+      "hacker_default_config": true,
+      "hacker_network_edge": true,
+      "hacker_primitive_direct": false,
+      "hacker_auth_missing": false,
+      "hacker_primitive_kind": "path-traversal",
+      "hacker_tier": "B",
+      "summary": "Camaleon CMS vulnerable to arbitrary path traversal (GHSL-2024-183)",
+      "notes": ""
+    },
+    {
+      "cve": "CVE-2024-47605",
+      "package": "silverstripe/framework",
+      "all_packages": [
+        "silverstripe/framework"
+      ],
+      "ecosystem": "Packagist",
+      "cvss_score": 5.4,
+      "cvss_vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:L/I:L/A:N",
+      "evidence_sources": [
+        "ExploitDB"
+      ],
+      "np": true,
+      "di": true,
+      "di_cwe_basis": [
+        79
+      ],
+      "inferred_cwes": [
+        79
+      ],
+      "inferred_kinds": [
+        "xss"
+      ],
+      "dq_rescue": false,
+      "dq_rationale": "",
+      "hacker_default_config": true,
+      "hacker_network_edge": true,
+      "hacker_primitive_direct": false,
+      "hacker_auth_missing": true,
+      "hacker_primitive_kind": "xss",
+      "hacker_tier": "B",
+      "summary": "Silverstripe Framework has a XSS via insert media remote file oembed",
+      "notes": ""
+    },
+    {
+      "cve": "CVE-2024-55889",
+      "package": "thorsten/phpmyfaq",
+      "all_packages": [
+        "thorsten/phpmyfaq"
+      ],
+      "ecosystem": "Packagist",
+      "cvss_score": 4.9,
+      "cvss_vector": "CVSS:3.1/AV:N/AC:L/PR:H/UI:N/S:U/C:N/I:H/A:N",
+      "evidence_sources": [
+        "ExploitDB"
+      ],
+      "np": true,
+      "di": false,
+      "di_cwe_basis": [],
+      "inferred_cwes": [],
+      "inferred_kinds": [],
+      "dq_rescue": false,
+      "dq_rationale": "",
+      "hacker_default_config": true,
+      "hacker_network_edge": true,
+      "hacker_primitive_direct": false,
+      "hacker_auth_missing": false,
+      "hacker_primitive_kind": "unknown",
+      "hacker_tier": "D",
+      "summary": "thorsten/phpmyfaq Unintended File Download Triggered by Embedded Frames",
+      "notes": "no_primitive_kind_inferred"
+    },
+    {
+      "cve": "CVE-2025-30208",
+      "package": "vite",
+      "all_packages": [
+        "vite"
+      ],
+      "ecosystem": "npm",
+      "cvss_score": 5.3,
+      "cvss_vector": "CVSS:3.1/AV:N/AC:H/PR:N/UI:R/S:U/C:H/I:N/A:N",
+      "evidence_sources": [
+        "ExploitDB"
+      ],
+      "np": true,
+      "di": true,
+      "di_cwe_basis": [
+        22
+      ],
+      "inferred_cwes": [
+        22
+      ],
+      "inferred_kinds": [
+        "path-traversal"
+      ],
+      "dq_rescue": false,
+      "dq_rationale": "",
+      "hacker_default_config": false,
+      "hacker_network_edge": true,
+      "hacker_primitive_direct": true,
+      "hacker_auth_missing": true,
+      "hacker_primitive_kind": "path-traversal",
+      "hacker_tier": "A",
+      "summary": "Vite bypasses server.fs.deny when using ?raw??",
+      "notes": ""
+    },
+    {
+      "cve": "CVE-2025-31125",
+      "package": "vite",
+      "all_packages": [
+        "vite"
+      ],
+      "ecosystem": "npm",
+      "cvss_score": 5.3,
+      "cvss_vector": "CVSS:3.1/AV:N/AC:H/PR:N/UI:R/S:U/C:H/I:N/A:N",
+      "evidence_sources": [
+        "KEV"
+      ],
+      "np": true,
+      "di": true,
+      "di_cwe_basis": [
+        22
+      ],
+      "inferred_cwes": [
+        22
+      ],
+      "inferred_kinds": [
+        "path-traversal"
+      ],
+      "dq_rescue": false,
+      "dq_rationale": "",
+      "hacker_default_config": false,
+      "hacker_network_edge": true,
+      "hacker_primitive_direct": false,
+      "hacker_auth_missing": true,
+      "hacker_primitive_kind": "path-traversal",
+      "hacker_tier": "B",
+      "summary": "Vite has a `server.fs.deny` bypassed for `inline` and `raw` with `?import` query",
+      "notes": ""
+    },
+    {
+      "cve": "CVE-2025-31650",
+      "package": "org.apache.tomcat.embed:tomcat-embed-core",
+      "all_packages": [
+        "org.apache.tomcat.embed:tomcat-embed-core",
+        "org.apache.tomcat:tomcat-coyote"
+      ],
+      "ecosystem": "Maven",
+      "cvss_score": 6.6,
+      "cvss_vector": "CVSS:4.0/AV:N/AC:L/AT:N/PR:N/UI:N/VC:N/VI:N/VA:H/SC:N/SI:N/SA:N/E:U",
+      "evidence_sources": [
+        "ExploitDB"
+      ],
+      "np": true,
+      "di": false,
+      "di_cwe_basis": [],
+      "inferred_cwes": [
+        20,
+        400
+      ],
+      "inferred_kinds": [
+        "improper-input-val"
+      ],
+      "dq_rescue": false,
+      "dq_rationale": "",
+      "hacker_default_config": true,
+      "hacker_network_edge": true,
+      "hacker_primitive_direct": false,
+      "hacker_auth_missing": true,
+      "hacker_primitive_kind": "improper-input-val",
+      "hacker_tier": "D",
+      "summary": "Apache Tomcat Denial of Service via invalid HTTP priority header",
+      "notes": ""
+    },
+    {
+      "cve": "CVE-2025-34076",
+      "package": "microweber/microweber",
+      "all_packages": [
+        "microweber/microweber"
+      ],
+      "ecosystem": "Packagist",
+      "cvss_score": 6.1,
+      "cvss_vector": "CVSS:4.0/AV:N/AC:L/AT:P/PR:L/UI:N/VC:H/VI:L/VA:L/SC:N/SI:N/SA:N/E:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X",
+      "evidence_sources": [
+        "Metasploit"
+      ],
+      "np": true,
+      "di": true,
+      "di_cwe_basis": [
+        22,
+        94
+      ],
+      "inferred_cwes": [
+        22,
+        94
+      ],
+      "inferred_kinds": [
+        "path-traversal",
+        "rce"
+      ],
+      "dq_rescue": false,
+      "dq_rationale": "",
+      "hacker_default_config": true,
+      "hacker_network_edge": true,
+      "hacker_primitive_direct": true,
+      "hacker_auth_missing": false,
+      "hacker_primitive_kind": "path-traversal,rce",
+      "hacker_tier": "A",
+      "summary": "Microweber CMS API has authenticated local file inclusion vulnerability",
+      "notes": ""
+    },
+    {
+      "cve": "CVE-2025-35939",
+      "package": "craftcms/cms",
+      "all_packages": [
+        "craftcms/cms"
+      ],
+      "ecosystem": "Packagist",
+      "cvss_score": 5.3,
+      "cvss_vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:L/A:N/E:H",
+      "evidence_sources": [
+        "KEV"
+      ],
+      "np": true,
+      "di": false,
+      "di_cwe_basis": [],
+      "inferred_cwes": [],
+      "inferred_kinds": [],
+      "dq_rescue": false,
+      "dq_rationale": "",
+      "hacker_default_config": true,
+      "hacker_network_edge": true,
+      "hacker_primitive_direct": false,
+      "hacker_auth_missing": true,
+      "hacker_primitive_kind": "unknown",
+      "hacker_tier": "D",
+      "summary": "Craft CMS stores arbitrary content provided by unauthenticated users in session files",
+      "notes": "no_primitive_kind_inferred"
+    },
+    {
+      "cve": "CVE-2025-47226",
+      "package": "snipe/snipe-it",
+      "all_packages": [
+        "snipe/snipe-it"
+      ],
+      "ecosystem": "Packagist",
+      "cvss_score": 5.0,
+      "cvss_vector": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:C/C:L/I:N/A:N",
+      "evidence_sources": [
+        "ExploitDB"
+      ],
+      "np": true,
+      "di": true,
+      "di_cwe_basis": [
+        863
+      ],
+      "inferred_cwes": [
+        863
+      ],
+      "inferred_kinds": [
+        "idor"
+      ],
+      "dq_rescue": false,
+      "dq_rationale": "",
+      "hacker_default_config": true,
+      "hacker_network_edge": true,
+      "hacker_primitive_direct": true,
+      "hacker_auth_missing": false,
+      "hacker_primitive_kind": "idor",
+      "hacker_tier": "A",
+      "summary": "Grokability Snipe-IT has incorrect authorization for accessing asset information",
+      "notes": ""
+    },
+    {
+      "cve": "CVE-2025-50481",
+      "package": "mezzanine",
+      "all_packages": [
+        "mezzanine"
+      ],
+      "ecosystem": "PyPI",
+      "cvss_score": 4.8,
+      "cvss_vector": "CVSS:3.1/AV:N/AC:L/PR:H/UI:R/S:C/C:L/I:L/A:N",
+      "evidence_sources": [
+        "ExploitDB"
+      ],
+      "np": true,
+      "di": true,
+      "di_cwe_basis": [
+        79
+      ],
+      "inferred_cwes": [
+        79
+      ],
+      "inferred_kinds": [
+        "xss"
+      ],
+      "dq_rescue": false,
+      "dq_rationale": "",
+      "hacker_default_config": true,
+      "hacker_network_edge": true,
+      "hacker_primitive_direct": false,
+      "hacker_auth_missing": true,
+      "hacker_primitive_kind": "xss",
+      "hacker_tier": "B",
+      "summary": "Mezzanine CMS vulnerable to Cross-site Scripting",
+      "notes": ""
+    },
+    {
+      "cve": "CVE-2025-52392",
+      "package": "soosyze/soosyze",
+      "all_packages": [
+        "soosyze/soosyze"
+      ],
+      "ecosystem": "Packagist",
+      "cvss_score": 5.4,
+      "cvss_vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:L/I:L/A:N",
+      "evidence_sources": [
+        "ExploitDB"
+      ],
+      "np": true,
+      "di": false,
+      "di_cwe_basis": [],
+      "inferred_cwes": [
+        307
+      ],
+      "inferred_kinds": [
+        "brute-force"
+      ],
+      "dq_rescue": true,
+      "dq_rationale": "CWE-307 brute-force on auth: input drives auth decision",
+      "hacker_default_config": true,
+      "hacker_network_edge": true,
+      "hacker_primitive_direct": false,
+      "hacker_auth_missing": true,
+      "hacker_primitive_kind": "brute-force",
+      "hacker_tier": "D",
+      "summary": "Soosyze CMS's /user/login endpoint missing rate-limiting and lockout mechanisms",
+      "notes": ""
+    },
+    {
+      "cve": "CVE-2025-54589",
+      "package": "copyparty",
+      "all_packages": [
+        "copyparty"
+      ],
+      "ecosystem": "PyPI",
+      "cvss_score": 6.3,
+      "cvss_vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:L/I:L/A:L",
+      "evidence_sources": [
+        "ExploitDB"
+      ],
+      "np": true,
+      "di": true,
+      "di_cwe_basis": [
+        79
+      ],
+      "inferred_cwes": [
+        79
+      ],
+      "inferred_kinds": [
+        "xss"
+      ],
+      "dq_rescue": false,
+      "dq_rationale": "",
+      "hacker_default_config": true,
+      "hacker_network_edge": true,
+      "hacker_primitive_direct": false,
+      "hacker_auth_missing": true,
+      "hacker_primitive_kind": "xss",
+      "hacker_tier": "B",
+      "summary": "copyparty Reflected XSS via Filter Parameter",
+      "notes": ""
+    },
+    {
+      "cve": "CVE-2025-59342",
+      "package": "github.com/esm-dev/esm.sh",
+      "all_packages": [
+        "github.com/esm-dev/esm.sh"
+      ],
+      "ecosystem": "Go",
+      "cvss_score": 5.5,
+      "cvss_vector": "CVSS:4.0/AV:N/AC:L/AT:N/PR:N/UI:N/VC:N/VI:L/VA:N/SC:N/SI:N/SA:N/E:P",
+      "evidence_sources": [
+        "ExploitDB"
+      ],
+      "np": true,
+      "di": true,
+      "di_cwe_basis": [
+        22
+      ],
+      "inferred_cwes": [
+        22
+      ],
+      "inferred_kinds": [
+        "path-traversal"
+      ],
+      "dq_rescue": false,
+      "dq_rationale": "",
+      "hacker_default_config": true,
+      "hacker_network_edge": true,
+      "hacker_primitive_direct": true,
+      "hacker_auth_missing": true,
+      "hacker_primitive_kind": "path-traversal",
+      "hacker_tier": "S",
+      "summary": "esm.sh has arbitrary file write via path traversal in `X-Zone-Id` header",
+      "notes": ""
+    },
+    {
+      "cve": "CVE-2025-8573",
+      "package": "concrete5/concrete5",
+      "all_packages": [
+        "concrete5/concrete5"
+      ],
+      "ecosystem": "Packagist",
+      "cvss_score": 2.0,
+      "cvss_vector": "CVSS:4.0/AV:N/AC:H/AT:N/PR:H/UI:P/VC:L/VI:N/VA:N/SC:N/SI:N/SA:N",
+      "evidence_sources": [
+        "ExploitDB"
+      ],
+      "np": true,
+      "di": true,
+      "di_cwe_basis": [
+        79
+      ],
+      "inferred_cwes": [
+        79
+      ],
+      "inferred_kinds": [
+        "xss"
+      ],
+      "dq_rescue": false,
+      "dq_rationale": "",
+      "hacker_default_config": true,
+      "hacker_network_edge": true,
+      "hacker_primitive_direct": false,
+      "hacker_auth_missing": false,
+      "hacker_primitive_kind": "xss",
+      "hacker_tier": "B",
+      "summary": "Concrete CMS is vulnerable to Stored XSS from Home Folder on Members Dashboard page",
+      "notes": ""
+    }
+  ]
+}
