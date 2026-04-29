@@ -675,7 +675,7 @@ details summary:hover{color:var(--cyan)}
 </div>
 
 <div class="callout callout-good" id="epss-headline">
-<strong>Headline — the model catches the same CVEs as EPSS, but on average <span data-epss-avg-d10>34.7</span> days faster (vs EPSS&nbsp;≥&nbsp;0.10) and <span data-epss-avg-d50>131.0</span> days faster (vs EPSS&nbsp;≥&nbsp;0.50).</strong>
+<strong>Headline — the model catches the same CVEs as EPSS, but on average <span data-epss-avg-d10>34.7</span> days faster (vs EPSS&nbsp;≥&nbsp;0.10) and <span data-epss-avg-d50>131.0</span> days faster (vs EPSS&nbsp;≥&nbsp;0.50)</strong> <span style="font-weight:400;color:var(--muted);font-size:.92em">— averages computed over the 6 in-scope events with EPSS coverage; the 2 pre-EPSS-public CVEs (Ghostcat 2020, Tomcat CGI 2019) couldn't have been flagged by EPSS in real time at any threshold and are excluded from this average.</span>
 <p style="margin-top:8px">Two clean metrics on the 8 in-scope exploited CVEs in the 7-year manifest. NP+DI+DQ fires on disclosure day for all 8. EPSS catches the same set "eventually" — but only after exploitation signal accumulates.</p>
 <p style="margin-top:8px"><strong>1. Caught before public exploit evidence existed</strong> (no patch-cycle assumption — just trigger fires before <code>t_exploit</code>). With WAFs, Cat 1 BAU rebuild, or threat-intel supplements all able to act faster than typical patch cycles, this is the honest test:</p>
 <ul style="margin:8px 0 0 0">

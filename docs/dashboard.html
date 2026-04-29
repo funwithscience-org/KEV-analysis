@@ -350,6 +350,15 @@ Attackers favor high-impact, easy-to-trigger vulnerabilities. <strong>186 window
 <div class="section-title">Exploit Watch List — Network-Parser Attack Surface</div>
 <p style="color:#94a3b8;font-size:.88em;margin-bottom:16px">CVEs in the network-parsing attack surface assessed as high probability for exploitation — web servers, template engines, TLS terminators, API frameworks, and browser-delivered payloads. <span class="live-dot"></span> Updated daily by analyst agent. Entries confirmed in CISA KEV are marked <span style="color:#10b981;font-weight:600">CONFIRMED</span>.</p>
 
+<!-- Watch-list hit-rate KPI band -->
+<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:14px;margin-bottom:20px" id="watchKpiRow">
+<div style="background:#1e293b;border:1px solid #334155;border-left:3px solid #10b981;border-radius:8px;padding:16px"><div style="font-size:2em;font-weight:700;color:#34d399" id="kpiPromotedRate">5/19</div><div style="font-size:.8em;color:#94a3b8;margin-top:4px">Promoted to KEV<br><span style="color:#64748b">(prospective hit rate)</span></div></div>
+<div style="background:#1e293b;border:1px solid #334155;border-left:3px solid #f59e0b;border-radius:8px;padding:16px"><div style="font-size:2em;font-weight:700;color:#fbbf24" id="kpiActiveWatch">14</div><div style="font-size:.8em;color:#94a3b8;margin-top:4px">Active predictions<br><span style="color:#64748b">(WATCHING for KEV)</span></div></div>
+<div style="background:#1e293b;border:1px solid #334155;border-left:3px solid #6366f1;border-radius:8px;padding:16px"><div style="font-size:2em;font-weight:700;color:#a5b4fc" id="kpiAvgDays">~4d</div><div style="font-size:.8em;color:#94a3b8;margin-top:4px">Lead time over KEV<br><span style="color:#64748b">(when prediction beat the catalog)</span></div></div>
+<div style="background:#1e293b;border:1px solid #334155;border-left:3px solid #ec4899;border-radius:8px;padding:16px"><div style="font-size:2em;font-weight:700;color:#f9a8d4">0</div><div style="font-size:.8em;color:#94a3b8;margin-top:4px">False positives<br><span style="color:#64748b">(promoted, then de-listed)</span></div></div>
+</div>
+<p style="color:#64748b;font-size:.78em;margin:-10px 0 18px">Confirmed list (5): Marimo, SharePoint, Apache ActiveMQ, Adobe Acrobat, Defender BlueHammer. Five new Spring AI entries added today (2026-04-29) — first prospective test for the auto-monitoring loop. False positive rate has held at 0 since the watch list launched in March 2026.</p>
+
 <div class="grid-2">
 <div class="card">
 <h3 style="color:#f59e0b">Server-Side</h3>
