@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex,nofollow">
+<title>FOSS sub-7 exploit scan — scratch</title>
+<style>
+:root{--bg:#ffffff;--text:#1e293b;--muted:#64748b;--border:#e2e8f0;--card:#f8fafc;--accent:#6366f1;--red:#ef4444;--amber:#f59e0b;--green:#10b981;--cyan:#0ea5e9;--purple:#8b5cf6}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:var(--bg);color:var(--text);line-height:1.6}
+.container{max-width:1280px;margin:0 auto;padding:24px}
+h1{font-size:1.6em;color:var(--accent);margin-bottom:6px}
+h2{font-size:1.2em;color:var(--text);margin:32px 0 12px;padding-bottom:6px;border-bottom:2px solid var(--accent)}
+h3{font-size:1em;margin:16px 0 8px;color:var(--text)}
+p{margin:8px 0}
+a{color:var(--accent)}
+code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:.9em;background:var(--card);padding:1px 5px;border-radius:3px}
+
+.scratch-banner{background:#fef3c7;border:1px solid #fbbf24;border-radius:6px;padding:8px 14px;margin-bottom:16px;font-size:.85em;color:#92400e}
+.subtitle{font-size:.95em;color:var(--muted);margin-bottom:20px}
+
+.kpi-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:10px;margin:14px 0}
+.kpi{background:var(--card);border:1px solid var(--border);border-radius:8px;padding:12px;text-align:center}
+.kpi .num{font-size:1.6em;font-weight:800;line-height:1.1}
+.kpi .lbl{font-size:.78em;color:var(--muted);margin-top:3px}
+.kpi-accent{border-left:3px solid var(--accent)}
+.kpi-green{border-left:3px solid var(--green)}
+.kpi-purple{border-left:3px solid var(--purple)}
+.kpi-amber{border-left:3px solid var(--amber)}
+.kpi-cyan{border-left:3px solid var(--cyan)}
+
+.callout{border-radius:8px;padding:12px 16px;margin:14px 0}
+.callout-finding{background:rgba(99,102,241,.06);border-left:4px solid var(--accent)}
+.callout-warning{background:rgba(239,68,68,.06);border-left:4px solid var(--red)}
+.callout-success{background:rgba(16,185,129,.06);border-left:4px solid var(--green)}
+.callout-question{background:rgba(245,158,11,.06);border-left:4px solid var(--amber)}
+
+.split{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:14px 0}
+@media(max-width:780px){.split{grid-template-columns:1fr}}
+
+table{width:100%;border-collapse:collapse;margin:12px 0;font-size:.85em}
+th{background:var(--card);border-bottom:2px solid var(--border);padding:7px 6px;text-align:left;font-weight:600;cursor:pointer;user-select:none}
+th:hover{color:var(--accent)}
+td{border-bottom:1px solid var(--border);padding:6px;vertical-align:top}
+tr:hover{background:rgba(99,102,241,.04)}
+.right{text-align:right}
+.center{text-align:center}
+
+.tag{display:inline-block;padding:1px 6px;border-radius:3px;font-size:.75em;font-weight:600;line-height:1.4}
+.t-S{background:#fee2e2;color:#991b1b}
+.t-A{background:#fed7aa;color:#9a3412}
+.t-B{background:#fef3c7;color:#92400e}
+.t-C{background:#e0e7ff;color:#3730a3}
+.t-D{background:#f1f5f9;color:#475569}
+.t-yes{background:#dcfce7;color:#166534}
+.t-no{background:#fef2f2;color:#991b1b;opacity:.55}
+.t-eco{background:#dbeafe;color:#1e40af}
+.t-src-KEV{background:#fee2e2;color:#991b1b;font-weight:700}
+.t-src-Metasploit{background:#fed7aa;color:#9a3412}
+.t-src-ExploitDB{background:#e0e7ff;color:#3730a3}
+
+.controls{background:var(--card);border:1px solid var(--border);border-radius:8px;padding:12px;margin:12px 0;display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+.controls label{font-size:.85em;color:var(--muted);margin-right:4px}
+.controls input,.controls select{font-size:.85em;padding:4px 8px;border:1px solid var(--border);border-radius:4px;background:#fff}
+.controls input[type="text"]{flex:1;min-width:160px}
+.summary-cell{color:var(--muted);font-size:.8em;max-width:380px}
+.cve-cell{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:.85em;white-space:nowrap}
+.pkg-cell{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:.8em;color:var(--muted);max-width:240px;word-break:break-all}
+
+.mini-bar{height:6px;background:#e5e7eb;border-radius:3px;overflow:hidden;display:inline-block;width:80px;vertical-align:middle;margin-right:6px}
+.mini-bar-fill{height:100%;background:var(--accent)}
+
+.footnote{font-size:.85em;color:var(--muted);margin-top:24px;padding-top:14px;border-top:1px solid var(--border)}
+.footnote a{color:var(--accent)}
+
+#tableCount{font-size:.85em;color:var(--muted);margin:6px 0}
+</style>
+</head>
+<body>
+<div class="container">
+<div class="scratch-banner"><strong>SCRATCH PAGE</strong> · not linked from nav · for ad-hoc data exploration · generated 2026-04-29</div>
+
+<h1>FOSS sub-7 server-side exploited CVEs — model backtest</h1>
+<p class="subtitle">135 distinct FOSS server-side library CVEs at CVSS &lt; 7.0 with exploitation evidence (KEV / Metasploit / ExploitDB). Scored against NP+DI+DQ structure test and Hacker S/A/B/C/D attacker test. Source: <code>data/foss-sub7-scoring.json</code> · methodology: <code>data/FOSS-SUB7-METHODOLOGY.md</code>.</p>
+
+<div class="kpi-row">
+  <div class="kpi kpi-accent"><div class="num">135</div><div class="lbl">Distinct CVEs</div></div>
+  <div class="kpi kpi-green"><div class="num">82.2%</div><div class="lbl">NP+DI raw catch (111)</div></div>
+  <div class="kpi kpi-cyan"><div class="num">85.9%</div><div class="lbl">NP+DI+DQ catch (116)</div></div>
+  <div class="kpi kpi-purple"><div class="num">25.9%</div><div class="lbl">Hacker S+A catch (35)</div></div>
+  <div class="kpi kpi-amber"><div class="num">87.4%</div><div class="lbl">Union catch (118)</div></div>
+</div>
+
+<div class="split">
+<div class="callout callout-success">
+  <strong>The "free coverage" read.</strong> Triaging C+H+M is operationally impossible. The Crit/High filter we already run catches 87% of medium exploitation when applied to the same packages — the structure test generalizes down with the same miss profile (DoS, CSRF, open-redirect, info-disc, chain primitives) it shows at C/H. Mediums in NP packages with injection CWEs are getting caught by the model whether we treat them as the target population or not.
+</div>
+<div class="callout callout-warning">
+  <strong>The other side.</strong> 134 of 135 records are in NP-classified packages — on this dataset NP+DI essentially collapses to "does the bug have an injection CWE." The discriminator is doing weaker work than at C/H, where NP-vs-non-NP is roughly 55/45. Hacker S+A (26%) is the actual filter at this severity tier, and 0 of 4 KEV-confirmed CVEs cleared S+A. The "free" part is partly free because mediums-in-NP-packages-with-injection-CWEs is the population the model is built around.
+</div>
+</div>
+
+<h2>Catch by ecosystem</h2>
+<table>
+<thead><tr><th>Ecosystem</th><th class="right">n</th><th class="right">NP+DI</th><th class="right">+DQ</th><th class="right">S+A</th><th class="right">Union</th></tr></thead>
+<tbody>
+<tr><td><span class="tag t-eco">Maven</span></td><td class="right">45</td><td class="right">35 (77.8%)</td><td class="right">37 (82.2%)</td><td class="right">13 (28.9%)</td><td class="right">38 (84.4%)</td></tr>
+<tr><td><span class="tag t-eco">Packagist</span></td><td class="right">53</td><td class="right">43 (81.1%)</td><td class="right">46 (86.8%)</td><td class="right">11 (20.8%)</td><td class="right">46 (86.8%)</td></tr>
+<tr><td><span class="tag t-eco">PyPI</span></td><td class="right">23</td><td class="right">20 (87.0%)</td><td class="right">20 (87.0%)</td><td class="right">5 (21.7%)</td><td class="right">21 (91.3%)</td></tr>
+<tr><td><span class="tag t-eco">Go</span></td><td class="right">6</td><td class="right">5 (83.3%)</td><td class="right">5 (83.3%)</td><td class="right">3 (50.0%)</td><td class="right">5 (83.3%)</td></tr>
+<tr><td><span class="tag t-eco">npm</span></td><td class="right">5</td><td class="right">5 (100%)</td><td class="right">5 (100%)</td><td class="right">2 (40.0%)</td><td class="right">5 (100%)</td></tr>
+<tr><td><span class="tag t-eco">NuGet</span></td><td class="right">2</td><td class="right">2 (100%)</td><td class="right">2 (100%)</td><td class="right">1 (50.0%)</td><td class="right">2 (100%)</td></tr>
+<tr><td><span class="tag t-eco">RubyGems</span></td><td class="right">1</td><td class="right">1 (100%)</td><td class="right">1 (100%)</td><td class="right">0 (0.0%)</td><td class="right">1 (100%)</td></tr>
+</tbody>
+</table>
+
+<h2>Catch by evidence source</h2>
+<p>The strongest evidence (KEV) is the most informative bucket; ExploitDB is "demonstrated exploitable" not "exploited at scale".</p>
+<table>
+<thead><tr><th>Source</th><th class="right">n</th><th class="right">NP+DI</th><th class="right">+DQ</th><th class="right">S+A</th><th class="right">Union</th></tr></thead>
+<tbody>
+<tr><td><span class="tag t-src-KEV">KEV</span></td><td class="right">4</td><td class="right">2 (50%)</td><td class="right">2 (50%)</td><td class="right">0 (0%)</td><td class="right">2 (50%)</td></tr>
+<tr><td><span class="tag t-src-Metasploit">Metasploit</span></td><td class="right">18</td><td class="right">16 (88.9%)</td><td class="right">16 (88.9%)</td><td class="right">10 (55.6%)</td><td class="right">17 (94.4%)</td></tr>
+<tr><td><span class="tag t-src-ExploitDB">ExploitDB</span></td><td class="right">124</td><td class="right">102 (82.3%)</td><td class="right">107 (86.3%)</td><td class="right">33 (26.6%)</td><td class="right">109 (87.9%)</td></tr>
+</tbody>
+</table>
+
+<h2>Hacker tier distribution</h2>
+<div class="kpi-row">
+  <div class="kpi" style="border-left:3px solid #ef4444"><div class="num">9</div><div class="lbl">S — drop-everything</div></div>
+  <div class="kpi" style="border-left:3px solid #f97316"><div class="num">26</div><div class="lbl">A — high priority</div></div>
+  <div class="kpi" style="border-left:3px solid #f59e0b"><div class="num">85</div><div class="lbl">B — typical priority</div></div>
+  <div class="kpi" style="border-left:3px solid #94a3b8"><div class="num">15</div><div class="lbl">D — DoS / dev-only</div></div>
+</div>
+
+<h2>The 4 KEV-confirmed cases (the ground-truth bucket)</h2>
+<p>These are the strongest evidence in the dataset — KEV inclusion means CISA observed in-the-wild exploitation. Two cleared NP+DI; zero cleared Hacker S+A.</p>
+<table id="kevTable">
+<thead><tr><th>CVE</th><th>Package</th><th class="center">CVSS</th><th class="center">NP+DI</th><th class="center">Hacker</th><th>What it is</th></tr></thead>
+<tbody></tbody>
+</table>
+
+<h2>Spotlight: S/A-tier mediums (the actionable findings)</h2>
+<p>If we'd seen these without severity filtering, the hacker test would have flagged them at the top of the queue. 9 S + 26 A = 35 total. Filterable below.</p>
+<table id="saTable">
+<thead><tr><th>CVE</th><th>Package</th><th>Eco</th><th class="center">CVSS</th><th class="center">Tier</th><th class="center">DC·NE·PD·AM</th><th>Primitive</th><th>What it is</th></tr></thead>
+<tbody></tbody>
+</table>
+
+<h2>All 135 — filterable / sortable</h2>
+<div class="controls">
+  <label>Filter</label><input type="text" id="searchBox" placeholder="cve, package, summary…">
+  <label>Eco</label><select id="ecoFilter"><option value="">all</option></select>
+  <label>Source</label><select id="srcFilter"><option value="">all</option><option value="KEV">KEV</option><option value="Metasploit">Metasploit</option><option value="ExploitDB">ExploitDB</option></select>
+  <label>Tier</label><select id="tierFilter"><option value="">all</option><option>S</option><option>A</option><option>B</option><option>D</option></select>
+  <label>Catch</label><select id="catchFilter"><option value="">all</option><option value="np_di">NP+DI only</option><option value="dq">DQ rescue</option><option value="hacker_sa">Hacker S+A</option><option value="missed">Missed by both</option></select>
+</div>
+<div id="tableCount"></div>
+<table id="mainTable">
+<thead>
+<tr>
+  <th data-sort="cve">CVE</th>
+  <th data-sort="pkg">Package</th>
+  <th data-sort="eco">Eco</th>
+  <th class="right" data-sort="cvss">CVSS</th>
+  <th class="center">Sources</th>
+  <th class="center" data-sort="np">NP</th>
+  <th class="center" data-sort="di">DI</th>
+  <th class="center" data-sort="dq">DQ</th>
+  <th class="center" data-sort="tier">Tier</th>
+  <th>Primitive · summary</th>
+</tr>
+</thead>
+<tbody></tbody>
+</table>
+
+<div class="footnote">
+<p><strong>Files:</strong> raw dataset <code>data/foss-sub7-exploited.json</code> (156 per-pkg rows) · CVE-level <code>data/foss-sub7-unique.json</code> (135 records) · scoring <code>data/foss-sub7-scoring.json</code> · methodology <code>data/FOSS-SUB7-METHODOLOGY.md</code> · drift test <code>tests/test_foss_sub7_scoring.py</code>.</p>
+<p><strong>Reports:</strong> <a href="https://github.com/funwithscience-org/KEV-analysis/blob/main/analyst-reports/2026-04-29-foss-sub7-exploit-scan.md">scan report</a> · <a href="https://github.com/funwithscience-org/KEV-analysis/blob/main/analyst-reports/2026-04-29-foss-sub7-model-backtest.md">model backtest report</a>.</p>
+<p><strong>Caveats baked into the headline.</strong> CWE inference for ~5 ambiguous cases is regex-on-summary not OSV CWE lookup. The XSS/CSRF/open-redirect tier-cap is the largest single sensitivity (without it Hacker S+A jumps from 26% to ~60%). Vite (KEV ×2) is a dev-server bug — server-side technically, but the threat model is exposed dev environments not production. ExploitDB-only ≈ "demonstrated exploitable" not "exploited at scale". See methodology doc for the full list.</p>
+</div>
+</div>
+
+<script>
+const RECORDS = [{"cve":"CVE-2007-1355","pkg":"org.apache.tomcat:jsp-api","eco":"Maven","cvss":5.3,"src":["ExploitDB"],"np":true,"di":true,"dq":false,"tier":"B","kind":"xss","dc":true,"ne":true,"pd":false,"am":true,"sum":"Apache Tomcat Vulnerable to Cross-Site Scripting"},{"cve":"CVE-2007-2353","pkg":"org.apache.axis:axis","eco":"Maven","cvss":5.3,"src":["ExploitDB"],"np":true,"di":false,"dq":false,"tier":"D","kind":"info-disc","dc":true,"ne":true,"pd":false,"am":true,"sum":"Apache Axis allows Exposure of Sensitive Information to an Unauthorized Actor"},{"cve":"CVE-2008-1045","pkg":"org.opencms:opencms-core","eco":"Maven","cvss":1.3,"src":["ExploitDB"],"np":true,"di":true,"dq":false,"tier":"B","kind":"xss","dc":true,"ne":true,"pd":false,"am":true,"sum":"Alkacon OpenCMS XSS via file tree navigation in system/workplace/views/explorer/tree_files.jsp"},{"cve":"CVE-2008-1300","pkg":"org.opencms:opencms-core","eco":"Maven","cvss":1.3,"src":["ExploitDB"],"np":true,"di":true,"dq":false,"tier":"B","kind":"xss","dc":true,"ne":true,"pd":false,"am":false,"sum":"Alkacon Open CMS XSS via Logfile Viewer Settings function"},{"cve":"CVE-2008-1301","pkg":"org.opencms:opencms-core","eco":"Maven","cvss":4.6,"src":["ExploitDB"],"np":true,"di":true,"dq":false,"tier":"A","kind":"path-traversal","dc":true,"ne":true,"pd":true,"am":false,"sum":"Alkacon OpenCMS Absolute Path Traversal via pathname in filePath.0 parameter"},{"cve":"CVE-2008-1510","pkg":"org.opencms:opencms-core","eco":"Maven","cvss":1.3,"src":["ExploitDB"],"np":true,"di":true,"dq":false,"tier":"B","kind":"xss","dc":true,"ne":true,"pd":false,"am":false,"sum":"Alkacon OpenCMS XSS via searchfilter or listSearchFilter parameter"},{"cve":"CVE-2009-0815","pkg":"typo3/cms","eco":"Packagist","cvss":6.9,"src":["ExploitDB","Metasploit"],"np":true,"di":true,"dq":false,"tier":"S","kind":"path-traversal","dc":true,"ne":true,"pd":true,"am":true,"sum":"TYPO3 leaks a hash secret in an error message"},{"cve":"CVE-2009-1523","pkg":"org.mortbay.jetty:jetty","eco":"Maven","cvss":5.3,"src":["ExploitDB"],"np":true,"di":true,"dq":false,"tier":"S","kind":"path-traversal","dc":true,"ne":true,"pd":true,"am":true,"sum":"Directory traversal in Mort Bay Jetty"},{"cve":"CVE-2009-5065","pkg":"feedparser","eco":"PyPI","cvss":6.1,"src":["ExploitDB"],"np":true,"di":true,"dq":false,"tier":"B","kind":"xss","dc":true,"ne":true,"pd":false,"am":true,"sum":"feedparser Cross-site Scripting vulnerability"},{"cve":"CVE-2010-5099","pkg":"typo3/cms","eco":"Packagist","cvss":6.6,"src":["ExploitDB"],"np":true,"di":true,"dq":false,"tier":"S","kind":"path-traversal,rce","dc":true,"ne":true,"pd":true,"am":true,"sum":"TYPO3 Path Traversal vulnerability"},{"cve":"CVE-2011-1571","pkg":"com.liferay.portal:portal-service","eco":"Maven","cvss":6.9,"src":["ExploitDB"],"np":true,"di":true,"dq":false,"tier":"S","kind":"rce","dc":true,"ne":true,"pd":true,"am":true,"sum":"Liferay Portal vulnerable to arbitrary command injection"},{"cve":"CVE-2011-4107","pkg":"phpmyadmin/phpmyadmin","eco":"Packagist","cvss":6.5,"src":["ExploitDB"],"np":true,"di":true,"dq":false,"tier":"A","kind":"xxe,path-traversal","dc":true,"ne":true,"pd":true,"am":false,"sum":"phpMyAdmin vulnerable to XML external entity (XXE) injection attack"},{"cve":"CVE-2011-4340","pkg":"symphonycms/symphony-2","eco":"Packagist","cvss":1.3,"src":["ExploitDB"],"np":true,"di":true,"dq":false,"tier":"B","kind":"xss","dc":true,"ne":true,"pd":false,"am":false,"sum":"Symphony CMS vulnerable to Cross-site Scripting"},{"cve":"CVE-2012-6081","pkg":"moin","eco":"PyPI","cvss":6.3,"src":["ExploitDB","Metasploit"],"np":true,"di":true,"dq":false,"tier":"A","kind":"rce","dc":true,"ne":true,"pd":true,"am":false,"sum":"MoinMoin Multiple unrestricted file upload vulnerabilities"},{"cve":"CVE-2012-6495","pkg":"moin","eco":"PyPI","cvss":4.3,"src":["ExploitDB"],"np":true,"di":true,"dq":false,"tier":"A","kind":"path-traversal,rce","dc":true,"ne":true,"pd":true,"am":false,"sum":"MoinMoin Multiple vulnerable to directory traversal"},{"cve":"CVE-2013-4295","pkg":"org.apache.shindig:shindig-php","eco":"Maven","cvss":5.3,"src":["ExploitDB"],"np":true,"di":true,"dq":false,"tier":"A","kind":"xxe,info-disc","dc":true,"ne":true,"pd":false,"am":true,"sum":"Apache Shindig PHP Sensitive Information Disclosure"},{"cve":"CVE-2013-5123","pkg":"pip","eco":"PyPI","cvss":5.9,"src":["ExploitDB"],"np":true,"di":true,"dq":false,"tier":"B","kind":"authbypass","dc":true,"ne":true,"pd":false,"am":true,"sum":"Improper Authentication in pip"},{"cve":"CVE-2013-5573","pkg":"org.jenkins-ci.main:jenkins-core","eco":"Maven","cvss":2.1,"src":["ExploitDB"],"np":true,"di":true,"dq":false,"tier":"B","kind":"xss","dc":true,"ne":true,"pd":false,"am":true,"sum":"Jenkins allows Cross-Site Scripting (XSS) in User Configuration"},{"cve":"CVE-2013-5676","pkg":"org.jenkins-ci.plugins:sonar","eco":"Maven","cvss":5.3,"src":["ExploitDB"],"np":true,"di":false,"dq":false,"tier":"D","kind":"info-disc","dc":true,"ne":true,"pd":false,"am":false,"sum":"Jenkins SonarQube Plugin Stores Passwords in Cleartext"},{"cve":"CVE-2014-3146","pkg":"lxml","eco":"PyPI","cvss":6.1,"src":["ExploitDB"],"np":true,"di":true,"dq":false,"tier":"B","kind":"xss","dc":true,"ne":true,"pd":false,"am":true,"sum":"lxml Cross-site Scripting Via Control Characters"},{"cve":"CVE-2014-3840","pkg":"mayan-edms","eco":"PyPI","cvss":5.1,"src":["ExploitDB"],"np":true,"di":true,"dq":false,"tier":"B","kind":"xss","dc":true,"ne":true,"pd":false,"am":false,"sum":"Mayan EDMS multiple cross-site scripting (XSS) vulnerabilities"},{"cve":"CVE-2014-8681","pkg":"github.com/gogits/gogs","eco":"Go","cvss":6.5,"src":["ExploitDB"],"np":true,"di":true,"dq":false,"tier":"S","kind":"sqli","dc":true,"ne":true,"pd":true,"am":true,"sum":"SQL Injection in gogs.io/gogs"},{"cve":"CVE-2015-7562","pkg":"nilsteampassnet/teampass","eco":"Packagist","cvss":6.1,"src":["ExploitDB"],"np":true,"di":true,"dq":false,"tier":"B","kind":"xss","dc":true,"ne":true,"pd":false,"am":true,"sum":"TeamPass vulnerable to Cross-site Scripting"},{"cve":"CVE-2015-8309","pkg":"cherrymusic","eco":"PyPI","cvss":4.3,"src":["ExploitDB"],"np":true,"di":true,"dq":false,"tier":"A","kind":"path-traversal","dc":true,"ne":true,"pd":true,"am":false,"sum":"Cherry Music directory traversal vulnerability"},{"cve":"CVE-2016-0784","pkg":"org.apache.openmeetings:openmeetings-install","eco":"Maven","cvss":6.5,"src":["ExploitDB"],"np":true,"di":true,"dq":false,"tier":"A","kind":"path-traversal","dc":true,"ne":true,"pd":true,"am":false,"sum":"Apache OpenMeetings Directory Traversal vulnerability"},{"cve":"CVE-2016-3670","pkg":"com.liferay:com.liferay.portal.search.web","eco":"Maven","cvss":6.1,"src":["ExploitDB"],"np":true,"di":true,"dq":false,"tier":"B","kind":"xss","dc":true,"ne":true,"pd":false,"am":true,"sum":"Liferay Portal Vulnerable to XSS in Profile Search Functionality"},{"cve":"CVE-2016-4314","pkg":"org.wso2.carbon.commons:org.wso2.carbon.logging.view.ui","eco":"Maven","cvss":4.9,"src":["ExploitDB"],"np":true,"di":true,"dq":false,"tier":"A","kind":"path-traversal","dc":true,"ne":true,"pd":true,"am":false,"sum":"WSO2 Carbon directory traversal vulnerability"},{"cve":"CVE-2016-4316","pkg":"org.wso2.carbon.commons:org.wso2.carbon.messageflows.ui","eco":"Maven","cvss":6.1,"src":["ExploitDB"],"np":true,"di":true,"dq":false,"tier":"B","kind":"xss","dc":true,"ne":true,"pd":false,"am":true,"sum":"WSO2 Carbon vulnerable to Cross-site Scripting"},{"cve":"CVE-2016-4807","pkg":"web2py","eco":"PyPI","cvss":4.8,"src":["ExploitDB"],"np":true,"di":true,"dq":false,"tier":"B","kind":"xss","dc":true,"ne":true,"pd":false,"am":false,"sum":"Web2py Reflected XSS vulnerability"},{"cve":"CVE-2016-4808","pkg":"web2py","eco":"PyPI","cvss":4.5,"src":["ExploitDB"],"np":true,"di":false,"dq":false,"tier":"B","kind":"csrf","dc":true,"ne":true,"pd":false,"am":false,"sum":"Web2py Cross-Site Request Forgery vulnerability"},{"cve":"CVE-2016-6186","pkg":"django","eco":"PyPI","cvss":6.1,"src":["ExploitDB"],"np":true,"di":true,"dq":false,"tier":"B","kind":"xss","dc":true,"ne":true,"pd":false,"am":false,"sum":"Django Cross-site scripting Vulnerability"},{"cve":"CVE-2017-13098","pkg":"org.bouncycastle:bcprov-jdk15on","eco":"Maven","cvss":5.9,"src":["Metasploit"],"np":true,"di":false,"dq":false,"tier":"D","kind":"info-disc","dc":false,"ne":true,"pd":false,"am":true,"sum":"Observable Discrepancy in BouncyCastle"},{"cve":"CVE-2017-15284","pkg":"october/rain","eco":"Packagist","cvss":5.4,"src":["ExploitDB"],"np":true,"di":true,"dq":false,"tier":"B","kind":"xss","dc":true,"ne":true,"pd":false,"am":false,"sum":"OctoberCMS Cross-Site Scripting"},{"cve":"CVE-2017-15374","pkg":"shopware/shopware","eco":"Packagist","cvss":6.1,"src":["ExploitDB"],"np":true,"di":true,"dq":false,"tier":"B","kind":"xss","dc":true,"ne":true,"pd":false,"am":true,"sum":"Shopware XSS Vulnerability"},{"cve":"CVE-2017-15878","pkg":"keystone","eco":"npm","cvss":6.1,"src":["ExploitDB"],"np":true,"di":true,"dq":false,"tier":"B","kind":"xss","dc":true,"ne":true,"pd":false,"am":true,"sum":"Cross-Site Scripting in keystone"},{"cve":"CVE-2017-16807","pkg":"getkirby/cms","eco":"Packagist","cvss":5.4,"src":["ExploitDB"],"np":true,"di":true,"dq":false,"tier":"B","kind":"xss","dc":true,"ne":true,"pd":false,"am":true,"sum":"Kirby XSS Vulnerability"},{"cve":"CVE-2017-18357","pkg":"shopware/shopware","eco":"Packagist","cvss":6.5,"src":["ExploitDB","Metasploit"],"np":true,"di":true,"dq":false,"tier":"A","kind":"xxe,deser","dc":true,"ne":true,"pd":true,"am":false,"sum":"Shopware XXE Vulnerability"},{"cve":"CVE-2017-5223","pkg":"phpmailer/phpmailer","eco":"Packagist","cvss":5.5,"src":["ExploitDB"],"np":true,"di":true,"dq":false,"tier":"A","kind":"path-traversal","dc":true,"ne":true,"pd":false,"am":true,"sum":"Local file disclosure in PHPMailer"},{"cve":"CVE-2017-7620","pkg":"mantisbt/mantisbt","eco":"Packagist","cvss":6.5,"src":["ExploitDB"],"np":true,"di":false,"dq":true,"tier":"B","kind":"csrf,open-redirect","dc":true,"ne":true,"pd":false,"am":true,"sum":"MantisBT vulnerable to CSRF and Open Redirect attacks"},{"cve":"CVE-2017-7725","pkg":"concrete5/concrete5","eco":"Packagist","cvss":6.1,"src":["ExploitDB"],"np":true,"di":true,"dq":false,"tier":"B","kind":"xss","dc":true,"ne":true,"pd":false,"am":true,"sum":"Concrete CMS vulnerable to cross-site scripting (XSS)"},{"cve":"CVE-2017-8382","pkg":"admidio/admidio","eco":"Packagist","cvss":4.5,"src":["ExploitDB"],"np":true,"di":false,"dq":true,"tier":"B","kind":"csrf","dc":true,"ne":true,"pd":false,"am":true,"sum":"admidio CSRF Vulnerability"},{"cve":"CVE-2017-9516","pkg":"craftcms/cms","eco":"Packagist","cvss":5.4,"src":["ExploitDB"],"np":true,"di":true,"dq":false,"tier":"B","kind":"xss","dc":true,"ne":true,"pd":false,"am":true,"sum":"Craft CMS XSS Vulnerability"},{"cve":"CVE-2018-10366","pkg":"rainlab/user-plugin","eco":"Packagist","cvss":6.1,"src":["ExploitDB"],"np":true,"di":true,"dq":false,"tier":"B","kind":"xss","dc":true,"ne":true,"pd":false,"am":true,"sum":"User Plugin for October CSS Allows XSS"},{"cve":"CVE-2018-1042","pkg":"moodle/moodle","eco":"Packagist","cvss":6.5,"src":["ExploitDB"],"np":true,"di":true,"dq":false,"tier":"A","kind":"ssrf","dc":true,"ne":true,"pd":false,"am":true,"sum":"Moodle SSRF Vulnerability"},{"cve":"CVE-2018-11564","pkg":"pagekit/pagekit","eco":"Packagist","cvss":4.8,"src":["ExploitDB"],"np":true,"di":true,"dq":false,"tier":"B","kind":"xss","dc":true,"ne":true,"pd":false,"am":false,"sum":"Pagekit Stored Cross-site Scripting"},{"cve":"CVE-2018-11770","pkg":"org.apache.spark:spark-core_2.10","eco":"Maven","cvss":4.2,"src":["Metasploit"],"np":true,"di":true,"dq":false,"tier":"B","kind":"authbypass","dc":false,"ne":true,"pd":false,"am":true,"sum":"org.apache.spark:spark-core_2.10 and org.apache.spark:spark-core_2.11 Improper Authentication vulnerability"},{"cve":"CVE-2018-11784","pkg":"org.apache.tomcat.embed:tomcat-embed-core","eco":"Maven","cvss":4.3,"src":["ExploitDB"],"np":true,"di":false,"dq":false,"tier":"D","kind":"open-redirect","dc":true,"ne":true,"pd":false,"am":true,"sum":"Apache Tomcat Open Redirect vulnerability"},{"cve":"CVE-2018-1322","pkg":"org.apache.syncope:syncope-core","eco":"Maven","cvss":4.9,"src":["ExploitDB"],"np":true,"di":false,"dq":false,"tier":"D","kind":"info-disc","dc":true,"ne":true,"pd":false,"am":false,"sum":"Exposure of Sensitive Information to an Unauthorized Actor in Apache syncope-cope"},{"cve":"CVE-2018-14058","pkg":"pimcore/pimcore","eco":"Packagist","cvss":6.5,"src":["ExploitDB","Metasploit"],"np":true,"di":true,"dq":false,"tier":"A","kind":"sqli","dc":true,"ne":true,"pd":true,"am":false,"sum":"Pimcore SQLi Vulnerability"},{"cve":"CVE-2018-14059","pkg":"pimcore/pimcore","eco":"Packagist","cvss":5.4,"src":["ExploitDB"],"np":true,"di":true,"dq":false,"tier":"B","kind":"xss","dc":true,"ne":true,"pd":false,"am":true,"sum":"Pimcore XSS Vulnerability"},{"cve":"CVE-2018-14840","pkg":"intelliants/subrion","eco":"Packagist","cvss":6.1,"src":["ExploitDB"],"np":true,"di":true,"dq":false,"tier":"B","kind":"xss","dc":true,"ne":true,"pd":false,"am":true,"sum":"Subrion CMS Cross-site Scripting"},{"cve":"CVE-2018-18548","pkg":"ajenti","eco":"PyPI","cvss":6.1,"src":["ExploitDB"],"np":true,"di":true,"dq":false,"tier":"B","kind":"xss","dc":true,"ne":true,"pd":false,"am":true,"sum":"Ajenti Cross-site Scripting Via Filename"},{"cve":"CVE-2018-19799","pkg":"dolibarr/dolibarr","eco":"Packagist","cvss":6.1,"src":["ExploitDB"],"np":true,"di":true,"dq":false,"tier":"B","kind":"xss","dc":true,"ne":true,"pd":false,"am":true,"sum":"Dolibarr ERP and CRM contain XSS Vulnerability"},{"cve":"CVE-2018-19933","pkg":"bolt/bolt","eco":"Packagist","cvss":6.1,"src":["ExploitDB"],"np":true,"di":true,"dq":false,"tier":"B","kind":"xss","dc":true,"ne":true,"pd":false,"am":true,"sum":"Bolt Cross-site Scripting (XSS) via text input click preview button"},{"cve":"CVE-2018-20418","pkg":"craftcms/cms","eco":"Packagist","cvss":4.8,"src":["ExploitDB"],"np":true,"di":true,"dq":false,"tier":"B","kind":"xss","dc":true,"ne":true,"pd":false,"am":true,"sum":"Craft CMS Cross-site Scripting (XSS) Vulnerability"},{"cve":"CVE-2018-25080","pkg":"mobiledetect/mobiledetectlib","eco":"Packagist","cvss":6.1,"src":["ExploitDB"],"np":true,"di":true,"dq":false,"tier":"B","kind":"xss","dc":true,"ne":true,"pd":false,"am":true,"sum":"Cross-site Scripting in MobileDetect"},{"cve":"CVE-2018-7198","pkg":"rainlab/blog-plugin","eco":"Packagist","cvss":6.1,"src":["ExploitDB"],"np":true,"di":true,"dq":false,"tier":"B","kind":"xss","dc":true,"ne":true,"pd":false,"am":true,"sum":"October CMS - RainLab Blog Plugin XSS"},{"cve":"CVE-2019-0186","pkg":"org.apache.portals.pluto:chatRoomDemo","eco":"Maven","cvss":6.1,"src":["ExploitDB"],"np":true,"di":true,"dq":false,"tier":"B","kind":"xss","dc":true,"ne":true,"pd":false,"am":true,"sum":"Cross-site Scripting in Apache Pluto Chatroom demo"},{"cve":"CVE-2019-0221","pkg":"org.apache.tomcat.embed:tomcat-embed-core","eco":"Maven","cvss":6.1,"src":["ExploitDB"],"np":true,"di":true,"dq":false,"tier":"B","kind":"xss","dc":false,"ne":true,"pd":false,"am":true,"sum":"Cross-site scripting in Apache Tomcat"},{"cve":"CVE-2019-10349","pkg":"org.jenkins-ci.plugins:depgraph-view","eco":"Maven","cvss":5.4,"src":["ExploitDB"],"np":true,"di":true,"dq":false,"tier":"B","kind":"xss","dc":true,"ne":true,"pd":false,"am":false,"sum":"Jenkins Dependency Graph Viewer Plugin contains Cross-site Scripting"},{"cve":"CVE-2019-10475","pkg":"org.jenkins-ci.plugins:build-metrics","eco":"Maven","cvss":6.1,"src":["ExploitDB"],"np":true,"di":true,"dq":false,"tier":"B","kind":"xss","dc":true,"ne":true,"pd":false,"am":true,"sum":"Jenkins build-metrics Plugin reflected cross-site scripting vulnerability"},{"cve":"CVE-2019-11269","pkg":"org.springframework.security.oauth:spring-security-oauth","eco":"Maven","cvss":5.4,"src":["ExploitDB"],"np":true,"di":false,"dq":true,"tier":"D","kind":"open-redirect","dc":true,"ne":true,"pd":false,"am":true,"sum":"Open Redirect in Spring Security OAuth"},{"cve":"CVE-2019-11358","pkg":"django","eco":"PyPI","cvss":6.1,"src":["ExploitDB"],"np":true,"di":true,"dq":false,"tier":"B","kind":"xss,prototype-pollution","dc":true,"ne":true,"pd":false,"am":true,"sum":"XSS in jQuery as used in Drupal, Backdrop CMS, and other products"},{"cve":"CVE-2019-12562","pkg":"DotNetNuke.Core","eco":"NuGet","cvss":6.1,"src":["ExploitDB"],"np":true,"di":true,"dq":false,"tier":"B","kind":"xss","dc":true,"ne":true,"pd":false,"am":false,"sum":"Stored Cross-Site Scripting vulnerability in admin component of DotNetNuke"},{"cve":"CVE-2019-12616","pkg":"phpmyadmin/phpmyadmin","eco":"Packagist","cvss":6.5,"src":["ExploitDB"],"np":true,"di":false,"dq":false,"tier":"B","kind":"csrf","dc":true,"ne":true,"pd":false,"am":false,"sum":"phpMyAdmin CSRF Vulnerability"},{"cve":"CVE-2019-12922","pkg":"phpmyadmin/phpmyadmin","eco":"Packagist","cvss":6.5,"src":["ExploitDB"],"np":true,"di":false,"dq":false,"tier":"B","kind":"csrf","dc":true,"ne":true,"pd":false,"am":true,"sum":"phpMyAdmin Cross-Site Request Forgery (CSRF)"},{"cve":"CVE-2019-13068","pkg":"github.com/grafana/grafana","eco":"Go","cvss":5.4,"src":["ExploitDB"],"np":true,"di":true,"dq":false,"tier":"B","kind":"xss","dc":true,"ne":true,"pd":false,"am":true,"sum":"Grafana Cross-site Scripting vulnerability"},{"cve":"CVE-2019-13234","pkg":"org.opencms:opencms-core","eco":"Maven","cvss":6.1,"src":["ExploitDB"],"np":true,"di":true,"dq":false,"tier":"B","kind":"xss","dc":true,"ne":true,"pd":false,"am":true,"sum":"XSS in search engine"},{"cve":"CVE-2019-13235","pkg":"org.opencms:opencms-core","eco":"Maven","cvss":6.1,"src":["ExploitDB"],"np":true,"di":true,"dq":false,"tier":"B","kind":"xss","dc":true,"ne":true,"pd":false,"am":true,"sum":"XSS in login form"},{"cve":"CVE-2019-13236","pkg":"org.opencms:opencms-core","eco":"Maven","cvss":6.1,"src":["ExploitDB"],"np":true,"di":true,"dq":false,"tier":"B","kind":"xss","dc":true,"ne":true,"pd":false,"am":false,"sum":"XSS issues in the management interface"},{"cve":"CVE-2019-13237","pkg":"org.opencms:opencms-core","eco":"Maven","cvss":4.3,"src":["ExploitDB"],"np":true,"di":true,"dq":false,"tier":"A","kind":"path-traversal,rce","dc":true,"ne":true,"pd":true,"am":false,"sum":"Local file inclusion allows unauthorized access to internal resources in Alkacon OpenCms"},{"cve":"CVE-2019-14470","pkg":"cosenary/instagram","eco":"Packagist","cvss":6.1,"src":["ExploitDB"],"np":true,"di":true,"dq":false,"tier":"B","kind":"xss","dc":true,"ne":true,"pd":false,"am":true,"sum":"Cosenary Instagram-PHP-API contains reflected XSS vulnerability"},{"cve":"CVE-2019-16172","pkg":"limesurvey/limesurvey","eco":"Packagist","cvss":5.4,"src":["ExploitDB"],"np":true,"di":true,"dq":false,"tier":"B","kind":"xss","dc":true,"ne":true,"pd":false,"am":false,"sum":"Cross-site Scripting in LimeSurvey"},{"cve":"CVE-2019-16173","pkg":"limesurvey/limesurvey","eco":"Packagist","cvss":5.4,"src":["ExploitDB"],"np":true,"di":true,"dq":false,"tier":"B","kind":"xss","dc":true,"ne":true,"pd":false,"am":false,"sum":"Cross-site Scripting in LimeSurvey"},{"cve":"CVE-2019-16197","pkg":"dolibarr/dolibarr","eco":"Packagist","cvss":6.1,"src":["ExploitDB"],"np":true,"di":true,"dq":false,"tier":"B","kind":"xss","dc":true,"ne":true,"pd":false,"am":true,"sum":"Cross-site scripting in Dolibarr"},{"cve":"CVE-2019-17554","pkg":"org.apache.olingo:odata-client-core","eco":"Maven","cvss":5.5,"src":["ExploitDB"],"np":true,"di":true,"dq":false,"tier":"S","kind":"xxe,deser","dc":true,"ne":true,"pd":true,"am":true,"sum":"Improper Restriction of XML External Entity Reference in Apache Olingo"},{"cve":"CVE-2019-3778","pkg":"org.springframework.security.oauth:spring-security-oauth","eco":"Maven","cvss":6.5,"src":["ExploitDB"],"np":true,"di":false,"dq":true,"tier":"D","kind":"open-redirect","dc":true,"ne":true,"pd":false,"am":true,"sum":"spring-security-oauth and spring-security-oauth2 Open Redirect vulnerability"},{"cve":"CVE-2019-3799","pkg":"org.springframework.cloud:spring-cloud-config-server","eco":"Maven","cvss":6.5,"src":["ExploitDB","Metasploit"],"np":true,"di":true,"dq":false,"tier":"A","kind":"path-traversal","dc":true,"ne":true,"pd":false,"am":true,"sum":"Path Traversal in Spring Cloud Config"},{"cve":"CVE-2019-3810","pkg":"moodle/moodle","eco":"Packagist","cvss":5.3,"src":["ExploitDB"],"np":true,"di":true,"dq":false,"tier":"B","kind":"xss","dc":true,"ne":true,"pd":false,"am":true,"sum":"Moodle XSS Vulnerability"},{"cve":"CVE-2019-6588","pkg":"com.liferay.portal:release.portal.bom","eco":"Maven","cvss":4.7,"src":["ExploitDB"],"np":true,"di":true,"dq":false,"tier":"B","kind":"xss","dc":false,"ne":true,"pd":false,"am":true,"sum":"Liferay Portal Allows Cross-Site Scripting (XSS) via the SimpleCaptcha API"},{"cve":"CVE-2019-6804","pkg":"org.rundeck:rundeck","eco":"Maven","cvss":6.1,"src":["ExploitDB"],"np":true,"di":true,"dq":false,"tier":"B","kind":"xss","dc":true,"ne":true,"pd":false,"am":true,"sum":"Rundeck Community Edition vulnerable to Cross-site Scripting"},{"cve":"CVE-2019-9553","pkg":"bolt/bolt","eco":"Packagist","cvss":6.1,"src":["ExploitDB"],"np":true,"di":true,"dq":false,"tier":"B","kind":"xss","dc":true,"ne":true,"pd":false,"am":true,"sum":"Bolt Cross-site Scripting via the slug, teaser or title parameters"},{"cve":"CVE-2020-10596","pkg":"opencart/opencart","eco":"Packagist","cvss":5.4,"src":["ExploitDB"],"np":true,"di":true,"dq":false,"tier":"B","kind":"xss","dc":true,"ne":true,"pd":false,"am":false,"sum":"Cross-site Scripting in OpenCart"},{"cve":"CVE-2020-10770","pkg":"org.keycloak:keycloak-core","eco":"Maven","cvss":5.3,"src":["ExploitDB"],"np":true,"di":true,"dq":false,"tier":"A","kind":"ssrf","dc":true,"ne":true,"pd":false,"am":true,"sum":"Keycloak vulnerable to Server-Side Request Forgery"},{"cve":"CVE-2020-11652","pkg":"salt","eco":"PyPI","cvss":6.5,"src":["ExploitDB","KEV","Metasploit"],"np":true,"di":true,"dq":false,"tier":"B","kind":"path-traversal","dc":true,"ne":true,"pd":false,"am":false,"sum":"SaltStack Salt is vulnerable Arbitrary Directory Access"},{"cve":"CVE-2020-15500","pkg":"tileserver-gl","eco":"npm","cvss":6.1,"src":["ExploitDB"],"np":true,"di":true,"dq":false,"tier":"B","kind":"xss","dc":true,"ne":true,"pd":false,"am":true,"sum":"Cross-site scripting in TileServer GL"},{"cve":"CVE-2020-2096","pkg":"org.jenkins-ci.ruby-plugins:gitlab-hook","eco":"Maven","cvss":6.1,"src":["ExploitDB"],"np":true,"di":true,"dq":false,"tier":"B","kind":"xss","dc":true,"ne":true,"pd":false,"am":true,"sum":"Reflected XSS vulnerability in Jenkins gitlab-hook Plugin"},{"cve":"CVE-2020-2231","pkg":"org.jenkins-ci.main:jenkins-core","eco":"Maven","cvss":5.4,"src":["ExploitDB"],"np":true,"di":true,"dq":false,"tier":"B","kind":"xss","dc":true,"ne":true,"pd":false,"am":false,"sum":"Improper Neutralization of Input During Web Page Generation in Jenkins"},{"cve":"CVE-2020-28413","pkg":"mantisbt/mantisbt","eco":"Packagist","cvss":5.3,"src":["ExploitDB"],"np":true,"di":true,"dq":false,"tier":"S","kind":"sqli","dc":true,"ne":true,"pd":true,"am":true,"sum":"MantisBT SQL Injection via mc_project_get_users function"},{"cve":"CVE-2020-29470","pkg":"opencart/opencart","eco":"Packagist","cvss":4.8,"src":["ExploitDB"],"np":true,"di":true,"dq":false,"tier":"B","kind":"xss","dc":true,"ne":true,"pd":false,"am":true,"sum":"OpenCart Cross-site Scripting (XSS) in the Subject field of mail."},{"cve":"CVE-2020-29471","pkg":"opencart/opencart","eco":"Packagist","cvss":4.8,"src":["ExploitDB"],"np":true,"di":true,"dq":false,"tier":"B","kind":"xss","dc":true,"ne":true,"pd":false,"am":false,"sum":"OpenCart Stored Cross-Site Scripting"},{"cve":"CVE-2020-5295","pkg":"october/cms","eco":"Packagist","cvss":4.8,"src":["ExploitDB"],"np":true,"di":true,"dq":false,"tier":"A","kind":"path-traversal","dc":true,"ne":true,"pd":false,"am":true,"sum":"Local File read vulnerability in OctoberCMS"},{"cve":"CVE-2020-5811","pkg":"UmbracoCms","eco":"NuGet","cvss":6.5,"src":["ExploitDB"],"np":true,"di":true,"dq":false,"tier":"A","kind":"path-traversal","dc":true,"ne":true,"pd":false,"am":true,"sum":"Authenticated path traversal in Umbraco CMS"},{"cve":"CVE-2020-7934","pkg":"com.liferay.portal:release.portal.bom","eco":"Maven","cvss":5.4,"src":["ExploitDB"],"np":true,"di":true,"dq":false,"tier":"B","kind":"xss","dc":true,"ne":true,"pd":false,"am":false,"sum":"Liferay Portal Vulnerable to Persistent Cross-Site Scripting (XSS) in MyAccountPortlet"},{"cve":"CVE-2021-21337","pkg":"products-pluggableauthservice","eco":"PyPI","cvss":5.7,"src":["ExploitDB"],"np":true,"di":false,"dq":false,"tier":"D","kind":"open-redirect","dc":true,"ne":true,"pd":false,"am":true,"sum":"URL Redirection to Untrusted Site ('Open Redirect') in Products.PluggableAuthService"},{"cve":"CVE-2021-22145","pkg":"org.elasticsearch.client:elasticsearch-rest-client","eco":"Maven","cvss":6.5,"src":["ExploitDB","Metasploit"],"np":true,"di":false,"dq":false,"tier":"A","kind":"info-disc","dc":true,"ne":true,"pd":true,"am":false,"sum":"Generation of Error Message Containing Sensitive Information in Elasticsearch"},{"cve":"CVE-2021-22557","pkg":"slo-generator","eco":"PyPI","cvss":5.3,"src":["ExploitDB"],"np":false,"di":true,"dq":false,"tier":"S","kind":"rce","dc":true,"ne":true,"pd":true,"am":true,"sum":"Code Injection in SLO Generator"},{"cve":"CVE-2021-28164","pkg":"org.eclipse.jetty:jetty-webapp","eco":"Maven","cvss":5.3,"src":["ExploitDB","Metasploit"],"np":true,"di":true,"dq":false,"tier":"A","kind":"path-traversal","dc":true,"ne":true,"pd":false,"am":true,"sum":"Authorization Before Parsing and Canonicalization in jetty"},{"cve":"CVE-2021-33561","pkg":"com.shopizer:shopizer","eco":"Maven","cvss":4.8,"src":["ExploitDB"],"np":true,"di":true,"dq":false,"tier":"B","kind":"xss","dc":true,"ne":true,"pd":false,"am":true,"sum":"Cross-site scripting in Shopizer"},{"cve":"CVE-2021-33562","pkg":"com.shopizer:shopizer","eco":"Maven","cvss":4.8,"src":["ExploitDB"],"np":true,"di":true,"dq":false,"tier":"B","kind":"xss","dc":true,"ne":true,"pd":false,"am":true,"sum":"Cross-site scripting in Shopizer"},{"cve":"CVE-2021-34429","pkg":"org.eclipse.jetty:jetty-webapp","eco":"Maven","cvss":5.3,"src":["ExploitDB","Metasploit"],"np":true,"di":true,"dq":false,"tier":"A","kind":"path-traversal","dc":true,"ne":true,"pd":false,"am":true,"sum":"Encoded URIs can access WEB-INF directory in Eclipse Jetty"},{"cve":"CVE-2021-42053","pkg":"django-unicorn","eco":"PyPI","cvss":6.1,"src":["ExploitDB"],"np":true,"di":true,"dq":false,"tier":"B","kind":"xss","dc":true,"ne":true,"pd":false,"am":true,"sum":"Cross-site scripting in Unicorn framework"},{"cve":"CVE-2022-0088","pkg":"yourls/yourls","eco":"Packagist","cvss":3.5,"src":["ExploitDB"],"np":true,"di":false,"dq":false,"tier":"B","kind":"csrf","dc":true,"ne":true,"pd":false,"am":true,"sum":"Cross-Site Request Forgery in YOURLS"},{"cve":"CVE-2022-0967","pkg":"showdoc/showdoc","eco":"Packagist","cvss":6.9,"src":["ExploitDB"],"np":true,"di":true,"dq":false,"tier":"B","kind":"xss","dc":true,"ne":true,"pd":false,"am":true,"sum":"Stored Cross-site Scripting in showdoc"},{"cve":"CVE-2022-34140","pkg":"feehi/cms","eco":"Packagist","cvss":5.4,"src":["ExploitDB"],"np":true,"di":true,"dq":false,"tier":"B","kind":"xss","dc":true,"ne":true,"pd":false,"am":true,"sum":"Feehi CMS Cross-site Scripting"},{"cve":"CVE-2022-36551","pkg":"label-studio","eco":"PyPI","cvss":6.5,"src":["ExploitDB"],"np":true,"di":true,"dq":false,"tier":"B","kind":"ssrf,path-traversal","dc":false,"ne":true,"pd":true,"am":false,"sum":"Heartex - Label Studio Community Edition vulnerable to SSRF in the Data Import module"},{"cve":"CVE-2022-3766","pkg":"thorsten/phpmyfaq","eco":"Packagist","cvss":6.1,"src":["ExploitDB"],"np":true,"di":true,"dq":false,"tier":"B","kind":"xss","dc":true,"ne":true,"pd":false,"am":true,"sum":"phpMyFAQ vulnerable to reflected Cross-site Scripting"},{"cve":"CVE-2022-4407","pkg":"thorsten/phpmyfaq","eco":"Packagist","cvss":6.1,"src":["ExploitDB"],"np":true,"di":true,"dq":false,"tier":"B","kind":"xss","dc":true,"ne":true,"pd":false,"am":true,"sum":"phpMyFAQ vulnerable to Cross-site Scripting"},{"cve":"CVE-2023-28458","pkg":"pretalx","eco":"PyPI","cvss":4.3,"src":["Metasploit"],"np":true,"di":true,"dq":false,"tier":"B","kind":"path-traversal","dc":false,"ne":true,"pd":false,"am":true,"sum":"pretalx allows path traversal in HTML export"},{"cve":"CVE-2023-29918","pkg":"francoisjacquet/rosariosis","eco":"Packagist","cvss":5.4,"src":["ExploitDB"],"np":true,"di":false,"dq":false,"tier":"D","kind":"csv","dc":true,"ne":true,"pd":false,"am":true,"sum":"RosarioSIS vulnerable to CSV Injection"},{"cve":"CVE-2023-34927","pkg":"github.com/casdoor/casdoor","eco":"Go","cvss":6.5,"src":["ExploitDB"],"np":true,"di":false,"dq":false,"tier":"B","kind":"csrf","dc":true,"ne":true,"pd":false,"am":true,"sum":"Casdoor Cross-Site Request Forgery vulnerability"},{"cve":"CVE-2023-37269","pkg":"wintercms/winter","eco":"Packagist","cvss":2.0,"src":["ExploitDB"],"np":true,"di":true,"dq":false,"tier":"B","kind":"xss","dc":true,"ne":true,"pd":false,"am":false,"sum":"Winter CMS stored XSS through privileged upload of SVG file"},{"cve":"CVE-2023-37941","pkg":"apache-superset","eco":"PyPI","cvss":6.6,"src":["Metasploit"],"np":true,"di":true,"dq":false,"tier":"B","kind":"deser,rce","dc":false,"ne":true,"pd":true,"am":false,"sum":"Apache Superset Deserialization of Untrusted Data vulnerability"},{"cve":"CVE-2023-38501","pkg":"copyparty","eco":"PyPI","cvss":6.3,"src":["ExploitDB"],"np":true,"di":true,"dq":false,"tier":"B","kind":"xss","dc":true,"ne":true,"pd":false,"am":true,"sum":"copyparty vulnerable to reflected cross-site scripting via k304 parameter"},{"cve":"CVE-2023-39265","pkg":"apache-superset","eco":"PyPI","cvss":6.5,"src":["Metasploit"],"np":true,"di":true,"dq":false,"tier":"A","kind":"sqli","dc":false,"ne":true,"pd":true,"am":true,"sum":"Apache Superset Improper Input Validation vulnerability"},{"cve":"CVE-2023-40028","pkg":"ghost","eco":"npm","cvss":4.9,"src":["ExploitDB"],"np":true,"di":true,"dq":false,"tier":"A","kind":"path-traversal","dc":true,"ne":true,"pd":true,"am":false,"sum":"Ghost vulnerable to arbitrary file read via symlinks in content import"},{"cve":"CVE-2023-40315","pkg":"org.opennms:opennms-webapp-rest","eco":"Maven","cvss":5.3,"src":["Metasploit"],"np":true,"di":true,"dq":false,"tier":"B","kind":"authbypass","dc":true,"ne":true,"pd":false,"am":false,"sum":"OpenNMS privilege escalation vulnerability"},{"cve":"CVE-2023-44487","pkg":"com.typesafe.akka:akka-http-core","eco":"Maven","cvss":5.3,"src":["ExploitDB","KEV"],"np":true,"di":false,"dq":false,"tier":"D","kind":"dos","dc":true,"ne":true,"pd":false,"am":true,"sum":"HTTP/2 Stream Cancellation Attack"},{"cve":"CVE-2024-31839","pkg":"github.com/tiagorlampert/CHAOS","eco":"Go","cvss":4.8,"src":["Metasploit"],"np":true,"di":true,"dq":false,"tier":"B","kind":"xss,authbypass","dc":true,"ne":true,"pd":false,"am":true,"sum":"tiagorlampert CHAOS vulnerable to Cross Site Scripting"},{"cve":"CVE-2024-45440","pkg":"drupal/core","eco":"Packagist","cvss":5.3,"src":["ExploitDB"],"np":true,"di":false,"dq":false,"tier":"D","kind":"info-disc","dc":true,"ne":true,"pd":false,"am":true,"sum":"Drupal Full Path Disclosure"},{"cve":"CVE-2024-46528","pkg":"github.com/kubesphere/kubesphere","eco":"Go","cvss":6.5,"src":["ExploitDB"],"np":true,"di":true,"dq":false,"tier":"A","kind":"idor","dc":true,"ne":true,"pd":true,"am":false,"sum":"KubeSphere IDOR vulnerability"},{"cve":"CVE-2024-46987","pkg":"camaleon_cms","eco":"RubyGems","cvss":6.5,"src":["Metasploit"],"np":true,"di":true,"dq":false,"tier":"B","kind":"path-traversal","dc":true,"ne":true,"pd":false,"am":false,"sum":"Camaleon CMS vulnerable to arbitrary path traversal (GHSL-2024-183)"},{"cve":"CVE-2024-47605","pkg":"silverstripe/framework","eco":"Packagist","cvss":5.4,"src":["ExploitDB"],"np":true,"di":true,"dq":false,"tier":"B","kind":"xss","dc":true,"ne":true,"pd":false,"am":true,"sum":"Silverstripe Framework has a XSS via insert media remote file oembed"},{"cve":"CVE-2024-55889","pkg":"thorsten/phpmyfaq","eco":"Packagist","cvss":4.9,"src":["ExploitDB"],"np":true,"di":false,"dq":false,"tier":"D","kind":"unknown","dc":true,"ne":true,"pd":false,"am":false,"sum":"thorsten/phpmyfaq Unintended File Download Triggered by Embedded Frames"},{"cve":"CVE-2025-30208","pkg":"vite","eco":"npm","cvss":5.3,"src":["ExploitDB"],"np":true,"di":true,"dq":false,"tier":"A","kind":"path-traversal","dc":false,"ne":true,"pd":true,"am":true,"sum":"Vite bypasses server.fs.deny when using ?raw??"},{"cve":"CVE-2025-31125","pkg":"vite","eco":"npm","cvss":5.3,"src":["KEV"],"np":true,"di":true,"dq":false,"tier":"B","kind":"path-traversal","dc":false,"ne":true,"pd":false,"am":true,"sum":"Vite has a `server.fs.deny` bypassed for `inline` and `raw` with `?import` query"},{"cve":"CVE-2025-31650","pkg":"org.apache.tomcat.embed:tomcat-embed-core","eco":"Maven","cvss":6.6,"src":["ExploitDB"],"np":true,"di":false,"dq":false,"tier":"D","kind":"improper-input-val","dc":true,"ne":true,"pd":false,"am":true,"sum":"Apache Tomcat Denial of Service via invalid HTTP priority header"},{"cve":"CVE-2025-34076","pkg":"microweber/microweber","eco":"Packagist","cvss":6.1,"src":["Metasploit"],"np":true,"di":true,"dq":false,"tier":"A","kind":"path-traversal,rce","dc":true,"ne":true,"pd":true,"am":false,"sum":"Microweber CMS API has authenticated local file inclusion vulnerability"},{"cve":"CVE-2025-35939","pkg":"craftcms/cms","eco":"Packagist","cvss":5.3,"src":["KEV"],"np":true,"di":false,"dq":false,"tier":"D","kind":"unknown","dc":true,"ne":true,"pd":false,"am":true,"sum":"Craft CMS stores arbitrary content provided by unauthenticated users in session files"},{"cve":"CVE-2025-47226","pkg":"snipe/snipe-it","eco":"Packagist","cvss":5.0,"src":["ExploitDB"],"np":true,"di":true,"dq":false,"tier":"A","kind":"idor","dc":true,"ne":true,"pd":true,"am":false,"sum":"Grokability Snipe-IT has incorrect authorization for accessing asset information"},{"cve":"CVE-2025-50481","pkg":"mezzanine","eco":"PyPI","cvss":4.8,"src":["ExploitDB"],"np":true,"di":true,"dq":false,"tier":"B","kind":"xss","dc":true,"ne":true,"pd":false,"am":true,"sum":"Mezzanine CMS vulnerable to Cross-site Scripting"},{"cve":"CVE-2025-52392","pkg":"soosyze/soosyze","eco":"Packagist","cvss":5.4,"src":["ExploitDB"],"np":true,"di":false,"dq":true,"tier":"D","kind":"brute-force","dc":true,"ne":true,"pd":false,"am":true,"sum":"Soosyze CMS's /user/login endpoint missing rate-limiting and lockout mechanisms"},{"cve":"CVE-2025-54589","pkg":"copyparty","eco":"PyPI","cvss":6.3,"src":["ExploitDB"],"np":true,"di":true,"dq":false,"tier":"B","kind":"xss","dc":true,"ne":true,"pd":false,"am":true,"sum":"copyparty Reflected XSS via Filter Parameter"},{"cve":"CVE-2025-59342","pkg":"github.com/esm-dev/esm.sh","eco":"Go","cvss":5.5,"src":["ExploitDB"],"np":true,"di":true,"dq":false,"tier":"S","kind":"path-traversal","dc":true,"ne":true,"pd":true,"am":true,"sum":"esm.sh has arbitrary file write via path traversal in `X-Zone-Id` header"},{"cve":"CVE-2025-8573","pkg":"concrete5/concrete5","eco":"Packagist","cvss":2.0,"src":["ExploitDB"],"np":true,"di":true,"dq":false,"tier":"B","kind":"xss","dc":true,"ne":true,"pd":false,"am":false,"sum":"Concrete CMS is vulnerable to Stored XSS from Home Folder on Members Dashboard page"}];
+
+function tag(cls, txt) { return '<span class="tag ' + cls + '">' + txt + '</span>'; }
+function yn(b) { return b ? tag('t-yes', 'yes') : tag('t-no', '–'); }
+function tierTag(t) { return tag('t-' + t, t); }
+function srcTags(srcs) { return srcs.map(s => tag('t-src-' + s, s)).join(' '); }
+function escapeHtml(s) { return (s||'').replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c])); }
+
+// === KEV table ===
+function renderKev() {
+  const kev = RECORDS.filter(r => r.src.includes('KEV'));
+  const npdi = r => r.np && r.di;
+  const tbody = document.querySelector('#kevTable tbody');
+  tbody.innerHTML = kev.map(r => `
+    <tr>
+      <td class="cve-cell">${r.cve}</td>
+      <td class="pkg-cell">${r.pkg||''}</td>
+      <td class="center">${r.cvss}</td>
+      <td class="center">${yn(npdi(r))}</td>
+      <td class="center">${tierTag(r.tier)}</td>
+      <td class="summary-cell">${escapeHtml(r.sum)}</td>
+    </tr>`).join('');
+}
+
+// === S+A table ===
+function renderSA() {
+  const sa = RECORDS.filter(r => r.tier === 'S' || r.tier === 'A')
+                    .sort((a,b) => a.tier === b.tier ? b.cvss - a.cvss : a.tier.localeCompare(b.tier));
+  const tbody = document.querySelector('#saTable tbody');
+  tbody.innerHTML = sa.map(r => {
+    const axes = [r.dc?'D':'·', r.ne?'N':'·', r.pd?'P':'·', r.am?'A':'·'].join('');
+    return `
+    <tr>
+      <td class="cve-cell">${r.cve}</td>
+      <td class="pkg-cell">${r.pkg||''}</td>
+      <td><span class="tag t-eco">${r.eco}</span></td>
+      <td class="center">${r.cvss}</td>
+      <td class="center">${tierTag(r.tier)}</td>
+      <td class="center" style="font-family:ui-monospace,monospace;font-size:.8em">${axes}</td>
+      <td>${r.kind||'–'}</td>
+      <td class="summary-cell">${escapeHtml(r.sum)}</td>
+    </tr>`;
+  }).join('');
+}
+
+// === Main filterable table ===
+let sortKey = 'cvss', sortDir = -1;
+function renderMain() {
+  const q = document.getElementById('searchBox').value.toLowerCase();
+  const eco = document.getElementById('ecoFilter').value;
+  const src = document.getElementById('srcFilter').value;
+  const tier = document.getElementById('tierFilter').value;
+  const catchF = document.getElementById('catchFilter').value;
+
+  let rows = RECORDS.filter(r => {
+    if (eco && r.eco !== eco) return false;
+    if (src && !r.src.includes(src)) return false;
+    if (tier && r.tier !== tier) return false;
+    if (catchF === 'np_di' && !(r.np && r.di)) return false;
+    if (catchF === 'dq' && !r.dq) return false;
+    if (catchF === 'hacker_sa' && !(r.tier === 'S' || r.tier === 'A')) return false;
+    if (catchF === 'missed' && ((r.np && r.di) || r.dq || r.tier === 'S' || r.tier === 'A')) return false;
+    if (q) {
+      const hay = (r.cve + ' ' + (r.pkg||'') + ' ' + r.eco + ' ' + r.kind + ' ' + r.sum).toLowerCase();
+      if (!hay.includes(q)) return false;
+    }
+    return true;
+  });
+
+  rows.sort((a,b) => {
+    let av = a[sortKey], bv = b[sortKey];
+    if (typeof av === 'boolean') { av = av?1:0; bv = bv?1:0; }
+    if (av < bv) return -1 * sortDir;
+    if (av > bv) return 1 * sortDir;
+    return 0;
+  });
+
+  document.getElementById('tableCount').textContent = `Showing ${rows.length} of ${RECORDS.length}`;
+  const tbody = document.querySelector('#mainTable tbody');
+  tbody.innerHTML = rows.map(r => `
+    <tr>
+      <td class="cve-cell">${r.cve}</td>
+      <td class="pkg-cell">${r.pkg||''}</td>
+      <td><span class="tag t-eco">${r.eco}</span></td>
+      <td class="right">${r.cvss}</td>
+      <td class="center">${srcTags(r.src)}</td>
+      <td class="center">${yn(r.np)}</td>
+      <td class="center">${yn(r.di)}</td>
+      <td class="center">${yn(r.dq)}</td>
+      <td class="center">${tierTag(r.tier)}</td>
+      <td><strong style="font-size:.8em;color:var(--muted)">${r.kind||'–'}</strong> · <span class="summary-cell">${escapeHtml(r.sum)}</span></td>
+    </tr>`).join('');
+}
+
+// === Wire up controls ===
+function init() {
+  const ecos = [...new Set(RECORDS.map(r => r.eco))].sort();
+  const ecoSel = document.getElementById('ecoFilter');
+  ecos.forEach(e => { const o = document.createElement('option'); o.value = e; o.textContent = e; ecoSel.appendChild(o); });
+
+  ['searchBox','ecoFilter','srcFilter','tierFilter','catchFilter'].forEach(id => {
+    document.getElementById(id).addEventListener('input', renderMain);
+  });
+
+  document.querySelectorAll('#mainTable th[data-sort]').forEach(th => {
+    th.addEventListener('click', () => {
+      const k = th.dataset.sort;
+      if (sortKey === k) sortDir = -sortDir;
+      else { sortKey = k; sortDir = (k === 'cvss') ? -1 : 1; }
+      renderMain();
+    });
+  });
+
+  renderKev(); renderSA(); renderMain();
+}
+init();
+</script>
+</body>
+</html>
