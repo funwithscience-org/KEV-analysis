@@ -1,32 +1,32 @@
 # Periodicity Analysis & Walkthrough Restructuring Review
 
-**Date:** 2026-04-28
+**Date:** 2026-04-29
 **Author:** kev-analyst (scheduled run)
-**HEAD at review:** `171c9a5` (Operational Model §5 reflow)
-**Scope:** review of `docs/periodicity.html`, `docs/cve-reference.html`, `docs/index.html`, `docs/dashboard.html` against the periodicity-review-brief task. This is the eighth analyst-side review pass; passes 4–7 live as `periodicity-review-pass{5,6,7}.md` and yesterday's standing report (`periodicity-review.md` at commit `b6059ca`). Today's pass overwrites that file with the current-state view.
+**HEAD at review:** `948128a` (today's refresh tracking commit; analytic HEAD `9ab06a0` Refresh: KEV 1583→1585 / NVD MTD 5371→5580)
+**Predecessor pass:** yesterday's `periodicity-review.md` at commit `3aeaf85` (2026-04-28). Earlier rounds live as `periodicity-review-pass{5,6,7}.md` plus the 2026-04-25 reconciliation Q&A pair. This is the ninth analyst-side review.
+**Scope:** brief in `analyst-reports/periodicity-review-brief.md`, plus the four pages it names (`docs/periodicity.html`, `docs/index.html`, `docs/dashboard.html`, `docs/cve-reference.html`). Bonus context: the in-flight 7-year forensic reconciliation work that landed since yesterday.
 
 ---
 
 ## 0. Headline (read this if you read nothing else)
 
-**The brief is two rewrite cycles out of date and the project knows it.** Yesterday's review explicitly called this out; today the gap is wider. Nearly every "should we add this?" item the brief raises is already in production, plus a new layer of work the brief never anticipated. Concretely, since the brief was written:
+**The brief is now three rewrite cycles out of date, and a 7-year data-reconciliation pass landed in the last 24 hours that the brief never anticipated.** The previous review (2026-04-28) declared the brief "two cycles out of date" and called for convergence/pruning rather than restructuring. Today's HEAD is 18 commits past that review and the work is now in a slightly different phase: the 7-year backtest got its own forensic audit (`b150630` "7-year manifest backtest divergence audit" + `40b3ff0`/`c83366b`/`bf9a8d0` reconciliation steps 1–3), the canonical 7-year manifest was promoted from a hand-curated 60-pkg / 176-version literal to a reproducible 58-pkg / 194-event cache, the evergreen Java section was rebased onto the same canonical, the cve-reference page was restructured into per-cohort sections (`4628111`), and a regression test (`tests/test_seven_year_npdi.py`) was added.
 
-- The walkthrough has been rebuilt around the **threat-based prioritization model** with two complementary operationalizations (NP+DI structure test + hacker S+A attacker test), the DQ rescue layer, the 7-year backtest, the EPSS day-0/day-7/day-30 comparison, the kill-chain framing, the WAF-defensibility axis, and the Cat 1/2/3 estate-maturity model. Sections 3, 4, 7, 8, 9 are post-periodicity content. The brief's framing ("walkthrough is still the original observational analysis") is wrong against today's HEAD.
-- A separate **Operational Model** page (`build-mechanics.html`, displayed as "Operational Model") covers Cat 1/2/3, BAU vs floor sweeps, the cat-2/cat-3 boundary, and WAFs-as-bridge — the operational how-to that the walkthrough §9 deep-links into.
-- **The cve-reference page was rebuilt as a per-CVE audit trail with a WAF-defensibility column** (commits `c388de4`, `24c876e`).
-- The "AI scan" tier was renamed to **DQ (Data Quality)** across the repo per CLAUDE memory; "threat-centric" was renamed to "**threat-based prioritization model**" (commit `60e657c`); "Build Mechanics" was renamed to "**Operational Model**" in display text (commit `d783226`).
-- New EPSS framing on `periodicity.html` §15: **the model fires on disclosure day; EPSS catches the same set on average 34.7 days later at ≥ 0.10 and 131 days later at ≥ 0.50** (commits `a6a210c`, `1eb5328`, `88aca46`). This is the strongest piece of new analysis in the last 48 hours and the brief doesn't cover it because it didn't exist yet.
+What this means for today's review:
 
-What this means for today's review: the work to do is **not** "graft a periodicity story onto an observational page." It's **convergence and pruning** — find the places where the old framing still leaks, clean up duplicated content, and update the few headline numbers that still inherit the overstated version. Major restructuring would be a regression.
+1. **The substantive analytic content has moved past the brief.** Saying "the walkthrough is still the original observational analysis" — as the brief does — is now wrong by about 8 days and 80 commits. The walkthrough has been rebuilt around the threat-based prioritization model (NP+DI structure test + hacker S+A discriminator + DQ rescue), the 7-year backtest, the EPSS day-0/7/30 comparison, the WAF-defensibility axis, and the Cat 1/2/3 estate-maturity model. Sections 3, 4, 7, 8, 9 are post-periodicity content. The Operational Model lives on its own page (`build-mechanics.html`).
+2. **Yesterday's four actionable items moved at varying speeds.** The dashboard "zero misses" line (item 1) still survives at line 166 — six days flagged, still unaddressed. The OS LPE-21-vs-10/12 leak (item 2) is partially closed: the periodicity §The OS Layer cadence-comparison table still shows 76% green, but the dashboard "Three Response Lanes" card now reads "~60–70% on the noise-cleaned LPE set" — that's progress on the dashboard side. The §4f duplication (item 3) is unchanged. The §10 Reverse Proxy Myth (item 4) is unchanged.
+3. **The new 7-year forensic reconciliation rewrites the credibility envelope.** The previously-floating 60-pkg / 176-version manifest in prose, 54-pkg cache in `data/seven-year-manifest-events.json`, and 48-pkg literal in the chart have been collapsed onto a single canonical 58-pkg / 194-event manifest. Pass 7 flagged the divergence between 30%-catch (per-framework backtest) and 90%+-catch (real-manifest backtest) as the project's largest open inconsistency. That divergence is now resolved — but the resolution itself needs surfacing, because anyone who read pass 7 in the analyst-reports tree is going to ask why the headline numbers shifted.
 
-The four still-actionable items, ordered by impact:
+Today's still-actionable items, ordered by impact:
 
-1. **The dashboard's "zero misses" framing is still live.** Line 166 still reads *"reduces rebuild-trigger dates by 64–86% with zero misses — no filtered-out CVE has appeared in CISA KEV."* Yesterday's review flagged this. Pass-5 flagged it as "highest urgency, ~5 min, must-ship-today." It's now five days unaddressed. The walkthrough §4b honest framing ("N=1 doesn't differentiate strategies from random") and the explicit 7-year backtest result (11/13, not 13/13) need to land in the dashboard banner too.
-2. **`periodicity.html` still presents the "21 LPE / 76% reduction" headline without the noise-cleaned figure.** The walkthrough §7 absorbed the correction (60–70% on the cleaned set). The periodicity page §The OS Layer keeps both numbers in tension — the cadence-comparison table still shows 76% in green; the call-out next to it now says ~10–12 cleaned. The dashboard's "OS Container Privesc Accumulation" chart inherits the 21 figure with no caveat. Same fix for both: lead with the cleaned number, demote the raw 21 to a footnote.
-3. **§4f content is still substantially duplicated across walkthrough, periodicity, and dashboard.** The strategy efficiency table (Patch all / NP+DI raw / NP+DI+DQ / Hacker S+A / Union) appears verbatim on `index.html` §4f and `periodicity.html` §7. The 13-library NP+DI table is duplicated. Pick one canonical home (recommend `periodicity.html` — it's the evidence document) and let the walkthrough show the headline row + a "Detail on the periodicity page" link.
-4. **The walkthrough's §10 (Reverse Proxy Myth) is now redundant** with §9a (WAF Dividend) and the Operational Model's WAF-as-spackle section. It deserves to become a sub-callout under §9, or move to the Operational Model entirely.
+1. **Dashboard line 166 "zero misses" framing is still live.** Six days flagged. Identical to yesterday's #1, plus pass 5's "highest urgency, ~5 min, must-ship-today." This is now the longest-running unfixed item in the review backlog and it's contradicted by the walkthrough §4b honest framing it sits beside.
+2. **Periodicity §The OS Layer keeps the inflated 21/76% headline in the cadence-comparison table.** The dashboard Three Response Lanes card now leads with the cleaned 60–70% reduction; the periodicity page hasn't caught up. Both should match the walkthrough §7's "10–12 cleaned" framing.
+3. **The 7-year reconciliation needs an in-page changelog entry.** The canonical numbers shifted (175→194 C/H, 34→40 NP+DI raw, 11 actually-exploited), and the real-manifest backtest is the document of record. Without a small "what changed and why" callout on `periodicity.html` and `cve-reference.html`, a reader who saw the prior numbers will assume p-hacking. The reconciliation report (`analyst-reports/2026-04-28-seven-year-data-reconciliation.md`) is excellent forensic work; it deserves a 2-paragraph surface in the published HTML.
+4. **§4f content is still substantially duplicated** between walkthrough and periodicity. Same as yesterday's #3.
+5. **§10 (Reverse Proxy Myth) is still redundant with §9a + Operational Model `#wafs`.** Same as yesterday's #4.
 
-The rest of this report walks through assessment, restructuring delta, dashboard delta, and architecture in more detail. Daily scan at the end.
+The walkthrough should NOT be restructured. It is converged. The work is tightening, deduplication, surfacing the reconciliation, and updating the headline numbers that still inherit the overstated version.
 
 ---
 
@@ -34,90 +34,73 @@ The rest of this report walks through assessment, restructuring delta, dashboard
 
 ### 1.1 Is the NP+DI methodology sound?
 
-**Mostly yes, with three structural soft spots that earlier passes flagged and one new wrinkle from the §15 EPSS rebuild.**
+**Mostly yes, with one new wrinkle introduced by today's reconciliation.** Pass 7 named the structural soft spots (CWE classification dependency, NP-classification judgment-calls on socket.io/passport vs. pg/redis, 7-day patch-merge knob, pre-EPSS-coverage caveat); none of those changed today and the recommendations from pass 7 / yesterday's review still apply.
 
-What's strong:
+The new wrinkle is from `analyst-reports/2026-04-28-seven-year-data-reconciliation.md`. Three sources had three different headline numbers (chart 160, data file 175, prose 223) until today's reconciliation collapsed them onto the canonical 58-pkg / 194-event manifest. The fix is good — it removes the floating-prose-vs-floating-data state — but it introduces a different question the walkthrough should address: **which manifest is the canonical 7-year backtest?**
 
-- The **two-condition definition** is mechanical and falsifiable: NP from a named manifest list, DI from a published CWE set. The cve-reference page makes per-CVE classification auditable end-to-end. A reviewer who disagrees with a specific call can re-run the filter on their own data without arguing about a black box.
-- **The widened DI set** (auth bypass via input manipulation: CWE-287, -289, -306, -345, -693, -863, -1321) is correctly justified on the trust-boundary principle that's articulated in CLAUDE memory and re-stated on the periodicity page. The widening's optical risk (looks like goalpost-moving) was earned: pass 5 flagged the disclosure as inadequate, and the walkthrough §3b table now shows the auth-bypass widening as a separate banded section with an explicit note. That's the right disclosure shape.
-- **CWE-444 inclusion is well-handled.** Without it, Netty would have zero NP+DI triggers in 12 months. Including it surfaces a real exploitation class — request smuggling — that other CWEs miss.
-- **The §15 EPSS rebuild is the strongest new content in the analysis.** The day-0/day-7/day-30 comparison cleanly answers the "is structure-based filtering really needed if EPSS exists?" critique that any sophisticated reviewer would raise. The "model is on average 34.7 days faster than EPSS ≥ 0.10 / 131 days faster than EPSS ≥ 0.50" framing is honest, reproducible (`scripts/compute_epss_marginal.py` → `data/epss-marginal.json`), and operationally meaningful. The "EPSS marginal cost on top of the model" table — at EPSS ≥ 0.50, NP+DI absorbs 41 of 44 would-be EPSS triggers — is the cleanest argument I've seen for why the structure filter is *complementary* to EPSS, not a competitor.
+The pass-7 finding was that the per-framework backtest (`data/seven-year-per-framework.json`) showed a 30% catch rate (3 of 10 caught) on Spring+Django combined, while the real-manifest backtest in periodicity §7 showed ~90% (5 of 8 in NP+DI raw, 8 of 8 in NP+DI+DQ). That's a startling delta and the walkthrough §4f currently leans on the higher figure. The reconciliation didn't merge those two analyses — it canonicalized the *real-manifest* analysis. The per-framework analysis is still in the repo and still shows the harder result.
 
-What's still soft:
+The honest position here: **the per-framework synthetic backtest is a different manifest with a much narrower NP package set and fewer adjacent rebuilds, so it produces a worse per-framework catch rate, and that's not contradicted by the higher real-manifest rate.** They're measuring different things. But the walkthrough §4f and periodicity page §7 should say so explicitly. A reader who spots both numbers in the repo will conclude one is being suppressed; a one-paragraph note ("the 12-month synthetic per-framework run measures a smaller manifest in a tighter window; the 7-year canonical 58-pkg manifest measures the production-shape estate over a longer horizon — the catch rates are not directly comparable") closes that gap cheaply.
 
-- **CWE classification is the filter's single largest exogenous dependency.** The 7-year backtest's three NP+DI-raw misses (Ghostcat tagged CWE-269, Tomcat partial-PUT tagged CWE-502, ActiveMQ Jolokia tagged CWE-20) are all upstream-CWE-quality failures, not filter-logic failures. The DQ layer is the proposed mitigation; it does close all three. But the dependency itself is real and worth disclosing prominently rather than as a §4f-table footnote. Consider a top-of-§3 "what this filter depends on" callout: NP classification (analyst judgment), DI CWE set (versioned, currently v1.2), upstream CWE quality (out of our control; DQ rescue closes the gap). This is pass 5's recommendation; still not implemented.
-- **NP classification is more judgment-call than the page admits.** Pass 6 §1.1 nailed this: classifying `socket.io`, `passport`, `httpclient5`, `requests`, `urllib3` as NP while `pg`, `redis`, `ioredis`, `pymongo` are non-NP collapses two distinct ideas — "speaks an internet-attacker-reachable wire protocol" vs. "sees attacker-controllable input on its primary code path" — into one "NP" label. The deployment argument ("RESP/Postgres-wire isn't attacker-controlled") is real but it's a deployment claim, not a classifier claim. The honest position is: NP captures *typical-deployment* attacker reachability, and that's why the cve-reference page exists as the auditable cut. A sentence-level concession in §3a or a footnote on the cve-reference page would close this.
-- **Patch-event merging window (7 days) is a knob.** Going to 0/3/14/30 days materially moves the hacker-vs-NP+DI patch-event count, especially around 2021's Log4Shell/XStream/jackson cluster and 2022's deserialization avalanche. A small sensitivity table (0d/3d/7d/14d → patch-event count for each strategy) would close the curmudgeon's "you picked the number that flatters the story" critique. Periodicity page §7 has room for this; not yet present.
-- **EPSS comparison's pre-EPSS-coverage handling is now better disclosed but should be flagged in the headline.** Two of eight in-scope exploited CVEs (Ghostcat 2020, Tomcat CGI 2019) predate EPSS coverage. They're scored 0/2 against EPSS in the caught-before-exploit tally, which is fair-but-loaded. The "average 34.7 days faster" headline is computed on the n=6 with EPSS coverage, which is correctly disclosed in the methodology paragraph but doesn't show up in the hero stat. A reader skimming the headline could easily mis-attribute the 34.7-day lead. Not a fix-today item, but worth a parenthetical on the headline.
+The pass-7 recommendation to add a CWE-set versioning changelog is still outstanding. Today's reconciliation makes it more urgent, not less — three of the canonical manifest's NP+DI numbers shifted today (175→194, 34→40, etc.) and the changelog needs a row for it.
 
 ### 1.2 Is the cross-framework validation convincing?
 
-**Yes for what it claims, with the asterisk that pass 6 named correctly: it's corroborating, not validating.**
+**Yes for what it claims now; the canonical-manifest unification helps.** Yesterday's review correctly noted the credibility ordering: lead with the 7-year real-enterprise backtest (production manifest, real exploitation evidence), treat the 14-14-14 12-month synthetic stacks as "and here's why this isn't a Java-and-Tomcat artifact." Today the 7-year real-enterprise backtest is even more defensible because it now has a reproducible cache (`scripts/build_seven_year_manifest_events.py` + `--check` mode, currently failing in the refresh-agent environment due to a hardcoded iCloud cache path — see error log in `kev-tracking.json`).
 
-The 14-14-14 convergence (Spring/Node/Django all hitting 14 distinct all-C/H trigger dates in 12 months) is a striking ecosystem-portability signal. The reduction profile (64–86%) holds across Maven/npm/PyPI/Java-second-stack-Netty. The Django "honest hardest case" framing earns credibility — the page says explicitly that Django's 67–71% is the floor, not the headline.
+The synthetic-manifest 14-14-14 convergence is still suspicious-in-a-good-way (pass 5/6/7 §1.2/1.5 covered this), and the recommendation to add a 5th-or-6th synthetic manifest from a less-canonical ecosystem (Rails, Go, Phoenix) — which would either strengthen or expose the convergence — is still worth doing.
 
-The asterisk: **the four manifests were authored by the same analyst.** The 7-year real-enterprise-Java backtest is the cleaner test because the manifest is an actual production dependency list. The synthetic stacks demonstrate that the result *generalizes* across ecosystems and frameworks; the 7-year backtest demonstrates that it *holds against ground truth*. The current ordering (synthetic 12-month → 7-year backtest as supporting case study) is upside-down for credibility. Pass 4 §11 and pass 6 §1.2 made this point; it's still true. Lead with the 7-year backtest; treat the 12-month synthetic stacks as "and here's why this isn't a Java-and-Tomcat artifact."
-
-Periodicity §3 (Cross-Framework Headline) was reordered yesterday (commit `b1b3966` puts Sample Stacks before Headline) which is good visual hierarchy — but the substantive ordering decision (12-month synthetic vs. 7-year backtest first) is unchanged.
+Devil's-advocate angle the user preferences ask me to surface: **the 58-pkg canonical manifest is still authored by the same hand that authored the original 48-pkg cache.** Today's reconciliation merged three internally-consistent-but-divergent versions of the same analyst's work into one. That's a credibility upgrade against the prior state ("which number is real?") but it's not a credibility upgrade against the bigger circularity worry ("are the manifest contents themselves overfit to the events the page wants to catch?"). The defensible answer is: the manifest came from a real Spring portfolio survey that long predates the 7-year backtest exercise (the original `analysis-scripts/spring_manifest_analysis.py` was the seed), and the 14 additions in today's reconciliation step 1 (commit `40b3ff0`) are documented with rationale. But "authored by the same analyst with no independent reviewer" remains a structural fact the page should own.
 
 ### 1.3 Is the OS chaining / kill-chain framing correct?
 
-**Directionally yes. The headline number is still inflated, but the walkthrough §7 acknowledges this.**
+**Directionally yes; the headline-leakage problem is partially closed and partially not.** The walkthrough §7 reads cleanly today (10–12 cleaned LPE-relevant + ~50 NVD-noise callout). The dashboard "Three Response Lanes" card now leads with "60–70% on the noise-cleaned LPE set" — that's the cleaner framing. The remaining leak is on `periodicity.html`:
 
-Structural finding ("OS layer doesn't drive emergency rebuild cadence under either NP+DI or hacker S+A; monthly container refresh controls blast radius") is sound. NP+DI = 0 on the cleaned OS-component manifest in 12 months is a clean negative result.
+- **§The OS Layer hero KPI (line ~583):** still shows "21 LOCAL vector (privesc)" — the inflated number, no caveat in the hero.
+- **§The OS Layer cadence-comparison table (line ~633):** still shows monthly = 5 / 76% reduction in green; the cleaned-figure caveat sits in a footnote one block below.
+- **The chainingChart (`chainingChart` canvas):** The chart itself is on both the periodicity page and the dashboard. The periodicity-page chart's exploit-marker overlay was just restored today (`2af1344` "periodicity §7 chart: restore exploit-marker overlay"); a one-line annotation that the y-axis includes NVD keyword noise would close the dashboard-vs-periodicity inconsistency in five minutes.
 
-The 21-LPE / 76%-reduction headline is the live problem:
-
-- **Walkthrough §7 (`index.html` line 663–675):** correctly cleaned. Now reads "10–12 LPE-relevant CVEs (chaining risk, cleaned)" with the noise-cleanup callout. Headline KPI tile shows ~18 OS-component C/H cleaned and 10–12 LPE-relevant. Good.
-- **Periodicity page §The OS Layer (`periodicity.html` line 595–637):** keeps both numbers in tension. The hero KPI still shows "21 LOCAL vector (privesc)" at line 583. The cadence-comparison table at line 633 still shows monthly = 5 / 76% reduction. The footnote at 636 says "the cleaned LPE-relevant figure is closer to half." Recommendation: the cadence-comparison table headline should be the cleaned 60–70% reduction, with raw 76% in the footnote — match the walkthrough.
-- **Dashboard "OS Container Privesc Accumulation" chart:** still 21 on the y-axis, no caveat. Same fix needed.
-
-This is yesterday's recommendation #1 still alive.
+The fix is the same as yesterday's recommendation #2: lead with the cleaned number on every surface, demote the raw 21 to a footnote. The dashboard side is now done. The periodicity page is the remaining surface.
 
 ### 1.4 Does the EPSS / external-validation analysis hold up?
 
-**Strongly. This is the analysis's most defensible content right now.**
+**Strongly. No new content here today; the §15 EPSS rebuild from 2026-04-26/27 is still the strongest analytic block in the page.** Yesterday's review covered this in detail; nothing has changed in the EPSS section in the last 24 hours that I can see.
 
-The reframing of EPSS as "complementary, not competitive" is the operationally correct take. The day-0/day-7/day-30 comparison table cleanly shows that the structure filter wins where it matters (disclosure day) and EPSS catches up where it can (in retrospect). The marginal-cost-on-top-of-the-model table is the kill shot: at EPSS ≥ 0.50, only 3 of 44 EPSS-flagged events aren't already absorbed by an NP+DI rebuild trigger; at NP+DI+DQ, only 1 of 44.
-
-The "never worse than EPSS" framing in the §7 worked example callout (Tomcat HTTP PUT 2017 pair) is correctly defensive: the structure filter B-tiers the pair, supplements (floor sweep + cadence + threat intel) absorb them, EPSS would not have done better in the disclosure-to-exploitation window because the pair sat at low scores for years before the KEV add. This is the right framing — *structure filter + supplements ≥ EPSS, on every event* — and it's defensible in a way "structure filter alone" wouldn't be.
-
-What I'd still tighten:
-
-- The §15 EPSS section is now ~7 cards long. It was 3 cards a week ago. Each card adds value but the surface area is getting hard to skim. Consider a 1-paragraph summary callout at the top with the headline number, before the methodology unfolds.
-- The pre-EPSS-coverage caveat (Ghostcat 2020, Tomcat CGI 2019) needs a single-sentence parenthetical in the hero callout, not just buried in the methodology paragraph. Headline should read "model catches the same CVEs as EPSS, but on average 34.7 days faster (vs EPSS ≥ 0.10) and 131.0 days faster (vs EPSS ≥ 0.50, n=6 with EPSS coverage)" or similar.
+The pass-7 recommendation — single-sentence parenthetical in the EPSS hero callout that the 34.7-day average is computed on n=6 with EPSS coverage — is still outstanding. So is the recommendation to add a 1-paragraph summary callout at the top of §15 to break up the now-7-card-long surface area. Both are 5-minute edits.
 
 ### 1.5 Devil's-advocate: what could undermine the conclusions?
 
-The user-preferences instruction was "think about the other side of the argument too." Here are the cleanest arguments against the analysis as it stands:
+The user preferences ask me to push the other side. I'll keep this short — pass 7 §1.5 covered the five strongest hostile angles in detail. Today's incremental adversarial points:
 
-1. **The 11/13 union catch is still presented as the model's score, not the union of two strategies.** A skeptic can correctly point out that NP+DI+DQ alone is 9/13 and Hacker S+A alone is 10/13 — and "union" as a strategy means "run both and merge the sets," which adds operational cost. The walkthrough §4f honestly discloses this in the table, but the §4a hero KPI ("11/13 7-year backtest catch (union NP+DI+DQ ∪ Hacker S+A)") could be misread as "the model catches 11/13," when really the model has two operationalizations and you only get 11/13 if you run both. This is presentation, not substance — a one-word fix to the KPI label ("11/13 if you run both methods") would close it.
-2. **The "supplements catch the 2017 pair" argument is post-hoc.** The Tomcat HTTP PUT 2017 disclosure-to-KEV gap of 1–5 years is real and the floor-sweep retrospective is correct, but the framing — "any Cat 1/2 team would have rolled past these on normal cadence" — is doing a lot of work. A hostile reviewer could fairly say "you're claiming credit for a hypothetical patch path that an actual 2017 team wouldn't have run." The walkthrough §4f callout is honest about this ("the model is the structure tests *and* the supplementary controls together"), but the "B-tier handled by supplements" framing presupposes the supplements exist and run. Recommendation: somewhere in §4f or §9, add an explicit "this assumes a Cat 1/Cat 2 team with floor-sweep discipline; a Cat 3 team with strict version-pinning gets a different result" sentence. The Operational Model page partially covers this but the walkthrough should own the caveat.
-3. **The "structure filter is never worse than EPSS" claim depends on the supplements working.** Same shape as #2. EPSS has the property that it's a single number you can threshold. The model has structure + DQ + hacker + supplements + threat intel. "Never worse than EPSS" requires all five to fire. That's a fair claim if you actually run all five, but it's also a much taller stack than EPSS. A skeptic's pushback: "you're comparing your full defense-in-depth stack to one of EPSS's variables." A truthful response is that EPSS is also assumed to operate inside a larger defensive context (you don't deploy EPSS without patch infrastructure either), so the comparison is fair if both are situated in their full operational context. Worth saying explicitly.
-4. **The 14-14-14 convergence is suspicious in a *good* way the page doesn't claim.** All three frameworks producing 14 all-C/H trigger dates in the same window has a roughly 1-in-100 base rate against random alternatives. Either there's a genuine common-cause structure (mature ecosystems converge on a similar disclosure rate at similar dependency-tree size — what pass 6 hypothesized) or the manifest selection is filtering toward that number. Adding a 5th-or-6th synthetic manifest from a less-canonical ecosystem (Rails? Go? Phoenix?) and showing whether the 14 converges or scatters would either strengthen the finding or expose the artifact. Not urgent, but a credibility-multiplying experiment.
-5. **The watch-list hit rate (5/14 promoted to KEV in ~6 weeks) is the prospective validation but it's not sized as such.** The walkthrough §11 watch list is the live experiment that validates the filter's predictions against actual KEV adds. 5 of 14 entries promoted with no false-positive class (every promotion was an HTTP-parsing-adjacent network parser) is the cleanest signal that the filter generalizes prospectively. This deserves a top-of-page hero stat, not a buried table. The dashboard especially undersells this.
+1. **The 7-year reconciliation is the kind of work a hostile reviewer can paint as "cleanup-after-the-fact."** A skeptic reading the reconciliation report ("three sources, three numbers, all internally consistent but divergent") could fairly say: the prose was authored to produce a specific story, the data file was reproducible but at a different manifest, the chart was a third version. The fix today merges them into one canonical, but the merge is happening 2026-04-28/29 and the prose §7 numbers are dated to 2026-04-26 (commit `efc8f3d`). The defensible response: the reconciliation was a forensic audit, the canonical is reproducible, the unification ran through a regression test and a 408-assertion evergreen test. That's the right shape of response. But the temporal ordering — author the prose first, fix the data later to match — is something a hostile reader will notice and the walkthrough should acknowledge that the canonical manifest was finalized 2026-04-28 in a brief reconciliation note.
+2. **The watch-list hit-rate (5/14) is the project's strongest piece of forward validation and it's still buried.** Today's daily scan: stable at 5/14. Cisco SD-WAN's 46-day exploitation-to-KEV gap suggests the four Cisco probable-participant-self-scan entries could land in KEV in late May. The Thymeleaf SSTI pair, n8n Ni8mare, and wolfSSL pair (the other 5 still WATCHING) all carry watch list ages > 9 days — increasingly tight tests of the predictive claim. A skeptic could fairly point out that the 5/14 rate is presented as monotonic prospective validation when the actual base rate (how many random HTTP-parsing C/H disclosures from the same window also reached KEV?) has not been reported. The walkthrough makes the prospective-validation claim implicitly; a denominator comparison would land it more honestly.
+3. **The "structure filter is never worse than EPSS on any event" claim has had no live test in the last 24 hours.** Today's two new KEV adds (CVE-2024-1708 ConnectWise, CVE-2026-32202 Windows Shell) both fit that frame correctly: the ConnectWise add is a path-traversal NP+DI textbook case (caught) and the Windows Shell auth-bypass-via-input is desktop/local (correctly outside scope). But "no live failure today" is not the same as "stress-tested." The Spring AI cluster disclosed 2026-04-27 (5 CVEs, all NP+DI candidates per today's `np_di_candidates`) is exactly the kind of event the watch list should be tracking — none of the five are on it as of today. That gap is small enough to fix manually, but it's a place where the auto-monitoring loop missed a clean prospective-validation opportunity.
 
-### 1.6 What's new since yesterday's review (commit `b6059ca`)
+### 1.6 What's new since yesterday's review (commit `3aeaf85`)
 
-Yesterday's review applied. The 4 obvious fixes (commit `6df96ed`) landed. Today's HEAD is 24 commits ahead, with the substantive changes:
+Yesterday's review applied. The 4 obvious fixes from that review are in mixed states (see headline). Today's HEAD is 18 commits past `3aeaf85`, with the substantive changes:
 
-- **`§15 EPSS` rebuild** (commits `a6a210c`, `1eb5328`, `88aca46`, `ce01010`) — Hacker S+A row added to operational comparison; days-faster + caught-before-exploit headline; daily re-scoring framing; "14 unique" KEV table scope clarification; 30-day patch cycle removed from EPSS narrative.
-- **Operational Model rework** (commits `e813286`, `86d052e`, `dc3fcb6`, `171c9a5`) — internet-vs-internal example added to BAU; floor-sweep clarified as completeness-not-just-speed; hero/exec summary box replaces "On this page" TOC; §5 moved before §3 (the 14-emergencies math now comes after the Cat 1/2/3 framing it depends on).
-- **Visual unification** (commits `2593b66`, `345a2d1`, `8249a24`) — evergreen and build-mechanics converted from dark theme to warm-light style with sidebar nav. Project visual identity is now consistent across all 6 pages.
+- **7-year forensic reconciliation** (commits `b150630`, `40b3ff0`, `c83366b`, `bf9a8d0`) — divergence audit between three different 7-year backtest sources; canonical 58-pkg / 194-event manifest established; regression test added.
+- **cve-reference per-cohort rebuild** (commits `c33fdb2`, `4628111`) — restructured into per-cohort sections (12-month per-framework, 7-year manifest, 11-actually-exploited, hacker-tier rounds, WAF judgments, DI-widening reclassification, watch list, legacy static rows). This is the audit-trail-document-of-record reshape pass 5/6/7 had been asking for. Significant credibility upgrade.
+- **Walkthrough sidebar surfaces §4 subsections** (`a60b76f`) — 4a–4f now show in left nav like §2a–c. Right call; §4 is the heaviest section.
+- **Top page-nav now sticky across all pages** (`7d23519`). Polish but cumulatively raises navigation quality.
+- **Walkthrough lead paragraph CTA buttons removed** (`977c4f3`). Lighter front door.
+- **Operational Model rework** (`54a43cf`, `414bee1`, `e45ebc8`, `95cafb9`) — section reorder, redundant sections deleted, automatic-dependency-update content added, hero summary expanded. This is the same convergence work yesterday's review described; another day of polish.
+- **Refresh agent run today** (`9ab06a0`, `948128a`) — KEV 1583→1585, April KEV 28→30, NVD MTD 5371→5580, extrapolation 5755→5979.
 
-Nothing in this delta moved the analytic substance. The work is now in the polish-and-converge phase, which is exactly where it should be.
+Net analytic substance: the 7-year reconciliation is the most important change. It removes the highest-priority *factual* inconsistency in the repo and replaces it with a single canonical that's reproducible and tested. Now the walkthrough's §4f numbers should be surfaced from `data/seven-year-manifest-events.json` rather than literal-hardcoded — that's a separate refactor (the data-amplitude architecture point from REVIEW-FINDINGS.md), not an urgent one.
 
 ---
 
 ## 2. Walkthrough Restructuring Recommendations
 
-The brief's mental model — "the walkthrough is still the original observational analysis; recommend a section outline" — is wrong against today's HEAD. The walkthrough has been restructured. The remaining recommendations are tightening, not surgery.
+The brief's mental model — "the walkthrough is still the original observational analysis; recommend a section outline" — is wrong against today's HEAD by ~8 days and ~80 commits. The walkthrough has been restructured. The remaining recommendations are tightening, not surgery.
 
-### 2.1 Current section structure (already good)
+### 2.1 Current section structure (already good — same as yesterday)
 
 ```
 1.  The Problem                                       — opener, three-app-profiles framing
-2.  Where Exploits Land                               — observational analysis (stack layers, NP, libraries)
+2.  The First Clue: Where Exploits Actually Land      — observational analysis (stack layers, NP, libraries)
 2a-c.  Stack Layer Rates / Network-Parser Signal / Libraries Deep Dive
 3.  The Threat-Based Prioritization Model             — core exposition: NP+DI structure test + hacker discriminator
 3a-e.  NP+DI / DI CWE Set / Falsifiability / Hacker / Churn cost
@@ -129,81 +112,90 @@ The brief's mental model — "the walkthrough is still the original observationa
 8.  External Validation                               — EPSS, KEV, ExploitDB, Nuclei, Metasploit + WAF defensibility
 9.  Operational Response by Estate Maturity (Cat 1/2/3) — links to Operational Model
 10. The Reverse Proxy Myth
-11. Exploit Watch List
+11. Exploit Watch List + Thesis Challenge
 12. Caveats
 ```
 
-This is a coherent argument: problem → observational evidence → model → validation → operational response → live experiment. Don't restructure it.
+This is a coherent argument: problem → observational evidence → model → validation → operational response → live experiment. Don't restructure it. The §4 sidebar surfacing committed today (`a60b76f`) is the right shape for the heaviest section.
 
-### 2.2 What to keep, cut, move
+### 2.2 What to keep, cut, move (delta vs. yesterday)
 
 **Keep as-is:**
 
-- §1 (problem framing, three-app-profiles), §2 (observational evidence), §3 (model exposition), §4 (cross-framework + 7-year), §7 (kill chain — with the noise-cleanup applied), §8 (external validation), §9 (operational response).
-- The "How to read this site" 5min/30min/verify/live/build-mechanics/AI-angle table at the top. This is the right onboarding pattern.
-- §11 watch list. This is the live validation experiment.
+- §1, §2, §3, §4 (excluding the duplication issue below), §7 (cleaned), §8, §9, §11. All converged.
+- "How to read this site" 5min/30min/verify/live/build-mechanics/AI-angle table at top. Right onboarding.
+- §11 watch list — this is the live validation experiment.
 
-**Tighten:**
+**Tighten (carry-forward from yesterday):**
 
-- **§4f (Real-World Case Study).** The strategy-efficiency table and the 13-library NP+DI table are now duplicated on `periodicity.html` §7. Either:
-  - Keep the headline summary row + "Detail on the periodicity page" deep link (lighter walkthrough).
-  - Or trim to the strategy table only and move the per-library detail to periodicity.html.
-  Yesterday's review made this recommendation; not yet applied.
-- **§5 (Why Most Criticals Don't Get Exploited).** The survivorship-bias content is good but it now reads as standalone observational content. Re-anchor as "what the filter correctly excludes" — a §3-aligned restatement of the same data, not a separate thesis. The opening sentence could be: "The threat-based filter excludes ~93% of C/H CVEs. Here's why that's defensible."
-- **§6 (Time-to-Exploit).** The 251d→11d→3d framing is striking and should stay, but the implication "30-day patch cycle is broken" was the *old* argument for emergency response. The new argument (NP+DI + hacker S+A reduce emergency events to 2–6/year, supplements absorb the rest) makes the time-to-exploit data into supporting evidence for "you can't outpatch attackers on volume; you have to triage." Re-anchor §6 as supporting §3e ("hidden cost of not filtering"), not as a standalone section.
-- **§8a (WAF defensibility).** This is now a strong sub-section. Consider promoting it to a top-level §8 successor or merging with §9a (WAF Dividend) to avoid two WAF passes in the same page.
-- **§10 (Reverse Proxy Myth).** Now redundant with §9a + Operational Model §wafs. Demote to a callout in §9a, or move to Operational Model entirely.
+- **§4f duplication.** Strategy efficiency table + 13-library NP+DI table also live on `periodicity.html` §7. Pick one canonical home (recommend `periodicity.html`, the evidence document) and let §4f show the headline summary row + "Detail on the periodicity page" deep link. **Yesterday's review made this recommendation; not yet applied.**
+- **§5 (Why Most Criticals Don't Get Exploited).** Re-anchor as "what the filter correctly excludes" — a §3-aligned restatement. The opening sentence: "The threat-based filter excludes ~93% of C/H CVEs. Here's why that's defensible."
+- **§6 (Time-to-Exploit).** Re-anchor as supporting §3e ("hidden cost of not filtering"), not as standalone thesis. The 251d→11d→3d framing is striking and should stay; the implication "30-day patch cycle is broken" was the *old* argument for emergency response. The new argument (NP+DI + hacker S+A reduce emergency events to 2–6/year, supplements absorb the rest) makes the time-to-exploit data into supporting evidence.
+- **§8a (WAF defensibility).** Strong subsection. Consider promoting to a top-level §8 successor or merging with §9a (WAF Dividend) to avoid two WAF passes in the same page.
+- **§10 (Reverse Proxy Myth).** Now redundant with §9a + Operational Model `#wafs`. Demote to callout in §9a, or move to Operational Model entirely.
+
+**New tighten item (today):**
+
+- **§4f canonical-manifest reconciliation note.** Add 2-3 sentences at the top of §4f noting that the 58-pkg / 194-event manifest is now the canonical 7-year backtest (resolved 2026-04-28 from three previously-divergent sources), and that the per-framework synthetic backtest in `data/seven-year-per-framework.json` measures a different manifest and therefore reports different catch rates. This forestalls the "p-hacking via manifest selection" reading without burying the explanation.
 
 **Cut:**
 
-- The "Use this tomorrow" checklist at the end of §9 (lines ~810–820) duplicates content the Operational Model page now owns. Either link to Operational Model or trim to the 3-bullet headline.
+- "Use this tomorrow" checklist at end of §9 (lines ~810–820) duplicates Operational Model. Either link to Operational Model or trim to 3-bullet headline.
+- §9 "Track your filter's hit rate over 6 months — it should produce zero misses." Now contradicted by §4f 7-year data showing 1 union-miss + 2 pre-2018 absorbed-by-supplements. Reword: "few misses, all in the documented blind-spot patterns."
 
 ### 2.3 Where the periodicity findings fit (already integrated)
 
 - §3 introduces the model.
 - §4 says "and here are the cross-framework results" with the 14-14-14 + 7-year backtest.
 - §8 says "and here's how it compares to existing exploitation signals (EPSS, KEV, etc.)."
+- §9 says "and here's how to operationalize it given your estate's maturity."
 
-This is already the right integration. The periodicity page is the deep-dive evidence document; the walkthrough is the argument.
+This is the right integration. The periodicity page is the deep-dive evidence document; the walkthrough is the argument. **The architectural pattern works; don't fold periodicity back in.**
 
-### 2.4 The "zero-miss" framing — one final pass
+### 2.4 The "zero-miss" framing — sixth-day status
 
-Yesterday's review flagged this. Today's status:
+Yesterday's review flagged this. Today's status is materially unchanged:
 
-- Walkthrough §4b honest framing: ✅ in place ("N=1 doesn't differentiate strategies from random").
-- Walkthrough §4a hero KPI: now reads "11/13 7-year backtest catch (union NP+DI+DQ ∪ Hacker S+A)" — better than "zero misses" but the "union" caveat is in the label only. Consider: "11/13 caught directly, 2/13 absorbed by supplements" to make the supplements role explicit.
-- Walkthrough §9 quick-checklist: still says "track your filter's hit rate over 6 months — it should produce zero misses." This is now contradicted by the §4f 7-year data (7 misses in Spring+Django, all CWE-misclassification or out-of-NP-scope). Change to "it should produce few misses, all of them in the documented blind-spot patterns."
-- Walkthrough §12 Caveats: still says "12 months of zero misses is strong but not conclusive." Reword to "12 months of N=1 is statistically uninformative; the 7-year backtest is where scoring happens."
-- Dashboard line 166: "zero misses — no filtered-out CVE has appeared in CISA KEV." The strict reading is 12-month-window-only, but the dashboard banner doesn't say 12-month. Either scope it ("zero misses in the 12-month synthetic-stack window") or replace with the 7-year backtest result (11/13 union, with supplements absorbing the residual 2).
+- **Walkthrough §4b honest framing:** in place ("N=1 doesn't differentiate strategies from random").
+- **Walkthrough §4a hero KPI:** "10/11 7-year backtest catch (union NP+DI+DQ ∪ Hacker S+A)". Today's reconciliation moved the canonical from 11 to 11 (unchanged on the catch side); the hero is honest. The "if you run both methods" caveat is still in the label only — make it explicit: "10/11 caught directly, 1/11 absorbed by supplements (B-tier OpenWire RCE)".
+- **Walkthrough §9 quick-checklist:** Still says "track your filter's hit rate over 6 months — it should produce zero misses." Same as yesterday. Same fix.
+- **Walkthrough §12 Caveats:** Still says "12 months of zero misses is strong but not conclusive." Same as yesterday. Same fix: reword to "12 months of N=1 is statistically uninformative; the 7-year backtest is where scoring happens."
+- **Dashboard line 166:** **Still the original 12-month-window-only claim, six days flagged.** "Reduces rebuild-trigger dates by 64–86% with zero misses — no filtered-out CVE has appeared in CISA KEV." Either scope it ("zero misses in the 12-month synthetic-stack window") or replace with the 7-year backtest result (10/11 union, 1 absorbed).
+
+This is the single highest-leverage 5-minute edit available right now and it has been the highest-leverage 5-minute edit since pass 5 (2026-04-24).
 
 ### 2.5 Periodicity page should remain separate
 
-Confirmed against today's HEAD. The architectural pattern — walkthrough = argument, periodicity = evidence, cve-reference = audit trail, dashboard = live data, build-mechanics = how-to, glasswing = intel assessment — is the right shape. Don't fold periodicity back into the walkthrough.
+Confirmed against today's HEAD. The architectural pattern — walkthrough = argument, periodicity = evidence, cve-reference = audit trail, dashboard = live data, Operational Model = how-to, Mythos/glasswing = intel assessment — is the right shape. Today's `cve-reference.html` per-cohort rebuild reinforces this; the page is now a much cleaner audit-trail document.
 
 ---
 
 ## 3. Dashboard Updates
 
-### 3.1 What to fix
+### 3.1 What to fix (carry-forward from yesterday)
 
-1. **Line 166 banner:** scope or replace the "zero misses" claim. (Yesterday's recommendation; still live.)
-2. **OS Container Privesc Accumulation chart:** annotate the y-axis with the cleaned 10–12 figure or replace 21 with the cleaned number. Either approach beats the current uncaveatted 21.
-3. **Three Response Lanes section title** (line 329): the rename from "Three-Tier Patching Model" already happened — good. But the card content still describes the trigger axis under "tier" framing rather than the lane framing the title suggests. Recommend renaming the cards: "Triggered" / "Cadence" / "Cycle" (matching the lane framing), and let the Cat 1/2/3 estate-maturity dimension live on the walkthrough §9 + Operational Model.
+1. **Line 166 banner:** scope or replace the "zero misses" claim. **Yesterday's #1; pass 5's "5-min must-ship-today"; six days unaddressed.** Recommend: *"Reduces rebuild-trigger dates by 64–86%. The 12-month synthetic stacks have zero misses (N=1 in window — workload measurement, not discrimination). The 7-year canonical 58-pkg manifest catches 10 of 11 actually-exploited events directly; 1 is absorbed by floor-sweep + threat-intel supplements."*
+2. **OS Container Privesc Accumulation chart:** annotate y-axis with the cleaned 10–12 figure or replace 21 with the cleaned number. Same fix as yesterday's #2; partially closed (Three Response Lanes card now leads with 60–70%).
+3. **Three Response Lanes card content:** the lane framing is correct. The "Triggered" card now correctly shows "14 events/year → 2–6 after filter" — that's a reduction-of-rebuild claim, not a discrimination claim. Good.
 
-### 3.2 What to add
+### 3.2 What to add (carry-forward from yesterday)
 
-1. **Watch-list hit-rate KPI tile.** "5 of 14 promoted to KEV — Marimo, SharePoint, ActiveMQ, Adobe Acrobat, Defender BlueHammer" — the prospective-validation surface that's currently undersold. This is yesterday's #7 recommendation and remains the cleanest single addition.
-2. **EPSS-marginal hero stat.** "At EPSS ≥ 0.50, NP+DI absorbs 41 of 44 would-be EPSS triggers" or similar. The EPSS section on `periodicity.html` is too good to be invisible from the dashboard.
-3. **Day-0 catch comparison.** A 4-bar chart: NP+DI raw / NP+DI+DQ / Hacker S+A / EPSS ≥ 0.10 day-0 catch on the 7-year backtest. Single chart, ~4 bars, kill-shot framing.
+1. **Watch-list hit-rate KPI tile.** Stable at 5/14 promoted to KEV (Marimo, SharePoint, ActiveMQ, Adobe Acrobat, Defender BlueHammer). Cleanest single addition; still undersold. **Yesterday's #6.**
+2. **EPSS-marginal hero stat.** "At EPSS ≥ 0.50, NP+DI absorbs 41 of 44 would-be EPSS triggers" — too good to be invisible from the dashboard.
+3. **Day-0 catch comparison.** 4-bar chart: NP+DI raw / NP+DI+DQ / Hacker S+A / EPSS ≥ 0.10 day-0 catch on the 7-year backtest. Single chart; ~4 bars; kill-shot framing.
 
 ### 3.3 What's now stale / OK to remove
 
-- The "0 misses in 12 months" line in line 166. Either scope to the 12-month sample or replace with 7-year.
-- The "Three-Tier Patching Model" framing was already retired from the section title — good. The card content needs the same treatment.
+- The "0 misses in 12 months" line in line 166. Either scope or replace.
+- No new stale content surfaced today.
 
 ### 3.4 What to leave alone
 
-The dashboard's primary value is fast-loading data charts that auto-refresh daily. It should not become a second walkthrough. Keep the existing layer rates, HTTP-parsing lift, TTE, CWE families, ransomware, top products, and searchable KEV table. The cross-framework chart and OS privesc chart are the right additions; don't add more periodicity charts.
+The dashboard's primary value is fast-loading data charts that auto-refresh daily. Don't make it a second walkthrough. Layer rates, HTTP-parsing lift, TTE, CWE families, ransomware, top products, and searchable KEV table all stay. Cross-framework chart and OS privesc chart are the right additions; don't add more periodicity charts.
+
+### 3.5 New today
+
+The dashboard didn't change in the last 24 hours (today's refresh agent updated KPI tiles via the auto-refresh JSON, not the static HTML). The remaining edits are unchanged from yesterday.
 
 ---
 
@@ -215,72 +207,82 @@ The dashboard's primary value is fast-loading data charts that auto-refresh dail
 |---|---|---|
 | `index.html` | The argument. Problem → model → validation → operational response. | New reader, sets the case. |
 | `periodicity.html` | The evidence. Reproducible cross-framework + 7-year backtest with supporting tables and per-event reasoning. | Skeptical reader who wants to verify or adopt. |
-| `cve-reference.html` | The audit trail. Per-CVE classification with WAF defensibility column. | Reviewer, adopting team. |
+| `cve-reference.html` | The audit trail. Per-cohort sections (newly restructured today). | Reviewer, adopting team. |
 | `dashboard.html` | The live scorecard. Daily-refreshed data. | Operational reader, recurring visit. |
 | `build-mechanics.html` (Operational Model) | The how-to. Cat 1/2/3 estate maturity, BAU vs floor sweeps, WAFs as bridge, get-newest builds. | Implementer. |
-| `glasswing.html` (Mythos) | The intelligence assessment, labeled speculative. | Reader interested in the AI-vulnerability-research angle. |
-| `evergreen.html`, `osv-exploitation.html` | Scratch-status auxiliary analyses. | Internal / curiosity. |
+| `glasswing.html` (Mythos) | Intelligence assessment, labeled speculative. | Reader interested in the AI-vulnerability-research angle. |
+| `evergreen.html` (Java section rebased today), `osv-exploitation.html` | Auxiliary analyses. | Internal / curiosity. |
 
-This structure exists. The work is making sure each page stays in lane — the §4f duplication between walkthrough and periodicity is the most visible offender.
+This structure exists and is now sharper after today's `cve-reference.html` per-cohort rebuild and the evergreen Java rebase to canonical. The work is making sure each page stays in lane — the §4f duplication between walkthrough and periodicity is the most visible remaining offender.
 
 ### 4.2 Front-door experience
 
-The walkthrough is the front door. The "How to read this site" table is the right onboarding pattern and should stay. Two improvements worth considering:
+The walkthrough is the front door. The "How to read this site" table is the right onboarding pattern; today's CTA-button removal (`977c4f3`) makes the lead lighter, which is good.
 
-- **A "what's new since last quarter" callout** for repeat visitors. The site presents as a single document but is actually a moving analysis with weekly substantive updates. A 2–3 sentence "since April 21: added DI auth-bypass widening, hacker discriminator, EPSS day-0 comparison" would help repeat readers know what's worth re-reading.
-- **A versioning indicator on the model.** The "threat-based prioritization model v1.2" with a CWE-set changelog (pass 5 §1.1's recommendation) is still missing. Versioning the model is the difference between "evolving analysis" and "p-hacking." Pass 5 was right that this is a 30-minute edit.
+Two improvements still worth considering (carry-forward from yesterday):
+
+- **A "what's new since last quarter" callout** for repeat visitors. The site presents as a single document but is actually a moving analysis with weekly-or-better substantive updates. Today's reconciliation is exactly the kind of change a "what's new" callout should mention.
+- **A versioning indicator on the model.** "Threat-based prioritization model v1.2" with a CWE-set changelog. Pass 5's recommendation; still missing. Pass 7 strengthened it. Today's reconciliation makes it more urgent — three numbers shifted today, and the page should disclose that.
 
 ### 4.3 Navigation
 
-Top-nav (Overview / Periodicity / Operational Model / Evergreening / Mythos / Dashboard / CVE Reference) is consistent across all pages now. Keep.
+Top-nav (Overview / Periodicity / Operational Model / Evergreening / Mythos / Dashboard / CVE Reference) is consistent across all pages and now sticky (`7d23519`). Keep.
 
-The walkthrough's left sidebar at 12 sections is at the upper end of scan-friendly. After the §6 → §3e fold and §10 → §9a callout proposed in §2.2, the sidebar would have 10 sections, which is better.
+The walkthrough's left sidebar at 12 sections plus the §4a–f subsections (newly surfaced today) is at the upper end of scan-friendly. After the §6 → §3e fold and §10 → §9a callout proposed in §2.2, the sidebar would have 10 main sections, which is better.
 
 ---
 
 ## 5. Summary of Recommended Actions (ordered by impact)
 
-1. **Scope or replace the "zero misses" claim on the dashboard banner.** Five days unaddressed; pass 5 had it as "highest urgency, ~5 min, must-ship-today."
-2. **Use the cleaned LPE figure (~10–12, 60–70% reduction) as the headline on `periodicity.html` §The OS Layer cadence-comparison table and on the dashboard chart.** Walkthrough already cleaned; the other two surfaces still leak the inflated number.
-3. **Trim walkthrough §4f.** Move the per-library NP+DI table to periodicity.html; keep the strategy table + headline row + deep link.
-4. **Re-anchor §5 and §6** as supporting §3, not as standalone theses. §6 in particular is the time-to-exploit data that motivated the original "fast triage" need; its current standalone framing is orphaned.
-5. **Fold §10 (Reverse Proxy Myth)** into §9a or move to Operational Model.
-6. **Add a watch-list-hit-rate KPI tile to the dashboard** (5/14 promoted to KEV). The cleanest prospective-validation surface and currently undersold.
-7. **Add the auth-bypass-widening CWEs (287, 289, 306, 345, 693, 863, 1321) to the §3b DI table explicitly** — they're now in a banded section but the formatting could be cleaner.
-8. **Add a worked hacker-tier example** to §3d (Spring4Shell as S/A, Tomcat HTTP PUT as B, Multer DoS as D). The rubric is described abstractly; concrete examples would land it.
-9. **Publish a CWE-set versioning changelog** (pass 5 §1.1). Versioning the model is what stops the "looks like p-hacking" reading of the DI widening.
-10. **Add a sensitivity table for the 7-day patch-event merge window** (0d/3d/7d/14d). One paragraph in periodicity §7. Closes a curmudgeon objection cheaply.
+1. **Scope or replace the "zero misses" claim on the dashboard banner.** Six days unaddressed. Pass 5's "5-min must-ship-today." This is the longest-running unfixed item in the review backlog.
+2. **Use the cleaned LPE figure (~10–12, 60–70% reduction) as the headline on `periodicity.html` §The OS Layer cadence-comparison table and on the periodicity-page chainingChart.** Walkthrough already cleaned; dashboard Three Response Lanes card now cleaned; periodicity page is the remaining surface.
+3. **Add a 7-year reconciliation callout to `periodicity.html` §7 and the cve-reference page** explaining that the canonical manifest was unified from three previously-divergent sources on 2026-04-28; surface the audit trail (`analyst-reports/2026-04-28-seven-year-data-reconciliation.md`) so a reader who saw prior numbers understands what changed and why.
+4. **Trim walkthrough §4f.** Move the per-library NP+DI table to periodicity.html; keep the strategy table + headline row + deep link.
+5. **Re-anchor §5 and §6** as supporting §3, not standalone theses.
+6. **Fold §10 (Reverse Proxy Myth)** into §9a or move to Operational Model.
+7. **Add a watch-list-hit-rate KPI tile to the dashboard** (5/14 promoted to KEV). Cleanest prospective-validation surface; still undersold.
+8. **Add the auth-bypass-widening CWEs (287, 289, 306, 345, 693, 863, 1321) to the §3b DI table explicitly** in a banded section with cleaner formatting.
+9. **Add a worked hacker-tier example** to §3d (Spring4Shell as S/A, Tomcat HTTP PUT as B, Multer DoS as D).
+10. **Publish a CWE-set versioning changelog** (pass 5 §1.1; today's reconciliation makes this more urgent — three numbers shifted today).
+11. **Add a sensitivity table for the 7-day patch-event merge window** (0d/3d/7d/14d). One paragraph in periodicity §7. Closes a curmudgeon objection cheaply.
+12. **Surface the Spring AI 2026-04-27 cluster on the watch list** (CVE-2026-40967 vector-store FilterExpressionConverter, CVE-2026-40978 CosmosDBVectorStore SQLi, plus the three companions). Today's `kev-tracking.json` flagged them as NP+DI candidates with `recommendation: add_to_watchlist`. None are on the live watch list yet. Manual add closes a clean prospective-validation opportunity.
 
-The walkthrough should NOT be restructured. It's converged. The work is tightening, deduplication, and updating the headline numbers that still inherit the overstated version.
+The walkthrough should NOT be restructured. It is converged. The work is tightening, deduplication, and updating headline numbers that still inherit the overstated version.
 
 ---
 
-## 6. Daily Scan (2026-04-28)
+## 6. Daily Scan (2026-04-29)
 
 ### KEV
-- catalogVersion **2026.04.24**, total **1,583**, April KEV **28**. **Five-day catalog freeze** since 2026-04-24 (the 4-entry batch with D-Link, Samsung, SimpleHelp pair). This is the second-longest dry spell of 2026 — within normal range (longest is the early-April 8-day stretch). No new entries in the last 24 hours.
+- catalogVersion **2026.04.28**, total **1,585**, April KEV **30**. Two new entries today (2026-04-28 dateAdded):
+  - **CVE-2024-1708** — ConnectWise ScreenConnect path traversal (CWE-22) → RCE. Original SlashAndGrab cluster (Black Basta / Bl00dy ransomware, Feb 2024). NP+DI textbook fit. Likely retroactive KEV catalog cleanup, not fresh exploitation. Today's `kev-tracking.json` flagged for watch list addition.
+  - **CVE-2026-32202** — Microsoft Windows Shell auth bypass (CWE-693, protection mechanism failure). Microsoft confirmed active exploitation at Patch Tuesday. Auth-bypass-via-input but desktop/Windows-Shell-local, not HTTP-adjacent. Correctly outside NP+DI scope.
 - Watch-list hit-rate stable at **5 of 14 promoted to KEV** (Marimo CVE-2026-39987, SharePoint -32201, ActiveMQ -34197, Adobe Acrobat -34621, Defender BlueHammer -33825). 9 still WATCHING:
-  - Server: Thymeleaf SSTI pair (-40477, -40478), wolfSSL pair (-5194, -5501), n8n Ni8mare (-21858), Cisco ISE cluster (-20180, -20186, -20147), Cisco Webex (-20184).
-  - The Cisco ISE cluster + Cisco Webex SSO are the four probable-participant-self-scan entries (Cisco is a Glasswing participant). They've been WATCHING since mid-April. Cisco SD-WAN's 46-day exploitation-to-KEV gap suggests these could land in KEV around late May.
-  - n8n Ni8mare has been WATCHING for 9 days now. Horizon3's "zero customer impact" finding from 2026-04-19 is becoming the cleanest piece of disconfirming evidence for the "PoC → KEV in days" heuristic — public CVSS 10.0 with a working PoC and ~100k exposed instances per Cyera, but no exploitation telemetry has accumulated.
+  - Server: Thymeleaf SSTI pair (-40477, -40478, PoC), wolfSSL pair (-5194, -5501, none), n8n Ni8mare (-21858, functional), Cisco ISE cluster (-20180, -20186, -20147, none), Cisco Webex (-20184, none).
+  - Cisco SD-WAN's 46-day exploitation-to-KEV gap suggests the four Cisco probable-participant-self-scan entries (ISE x3 + Webex SSO) could land in KEV around late May. They've been WATCHING since mid-April.
+  - n8n Ni8mare has been WATCHING for 10 days. Horizon3's "zero customer impact" finding from 2026-04-19 continues to be the cleanest piece of disconfirming evidence for the "PoC → KEV in days" heuristic.
 
 ### NVD volume
-- April MTD = 5,371 (day 28 of 30). Day-over-day +197 CVEs, on the running April-2026 average of ~192/day. Extrapolation 5,755 (was 5,748 yesterday).
-- April will close ~9% below March (6,304) and within the Q1 churn band (4,808–6,304). **Twenty-eight days of the post-Glasswing-launch volume run continues to argue against the "AI is flooding CVE" framing.** Counter-argument continues to live: NVD assignment latency 4–8 weeks means a Mythos surge from April could still be in the publishing pipeline. The data cannot distinguish "no surge" from "surge in pipeline" until mid-to-late May. April 9 Tomcat batch (7 CVEs all-NP, 6 of 8 DI) is the only suggestive signal in the window so far, and even that is bounded by "looks like coordinated release of Mythos-Preview-found bugs" rather than confirmed.
+- April MTD = 5,580 (day 28 final, post-backfill). Day-over-day +209 CVEs as NVD backfilled late Apr-28 publications. April pace normalizes at ~199/day. Extrapolation 5,979 (was 5,755 yesterday — moved +3.9% on backfill).
+- Week-17 (Apr 20–26) closed final at 1,469. Week-18 (Apr 27–May 03) partial through Apr-29 04:00Z: 428 entries, on pace.
+- April will close ~5–10% below March (6,304) and within the Q1 churn band (4,808–6,304). **Twenty-eight days of post-Glasswing-launch volume continues to argue against the "AI is flooding CVE" framing.** The counter-argument continues to live: NVD assignment latency 4–8 weeks means a Mythos surge from April could still be in the publishing pipeline. Cannot distinguish "no surge" from "surge in pipeline" until mid-to-late May.
+- April 9 Tomcat batch (7 CVEs all-NP, 6 of 8 DI) remains the only suggestive signal in the window. The Spring AI April 27 cluster (5 CVEs, all NP+DI candidates) is a second suggestive signal — same coordinated-release shape as the Tomcat batch, no Mythos attribution in advisories.
 
 ### Glasswing / Mythos
 - Glasswing CVE count holds at **283** (271 Firefox 150 / MFSA 2026-30, 9 wolfSSL, 1 each F5 NGINX Plus / FreeBSD / OpenSSL). No new participant products surfaced.
-- Claude-credited known: **6** (CVE-2026-4747 FreeBSD NFS autonomous, CVE-2026-5194 wolfSSL cert validation Mythos-Preview-assisted, CVE-2026-5588 Bouncy Castle Carlini+Claude, plus three Firefox 150 entries CVE-2026-6746/6757/6758). No new credits in 24h.
+- Claude-credited known: **6** (CVE-2026-4747 FreeBSD NFS autonomous, CVE-2026-5194 wolfSSL cert validation Mythos-Preview-assisted, CVE-2026-5588 Bouncy Castle Carlini+Claude, plus three Firefox 150 entries -6746/6757/6758). No new credits in 24h.
+- **Researcher-assisted (NOT Mythos-attributed):** calif.io published CVE-2026-27654 (NGINX OSS ngx_http_dav_module heap buffer overflow via Destination header underflow). Same pattern as CVE-2026-34197 (ActiveMQ Claude-assisted via Horizon3). Today's `kev-tracking.json` flagged this for analyst review — recommendation is to NOT add to `claude_credited_cves` (researcher-assisted, not Anthropic-credited Mythos disclosure). I concur with that call. A separate `researcher_assisted_cves` bucket might be worth maintaining for reporting cleanliness.
 
 ### Glasswing-participant cross-check (today)
-- No new attribution-shaped CVEs in the 24h window.
-- No new entries qualify for the probable-participant-self-scan table beyond the existing four Cisco entries.
+- **NVIDIA BioNeMo cluster:** CVE-2026-24164 + CVE-2026-24165, both insecure deserialization (CWE-502), both internally disclosed by NVIDIA, no third-party credit. Pattern matches probable-participant-self-scan profile (NVIDIA is a Glasswing participant). Today's `kev-tracking.json` flagged as `meets_self_scan_criteria: possibly`. Monitor; if the second one publishes with same disclosure shape, consider promoting to the probable-participant-self-scan table on the dashboard. Currently four entries on that table (Cisco cluster); BioNeMo would be a useful diversification.
+- **Spring AI 2026-04-27 cluster** (CVE-2026-40966/40967/40978/40979/40980): VMware/Pivotal-Spring disclosure, not AI-attributed but classic NP+DI candidates (SQL injection in CosmosDBVectorStore.doDelete, FilterExpressionConverter injection, SpEL/JSONPath injection). Spring is not a Glasswing participant per current list. Worth adding to the watch list as five separate entries — or as a single "Spring AI vector-store cluster" bucket — even if not Glasswing-attributed.
 
 ### Notable / non-routine
-- **The watch-list cadence (5 promotions in 6 weeks) is now stable enough to surface as a dashboard KPI** — recommendation #6 above. This is the cleanest prospective-validation surface the project has and currently it's only visible in the table-row view on `index.html` §11.
-- **The Tomcat batch (April 9–15) continues to look like the only April datapoint that suggests Mythos influence.** All 7 events were NP-and-DI, exactly the cluster shape the model would predict if Mythos-Preview is being used to find HTTP-parsing bugs. But "looks like coordinated release" isn't proof — the same shape would result from any focused fuzzing campaign, AI-assisted or not.
-- **No KEV-level signal that overturns the cumulative pattern.** April KEV remains dominated by enterprise-edge products (Fortinet, Ivanti, SharePoint, Exchange, ActiveMQ, NetScaler, D-Link, Samsung, SimpleHelp, Cisco SD-WAN). The HTTP-parsing-adjacent share is ~50% of April KEV, in line with the long-run ~47% baseline.
+- **The watch-list cadence (5 promotions in ~6 weeks) is now stable enough to surface as a dashboard KPI** — recommendation #7 above. Same as yesterday.
+- **The Tomcat batch (April 9–15) and Spring AI batch (April 27) both look like coordinated-release events of accumulated findings.** Neither carries Mythos attribution; both are exactly the cluster shape an AI-assisted scanning campaign would produce. The same shape would also result from any focused fuzzing campaign, AI-assisted or not. Cannot distinguish from current data.
+- **No KEV-level signal that overturns the cumulative pattern.** April KEV remains dominated by enterprise-edge products (Fortinet, Ivanti, SharePoint, Exchange, ActiveMQ, NetScaler, D-Link, Samsung, SimpleHelp, Cisco SD-WAN, ConnectWise ScreenConnect retroactive add). The HTTP-parsing-adjacent share is ~50% of April KEV, in line with the long-run ~47% baseline.
+- **Refresh agent error today:** `tests/test_seven_year_npdi.py` failed in the refresh-agent environment due to a hardcoded iCloud cache path (`scripts/build_seven_year_npdi.py` and `scripts/build_cve_reference.py` reference `/sessions/bold-nice-euler/mnt/vulnerability\ analysis/cached-data`). The test infrastructure isn't agent-portable. This is a minor environmental issue, not a data issue; data deliverables for today's refresh did not touch the affected JSON. Recommend parameterizing the cache path or adding a graceful skip when the cache isn't reachable. Already noted in `kev-tracking.json.errors`.
 
 ---
 
-*End of review report. Recommendations are advisory; no HTML edits made by this run per the task brief instructions. Today's pass overwrote `periodicity-review.md` (was commit `b6059ca`, 2026-04-27); prior pass5/6/7 reports remain at their existing paths.*
+*End of review report. Recommendations are advisory; no HTML edits made by this run per the task brief instructions. Today's pass overwrites `periodicity-review.md` (was commit `3aeaf85`, 2026-04-28); prior pass5/6/7 reports remain at their existing paths. The 2026-04-28 forensic reconciliation report (`analyst-reports/2026-04-28-seven-year-data-reconciliation.md`) is the canonical reference for today's manifest unification.*
