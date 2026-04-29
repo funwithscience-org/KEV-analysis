@@ -7,3 +7,6 @@ osv_parsed/
 exploited_unfiltered.json
 server_side_filtered.json
 client_side_excluded.json
+kev.json
+modules_metadata_base.json
+files_exploits.csv
