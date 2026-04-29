@@ -304,6 +304,41 @@
         "status": "confirmed",
         "added": "2026-04-16",
         "kevDate": "2026-04-16"
+      },
+      {
+        "cve": "CVE-2026-40966",
+        "product": "Spring AI (PDF/embedding component)",
+        "status": "watching",
+        "added": "2026-04-29",
+        "kevDate": null
+      },
+      {
+        "cve": "CVE-2026-40967",
+        "product": "Spring AI vector store FilterExpressionConverter",
+        "status": "watching",
+        "added": "2026-04-29",
+        "kevDate": null
+      },
+      {
+        "cve": "CVE-2026-40978",
+        "product": "Spring AI CosmosDBVectorStore (SQLi via doDelete)",
+        "status": "watching",
+        "added": "2026-04-29",
+        "kevDate": null
+      },
+      {
+        "cve": "CVE-2026-40979",
+        "product": "Spring AI (vector store cluster)",
+        "status": "watching",
+        "added": "2026-04-29",
+        "kevDate": null
+      },
+      {
+        "cve": "CVE-2026-40980",
+        "product": "Spring AI (vector store cluster)",
+        "status": "watching",
+        "added": "2026-04-29",
+        "kevDate": null
       }
     ],
     "desktop": [

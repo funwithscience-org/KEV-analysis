@@ -443,7 +443,7 @@ A network-parsing HIGH (7.0-7.9) at 0.89% beats a non-parsing CRITICAL (9.0-9.9)
 <div class="hero-stat">
 <div class="stat red"><div class="number">14</div><div class="label">All C/H trigger dates<br>(identical across all 3 stacks)</div></div>
 <div class="stat"><div class="number">2 - 6</div><div class="label">NP+DI trigger dates<br>per stack (64-86% reduction)</div></div>
-<div class="stat green"><div class="number">10/11</div><div class="label">7-year backtest catch<br>(union NP+DI+DQ ∪ Hacker S+A)</div></div>
+<div class="stat green"><div class="number">10/11</div><div class="label">caught directly on 7-year backtest<br>(NP+DI+DQ ∪ Hacker S+A; 1/11 absorbed by supplements)</div></div>
 </div>
 
 <p style="font-size:.85em;color:var(--muted);margin-top:-8px;margin-bottom:20px">The 12-month synthetic-stack window has N=1 actually-exploited CVE — it scores workload, not discrimination. Discrimination comes from the 7-year backtest in §4f.</p>
@@ -811,7 +811,7 @@ A network-parsing HIGH (7.0-7.9) at 0.89% beats a non-parsing CRITICAL (9.0-9.9)
 &bull; Pre-build WAF rule templates for common DI patterns (path traversal, SQLi, template injection, command injection) — when the model triggers, adapt and deploy immediately<br>
 &bull; Set up OSV monitoring for your NP libraries -- OSV catches library vulns NVD misses<br>
 &bull; Subscribe to CISA KEV RSS as a safety net for anything the filter might miss<br>
-&bull; Track your filter's hit rate over 6 months -- it should produce zero misses<br>
+&bull; Track your filter's hit rate over 6 months -- expect very few misses (the 7-year backtest shows union catches 10/11 directly; the 1 residual is absorbed by floor-sweep + threat-intel supplements)<br>
 &bull; For the dashboard view: <a href="dashboard.html" style="color:var(--accent)">interactive dashboard</a> &bull; For per-CVE detail: <a href="cve-reference.html" style="color:var(--accent)">CVE reference</a>
 </div>
 
@@ -875,6 +875,11 @@ The key word is "constrain," not "prevent." It's a seatbelt, not an airbag.
 <tr><td><code>CVE-2026-20180</code></td><td>Cisco ISE</td><td><strong style="color:#dc2626">9.9</strong></td><td><strong style="color:#a855f7">A</strong></td><td>Authenticated RCE via crafted HTTP request. Default service-account creds often discoverable. Broad enterprise footprint.</td><td style="color:#d97706;font-weight:600">WATCHING</td></tr>
 <tr><td><code>CVE-2026-32201</code></td><td>SharePoint</td><td><strong style="color:#d97706">6.5</strong></td><td><strong style="color:#a855f7">A</strong></td><td>HTTP endpoint auth bypass, actively exploited as zero-day. CVSS understates because the bypass enables broader chains.</td><td style="color:#059669;font-weight:600">CONFIRMED -- KEV 2026-04-14</td></tr>
 <tr><td><code>CVE-2026-34197</code></td><td>Apache ActiveMQ</td><td><strong style="color:#dc2626">9.8</strong></td><td><strong style="color:#a855f7">A</strong></td><td>HTTP admin console / Jolokia MBean deserialization. R3-rated A. Pattern consistent with prior ActiveMQ KEV entries.</td><td style="color:#059669;font-weight:600">CONFIRMED -- KEV 2026-04-16</td></tr>
+<tr><td><code>CVE-2026-40967</code></td><td>Spring AI vector store FilterExpressionConverter</td><td><strong style="color:#d97706">7.5</strong></td><td><strong style="color:#a855f7">A</strong></td><td>Filter expression injection (CWE-89 adjacent). Keys/values not properly escaped before passing to backing store query language. Spring security team disclosure 2026-04-27 (5-CVE batch).</td><td style="color:#d97706;font-weight:600">WATCHING</td></tr>
+<tr><td><code>CVE-2026-40978</code></td><td>Spring AI CosmosDBVectorStore</td><td><strong style="color:#d97706">7.5</strong></td><td><strong style="color:#a855f7">A</strong></td><td>CWE-89 SQL injection in <code>doDelete()</code> via crafted document IDs. Same disclosure batch as -40967.</td><td style="color:#d97706;font-weight:600">WATCHING</td></tr>
+<tr><td><code>CVE-2026-40966</code></td><td>Spring AI (PDF/embedding)</td><td><strong style="color:#d97706">7.5</strong></td><td><strong style="color:#a855f7">A</strong></td><td>Companion CVE in same Spring AI 2026-04-27 5-CVE batch. Likely HTTP-facing injection in PDF or embedding pipeline; awaiting individual classification.</td><td style="color:#d97706;font-weight:600">WATCHING</td></tr>
+<tr><td><code>CVE-2026-40979</code></td><td>Spring AI (vector store cluster)</td><td><strong style="color:#d97706">7.5</strong></td><td><strong style="color:#a855f7">A</strong></td><td>Companion CVE in same Spring AI 2026-04-27 5-CVE batch. Awaiting individual classification.</td><td style="color:#d97706;font-weight:600">WATCHING</td></tr>
+<tr><td><code>CVE-2026-40980</code></td><td>Spring AI (vector store cluster)</td><td><strong style="color:#d97706">7.5</strong></td><td><strong style="color:#a855f7">A</strong></td><td>Companion CVE in same Spring AI 2026-04-27 5-CVE batch. Awaiting individual classification.</td><td style="color:#d97706;font-weight:600">WATCHING</td></tr>
 </tbody>
 </table>
 
@@ -937,7 +942,7 @@ The key word is "constrain," not "prevent." It's a seatbelt, not an airbag.
 
 <p><strong>Django's ORM SQLi pattern may not generalize.</strong> Django happened to have a persistent SQL injection issue during this 12-month window. A different window might show a different pattern.</p>
 
-<p><strong>12-month window.</strong> Twelve months of "zero misses" is strong but not conclusive. A 24-month retest with a wider manifest set would either strengthen the case or surface the first miss. The goal isn't to be exactly right; it's to be slightly conservative and never wrong.</p>
+<p><strong>12-month window.</strong> The 12-month per-framework analysis isn't trying to score the filter's discrimination — it's measuring <em>recent workload reduction</em> across Spring/Node/Django/Netty (how many emergency rebuilds the filter eliminates from the all-C/H baseline). With only N=1 actually-exploited CVE in window across all four manifests, "zero misses" is technically true but statistically uninformative for the discrimination question. Discrimination scoring lives on the 7-year canonical 58-package backtest (§4f) where there are 11 actually-exploited events and the union of strategies catches 10 directly with the 1 residual absorbed by supplements. The goal isn't to be exactly right at any single window; it's to be slightly conservative across the long-run sample and to publicize misses honestly when they happen.</p>
 
 <details class="expandable">
 <summary>Finance Sector KEV Blind Spots (supplementary)</summary>
