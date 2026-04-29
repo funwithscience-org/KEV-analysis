@@ -56,7 +56,7 @@
       "CVE-2026-6757": "Firefox 150 JavaScript invalid pointer \u2014 officially credited to Claude in MFSA 2026-30",
       "CVE-2026-6758": "Firefox 150 JavaScript use-after-free \u2014 officially credited to Claude in MFSA 2026-30"
     },
-    "last_verified": "2026-04-28T04:14:54Z",
+    "last_verified": "2026-04-29",
     "participants": [
       "AWS",
       "Anthropic",
@@ -165,15 +165,15 @@
       "2026-01": 5143,
       "2026-02": 4808,
       "2026-03": 6304,
-      "2026-04": 5371
+      "2026-04": 5580
     },
-    "monthly_cve_2026_notes": "2026-04 MTD through Apr-28 23:59Z = 5371 (NVD totalResults). Days elapsed 28; extrapolated full-month = 5755 (used as chart anchor in glasswing.html). Q1 average 5418/mo; April pace consistent with steady-state, no Mythos volume shock visible. Counter-argument: NVD publication latency 4-8 weeks, so Mythos disclosures from April may not appear until mid-May.",
+    "monthly_cve_2026_notes": "2026-04 MTD through Apr-28 23:59Z = 5580 (NVD totalResults; revised up from 5371 by NVD backfill of late Apr-28 publications). Days elapsed 28; extrapolated full-month = 5979 (used as chart anchor in glasswing.html). Q1 average 5418/mo; April pace consistent with steady-state, no Mythos volume shock visible. Counter-argument: NVD publication latency 4-8 weeks, so Mythos disclosures from April may not appear until mid-May.",
     "weekly_cve_2026": {
       "2026-W14_Mar30_Apr05": 1304,
       "2026-W15_Apr06_Apr12": 1615,
       "2026-W16_Apr13_Apr19": 1178,
       "2026-W17_Apr20_Apr26": 1469,
-      "2026-W18_Apr27_May03_partial": 218
+      "2026-W18_Apr27_May03_partial": 428
     },
     "ms_patch_tuesday": {
       "2025-01": 157,
@@ -200,15 +200,15 @@
       "2026_monthly_avg": 23,
       "2026-04_actual": 17,
       "2026_ytd_total": 115,
-      "note": "stack.watch dropped the /8.0 version-specific path; use parent URL (covers all RHEL versions). 2026 YTD: 115 per stack.watch fetched 2026-04-28 (Q1 = 98, April delta = 17). April 2026 RHEL count of 17 is below the 23-25/month Q1 pace but consistent with steady April lacking RHEL-9/10 backports."
+      "note": "stack.watch dropped the /8.0 version-specific path; use parent URL (covers all RHEL versions). 2026 YTD: 115 per stack.watch fetched 2026-04-29 (Q1 = 98, April delta = 17). April 2026 RHEL count of 17 remains below the 23-25/month Q1 pace; final 2 days of April produced no new entries."
     },
     "kev_monthly_2026": {
       "2026-01": 17,
       "2026-02": 28,
       "2026-03": 26,
-      "2026-04": 28
+      "2026-04": 30
     },
-    "kev_monthly_2026_notes": "April KEV total advances to 28 (catalogVersion 2026.04.24, released 2026-04-24T16:52Z). 4 new entries on 2026-04-24: CVE-2025-29635 (D-Link DIR-823X), CVE-2024-7399 (Samsung MagicINFO 9), CVE-2024-57728 + CVE-2024-57726 (SimpleHelp). Q1-2026 KEV monthly avg = (17+28+26)/3 = 23.7. April 28 entries with 4 days remaining puts the month above the Q1 mean. Notable April 2026 KEV entries: SimpleHelp pair 2026-04-24, Samsung MagicINFO 2026-04-24, D-Link DIR-823X 2026-04-24, Marimo 2026-04-23, Defender BlueHammer 2026-04-22, Cisco SD-WAN cluster 2026-04-20, ActiveMQ 2026-04-16, SharePoint 2026-04-14, Adobe Acrobat 2026-04-13."
+    "kev_monthly_2026_notes": "April KEV total advances to 30 (catalogVersion 2026.04.28, released 2026-04-28T17:29Z). 2 new entries on 2026-04-28: CVE-2024-1708 (ConnectWise ScreenConnect path traversal, CWE-22), CVE-2026-32202 (Microsoft Windows Shell spoofing, CWE-693, actively exploited). Q1-2026 KEV monthly avg = (17+28+26)/3 = 23.7. April 30 entries closes the month above the Q1 mean. Notable April 2026 KEV entries: ConnectWise ScreenConnect 2026-04-28, Windows Shell 2026-04-28, SimpleHelp pair 2026-04-24, Samsung MagicINFO 2026-04-24, D-Link DIR-823X 2026-04-24, Marimo 2026-04-23, Defender BlueHammer 2026-04-22, Cisco SD-WAN cluster 2026-04-20, ActiveMQ 2026-04-16, SharePoint 2026-04-14, Adobe Acrobat 2026-04-13."
   },
   "exploit_watch_list": {
     "description": "HTTP-parsing-adjacent CVEs predicted to be actively exploited. Analyst adds entries; refresh agent checks KEV status.",
@@ -587,7 +587,8 @@
         "last_checked": "2026-04-24T03:00Z"
       }
     },
-    "last_incremental_check": "2026-04-28T04:14:54Z",
-    "notes_2026_04_28": "Incremental re-check 2026-04-28: no new public exploit code observed for any of the 14 watch list CVEs since the 2026-04-25 full scan and 2026-04-27 incremental. Cisco ISE/Webex (CVE-2026-20180/20186/20147/20184) remain at maturity=none; wolfSSL pair (-5194/-5501) remain none; Thymeleaf pair (-40477/-40478) remain poc; n8n -21858 remains functional (Cyera PoC); five KEV-confirmed CVEs (-39987/-32201/-34197/-34621/-33825) remain weaponized. No KEV catalog change in last 24h (still 2026.04.24 / 1583 entries / 28 April adds)."
+    "last_incremental_check": "2026-04-29T04:13:33Z",
+    "notes_2026_04_28": "Incremental re-check 2026-04-28: no new public exploit code observed for any of the 14 watch list CVEs since the 2026-04-25 full scan and 2026-04-27 incremental. Cisco ISE/Webex (CVE-2026-20180/20186/20147/20184) remain at maturity=none; wolfSSL pair (-5194/-5501) remain none; Thymeleaf pair (-40477/-40478) remain poc; n8n -21858 remains functional (Cyera PoC); five KEV-confirmed CVEs (-39987/-32201/-34197/-34621/-33825) remain weaponized. No KEV catalog change in last 24h (still 2026.04.24 / 1583 entries / 28 April adds).",
+    "notes_2026_04_29": "2026-04-29 incremental check: spot-checked CVE-2026-39987 (Marimo, weaponized \u2014 unchanged, ITW exploitation continues per The Hacker News), CVE-2026-20180 (Cisco ISE, no public PoC \u2014 unchanged), CVE-2026-5194 (wolfSSL, no public PoC \u2014 unchanged). No watch list maturity escalations observed in last 24h. ConnectWise ScreenConnect CVE-2024-1708 added to KEV today (NP+DI candidate, not on watch list \u2014 flagged for analyst review). Microsoft confirmed active exploitation of Windows Shell CVE-2026-32202 (auth bypass / spoofing, CWE-693; not NP-applicable, desktop/local)."
   }
 }

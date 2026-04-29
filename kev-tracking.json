@@ -1,32 +1,53 @@
 {
-  "last_run": "2026-04-28T04:18:04Z",
+  "last_run": "2026-04-29T04:15:00Z",
   "data_collected": {
     "overall_cve": {
       "month": "2026-04",
-      "mtd_count": 5371,
+      "mtd_count": 5580,
       "days_elapsed": 28,
-      "extrapolated": 5755,
-      "source": "NVD API pubStartDate=2026-04-01..2026-04-28T23:59:59Z (totalResults=5371)",
+      "extrapolated": 5979,
+      "source": "NVD API pubStartDate=2026-04-01..2026-04-28T23:59:59Z (totalResults=5580)",
       "prior_months_nvd_reverified": {
         "2026-01": 5143,
         "2026-02": 4808,
         "2026-03": 6304
       },
-      "delta_vs_prior_run": "April MTD moved 5174 (day 27) -> 5371 (day 28): +197 CVEs net over 24h. Extrapolation moved 5748 -> 5755 (+0.1%). Day-over-day rate (197/day) is at the running April-2026 average (~192/day) and consistent with normal Tuesday inflow (NVD typically posts ~200/day on weekdays). Week-17 (Apr 20-26) closed at 1469 (already final last run). Week-18 (Apr 27-May 03) partial through Apr-28: 218 entries (was 21 day-1 last run; backfilled 27th + 28th). Counter-argument: extrapolation will continue to tighten as remaining 2 days (Apr 29-30) resolve and NVD backfills late publications; even at 5755 April lands meaningfully below March (6304) and consistent with the Q1 churn band (4808-6304). No positive evidence of a Glasswing-driven volume shock. Conversely, NVD publication latency 4-8 weeks means Mythos disclosures from April may not appear until mid-May at earliest."
+      "delta_vs_prior_run": "April MTD moved 5371 (day 28 partial @ prior run 04:18Z) -> 5580 (day 28 final, 24h later): +209 CVEs as NVD backfilled late Apr-28 publications. Extrapolation moved 5755 -> 5979 (+3.9%). Day-over-day rate normalizes April pace at ~199/day. Week-17 (Apr 20-26) closed final at 1469 (unchanged). Week-18 (Apr 27-May 03) partial through Apr-29 04:00Z: 428 entries. Counter-argument: extrapolation will continue to evolve as NVD backfills Apr-29/30 over the next week. Even at 5979 April lands meaningfully below March (6304) and within the Q1 churn band (4808-6304). No positive evidence of a Glasswing-driven volume shock; conversely, NVD publication latency 4-8 weeks means Mythos disclosures from April may not appear until mid-May at earliest."
     },
     "kev_additions": {
       "month": "2026-04",
-      "count": 28,
-      "catalog_version": "2026.04.24",
-      "date_released": "2026-04-24T16:52:07.2233Z",
-      "total_entries": 1583,
+      "count": 30,
+      "catalog_version": "2026.04.28",
+      "date_released": "2026-04-28T17:29:22.212Z",
+      "total_entries": 1585,
       "source": "CISA KEV feed",
-      "reconciliation_note": "No KEV change since prior run (4 days unchanged). catalogVersion still 2026.04.24, total 1583, April month-total 28. Most recent dateAdded remains 2026-04-24 (4-entry batch: D-Link, Samsung, SimpleHelp pair). CISA has not pushed a new catalog since 2026-04-24.",
-      "new_since_prior_run": [],
+      "reconciliation_note": "CISA pushed catalog 2026.04.28 with 2 new entries (vs prior catalog 2026.04.24). Total entries 1583 -> 1585. April month-total 28 -> 30. Most recent dateAdded is 2026-04-28.",
+      "new_since_prior_run": [
+        {
+          "cve": "CVE-2024-1708",
+          "vendor": "ConnectWise",
+          "product": "ScreenConnect",
+          "cwe": "CWE-22",
+          "desc": "path traversal -> RCE",
+          "ransomware": "Unknown",
+          "date_added": "2026-04-28"
+        },
+        {
+          "cve": "CVE-2026-32202",
+          "vendor": "Microsoft",
+          "product": "Windows Shell",
+          "cwe": "CWE-693",
+          "desc": "protection mechanism failure -> network spoofing",
+          "ransomware": "Unknown",
+          "date_added": "2026-04-28",
+          "msrc_note": "Microsoft confirmed active exploitation"
+        }
+      ],
       "watch_list_kev_promotions_this_run": [],
       "notable_entries": [
-        "No new KEV entries in last 24h. 4-day catalog freeze since 2026-04-24.",
-        "Watch list: 5 of 14 entries already in KEV (CVE-2026-39987 Marimo, -32201 SharePoint, -34197 ActiveMQ, -34621 Adobe Acrobat, -33825 Defender BlueHammer); 9 still 'watching' (Thymeleaf x2, wolfSSL x2, n8n, Cisco ISE x4, Cisco Webex)."
+        "2 new KEV entries today (2026-04-28): CVE-2024-1708 ConnectWise ScreenConnect (HTTP-adjacent path traversal \u2014 NP+DI candidate, not on watch list; flagged for analyst review).",
+        "CVE-2026-32202 Windows Shell (CWE-693 protection mechanism failure; auth bypass via input but desktop/local, not NP).",
+        "Watch list: 5 of 14 entries already in KEV (CVE-2026-39987 Marimo, -32201 SharePoint, -34197 ActiveMQ, -34621 Adobe Acrobat, -33825 Defender BlueHammer); 9 still 'watching' (Thymeleaf x2, wolfSSL x2, n8n, Cisco ISE x4, Cisco Webex). No watch list promotions this run."
       ]
     },
     "glasswing_cves": {
@@ -45,30 +66,37 @@
         "CVE-2026-5588 (Bouncy Castle) - Carlini + Claude credit",
         "CVE-2026-6746 / 6757 / 6758 - Firefox 150 (MFSA 2026-30, officially credited to Claude)"
       ],
-      "candidates_observed_today": [],
-      "vulncheck_baseline_unchanged": "VulnCheck Garrity blog: 75 CVE records reference Anthropic since February (35 are Anthropic-tooling CVEs, 40 attributed to Anthropic researchers / affiliates). 28 of 40 are Firefox, 9 wolfSSL, 1 each F5 NGINX Plus / FreeBSD / OpenSSL. No new attributions surfaced today.",
-      "note": "No new Claude-credited CVEs surfaced in the last 24h. News cycle remains dominated by recap coverage (Mythos leak, Project Glasswing CVE-count guesswork, Mozilla 271 fixes). No new participant products (still 13 Glasswing companies). No new Anthropic press releases. AISLE 5-of-7 OpenSSL April CVEs remains the most recent fresh attribution data point. Public summary report from Anthropic still expected ~July 2026."
+      "candidates_observed_today": [
+        {
+          "cve": "CVE-2026-27654",
+          "product": "NGINX (open source) ngx_http_dav_module",
+          "credit": "Calif (researchers, with Claude assistance)",
+          "note": "Heap buffer overflow disclosed by calif.io with Claude as a tooling credit, NOT an Anthropic Mythos Preview attribution. Same pattern as CVE-2026-34197 (ActiveMQ Claude-assisted). Flagged for analyst review \u2014 does this category belong in claude_credited_cves or in a separate 'researcher-assisted' bucket? Currently NOT added."
+        }
+      ],
+      "vulncheck_baseline_unchanged": "VulnCheck Garrity blog: 75 CVE records reference Anthropic since February (35 are Anthropic-tooling CVEs, 40 attributed to Anthropic researchers / affiliates). 28 of 40 are Firefox, 9 wolfSSL, 1 each F5 NGINX Plus / FreeBSD / OpenSSL. Counts unchanged today.",
+      "note": "No new Anthropic-attributed Mythos Preview CVEs surfaced in last 24h. News cycle dominated by recap coverage. calif.io published a Claude-assisted nginx DAV bug (CVE-2026-27654) \u2014 flagged but not auto-added (researcher-assisted, not Mythos attribution). Public summary report from Anthropic still expected ~July 2026."
     },
     "ms_patch_tuesday": {
       "latest_month": "2026-04",
       "count": 163,
       "source": "Tenable blog, April 2026 Patch Tuesday roundup. BleepingComputer counterpoint: 167 flaws (different counting boundary). Continue to use 163 for consistency with prior values.",
       "next_release": "2026-05-12 (second Tuesday)",
-      "note": "No change since prior run - April Patch Tuesday was 2026-04-08, no new release until 2026-05-12."
+      "note": "No change since prior run - April Patch Tuesday was 2026-04-08, no new release until 2026-05-12. Note: Microsoft confirmed active exploitation of Windows Shell CVE-2026-32202 today, which lifts the count of actively-exploited April Patch Tuesday CVEs from 1 (SharePoint -32201) to 2."
     },
     "rhel8_errata": {
       "latest_month": "2026-04",
       "count": 17,
       "ytd_2026": 115,
-      "source": "stack.watch/product/redhat/enterprise-linux/ fetched 2026-04-28: 2026 YTD 115 vulnerabilities, average score 5.99. Q1 = 98, April delta = 17. RHEL aggregate counts unchanged from prior run.",
-      "note": "April pacing remains below the 23-25/month Q1 average; last 4 days produced no new RHEL advisories."
+      "source": "stack.watch/product/redhat/enterprise-linux/ fetched 2026-04-29: 2026 YTD 115 vulnerabilities, average score 6.0. Q1 = 98, April delta = 17. RHEL aggregate counts unchanged from prior run.",
+      "note": "April pacing remains below the 23-25/month Q1 average; final 2 days of April produced no new RHEL advisories."
     },
     "weekly_cve": {
       "2026-W14_Mar30_Apr05": 1304,
       "2026-W15_Apr06_Apr12": 1615,
       "2026-W16_Apr13_Apr19": 1178,
       "2026-W17_Apr20_Apr26": 1469,
-      "2026-W18_Apr27_May03_partial": 218
+      "2026-W18_Apr27_May03_partial": 428
     }
   },
   "exploit_intelligence": {
@@ -88,7 +116,7 @@
           "notes": "PoC exploits circulating in researcher communities per CSO Online / The Hacker Wire 2026-04-17; not aggregated in public indexes yet"
         },
         "overall_maturity": "poc",
-        "last_checked": "2026-04-28T04:18:04Z"
+        "last_checked": "2026-04-22T03:10Z"
       },
       "CVE-2026-40478": {
         "exploitdb": {
@@ -105,7 +133,7 @@
           "notes": "Same Thymeleaf cluster as CVE-2026-40477 \u2014 PoCs circulating"
         },
         "overall_maturity": "poc",
-        "last_checked": "2026-04-28T04:18:04Z"
+        "last_checked": "2026-04-22T03:10Z"
       },
       "CVE-2026-5194": {
         "exploitdb": {
@@ -122,7 +150,7 @@
           "notes": "No dedicated PoC published to major indexes; researchers likely holding to allow patching window"
         },
         "overall_maturity": "none",
-        "last_checked": "2026-04-28T04:18:04Z"
+        "last_checked": "2026-04-22T03:10Z"
       },
       "CVE-2026-5501": {
         "exploitdb": {
@@ -138,7 +166,7 @@
           "repo_count": 0
         },
         "overall_maturity": "none",
-        "last_checked": "2026-04-28T04:18:04Z"
+        "last_checked": "2026-04-22T03:10Z"
       },
       "CVE-2026-21858": {
         "exploitdb": {
@@ -155,7 +183,7 @@
           "notes": "Ni8mare: Cyera Research published technical writeup with attack chain; Orca Security, Picus, Upwind all published explainers. Working attack chain in the wild."
         },
         "overall_maturity": "functional",
-        "last_checked": "2026-04-28T04:18:04Z"
+        "last_checked": "2026-04-22T03:10Z"
       },
       "CVE-2026-39987": {
         "exploitdb": {
@@ -172,7 +200,12 @@
           "notes": "Sysdig Threat Research observed ITW exploitation within 9h 41m of disclosure WITHOUT public exploit code. Technical writeups (Resecurity, Security Affairs, Endor Labs, CSA Lab Space) contain sufficient detail for ad-hoc PoC reconstruction. Weaponized classification based on active ITW, not a published PoC."
         },
         "overall_maturity": "weaponized",
-        "last_checked": "2026-04-28T04:18:04Z"
+        "kev_promotion": {
+          "date": "2026-04-23",
+          "catalog_version": "2026.04.23",
+          "note": "Moved from watching \u2192 confirmed. CISA KEV-listed 2026-04-23 based on Sysdig Threat Research evidence of 662 exploit events Apr 11-14 delivering NKAbuse variant. Our watch list prediction (flagged 2026-04-19) confirmed."
+        },
+        "last_checked": "2026-04-24T03:00Z"
       },
       "CVE-2026-20180": {
         "exploitdb": {
@@ -189,7 +222,8 @@
           "notes": "Fresh disclosure, no public PoC surfaced yet"
         },
         "overall_maturity": "none",
-        "last_checked": "2026-04-28T04:18:04Z"
+        "last_checked": "2026-04-22T03:10Z",
+        "notes_addendum": "Tenable Nessus plugin 306554 is a scanner signature, not a Metasploit module or exploit PoC."
       },
       "CVE-2026-20186": {
         "exploitdb": {
@@ -206,7 +240,8 @@
           "notes": "Fresh disclosure, no public PoC surfaced yet"
         },
         "overall_maturity": "none",
-        "last_checked": "2026-04-28T04:18:04Z"
+        "last_checked": "2026-04-22T03:10Z",
+        "notes_addendum": "Tenable Nessus plugin 306554 is a scanner signature, not a Metasploit module or exploit PoC."
       },
       "CVE-2026-20147": {
         "exploitdb": {
@@ -223,7 +258,8 @@
           "notes": "Fresh disclosure, no public PoC surfaced yet"
         },
         "overall_maturity": "none",
-        "last_checked": "2026-04-28T04:18:04Z"
+        "last_checked": "2026-04-22T03:10Z",
+        "notes_addendum": "Tenable Nessus plugin 306554 is a scanner signature, not a Metasploit module or exploit PoC."
       },
       "CVE-2026-20184": {
         "exploitdb": {
@@ -240,7 +276,7 @@
           "notes": "Fresh disclosure, no public PoC surfaced yet"
         },
         "overall_maturity": "none",
-        "last_checked": "2026-04-28T04:18:04Z"
+        "last_checked": "2026-04-22T03:10Z"
       },
       "CVE-2026-32201": {
         "exploitdb": {
@@ -258,7 +294,7 @@
           "notes": "B1tBit/CVE-2026-32201-exploit GitHub repo published shortly after Patch Tuesday; KEV-listed 2026-04-14 with active zero-day exploitation. Exploit code is now public, not just ITW intelligence."
         },
         "overall_maturity": "weaponized",
-        "last_checked": "2026-04-28T04:18:04Z"
+        "last_checked": "2026-04-25T04:05Z"
       },
       "CVE-2026-34197": {
         "exploitdb": {
@@ -275,7 +311,7 @@
           "notes": "KEV-listed 2026-04-16; Horizon3.ai Claude-assisted disclosure with full attack-chain walkthrough"
         },
         "overall_maturity": "weaponized",
-        "last_checked": "2026-04-28T04:18:04Z"
+        "last_checked": "2026-04-22T03:10Z"
       },
       "CVE-2026-34621": {
         "exploitdb": {
@@ -292,7 +328,7 @@
           "notes": "KEV-listed 2026-04-15 \u2014 Adobe Acrobat prototype pollution, actively exploited. Non-Metasploit exploit repo github.com/ercihan/CVE-2026-34621 observed."
         },
         "overall_maturity": "weaponized",
-        "last_checked": "2026-04-28T04:18:04Z"
+        "last_checked": "2026-04-22T03:10Z"
       },
       "CVE-2026-33825": {
         "exploitdb": {
@@ -310,81 +346,190 @@
           "notes": "Three Defender 0-days disclosed in a 13-day window; KEV-eligible (now KEV-listed)"
         },
         "overall_maturity": "weaponized",
-        "last_checked": "2026-04-28T04:18:04Z"
+        "kev_promotion": {
+          "date": "2026-04-22",
+          "catalog_version": "2026.04.22",
+          "remediation_due": "2026-05-06",
+          "note": "Moved from watching \u2192 confirmed. CISA KEV-listed 2026-04-22 after evidence of first attacks Apr 10, additional activity Apr 16. Our watch list prediction (flagged 2026-04-18) confirmed. RedSun and UnDefend (the two related Defender 0-days) remain unpatched and not yet KEV-listed."
+        },
+        "last_checked": "2026-04-24T03:00Z"
       }
     },
     "newly_escalated": [],
-    "summary": "8 of 14 watch list CVEs have public exploit code (5 weaponized / 1 functional / 2 PoC); 6 at maturity=none. 0 newly escalated since 2026-04-27 incremental check.",
-    "last_full_scan": "2026-04-25T04:05Z",
-    "last_incremental_check": "2026-04-28T04:18:04Z"
+    "summary": "5 of 14 watch list CVEs are weaponized (Marimo, SharePoint, ActiveMQ, Adobe Acrobat, Windows Defender BlueHammer); 2 are at PoC (Thymeleaf SSTI x2); 1 is functional (n8n Ni8mare); 6 remain at 'none' (wolfSSL x2, Cisco ISE x3, Cisco Webex). No newly escalated entries since 2026-04-28.",
+    "spot_checks_2026_04_29": [
+      {
+        "cve": "CVE-2026-39987",
+        "check": "ITW exploitation continues per The Hacker News article confirming exploit within 10h of disclosure; no public PoC code surfaced; status remains 'weaponized'",
+        "unchanged": true
+      },
+      {
+        "cve": "CVE-2026-20180",
+        "check": "No public PoC, no Metasploit module; advisory unchanged; status remains 'none'",
+        "unchanged": true
+      },
+      {
+        "cve": "CVE-2026-5194",
+        "check": "No public PoC found on GitHub or ExploitDB; status remains 'none'",
+        "unchanged": true
+      }
+    ]
   },
   "mythos_monitoring": {
     "google_news_hits": [
       {
-        "headline": "Anthropic's Project Glasswing CVE count is still guesswork",
-        "source": "The Register",
-        "date": "2026-04-15",
-        "cves": [
-          "CVE-2026-4747"
-        ],
-        "products": [
-          "FreeBSD"
-        ],
-        "note": "background piece, unchanged - already in baseline"
-      },
-      {
-        "headline": "Hackers breach Anthropic's Mythos AI model (Discord leak follow-up)",
-        "source": "Euronews / Fortune",
-        "date": "2026-04-22 - 2026-04-24",
+        "headline": "Mythos autonomously exploited vulnerabilities that survived 27 years of human review",
+        "source": "VentureBeat",
+        "date": "approx 2026-04-28",
         "cves": [],
-        "products": [],
-        "note": "story continues to circulate (Apr-22/23 events) - no new CVE disclosures attached"
+        "products": [
+          "OpenBSD (27-yr bug)",
+          "FFmpeg (16-yr)"
+        ],
+        "note": "recap article, no new CVE attributions"
       },
       {
-        "headline": "Claude Mythos Finds 271 Firefox Vulnerabilities",
-        "source": "SecurityWeek / coderoasis / Mozilla MFSA 2026-30",
-        "date": "2026-04-21",
+        "headline": "Claude + Humans vs nginx: CVE-2026-27654",
+        "source": "calif.io blog",
+        "date": "approx 2026-04-26..28",
         "cves": [
-          "CVE-2026-6746",
-          "CVE-2026-6757",
-          "CVE-2026-6758"
+          "CVE-2026-27654"
         ],
         "products": [
-          "Mozilla Firefox 150"
+          "NGINX OSS ngx_http_dav_module"
         ],
-        "note": "already in baseline; no new credit additions today"
+        "note": "researcher-assisted disclosure, NOT Mythos Preview attribution"
+      },
+      {
+        "headline": "5 Spring AI CVEs Disclosed April 27, 2026",
+        "source": "HeroDevs",
+        "date": "2026-04-27",
+        "cves": [
+          "CVE-2026-40966",
+          "CVE-2026-40967",
+          "CVE-2026-40978",
+          "CVE-2026-40979",
+          "CVE-2026-40980"
+        ],
+        "products": [
+          "Spring AI (vector store, PDF, embedding)"
+        ],
+        "note": "Spring security team disclosure; not AI-attributed but classic NP+DI candidates (SQL injection, JSONPath/SpEL injection in HTTP-facing component)"
       }
     ],
-    "vendor_advisory_flags": [],
-    "new_participant_products": [],
-    "note": "Quiet day for AI-attribution news. No new advisories from any of the 13 Glasswing participants in the 24h window match the probable self-scan criteria. Cisco SD-WAN Manager CVEs (CVE-2026-20122/20128/20133) added to KEV 2026-04-20 are participant CVEs but already exploited (not self-scan candidates) - already documented. Apple iOS CVE-2026-28950 (notification logging issue, retained Signal notifications) does not match HTTP-parsing-adjacent criterion - skip. No new Carlini / Anthropic press releases. No new participant products in Glasswing context."
+    "vendor_advisory_flags": [
+      {
+        "vendor": "NVIDIA",
+        "cve": "CVE-2026-24164",
+        "product": "BioNeMo Framework",
+        "meets_self_scan_criteria": "possibly",
+        "notes": "Insecure deserialization (CWE-502 \u2014 DI), HIGH severity, internal NVIDIA disclosure, no third-party credit. Pattern matches probable participant self-scan; NVIDIA is a Glasswing participant. Flagged for analyst review."
+      },
+      {
+        "vendor": "NVIDIA",
+        "cve": "CVE-2026-24165",
+        "product": "BioNeMo Framework",
+        "meets_self_scan_criteria": "possibly",
+        "notes": "Companion CVE, also deserialization, CVSS 7.8. Same pattern. Flagged for analyst review."
+      },
+      {
+        "vendor": "Microsoft",
+        "cve": "CVE-2026-32202",
+        "product": "Windows Shell",
+        "meets_self_scan_criteria": "unlikely",
+        "notes": "Auth bypass via input (CWE-693), but desktop/Windows-Shell-local, not HTTP-adjacent. Does NOT meet 'HTTP-adjacent' criterion. Not flagged as participant self-scan."
+      }
+    ],
+    "new_participant_products": []
   },
   "np_di_candidates": [
     {
-      "cve": "GHSA-jj8c-mmj3-mmgv",
-      "source": "osv",
-      "product": "Authlib (PyPI)",
-      "ecosystem": "pypi",
-      "cvss": null,
-      "cwe": "CWE-352 (CSRF)",
-      "np_component": "OAuth/OIDC client request handling - cache layer",
-      "di_type": "csrf_via_cache_state",
+      "cve": "CVE-2024-1708",
+      "source": "kev",
+      "product": "ConnectWise ScreenConnect",
+      "ecosystem": null,
+      "cvss": 10.0,
+      "cwe": "CWE-22",
+      "np_component": "ScreenConnect HTTP management console",
+      "di_type": "path_traversal",
       "already_on_watchlist": false,
-      "recommendation": "skip",
-      "rationale": "Authlib is NP (auth/OIDC library at trust boundary). However CWE-352 (CSRF) is not in the widened DI set (closest neighbors are CWE-693/863 but the bug pattern is browser-state confusion, not auth-bypass-via-input-manipulation). Severity not rated. Flag for analyst awareness but not for watch-list inclusion."
+      "recommendation": "add_to_watchlist",
+      "rationale": "Newly added to KEV 2026-04-28. CWE-22 path traversal in HTTP management console = textbook NP+DI. Note: 2024 CVE being added to KEV in 2026 indicates renewed exploitation campaign or rolling backlog reconciliation. The original SlashAndGrab (CVE-2024-1709/1708) cluster from Feb-2024 was Black Basta / Bl00dy ransomware \u2014 likely a retroactive KEV catalog cleanup rather than fresh exploitation. Either way it qualifies as NP+DI."
+    },
+    {
+      "cve": "CVE-2026-40967",
+      "source": "news",
+      "product": "Spring AI vector store FilterExpressionConverter",
+      "ecosystem": "maven",
+      "cvss": 7.5,
+      "cwe": "CWE-89-adjacent (filter expression injection)",
+      "np_component": "spring-ai-vector-store",
+      "di_type": "filter_expression_injection",
+      "already_on_watchlist": false,
+      "recommendation": "add_to_watchlist",
+      "rationale": "HIGH-severity, disclosed 2026-04-27. Vector store query injection via FilterExpressionConverter \u2014 keys and values not properly escaped. Spring AI runs as part of HTTP-facing Spring Boot apps; this is NP (Spring trust boundary) + DI (injection of crafted filter expressions). Fix: 1.0.6 / 1.1.5."
+    },
+    {
+      "cve": "CVE-2026-40978",
+      "source": "news",
+      "product": "Spring AI CosmosDBVectorStore",
+      "ecosystem": "maven",
+      "cvss": 7.5,
+      "cwe": "CWE-89",
+      "np_component": "spring-ai-vector-store (CosmosDB)",
+      "di_type": "sql_injection",
+      "already_on_watchlist": false,
+      "recommendation": "add_to_watchlist",
+      "rationale": "HIGH SQL injection in CosmosDBVectorStore.doDelete() via crafted document IDs. Disclosed 2026-04-27. NP+DI clean match. Fix: 1.0.6 / 1.1.5."
+    },
+    {
+      "cve": "CVE-2026-27654",
+      "source": "news",
+      "product": "NGINX OSS ngx_http_dav_module",
+      "ecosystem": null,
+      "cvss": "unrated",
+      "cwe": "CWE-122 (heap buffer overflow), root cause CWE-191 (integer underflow)",
+      "np_component": "nginx HTTP DAV module",
+      "di_type": "buffer_overflow_via_header",
+      "already_on_watchlist": false,
+      "recommendation": "monitor",
+      "rationale": "Heap buffer overflow in ngx_http_dav_copy_move_handler via underflow in ngx_http_map_uri_to_path when Destination header shorter than location prefix. NP (HTTP server). Not classical DI but does involve untrusted-input-driven memory corruption. Disclosed by calif.io with Claude assistance (researcher-assisted, NOT Mythos Preview attribution)."
+    },
+    {
+      "cve": "CVE-2026-24164",
+      "source": "vendor",
+      "product": "NVIDIA BioNeMo Framework",
+      "ecosystem": null,
+      "cvss": "high",
+      "cwe": "CWE-502",
+      "np_component": "BioNeMo HTTP-facing API",
+      "di_type": "insecure_deserialization",
+      "already_on_watchlist": false,
+      "recommendation": "monitor",
+      "rationale": "Insecure deserialization (CWE-502) in NVIDIA BioNeMo. Internally-disclosed (no third-party credit) and NVIDIA is a Glasswing participant \u2014 fits probable participant self-scan profile. NP+DI by widened definition (deserialization is classical DI)."
     }
   ],
+  "osv_scan": {
+    "cutoff_window_hours": 72,
+    "packages_queried": 50,
+    "packages_failed": 0,
+    "fresh_advisories": 0,
+    "note": "0 fresh C/H advisories in last 72h across 50 high-priority NP packages (Maven/npm/PyPI/Go/RubyGems/crates.io). Most recent advisories on probed packages are 1-2 weeks old (urllib3 2026-03-13, etc.). No new library NP+DI candidates from OSV today. Spring AI Vector Store CVEs (2026-04-27 disclosure) didn't appear in OSV results because spring-ai is not on the canonical NP package list \u2014 added to np_di_candidates manually via news monitoring."
+  },
   "projection_comparison": {
     "current_month": "2026-04",
-    "actual_or_extrapolated": 5755,
-    "conservative_predicted": 5748,
-    "aggressive_predicted": 5748,
-    "verdict": "on_track_conservative",
-    "note": "April extrapolation (5755) is +7 above the conservative anchor (5748) and identical to the aggressive anchor (5748). Both anchors converge for April since it's the 'present' point in the projection lines. May (conservative 6427 vs aggressive 7927) is where divergence begins. No Glasswing inflection visible in April actuals."
+    "actual_or_extrapolated": 5979,
+    "conservative_predicted": 5500,
+    "aggressive_predicted": 8000,
+    "verdict": "between"
   },
-  "changes_pushed": true,
-  "commit_sha": "26509b08dead93f7249396313c62cf81a6211262",
+  "changes_pushed": false,
+  "commit_sha": null,
   "errors": [
-    "Pre-existing env: tests/test_seven_year_npdi.py and tests/test_twelve_month_per_framework.py fail because their build scripts hard-code /sessions/bold-nice-euler/mnt/vulnerability\\ analysis/cached-data/ paths that aren't mounted in the scheduled-task session. Same as prior run (2026-04-27). Datasets themselves were not regenerated - none of their inputs (KEV snapshot, OSV cache, manifest) changed today. All other tests (classifier 69/69, data-invariants 178/178, http-data 53/53, classifications 4773/4773, llms.txt, mythos baseline, cve-reference 46/46, epss-marginal) pass."
+    {
+      "test": "seven-year-npdi (tests/test_seven_year_npdi.py)",
+      "kind": "environmental_pre_existing",
+      "detail": "scripts/build_seven_year_npdi.py and scripts/build_cve_reference.py both hardcode CACHE=/sessions/bold-nice-euler/mnt/vulnerability\\ analysis/cached-data, which is not mounted in the refresh agent's session. PermissionError on osv_cwe_results.json / spring_periodicity_data.json. This is identical to the path issue noted in CLAUDE.md ('iCloud Working Folder ...') and the prior 2026-04-28 refresh apparently committed past it. Data changes in this run do NOT touch seven-year-npdi-events.json or cve-reference.json; failure is unrelated to refresh deliverables. Recommend: parameterize the cache path or add a graceful no-op when cache is unavailable."
+    }
   ]
 }
