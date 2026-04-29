@@ -127,7 +127,7 @@ canvas{max-height:340px}
 
 <p style="font-size:.92em;color:var(--muted)"><strong>In-scope filter:</strong> all KEV inbound (regardless of layer) plus NVD critical+high in HTTP-parsing-adjacent layers (web servers, app frameworks, template engines, TLS terminators, reverse proxies, API gateways, browser engines, JWT/auth/cert libs, watch-list packages). OS / kernel / firmware out of scope unless KEV-listed.</p>
 
-<p style="font-size:.9em;color:var(--muted);margin-top:14px">Last run: <strong id="modelRunDate" style="color:var(--amber)">awaiting first analyst pass</strong> &middot; <span id="modelRunCounts">&mdash; in-scope events tier'd</span></p>
+<p style="font-size:.9em;color:var(--muted);margin-top:14px">Last run: <strong id="modelRunDate" style="color:var(--accent)">&mdash;</strong> &middot; <span id="modelRunCounts">&mdash;</span></p>
 
 <div style="overflow-x:auto;margin-top:8px">
 <table>
@@ -137,7 +137,7 @@ canvas{max-height:340px}
   <th>Verdict</th><th>Anchor / Note</th>
 </tr></thead>
 <tbody id="modelRunBody">
-<tr><td colspan="10" style="padding:18px;color:var(--muted);text-align:center;font-style:italic">Awaiting first daily analyst run. Rows will appear here after the next 6:10 AM run.</td></tr>
+<tr><td colspan="10" style="padding:18px;color:var(--muted);text-align:center;font-style:italic">Loading today's run&hellip;</td></tr>
 </tbody>
 </table>
 </div>
@@ -154,6 +154,26 @@ canvas{max-height:340px}
 Cumulative counters update after each analyst run. After ~30 days of runs we'll have enough sample to publish prospective precision/recall by tier.
 </div>
 </details>
+
+<style>
+/* Model-run table cell styles */
+.mr-yes{color:var(--green);font-weight:700}
+.mr-no{color:#cbd5e1;font-weight:600}
+.mr-tier{display:inline-block;padding:2px 8px;border-radius:4px;font-size:.78em;font-weight:700}
+.mr-tier-S{background:#fee2e2;color:#991b1b}
+.mr-tier-A{background:#fed7aa;color:#9a3412}
+.mr-tier-B{background:#fef3c7;color:#92400e}
+.mr-tier-C{background:#e0e7ff;color:#3730a3}
+.mr-tier-D{background:#f1f5f9;color:#475569}
+.mr-verdict-triggered{color:var(--red);font-weight:700}
+.mr-verdict-autobuild{color:var(--amber);font-weight:700}
+.mr-verdict-bau{color:var(--green);font-weight:700}
+.mr-verdict-oos{color:var(--muted);font-weight:600}
+.mr-cve{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:.88em;white-space:nowrap}
+.mr-pkg{font-size:.88em;color:#1e293b}
+.mr-vendor{display:block;font-size:.78em;color:var(--muted);font-weight:500}
+.mr-anchor{font-size:.85em;color:var(--muted);max-width:340px}
+</style>
 
 <!-- ============================================================ -->
 <h2 id="mythos-detector">Mythos Detector &mdash; AI-Driven CVE Volume Impact</h2>
@@ -369,6 +389,79 @@ const today = new Date();
 const daysSince = Math.floor((today - glasswingLaunch) / (1000*60*60*24));
 const daysEl = document.getElementById('glasswingDays');
 if(daysEl) daysEl.textContent = daysSince;
+
+// === Today's model run — embedded from data/model-run-log.json ===
+// (Embedded inline so the page renders correctly under GitHub Pages /docs root.
+//  Refresh agent re-embeds this on each daily run via scripts/embed_model_run_log.py.)
+const MODEL_RUN_LOG = /*BEGIN_MODEL_RUN_LOG*/{"schema_version":2,"_doc":"Daily prospective model-run output. Each runs[] entry is one analyst run (one calendar day). Each event is one in-scope CVE scored against NP+DI+DQ+Hacker. Maintained by the analyst agent (6:10am daily). Mirrors the schema documented in agents/analyst-prompt.md \u00a71a.","runs":[{"date":"2026-04-29","run_id":"2026-04-29-bootstrap","in_scope_count":5,"out_of_scope_count":0,"events":[{"cve":"CVE-2024-1708","vendor":"ConnectWise","package":"ScreenConnect HTTP management console","cwe":"CWE-22","cvss":10.0,"kev":true,"kev_date":"2026-04-28","nvd_published":"2024-02-21","layer":"commercial_appliance","np":true,"di":true,"dq_verdict":"n/a","dq_rationale":"NP+DI raw \u2014 no DQ rescue needed","hacker_tier":"S","hacker_rationale":"Default-config + network-edge + primitive-direct path traversal; paired with -1709 auth bypass = unauth RCE","tier_anchor":"Spring4Shell-class unauth RCE primitive in vendor admin console","combined_verdict":"triggered","ecosystem":"commercial","glasswing_participant_vendor":false,"anchor_note":"New KEV addition 2026-04-28. SlashAndGrab cluster precedent (Feb 2024 ransomware campaign). Likely retroactive KEV listing."},{"cve":"CVE-2026-40967","vendor":"VMware Spring","package":"spring-ai vector-store FilterExpressionConverter","cwe":"CWE-89-adjacent","cvss":7.5,"kev":false,"kev_date":null,"nvd_published":"2026-04-27","layer":"library_framework","np":true,"di":true,"dq_verdict":"n/a","dq_rationale":"NP+DI raw","hacker_tier":"A","hacker_rationale":"Default-config escape function flaw + network-edge HTTP API + primitive-direct query manipulation; auth varies by app","tier_anchor":"Log4Shell-shape injection in HTTP-facing trust boundary","combined_verdict":"triggered","ecosystem":"maven","glasswing_participant_vendor":false,"anchor_note":"Spring security disclosure 2026-04-27 (5-CVE Spring AI batch). Added to watch list today."},{"cve":"CVE-2026-40978","vendor":"VMware Spring","package":"spring-ai-vector-store (CosmosDB)","cwe":"CWE-89","cvss":7.5,"kev":false,"kev_date":null,"nvd_published":"2026-04-27","layer":"library_framework","np":true,"di":true,"dq_verdict":"n/a","dq_rationale":"NP+DI raw","hacker_tier":"A","hacker_rationale":"SQL injection in delete path; default-config + network-edge + primitive-direct exfil/destroy","tier_anchor":"classic SQLi in framework-managed query builder","combined_verdict":"triggered","ecosystem":"maven","glasswing_participant_vendor":false,"anchor_note":"Same Spring AI batch as -40967. Fix 1.0.6 / 1.1.5."},{"cve":"CVE-2026-27654","vendor":"F5","package":"nginx ngx_http_dav_module","cwe":"CWE-122","cvss":null,"kev":false,"kev_date":null,"nvd_published":"2026-04-26","layer":"web_server","np":true,"di":true,"dq_verdict":"n/a","dq_rationale":"NP+DI raw \u2014 heap overflow via crafted Destination header is DI by trust-boundary rule","hacker_tier":"B","hacker_rationale":"Network-edge + primitive-direct RCE potential, but DAV module is NOT default-on in nginx \u2014 narrow exposure","tier_anchor":"default-off feature-module heap bug, similar to mod-specific vulns we've seen in Apache","combined_verdict":"triggered","ecosystem":null,"glasswing_participant_vendor":false,"anchor_note":"Heap overflow via integer underflow in ngx_http_dav_copy_move_handler. Researcher-assisted (calif.io); not Mythos-attributed."},{"cve":"CVE-2026-24164","vendor":"NVIDIA","package":"BioNeMo Framework","cwe":"CWE-502","cvss":7.8,"kev":false,"kev_date":null,"nvd_published":"2026-04-28","layer":"library_framework","np":true,"di":true,"dq_verdict":"n/a","dq_rationale":"NP+DI raw \u2014 CWE-502 deser is canonical DI","hacker_tier":"B","hacker_rationale":"Default-config + primitive-direct deser RCE; not network-edge by default (research framework, not exposed product)","tier_anchor":"deser RCE in research/ML framework \u2014 primitive is real but blast radius is narrow","combined_verdict":"triggered","ecosystem":"pypi","glasswing_participant_vendor":true,"anchor_note":"Companion CVE -24165 (same pattern). NVIDIA is a Glasswing participant \u2014 flagged as probable participant self-scan."}]}]}/*END_MODEL_RUN_LOG*/;
+
+(function renderModelRun() {
+  const log = MODEL_RUN_LOG;
+  if (!log || !Array.isArray(log.runs) || log.runs.length === 0) return;
+  const latest = log.runs[log.runs.length - 1];
+
+  // Verdict counts for the latest run
+  const vCounts = {triggered:0, autobuild:0, bau:0, "out-of-scope":0};
+  (latest.events||[]).forEach(e => { if (e.combined_verdict in vCounts) vCounts[e.combined_verdict]++; });
+
+  document.getElementById('modelRunDate').textContent = latest.date;
+  document.getElementById('modelRunCounts').innerHTML =
+    `${latest.in_scope_count} in-scope events tier'd · ` +
+    `<strong style="color:var(--red)">${vCounts.triggered}</strong> triggered · ` +
+    `<strong style="color:var(--amber)">${vCounts.autobuild}</strong> autobuild · ` +
+    `<strong style="color:var(--green)">${vCounts.bau}</strong> BAU · ` +
+    `<strong style="color:var(--muted)">${vCounts["out-of-scope"]}</strong> out-of-scope`;
+
+  function yn(v) { return v === true ? '<span class="mr-yes">✓</span>'
+                       : v === false ? '<span class="mr-no">·</span>'
+                       : '<span class="mr-no">—</span>'; }
+  function dqCell(v) {
+    if (v === 'pass' || v === true) return '<span class="mr-yes">✓ pass</span>';
+    if (v === 'fail') return '<span class="mr-no">✗ fail</span>';
+    if (v === 'uncertain') return '<span style="color:var(--amber);font-weight:600">? unc.</span>';
+    return '<span class="mr-no">—</span>';
+  }
+  function tierTag(t) { return t ? `<span class="mr-tier mr-tier-${t}">${t}</span>` : '—'; }
+  function verdictTag(v) {
+    const cls = (v||'').replace(/-/g,'');
+    const label = {triggered:'Triggered', autobuild:'Autobuild', bau:'BAU', "out-of-scope":'Out of scope'}[v] || v;
+    const cssVar = {triggered:'mr-verdict-triggered', autobuild:'mr-verdict-autobuild', bau:'mr-verdict-bau', "out-of-scope":'mr-verdict-oos'}[v] || '';
+    return `<span class="${cssVar}">${label}</span>`;
+  }
+  function escapeHtml(s) { return (s||'').replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c])); }
+
+  const rows = (latest.events || []).map(e => `
+    <tr>
+      <td class="mr-cve">${e.cve}${e.kev ? ' <span class="tag tag-red" style="font-size:.7em">KEV</span>' : ''}</td>
+      <td><span class="mr-pkg">${escapeHtml(e.package||'')}</span><span class="mr-vendor">${escapeHtml(e.vendor||'')}${e.glasswing_participant_vendor ? ' · <span style="color:var(--accent)">Glasswing participant</span>' : ''}</span></td>
+      <td style="font-size:.85em">${escapeHtml(e.cwe||'—')}</td>
+      <td class="center">${e.cvss == null ? '—' : e.cvss}</td>
+      <td class="center">${yn(e.np)}</td>
+      <td class="center">${yn(e.di)}</td>
+      <td class="center">${dqCell(e.dq_verdict)}</td>
+      <td class="center">${tierTag(e.hacker_tier)}</td>
+      <td>${verdictTag(e.combined_verdict)}<div style="font-size:.75em;color:var(--muted);margin-top:2px">${escapeHtml(e.tier_anchor||'')}</div></td>
+      <td class="mr-anchor">${escapeHtml(e.anchor_note || e.hacker_rationale || '')}</td>
+    </tr>`).join('');
+
+  document.getElementById('modelRunBody').innerHTML = rows ||
+    '<tr><td colspan="10" style="padding:18px;color:var(--muted);text-align:center;font-style:italic">No in-scope events today.</td></tr>';
+
+  // === Cumulative scorecard (computed across all runs) ===
+  const allEvents = log.runs.flatMap(r => r.events || []);
+  const tierDist = {S:0,A:0,B:0,C:0,D:0};
+  allEvents.forEach(e => { if (e.hacker_tier in tierDist) tierDist[e.hacker_tier]++; });
+  const kevCount = allEvents.filter(e => e.kev).length;
+  const promoted = allEvents.filter(e => e.kev && e.kev_date && e.nvd_published && e.kev_date >= e.nvd_published).length;
+  const firstDate = log.runs[0].date;
+
+  document.getElementById('modelRunCumulative').innerHTML =
+    `<strong>${log.runs.length}</strong> run${log.runs.length===1?'':'s'} since ${firstDate} · ` +
+    `<strong>${allEvents.length}</strong> in-scope events scored · ` +
+    `tier dist S=${tierDist.S}/A=${tierDist.A}/B=${tierDist.B}/C=${tierDist.C}/D=${tierDist.D} · ` +
+    `KEV-listed at score time: ${kevCount}` +
+    `<br><br><em style="color:var(--muted);font-size:.92em">${log.runs.length < 30 ? 'After ~30 days of runs, prospective precision/recall by tier becomes statistically meaningful.' : 'See data/model-run-log.json for the full event-level audit trail.'}</em>`;
+})();
 </script>
 </body>
 </html>

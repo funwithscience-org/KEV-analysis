@@ -109,7 +109,11 @@ A. **Append today's run to `data/model-run-log.json`** — append, don't overwri
 ```
 The log is the testable artifact. We will eventually score the log the same way we scored the 7-year backtest. Don't skip events to save space — log them all.
 
-B. **Update the Today's Model Run section of `docs/glasswing.html`** — replace the contents of the section under `<!-- SECTION: TODAY'S MODEL RUN -->`. Update the "Last run" date, replace the table body (`id="modelRunBody"`) with today's events, and update the running counters in the "Cumulative" row. Use **targeted edits** — do not touch the rest of glasswing.html (charts, participant tables, etc.).
+B. **Re-embed the model run log into `docs/glasswing.html`** by running:
+```
+python3 scripts/embed_model_run_log.py
+```
+This script swaps the inline `MODEL_RUN_LOG` payload between the `/*BEGIN_MODEL_RUN_LOG*/ … /*END_MODEL_RUN_LOG*/` markers with the current `data/model-run-log.json`. Page-level rendering (Today's Model Run table, Last-run date, verdict counters, cumulative scorecard) is then driven entirely by the embed — do not hand-edit the table body. If the embed script errors, the markers were lost in a prior edit; restore them to the page (search the prior commit for the surrounding JS) before continuing. Use **targeted edits** for any other glasswing.html changes (charts, participant tables, etc.).
 
 The Mythos page is where the daily model run lives publicly. It is the prospective-validation surface. The walkthrough at index.html §11 carries a reference link pointing readers there.
 
