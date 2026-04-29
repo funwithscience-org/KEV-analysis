@@ -19,6 +19,7 @@ body{background:var(--bg);color:var(--text);font-family:Inter,-apple-system,Blin
 .sidebar-title{font-size:1.05em;font-weight:700;padding:0 20px 16px;color:var(--accent);border-bottom:1px solid var(--border);margin-bottom:12px;line-height:1.25}
 .sidebar a{display:block;padding:7px 20px;color:var(--muted);text-decoration:none;font-size:.88em;border-left:3px solid transparent;transition:all .15s}
 .sidebar a:hover,.sidebar a.active{color:var(--accent);background:#eef2ff;border-left-color:var(--accent)}
+.sidebar a.sub{padding-left:42px;font-size:.82em;color:#94a3b8}
 .toc-num{color:var(--accent);font-weight:600;margin-right:4px}
 .main{max-width:1100px;margin:0 auto;padding:24px 32px 48px;counter-reset:section}
 @media(max-width:900px){.page{grid-template-columns:1fr} .sidebar{display:none} .main{padding:16px}}
@@ -117,6 +118,11 @@ code{background:var(--code-bg);padding:2px 6px;border-radius:4px;font-size:.88em
 <a href="#two-modes"><span class="toc-num">1</span> Two operational modes</a>
 <a href="#categories"><span class="toc-num">2</span> Three categories of estate maturity</a>
 <a href="#auto-deps"><span class="toc-num">3</span> Automatic dependency update</a>
+<a href="#two-manifests" class="sub">Two manifests: intent vs answer</a>
+<a href="#platform-boms" class="sub">Platform BOMs</a>
+<a href="#diy-deps" class="sub">Rolling your own off-platform</a>
+<a href="#where-semver-breaks" class="sub">Where semver still isn't enough</a>
+<a href="#track-coverage" class="sub">Tracking &amp; portfolio shape</a>
 <a href="#unauth"><span class="toc-num">4</span> Unauthenticated surface</a>
 <a href="#non-stacking"><span class="toc-num">5</span> Vulnerabilities don't stack</a>
 <a href="#boundary"><span class="toc-num">6</span> The cat 2 / cat 3 boundary</a>
@@ -228,23 +234,65 @@ Every app moved in the right direction on any of these reduces the steady-state 
 
 <p><strong>The middle path: semver-aware auto-update.</strong> Most ecosystems give you a way to express "auto-update within the safe range." Maven version ranges, npm's <code>^</code> and <code>~</code> prefixes, pip's <code>~=</code>, Go's minimum-version selection — they all let you pin a major version and let minor and patch updates flow in. The convention is sound: 1.17 → 1.23 is supposed to be backward-compatible; 5.x → 6.x usually isn't. For most upstream libraries this works well enough that Renovate, Dependabot, or the equivalent can pull the new patch on the next build with no human in the loop.</p>
 
-<p><strong>Where semver breaks down.</strong> Particularly with internal libraries, "safe" doesn't always map cleanly to version numbers. Some 2.0 upgrades are transparent (a major-version bump driven by tooling, no API change). Some 1.14 → 1.15 patch bumps quietly require a config change you'll miss. And forks happen: a library you maintain for company-specific reasons might publish as <code>1.17-company</code> or <code>1.17-internal</code>, which standard auto-update tooling doesn't reason about correctly. The semver convention is a useful default, not a guarantee.</p>
+<h3 id="two-manifests">Two manifests: developer intent vs platform answer</h3>
 
-<p><strong>The infrastructure escape hatch: a "safe latest" registry.</strong> When semver isn't enough, the right move is to build a small internal service that maps <code>(library, current-version) → latest-safe-version</code> based on whatever criteria your organization actually trusts (passing internal CI, used in production by another service for N days, signed off by a maintainer, etc.). Auto-builds query this service instead of the public registry. The same registry handles forks cleanly — <code>1.17-company</code> knows where it's headed because you control the mapping. Building this is a small project, but it's exactly the kind of platform investment that lets you increase the auto-build share of the estate without taking on more breakage risk.</p>
+<p>The cleanest expression of "auto-pull safe-latest" doesn't actually live in version ranges in the developer's manifest. The cleanest expression is a <strong>two-manifest model</strong>: the developer's manifest expresses <em>what</em> they depend on, and a separate, platform-controlled manifest expresses <em>which version satisfies that dependency today</em>. The build tool composes the two at resolution time. The developer never writes a version number; they write the dependency name. The platform's manifest dictates the version. When the platform updates its manifest, every downstream build picks up the new version on next rebuild — without anyone touching the developer's file.</p>
+
+<p>This pattern has different names in different ecosystems but the shape is identical:</p>
+
+<ul>
+<li><strong>Maven</strong> — a <strong>BOM</strong> (Bill of Materials) imported via <code>&lt;dependencyManagement&gt;</code>. The developer declares dependencies without a <code>&lt;version&gt;</code> tag; the BOM provides it.</li>
+<li><strong>Gradle</strong> — a <strong>version catalog</strong> in <code>libs.versions.toml</code>. Developers reference catalog aliases (<code>libs.spring.web</code>); the catalog defines the version.</li>
+<li><strong>npm</strong> — <strong>dist-tags</strong> on a private registry. The developer writes <code>"snakeyaml": "blessed"</code>; the registry resolves <code>blessed</code> to whatever the platform team has currently tagged.</li>
+<li><strong>pip / Python</strong> — <strong>constraints files</strong>. Developer's <code>requirements.txt</code> lists package names; <code>pip install -c constraints.txt</code> supplies versions from the platform-controlled file.</li>
+<li><strong>Go</strong> — module <strong>replace directives</strong> at the org level (less ergonomic, but the same effect).</li>
+<li><strong>.NET</strong> — <strong>Central Package Management</strong> via <code>Directory.Packages.props</code>. Same idea: project files list dependencies, the central props file pins versions.</li>
+</ul>
+
+<p>The semantic in all of these is the same. The developer's manifest says "I need this." The platform's manifest answers "today, that means this version." Reproducibility comes from pinning the platform manifest to a specific revision; freshness comes from cutting a new revision when the platform team blesses new versions. <strong>The build file the developer wrote doesn't change as deps move.</strong></p>
+
+<h3 id="platform-boms">Platform BOMs: the centrally-maintained case</h3>
+
+<p>A <strong>platform</strong>, in this sense, is an organizational artifact — a BOM (or version catalog, or constraints file, or dist-tag set) maintained by a central team that downstream apps consume. The platform team owns the version-selection decision: they vet new versions, run smoke tests, and cut revisions to publish what the org currently considers "safe latest." Downstream apps reference the platform manifest by version; when the platform cuts a new revision, downstream rebuilds inherit the new dependency versions automatically.</p>
+
+<p>The per-package SemVer policy that's hard to express in app build files <em>is</em> easy to express against a platform BOM. Renovate has <strong>package rules</strong> that can be applied to the BOM repo: "snakeyaml: auto-bump anything; spring-boot-*: auto-bump within 2.x only; spring-web: auto-bump within 5.3.x only; never propose major bumps for either." The rules sit in one config in the BOM repo, get applied when Renovate scans for upstream releases, and produce PRs that cut new BOM revisions. Auto-merge handles the cases the platform team has pre-approved; everything else lands in a review queue. The downstream apps see only the BOM revisions; they never see the version churn.</p>
+
+<p>For Cat 3 apps especially, this is the path that actually works. Cat 3 apps don't have CI/CD that can absorb a new patch on its own — but their build scripts <em>can</em> reference a BOM by version. When the platform cuts a new revision, the next time anyone rebuilds the Cat 3 app (manually, on schedule, in response to an incident), the build picks up the new BOM and the patched dependencies fall in automatically. The version-selection decision happens in the platform team, not in the Cat 3 app team — which is the only sustainable place to put it for an app that has no active maintainer.</p>
+
+<p><strong>The platform team's smoke-test obligation.</strong> Pushing version-selection authority up to the platform team works only if the platform team actually owns breakage detection. Without it, you've just moved the problem upstream — when the next BOM revision lands a behavioral regression, every downstream app's next rebuild fails, and there's no signal until someone tries to deploy. The healthy version of this pattern is that the BOM repo runs its own CI: a representative set of internal apps gets compiled against each candidate BOM revision before it publishes. Cat 3 apps in particular benefit from being included in this canary set even if they're never deployed — the BOM's CI is the missing pipeline they don't have themselves. The cost is real ongoing engineering work that the platform team has to staff.</p>
+
+<h3 id="diy-deps">Rolling your own when you're not on a platform</h3>
+
+<p><strong>The realistic shape of a portfolio is hybrid.</strong> Few organizations have one platform BOM that covers every language, every dep, every team. Multi-language estates, M&amp;A inheritance, third-party-managed apps, niche ecosystems, and the long tail of one-off services all push some apps off the platform path. Those apps end up <strong>rolling their own</strong> dependency hygiene with Renovate or Dependabot pointed directly at their manifest. That's fine — it's the right answer when no platform covers them.</p>
+
+<p>The DIY path works well for the common case. Patch and minor bumps are mechanical: the bot opens a PR, CI runs, you merge (or auto-merge on green). Most CVEs land at exactly this level of disruption — a patched dependency three digits forward in the version string, no API change, no migration. Where the DIY path strains is the major-version bump, which usually requires actual engineering work (deprecated APIs, package renames, config changes); but those are project-shaped events anyway, and a platform BOM doesn't make them easier — it just centralizes the migration cost. Either way, that work has to happen.</p>
+
+<p>The honest framing is that <strong>platform BOM and DIY both belong in a mature portfolio</strong>, and the portfolio metric isn't "% of apps on the platform." It's <em>"% of apps where dependencies move forward without manual intervention."</em> A Cat 1 app on Renovate auto-merge contributes the same way as a Cat 1 app on a platform BOM. The platform path scales better — moving 200 apps onto a Java BOM is a single platform investment, while running Renovate on 200 manifests is 200 separate config exercises — but DIY is a perfectly acceptable destination for the apps the platform doesn't cover. Most mature orgs end up with a mix: a Java/Spring platform BOM covering 60-70% of the JVM estate, a Python constraints file for the data-science apps, npm dist-tags for the front-end, and Renovate handling the long tail of polyglot services that don't fit any platform.</p>
+
+<h3 id="where-semver-breaks">Where semver and platforms still aren't enough</h3>
+
+<p><strong>Semver convention isn't a guarantee.</strong> Particularly with internal libraries, "safe" doesn't always map cleanly to version numbers. Some 2.0 upgrades are transparent (a major-version bump driven by tooling, no API change). Some 1.14 → 1.15 patch bumps quietly require a config change you'll miss. And forks happen: a library you maintain for company-specific reasons might publish as <code>1.17-company</code> or <code>1.17-internal</code>, which standard auto-update tooling doesn't reason about correctly. The semver convention is a useful default, not a guarantee, and it gets unreliable fastest at the org's own internal dependency boundary.</p>
+
+<p><strong>The escape hatch: a "safe latest" resolver service.</strong> When neither a public-registry semver range nor a centrally-maintained BOM is sufficient — typically because of internal forks, custom builds, or cross-ecosystem coordination needs — the next layer is a small internal service that maps <code>(library, current-version) → latest-safe-version</code> based on whatever criteria the organization actually trusts (passing internal CI, used in production by another service for N days, signed off by a maintainer). Builds query this service instead of resolving directly against the registry. This is conceptually the same pattern as a BOM, just with the resolution moved into a service call rather than a manifest import — useful when the answer needs to be computed (look at runtime telemetry, check that another team is already running it) rather than just looked up. Building this is a real platform project; do it only when BOMs and dist-tags can't reach.</p>
+
+<h3 id="track-coverage">Tracking and portfolio shape</h3>
 
 <p><strong>Track coverage at the deployable-unit level.</strong> Same caveat as the categorization itself in <a href="#categories">§2</a>: auto-pull coverage has to be tracked per deployable unit, not per service or application. A service can have one deployable unit on full auto-pull and another with pinned dependencies inherited from an old fork; both ride the same release name but they have very different vulnerability-absorption properties. Without per-unit tracking, the auto-pull metric over-reports.</p>
 
 <p><strong>Use auto-pull coverage as a modifier on the category.</strong> A Cat 1 app with fully-pinned dependencies is effectively Cat 3 from a vulnerability-management standpoint. A Cat 2 app with comprehensive auto-pull behaves much closer to Cat 1. The category from <a href="#categories">§2</a> tells you about pipeline cadence; the auto-pull coverage from this section tells you whether the cadence is actually moving dependencies forward. The combined view is what determines how much of the estate quietly absorbs patches versus piles up debt invisibly.</p>
 
-<p><strong>Increase coverage at the portfolio level, not the per-app level.</strong> The per-app question — "is it worth automating this one app?" — almost always says no, which is why so many apps stay in the manual-only tail. The portfolio-level question — "what platform investment moves <em>any</em> app from manual to auto cheaply?" — gets to better answers: common base images, paved-road CI templates, central library mirrors, the safe-latest registry above. The cost amortizes across the whole tail. Every app moved from pinned-and-manual to semver-auto-pull (whether by direct change or by adopting a paved-road template) reduces the steady-state human cost of every future floor sweep, forever. Slow-burn investment, very large cumulative payoff.</p>
+<p><strong>Increase coverage at the portfolio level, not the per-app level.</strong> The per-app question — "is it worth automating this one app?" — almost always says no, which is why so many apps stay in the manual-only tail. The portfolio-level question — "what platform investment moves <em>any</em> app from manual to auto cheaply?" — gets to better answers: common base images, paved-road CI templates, central library mirrors, platform BOMs, the safe-latest resolver above. The cost amortizes across the whole tail. <strong>A platform BOM is the highest-leverage version of this</strong> — moving 200 apps from manual to auto by changing one BOM is a single piece of work, while the equivalent done per-app is 200 separate config exercises. Every app moved from pinned-and-manual to platform-managed (or DIY-auto) reduces the steady-state human cost of every future floor sweep, forever. Slow-burn investment, very large cumulative payoff.</p>
 
 <div class="callout">
 <strong>Operational rules of thumb:</strong>
 <ul style="margin:8px 0 0 22px">
-<li>Pin only what you have to. Default to semver-aware auto-update.</li>
-<li>Build a "safe latest" registry when semver isn't enough — internal libraries, forks, custom builds (the <code>1.17-company</code> pattern).</li>
+<li>Pin only what you have to. Default to a platform-managed version (BOM, catalog, dist-tag, constraints) when one exists, semver-aware auto-update when it doesn't.</li>
+<li>Express per-package SemVer policy in <em>one</em> central place — a Renovate config against the BOM repo, not in 200 individual app build files.</li>
+<li>Stand up a "safe latest" resolver service only when BOMs and registry semver can't reach — internal forks, the <code>1.17-company</code> pattern, cross-ecosystem decisions that need runtime telemetry.</li>
 <li>Track auto-pull coverage at the deployable-unit level, not the service or application name.</li>
-<li>Combine cadence category (§2) with auto-pull coverage to get the <em>effective</em> vulnerability-management profile. A Cat 1 app with pinned deps is effectively Cat 3; the model under-prices its floor-sweep cost otherwise.</li>
+<li>Combine cadence category (§2) with auto-pull coverage (this section) to get the <em>effective</em> vulnerability-management profile. A Cat 1 app with pinned deps is effectively Cat 3; the model under-prices its floor-sweep cost otherwise.</li>
+<li>Expect a hybrid portfolio. Platform BOM + DIY auto-pull is the realistic mature shape; both paths absorb patches in BAU. The portfolio metric is "% absorbing without manual intervention," not "% on the platform."</li>
+<li>Budget the platform team's smoke-test cost explicitly. Pushing version-selection up to the platform without a corresponding CI investment just relocates the breakage discovery to whoever next rebuilds.</li>
 </ul>
 </div>
 
