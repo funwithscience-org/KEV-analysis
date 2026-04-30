@@ -74,7 +74,7 @@
     ],
     "launch_date": "2026-04-07",
     "probable_participant_cves": {
-      "description": "CVEs from Glasswing participant companies that meet probable self-scan criteria: participant vendor + HTTP-parsing-adjacent + no prior attacker exploitation + no obvious third-party researcher credit + bug pattern consistent with automated scanning (input validation, logic, cert handling). Separate from confirmed/attributed Glasswing count.",
+      "description": "CVEs from Glasswing participant companies that meet probable self-scan criteria: participant vendor + HTTP-parsing-adjacent + no prior attacker exploitation + no obvious third-party researcher credit + bug pattern consistent with automated scanning (input validation, logic, cert handling). SPECULATIVE attribution to Mythos. The 2026-04-29 Cisco-ISE/Webex correction (cluster confirmed AI-discovered but via OpenAI Codex, not Mythos) demonstrated that these criteria reliably identify AI-discovery clusters but do NOT reliably identify Mythos clusters specifically. Treat all entries as candidates only.",
       "qualification_criteria": [
         "vendor_is_glasswing_participant",
         "http_parsing_adjacent",
@@ -83,6 +83,11 @@
         "bug_pattern_consistent_with_automated_scanning",
         "disclosed_during_or_after_glasswing_era"
       ],
+      "calibration_note": "After the 2026-04-29 Cisco/Codex correction, the criteria above are known to identify AI-discovery clusters generally; vendor or Anthropic direct confirmation is the only attribution path that holds up for Mythos-specifically.",
+      "entries": []
+    },
+    "ai_attributed_non_mythos_cves": {
+      "description": "CVEs where AI-assisted discovery has been confirmed but the AI tool was NOT Mythos. Tracked because the broader AI-vuln-discovery wave is the underlying phenomenon the project follows; Mythos is one instance of it. Cross-vendor data here is positive evidence for the wave thesis even when it disconfirms specific Mythos attribution.",
       "entries": [
         {
           "cve": "CVE-2026-20180",
@@ -93,7 +98,10 @@
           "vector": "Crafted HTTP request \u2192 RCE (read-only admin)",
           "disclosed": "2026-04-15",
           "cluster": "cisco-ise-apr2026",
-          "notes": "Batch of 3 ISE RCEs disclosed simultaneously \u2014 cluster pattern consistent with systematic AI audit"
+          "ai_tool": "OpenAI Codex",
+          "attribution_source": "Cisco direct confirmation",
+          "attribution_date": "2026-04-29",
+          "notes": "Batch of 3 ISE RCEs disclosed simultaneously. Previously listed as probable_participant_cves before Cisco confirmed Codex attribution."
         },
         {
           "cve": "CVE-2026-20186",
@@ -104,7 +112,10 @@
           "vector": "Crafted HTTP request \u2192 RCE (read-only admin)",
           "disclosed": "2026-04-15",
           "cluster": "cisco-ise-apr2026",
-          "notes": "Same batch as -20180; identical attack pattern, different code path"
+          "ai_tool": "OpenAI Codex",
+          "attribution_source": "Cisco direct confirmation",
+          "attribution_date": "2026-04-29",
+          "notes": "Same batch as -20180; identical attack pattern, different code path."
         },
         {
           "cve": "CVE-2026-20147",
@@ -115,7 +126,10 @@
           "vector": "Crafted HTTP request \u2192 RCE (admin creds)",
           "disclosed": "2026-04-15",
           "cluster": "cisco-ise-apr2026",
-          "notes": "Third ISE RCE in same batch; requires full admin creds vs read-only for -20180/-20186"
+          "ai_tool": "OpenAI Codex",
+          "attribution_source": "Cisco direct confirmation",
+          "attribution_date": "2026-04-29",
+          "notes": "Third ISE RCE in same batch; requires full admin creds vs read-only for -20180/-20186."
         },
         {
           "cve": "CVE-2026-20184",
@@ -126,7 +140,10 @@
           "vector": "SSO certificate bypass \u2192 user impersonation",
           "disclosed": "2026-04-15",
           "cluster": "cisco-webex-apr2026",
-          "notes": "Certificate validation flaw in SSO integration. Same disclosure batch as ISE bugs. Pattern consistent with TLS/cert-handling audit sweep"
+          "ai_tool": "OpenAI Codex",
+          "attribution_source": "Cisco direct confirmation",
+          "attribution_date": "2026-04-29",
+          "notes": "Certificate validation flaw in SSO integration. Same disclosure batch as ISE bugs."
         }
       ]
     }
