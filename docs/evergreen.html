@@ -557,24 +557,47 @@ code{background:var(--code-bg);padding:2px 6px;border-radius:4px;font-size:.88em
 <!-- ===== RHEL ===== -->
 <h2 id="rhel">RHEL — Newer Kernels, More Attack Surface</h2>
 
-<p>Compare staying on RHEL 6 (kernel 2.6.32, GA 2010) vs evergreening to RHEL 8 (kernel 4.18, GA 2019) → RHEL 9 (kernel 5.14, GA 2022) as each became available.</p>
+<p>Compare staying on RHEL 6 (kernel 2.6.32, GA 2010) vs evergreening to RHEL 8 (kernel 4.18, GA 2019) → RHEL 9 (kernel 5.14, GA 2022) as each became available. The cleanest comparison is <strong>cumulative kernel advisories through the same number of years from GA</strong> — apples-to-apples lifecycle position rather than calendar-year snapshots.</p>
 
 <div class="hero-row">
-<div class="hero-card" style="border-color:var(--red)">
-<div class="num" style="color:var(--red)">99</div>
-<div class="lbl">RHEL 8 kernel advisories<br>in 2024</div>
-</div>
-<div class="hero-card">
-<div class="num" style="color:var(--red)">125</div>
-<div class="lbl">RHEL 9 kernel advisories<br>in 2024</div>
-</div>
 <div class="hero-card" style="border-color:var(--green)">
-<div class="num" style="color:var(--green)">2</div>
-<div class="lbl">RHEL 6 ELS kernel advisories<br>in 2024</div>
+<div class="num" style="color:var(--green)">64</div>
+<div class="lbl">RHEL 6 kernel RHSAs<br>through first 4 years from GA</div>
+</div>
+<div class="hero-card" style="border-color:var(--amber)">
+<div class="num" style="color:var(--amber)">89</div>
+<div class="lbl">RHEL 7 kernel RHSAs<br>through first 4 years from GA</div>
+</div>
+<div class="hero-card" style="border-color:var(--red)">
+<div class="num" style="color:var(--red)">244</div>
+<div class="lbl">RHEL 8 kernel RHSAs<br>through first 4 years from GA</div>
+</div>
+<div class="hero-card" style="border-color:var(--red)">
+<div class="num" style="color:var(--red)">475</div>
+<div class="lbl">RHEL 9 kernel RHSAs<br>through first 4 years from GA</div>
 </div>
 </div>
 
-<p>The "current" RHEL version consistently receives the <strong>most</strong> advisories, not the fewest. The obvious question: is RHEL 6's low count because the CVEs genuinely don't apply, or because Red Hat marks them "Won't Fix" and you're sitting there exposed? We checked.</p>
+<div class="callout callout-finding">
+<strong>The pattern: each generation roughly doubles the prior generation's kernel-advisory rate at equivalent lifecycle position.</strong> RHEL 9 in its first 4 years (475 kernel RHSAs) has already shipped more security advisories than RHEL 7 in its first <em>10</em> years (437). Through the first 7 years from GA, RHEL 8 (674) ran ~2.4× RHEL 7 (279), which itself ran ~2× RHEL 6 (146). The "current" RHEL version isn't somewhat noisier than the older ones — it's <em>structurally</em> noisier, and the curve is steepening with each new major.</div>
+
+<p>The chart below makes the doubling visible. Each curve is one major version's cumulative kernel-RHSA count plotted against years-from-GA, so the four lines represent four parallel lifecycles starting at the same x-axis origin. Steeper line = more advisories per year of life. <strong>RHEL 9's first-4-years curve already overshoots RHEL 6's lifetime total of 274.</strong></p>
+
+<div class="chart-wrap">
+<canvas id="rhelKernelCumChart"></canvas>
+<p style="font-size:.82em;color:var(--muted);margin-top:6px;text-align:center"><em>Cumulative kernel RHSAs (kernel-* and kpatch-* packages), measured against years-from-GA. Source: Red Hat Security Data API (csaf.json), 2010–Apr 2026.</em></p>
+</div>
+
+<p>The same shape holds for <em>all</em> Red Hat Security Advisories (every package family, not just kernel) — the doubling pattern isn't a kernel-specific quirk, it's the whole RHEL ecosystem operating at a higher patch volume in each new major. RHEL 9 has shipped 2,973 RHSAs across all packages in its first 4 years, vs RHEL 6's 826 and RHEL 7's 1,017 at the same point.</p>
+
+<div class="chart-wrap">
+<canvas id="rhelAllCumChart"></canvas>
+<p style="font-size:.82em;color:var(--muted);margin-top:6px;text-align:center"><em>Cumulative all-package RHSAs against years-from-GA. Same source, same window, no kernel filter.</em></p>
+</div>
+
+<p>The "current" RHEL version consistently receives the <strong>most</strong> advisories, not the fewest. The obvious question: is RHEL 6's low count in its later years because the CVEs genuinely don't apply, or because Red Hat marks them "Won't Fix" and you're sitting there exposed? We checked.</p>
+
+<p style="font-size:.82em;color:var(--muted);margin-top:8px"><strong>Reproducibility:</strong> the lifetime data is at <code>data/rhel-lifetime-kernel-advisories.json</code> (kernel-only) and <code>data/rhel-lifetime-advisories.json</code> (all packages). Pulled from Red Hat's Security Data API; per-year cache lives in <code>data/_rhel-lifetime-cache/csaf-YYYY.json</code>. Re-run <code>scripts/fetch_rhel_lifetime_advisories.py</code> to refresh, then <code>scripts/derive_rhel_kernel_only.py</code> to re-derive the kernel cut from cache. An advisory counts once per major version it ships packages for; an advisory shipping kernel-* packages on both el8 and el9 increments both.</p>
 
 <h3>Why newer kernels have more CVEs</h3>
 
@@ -799,11 +822,6 @@ code{background:var(--code-bg);padding:2px 6px;border-radius:4px;font-size:.88em
 </tbody>
 </table>
 </details>
-
-<div class="chart-wrap">
-<h3>RHEL Kernel Advisories by Year</h3>
-<canvas id="rhelChart"></canvas>
-</div>
 
 <!-- ===== WINDOWS ===== -->
 <h2 id="windows-server">Windows Server — More Features, More CVEs</h2>
@@ -1089,22 +1107,54 @@ new Chart(document.getElementById('jvmChart'), {
     }
 });
 
-// RHEL kernel advisories chart
-new Chart(document.getElementById('rhelChart'), {
-    type: 'bar',
+// RHEL cumulative kernel-RHSA chart (years from GA, kernel-* + kpatch-* only)
+// Source: data/rhel-lifetime-kernel-advisories.json
+const _rhelYearLabels = ['Y1','Y2','Y3','Y4','Y5','Y6','Y7','Y8','Y9','Y10','Y11','Y12'];
+new Chart(document.getElementById('rhelKernelCumChart'), {
+    type: 'line',
     data: {
-        labels: ['2019','2020','2021','2022','2023','2024'],
+        labels: _rhelYearLabels,
         datasets: [
-            {label:'RHEL 6',data:[30,16,3,3,2,2],backgroundColor:'#94a3b8',borderRadius:3},
-            {label:'RHEL 7',data:[74,71,53,35,28,20],backgroundColor:'#f59e0b',borderRadius:3},
-            {label:'RHEL 8',data:[18,42,60,64,87,99],backgroundColor:'#ef4444',borderRadius:3},
-            {label:'RHEL 9',data:[null,null,null,12,49,125],backgroundColor:'#6366f1',borderRadius:3}
+            {label:'RHEL 6 (GA 2010)', data:[1,16,37,64,94,117,146,193,229,251,259,262],
+             borderColor:'#94a3b8', backgroundColor:'rgba(148,163,184,.1)', tension:.25, pointRadius:3, borderWidth:2, fill:false},
+            {label:'RHEL 7 (GA 2014)', data:[8,26,50,89,141,210,279,350,399,437,461,490],
+             borderColor:'#f59e0b', backgroundColor:'rgba(245,158,11,.1)', tension:.25, pointRadius:3, borderWidth:2, fill:false},
+            {label:'RHEL 8 (GA 2019)', data:[20,69,153,244,370,497,674,735,null,null,null,null],
+             borderColor:'#ef4444', backgroundColor:'rgba(239,68,68,.1)', tension:.25, pointRadius:3, borderWidth:2.5, fill:false, spanGaps:false},
+            {label:'RHEL 9 (GA 2022)', data:[16,82,225,475,572,null,null,null,null,null,null,null],
+             borderColor:'#6366f1', backgroundColor:'rgba(99,102,241,.1)', tension:.25, pointRadius:4, borderWidth:3, fill:false, spanGaps:false}
         ]
     },
     options: {
         scales: {
-            y:{beginAtZero:true,title:{display:true,text:'Kernel Security Advisories'},grid:{color:'rgba(226,232,240,.6)'}},
-            x:{grid:{display:false}}
+            y:{beginAtZero:true, title:{display:true,text:'Cumulative kernel RHSAs'}, grid:{color:'rgba(226,232,240,.6)'}},
+            x:{title:{display:true,text:'Years from GA'}, grid:{display:false}}
+        },
+        plugins:{legend:{position:'top',labels:{boxWidth:12}}}
+    }
+});
+
+// RHEL cumulative all-RHSA chart (all package families, no kernel filter)
+// Source: data/rhel-lifetime-advisories.json
+new Chart(document.getElementById('rhelAllCumChart'), {
+    type: 'line',
+    data: {
+        labels: _rhelYearLabels,
+        datasets: [
+            {label:'RHEL 6 (GA 2010)', data:[36,256,490,826,1121,1412,1696,1973,2246,2397,2538,2550],
+             borderColor:'#94a3b8', backgroundColor:'rgba(148,163,184,.1)', tension:.25, pointRadius:3, borderWidth:2, fill:false},
+            {label:'RHEL 7 (GA 2014)', data:[114,381,674,1017,1438,1938,2506,2918,3179,3366,3511,3657],
+             borderColor:'#f59e0b', backgroundColor:'rgba(245,158,11,.1)', tension:.25, pointRadius:3, borderWidth:2, fill:false},
+            {label:'RHEL 8 (GA 2019)', data:[142,653,1198,1781,2582,3549,4468,4936,null,null,null,null],
+             borderColor:'#ef4444', backgroundColor:'rgba(239,68,68,.1)', tension:.25, pointRadius:3, borderWidth:2.5, fill:false, spanGaps:false},
+            {label:'RHEL 9 (GA 2022)', data:[183,729,1683,2973,3666,null,null,null,null,null,null,null],
+             borderColor:'#6366f1', backgroundColor:'rgba(99,102,241,.1)', tension:.25, pointRadius:4, borderWidth:3, fill:false, spanGaps:false}
+        ]
+    },
+    options: {
+        scales: {
+            y:{beginAtZero:true, title:{display:true,text:'Cumulative all-package RHSAs'}, grid:{color:'rgba(226,232,240,.6)'}},
+            x:{title:{display:true,text:'Years from GA'}, grid:{display:false}}
         },
         plugins:{legend:{position:'top',labels:{boxWidth:12}}}
     }
