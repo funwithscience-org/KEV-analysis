@@ -902,7 +902,7 @@ code{background:var(--code-bg);padding:2px 6px;border-radius:4px;font-size:.88em
 
 <div class="chart-wrap">
 <canvas id="winKevRateChart"></canvas>
-<p style="font-size:.82em;color:var(--muted);margin-top:6px;text-align:center"><em>KEV-listing rate per Windows Server major version. Computed as (distinct Microsoft-vendor KEV CVEs that MSRC reports as affecting this version, deduped across years) / (sum of yearly distinct CVE counts affecting this version, where a CVE re-issued in multiple bulletin years counts in each year — i.e., the denominator double-counts re-issues while the numerator does not). The asymmetry pushes the rate <em>down</em>; the directional finding (older versions ~24% higher KEV-rate than newer LTSC) is conservative. Source: CISA KEV catalog 2026-04-30 + MSRC affectedProduct API per CVE + windows-server-lifetime.json.</em></p>
+<p style="font-size:.82em;color:var(--muted);margin-top:6px;text-align:center"><em>KEV-listing rate per Windows Server major version. Computed as (distinct Microsoft-vendor KEV CVEs that MSRC reports as affecting this version, deduped across years) / (sum of yearly distinct CVE counts affecting this version, where a CVE re-issued in multiple bulletin years counts in each year — i.e., the denominator double-counts re-issues while the numerator does not). The asymmetry pushes the rate <em>down</em>; the directional finding (older versions ~24% higher KEV-rate than newer LTSC) is conservative. <strong>* SAC = Windows Server, Semi-Annual Channel</strong> (versions 1709/1803/1809/1903/1909/2004/20H2; Sep 2017–Aug 2021, then discontinued). Lumped into a single bucket; sits comfortably in the LTSC band (3.30%) which is consistent with SAC sharing NT codebase with its 2016/2019-era LTSC counterparts. CVE-2020-0796 (SMBGhost / EternalDarkness) lives only in this bucket. Source: CISA KEV catalog 2026-04-30 + MSRC affectedProduct API per CVE + windows-server-lifetime.json.</em></p>
 </div>
 
 <div class="callout callout-warning">
@@ -1264,11 +1264,11 @@ new Chart(document.getElementById('winStackChart'), {
 new Chart(document.getElementById('winKevRateChart'), {
     type: 'bar',
     data: {
-        labels: ['Server 2008','Server 2008R2','Server 2012','Server 2012R2','Server 2016','Server 2019','Server 2022','Server 2025'],
+        labels: ['Server 2008','Server 2008R2','Server 2012','Server 2012R2','Server 2016','Server SAC*','Server 2019','Server 2022','Server 2025'],
         datasets: [{
             label: 'KEV-rate (%)',
-            data: [4.08, 3.81, 3.56, 3.54, 3.13, 3.23, 3.48, 3.09],
-            backgroundColor: ['#94a3b8','#94a3b8','#cbd5e1','#cbd5e1','#fbbf24','#f59e0b','#ef4444','#6366f1'],
+            data: [4.08, 3.81, 3.56, 3.54, 3.13, 3.30, 3.23, 3.48, 3.09],
+            backgroundColor: ['#94a3b8','#94a3b8','#cbd5e1','#cbd5e1','#fbbf24','#a78bfa','#f59e0b','#ef4444','#6366f1'],
             borderRadius: 4
         }]
     },
@@ -1278,9 +1278,9 @@ new Chart(document.getElementById('winKevRateChart'), {
             x:{grid:{display:false}}
         },
         plugins:{legend:{display:false},
-                 title:{display:true,text:'KEV-rate by Windows Server version (modest 2008→2016 step; flat from 2016 onward)'},
+                 title:{display:true,text:'KEV-rate by Windows Server version (modest 2008→2016 step; flat from 2016 onward; SAC sits in the LTSC band)'},
                  tooltip:{callbacks:{label:function(ctx){
-                     const counts = [[117,2867],[124,3256],[133,3732],[141,3982],[153,4892],[152,4711],[105,3014],[36,1165]];
+                     const counts = [[117,2867],[124,3256],[133,3732],[141,3982],[153,4892],[81,2452],[152,4711],[105,3014],[36,1165]];
                      const c = counts[ctx.dataIndex];
                      return `${ctx.parsed.y}% (${c[0]} KEV / ${c[1]} lifetime)`;
                  }}}}

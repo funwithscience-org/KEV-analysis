@@ -128,32 +128,82 @@ def cve_year(cve: str) -> int:
     return int(cve.split("-")[1])
 
 
+def _read_nvd_key() -> str | None:
+    """Read NVD API key from env var or ~/.config/kev-analysis/nvd-api-key."""
+    import os
+    k = os.environ.get("NVD_API_KEY")
+    if k:
+        return k.strip()
+    path = Path.home() / ".config" / "kev-analysis" / "nvd-api-key"
+    if path.exists():
+        return path.read_text().strip()
+    return None
+
+
+_NVD_KEY = None  # lazily set in main()
+_NVD_CACHE = None  # lazily set in main()
+
+
+def fetch_nvd_publish_date(cve: str, refresh: bool = False) -> str | None:
+    """Return ISO date string for CVE's NVD-published date, or None if NVD
+    has no record. Cached per-CVE under data/_foss-sub7-cache/nvd-publish/.
+
+    With NVD API key: rate limit is 50 req per 30s (≈0.6s sleep).
+    Without:         rate limit is  5 req per 30s (≈6.5s sleep).
+    """
+    if _NVD_CACHE is None:
+        return None
+    cache_path = _NVD_CACHE / f"{cve}.json"
+    if cache_path.exists() and not refresh:
+        try:
+            d = json.load(cache_path.open())
+            return (d or {}).get("published") or None
+        except Exception:
+            pass
+    url = f"https://services.nvd.nist.gov/rest/json/cves/2.0?cveId={cve}"
+    headers = {"User-Agent": "KEV-analysis/foss-sub7-tte"}
+    if _NVD_KEY:
+        headers["apiKey"] = _NVD_KEY
+    req = urllib.request.Request(url, headers=headers)
+    try:
+        with urllib.request.urlopen(req, timeout=30) as resp:
+            data = json.loads(resp.read())
+    except Exception as e:
+        print(f"  NVD lookup {cve}: {e}", file=sys.stderr)
+        return None
+    pub = None
+    for v in (data.get("vulnerabilities") or []):
+        c = v.get("cve") or {}
+        if c.get("id") == cve and c.get("published"):
+            pub = c["published"][:10]
+            break
+    cache_path.write_text(json.dumps({"published": pub}))
+    import time as _t
+    _t.sleep(0.7 if _NVD_KEY else 6.5)
+    return pub
+
+
 def best_baseline(rec: dict) -> tuple[str, str]:
     """Return (publish_date, basis) for a record.
 
-    METHODOLOGY NOTE: OSV's `published` field is the OSV ingest date,
-    which can be years late for backfilled records (e.g., CVE-2018-1042
-    has osv_published=2022-05-14 because OSV did a backfill that year).
-    NVD's `published` is the canonical CVE publication date but querying
-    NVD is rate-limited (5 req per 30s without API key) which makes a
-    per-CVE lookup expensive. GHSA's `published_at` is also reliable for
-    GitHub-originated advisories.
-
-    Current heuristic: prefer OSV `published` only when it's within ±1
-    year of the CVE year (filters out late-ingest cases); otherwise back
-    off to Jan 1 of the CVE year. This produces an upper-bound TTE for
-    the fallback cases (real publish dates are typically mid-year, so
-    Jan-1 baseline overstates the gap). Doesn't change directional
-    findings vs C/H baseline (still much larger than 11-34d).
-
-    To get authoritative dates for the ~30 fallback records, the right
-    move is: query NVD `published` with an API key (50 req per 30s
-    instead of 5), or query GHSA `published_at` for OSV records that
-    cite a GHSA alias. Either drops the cve_year_jan1_fallback set to
-    near-zero. Not done here because the headline isn't sensitive to it.
+    Cascade:
+      1. NVD `published` (authoritative CVE publication date) — requires
+         NVD API key for tractable per-CVE lookup; without key, falls
+         through to OSV.
+      2. OSV `published` — accepted only if within ±1 year of CVE year
+         (OSV's published is sometimes the OSV ingest date, which is
+         years late for backfilled records).
+      3. Jan 1 of CVE year as conservative upper-bound fallback.
     """
     cve = rec["cve"]
     yr = cve_year(cve)
+
+    # 1. NVD authoritative
+    nvd_pub = fetch_nvd_publish_date(cve)
+    if nvd_pub:
+        return nvd_pub, "nvd_published"
+
+    # 2. OSV if plausible
     osv_pub = rec.get("osv_published")
     if osv_pub:
         try:
@@ -162,6 +212,8 @@ def best_baseline(rec: dict) -> tuple[str, str]:
                 return d.isoformat(), "osv_published"
         except Exception:
             pass
+
+    # 3. Conservative fallback
     return f"{yr}-01-01", "cve_year_jan1_fallback"
 
 
@@ -208,6 +260,13 @@ def stat_block(vals: list[int]) -> dict:
 
 def main() -> int:
     refresh = "--refresh" in sys.argv
+
+    # Set up NVD lookup
+    global _NVD_KEY, _NVD_CACHE
+    _NVD_KEY = _read_nvd_key()
+    _NVD_CACHE = CACHE / "nvd-publish"
+    _NVD_CACHE.mkdir(parents=True, exist_ok=True)
+    print(f"NVD API key: {'present (50 req/30s rate limit)' if _NVD_KEY else 'absent (5 req/30s — slow)'}", file=sys.stderr)
 
     # Pull or load cached source files
     print("Loading exploit-date sources…", file=sys.stderr)

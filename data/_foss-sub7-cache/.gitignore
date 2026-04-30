@@ -10,3 +10,4 @@ client_side_excluded.json
 kev.json
 modules_metadata_base.json
 files_exploits.csv
+nvd-publish/
