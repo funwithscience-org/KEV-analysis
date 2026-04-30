@@ -1581,6 +1581,9 @@
   "CVE-2024-13161": {
     "published": "2025-01-14"
   },
+  "CVE-2024-1708": {
+    "published": "2024-02-21"
+  },
   "CVE-2024-1709": {
     "published": "2024-02-21"
   },
@@ -2676,6 +2679,10 @@
     "published": null
   },
   "CVE-2026-32201": {
+    "error": "not_found_or_failed",
+    "published": null
+  },
+  "CVE-2026-32202": {
     "error": "not_found_or_failed",
     "published": null
   },

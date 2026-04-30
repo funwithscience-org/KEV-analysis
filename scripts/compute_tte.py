@@ -11,7 +11,7 @@ Per the prior AI's Q6 answer:
     might still be added later)
 
 Sources:
-  data/kev-snapshot-2026-04-26.json       (dateAdded for each KEV entry)
+  data/kev-snapshot-2026-04-30.json       (dateAdded for each KEV entry)
   data/_kev-publication-dates.json        (cached OSV-derived publication dates)
 
 Output: data/tte.json
@@ -64,7 +64,7 @@ def percentile(sorted_vals: list[int], p: float) -> int:
 
 
 def build() -> dict:
-    snap = json.load(open(REPO / "data" / "kev-snapshot-2026-04-26.json"))
+    snap = json.load(open(REPO / "data" / "kev-snapshot-2026-04-30.json"))
     pub_cache = json.load(open(REPO / "data" / "_kev-publication-dates.json"))
 
     by_year: dict[int, list[int]] = defaultdict(list)
@@ -116,7 +116,7 @@ def build() -> dict:
             "cve_published_date (NVD/OSV)."
         ),
         "methodology": {
-            "kev_source": "data/kev-snapshot-2026-04-26.json",
+            "kev_source": "data/kev-snapshot-2026-04-30.json",
             "publication_date_source": "data/_kev-publication-dates.json (OSV)",
             "include_years": INCLUDE_YEARS,
             "exclusion_rationale": (

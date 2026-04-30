@@ -1,18 +1,18 @@
 {
-  "generated_at": "2026-04-26T04:11:00Z",
+  "generated_at": "2026-04-30T04:14:06Z",
   "source": "live:https://www.cisa.gov/sites/default/files/feeds/known_exploited_vulnerabilities.json",
-  "input_sha256_16": "4989b9488b0c811e",
-  "kev_catalog_version": "2026.04.24",
-  "kev_date_released": "2026-04-24T16:52:07.2233Z",
+  "input_sha256_16": "d8ad1188a7d7d2d1",
+  "kev_catalog_version": "2026.04.28",
+  "kev_date_released": "2026-04-28T17:29:22.212Z",
   "summary": {
-    "total_kev": 1583,
-    "windowed_kev": 891,
+    "total_kev": 1585,
+    "windowed_kev": 893,
     "ransomware_total": 317,
     "ransomware_windowed": 186,
     "layer_counts_windowed": {
+      "other": 283,
+      "os": 252,
       "iot_ics": 23,
-      "other": 282,
-      "os": 251,
       "vpn_network_appliance": 130,
       "email_collab_server": 44,
       "productivity_desktop": 21,
@@ -42,6 +42,24 @@
     }
   },
   "classifications": [
+    {
+      "cveID": "CVE-2024-1708",
+      "year": 2024,
+      "layer": "other",
+      "isRansomware": false,
+      "vendor": "ConnectWise",
+      "product": "ScreenConnect",
+      "dateAdded": "2026-04-28"
+    },
+    {
+      "cveID": "CVE-2026-32202",
+      "year": 2026,
+      "layer": "os",
+      "isRansomware": false,
+      "vendor": "Microsoft",
+      "product": "Windows",
+      "dateAdded": "2026-04-28"
+    },
     {
       "cveID": "CVE-2025-29635",
       "year": 2025,

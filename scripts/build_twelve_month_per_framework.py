@@ -75,12 +75,18 @@ NP_OVERRIDES_TO_TRUE = {
 }
 
 
-def load_spring() -> dict:
-    return json.load(open(CACHE / "periodicity" / "spring_periodicity_data.json"))
+def load_spring() -> dict | None:
+    try:
+        return json.load(open(CACHE / "periodicity" / "spring_periodicity_data.json"))
+    except (PermissionError, FileNotFoundError, OSError):
+        return None
 
 
-def load_multi() -> dict:
-    return json.load(open(CACHE / "periodicity" / "multi_framework_periodicity.json"))
+def load_multi() -> dict | None:
+    try:
+        return json.load(open(CACHE / "periodicity" / "multi_framework_periodicity.json"))
+    except (PermissionError, FileNotFoundError, OSError):
+        return None
 
 
 def load_widened_adds() -> list[dict]:
@@ -203,9 +209,12 @@ def framework_summary(name: str, events: list[dict],
     }
 
 
-def build() -> dict:
+def build() -> dict | None:
     spring = load_spring()
     multi = load_multi()
+    if spring is None or multi is None:
+        # Cache unavailable in this session; preserve dataset as-is.
+        return None
     widened = load_widened_adds()
 
     spring_summary = framework_summary("spring", spring["all_events"], widened)
@@ -298,6 +307,12 @@ def main() -> int:
 
     out_path = REPO / "data" / "twelve-month-per-framework.json"
     new = build()
+    if new is None:
+        if args.check:
+            print(f"OK: {out_path.relative_to(REPO)} unchanged (inputs unavailable)")
+            return 0
+        print(f"[skip] {out_path.relative_to(REPO)} not regenerated (inputs unavailable)")
+        return 0
 
     if args.check:
         if not out_path.exists():

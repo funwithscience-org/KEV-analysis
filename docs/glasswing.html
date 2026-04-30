@@ -243,7 +243,7 @@ Cumulative counters update after each analyst run. After ~30 days of runs we'll 
 <p style="font-size:.85em;color:var(--muted);margin-top:8px"><strong>Qualification criteria:</strong> Glasswing participant vendor + HTTP-parsing-adjacent + no attacker exploitation before disclosure + no third-party researcher credit + bug pattern consistent with automated scanning + disclosed during Glasswing era. <strong>Counter-argument:</strong> Cisco has a steady CVE cadence and internal security teams that predate Glasswing; these could be conventional audit findings.</p>
 
 <div class="callout callout-warning">
-<strong>Volume watch, day 22 post-Glasswing.</strong> Q1 2026 CVE publications came in at 16,255 (+35.3% YoY), with March 2026 at 6,304 (+57.1% vs March 2025). April 2026 is pacing 5,580 through day 27 (extrapolated ~5,979) &mdash; still below March, with the gap widening modestly as the rest-of-month NVD pace cooled. Daily publication rate holding near ~190/day. Project Glasswing launched April 7, 2026; the ~40 attributable CVEs remain flat, but three now carry explicit Claude/Mythos credit. 37 of 40 target network-parsing products (Firefox, wolfSSL, NGINX, OpenSSL). Additionally, a Cisco cluster of 4 critical network-parser-adjacent CVEs (3&times; ISE RCE + 1&times; Webex SSO bypass, all CVSS 9.8&ndash;9.9, disclosed in a single batch) qualifies as probable Glasswing self-scan output. <strong>Counter-argument:</strong> NVD publish latency is 4&ndash;8 weeks, so the first clear volume signal is still more likely in May.
+<strong>Volume watch, day 22 post-Glasswing.</strong> Q1 2026 CVE publications came in at 16,255 (+35.3% YoY), with March 2026 at 6,304 (+57.1% vs March 2025). April 2026 is pacing 5,720 through day 29 (extrapolated ~5,920) &mdash; still below March, with the gap widening modestly as the rest-of-month NVD pace cooled. Daily publication rate holding near ~190/day. Project Glasswing launched April 7, 2026; the ~40 attributable CVEs remain flat, but three now carry explicit Claude/Mythos credit. 37 of 40 target network-parsing products (Firefox, wolfSSL, NGINX, OpenSSL). Additionally, a Cisco cluster of 4 critical network-parser-adjacent CVEs (3&times; ISE RCE + 1&times; Webex SSO bypass, all CVSS 9.8&ndash;9.9, disclosed in a single batch) qualifies as probable Glasswing self-scan output. <strong>Counter-argument:</strong> NVD publish latency is 4&ndash;8 weeks, so the first clear volume signal is still more likely in May.
 </div>
 
 <div class="callout callout-finding">
@@ -327,12 +327,12 @@ Chart.defaults.font.family = "Inter,-apple-system,BlinkMacSystemFont,'Segoe UI',
 
 // Mythos baseline chart — extended timeline with projections
 const mMonthsAll = ["2025-01","2025-02","2025-03","2025-04","2025-05","2025-06","2025-07","2025-08","2025-09","2025-10","2025-11","2025-12","2026-01","2026-02","2026-03","2026-04","2026-05","2026-06","2026-07","2026-08","2026-09","2026-10"];
-const mActualCve = {"2025-01":4200,"2025-02":3800,"2025-03":4012,"2025-04":3950,"2025-05":3900,"2025-06":3850,"2025-07":4100,"2025-08":4050,"2025-09":3950,"2025-10":4150,"2025-11":4000,"2025-12":4212,"2026-01":5143,"2026-02":4808,"2026-03":6304,"2026-04":5979};
+const mActualCve = {"2025-01":4200,"2025-02":3800,"2025-03":4012,"2025-04":3950,"2025-05":3900,"2025-06":3850,"2025-07":4100,"2025-08":4050,"2025-09":3950,"2025-10":4150,"2025-11":4000,"2025-12":4212,"2026-01":5143,"2026-02":4808,"2026-03":6304,"2026-04":5920};
 const mCveVals = mMonthsAll.map(m => mActualCve[m] || null);
 const mKevLookup = {"2025-01":14,"2025-02":27,"2025-03":32,"2025-04":15,"2025-05":24,"2025-06":20,"2025-07":20,"2025-08":15,"2025-09":16,"2025-10":31,"2025-11":11,"2025-12":20,"2026-01":17,"2026-02":28,"2026-03":26,"2026-04":30};
 const mKevVals = mMonthsAll.map(m => mKevLookup[m] || null);
-const mConservative = mMonthsAll.map(m => ({"2026-04":5979,"2026-05":6651,"2026-06":7151,"2026-07":7651,"2026-08":8151,"2026-09":8651,"2026-10":9151}[m]||null));
-const mAggressive   = mMonthsAll.map(m => ({"2026-04":5979,"2026-05":8151,"2026-06":10151,"2026-07":12151,"2026-08":13151,"2026-09":13651,"2026-10":14151}[m]||null));
+const mConservative = mMonthsAll.map(m => ({"2026-04":5920,"2026-05":6651,"2026-06":7151,"2026-07":7651,"2026-08":8151,"2026-09":8651,"2026-10":9151}[m]||null));
+const mAggressive   = mMonthsAll.map(m => ({"2026-04":5920,"2026-05":8151,"2026-06":10151,"2026-07":12151,"2026-08":13151,"2026-09":13651,"2026-10":14151}[m]||null));
 
 new Chart(document.getElementById('mythosBaseChart'), {
     type:'line',
