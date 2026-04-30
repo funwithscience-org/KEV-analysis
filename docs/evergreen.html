@@ -130,6 +130,8 @@ code{background:var(--code-bg);padding:2px 6px;border-radius:4px;font-size:.88em
 <div class="label" style="margin-top:12px"><strong>Evergreening is the right default</strong> for performance, hiring, ecosystem support, free OSS patch windows, and modern security mitigations. <strong>It is <em>not</em>, on a real runtime manifest, a vulnerability-reduction lever.</strong> Across Java, Node.js, RHEL, and Windows Server, generation shifts don't consistently reduce CVE exposure: in some cases (Java 11) old-gen-only CVEs disappear; in others (Node.js 18+) staying current <em>adds</em> attack surface. The consistent finding: the runtime/platform layer generates CVEs that nobody exploits, while the library/ecosystem layer is where confirmed damage happens — and the lever for that layer is patch currency and dependency pruning, not generation upgrade.</div>
 </div>
 
+<p style="font-size:.85em;color:var(--muted);margin:6px 0 4px;text-align:center;letter-spacing:.04em;text-transform:uppercase;font-weight:600">Three findings against using vulnerability counts as the case for evergreening &middot; one finding for it</p>
+
 <div class="hero-row">
 <div class="hero-card">
 <div class="num" style="color:var(--accent)">0 of 40</div>
@@ -140,12 +142,12 @@ code{background:var(--code-bg);padding:2px 6px;border-radius:4px;font-size:.88em
 <div class="lbl">exploited CVEs <em>worse</em><br>on the new stack (Spring4Shell, ActiveMQ Jolokia)</div>
 </div>
 <div class="hero-card">
-<div class="num" style="color:var(--amber)">7</div>
-<div class="lbl">Spring post-EOL C/H CVEs<br>with no free patch</div>
-</div>
-<div class="hero-card">
 <div class="num" style="color:var(--muted)">0</div>
 <div class="lbl">Server-side JVM CVEs<br>exploited (any version, ever)</div>
+</div>
+<div class="hero-card" style="border:2px solid var(--green);background:#ecfdf5">
+<div class="num" style="color:var(--green)">7</div>
+<div class="lbl"><strong style="color:var(--green)">↳ but:</strong> Spring 5.x&rarr;6.x C/H CVEs<br>where free patches only exist on 6.x</div>
 </div>
 </div>
 
