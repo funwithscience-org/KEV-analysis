@@ -613,10 +613,17 @@ def ingest_model_run_log(rows: dict[str, dict], source_counts: dict[str, int]) -
     if not path.exists():
         return
     raw = _load_json(path, []) or []
-    # Format may be a list of {date, run_id, events:[...]} blocks, or a flat
-    # list of events. Tolerate both.
+    # Format may be:
+    #   (a) a flat list of {date, run_id, events:[...]} blocks
+    #   (b) a flat list of {cve, ...} events
+    #   (c) a single {events:[...]} dict
+    #   (d) the current canonical wrapper: {schema_version, _doc, runs:[...]}
+    # Tolerate all four.
     runs = []
-    if isinstance(raw, list):
+    if isinstance(raw, dict) and isinstance(raw.get("runs"), list):
+        # (d) canonical wrapper — runs[] holds {date, run_id, events:[...]} blocks
+        runs.extend(raw["runs"])
+    elif isinstance(raw, list):
         for item in raw:
             if isinstance(item, dict) and "events" in item:
                 runs.append(item)
