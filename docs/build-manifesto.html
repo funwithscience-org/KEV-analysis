@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Build Manifesto — Engineering principles for build process</title>
+<style>
+:root{--bg:#faf9f5;--surface:#f4f1e8;--border:#e6e1d3;--text:#334155;--muted:#6b6356;
+--accent:#4f46e5;--red:#dc2626;--amber:#d97706;--green:#059669;--cyan:#0891b2;
+--serif:'Charter','Bitstream Charter','Sitka Text',Cambria,Georgia,serif}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);color:var(--text);font-family:Inter,-apple-system,BlinkMacSystemFont,Segoe UI,sans-serif;line-height:1.7;margin:0}
+.page{display:grid;grid-template-columns:260px 1fr;min-height:100vh}
+.sidebar{background:var(--surface);border-right:1px solid var(--border);padding:24px 0;position:sticky;top:50px;height:calc(100vh - 50px);overflow-y:auto}
+.sidebar-title{font-size:1.05em;font-weight:700;padding:0 20px 16px;color:var(--accent);border-bottom:1px solid var(--border);margin-bottom:12px;line-height:1.25}
+.sidebar a{display:block;padding:7px 20px;color:var(--muted);text-decoration:none;font-size:.88em;border-left:3px solid transparent;transition:all .15s}
+.sidebar a:hover,.sidebar a.active{color:var(--accent);background:#eef2ff;border-left-color:var(--accent)}
+.sidebar a.sub{padding-left:42px;font-size:.82em;color:#94a3b8}
+.toc-num{color:var(--accent);font-weight:600;margin-right:4px}
+.main{max-width:1100px;margin:0 auto;padding:24px 32px 48px;counter-reset:section}
+@media(max-width:900px){.page{grid-template-columns:1fr} .sidebar{display:none} .main{padding:16px}}
+h1{font-family:var(--serif);font-size:2.6em;font-weight:700;letter-spacing:-0.02em;line-height:1.1;margin-bottom:14px;color:#0f172a}
+h2{font-family:var(--serif);font-size:1.85em;font-weight:700;letter-spacing:-0.01em;line-height:1.2;margin:64px 0 18px;color:#0f172a;border-bottom:1px solid var(--border);padding-bottom:10px;counter-increment:section;scroll-margin-top:74px}
+h2::before{content:"§ " counter(section,decimal-leading-zero);display:block;font-family:var(--serif);font-style:italic;font-weight:400;font-size:0.5em;letter-spacing:0.02em;color:var(--muted);margin-bottom:8px;line-height:1}
+h3{font-family:var(--serif);font-size:1.3em;font-weight:600;margin:32px 0 10px;color:#1e293b;line-height:1.3}
+p{margin:8px 0;color:var(--text)}
+strong{color:#0f172a}
+em{color:#1e293b}
+a{color:var(--accent)}
+code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:.9em;background:var(--surface);padding:1px 5px;border-radius:3px}
+.subtitle{font-family:var(--serif);font-style:italic;color:#475569;font-size:1.2em;line-height:1.55;margin-bottom:32px}
+
+.principle-row{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin:24px 0 32px}
+@media(max-width:900px){.principle-row{grid-template-columns:1fr}}
+.principle{background:var(--surface);border:1px solid var(--border);border-left:4px solid var(--accent);border-radius:8px;padding:18px}
+.principle .num{font-family:var(--serif);font-style:italic;color:var(--accent);font-size:.85em;display:block;margin-bottom:6px}
+.principle h4{font-family:var(--serif);font-size:1.1em;font-weight:700;color:#0f172a;margin-bottom:8px;line-height:1.25}
+.principle p{font-size:.93em;color:var(--text);margin:0}
+
+.callout{border-left:4px solid;border-radius:0 8px 8px 0;padding:14px 20px;margin:18px 0;font-size:.95em;line-height:1.6}
+.callout-finding{border-color:var(--accent);background:#eef2ff;color:#312e81}
+.callout-finding strong{color:#312e81}
+.callout-warning{border-color:var(--amber);background:#fffbeb;color:#78350f}
+.callout-warning strong{color:#78350f}
+.callout-good{border-color:var(--green);background:#ecfdf5;color:#064e3b}
+.callout-good strong{color:#064e3b}
+
+.action{background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:16px 20px;margin:14px 0}
+.action h4{font-family:var(--serif);font-size:1.1em;color:#0f172a;margin-bottom:8px;line-height:1.3}
+.action p{font-size:.93em;color:var(--text);margin:6px 0}
+
+.page-nav{position:sticky;top:0;z-index:100;display:flex;gap:8px;justify-content:center;padding:12px 20px;background:var(--surface);border-bottom:1px solid var(--border);margin-bottom:0;flex-wrap:wrap}
+.page-nav a{padding:6px 16px;border-radius:20px;font-size:.85em;font-weight:600;text-decoration:none;color:var(--muted);border:1px solid var(--border);transition:all .15s}
+.page-nav a:hover{color:var(--accent);border-color:var(--accent)}
+.page-nav a.current{background:var(--accent);color:#fff;border-color:var(--accent)}
+
+.footer{margin-top:48px;padding-top:16px;border-top:1px solid var(--border);color:var(--muted);font-size:.85em;text-align:center}
+.lede{font-family:var(--serif);font-size:1.15em;line-height:1.6;color:#1e293b;margin:18px 0}
+.lede strong{color:#0f172a}
+
+blockquote{border-left:3px solid var(--accent);padding:6px 16px;margin:14px 0;color:#475569;font-style:italic;background:#eef2ff;border-radius:0 6px 6px 0}
+blockquote p{color:#312e81;margin:4px 0}
+</style>
+<link rel="alternate" type="text/markdown" title="LLM-friendly summary" href="llms.txt">
+<link rel="sitemap" type="application/xml" title="Sitemap" href="sitemap.xml">
+<link rel="canonical" href="https://funwithscience.net/KEV-analysis/build-manifesto.html">
+</head>
+<body>
+
+<nav class="page-nav">
+<a href="index.html">Overview</a>
+<a href="periodicity.html">Periodicity Analysis</a>
+<a href="build-manifesto.html" class="current">Build Manifesto</a>
+<a href="build-mechanics.html">Operational Model</a>
+<a href="evergreen.html">Evergreening</a>
+<a href="glasswing.html">Mythos</a>
+<a href="dashboard.html">Dashboard</a>
+<a href="cve-reference.html">CVE Reference</a>
+</nav>
+
+<div class="page">
+
+<nav class="sidebar">
+<a href="#" style="text-decoration:none;color:inherit"><div class="sidebar-title">The Build<br>Manifesto</div></a>
+<a href="#opening"><span class="toc-num">1</span> Opening</a>
+<a href="#principles"><span class="toc-num">2</span> The Three Principles</a>
+<a href="#dynamic-static"><span class="toc-num">3</span> Build dynamic, deploy static</a>
+<a href="#beyonce"><span class="toc-num">4</span> The Beyoncé Rule</a>
+<a href="#actions"><span class="toc-num">5</span> Concrete Actions</a>
+<a href="#what-this-isnt"><span class="toc-num">6</span> What this isn't</a>
+<a href="#side-effect"><span class="toc-num">7</span> The vulnerability side-effect</a>
+</nav>
+
+<main class="main">
+
+<h1>The Build Manifesto</h1>
+<p class="subtitle">Engineering principles for build process — quality through change, not control.</p>
+
+<!-- ============================================================ -->
+<h2 id="opening">The argument, in one paragraph</h2>
+
+<p class="lede"><strong>We have been taught that the path to quality is deterministic control of every input.</strong> That equation is wrong, and the cost of believing it is enormous. The path to quality is dynamic, well-tested inputs producing immutable outputs. Determinism belongs at the <em>deployment artifact</em>, not at the <em>build inputs</em>. The "stable build = stable product" intuition that gates a snakeyaml 2.3 → 2.4 bump with the same review process as a feature release is producing applications that cannot be rebuilt, cannot be upgraded, and cannot be patched. This document is the case for the alternative.</p>
+
+<p>The principles below are not a security document. They are aligned with practices documented in <em>Software Engineering at Google</em> and now mainstream across the high-functioning end of the industry. They stand on their engineering quality independently. The vulnerability-management benefit is a side effect — a significant one, and often the political impetus that justifies the change, but not the goal.</p>
+
+<p>The cultural reframe this requires is real. The same review machinery that exists to protect the organization from a bad business-function release is being applied to a snakeyaml patch bump where the upstream maintainer has already done the work. That misallocation of caution — treating safe, well-tested external change with the same friction as risky, novel internal change — is the bug. The fix is not "less caution." The fix is to put the caution in the right place: <em>tests gating the dynamic flow</em>, not pins gating every reference.</p>
+
+<!-- ============================================================ -->
+<h2 id="principles">The three principles</h2>
+
+<div class="principle-row">
+  <div class="principle">
+    <span class="num">Principle 01</span>
+    <h4>Build-time dependencies should be dynamic</h4>
+    <p>Both libraries and base images. Resolved at build, not pinned at code-write time. The build is a fresh integration test against the current state of the world.</p>
+  </div>
+  <div class="principle">
+    <span class="num">Principle 02</span>
+    <h4>Deployment is where you want static structure</h4>
+    <p>The artifact you ship is immutable and self-contained. Lockfiles, signed images, SBOMs capture exactly what got resolved. Rollback works because the deployed thing is a snapshot, not a recipe.</p>
+  </div>
+  <div class="principle">
+    <span class="num">Principle 03</span>
+    <h4>If you depend on a behavior, write a test for it</h4>
+    <p>The Beyoncé rule. Behavioral dependencies expressed as tests, not as version pins. If there is no test, you do not actually depend on the behavior — you just happen to be running with it today.</p>
+  </div>
+</div>
+
+<!-- ============================================================ -->
+<h2 id="dynamic-static">Build dynamic, deploy static</h2>
+
+<p>The cultural confusion is mistaking "stable deployment" for "stable build inputs." They are different problems with opposite right answers.</p>
+
+<p><strong>Stable deployment is the goal.</strong> Byte-for-byte identical artifacts running in dev, staging, and prod. That property is enforced at the deployment boundary by lockfiles, signed images, content-addressed storage, and immutable infrastructure. Once a build resolves, the artifact is fixed forever. Rollback works because the deployed thing is a self-contained snapshot — the binary, the lockfile, the image digest — none of which change after the build commits to them.</p>
+
+<p><strong>Stable build inputs is the anti-pattern.</strong> Pinning every dependency in source so that "the build is reproducible" produces apps that can be rebuilt to a multi-year-old version of the world, against multi-year-old versions of every library, with multi-year-old security holes baked in. It looks like control. It is actually a slow-motion accumulation of debt that compounds quietly until the day you need to upgrade something and discover that nothing builds anymore.</p>
+
+<p>The right model: <strong>build dynamic, freeze at the deployment boundary.</strong> Every build pulls fresh dependencies, pulls fresh base images, runs tests, resolves to a concrete versioned artifact, captures the resolved state in a lockfile, and ships that artifact immutably. <em>Each build is a fresh integration test against the current state of the world.</em> The deployed artifact is fully deterministic. The build inputs are not.</p>
+
+<div class="callout callout-finding">
+<strong>The reframe in one sentence.</strong> Pin at the deployment boundary, not at the source-code boundary. The deployed binary is a snapshot of resolved state; the source manifest declares intent.
+</div>
+
+<p>This is the model used by every healthy software organization at scale — Google, Netflix, Stripe, Shopify, modern Spring/Spring Boot teams. It is not exotic. It is the table-stakes engineering practice that the industry converged on more than a decade ago. The reason organizations still operate the pinned-everything way is cultural inertia from an era when "reproducible build" meant "exact bytes from source," and the answer was to pin every input. The industry learned that lockfiles + immutable deployment artifacts give you the same property at the only place it actually matters — what's running — without the staleness cost.</p>
+
+<!-- ============================================================ -->
+<h2 id="beyonce">The Beyoncé Rule</h2>
+
+<p>Google's <em>Software Engineering at Google</em> codifies a principle they call the <strong>Beyoncé Rule</strong>:</p>
+
+<blockquote><p>"If you liked it, then you should have put a test on it."</p></blockquote>
+
+<p>Named after the song <em>Single Ladies</em>. It is a one-line cultural framework with significant implications.</p>
+
+<p>The rule says: if your code depends on some behavior — of a library, a system call, a runtime, an API contract — that dependency should be expressed as a <strong>test that fails when the behavior changes</strong>. If there is no test, you do not actually depend on the behavior. You just happen to be running with it today, and you are silently betting that no one upstream will change it.</p>
+
+<p>The corollary is the cultural unlock: <strong>when a dependency upgrade "breaks" your code, the upgrade is not the bug. Your test gap is the bug.</strong> The dependency was free to change in ways you didn't notice because you didn't write down what mattered. The library author behaved correctly under the contract you wrote (the empty one). You inherited a brittle dependency.</p>
+
+<p>This reframes the version-pinning argument completely. "We pinned snakeyaml at 2.3 because we depend on its behavior" is not an engineering position — it is a confession that the team did not write a test for the behavior they care about. The fix is not to pin harder. The fix is to write the test, then go dynamic.</p>
+
+<p>In a Beyoncé-Rule-respecting org, the question "is this dependency upgrade safe?" is answered by <em>running the test suite</em>. Green means safe. Red means a behavior the team explicitly cared about has changed, and now needs human attention. Either the upgrade is taken or the test is updated. <strong>The version is not pinned defensively.</strong></p>
+
+<div class="callout callout-warning">
+<strong>The implicit prerequisite.</strong> The Beyoncé rule presumes a healthy test culture. Organizations that have under-invested in tests cannot safely absorb dynamic builds — they have no signal to gate on. The honest sequence is: build the test culture first, then go dynamic. Trying to skip step one produces "we let everything through and pray," which is worse than where you started.
+</div>
+
+<!-- ============================================================ -->
+<h2 id="actions">Concrete actions</h2>
+
+<p>Operationalizing the principles produces a specific starting set. None of these are speculative; all are mainstream, well-tooled, and used at scale by other organizations today.</p>
+
+<div class="action">
+<h4>Action 01 — Pull in dynamic images at each build</h4>
+<p>Base images referenced by moving tags rather than fixed digests in source. <code>FROM company/runtime:current</code> or <code>FROM company/jdk21:lts</code>, not <code>FROM company/runtime:v1.2.3</code>. The image gets resolved at build time. The deployed container is built from a specific resolved digest, captured in the deployment manifest. <strong>Source declares "use the current runtime"; deployment captures "this exact runtime digest as of this build."</strong></p>
+<p>Benefit: kernel patches, base-OS package updates, JDK security updates, runtime-library fixes — they all flow into your applications on the next rebuild without anyone touching application code. Without this, every base-image bump becomes a coordinated PR sweep across every Dockerfile in the org.</p>
+</div>
+
+<div class="action">
+<h4>Action 02 — Move declarative libraries to BOM + starter "get best" calls</h4>
+<p>Replace per-version pins in build files with a combination of <em>starter dependencies</em> (which carry their own resolved version sets — Spring Boot starters being the canonical example) and <em>individual library references against a centrally-maintained BOM</em>. The application's <code>pom.xml</code> stops naming versions for most dependencies; the BOM dictates them. When a CVE drops in any library the BOM tracks, the platform team cuts a new BOM revision and every consumer rebuilds against the new versions automatically.</p>
+<p>This is the high-leverage move. One BOM revision propagates across the entire estate; the alternative is N-thousand bot-driven PRs each cycle. <strong>Same outcome, dramatically less mechanical work in steady state.</strong> See the <a href="build-mechanics.html#auto-deps">Operational Model §3</a> for the detailed mechanics of platform BOMs and the hybrid platform-plus-DIY shape that mature portfolios actually run.</p>
+</div>
+
+<div class="action">
+<h4>Action 03 — Enable auto-fix for remaining declarative dependencies</h4>
+<p>For the long tail of build files that haven't been migrated to a BOM (and for genuine one-off dependencies that don't belong in the platform), use Renovate-style functionality to bump pinned versions automatically. We will use <strong>Nexus's built-in version (Sonatype Lifecycle's automated remediation pull requests)</strong> rather than standalone Renovate so the policy lives alongside the artifact governance already in Nexus. Auto-merge gated by green CI, scoped to the security-tracking package set. The bot commits a literal version bump to the source manifest; what you see in source is what you get at build.</p>
+<p>This handles the cases the BOM doesn't reach. The two mechanisms are complementary, not competitive: BOM for the high-volume coordinated dependencies that scale linearly across the estate; auto-fix for the long tail. <strong>Both paths absorb patches in BAU.</strong></p>
+</div>
+
+<div class="action">
+<h4>Action 04 — Every build pipeline must be triggerable</h4>
+<p>The pipeline can be invoked end-to-end on demand &mdash; by a person, a bot, a security event, or a scheduled rebuild &mdash; <em>without an archeology project</em>. This is distinct from Cat 1's "auto-builds on every commit." A Cat 2 app doesn't build continuously, but its pipeline must still be in working order: anyone with appropriate auth can push a button, the pipeline runs, and a fresh artifact lands. <strong>If the pipeline only works when its original author runs it from their laptop with three undocumented environment variables, you don't have a triggerable build &mdash; you have a Cat 3 app wearing a Cat 2 fig leaf.</strong></p>
+<p>The discipline is exercising the trigger. A pipeline that hasn't been invoked in 18 months has almost certainly rotted &mdash; upstream base image deprecated, test runner version bumped past the syntax the suite uses, secret credentials expired, hosting moved. The mitigation is to <strong>rebuild the orphan estate on a schedule</strong> (weekly or monthly, whatever cadence catches drift before it becomes a project) and surface failures explicitly. The platform team typically owns this; the metric is "% of estate verified-rebuilding," not "% of estate with a build config." The two are very different numbers in practice. See <a href="build-mechanics.html#rot">Operational Model §7</a> for the detailed argument about how Cat 2's hidden cost is triggers rotting.</p>
+</div>
+
+<!-- ============================================================ -->
+<h2 id="what-this-isnt">What this isn't</h2>
+
+<p>Honest constraints worth being explicit about before someone interprets this as a license to skip discipline:</p>
+
+<p><strong>This isn't "no version control on dependencies."</strong> The deployment artifact is fully version-pinned via lockfile, image digest, or SBOM. The cultural argument is about <em>where</em> the pin lives — at the deployment boundary, captured automatically, not in the source manifest, written by hand and frozen forever.</p>
+
+<p><strong>This isn't a license to skip testing.</strong> The opposite. Dynamic build inputs only work if the test suite is honest about what behavior the code depends on. Organizations that don't invest in tests cannot safely absorb dynamic builds — they have nothing to gate on. The implicit prerequisite of Principle 01 is Principle 03.</p>
+
+<p><strong>This isn't an argument against pinning critical dependencies.</strong> Some things — cryptographic libraries that need to match validated FIPS configurations, libraries with known forward-compatibility issues, legacy components in maintenance — should be pinned with documented justification. The argument is against pinning <em>by default</em>. Default to dynamic; pin where you have a documented reason; review the pinned set on a schedule and unpin where you can.</p>
+
+<p><strong>This isn't free.</strong> Dynamic builds require CI infrastructure that can keep up. The platform team has real ongoing work — maintaining the BOM, smoke-testing new revisions before publishing, running the auto-fix bot fleet, owning the rebuild-orphan-apps-on-a-schedule pipeline. The investment is real and ongoing. The payoff is that the work concentrates in one place that can be staffed properly, instead of being smeared across every team that owes its own upgrade ceremony.</p>
+
+<p><strong>Some compliance frames require source-to-binary reproducibility.</strong> Aerospace, certain medical contexts, certain financial regulatory frames have explicit requirements that the same source produces the same binary, audit-traceably, possibly with regulatory pre-approval of inputs. For these, dynamic input flows through a vetted gate — a frozen BOM revision, a signed base image set, an audited lockfile — but <strong>the principle still holds: determinism at the deployment artifact, not at source-write-time.</strong> The gate is added to the BOM publication process, not to every individual build manifest.</p>
+
+<!-- ============================================================ -->
+<h2 id="side-effect">The vulnerability side-effect</h2>
+
+<p>This document is not about vulnerability management. The principles stand on their engineering quality independently. Catching integration drift early, keeping upgrade paths open, expressing behavioral dependencies as tests, avoiding code-museum syndrome — these are good engineering whether or not security is the motivator.</p>
+
+<p>That said, the practical effect on security posture is dramatic.</p>
+
+<p>An organization operating this way <strong>absorbs security patches in the normal flow of business</strong>. SnakeYAML ships a CVE on Tuesday; tomorrow's build pulls the patched version; tests pass; the deployment proceeds; nobody filed an emergency ticket. The vulnerability-response shape that requires multi-week emergency floor sweeps in pinned-everything orgs becomes invisible BAU in dynamic-build orgs. The same shift that makes engineering healthier makes security cheap. The <a href="build-mechanics.html">Operational Model</a> page documents the full mechanics of how this absorbs into Cat 1 / Cat 2 / Cat 3 estate maturity, including the platform-team smoke-test obligation that makes it work for the parts of the estate that don't have their own CI.</p>
+
+<div class="callout callout-good">
+<strong>Take the impetus.</strong> The argument for adopting these principles often gets political traction because of an acute vulnerability event — a Log4Shell, a Spring4Shell, a CVE that lit up the inbox at 2 AM. That's fine. The principles are right regardless of what motivated the conversation, and the side-effect is real. Use the moment.
+</div>
+
+<div class="footer">
+The Build Manifesto &mdash; principles for build process. Part of the <a href="index.html">Threat-Centric Prioritization</a> project. See the <a href="build-mechanics.html">Operational Model</a> for the vulnerability-management application of these principles.
+</div>
+
+</main>
+</div>
+</body>
+</html>

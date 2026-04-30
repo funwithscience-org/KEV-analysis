@@ -190,6 +190,7 @@ def render_llms_txt(data: dict, classif: dict) -> str:
     parts.append(f"- [Walkthrough]({SITE}/index.html): long-form analysis with sidebar navigation")
     parts.append(f"- [Dashboard]({SITE}/dashboard.html): interactive Chart.js dashboard")
     parts.append(f"- [Periodicity]({SITE}/periodicity.html): cross-framework backtest of the NP+DI filter")
+    parts.append(f"- [Build Manifesto]({SITE}/build-manifesto.html): three engineering principles for build process — dynamic build inputs / static deployment / Beyoncé rule (tests not pins) — with four concrete actions (dynamic images, BOM+starter, Nexus auto-fix, triggerable build); aligned with Software Engineering at Google practice")
     parts.append(f"- [Build Mechanics]({SITE}/build-mechanics.html): operational layer — BAU vs floor sweeps, the cat 1/2/3 estate-maturity model (with a 1/3-1/3-1/3 worked example), WAFs as spackle, filter value by response shape, and a practical-implications section on enterprise rules (auth-posture metadata, filter scope by auth posture, the Spring Boot Actuator/Jolokia case, hygiene rules, and a CVE triage decision flow)")
     parts.append(f"- [CVE Reference]({SITE}/cve-reference.html): per-CVE classification table")
     parts.append(f"- [Glasswing]({SITE}/glasswing.html): speculative analysis of AI-discovered CVEs (intelligence assessment, not data)")
@@ -283,6 +284,7 @@ SITEMAP_PAGES: list[tuple[str, str, float]] = [
     ("index.html",            "weekly",  1.0),  # walkthrough — primary entry point
     ("dashboard.html",        "daily",   0.9),  # interactive dashboard, refresh agent updates daily
     ("periodicity.html",      "weekly",  0.9),
+    ("build-manifesto.html",  "monthly", 0.8),
     ("build-mechanics.html",  "monthly", 0.8),
     ("cve-reference.html",    "weekly",  0.7),
     ("glasswing.html",        "weekly",  0.7),
