@@ -824,26 +824,47 @@ code{background:var(--code-bg);padding:2px 6px;border-radius:4px;font-size:.88em
 </details>
 
 <!-- ===== WINDOWS ===== -->
-<h2 id="windows-server">Windows Server — More Features, More CVEs</h2>
+<h2 id="windows-server">Windows Server — More Features, More CVEs (and the old ones don't go away)</h2>
 
-<p>Compare staying on Windows Server 2016 vs evergreening to Server 2019 (Oct 2018) → Server 2022 (Aug 2021) as each became available.</p>
+<p>Compare staying on Windows Server 2016 vs evergreening to Server 2019 (Oct 2018) → Server 2022 (Aug 2021) → Server 2025 (Nov 2024) as each became available. Same first-N-years-from-GA framing as RHEL, but the data tells a structurally different story.</p>
 
 <div class="hero-row">
-<div class="hero-card">
-<div class="num" style="color:var(--muted)">610</div>
-<div class="lbl">Server 2016 CVEs<br>in 2025</div>
+<div class="hero-card" style="border-color:var(--muted)">
+<div class="num" style="color:var(--muted)">3,070</div>
+<div class="lbl">Server 2016 CVE-affects<br>through first 7 years from GA</div>
+</div>
+<div class="hero-card" style="border-color:var(--amber)">
+<div class="num" style="color:var(--amber)">3,775</div>
+<div class="lbl">Server 2019 CVE-affects<br>through first 7 years from GA</div>
 </div>
 <div class="hero-card" style="border-color:var(--red)">
-<div class="num" style="color:var(--red)">761</div>
-<div class="lbl">Server 2022 CVEs<br>in 2025</div>
+<div class="num" style="color:var(--red)">2,732</div>
+<div class="lbl">Server 2022 CVE-affects<br>through first 5 years from GA</div>
 </div>
-<div class="hero-card" style="border-color:var(--red)">
-<div class="num" style="color:var(--red)">787</div>
-<div class="lbl">Server 2025 CVEs<br>in 2025</div>
+<div class="hero-card" style="border-color:var(--accent)">
+<div class="num" style="color:var(--accent)">359</div>
+<div class="lbl">Server <strong>2008</strong> CVE-affects<br>still hit in 2025 alone</div>
 </div>
 </div>
 
-<p>Server 2022 had <strong>151 more CVEs</strong> to patch than Server 2016 in 2025 (25% more). Server 2025 had 177 more (29% more). This pattern held every single month — not once in 20+ months of data did Server 2016 have more Patch Tuesday CVEs than Server 2022.</p>
+<div class="callout callout-finding">
+<strong>The Windows pattern is structurally different from RHEL.</strong> Where RHEL's generations roughly <em>doubled</em> the prior generation's advisory rate (RHEL 9 first-5 = 4.8× RHEL 6 first-5), Windows Server's generation curves cluster <em>much</em> tighter — Server 2019 first-5 (2,615) is only 1.22× Server 2016 (2,146), and Server 2022 first-5 (2,732) is only 1.04× Server 2019. Newer is still noisier, but the increment is modest.
+
+<br><br>The reason is the codebase: RHEL each major ships a substantially different kernel (3.10 → 4.18 → 5.14 → 6.x), so each generation's bugs are largely fresh. Windows is the same NT codebase incrementally extended, so a vulnerability in <code>lsass</code>, <code>ntdll</code>, <code>win32k</code>, or the kernel hits every supported version — and there's a lot of old code still being touched. <strong>~65% of any Patch Tuesday's Server CVEs affect every supported version simultaneously.</strong> That's the same shared NT code, decades old, still being used.
+
+<br><br>The corollary the user-comment from this analysis surfaced: <strong>"the bugs go all the way back."</strong> Server 2008 — first shipped in 2008, mainstream support EOL'd 2020, paid ESU only since — still racked up 359 CVE-version-affects in 2025 alone. That's roughly half of what Server 2025 (the newest gen) got in the same year.</div>
+
+<p>The cumulative chart below shows the modest generation-over-generation increase. The chart after it shows what's distinctive about Windows: every year's CVE workload is distributed across the entire supported lineup, not concentrated on the newest version.</p>
+
+<div class="chart-wrap">
+<canvas id="winCumChart"></canvas>
+<p style="font-size:.82em;color:var(--muted);margin-top:6px;text-align:center"><em>Cumulative Windows Server CVE-affects against years-from-GA. Each line counts CVEs that affected that version in MSRC bulletins from each year of the version's life. Source: MSRC CVRF API, 2016–Apr 2026.</em></p>
+</div>
+
+<div class="chart-wrap">
+<canvas id="winStackChart"></canvas>
+<p style="font-size:.82em;color:var(--muted);margin-top:6px;text-align:center"><em>Per-year Server CVE-affects stacked by version. Each bar is one calendar year; the colored layers show which versions absorbed those CVEs. Even in 2025, ~37% of total CVE-affects (1,692 of 4,553) hit Server 2008, 2008R2, 2012, or 2012R2 — versions that GA'd 12-17 years earlier.</em></p>
+</div>
 
 <h3>Where the extra CVEs come from</h3>
 
@@ -878,11 +899,6 @@ code{background:var(--code-bg);padding:2px 6px;border-radius:4px;font-size:.88em
 <p style="margin-top:8px">And like RHEL, there's a lifecycle argument: Server 2016 mainstream support ended January 2022, extended support runs to January 2027. Staying current buys runway before you hit end-of-support.</p>
 </div>
 
-<div class="chart-wrap">
-<h3>Windows Server Patch Tuesday CVEs (2025)</h3>
-<canvas id="winChart"></canvas>
-</div>
-
 <h3>Patch delivery speed: same day, always</h3>
 
 <p>Unlike RHEL, Windows Server patches ship simultaneously for all supported versions — every Patch Tuesday, every version gets its cumulative update on the same day. Verified across multiple months and including out-of-band emergency patches:</p>
@@ -899,7 +915,9 @@ code{background:var(--code-bg);padding:2px 6px;border-radius:4px;font-size:.88em
 <p class="footnote">Microsoft's cumulative update model compiles fixes against all supported branches simultaneously. A version is either in support (same-day patches) or out of support (nothing). There's no RHEL-style ELS middle ground where fixes trickle in slowly.</p>
 </div>
 
-<p><strong>So evergreening Windows Server doesn't help with patch speed</strong> — it helps with patch <em>scope</em> (more CVEs get fixed because more subsystems exist) and exploitation mitigations (Secured Core, HVCI). The speed is the same regardless of version.</p>
+<p><strong>So evergreening Windows Server doesn't help with patch speed</strong> — it helps with patch <em>scope</em> (more CVEs get fixed because more subsystems exist) and exploitation mitigations (Secured Core, HVCI). The speed is the same regardless of version. And as the cumulative chart above shows, the <em>volume</em> increase per generation is much smaller than RHEL's — the workload-sizing argument applies far more strongly to RHEL than to Windows.</p>
+
+<p style="font-size:.82em;color:var(--muted);margin-top:8px"><strong>Reproducibility:</strong> Windows lifetime data is at <code>data/windows-server-lifetime.json</code>. Pulled from MSRC's CVRF API (<code>https://api.msrc.microsoft.com/cvrf/v3.0/cvrf/{YYYY-Mon}</code>, no auth required); per-month bulletin cache lives in <code>data/_msrc-lifetime-cache/</code>. Re-run <code>scripts/fetch_windows_server_lifetime.py</code> to refresh. A CVE counts once per Server major version it affects in a given monthly bulletin — re-issued bulletins (e.g. when scope changes) count again. Compound product IDs (App-on-OS like <code>11650-10049</code> for .NET Framework on Server 2008 R2) match either segment, so the underlying OS gets credit.</p>
 
 <!-- ===== NODE.JS ===== -->
 <h2 id="nodejs">Node.js — The Inverse of Java</h2>
@@ -1160,24 +1178,58 @@ new Chart(document.getElementById('rhelAllCumChart'), {
     }
 });
 
-// Windows Server CVEs chart
-new Chart(document.getElementById('winChart'), {
-    type: 'bar',
+// Windows Server cumulative CVE-affects by years-from-GA
+// Source: data/windows-server-lifetime.json
+const _winYearLabels = ['Y1','Y2','Y3','Y4','Y5','Y6','Y7','Y8','Y9','Y10','Y11'];
+new Chart(document.getElementById('winCumChart'), {
+    type: 'line',
     data: {
-        labels: ['Server 2016','Server 2019','Server 2022','Server 2025'],
-        datasets: [{
-            label: 'CVEs in 2025',
-            data: [610, 694, 761, 787],
-            backgroundColor: ['#94a3b8','#f59e0b','#ef4444','#6366f1'],
-            borderRadius: 4
-        }]
+        labels: _winYearLabels,
+        datasets: [
+            {label:'Server 2016 (GA 2016)', data:[74,513,911,1432,2146,2546,3070,3575,4086,4698,4892],
+             borderColor:'#94a3b8', backgroundColor:'rgba(148,163,184,.1)', tension:.25, pointRadius:3, borderWidth:2, fill:false},
+            {label:'Server 2019 (GA 2018)', data:[88,708,1545,2027,2615,3168,3775,4472,4711,null,null],
+             borderColor:'#f59e0b', backgroundColor:'rgba(245,158,11,.1)', tension:.25, pointRadius:3, borderWidth:2, fill:false, spanGaps:false},
+            {label:'Server 2022 (GA 2021)', data:[130,732,1306,1968,2732,3008,null,null,null,null,null],
+             borderColor:'#ef4444', backgroundColor:'rgba(239,68,68,.1)', tension:.25, pointRadius:3, borderWidth:2.5, fill:false, spanGaps:false},
+            {label:'Server 2025 (GA 2024)', data:[92,880,1160,null,null,null,null,null,null,null,null],
+             borderColor:'#6366f1', backgroundColor:'rgba(99,102,241,.1)', tension:.25, pointRadius:4, borderWidth:3, fill:false, spanGaps:false}
+        ]
     },
     options: {
         scales: {
-            y:{beginAtZero:true,title:{display:true,text:'CVEs (Patch Tuesday total)'},grid:{color:'rgba(226,232,240,.6)'}},
-            x:{grid:{display:false}}
+            y:{beginAtZero:true, title:{display:true,text:'Cumulative CVE-affects'}, grid:{color:'rgba(226,232,240,.6)'}},
+            x:{title:{display:true,text:'Years from GA'}, grid:{display:false}}
         },
-        plugins:{legend:{display:false}}
+        plugins:{legend:{position:'top',labels:{boxWidth:12}},
+                 title:{display:true,text:'Windows Server cumulative CVE-affects (years from GA)'}}
+    }
+});
+
+// Per-year stacked bars showing all Server versions still take CVEs
+// Source: data/windows-server-lifetime.json - by_year_by_version
+new Chart(document.getElementById('winStackChart'), {
+    type: 'bar',
+    data: {
+        labels: ['2016','2017','2018','2019','2020','2021','2022','2023','2024','2025','2026 YTD'],
+        datasets: [
+            {label:'Server 2008',   data:[158,280,191,338,339,258,298,330,290,359,26],  backgroundColor:'#475569'},
+            {label:'Server 2008R2', data:[159,316,245,385,424,283,351,363,309,393,28],  backgroundColor:'#64748b'},
+            {label:'Server 2012',   data:[203,293,234,380,452,322,415,441,395,457,140], backgroundColor:'#94a3b8'},
+            {label:'Server 2012R2', data:[218,322,264,396,493,339,440,450,430,483,147], backgroundColor:'#cbd5e1'},
+            {label:'Server 2016',   data:[74,439,398,521,714,400,524,505,511,612,194],  backgroundColor:'#fbbf24'},
+            {label:'Server 2019',   data:[0,0,88,620,837,482,588,553,607,697,239],      backgroundColor:'#f59e0b'},
+            {label:'Server 2022',   data:[0,0,0,2,4,130,602,574,662,764,276],           backgroundColor:'#ef4444'},
+            {label:'Server 2025',   data:[0,0,0,0,1,0,2,2,92,788,280],                  backgroundColor:'#6366f1'}
+        ]
+    },
+    options: {
+        scales: {
+            y:{beginAtZero:true, stacked:true, title:{display:true,text:'CVE-affects per year (stacked across all supported versions)'}, grid:{color:'rgba(226,232,240,.6)'}},
+            x:{stacked:true, grid:{display:false}}
+        },
+        plugins:{legend:{position:'top',labels:{boxWidth:11,font:{size:10}}},
+                 title:{display:true,text:'Per-year Server CVE workload, by version'}}
     }
 });
 </script>
