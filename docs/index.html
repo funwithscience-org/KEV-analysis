@@ -235,7 +235,7 @@ details.expandable .detail-content{padding:16px 20px}
 <!-- ========== 2. METHODOLOGY ========== -->
 <h2 id="observational">The First Clue: Where Exploits Actually Land</h2>
 
-<div class="translation"><strong>In plain English:</strong> We took every vulnerability that attackers actually exploited (<span data-kpi="totalKev">1,585</span> in the KEV catalog, <span data-kpi="windowedKev">891</span> with CVEs published 2021–2026) and compared it to every serious vulnerability reported in the same window (<span data-kpi="totalNvd">23,501</span>). Then we asked: what makes the exploited ones different?</div>
+<div class="translation"><strong>In plain English:</strong> We took every vulnerability that attackers actually exploited (<span data-kpi="totalKev">1,585</span> in the KEV catalog, <span data-kpi="windowedKev">893</span> with CVEs published 2021–2026) and compared it to every serious vulnerability reported in the same window (<span data-kpi="totalNvd">23,501</span>). Then we asked: what makes the exploited ones different?</div>
 
 <p>The analysis joins two datasets:</p>
 
@@ -281,7 +281,7 @@ details.expandable .detail-content{padding:16px 20px}
 <strong>Finding:</strong> OS/kernel CVEs have a 78% exploitation rate — the highest of any stack layer when time-windowed to 2021–2026 CVEs. Platform/runtime layers (OS, VPN, JVM, web server) account for ~46% of windowed KEV entries. Libraries/frameworks represent less than 1% of KEV (4 entries). ~21% of windowed KEV entries are linked to ransomware campaigns — ransomware operators concentrate on the same network-parsing targets.
 </div>
 
-<p><em>Note: Exploitation rates use the <span data-kpi="windowedKev">891</span> KEV entries with CVEs published 2021–2026, matching the NVD denominator window. <span data-kpi="preWindowKev">692</span> KEV entries for pre-2021 CVEs are excluded from rates — these represent active exploitation of legacy vulnerabilities during the analysis period. Email/collaboration servers hit 100% (44 KEV / 44 NVD): the inherited NVD denominator is small and may be stale, so treat this as an upper-bound artifact rather than a literal rate. Per-entry classifications are reproducible — see <a href="https://github.com/funwithscience-org/KEV-analysis/blob/main/data/CLASSIFIER.md" target="_blank">data/CLASSIFIER.md</a>.</em></p>
+<p><em>Note: Exploitation rates use the <span data-kpi="windowedKev">893</span> KEV entries with CVEs published 2021–2026, matching the NVD denominator window. <span data-kpi="preWindowKev">692</span> KEV entries for pre-2021 CVEs are excluded from rates — these represent active exploitation of legacy vulnerabilities during the analysis period. Email/collaboration servers hit 100% (44 KEV / 44 NVD): the inherited NVD denominator is small and may be stale, so treat this as an upper-bound artifact rather than a literal rate. Per-entry classifications are reproducible — see <a href="https://github.com/funwithscience-org/KEV-analysis/blob/main/data/CLASSIFIER.md" target="_blank">data/CLASSIFIER.md</a>.</em></p>
 
 <h3 id="http-parsing">2b. Network-Parsing vs Non-Parsing Across CVSS</h3>
 
@@ -952,7 +952,7 @@ The key word is "constrain," not "prevent." It's a seatbelt, not an airbag.
 </details>
 
 <div class="footer">
-Analysis based on CISA KEV catalog (<span data-kpi="windowedKev">891</span> entries with CVEs published 2021–2026, of <span data-kpi="totalKev">1,585</span> total), NVD critical+high CVEs 2021-2026, OSV.dev (177 packages, 6 ecosystems),
+Analysis based on CISA KEV catalog (<span data-kpi="windowedKev">893</span> entries with CVEs published 2021–2026, of <span data-kpi="totalKev">1,585</span> total), NVD critical+high CVEs 2021-2026, OSV.dev (177 packages, 6 ecosystems),
 and cross-framework periodicity backtest (133 dependencies, 3 stacks + OS container, 12 months).
 Generated April 2026. For interactive exploration, see the <a href="dashboard.html" style="color:var(--accent)">companion dashboard</a>.
 </div>

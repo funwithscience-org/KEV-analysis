@@ -45,7 +45,7 @@ KEV is windowed to CVEs published 2021+ to align with the NVD denominator window
 
 - Classifier source: [data/kev-classifier.py](https://github.com/funwithscience-org/KEV-analysis/blob/main/data/kev-classifier.py)
 - Per-entry classifications (JSON): [https://raw.githubusercontent.com/funwithscience-org/KEV-analysis/main/data/kev-layer-classifications.json](https://raw.githubusercontent.com/funwithscience-org/KEV-analysis/main/data/kev-layer-classifications.json)
-- Pinned input snapshot (JSON): [https://raw.githubusercontent.com/funwithscience-org/KEV-analysis/main/data/kev-snapshot-2026-04-28.json](https://raw.githubusercontent.com/funwithscience-org/KEV-analysis/main/data/kev-snapshot-2026-04-28.json)
+- Pinned input snapshot (JSON): [https://raw.githubusercontent.com/funwithscience-org/KEV-analysis/main/data/kev-snapshot-2026-04-30.json](https://raw.githubusercontent.com/funwithscience-org/KEV-analysis/main/data/kev-snapshot-2026-04-30.json)
 - Classifier documentation: [data/CLASSIFIER.md](https://github.com/funwithscience-org/KEV-analysis/blob/main/data/CLASSIFIER.md)
 - Numeric regression test suite: [tests/](https://github.com/funwithscience-org/KEV-analysis/blob/main/tests)
 
@@ -72,7 +72,7 @@ KEV is windowed to CVEs published 2021+ to align with the NVD denominator window
 ```
 git clone https://github.com/funwithscience-org/KEV-analysis
 cd KEV-analysis
-python3 data/kev-classifier.py --input data/kev-snapshot-2026-04-28.json --no-snapshot
+python3 data/kev-classifier.py --input data/kev-snapshot-2026-04-30.json --no-snapshot
 bash tests/run.sh             # full numeric regression suite
 bash tests/run.sh --full      # also re-classify the pinned snapshot
 ```

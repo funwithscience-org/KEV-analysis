@@ -177,8 +177,11 @@ def render_llms_txt(data: dict, classif: dict) -> str:
     parts.append("")
     parts.append(f"- Classifier source: [data/kev-classifier.py]({GITHUB}/data/kev-classifier.py)")
     parts.append(f"- Per-entry classifications (JSON): [{RAW}/data/kev-layer-classifications.json]({RAW}/data/kev-layer-classifications.json)")
-    if catalog_version != "unknown":
-        snap_name = f"kev-snapshot-{catalog_version.replace('.', '-')}.json"
+    # Find the most-recent committed snapshot file (snapshots are stamped by
+    # capture date, not catalog version — they don't always agree).
+    snap_files = sorted(Path("data").glob("kev-snapshot-*.json"))
+    if snap_files:
+        snap_name = snap_files[-1].name
         parts.append(f"- Pinned input snapshot (JSON): [{RAW}/data/{snap_name}]({RAW}/data/{snap_name})")
     parts.append(f"- Classifier documentation: [data/CLASSIFIER.md]({GITHUB}/data/CLASSIFIER.md)")
     parts.append(f"- Numeric regression test suite: [tests/]({GITHUB}/tests)")
@@ -232,9 +235,8 @@ def render_llms_txt(data: dict, classif: dict) -> str:
     parts.append("```")
     parts.append("git clone https://github.com/funwithscience-org/KEV-analysis")
     parts.append("cd KEV-analysis")
-    if catalog_version != "unknown":
-        snap = f"data/kev-snapshot-{catalog_version.replace('.', '-')}.json"
-        parts.append(f"python3 data/kev-classifier.py --input {snap} --no-snapshot")
+    if snap_files:
+        parts.append(f"python3 data/kev-classifier.py --input data/{snap_files[-1].name} --no-snapshot")
     else:
         parts.append("python3 data/kev-classifier.py")
     parts.append("bash tests/run.sh             # full numeric regression suite")
