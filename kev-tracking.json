@@ -131,7 +131,7 @@
     "aggressive_predicted_high": 8151,
     "verdict": "below_conservative"
   },
-  "changes_pushed": false,
-  "commit_sha": null,
+  "changes_pushed": true,
+  "commit_sha": "70553e82ff81e1037cd5d44e60cddf6aa440d10d",
   "errors": []
 }
