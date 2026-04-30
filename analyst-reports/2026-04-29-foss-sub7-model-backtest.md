@@ -1,8 +1,8 @@
 # FOSS sub-7 model backtest — does the C/H model give medium coverage for free?
 
 **Date:** 2026-04-29
-**Input:** `data/foss-low-severity-exploited.json` (135 distinct CVEs, CVSS < 7.0, server-side FOSS, with KEV / Metasploit / ExploitDB exploitation evidence)
-**Output:** `data/foss-sub7-model-scoring.json`
+**Input:** `data/foss-sub7-exploited.json` (135 distinct CVEs, CVSS < 7.0, server-side FOSS, with KEV / Metasploit / ExploitDB exploitation evidence)
+**Output:** `data/foss-sub7-scoring.json`
 **Question:** Built on Crit/High historicals, does the threat-prioritization model (NP+DI structure test, DQ rescue, hacker S/A tier) generalize down to medium-severity FOSS CVEs? If yes, the same filters give medium coverage as a free side effect of running on C/H.
 
 ---
@@ -174,6 +174,6 @@ The most operationally interesting modern S-tier:
 
 ## Files
 
-- **Per-CVE scoring (135 records):** `/sessions/bold-nice-euler/mnt/vulnerability analysis/data/foss-sub7-model-scoring.json`
+- **Per-CVE scoring (135 records):** ``data/foss-sub7-scoring.json` (also mirrored to iCloud)`
 - **This report:** `/sessions/bold-nice-euler/mnt/vulnerability analysis/analyst-reports/2026-04-29-foss-sub7-model-backtest.md`
 - **Source classifier:** `/sessions/bold-nice-euler/classify.py` (text-inference rule set + per-package NP map)

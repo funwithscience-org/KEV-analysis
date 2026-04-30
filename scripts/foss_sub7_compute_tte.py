@@ -131,9 +131,26 @@ def cve_year(cve: str) -> int:
 def best_baseline(rec: dict) -> tuple[str, str]:
     """Return (publish_date, basis) for a record.
 
-    Prefer OSV published if it falls within ~12 months of the CVE year;
-    otherwise back off to Jan 1 of the CVE year (gives an upper-bound TTE,
-    so a long TTE can't be inflated by a delayed OSV ingest of an old CVE).
+    METHODOLOGY NOTE: OSV's `published` field is the OSV ingest date,
+    which can be years late for backfilled records (e.g., CVE-2018-1042
+    has osv_published=2022-05-14 because OSV did a backfill that year).
+    NVD's `published` is the canonical CVE publication date but querying
+    NVD is rate-limited (5 req per 30s without API key) which makes a
+    per-CVE lookup expensive. GHSA's `published_at` is also reliable for
+    GitHub-originated advisories.
+
+    Current heuristic: prefer OSV `published` only when it's within ±1
+    year of the CVE year (filters out late-ingest cases); otherwise back
+    off to Jan 1 of the CVE year. This produces an upper-bound TTE for
+    the fallback cases (real publish dates are typically mid-year, so
+    Jan-1 baseline overstates the gap). Doesn't change directional
+    findings vs C/H baseline (still much larger than 11-34d).
+
+    To get authoritative dates for the ~30 fallback records, the right
+    move is: query NVD `published` with an API key (50 req per 30s
+    instead of 5), or query GHSA `published_at` for OSV records that
+    cite a GHSA alias. Either drops the cve_year_jan1_fallback set to
+    near-zero. Not done here because the headline isn't sensitive to it.
     """
     cve = rec["cve"]
     yr = cve_year(cve)
@@ -145,7 +162,7 @@ def best_baseline(rec: dict) -> tuple[str, str]:
                 return d.isoformat(), "osv_published"
         except Exception:
             pass
-    return f"{yr}-01-01", "cve_year_jan1"
+    return f"{yr}-01-01", "cve_year_jan1_fallback"
 
 
 def parse_d(s: str | None) -> date | None:

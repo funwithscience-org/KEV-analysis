@@ -53,6 +53,9 @@ VERSION_PATTERNS: list[tuple[str, re.Pattern]] = [
     ("2019",   re.compile(r"\bWindows Server 2019\b", re.I)),
     ("2022",   re.compile(r"\bWindows Server 2022\b", re.I)),
     ("2025",   re.compile(r"\bWindows Server 2025\b", re.I)),
+    # Semi-Annual Channel (Sep 2017 – Aug 2021, then discontinued).
+    # Lumped into a single SAC bucket; CVE-2020-0796 SMBGhost lives only here.
+    ("SAC",    re.compile(r"\bWindows Server, version (?:1709|1803|1809|1903|1909|2004|20H2)\b", re.I)),
 ]
 
 
@@ -164,7 +167,7 @@ def main() -> int:
     lifetime = json.load(lifetime_path.open())["lifetime_totals"]
 
     rates = {}
-    order = ["2008", "2008R2", "2012", "2012R2", "2016", "2019", "2022", "2025"]
+    order = ["2008", "2008R2", "2012", "2012R2", "2016", "SAC", "2019", "2022", "2025"]
     for v in order:
         kev_count = len(by_version.get(v, []))
         total = lifetime.get(v, 0)

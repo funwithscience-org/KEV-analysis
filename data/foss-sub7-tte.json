@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "generated": "2026-04-29",
+  "generated": "2026-04-30",
   "baseline_publish_logic": "OSV published date if within \u00b11 year of CVE-YYYY year; else Jan 1 of CVE year (upper-bound TTE for delayed-ingest cases).",
   "first_exploit_logic": "earliest of KEV dateAdded, Metasploit module disclosure_date, ExploitDB date_published (after dropping DoS-only and PoC-only entries).",
   "n_distinct_cves": 135,
@@ -254,7 +254,7 @@
   "by_cve": {
     "CVE-2009-0815": {
       "publish_date": "2009-01-01",
-      "publish_basis": "cve_year_jan1",
+      "publish_basis": "cve_year_jan1_fallback",
       "first_exploit_date": "2009-02-10",
       "first_exploit_source": "Metasploit",
       "tte_days": 40,
@@ -268,7 +268,7 @@
     },
     "CVE-2011-1571": {
       "publish_date": "2011-01-01",
-      "publish_basis": "cve_year_jan1",
+      "publish_basis": "cve_year_jan1_fallback",
       "first_exploit_date": "2012-04-08",
       "first_exploit_source": "ExploitDB",
       "tte_days": 463,
@@ -294,7 +294,7 @@
     },
     "CVE-2010-5099": {
       "publish_date": "2010-01-01",
-      "publish_basis": "cve_year_jan1",
+      "publish_basis": "cve_year_jan1_fallback",
       "first_exploit_date": "2010-12-29",
       "first_exploit_source": "ExploitDB",
       "tte_days": 362,
@@ -333,7 +333,7 @@
     },
     "CVE-2011-4107": {
       "publish_date": "2011-01-01",
-      "publish_basis": "cve_year_jan1",
+      "publish_basis": "cve_year_jan1_fallback",
       "first_exploit_date": "2012-01-14",
       "first_exploit_source": "ExploitDB",
       "tte_days": 378,
@@ -346,7 +346,7 @@
     },
     "CVE-2014-8681": {
       "publish_date": "2014-01-01",
-      "publish_basis": "cve_year_jan1",
+      "publish_basis": "cve_year_jan1_fallback",
       "first_exploit_date": "2014-11-14",
       "first_exploit_source": "ExploitDB",
       "tte_days": 317,
@@ -359,7 +359,7 @@
     },
     "CVE-2016-0784": {
       "publish_date": "2016-01-01",
-      "publish_basis": "cve_year_jan1",
+      "publish_basis": "cve_year_jan1_fallback",
       "first_exploit_date": "2016-03-31",
       "first_exploit_source": "ExploitDB",
       "tte_days": 90,
@@ -372,7 +372,7 @@
     },
     "CVE-2017-18357": {
       "publish_date": "2017-01-01",
-      "publish_basis": "cve_year_jan1",
+      "publish_basis": "cve_year_jan1_fallback",
       "first_exploit_date": "2019-05-09",
       "first_exploit_source": "Metasploit",
       "tte_days": 858,
@@ -386,7 +386,7 @@
     },
     "CVE-2017-7620": {
       "publish_date": "2017-01-01",
-      "publish_basis": "cve_year_jan1",
+      "publish_basis": "cve_year_jan1_fallback",
       "first_exploit_date": "2017-05-20",
       "first_exploit_source": "ExploitDB",
       "tte_days": 139,
@@ -399,7 +399,7 @@
     },
     "CVE-2018-1042": {
       "publish_date": "2018-01-01",
-      "publish_basis": "cve_year_jan1",
+      "publish_basis": "cve_year_jan1_fallback",
       "first_exploit_date": "2019-07-26",
       "first_exploit_source": "ExploitDB",
       "tte_days": 571,
@@ -412,7 +412,7 @@
     },
     "CVE-2018-14058": {
       "publish_date": "2018-01-01",
-      "publish_basis": "cve_year_jan1",
+      "publish_basis": "cve_year_jan1_fallback",
       "first_exploit_date": "2018-08-13",
       "first_exploit_source": "Metasploit",
       "tte_days": 224,
@@ -426,7 +426,7 @@
     },
     "CVE-2019-12616": {
       "publish_date": "2019-01-01",
-      "publish_basis": "cve_year_jan1",
+      "publish_basis": "cve_year_jan1_fallback",
       "first_exploit_date": "2019-06-11",
       "first_exploit_source": "ExploitDB",
       "tte_days": 161,
@@ -439,7 +439,7 @@
     },
     "CVE-2019-12922": {
       "publish_date": "2019-01-01",
-      "publish_basis": "cve_year_jan1",
+      "publish_basis": "cve_year_jan1_fallback",
       "first_exploit_date": "2019-09-13",
       "first_exploit_source": "ExploitDB",
       "tte_days": 255,
@@ -479,7 +479,7 @@
     },
     "CVE-2020-11652": {
       "publish_date": "2020-01-01",
-      "publish_basis": "cve_year_jan1",
+      "publish_basis": "cve_year_jan1_fallback",
       "first_exploit_date": "2020-04-30",
       "first_exploit_source": "Metasploit",
       "tte_days": 120,
@@ -586,7 +586,7 @@
     },
     "CVE-2012-6081": {
       "publish_date": "2012-01-01",
-      "publish_basis": "cve_year_jan1",
+      "publish_basis": "cve_year_jan1_fallback",
       "first_exploit_date": "2012-12-30",
       "first_exploit_source": "Metasploit",
       "tte_days": 364,
@@ -626,7 +626,7 @@
     },
     "CVE-2009-5065": {
       "publish_date": "2009-01-01",
-      "publish_basis": "cve_year_jan1",
+      "publish_basis": "cve_year_jan1_fallback",
       "first_exploit_date": "2011-04-05",
       "first_exploit_source": "ExploitDB",
       "tte_days": 824,
@@ -639,7 +639,7 @@
     },
     "CVE-2014-3146": {
       "publish_date": "2014-01-01",
-      "publish_basis": "cve_year_jan1",
+      "publish_basis": "cve_year_jan1_fallback",
       "first_exploit_date": "2014-04-15",
       "first_exploit_source": "ExploitDB",
       "tte_days": 104,
@@ -652,7 +652,7 @@
     },
     "CVE-2015-7562": {
       "publish_date": "2015-01-01",
-      "publish_basis": "cve_year_jan1",
+      "publish_basis": "cve_year_jan1_fallback",
       "first_exploit_date": "2016-03-14",
       "first_exploit_source": "ExploitDB",
       "tte_days": 438,
@@ -665,7 +665,7 @@
     },
     "CVE-2016-3670": {
       "publish_date": "2016-01-01",
-      "publish_basis": "cve_year_jan1",
+      "publish_basis": "cve_year_jan1_fallback",
       "first_exploit_date": "2016-06-02",
       "first_exploit_source": "ExploitDB",
       "tte_days": 153,
@@ -678,7 +678,7 @@
     },
     "CVE-2016-4316": {
       "publish_date": "2016-01-01",
-      "publish_basis": "cve_year_jan1",
+      "publish_basis": "cve_year_jan1_fallback",
       "first_exploit_date": "2016-08-16",
       "first_exploit_source": "ExploitDB",
       "tte_days": 228,
@@ -691,7 +691,7 @@
     },
     "CVE-2016-6186": {
       "publish_date": "2016-01-01",
-      "publish_basis": "cve_year_jan1",
+      "publish_basis": "cve_year_jan1_fallback",
       "first_exploit_date": "2016-07-20",
       "first_exploit_source": "ExploitDB",
       "tte_days": 201,
@@ -704,7 +704,7 @@
     },
     "CVE-2017-15374": {
       "publish_date": "2017-01-01",
-      "publish_basis": "cve_year_jan1",
+      "publish_basis": "cve_year_jan1_fallback",
       "first_exploit_date": "2018-01-21",
       "first_exploit_source": "ExploitDB",
       "tte_days": 385,
@@ -730,7 +730,7 @@
     },
     "CVE-2017-7725": {
       "publish_date": "2017-01-01",
-      "publish_basis": "cve_year_jan1",
+      "publish_basis": "cve_year_jan1_fallback",
       "first_exploit_date": "2017-04-14",
       "first_exploit_source": "ExploitDB",
       "tte_days": 103,
@@ -743,7 +743,7 @@
     },
     "CVE-2018-10366": {
       "publish_date": "2018-01-01",
-      "publish_basis": "cve_year_jan1",
+      "publish_basis": "cve_year_jan1_fallback",
       "first_exploit_date": "2018-04-26",
       "first_exploit_source": "ExploitDB",
       "tte_days": 115,
@@ -756,7 +756,7 @@
     },
     "CVE-2018-14840": {
       "publish_date": "2018-01-01",
-      "publish_basis": "cve_year_jan1",
+      "publish_basis": "cve_year_jan1_fallback",
       "first_exploit_date": "2018-08-06",
       "first_exploit_source": "ExploitDB",
       "tte_days": 217,
@@ -769,7 +769,7 @@
     },
     "CVE-2018-18548": {
       "publish_date": "2018-01-01",
-      "publish_basis": "cve_year_jan1",
+      "publish_basis": "cve_year_jan1_fallback",
       "first_exploit_date": "2018-10-25",
       "first_exploit_source": "ExploitDB",
       "tte_days": 297,
@@ -782,7 +782,7 @@
     },
     "CVE-2018-19799": {
       "publish_date": "2018-01-01",
-      "publish_basis": "cve_year_jan1",
+      "publish_basis": "cve_year_jan1_fallback",
       "first_exploit_date": "2018-12-04",
       "first_exploit_source": "ExploitDB",
       "tte_days": 337,
@@ -795,7 +795,7 @@
     },
     "CVE-2018-19933": {
       "publish_date": "2018-01-01",
-      "publish_basis": "cve_year_jan1",
+      "publish_basis": "cve_year_jan1_fallback",
       "first_exploit_date": "2018-12-19",
       "first_exploit_source": "ExploitDB",
       "tte_days": 352,
@@ -808,7 +808,7 @@
     },
     "CVE-2018-25080": {
       "publish_date": "2018-01-01",
-      "publish_basis": "cve_year_jan1",
+      "publish_basis": "cve_year_jan1_fallback",
       "first_exploit_date": "2025-12-03",
       "first_exploit_source": "ExploitDB",
       "tte_days": 2893,
@@ -821,7 +821,7 @@
     },
     "CVE-2018-7198": {
       "publish_date": "2018-01-01",
-      "publish_basis": "cve_year_jan1",
+      "publish_basis": "cve_year_jan1_fallback",
       "first_exploit_date": "2018-02-19",
       "first_exploit_source": "ExploitDB",
       "tte_days": 49,
@@ -834,7 +834,7 @@
     },
     "CVE-2019-0186": {
       "publish_date": "2019-01-01",
-      "publish_basis": "cve_year_jan1",
+      "publish_basis": "cve_year_jan1_fallback",
       "first_exploit_date": "2019-04-26",
       "first_exploit_source": "ExploitDB",
       "tte_days": 115,
@@ -860,7 +860,7 @@
     },
     "CVE-2019-10475": {
       "publish_date": "2019-01-01",
-      "publish_basis": "cve_year_jan1",
+      "publish_basis": "cve_year_jan1_fallback",
       "first_exploit_date": "2019-11-08",
       "first_exploit_source": "ExploitDB",
       "tte_days": 311,
@@ -938,7 +938,7 @@
     },
     "CVE-2019-14470": {
       "publish_date": "2019-01-01",
-      "publish_basis": "cve_year_jan1",
+      "publish_basis": "cve_year_jan1_fallback",
       "first_exploit_date": "2019-08-26",
       "first_exploit_source": "ExploitDB",
       "tte_days": 237,
@@ -964,7 +964,7 @@
     },
     "CVE-2019-6804": {
       "publish_date": "2019-01-01",
-      "publish_basis": "cve_year_jan1",
+      "publish_basis": "cve_year_jan1_fallback",
       "first_exploit_date": "2019-01-28",
       "first_exploit_source": "ExploitDB",
       "tte_days": 27,
@@ -977,7 +977,7 @@
     },
     "CVE-2019-9553": {
       "publish_date": "2019-01-01",
-      "publish_basis": "cve_year_jan1",
+      "publish_basis": "cve_year_jan1_fallback",
       "first_exploit_date": "2019-03-04",
       "first_exploit_source": "ExploitDB",
       "tte_days": 62,
@@ -1003,7 +1003,7 @@
     },
     "CVE-2020-2096": {
       "publish_date": "2020-01-01",
-      "publish_basis": "cve_year_jan1",
+      "publish_basis": "cve_year_jan1_fallback",
       "first_exploit_date": "2020-01-16",
       "first_exploit_source": "ExploitDB",
       "tte_days": 15,
@@ -1068,7 +1068,7 @@
     },
     "CVE-2013-5123": {
       "publish_date": "2013-01-01",
-      "publish_basis": "cve_year_jan1",
+      "publish_basis": "cve_year_jan1_fallback",
       "first_exploit_date": "2013-01-13",
       "first_exploit_source": "ExploitDB",
       "tte_days": 12,
@@ -1081,7 +1081,7 @@
     },
     "CVE-2017-13098": {
       "publish_date": "2017-01-01",
-      "publish_basis": "cve_year_jan1",
+      "publish_basis": "cve_year_jan1_fallback",
       "first_exploit_date": "2009-06-17",
       "first_exploit_source": "Metasploit",
       "tte_days": 0,
@@ -1107,7 +1107,7 @@
     },
     "CVE-2017-5223": {
       "publish_date": "2017-01-01",
-      "publish_basis": "cve_year_jan1",
+      "publish_basis": "cve_year_jan1_fallback",
       "first_exploit_date": "2017-10-25",
       "first_exploit_source": "ExploitDB",
       "tte_days": 297,
@@ -1146,7 +1146,7 @@
     },
     "CVE-2017-15284": {
       "publish_date": "2017-01-01",
-      "publish_basis": "cve_year_jan1",
+      "publish_basis": "cve_year_jan1_fallback",
       "first_exploit_date": "2017-10-12",
       "first_exploit_source": "ExploitDB",
       "tte_days": 284,
@@ -1159,7 +1159,7 @@
     },
     "CVE-2017-16807": {
       "publish_date": "2017-01-01",
-      "publish_basis": "cve_year_jan1",
+      "publish_basis": "cve_year_jan1_fallback",
       "first_exploit_date": "2017-11-13",
       "first_exploit_source": "ExploitDB",
       "tte_days": 316,
@@ -1172,7 +1172,7 @@
     },
     "CVE-2017-9516": {
       "publish_date": "2017-01-01",
-      "publish_basis": "cve_year_jan1",
+      "publish_basis": "cve_year_jan1_fallback",
       "first_exploit_date": "2017-06-08",
       "first_exploit_source": "ExploitDB",
       "tte_days": 158,
@@ -1185,7 +1185,7 @@
     },
     "CVE-2018-14059": {
       "publish_date": "2018-01-01",
-      "publish_basis": "cve_year_jan1",
+      "publish_basis": "cve_year_jan1_fallback",
       "first_exploit_date": "2018-08-16",
       "first_exploit_source": "ExploitDB",
       "tte_days": 227,
@@ -1198,7 +1198,7 @@
     },
     "CVE-2019-10349": {
       "publish_date": "2019-01-01",
-      "publish_basis": "cve_year_jan1",
+      "publish_basis": "cve_year_jan1_fallback",
       "first_exploit_date": "2019-07-12",
       "first_exploit_source": "ExploitDB",
       "tte_days": 192,
@@ -1224,7 +1224,7 @@
     },
     "CVE-2019-13068": {
       "publish_date": "2019-01-01",
-      "publish_basis": "cve_year_jan1",
+      "publish_basis": "cve_year_jan1_fallback",
       "first_exploit_date": "2023-03-27",
       "first_exploit_source": "ExploitDB",
       "tte_days": 1546,
@@ -1237,7 +1237,7 @@
     },
     "CVE-2019-16172": {
       "publish_date": "2019-01-01",
-      "publish_basis": "cve_year_jan1",
+      "publish_basis": "cve_year_jan1_fallback",
       "first_exploit_date": "2019-09-13",
       "first_exploit_source": "ExploitDB",
       "tte_days": 255,
@@ -1250,7 +1250,7 @@
     },
     "CVE-2019-16173": {
       "publish_date": "2019-01-01",
-      "publish_basis": "cve_year_jan1",
+      "publish_basis": "cve_year_jan1_fallback",
       "first_exploit_date": "2019-09-13",
       "first_exploit_source": "ExploitDB",
       "tte_days": 255,
@@ -1276,7 +1276,7 @@
     },
     "CVE-2020-2231": {
       "publish_date": "2020-01-01",
-      "publish_basis": "cve_year_jan1",
+      "publish_basis": "cve_year_jan1_fallback",
       "first_exploit_date": "2020-12-14",
       "first_exploit_source": "ExploitDB",
       "tte_days": 348,
@@ -1289,7 +1289,7 @@
     },
     "CVE-2020-7934": {
       "publish_date": "2020-01-01",
-      "publish_basis": "cve_year_jan1",
+      "publish_basis": "cve_year_jan1_fallback",
       "first_exploit_date": "2020-11-23",
       "first_exploit_source": "ExploitDB",
       "tte_days": 327,
@@ -1354,7 +1354,7 @@
     },
     "CVE-2007-1355": {
       "publish_date": "2007-01-01",
-      "publish_basis": "cve_year_jan1",
+      "publish_basis": "cve_year_jan1_fallback",
       "first_exploit_date": "2007-05-19",
       "first_exploit_source": "ExploitDB",
       "tte_days": 138,
@@ -1367,7 +1367,7 @@
     },
     "CVE-2007-2353": {
       "publish_date": "2007-01-01",
-      "publish_basis": "cve_year_jan1",
+      "publish_basis": "cve_year_jan1_fallback",
       "first_exploit_date": "2007-04-27",
       "first_exploit_source": "ExploitDB",
       "tte_days": 116,
@@ -1380,7 +1380,7 @@
     },
     "CVE-2009-1523": {
       "publish_date": "2009-01-01",
-      "publish_basis": "cve_year_jan1",
+      "publish_basis": "cve_year_jan1_fallback",
       "first_exploit_date": "2011-11-18",
       "first_exploit_source": "ExploitDB",
       "tte_days": 1051,
@@ -1393,7 +1393,7 @@
     },
     "CVE-2013-4295": {
       "publish_date": "2013-01-01",
-      "publish_basis": "cve_year_jan1",
+      "publish_basis": "cve_year_jan1_fallback",
       "first_exploit_date": "2013-10-21",
       "first_exploit_source": "ExploitDB",
       "tte_days": 293,
@@ -1406,7 +1406,7 @@
     },
     "CVE-2013-5676": {
       "publish_date": "2013-01-01",
-      "publish_basis": "cve_year_jan1",
+      "publish_basis": "cve_year_jan1_fallback",
       "first_exploit_date": "2013-12-18",
       "first_exploit_source": "ExploitDB",
       "tte_days": 351,
@@ -1419,7 +1419,7 @@
     },
     "CVE-2019-3810": {
       "publish_date": "2019-01-01",
-      "publish_basis": "cve_year_jan1",
+      "publish_basis": "cve_year_jan1_fallback",
       "first_exploit_date": "2021-04-30",
       "first_exploit_source": "ExploitDB",
       "tte_days": 850,
@@ -1432,7 +1432,7 @@
     },
     "CVE-2020-10770": {
       "publish_date": "2020-01-01",
-      "publish_basis": "cve_year_jan1",
+      "publish_basis": "cve_year_jan1_fallback",
       "first_exploit_date": "2021-10-13",
       "first_exploit_source": "ExploitDB",
       "tte_days": 651,
@@ -1445,7 +1445,7 @@
     },
     "CVE-2020-28413": {
       "publish_date": "2020-01-01",
-      "publish_basis": "cve_year_jan1",
+      "publish_basis": "cve_year_jan1_fallback",
       "first_exploit_date": "2021-01-04",
       "first_exploit_source": "ExploitDB",
       "tte_days": 369,
@@ -1578,7 +1578,7 @@
     },
     "CVE-2014-3840": {
       "publish_date": "2014-01-01",
-      "publish_basis": "cve_year_jan1",
+      "publish_basis": "cve_year_jan1_fallback",
       "first_exploit_date": "2014-05-24",
       "first_exploit_source": "ExploitDB",
       "tte_days": 143,
@@ -1604,7 +1604,7 @@
     },
     "CVE-2016-4314": {
       "publish_date": "2016-01-01",
-      "publish_basis": "cve_year_jan1",
+      "publish_basis": "cve_year_jan1_fallback",
       "first_exploit_date": "2016-08-16",
       "first_exploit_source": "ExploitDB",
       "tte_days": 228,
@@ -1656,7 +1656,7 @@
     },
     "CVE-2016-4807": {
       "publish_date": "2016-01-01",
-      "publish_basis": "cve_year_jan1",
+      "publish_basis": "cve_year_jan1_fallback",
       "first_exploit_date": "2016-05-16",
       "first_exploit_source": "ExploitDB",
       "tte_days": 136,
@@ -1669,7 +1669,7 @@
     },
     "CVE-2018-11564": {
       "publish_date": "2018-01-01",
-      "publish_basis": "cve_year_jan1",
+      "publish_basis": "cve_year_jan1_fallback",
       "first_exploit_date": "2018-06-05",
       "first_exploit_source": "ExploitDB",
       "tte_days": 155,
@@ -1682,7 +1682,7 @@
     },
     "CVE-2018-20418": {
       "publish_date": "2018-01-01",
-      "publish_basis": "cve_year_jan1",
+      "publish_basis": "cve_year_jan1_fallback",
       "first_exploit_date": "2018-12-27",
       "first_exploit_source": "ExploitDB",
       "tte_days": 360,
@@ -1695,7 +1695,7 @@
     },
     "CVE-2020-29470": {
       "publish_date": "2020-01-01",
-      "publish_basis": "cve_year_jan1",
+      "publish_basis": "cve_year_jan1_fallback",
       "first_exploit_date": "2020-11-24",
       "first_exploit_source": "ExploitDB",
       "tte_days": 328,
@@ -1708,7 +1708,7 @@
     },
     "CVE-2020-29471": {
       "publish_date": "2020-01-01",
-      "publish_basis": "cve_year_jan1",
+      "publish_basis": "cve_year_jan1_fallback",
       "first_exploit_date": "2020-11-24",
       "first_exploit_source": "ExploitDB",
       "tte_days": 328,
@@ -1786,7 +1786,7 @@
     },
     "CVE-2019-6588": {
       "publish_date": "2019-01-01",
-      "publish_basis": "cve_year_jan1",
+      "publish_basis": "cve_year_jan1_fallback",
       "first_exploit_date": "2019-06-11",
       "first_exploit_source": "ExploitDB",
       "tte_days": 161,
@@ -1799,7 +1799,7 @@
     },
     "CVE-2008-1301": {
       "publish_date": "2008-01-01",
-      "publish_basis": "cve_year_jan1",
+      "publish_basis": "cve_year_jan1_fallback",
       "first_exploit_date": "2008-03-08",
       "first_exploit_source": "ExploitDB",
       "tte_days": 67,
@@ -1812,7 +1812,7 @@
     },
     "CVE-2016-4808": {
       "publish_date": "2016-01-01",
-      "publish_basis": "cve_year_jan1",
+      "publish_basis": "cve_year_jan1_fallback",
       "first_exploit_date": "2016-05-16",
       "first_exploit_source": "ExploitDB",
       "tte_days": 136,
@@ -1825,7 +1825,7 @@
     },
     "CVE-2017-8382": {
       "publish_date": "2017-01-01",
-      "publish_basis": "cve_year_jan1",
+      "publish_basis": "cve_year_jan1_fallback",
       "first_exploit_date": "2017-04-28",
       "first_exploit_source": "ExploitDB",
       "tte_days": 117,
@@ -1838,7 +1838,7 @@
     },
     "CVE-2012-6495": {
       "publish_date": "2012-01-01",
-      "publish_basis": "cve_year_jan1",
+      "publish_basis": "cve_year_jan1_fallback",
       "first_exploit_date": "2013-05-08",
       "first_exploit_source": "ExploitDB",
       "tte_days": 493,
@@ -1851,7 +1851,7 @@
     },
     "CVE-2015-8309": {
       "publish_date": "2015-01-01",
-      "publish_basis": "cve_year_jan1",
+      "publish_basis": "cve_year_jan1_fallback",
       "first_exploit_date": "2016-09-13",
       "first_exploit_source": "ExploitDB",
       "tte_days": 621,
@@ -1929,7 +1929,7 @@
     },
     "CVE-2013-5573": {
       "publish_date": "2013-01-01",
-      "publish_basis": "cve_year_jan1",
+      "publish_basis": "cve_year_jan1_fallback",
       "first_exploit_date": "2013-12-18",
       "first_exploit_source": "ExploitDB",
       "tte_days": 351,
@@ -1968,7 +1968,7 @@
     },
     "CVE-2008-1045": {
       "publish_date": "2008-01-01",
-      "publish_basis": "cve_year_jan1",
+      "publish_basis": "cve_year_jan1_fallback",
       "first_exploit_date": "2008-02-25",
       "first_exploit_source": "ExploitDB",
       "tte_days": 55,
@@ -1981,7 +1981,7 @@
     },
     "CVE-2008-1300": {
       "publish_date": "2008-01-01",
-      "publish_basis": "cve_year_jan1",
+      "publish_basis": "cve_year_jan1_fallback",
       "first_exploit_date": "2008-03-08",
       "first_exploit_source": "ExploitDB",
       "tte_days": 67,
@@ -1994,7 +1994,7 @@
     },
     "CVE-2008-1510": {
       "publish_date": "2008-01-01",
-      "publish_basis": "cve_year_jan1",
+      "publish_basis": "cve_year_jan1_fallback",
       "first_exploit_date": "2008-03-24",
       "first_exploit_source": "ExploitDB",
       "tte_days": 83,
@@ -2007,7 +2007,7 @@
     },
     "CVE-2011-4340": {
       "publish_date": "2011-01-01",
-      "publish_basis": "cve_year_jan1",
+      "publish_basis": "cve_year_jan1_fallback",
       "first_exploit_date": "2011-11-01",
       "first_exploit_source": "ExploitDB",
       "tte_days": 304,

@@ -60,6 +60,14 @@ VERSION_PATTERNS: list[tuple[str, re.Pattern]] = [
     ("2019",   re.compile(r"\bWindows Server 2019\b", re.I)),
     ("2022",   re.compile(r"\bWindows Server 2022\b", re.I)),
     ("2025",   re.compile(r"\bWindows Server 2025\b", re.I)),
+    # Semi-Annual Channel (Sep 2017 – Aug 2021, then discontinued).
+    # Versions: 1709, 1803, 1809, 1903, 1909, 2004, 20H2. Lumped into a
+    # single SAC bucket because they were a side-track of overlapping
+    # short-lived releases sharing 2016/2019-era code; the LTSC chart
+    # is the main story. CVE-2020-0796 SMBGhost (SMBv3 RCE) lives only
+    # here — without this bucket it gets dropped entirely from the
+    # per-version stats.
+    ("SAC",    re.compile(r"\bWindows Server, version (?:1709|1803|1809|1903|1909|2004|20H2)\b", re.I)),
 ]
 
 # GA years for first-N-years comparison. ESU (paid extended support) is
@@ -72,6 +80,7 @@ GA_YEAR = {
     "2019":   2018,
     "2022":   2021,
     "2025":   2024,
+    "SAC":    2017,  # 1709 was first SAC release
 }
 
 

@@ -184,7 +184,7 @@ blockquote p{color:#312e81;margin:4px 0}
 
 <div class="action">
 <h4>Action 03 — Enable auto-fix for remaining declarative dependencies</h4>
-<p>For the long tail of build files that haven't been migrated to a BOM (and for genuine one-off dependencies that don't belong in the platform), use Renovate-style functionality to bump pinned versions automatically. We will use <strong>Nexus's built-in version (Sonatype Lifecycle's automated remediation pull requests)</strong> rather than standalone Renovate so the policy lives alongside the artifact governance already in Nexus. Auto-merge gated by green CI, scoped to the security-tracking package set. The bot commits a literal version bump to the source manifest; what you see in source is what you get at build.</p>
+<p>For the long tail of build files that haven't been migrated to a BOM (and for genuine one-off dependencies that don't belong in the platform), use Renovate-style functionality to bump pinned versions automatically. We will use <strong>Nexus's built-in version (Sonatype Lifecycle's Automated Pull Requests)</strong> rather than standalone Renovate so the policy lives alongside the artifact governance already in Nexus. Auto-merge gated by green CI, scoped to the security-tracking package set. The bot commits a literal version bump to the source manifest; what you see in source is what you get at build.</p>
 <p>This handles the cases the BOM doesn't reach. The two mechanisms are complementary, not competitive: BOM for the high-volume coordinated dependencies that scale linearly across the estate; auto-fix for the long tail. <strong>Both paths absorb patches in BAU.</strong></p>
 </div>
 

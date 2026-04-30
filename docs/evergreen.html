@@ -902,7 +902,7 @@ code{background:var(--code-bg);padding:2px 6px;border-radius:4px;font-size:.88em
 
 <div class="chart-wrap">
 <canvas id="winKevRateChart"></canvas>
-<p style="font-size:.82em;color:var(--muted);margin-top:6px;text-align:center"><em>KEV-listing rate per Windows Server major version. Computed as (Microsoft-vendor KEV CVEs that MSRC reports as affecting this version) / (lifetime CVEs ever affecting this version). Source: CISA KEV catalog 2026-04-30 + MSRC affectedProduct API per CVE + windows-server-lifetime.json.</em></p>
+<p style="font-size:.82em;color:var(--muted);margin-top:6px;text-align:center"><em>KEV-listing rate per Windows Server major version. Computed as (distinct Microsoft-vendor KEV CVEs that MSRC reports as affecting this version, deduped across years) / (sum of yearly distinct CVE counts affecting this version, where a CVE re-issued in multiple bulletin years counts in each year — i.e., the denominator double-counts re-issues while the numerator does not). The asymmetry pushes the rate <em>down</em>; the directional finding (older versions ~24% higher KEV-rate than newer LTSC) is conservative. Source: CISA KEV catalog 2026-04-30 + MSRC affectedProduct API per CVE + windows-server-lifetime.json.</em></p>
 </div>
 
 <div class="callout callout-warning">

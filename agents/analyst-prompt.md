@@ -63,6 +63,12 @@ This is the single most important task you do every run. You are running the pub
 
 4. **Hacker tier.** Assign S / A / B / C / D using the rubric in the model framing preamble. **You must cite which canonical example you're matching against.** Pull the canonical anchors from `data/hacker-tiers.json`. If you cannot find a canonical anchor that matches within one preconditional axis, that's a signal you're seeing a genuinely novel pattern — record `tier_anchor: "novel"` and flag in the daily report's Big Picture.
 
+   **Narrow-exposure cap.** Mechanical axis-counting can produce A-tier scores that don't survive a "would I deploy this day-1?" sniff test. Two specific cap conditions are explicitly authorized — when either applies, downgrade A→B and note the reason in `hacker_rationale`:
+   - **Default-off feature** — the vulnerable code path requires a non-default config (e.g., nginx mod_dav not enabled by default; some Apache module disabled by default). Even if the bug is unauth + network-edge + RCE, the default-off precondition narrows real-world exposure enough to justify B.
+   - **Opt-in research/specialty product** — the affected product is a research framework, opt-in toolkit, or narrow-vertical product (e.g., NVIDIA BioNeMo, opt-in ML frameworks, lab/research tooling). Even if the bug is mechanically severe, the deployment surface is narrow.
+
+   These caps are deliberate; they should be applied sparingly. If you find yourself reaching for them more than ~20% of A candidates per run, recalibrate the rubric instead.
+
 5. **Combined verdict** (deterministic from the four columns above and the source ecosystem):
    - **Triggered** (the model fires — pull this into the active rebuild queue): hacker S OR hacker A OR (NP+DI raw) OR (NP+DQ-rescue, i.e. NP, not DI, DQ=pass). No "emergency" language; just *triggered*. Whether it's actually drop-everything depends on the consumer's risk posture; the model's job is to fire the signal.
    - **Integrate with autobuild** (open-source dependency, ride next release): event is in an open-source library/package (Maven, npm, PyPI, Go, RubyGems, crates.io) AND not triggered. This is the lane your dep-update tooling (Renovate/Dependabot/etc.) handles — the patched version rolls in on the next app release. Hacker B-tier non-triggered events still flow here; the tier is recorded in the JSON for later scoring.
@@ -102,7 +108,8 @@ A. **Append today's run to `data/model-run-log.json`** — append, don't overwri
       "tier_anchor": "Spring4Shell" | "Log4Shell" | "...novel...",
       "combined_verdict": "triggered" | "autobuild" | "bau" | "out-of-scope",
       "ecosystem": "maven" | "npm" | "pypi" | "go" | "rubygems" | "crates.io" | "commercial" | "os" | "appliance" | null,
-      "glasswing_participant_vendor": false
+      "glasswing_participant_vendor": false,
+      "anchor_note": "longer-form context the hacker_rationale didn't fit (optional, free text)"
     }
   ]
 }
