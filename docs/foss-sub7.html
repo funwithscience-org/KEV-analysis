@@ -143,6 +143,20 @@ tr:hover{background:rgba(99,102,241,.04)}
   <strong>The methodology lesson.</strong> The original sub-7 median of 136d was an artifact of using the wrong baseline (OSV ingest date, often years late). The corrected median of 3d is also misleading if you read it as "attackers exploit mediums in 3 days" — it's actually "researchers publish exploits at disclosure." The honest takeaway: <strong>aggregate TTE medians require careful methodology and source-isolation</strong>; treat KEV-only medians as the attacker-behavior signal, treat ExploitDB/MSF medians as researcher-publication-cadence signals, and don't mix them.
 </div>
 
+<div class="callout callout-finding">
+  <strong>The operational implication: don't pre-emptively triage mediums.</strong> Once the KEV-only median is comparable to C/H KEV, there's no medium-specific timing edge to capture by manual prioritization. You can't predict <em>which</em> mediums will pop — the volume is too high (tens of thousands per year) and the KEV-rate too low (~3%) to make per-CVE triage tractable. And when exploitation does happen, the timeline gives you no advance warning compared to a critical.
+  <br><br>That leaves <strong>two operational answers</strong>, both of which are actually executable, neither of which involves manual mediums-only triage:
+  <ol style="margin:8px 0 0 22px">
+    <li><strong>Watch for exploit signals.</strong> Subscribe to KEV. Monitor Metasploit module commits. Tail ExploitDB. When a specific medium pops, treat it as a triggered event and route through your normal patch pipeline. This gets you the 26-day median KEV window for response.</li>
+    <li><strong>Sweep them all on routine cadence.</strong> Don't read individual mediums; let the BAU rebuild path absorb them through dependency auto-updates (the platform-BOM / Renovate / dist-tag patterns from the <a href="build-mechanics.html#auto-deps">Operational Model §3</a>). The medium gets patched whenever you next rebuild, regardless of whether anyone noticed it.</li>
+  </ol>
+  Most mature orgs do both. Neither is "expert vuln-management staff manually triaging every medium." That third option — the one most security programs implicitly assume — is the one the data says doesn't pay.
+</div>
+
+<div class="callout callout-warning">
+  <strong>The honest other side.</strong> There are real edge cases where pre-KEV mediums warrant manual attention: high-value asset classes (financial transaction systems, OT/ICS, regulated medical), specific threat-intel signals (active forum chatter, targeted attribution to known actors), and mediums on the watch-list (where you're already tracking pre-exploitation indicators). For those, the per-CVE triage cost is justified by the per-target stakes. The <em>aggregate</em> argument against pre-emptive medium triage doesn't preclude specific-target triage. But it does mean: <strong>don't treat every medium as a manual triage event by default</strong>. The default should be "ride the BAU rebuild path or wait for the exploit signal." Manual triage is the exception, scoped to known-high-value or known-elevated-threat targets.
+</div>
+
 <h2>Catch by ecosystem</h2>
 <table>
 <thead><tr><th>Ecosystem</th><th class="right">n</th><th class="right">NP+DI</th><th class="right">+DQ</th><th class="right">S+A</th><th class="right">Union</th></tr></thead>
