@@ -775,37 +775,36 @@ new Chart(document.getElementById('topProductsChart'), {
 // since DQ requires per-event AI re-validation (the analyst agent will fold DQ in
 // going forward; for fresh events it's currently null).
 const POST_APR1 = {
-    snapshot_through: "2026-04-30",
-    labels: ["Spring Boot","Node.js/Express","Django/Python","Netty","Real-world Java"],
+    snapshot_through: "2026-05-01",
+    labels: ["Spring Boot", "Node.js/Express", "Django/Python", "Netty", "Real-world Java"],
     all_ch_clusters: [1, 2, 1, 0, 1],
     model_clusters:  [1, 1, 1, 0, 1],   // union: NP+DI ∪ Hacker S+A
     exploited:       [0, 0, 0, 0, 1],
     events: [
-        // spring
-        {date:"2026-04-09", framework:"Spring", pkg:"tomcat-embed-core", sev:"HIGH",     cwes:["CWE-327"],            npdi:false, hacker:"D", exploited:false, cve:"CVE-2026-29129"},
-        {date:"2026-04-09", framework:"Spring", pkg:"tomcat-embed-core", sev:"CRITICAL", cwes:["CWE-287"],            npdi:true,  hacker:"A", exploited:false, cve:"CVE-2026-29145"},
-        {date:"2026-04-09", framework:"Spring", pkg:"tomcat-embed-core", sev:"HIGH",     cwes:["CWE-116"],            npdi:true,  hacker:"D", exploited:false, cve:"CVE-2026-34483"},
-        {date:"2026-04-09", framework:"Spring", pkg:"tomcat-embed-core", sev:"HIGH",     cwes:["CWE-532"],            npdi:false, hacker:"D", exploited:false, cve:"CVE-2026-34487"},
-        {date:"2026-04-15", framework:"Spring", pkg:"thymeleaf",         sev:"CRITICAL", cwes:["CWE-1336","CWE-917"], npdi:true,  hacker:"A", exploited:false, cve:"CVE-2026-40477"},
-        {date:"2026-04-15", framework:"Spring", pkg:"thymeleaf",         sev:"CRITICAL", cwes:["CWE-1336","CWE-917"], npdi:true,  hacker:"A", exploited:false, cve:"CVE-2026-40478"},
-        {date:"2026-04-15", framework:"Spring", pkg:"thymeleaf-spring6", sev:"CRITICAL", cwes:["CWE-1336","CWE-917"], npdi:true,  hacker:"A", exploited:false, cve:"CVE-2026-40477"},
-        {date:"2026-04-15", framework:"Spring", pkg:"thymeleaf-spring6", sev:"CRITICAL", cwes:["CWE-1336","CWE-917"], npdi:true,  hacker:"A", exploited:false, cve:"CVE-2026-40478"},
-        // node
-        {date:"2026-04-01", framework:"Node",   pkg:"lodash",            sev:"HIGH/CRIT",cwes:["CWE-94"],             npdi:false, hacker:"A", exploited:false, cve:"CVE-2026-4800"},
-        {date:"2026-04-15", framework:"Node",   pkg:"fastify",           sev:"HIGH/CRIT",cwes:["CWE-1287"],           npdi:false, hacker:"C", exploited:false, cve:"CVE-2026-33806"},
-        // django
-        {date:"2026-04-07", framework:"Django", pkg:"django",            sev:"HIGH/CRIT",cwes:["CWE-770"],            npdi:false, hacker:"B", exploited:false, cve:"CVE-2026-33034"},
-        {date:"2026-04-07", framework:"Django", pkg:"django",            sev:"HIGH/CRIT",cwes:["CWE-290"],            npdi:false, hacker:"A", exploited:false, cve:"CVE-2026-3902"},
-        {date:"2026-04-13", framework:"Django", pkg:"pillow",            sev:"HIGH/CRIT",cwes:["CWE-400","CWE-770"],  npdi:false, hacker:"D", exploited:false, cve:"CVE-2026-40192"},
-        // real-world java enterprise (58-pkg, includes ActiveMQ + Camel layered onto Spring Boot starter)
-        {date:"2026-04-07", framework:"RealJava", pkg:"activemq-broker",   sev:"HIGH",     cwes:["CWE-20"],             npdi:false, hacker:"A", exploited:true,  cve:"CVE-2026-34197"},
-        {date:"2026-04-09", framework:"RealJava", pkg:"tomcat-embed-core", sev:"HIGH",     cwes:["CWE-327"],            npdi:false, hacker:"D", exploited:false, cve:"CVE-2026-29129"},
-        {date:"2026-04-09", framework:"RealJava", pkg:"tomcat-embed-core", sev:"CRITICAL", cwes:["CWE-287"],            npdi:true,  hacker:"A", exploited:false, cve:"CVE-2026-29145"},
-        {date:"2026-04-09", framework:"RealJava", pkg:"tomcat-embed-core", sev:"HIGH",     cwes:["CWE-116"],            npdi:true,  hacker:"D", exploited:false, cve:"CVE-2026-34483"},
-        {date:"2026-04-09", framework:"RealJava", pkg:"tomcat-embed-core", sev:"HIGH",     cwes:["CWE-532"],            npdi:false, hacker:"D", exploited:false, cve:"CVE-2026-34487"},
-        {date:"2026-04-10", framework:"RealJava", pkg:"activemq-broker",   sev:"HIGH",     cwes:["CWE-400"],            npdi:false, hacker:null,exploited:false, cve:"CVE-2026-39304"},
-        {date:"2026-04-15", framework:"RealJava", pkg:"thymeleaf",         sev:"CRITICAL", cwes:["CWE-1336","CWE-917"], npdi:true,  hacker:"A", exploited:false, cve:"CVE-2026-40477"},
-        {date:"2026-04-15", framework:"RealJava", pkg:"thymeleaf",         sev:"CRITICAL", cwes:["CWE-1336","CWE-917"], npdi:true,  hacker:"A", exploited:false, cve:"CVE-2026-40478"},
+        {date:"2026-04-09", framework:"Spring", pkg:"tomcat-embed-core", sev:"HIGH", cwes:["CWE-327"], npdi:false, hacker:"D", exploited:false, cve:"CVE-2026-29129"},
+        {date:"2026-04-09", framework:"Spring", pkg:"tomcat-embed-core", sev:"CRITICAL", cwes:["CWE-287"], npdi:true, hacker:"A", exploited:false, cve:"CVE-2026-29145"},
+        {date:"2026-04-09", framework:"Spring", pkg:"tomcat-embed-core", sev:"HIGH", cwes:["CWE-116"], npdi:true, hacker:"D", exploited:false, cve:"CVE-2026-34483"},
+        {date:"2026-04-09", framework:"Spring", pkg:"tomcat-embed-core", sev:"HIGH", cwes:["CWE-532"], npdi:false, hacker:"D", exploited:false, cve:"CVE-2026-34487"},
+        {date:"2026-04-15", framework:"Spring", pkg:"thymeleaf", sev:"CRITICAL", cwes:["CWE-1336", "CWE-917"], npdi:true, hacker:"A", exploited:false, cve:"CVE-2026-40477"},
+        {date:"2026-04-15", framework:"Spring", pkg:"thymeleaf", sev:"CRITICAL", cwes:["CWE-1336", "CWE-917"], npdi:true, hacker:"A", exploited:false, cve:"CVE-2026-40478"},
+        {date:"2026-04-15", framework:"Spring", pkg:"thymeleaf-spring6", sev:"CRITICAL", cwes:["CWE-1336", "CWE-917"], npdi:true, hacker:"A", exploited:false, cve:"CVE-2026-40477"},
+        {date:"2026-04-15", framework:"Spring", pkg:"thymeleaf-spring6", sev:"CRITICAL", cwes:["CWE-1336", "CWE-917"], npdi:true, hacker:"A", exploited:false, cve:"CVE-2026-40478"},
+        {date:"2026-04-01", framework:"Node", pkg:"lodash", sev:"HIGH", cwes:["CWE-94"], npdi:false, hacker:"A", exploited:false, cve:"CVE-2026-4800"},
+        {date:"2026-04-15", framework:"Node", pkg:"fastify", sev:"HIGH", cwes:["CWE-1287"], npdi:false, hacker:"C", exploited:false, cve:"CVE-2026-33806"},
+        {date:"2026-04-07", framework:"Django", pkg:"django", sev:"HIGH", cwes:["CWE-770"], npdi:false, hacker:"B", exploited:false, cve:"CVE-2026-33034"},
+        {date:"2026-04-07", framework:"Django", pkg:"django", sev:"HIGH", cwes:["CWE-290"], npdi:false, hacker:"A", exploited:false, cve:"CVE-2026-3902"},
+        {date:"2026-04-13", framework:"Django", pkg:"pillow", sev:"HIGH", cwes:["CWE-400", "CWE-770"], npdi:false, hacker:"D", exploited:false, cve:"CVE-2026-40192"},
+        {date:"2026-04-07", framework:"RealJava", pkg:"activemq-broker", sev:"HIGH", cwes:["CWE-20"], npdi:false, hacker:"A", exploited:true, cve:"CVE-2026-34197"},
+        {date:"2026-04-09", framework:"RealJava", pkg:"tomcat-embed-core", sev:"HIGH", cwes:["CWE-327"], npdi:false, hacker:"D", exploited:false, cve:"CVE-2026-29129"},
+        {date:"2026-04-09", framework:"RealJava", pkg:"tomcat-embed-core", sev:"CRITICAL", cwes:["CWE-287"], npdi:true, hacker:"A", exploited:false, cve:"CVE-2026-29145"},
+        {date:"2026-04-09", framework:"RealJava", pkg:"tomcat-embed-core", sev:"HIGH", cwes:["CWE-116"], npdi:true, hacker:"D", exploited:false, cve:"CVE-2026-34483"},
+        {date:"2026-04-09", framework:"RealJava", pkg:"tomcat-embed-core", sev:"HIGH", cwes:["CWE-532"], npdi:false, hacker:"D", exploited:false, cve:"CVE-2026-34487"},
+        {date:"2026-04-10", framework:"RealJava", pkg:"activemq-broker", sev:"HIGH", cwes:["CWE-400"], npdi:false, hacker:null, exploited:false, cve:"CVE-2026-39304"},
+        {date:"2026-04-10", framework:"RealJava", pkg:"activemq-client", sev:"HIGH", cwes:["CWE-400"], npdi:false, hacker:null, exploited:false, cve:"CVE-2026-39304"},
+        {date:"2026-04-15", framework:"RealJava", pkg:"thymeleaf", sev:"CRITICAL", cwes:["CWE-1336", "CWE-917"], npdi:true, hacker:"A", exploited:false, cve:"CVE-2026-40477"},
+        {date:"2026-04-15", framework:"RealJava", pkg:"thymeleaf", sev:"CRITICAL", cwes:["CWE-1336", "CWE-917"], npdi:true, hacker:"A", exploited:false, cve:"CVE-2026-40478"},
+        {date:"2026-04-15", framework:"RealJava", pkg:"thymeleaf-spring6", sev:"CRITICAL", cwes:["CWE-1336", "CWE-917"], npdi:true, hacker:"A", exploited:false, cve:"CVE-2026-40477"},
+        {date:"2026-04-15", framework:"RealJava", pkg:"thymeleaf-spring6", sev:"CRITICAL", cwes:["CWE-1336", "CWE-917"], npdi:true, hacker:"A", exploited:false, cve:"CVE-2026-40478"},
     ],
 };
 // Render snapshot date

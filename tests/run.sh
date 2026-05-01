@@ -49,6 +49,7 @@ run "EPSS-marginal §15"          tests/test_epss_marginal.py
 run "7-year reconciliation"      tests/test_seven_year_reconciliation.py
 run "evergreen Java section"     tests/test_evergreen_java.py
 run "FOSS sub-7 scoring"         tests/test_foss_sub7_scoring.py
+run "post-Apr 1 embed drift"     tests/test_post_apr1_drift.py
 
 echo
 echo "${GREEN}${BOLD}All tests passed.${RESET}"

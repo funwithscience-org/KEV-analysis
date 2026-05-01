@@ -1,11 +1,10 @@
 {
-  "generated_at": "2026-05-01T13:22:05Z",
+  "generated_at": "2026-05-01T14:30:36Z",
   "cutoff": "2026-04-01",
-  "snapshot_through": "2026-04-30",
-  "description": "Live tracker \u2014 events with disclosure date >= 2026-04-01 for the five manifests (4 modeled + 1 real-world Java enterprise), with exploit cross-reference. Patch-event counts use the canonical 7-day clustering rule.",
+  "snapshot_through": "2026-05-01",
+  "description": "Live tracker \u2014 events with disclosure date >= 2026-04-01 for the five manifests (4 modeled + 1 real-world Java enterprise), with exploit cross-reference. Patch-event counts use the canonical 7-day clustering rule. Refreshed daily by scripts/refresh_post_apr1.py via the kev-analysis-refresh scheduled task.",
   "methodology": {
     "cluster_window_days": 7,
-    "cluster_rule": "Maximal run of dates where adjacent pairs sit within 7 days (matches scripts/build_hacker_tier_data.py:_cluster_count).",
     "di_cwe_set_frozen_2026_05_01": [
       22,
       23,
@@ -47,7 +46,8 @@
       "CISA KEV",
       "Metasploit",
       "ExploitDB"
-    ]
+    ],
+    "model_definition": "NP+DI \u222a DQ \u222a Hacker S+A (DQ stand-in: 0 for fresh events until analyst scores)"
   },
   "frameworks": {
     "spring": {
@@ -233,7 +233,7 @@
             "CVE-2026-4800"
           ],
           "package": "lodash",
-          "severity": "HIGH/CRITICAL",
+          "severity": "HIGH",
           "is_np": false,
           "is_di": false,
           "hacker_tier": "A",
@@ -251,7 +251,7 @@
             "CVE-2026-33806"
           ],
           "package": "fastify",
-          "severity": "HIGH/CRITICAL",
+          "severity": "HIGH",
           "is_np": true,
           "is_di": false,
           "hacker_tier": "C",
@@ -284,7 +284,7 @@
             "CVE-2026-33034"
           ],
           "package": "django",
-          "severity": "HIGH/CRITICAL",
+          "severity": "HIGH",
           "is_np": true,
           "is_di": false,
           "hacker_tier": "B",
@@ -302,7 +302,7 @@
             "CVE-2026-3902"
           ],
           "package": "django",
-          "severity": "HIGH/CRITICAL",
+          "severity": "HIGH",
           "is_np": true,
           "is_di": false,
           "hacker_tier": "A",
@@ -320,7 +320,7 @@
             "CVE-2026-40192"
           ],
           "package": "pillow",
-          "severity": "HIGH/CRITICAL",
+          "severity": "HIGH",
           "is_np": false,
           "is_di": false,
           "hacker_tier": "D",
@@ -350,13 +350,13 @@
     },
     "real_java": {
       "label": "Real-world Java",
-      "all_ch_event_count": 8,
+      "all_ch_event_count": 11,
       "all_ch_clusters": 1,
-      "npdi_event_count": 4,
+      "npdi_event_count": 6,
       "npdi_clusters": 1,
-      "hacker_sa_event_count": 4,
+      "hacker_sa_event_count": 6,
       "hacker_sa_clusters": 1,
-      "model_union_event_count": 5,
+      "model_union_event_count": 7,
       "model_union_clusters": 1,
       "exploited_count": 1,
       "exploited_events": [
@@ -483,6 +483,24 @@
           "exploited": false
         },
         {
+          "date": "2026-04-10",
+          "ghsa": "GHSA-5568-6qcg-g7fx",
+          "cves": [
+            "CVE-2026-39304"
+          ],
+          "package": "activemq-client",
+          "severity": "HIGH",
+          "is_np": false,
+          "is_di": false,
+          "hacker_tier": null,
+          "hacker_sa": false,
+          "in_union": false,
+          "cwes": [
+            "CWE-400"
+          ],
+          "exploited": false
+        },
+        {
           "date": "2026-04-15",
           "ghsa": "GHSA-r4v4-5mwr-2fwr",
           "cves": [
@@ -508,6 +526,44 @@
             "CVE-2026-40478"
           ],
           "package": "thymeleaf",
+          "severity": "CRITICAL",
+          "is_np": true,
+          "is_di": true,
+          "hacker_tier": "A",
+          "hacker_sa": true,
+          "in_union": true,
+          "cwes": [
+            "CWE-1336",
+            "CWE-917"
+          ],
+          "exploited": false
+        },
+        {
+          "date": "2026-04-15",
+          "ghsa": "GHSA-r4v4-5mwr-2fwr",
+          "cves": [
+            "CVE-2026-40477"
+          ],
+          "package": "thymeleaf-spring6",
+          "severity": "CRITICAL",
+          "is_np": true,
+          "is_di": true,
+          "hacker_tier": "A",
+          "hacker_sa": true,
+          "in_union": true,
+          "cwes": [
+            "CWE-1336",
+            "CWE-917"
+          ],
+          "exploited": false
+        },
+        {
+          "date": "2026-04-15",
+          "ghsa": "GHSA-xjw8-8c5c-9r79",
+          "cves": [
+            "CVE-2026-40478"
+          ],
+          "package": "thymeleaf-spring6",
           "severity": "CRITICAL",
           "is_np": true,
           "is_di": true,
