@@ -1,16 +1,30 @@
 {
-  "last_run": "2026-04-30T04:12:10Z",
+  "last_run": "2026-05-01T04:15:00Z",
   "data_collected": {
     "overall_cve": {
       "month": "2026-04",
-      "mtd_count": 5720,
-      "extrapolated": 5920,
-      "days_elapsed": 29
+      "mtd_count": 5885,
+      "extrapolated": 5885,
+      "days_elapsed": 30,
+      "status": "final",
+      "notes": "April closed; 165 entries published on Apr 30 alone (5720 -> 5885). Below conservative anchor (5651 was the early-projection floor; conservative monthly increase of 500 over Mar 6304 = 6804 produces a tougher number; the 5651 figure used elsewhere comes from a different anchor). Below aggressive low (7151)."
+    },
+    "may_2026_mtd": {
+      "month": "2026-05",
+      "mtd_count": 15,
+      "days_elapsed": 1,
+      "notes": "Day 1 only; expect early-month to be light pre-Patch Tuesday."
     },
     "kev_additions": {
       "month": "2026-04",
-      "count": 30,
+      "count": 31,
+      "status": "final",
+      "delta_since_last_run": 1,
+      "new_in_last_24h": [
+        "CVE-2026-41940 WebPros cPanel & WHM and WP2 Missing Authentication for Critical Function (CWE-306) — added 2026-04-30. Authentication-bypass in login flow. Classified cms_webapp by classifier (vendor=WebPros, product=cPanel & WHM and WP2). Ransomware: Unknown."
+      ],
       "notable_entries": [
+        "CVE-2026-41940 WebPros cPanel/WHM auth bypass (2026-04-30)",
         "CVE-2024-1708 ConnectWise ScreenConnect path traversal (2026-04-28)",
         "CVE-2026-32202 Microsoft Windows Shell spoofing (2026-04-28, actively exploited)",
         "CVE-2026-39987 Marimo terminal WebSocket RCE (2026-04-23)",
@@ -20,7 +34,7 @@
         "CVE-2026-34621 Adobe Acrobat (2026-04-15)"
       ],
       "new_np_di_entries": [
-        "CVE-2024-1708 (CWE-22 path traversal in ScreenConnect extension upload \u2014 NP+DI, 2024 vintage so outside in-scope window; flagged for analyst review)"
+        "CVE-2026-41940 (CWE-306 missing-auth in HTTP login flow — NP+DI under widened DI definition; cPanel control panel is HTTP-management surface)"
       ]
     },
     "glasswing_cves": {
@@ -32,106 +46,73 @@
         "FreeBSD": 1,
         "OpenSSL": 1
       },
-      "new_since_last": 0
+      "new_since_last": 0,
+      "claude_credited_cves": [
+        "CVE-2026-4747",
+        "CVE-2026-5194",
+        "CVE-2026-5588",
+        "CVE-2026-6746",
+        "CVE-2026-6757",
+        "CVE-2026-6758"
+      ]
     },
     "ms_patch_tuesday": {
       "latest_month": "2026-04",
-      "count": 163
+      "count": 163,
+      "next_expected": "2026-05-13"
     },
     "rhel8_errata": {
       "latest_month": "2026-04",
-      "count": 17
+      "count": 17,
+      "notes": "April 2026 stack.watch RHSAs unchanged from yesterday's run; next refresh end-of-week."
     },
     "weekly_cve": {
       "2026-W14_Mar30_Apr05": 1304,
       "2026-W15_Apr06_Apr12": 1615,
       "2026-W16_Apr13_Apr19": 1178,
       "2026-W17_Apr20_Apr26": 1469,
-      "2026-W18_Apr27_May03_partial": 567
+      "2026-W18_Apr27_May03_partial": 747
     }
   },
   "exploit_intelligence": {
     "watch_list_status": {
-      "summary_per_cve": "see config.json exploit_intelligence.cve_status (19 watch list entries: 5 weaponized, 1 functional, 2 poc, 11 none)"
+      "summary_per_cve": "see config.json exploit_intelligence.cve_status (19 entries: 5 weaponized, 1 functional, 2 PoC, 11 none). last_checked timestamps refreshed to 2026-05-01."
     },
     "newly_escalated": [],
-    "summary": "Of 19 watch list CVEs: 5 weaponized (KEV-confirmed: 39987, 32201, 34197, 34621, 33825), 1 functional (n8n -21858), 2 PoC (Thymeleaf pair -40477/-40478), 11 with no public exploit (Cisco quartet, wolfSSL pair, Spring AI quintet). No maturity escalations in last 24h."
+    "summary": "No maturity escalations in 24h. New KEV entry CVE-2026-41940 (cPanel) is not on the watch list and has not been added pending analyst review."
   },
   "mythos_monitoring": {
-    "google_news_hits": [
-      {
-        "headline": "Anthropic's Claude Mythos Finds Thousands of Zero-Day Flaws Across Major Systems",
-        "source": "TheHackerNews",
-        "date": "2026-04-29",
-        "cves": [],
-        "products": [
-          "multiple operating systems",
-          "browsers",
-          "FFmpeg",
-          "OpenBSD",
-          "FreeBSD"
-        ]
-      },
-      {
-        "headline": "What Anthropic Mythos Means for Cybersecurity",
-        "source": "arnav.au",
-        "date": "2026-04-29",
-        "cves": [],
-        "products": []
-      },
-      {
-        "headline": "What is Mythos: Anthropic's new AI model worries many experts",
-        "source": "The National (UAE)",
-        "date": "2026-04-29",
-        "cves": [],
-        "products": []
-      },
-      {
-        "headline": "AISLE Uncovered 5 of 7 OpenSSL Vulnerabilities in the April 2026 Release",
-        "source": "AISLE blog",
-        "date": "2026-04",
-        "cves": [],
-        "products": [
-          "OpenSSL"
-        ],
-        "note": "AISLE = independent AI security firm; non-Mythos AI tooling but still 'AI-discovered' category"
-      }
-    ],
-    "vendor_advisory_flags": [
-      {
-        "vendor": "GitHub (Microsoft-owned, not formally Glasswing-named)",
-        "cve": "CVE-2026-3854",
-        "product": "GitHub git infrastructure",
-        "meets_self_scan_criteria": false,
-        "notes": "Wiz Research used IDA MCP (AI-augmented reverse engineering) \u2014 different methodology than Mythos; disclosed 2026-04-28. Out of probable-self-scan scope (third-party Wiz credit, not internal AI scan). Noted for analyst review."
-      }
-    ],
-    "new_participant_products": []
+    "google_news_hits": [],
+    "vendor_advisory_flags": [],
+    "new_participant_products": [],
+    "notes": "Incremental run: deferred full Google News and vendor advisory sweeps to next full-scan cadence. Yesterday's full sweep covered TheHackerNews/AISLE OpenSSL/UAE National pieces."
   },
   "np_di_candidates": [
     {
-      "cve": "CVE-2024-1708",
+      "cve": "CVE-2026-41940",
       "source": "kev",
-      "product": "ConnectWise ScreenConnect",
+      "product": "WebPros cPanel & WHM and WP2 (WordPress Squared)",
       "ecosystem": null,
-      "cvss": 8.4,
-      "cwe": "CWE-22",
-      "np_component": "ScreenConnect extension-upload HTTP handler",
-      "di_type": "path_traversal",
+      "cvss": null,
+      "cwe": "CWE-306",
+      "np_component": "cPanel/WHM authenticated login flow (HTTP control panel)",
+      "di_type": "auth_bypass_via_input",
       "already_on_watchlist": false,
-      "recommendation": "monitor",
-      "rationale": "NP+DI fit (Zip Slip path traversal in HTTP-handled file upload). 2024 vintage CVE recently promoted to KEV (2026-04-28) \u2014 outside the 2026-onwards in-scope window, so analyst should decide whether to backfill or skip."
+      "recommendation": "add_to_watchlist",
+      "rationale": "Strong NP+DI fit under widened DI definition (CWE-306 = Missing Authentication for Critical Function, included in widened DI list 2026-04-23). NP because cPanel/WHM is an HTTP management surface (web-based control panel, the textbook trust-boundary case). KEV-confirmed within 2 days of vendor advisory (cPanel security update 2026-04-28). WP2 (WordPress Squared) shares the codebase. Recommend analyst add to server-side watch list as a hit, since it confirms the NP+DI filter caught it on entry to KEV."
     }
   ],
   "projection_comparison": {
-    "current_month": "2026-04",
-    "actual_or_extrapolated": 5920,
-    "conservative_predicted": 5651,
-    "aggressive_predicted_low": 7151,
-    "aggressive_predicted_high": 8151,
-    "verdict": "below_conservative"
+    "current_month": "2026-05",
+    "actual_or_extrapolated": null,
+    "april_final": 5885,
+    "april_conservative_predicted": 5651,
+    "april_aggressive_predicted_low": 7151,
+    "april_verdict": "above_conservative_below_aggressive",
+    "may_anchor": "5651 conservative / 8151 aggressive (per glasswing.html)",
+    "notes": "April finalization: 5885 sits above the 5651 conservative anchor by +234 (+4.1%) but well below 7151 aggressive low. Counter-argument: NVD publication latency means Mythos disclosures from late April would land May 15 - June 15; the volume signal lags the discovery date by 4-8 weeks, so April finals are not the right window to look for a Mythos-driven shock."
   },
   "changes_pushed": true,
-  "commit_sha": "70553e82ff81e1037cd5d44e60cddf6aa440d10d",
+  "commit_sha": "009488c6cd684382b8271fdf4facb852117ffb09",
   "errors": []
 }
