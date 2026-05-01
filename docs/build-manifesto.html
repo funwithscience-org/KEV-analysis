@@ -168,7 +168,11 @@ blockquote p{color:#312e81;margin:4px 0}
 <!-- ============================================================ -->
 <h2 id="actions">Concrete actions</h2>
 
-<p>Operationalizing the principles produces a specific starting set. None of these are speculative; all are mainstream, well-tooled, and used at scale by other organizations today.</p>
+<p>Operationalizing the principles produces a specific set of moves. None of these are speculative; all are mainstream, well-tooled, and used at scale today. <strong>Actions 01–03 are conceptually unified — they're how you absorb the ecosystem's goodness into the work you're already doing.</strong> Action 04 is structurally different — it's a separate operational-readiness goal we'll track distinctly.</p>
+
+<h3 style="margin-top:24px">Continuous ecosystem absorption — Actions 01–03</h3>
+
+<p>These three are one idea expressed at three layers (images, framework BOMs, the long tail). The throughline: as you do business work — building features, fixing bugs, shipping releases — the ecosystem's improvements ride in alongside. Patches arrive in BAU because the build mechanism makes them arrive in BAU. <strong>This produces what's best described as <em>productive chaos</em>:</strong> the build inputs change underneath you, sometimes daily, and your test suite tells you whether your code still works against the current state of the world. If something breaks, that <em>is</em> your <a href="#beyonce">Beyoncé moment</a> — the ecosystem just surfaced a behavior you depended on but didn't write down. Write the test, lock down the contract, move on. The chaos isn't a defect of the model; it's the model's mechanism for finding what you actually care about.</p>
 
 <div class="action">
 <h4>Action 01 — Pull in dynamic images at each build</h4>
@@ -188,10 +192,30 @@ blockquote p{color:#312e81;margin:4px 0}
 <p>This handles the cases the BOM doesn't reach. The two mechanisms are complementary, not competitive: BOM for the high-volume coordinated dependencies that scale linearly across the estate; auto-fix for the long tail. <strong>Both paths absorb patches in BAU.</strong></p>
 </div>
 
+<h3 style="margin-top:32px">Operational-readiness goal — Action 04 (tracked separately)</h3>
+
+<p>Action 04 isn't part of the ecosystem-absorption story. It's a goal we track because it does two things the absorption layer doesn't:</p>
+
+<ol style="margin:8px 0 16px 22px">
+<li><strong>Technical mechanism for a firm imperative.</strong> When something goes sideways — security event, regulator request, vendor pulls a release, contract review — and the answer is "we need to push a fresh build of <em>that</em> app today," you need an actual mechanism that produces a build of that app today. Without action 04, the answer is "give us two weeks while we figure out what broke in the pipeline." With it, the answer is "running now."</li>
+<li><strong>Separation of populations — chase vs. programmatic.</strong> This is the corollary to action 01: once continuous absorption is the default, the apps where it works invisibly are not the apps you spend human attention on. The apps where you have to chase someone — find an owner, debug a rotted toolchain, hand-craft a deployment — are a distinct population that deserves explicit tracking. Action 04 is the operational property that lets you draw that line. <strong>"Triggerable" sorts the estate into "we can mechanically push this if needed" and "we cannot." Both are useful answers; not knowing which is which is the failure mode.</strong></li>
+</ol>
+
 <div class="action">
 <h4>Action 04 — Every build pipeline must be triggerable</h4>
 <p>The pipeline can be invoked end-to-end on demand &mdash; by a person, a bot, a security event, or a scheduled rebuild &mdash; <em>without an archeology project</em>. This is distinct from Cat 1's "auto-builds on every commit." A Cat 2 app doesn't build continuously, but its pipeline must still be in working order: anyone with appropriate auth can push a button, the pipeline runs, and a fresh artifact lands. <strong>If the pipeline only works when its original author runs it from their laptop with three undocumented environment variables, you don't have a triggerable build &mdash; you have a Cat 3 app wearing a Cat 2 fig leaf.</strong></p>
 <p>The discipline is exercising the trigger. A pipeline that hasn't been invoked in 18 months has almost certainly rotted &mdash; upstream base image deprecated, test runner version bumped past the syntax the suite uses, secret credentials expired, hosting moved. The mitigation is to <strong>rebuild the orphan estate on a schedule</strong> (weekly or monthly, whatever cadence catches drift before it becomes a project) and surface failures explicitly. The platform team typically owns this; the metric is "% of estate verified-rebuilding," not "% of estate with a build config." The two are very different numbers in practice. See <a href="build-mechanics.html#rot">Operational Model §7</a> for the detailed argument about how Cat 2's hidden cost is triggers rotting.</p>
+</div>
+
+<div class="callout callout-finding">
+<strong>Action 04 is useful even when it doesn't trigger a full retest.</strong> "Trigger the pipeline weekly" doesn't have to mean "run the full regression suite weekly." A smoke trigger — invoke pipeline, build artifact, check it boots and the health endpoint responds — gets you most of the value at a fraction of the cost:
+<ul style="margin:8px 0 0 22px">
+<li><strong>Pipeline-rot detection.</strong> You find out the build is broken before the imperative arrives, not while triaging it. Most rot is infrastructure (expired credentials, deprecated base image, registry endpoint moved) — a smoke trigger catches it; full regression isn't required to surface it.</li>
+<li><strong>Inventory accuracy.</strong> "Which apps can I actually push today?" becomes an empirical question with a current answer, not an aspirational one. The estate's verified-rebuilding count moves with the smoke-trigger cadence.</li>
+<li><strong>Build-artifact freshness.</strong> When the imperative comes, you have a recent successful build to push. Even without a full validation pass, "current binary that boots and responds to /health" is dramatically better than "binary from 18 months ago, with three known CVEs in dependencies, that may or may not assemble today."</li>
+<li><strong>Population separation.</strong> Apps that pass the smoke trigger go in the "programmatic" bucket; apps that fail go in the "chase" bucket. That sort is the input to where humans should spend attention.</li>
+</ul>
+The full-regression test cadence stays whatever it is for that app's release model. Smoke-trigger cadence is the cheaper, more frequent signal that keeps the operational-readiness number honest.
 </div>
 
 <!-- ============================================================ -->
