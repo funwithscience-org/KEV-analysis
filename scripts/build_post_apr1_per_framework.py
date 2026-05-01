@@ -3,9 +3,10 @@
 Build the post-2026-04-01 per-framework dataset that backs the dashboard
 "Live tracker (Apr 1 forward)" chart.
 
-For each of our 4 manifests (Spring Boot, Node.js/Express, Django/Python,
-Netty), it tallies — over events with disclosure date >= 2026-04-01 —
-three things using the canonical 7-day clustering rule:
+For each of our 5 manifests (Spring Boot, Node.js/Express, Django/Python,
+Netty, Real-world Java enterprise), it tallies — over events with
+disclosure date >= 2026-04-01 — three things using the canonical 7-day
+clustering rule:
 
   1. all_ch_clusters     — patch events from any C/H CVE in manifest
   2. npdi_clusters       — patch events from NP+DI CVEs (the model fires)
@@ -20,6 +21,9 @@ Sources reused as-is from the canonical 12-month per-framework builder:
   - data/kev-snapshot-2026-05-01.json
   - data/_metasploit-cves.json
   - data/_exploitdb-cves.json
+  - data/seven-year-manifest-events.json  (Real-world Java enterprise; 58 packages,
+                                           includes ActiveMQ + Camel layered onto
+                                           the Spring Boot starter)
 
 Output:
   data/post-apr1-per-framework.json
@@ -85,6 +89,45 @@ def load_netty() -> dict:
     return json.load(open(REPO / "data" / "_netty-osv-cache.json"))
 
 
+def load_real_java() -> list[dict]:
+    """Real-world Java enterprise = the 58-pkg seven-year manifest.
+
+    Schema is per-CVE rather than per-GHSA-package and uses 'published'
+    rather than 'date'. We normalize into the same shape collect_events()
+    expects (date, vuln_id, package, severity, is_np, is_di, cwes).
+    """
+    sm = json.load(open(REPO / "data" / "seven-year-manifest-events.json"))
+    out = []
+    for e in sm["events"]:
+        if (e.get("published") or "") < CUTOFF:
+            continue
+        # If multiple packages, attribute to the first NP package if any,
+        # else first listed; collapses one-CVE-affects-many-pkgs to a
+        # single deployment-event row.
+        pkgs = e.get("packages") or []
+        roles = e.get("package_roles") or []
+        chosen = None
+        for p, r in zip(pkgs, roles):
+            if r == "NP":
+                chosen = p; break
+        if chosen is None and pkgs:
+            chosen = pkgs[0]
+        out.append({
+            "date": e["published"],
+            "vuln_id": e.get("osv_id") or e["cve"],
+            "_cve": e["cve"],
+            "package": (chosen or "").split(":")[-1],
+            "severity": e.get("severity"),
+            "is_np": e.get("is_np", False),
+            "cwes": e.get("cwes") or [],
+            # Pre-resolved exploit signals (don't need GHSA→CVE roundtrip)
+            "_in_kev": e.get("in_kev", False),
+            "_in_msf": e.get("in_metasploit", False),
+            "_in_edb": e.get("in_exploitdb", False),
+        })
+    return sorted(out, key=lambda e: e["date"])
+
+
 def load_alias_cache() -> dict:
     return json.load(open(REPO / "data" / "_osv-alias-cache.json"))
 
@@ -140,13 +183,22 @@ def summarize(label: str, events: list[dict], alias_cache: dict,
     all_dates = [e["date"] for e in events]
     npdi_dates = [e["date"] for e in events if _is_npdi(e)]
 
-    # Map every event GHSA to CVE list, then check exploit sets
+    # For each event, resolve exploit signals. Real-world Java rows arrive
+    # with pre-resolved _in_kev/_in_msf/_in_edb (the seven-year manifest
+    # already did the lookup); GHSA rows go through alias_cache → CVE.
     exploited = []
+    enriched = []
     for e in events:
-        cves = ghsa_to_cves(e["vuln_id"], alias_cache)
-        kev_hit = any(c in kev_cves for c in cves)
-        msf_hit = any(c in msf_cves for c in cves)
-        edb_hit = any(c in edb_cves for c in cves)
+        if "_in_kev" in e:
+            kev_hit = bool(e["_in_kev"])
+            msf_hit = bool(e["_in_msf"])
+            edb_hit = bool(e["_in_edb"])
+            cves = [e["_cve"]] if e.get("_cve") else []
+        else:
+            cves = ghsa_to_cves(e["vuln_id"], alias_cache)
+            kev_hit = any(c in kev_cves for c in cves)
+            msf_hit = any(c in msf_cves for c in cves)
+            edb_hit = any(c in edb_cves for c in cves)
         if kev_hit or msf_hit or edb_hit:
             exploited.append({
                 "date": e["date"],
@@ -157,6 +209,17 @@ def summarize(label: str, events: list[dict], alias_cache: dict,
                 "in_msf": msf_hit,
                 "in_edb": edb_hit,
             })
+        enriched.append({
+            "date": e["date"],
+            "ghsa": e["vuln_id"],
+            "cves": cves,
+            "package": e["package"],
+            "severity": e.get("severity"),
+            "is_np": e.get("is_np"),
+            "is_di": _is_npdi(e),
+            "cwes": e.get("cwes") or [],
+            "exploited": kev_hit or msf_hit or edb_hit,
+        })
 
     return {
         "label": label,
@@ -166,19 +229,7 @@ def summarize(label: str, events: list[dict], alias_cache: dict,
         "npdi_clusters": _cluster_count(list(set(npdi_dates))),
         "exploited_count": len(exploited),
         "exploited_events": exploited,
-        "events": [
-            {
-                "date": e["date"],
-                "ghsa": e["vuln_id"],
-                "cves": ghsa_to_cves(e["vuln_id"], alias_cache),
-                "package": e["package"],
-                "severity": e.get("severity"),
-                "is_np": e.get("is_np"),
-                "is_di": _is_npdi(e),
-                "cwes": e.get("cwes") or [],
-            }
-            for e in events
-        ],
+        "events": enriched,
     }
 
 
@@ -195,12 +246,14 @@ def main() -> None:
     nodejs_evts = collect_events("Node.js/Express", multi["nodejs"]["all_events"])
     django_evts = collect_events("Django/Python", multi["django"]["all_events"])
     netty_evts = collect_events("Netty", netty["all_events"])
+    real_java_evts = load_real_java()
 
     frameworks = {
-        "spring": summarize("Spring Boot", spring_evts, aliases, kev_cves, msf_cves, edb_cves),
-        "nodejs": summarize("Node.js/Express", nodejs_evts, aliases, kev_cves, msf_cves, edb_cves),
-        "django": summarize("Django/Python", django_evts, aliases, kev_cves, msf_cves, edb_cves),
-        "netty":  summarize("Netty",          netty_evts,  aliases, kev_cves, msf_cves, edb_cves),
+        "spring":    summarize("Spring Boot",        spring_evts,    aliases, kev_cves, msf_cves, edb_cves),
+        "nodejs":    summarize("Node.js/Express",    nodejs_evts,    aliases, kev_cves, msf_cves, edb_cves),
+        "django":    summarize("Django/Python",      django_evts,    aliases, kev_cves, msf_cves, edb_cves),
+        "netty":     summarize("Netty",              netty_evts,     aliases, kev_cves, msf_cves, edb_cves),
+        "real_java": summarize("Real-world Java",    real_java_evts, aliases, kev_cves, msf_cves, edb_cves),
     }
 
     out = {
@@ -209,8 +262,9 @@ def main() -> None:
         "snapshot_through": "2026-04-30",  # cached-data + KEV freshness
         "description": (
             "Live tracker — events with disclosure date >= 2026-04-01 "
-            "for the four manifests, with exploit cross-reference. "
-            "Patch-event counts use the canonical 7-day clustering rule."
+            "for the five manifests (4 modeled + 1 real-world Java enterprise), "
+            "with exploit cross-reference. Patch-event counts use the canonical "
+            "7-day clustering rule."
         ),
         "methodology": {
             "cluster_window_days": 7,
@@ -222,10 +276,10 @@ def main() -> None:
         },
         "frameworks": frameworks,
         "summary": {
-            "labels": [frameworks[k]["label"] for k in ("spring", "nodejs", "django", "netty")],
-            "all_ch_clusters":  [frameworks[k]["all_ch_clusters"]  for k in ("spring", "nodejs", "django", "netty")],
-            "npdi_clusters":    [frameworks[k]["npdi_clusters"]    for k in ("spring", "nodejs", "django", "netty")],
-            "exploited_counts": [frameworks[k]["exploited_count"]  for k in ("spring", "nodejs", "django", "netty")],
+            "labels": [frameworks[k]["label"] for k in ("spring", "nodejs", "django", "netty", "real_java")],
+            "all_ch_clusters":  [frameworks[k]["all_ch_clusters"]  for k in ("spring", "nodejs", "django", "netty", "real_java")],
+            "npdi_clusters":    [frameworks[k]["npdi_clusters"]    for k in ("spring", "nodejs", "django", "netty", "real_java")],
+            "exploited_counts": [frameworks[k]["exploited_count"]  for k in ("spring", "nodejs", "django", "netty", "real_java")],
         },
     }
 

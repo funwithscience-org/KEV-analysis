@@ -187,7 +187,7 @@ details.dash-expand .detail-content{padding:16px;background:#0f172a}
   <div style="font-size:1.05em;font-weight:700;color:#f8fafc">Live tracker &mdash; April 1, 2026 forward</div>
   <div style="font-size:.82em;color:#94a3b8">Snapshot through <span id="postApr1Through" style="color:#a5b4fc;font-weight:600">2026-04-30</span></div>
 </div>
-<p style="font-size:.9em;color:#cbd5e1;margin:8px 0 16px;line-height:1.5">For each manifest: how many patch events would <em>"patch all C/H"</em> force vs how many the <em>NP+DI structure test</em> would push, and how many of the underlying CVEs have actually been exploited yet. Patch events use the canonical 7-day clustering rule (consecutive disclosures within a week count as one rebuild). The point isn't to prove the model "saved" us &mdash; April 2026 is a busy month and the gap may be narrow &mdash; it's to keep an honest, public ledger that updates as the frozen CWE set ages.</p>
+<p style="font-size:.9em;color:#cbd5e1;margin:8px 0 16px;line-height:1.5">For each manifest &mdash; four modeled (Spring Boot, Node/Express, Django, Netty) and one real-world Java enterprise build (Spring Boot + ActiveMQ + Camel, the same 58-package manifest that backs the 7-year backtest) &mdash; how many patch events would <em>"patch all C/H"</em> force vs how many the <em>NP+DI structure test</em> would push, and how many of the underlying CVEs have actually been exploited yet. Patch events use the canonical 7-day clustering rule (consecutive disclosures within a week count as one rebuild). The point isn't to prove the model "saved" us &mdash; April 2026 is a busy month and the gap may be narrow &mdash; it's to keep an honest, public ledger that updates as the frozen CWE set ages.</p>
 <div class="grid-2">
 <div class="card"><h3>Patch events &amp; exploits since 2026-04-01</h3><canvas id="postApr1Chart"></canvas></div>
 <div class="card" style="overflow-x:auto">
@@ -207,7 +207,10 @@ details.dash-expand .detail-content{padding:16px;background:#0f172a}
 </div>
 </div>
 <div class="insight" style="margin-top:14px">
-<strong>Read it as:</strong> in April 2026 the model would push 1 Spring rebuild (Tomcat + Thymeleaf coalesced into one 7-day cluster) and 0 rebuilds on Node, Django, or Netty &mdash; vs 1 / 2 / 1 / 0 if you patched all C/H. None of these CVEs has shown exploit signal yet, so the model and "patch all" disagree on how much work to do but neither has been wrong yet. Over time, this counter is the place where a "model saves work" or "model misses an exploit" outcome becomes legible.
+<strong>Read it as:</strong> the model pushed 1 rebuild on Spring (Tomcat + Thymeleaf coalesced into one 7-day cluster), 0 on Node/Django/Netty, and 1 on the real-world Java enterprise build. Compared to "patch all C/H" (1 / 2 / 1 / 0 / 1) the difference this month is small &mdash; April 2026 is busy. The interesting row is real-world Java: <strong>CVE-2026-34197 (ActiveMQ broker, KEV-listed 2026-04-28)</strong> is the lone April exploit on any of these manifests. NP+DI raw doesn't catch it on its own (CWE-20 is not in the frozen DI set), but the rebuild that NP+DI <em>does</em> trigger on the same week (Tomcat 4/9, Thymeleaf 4/15) sweeps it up incidentally &mdash; the "DQ rescue" / coincident-week effect.
+</div>
+<div class="insight" style="margin-top:8px;border-left:3px solid #fbbf24;background:#1c1917">
+<strong>Other side of the argument:</strong> the model "catching" CVE-2026-34197 here is partly luck of timing &mdash; if ActiveMQ had popped a quiet week with no concurrent NP+DI Tomcat trigger, NP+DI raw would have said "skip" and the exploit would have landed in the genuine-misses column. This is what the freeze counter above is built to surface honestly. The coincident-week sweep is a real defense mechanism but it isn't the same thing as the structure test discriminating well; the union with hacker S+A is what the 7-year backtest table below leans on for the harder cases.
 </div>
 </div>
 
@@ -763,10 +766,10 @@ new Chart(document.getElementById('topProductsChart'), {
 // Live tracker (Apr 1, 2026 forward) — embedded snapshot of data/post-apr1-per-framework.json
 const POST_APR1 = {
     snapshot_through: "2026-04-30",
-    labels: ["Spring Boot","Node.js/Express","Django/Python","Netty"],
-    all_ch_clusters: [1, 2, 1, 0],
-    npdi_clusters:   [1, 0, 0, 0],
-    exploited:       [0, 0, 0, 0],
+    labels: ["Spring Boot","Node.js/Express","Django/Python","Netty","Real-world Java"],
+    all_ch_clusters: [1, 2, 1, 0, 1],
+    npdi_clusters:   [1, 0, 0, 0, 1],
+    exploited:       [0, 0, 0, 0, 1],
     events: [
         // spring
         {date:"2026-04-09", framework:"Spring", pkg:"tomcat-embed-core", sev:"HIGH",     cwes:["CWE-327"],          npdi:false, exploited:false},
@@ -784,6 +787,15 @@ const POST_APR1 = {
         {date:"2026-04-07", framework:"Django", pkg:"django",            sev:"HIGH/CRIT",cwes:["CWE-770"],           npdi:false, exploited:false},
         {date:"2026-04-07", framework:"Django", pkg:"django",            sev:"HIGH/CRIT",cwes:["CWE-290"],           npdi:false, exploited:false},
         {date:"2026-04-13", framework:"Django", pkg:"pillow",            sev:"HIGH/CRIT",cwes:["CWE-400","CWE-770"], npdi:false, exploited:false},
+        // real-world java enterprise (58-pkg, includes ActiveMQ + Camel layered onto Spring Boot starter)
+        {date:"2026-04-07", framework:"RealJava", pkg:"activemq-broker",   sev:"HIGH",     cwes:["CWE-20"],           npdi:false, exploited:true,  cve:"CVE-2026-34197"},
+        {date:"2026-04-09", framework:"RealJava", pkg:"tomcat-embed-core", sev:"HIGH",     cwes:["CWE-327"],          npdi:false, exploited:false, cve:"CVE-2026-29129"},
+        {date:"2026-04-09", framework:"RealJava", pkg:"tomcat-embed-core", sev:"CRITICAL", cwes:["CWE-287"],          npdi:true,  exploited:false, cve:"CVE-2026-29145"},
+        {date:"2026-04-09", framework:"RealJava", pkg:"tomcat-embed-core", sev:"HIGH",     cwes:["CWE-116"],          npdi:true,  exploited:false, cve:"CVE-2026-34483"},
+        {date:"2026-04-09", framework:"RealJava", pkg:"tomcat-embed-core", sev:"HIGH",     cwes:["CWE-532"],          npdi:false, exploited:false, cve:"CVE-2026-34487"},
+        {date:"2026-04-10", framework:"RealJava", pkg:"activemq-broker",   sev:"HIGH",     cwes:["CWE-400"],          npdi:false, exploited:false, cve:"CVE-2026-39304"},
+        {date:"2026-04-15", framework:"RealJava", pkg:"thymeleaf",         sev:"CRITICAL", cwes:["CWE-1336","CWE-917"], npdi:true,  exploited:false, cve:"CVE-2026-40477"},
+        {date:"2026-04-15", framework:"RealJava", pkg:"thymeleaf",         sev:"CRITICAL", cwes:["CWE-1336","CWE-917"], npdi:true,  exploited:false, cve:"CVE-2026-40478"},
     ],
 };
 // Render snapshot date
@@ -794,14 +806,16 @@ document.getElementById('postApr1Through').textContent = POST_APR1.snapshot_thro
     POST_APR1.events.forEach(e => {
         const tr = document.createElement('tr');
         tr.style.borderBottom = '1px solid #1e293b';
+        if (e.exploited) tr.style.background = 'rgba(239,68,68,.06)';
         const td = (txt, align='left', color='#cbd5e1') =>
             `<td style="padding:6px 10px;text-align:${align};color:${color}">${txt}</td>`;
         const sevColor = e.sev === 'CRITICAL' ? '#f87171' : e.sev.startsWith('HIGH') ? '#fbbf24' : '#cbd5e1';
-        const npdiBadge = e.npdi ? '<span style="color:#34d399;font-weight:700">✓</span>' : '<span style="color:#475569">·</span>';
-        const expBadge  = e.exploited ? '<span style="color:#f87171;font-weight:700">✓</span>' : '<span style="color:#475569">·</span>';
+        const npdiBadge = e.npdi ? '<span style="color:#34d399;font-weight:700">&#10003;</span>' : '<span style="color:#475569">&middot;</span>';
+        const expBadge  = e.exploited ? '<span style="color:#f87171;font-weight:700">KEV</span>' : '<span style="color:#475569">&middot;</span>';
+        const fwkLabel = e.framework === 'RealJava' ? 'Real Java' : e.framework;
         tr.innerHTML =
             td(e.date) +
-            td(e.framework, 'left', '#a5b4fc') +
+            td(fwkLabel, 'left', '#a5b4fc') +
             td(e.pkg) +
             td(e.sev, 'center', sevColor) +
             td(e.cwes.join(', '), 'left', '#94a3b8') +
@@ -831,12 +845,13 @@ new Chart(document.getElementById('postApr1Chart'), {
             tooltip:{callbacks:{footer:(items)=>{
                 if (!items.length) return '';
                 const fwk = items[0].label;
-                const evts = POST_APR1.events.filter(e =>
-                    (fwk.startsWith('Spring') && e.framework==='Spring') ||
-                    (fwk.startsWith('Node')   && e.framework==='Node')   ||
-                    (fwk.startsWith('Django') && e.framework==='Django') ||
-                    (fwk.startsWith('Netty')  && e.framework==='Netty')
-                );
+                const fwkKey = fwk === 'Spring Boot' ? 'Spring'
+                             : fwk === 'Node.js/Express' ? 'Node'
+                             : fwk === 'Django/Python' ? 'Django'
+                             : fwk === 'Netty' ? 'Netty'
+                             : fwk === 'Real-world Java' ? 'RealJava'
+                             : null;
+                const evts = POST_APR1.events.filter(e => e.framework === fwkKey);
                 if (!evts.length) return 'no events since 2026-04-01';
                 const dates = [...new Set(evts.map(e=>e.date))].sort();
                 return 'CVE dates: ' + dates.join(', ');
