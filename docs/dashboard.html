@@ -190,22 +190,27 @@ details.dash-expand .detail-content{padding:16px;background:#0f172a}
 <p style="font-size:.9em;color:#cbd5e1;margin:8px 0 16px;line-height:1.5">For each manifest &mdash; four modeled (Spring Boot, Node/Express, Django, Netty) and one real-world Java enterprise build (Spring Boot + ActiveMQ + Camel, the same 58-package manifest that backs the 7-year backtest) &mdash; how many patch events would <em>"patch all C/H"</em> force vs how many the <em>NP+DI structure test</em> would push, and how many of the underlying CVEs have actually been exploited yet. Patch events use the canonical 7-day clustering rule (consecutive disclosures within a week count as one rebuild). The point isn't to prove the model "saved" us &mdash; April 2026 is a busy month and the gap may be narrow &mdash; it's to keep an honest, public ledger that updates as the frozen CWE set ages.</p>
 <div class="grid-2">
 <div class="card"><h3>Patch events &amp; exploits since 2026-04-01</h3><canvas id="postApr1Chart"></canvas></div>
-<div class="card" style="overflow-x:auto">
-<h3>Per-event detail</h3>
+<div class="card" style="display:flex;flex-direction:column">
+<h3 style="display:flex;justify-content:space-between;align-items:baseline;flex-wrap:wrap;gap:8px">
+  <span>Per-event detail</span>
+  <span style="font-size:.7em;color:#64748b;font-weight:400">scrolls &mdash; <span id="postApr1RowCount">0</span> rows</span>
+</h3>
+<div style="max-height:380px;overflow-y:auto;overflow-x:auto;border:1px solid #1e293b;border-radius:6px">
 <table id="postApr1Table" style="width:100%;font-size:.85em;border-collapse:collapse">
-<thead><tr style="background:#0f172a">
-  <th style="padding:8px 10px;text-align:left;color:#a5b4fc;border-bottom:2px solid #334155">Date</th>
-  <th style="padding:8px 10px;text-align:left;color:#a5b4fc;border-bottom:2px solid #334155">Framework</th>
-  <th style="padding:8px 10px;text-align:left;color:#a5b4fc;border-bottom:2px solid #334155">Package</th>
-  <th style="padding:8px 10px;text-align:center;color:#a5b4fc;border-bottom:2px solid #334155">Sev</th>
-  <th style="padding:8px 10px;text-align:left;color:#a5b4fc;border-bottom:2px solid #334155">CWE(s)</th>
-  <th style="padding:8px 10px;text-align:center;color:#a5b4fc;border-bottom:2px solid #334155" title="Network-parser AND DI CWE in frozen set">NP+DI</th>
-  <th style="padding:8px 10px;text-align:center;color:#a5b4fc;border-bottom:2px solid #334155" title="Hacker tier S/A/B/C/D">Hacker</th>
-  <th style="padding:8px 10px;text-align:center;color:#a5b4fc;border-bottom:2px solid #334155" title="Covered by NP+DI ∪ Hacker S+A (DQ when scored)">Model</th>
-  <th style="padding:8px 10px;text-align:center;color:#a5b4fc;border-bottom:2px solid #334155">Exploited</th>
+<thead><tr style="background:#0f172a;position:sticky;top:0;z-index:1">
+  <th style="padding:8px 10px;text-align:left;color:#a5b4fc;border-bottom:2px solid #334155;background:#0f172a">Date</th>
+  <th style="padding:8px 10px;text-align:left;color:#a5b4fc;border-bottom:2px solid #334155;background:#0f172a">Framework</th>
+  <th style="padding:8px 10px;text-align:left;color:#a5b4fc;border-bottom:2px solid #334155;background:#0f172a">Package</th>
+  <th style="padding:8px 10px;text-align:center;color:#a5b4fc;border-bottom:2px solid #334155;background:#0f172a">Sev</th>
+  <th style="padding:8px 10px;text-align:left;color:#a5b4fc;border-bottom:2px solid #334155;background:#0f172a">CWE(s)</th>
+  <th style="padding:8px 10px;text-align:center;color:#a5b4fc;border-bottom:2px solid #334155;background:#0f172a" title="Network-parser AND DI CWE in frozen set">NP+DI</th>
+  <th style="padding:8px 10px;text-align:center;color:#a5b4fc;border-bottom:2px solid #334155;background:#0f172a" title="Hacker tier S/A/B/C/D">Hacker</th>
+  <th style="padding:8px 10px;text-align:center;color:#a5b4fc;border-bottom:2px solid #334155;background:#0f172a" title="Covered by NP+DI ∪ Hacker S+A (DQ when scored)">Model</th>
+  <th style="padding:8px 10px;text-align:center;color:#a5b4fc;border-bottom:2px solid #334155;background:#0f172a">Exploited</th>
 </tr></thead>
 <tbody id="postApr1TBody"></tbody>
 </table>
+</div>
 </div>
 </div>
 <div class="insight" style="margin-top:14px">
@@ -808,6 +813,7 @@ document.getElementById('postApr1Through').textContent = POST_APR1.snapshot_thro
 // Build per-event table
 {
     const tbody = document.getElementById('postApr1TBody');
+    document.getElementById('postApr1RowCount').textContent = POST_APR1.events.length;
     POST_APR1.events.forEach(e => {
         const tr = document.createElement('tr');
         tr.style.borderBottom = '1px solid #1e293b';
