@@ -1,0 +1,310 @@
+{
+  "generated_at": "2026-05-01T13:02:05Z",
+  "cutoff": "2026-04-01",
+  "snapshot_through": "2026-04-30",
+  "description": "Live tracker \u2014 events with disclosure date >= 2026-04-01 for the four manifests, with exploit cross-reference. Patch-event counts use the canonical 7-day clustering rule.",
+  "methodology": {
+    "cluster_window_days": 7,
+    "cluster_rule": "Maximal run of dates where adjacent pairs sit within 7 days (matches scripts/build_hacker_tier_data.py:_cluster_count).",
+    "di_cwe_set_frozen_2026_05_01": [
+      22,
+      23,
+      35,
+      36,
+      73,
+      74,
+      77,
+      78,
+      79,
+      89,
+      90,
+      91,
+      93,
+      94,
+      95,
+      96,
+      97,
+      98,
+      113,
+      116,
+      287,
+      289,
+      306,
+      345,
+      444,
+      502,
+      611,
+      693,
+      776,
+      863,
+      917,
+      918,
+      1236,
+      1321,
+      1336
+    ],
+    "exploit_signals": [
+      "CISA KEV",
+      "Metasploit",
+      "ExploitDB"
+    ]
+  },
+  "frameworks": {
+    "spring": {
+      "label": "Spring Boot",
+      "all_ch_event_count": 8,
+      "all_ch_clusters": 1,
+      "npdi_event_count": 6,
+      "npdi_clusters": 1,
+      "exploited_count": 0,
+      "exploited_events": [],
+      "events": [
+        {
+          "date": "2026-04-09",
+          "ghsa": "GHSA-69cc-cv78-qc8g",
+          "cves": [
+            "CVE-2026-29129"
+          ],
+          "package": "tomcat-embed-core",
+          "severity": "HIGH",
+          "is_np": true,
+          "is_di": false,
+          "cwes": [
+            "CWE-327"
+          ]
+        },
+        {
+          "date": "2026-04-09",
+          "ghsa": "GHSA-95jq-rwvf-vjx4",
+          "cves": [
+            "CVE-2026-29145"
+          ],
+          "package": "tomcat-embed-core",
+          "severity": "CRITICAL",
+          "is_np": true,
+          "is_di": true,
+          "cwes": [
+            "CWE-287"
+          ]
+        },
+        {
+          "date": "2026-04-09",
+          "ghsa": "GHSA-rv64-5gf8-9qq8",
+          "cves": [
+            "CVE-2026-34483"
+          ],
+          "package": "tomcat-embed-core",
+          "severity": "HIGH",
+          "is_np": true,
+          "is_di": true,
+          "cwes": [
+            "CWE-116"
+          ]
+        },
+        {
+          "date": "2026-04-09",
+          "ghsa": "GHSA-x4m4-345f-5h5g",
+          "cves": [
+            "CVE-2026-34487"
+          ],
+          "package": "tomcat-embed-core",
+          "severity": "HIGH",
+          "is_np": true,
+          "is_di": false,
+          "cwes": [
+            "CWE-532"
+          ]
+        },
+        {
+          "date": "2026-04-15",
+          "ghsa": "GHSA-r4v4-5mwr-2fwr",
+          "cves": [
+            "CVE-2026-40477"
+          ],
+          "package": "thymeleaf",
+          "severity": "CRITICAL",
+          "is_np": true,
+          "is_di": true,
+          "cwes": [
+            "CWE-1336",
+            "CWE-917"
+          ]
+        },
+        {
+          "date": "2026-04-15",
+          "ghsa": "GHSA-xjw8-8c5c-9r79",
+          "cves": [
+            "CVE-2026-40478"
+          ],
+          "package": "thymeleaf",
+          "severity": "CRITICAL",
+          "is_np": true,
+          "is_di": true,
+          "cwes": [
+            "CWE-1336",
+            "CWE-917"
+          ]
+        },
+        {
+          "date": "2026-04-15",
+          "ghsa": "GHSA-r4v4-5mwr-2fwr",
+          "cves": [
+            "CVE-2026-40477"
+          ],
+          "package": "thymeleaf-spring6",
+          "severity": "CRITICAL",
+          "is_np": true,
+          "is_di": true,
+          "cwes": [
+            "CWE-1336",
+            "CWE-917"
+          ]
+        },
+        {
+          "date": "2026-04-15",
+          "ghsa": "GHSA-xjw8-8c5c-9r79",
+          "cves": [
+            "CVE-2026-40478"
+          ],
+          "package": "thymeleaf-spring6",
+          "severity": "CRITICAL",
+          "is_np": true,
+          "is_di": true,
+          "cwes": [
+            "CWE-1336",
+            "CWE-917"
+          ]
+        }
+      ]
+    },
+    "nodejs": {
+      "label": "Node.js/Express",
+      "all_ch_event_count": 2,
+      "all_ch_clusters": 2,
+      "npdi_event_count": 0,
+      "npdi_clusters": 0,
+      "exploited_count": 0,
+      "exploited_events": [],
+      "events": [
+        {
+          "date": "2026-04-01",
+          "ghsa": "GHSA-r5fr-rjxr-66jc",
+          "cves": [
+            "CVE-2026-4800"
+          ],
+          "package": "lodash",
+          "severity": "HIGH/CRITICAL",
+          "is_np": false,
+          "is_di": false,
+          "cwes": [
+            "CWE-94"
+          ]
+        },
+        {
+          "date": "2026-04-15",
+          "ghsa": "GHSA-247c-9743-5963",
+          "cves": [
+            "CVE-2026-33806"
+          ],
+          "package": "fastify",
+          "severity": "HIGH/CRITICAL",
+          "is_np": true,
+          "is_di": false,
+          "cwes": [
+            "CWE-1287"
+          ]
+        }
+      ]
+    },
+    "django": {
+      "label": "Django/Python",
+      "all_ch_event_count": 3,
+      "all_ch_clusters": 1,
+      "npdi_event_count": 0,
+      "npdi_clusters": 0,
+      "exploited_count": 0,
+      "exploited_events": [],
+      "events": [
+        {
+          "date": "2026-04-07",
+          "ghsa": "GHSA-933h-hp56-hf7m",
+          "cves": [
+            "CVE-2026-33034"
+          ],
+          "package": "django",
+          "severity": "HIGH/CRITICAL",
+          "is_np": true,
+          "is_di": false,
+          "cwes": [
+            "CWE-770"
+          ]
+        },
+        {
+          "date": "2026-04-07",
+          "ghsa": "GHSA-mvfq-ggxm-9mc5",
+          "cves": [
+            "CVE-2026-3902"
+          ],
+          "package": "django",
+          "severity": "HIGH/CRITICAL",
+          "is_np": true,
+          "is_di": false,
+          "cwes": [
+            "CWE-290"
+          ]
+        },
+        {
+          "date": "2026-04-13",
+          "ghsa": "GHSA-whj4-6x5x-4v2j",
+          "cves": [
+            "CVE-2026-40192"
+          ],
+          "package": "pillow",
+          "severity": "HIGH/CRITICAL",
+          "is_np": false,
+          "is_di": false,
+          "cwes": [
+            "CWE-400",
+            "CWE-770"
+          ]
+        }
+      ]
+    },
+    "netty": {
+      "label": "Netty",
+      "all_ch_event_count": 0,
+      "all_ch_clusters": 0,
+      "npdi_event_count": 0,
+      "npdi_clusters": 0,
+      "exploited_count": 0,
+      "exploited_events": [],
+      "events": []
+    }
+  },
+  "summary": {
+    "labels": [
+      "Spring Boot",
+      "Node.js/Express",
+      "Django/Python",
+      "Netty"
+    ],
+    "all_ch_clusters": [
+      1,
+      2,
+      1,
+      0
+    ],
+    "npdi_clusters": [
+      1,
+      0,
+      0,
+      0
+    ],
+    "exploited_counts": [
+      0,
+      0,
+      0,
+      0
+    ]
+  }
+}

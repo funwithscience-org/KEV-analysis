@@ -181,6 +181,37 @@ details.dash-expand .detail-content{padding:16px;background:#0f172a}
 </div>
 
 
+<!-- LIVE TRACKER (Apr 1, 2026 forward) -->
+<div style="background:#0f172a;border:2px solid #334155;border-radius:12px;padding:24px 28px;margin-bottom:32px">
+<div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:8px;flex-wrap:wrap;gap:8px">
+  <div style="font-size:1.05em;font-weight:700;color:#f8fafc">Live tracker &mdash; April 1, 2026 forward</div>
+  <div style="font-size:.82em;color:#94a3b8">Snapshot through <span id="postApr1Through" style="color:#a5b4fc;font-weight:600">2026-04-30</span></div>
+</div>
+<p style="font-size:.9em;color:#cbd5e1;margin:8px 0 16px;line-height:1.5">For each manifest: how many patch events would <em>"patch all C/H"</em> force vs how many the <em>NP+DI structure test</em> would push, and how many of the underlying CVEs have actually been exploited yet. Patch events use the canonical 7-day clustering rule (consecutive disclosures within a week count as one rebuild). The point isn't to prove the model "saved" us &mdash; April 2026 is a busy month and the gap may be narrow &mdash; it's to keep an honest, public ledger that updates as the frozen CWE set ages.</p>
+<div class="grid-2">
+<div class="card"><h3>Patch events &amp; exploits since 2026-04-01</h3><canvas id="postApr1Chart"></canvas></div>
+<div class="card" style="overflow-x:auto">
+<h3>Per-event detail</h3>
+<table id="postApr1Table" style="width:100%;font-size:.85em;border-collapse:collapse">
+<thead><tr style="background:#0f172a">
+  <th style="padding:8px 10px;text-align:left;color:#a5b4fc;border-bottom:2px solid #334155">Date</th>
+  <th style="padding:8px 10px;text-align:left;color:#a5b4fc;border-bottom:2px solid #334155">Framework</th>
+  <th style="padding:8px 10px;text-align:left;color:#a5b4fc;border-bottom:2px solid #334155">Package</th>
+  <th style="padding:8px 10px;text-align:center;color:#a5b4fc;border-bottom:2px solid #334155">Sev</th>
+  <th style="padding:8px 10px;text-align:left;color:#a5b4fc;border-bottom:2px solid #334155">CWE(s)</th>
+  <th style="padding:8px 10px;text-align:center;color:#a5b4fc;border-bottom:2px solid #334155">NP+DI</th>
+  <th style="padding:8px 10px;text-align:center;color:#a5b4fc;border-bottom:2px solid #334155">Exploited</th>
+</tr></thead>
+<tbody id="postApr1TBody"></tbody>
+</table>
+</div>
+</div>
+<div class="insight" style="margin-top:14px">
+<strong>Read it as:</strong> in April 2026 the model would push 1 Spring rebuild (Tomcat + Thymeleaf coalesced into one 7-day cluster) and 0 rebuilds on Node, Django, or Netty &mdash; vs 1 / 2 / 1 / 0 if you patched all C/H. None of these CVEs has shown exploit signal yet, so the model and "patch all" disagree on how much work to do but neither has been wrong yet. Over time, this counter is the place where a "model saves work" or "model misses an exploit" outcome becomes legible.
+</div>
+</div>
+
+
 <!-- SECTION: NP+DI Filter Results -->
 <div class="section">
 <div class="section-title">The NP+DI Filter &mdash; Cross-Framework Validation</div>
@@ -728,6 +759,91 @@ new Chart(document.getElementById('topProductsChart'), {
 
 // Glasswing/Mythos charts moved to glasswing.html
 
+
+// Live tracker (Apr 1, 2026 forward) — embedded snapshot of data/post-apr1-per-framework.json
+const POST_APR1 = {
+    snapshot_through: "2026-04-30",
+    labels: ["Spring Boot","Node.js/Express","Django/Python","Netty"],
+    all_ch_clusters: [1, 2, 1, 0],
+    npdi_clusters:   [1, 0, 0, 0],
+    exploited:       [0, 0, 0, 0],
+    events: [
+        // spring
+        {date:"2026-04-09", framework:"Spring", pkg:"tomcat-embed-core", sev:"HIGH",     cwes:["CWE-327"],          npdi:false, exploited:false},
+        {date:"2026-04-09", framework:"Spring", pkg:"tomcat-embed-core", sev:"CRITICAL", cwes:["CWE-287"],          npdi:true,  exploited:false},
+        {date:"2026-04-09", framework:"Spring", pkg:"tomcat-embed-core", sev:"HIGH",     cwes:["CWE-116"],          npdi:true,  exploited:false},
+        {date:"2026-04-09", framework:"Spring", pkg:"tomcat-embed-core", sev:"HIGH",     cwes:["CWE-532"],          npdi:false, exploited:false},
+        {date:"2026-04-15", framework:"Spring", pkg:"thymeleaf",         sev:"CRITICAL", cwes:["CWE-1336","CWE-917"], npdi:true,  exploited:false},
+        {date:"2026-04-15", framework:"Spring", pkg:"thymeleaf",         sev:"CRITICAL", cwes:["CWE-1336","CWE-917"], npdi:true,  exploited:false},
+        {date:"2026-04-15", framework:"Spring", pkg:"thymeleaf-spring6", sev:"CRITICAL", cwes:["CWE-1336","CWE-917"], npdi:true,  exploited:false},
+        {date:"2026-04-15", framework:"Spring", pkg:"thymeleaf-spring6", sev:"CRITICAL", cwes:["CWE-1336","CWE-917"], npdi:true,  exploited:false},
+        // node
+        {date:"2026-04-01", framework:"Node",   pkg:"lodash",            sev:"HIGH/CRIT",cwes:["CWE-94"],            npdi:false, exploited:false},
+        {date:"2026-04-15", framework:"Node",   pkg:"fastify",           sev:"HIGH/CRIT",cwes:["CWE-1287"],          npdi:false, exploited:false},
+        // django
+        {date:"2026-04-07", framework:"Django", pkg:"django",            sev:"HIGH/CRIT",cwes:["CWE-770"],           npdi:false, exploited:false},
+        {date:"2026-04-07", framework:"Django", pkg:"django",            sev:"HIGH/CRIT",cwes:["CWE-290"],           npdi:false, exploited:false},
+        {date:"2026-04-13", framework:"Django", pkg:"pillow",            sev:"HIGH/CRIT",cwes:["CWE-400","CWE-770"], npdi:false, exploited:false},
+    ],
+};
+// Render snapshot date
+document.getElementById('postApr1Through').textContent = POST_APR1.snapshot_through;
+// Build per-event table
+{
+    const tbody = document.getElementById('postApr1TBody');
+    POST_APR1.events.forEach(e => {
+        const tr = document.createElement('tr');
+        tr.style.borderBottom = '1px solid #1e293b';
+        const td = (txt, align='left', color='#cbd5e1') =>
+            `<td style="padding:6px 10px;text-align:${align};color:${color}">${txt}</td>`;
+        const sevColor = e.sev === 'CRITICAL' ? '#f87171' : e.sev.startsWith('HIGH') ? '#fbbf24' : '#cbd5e1';
+        const npdiBadge = e.npdi ? '<span style="color:#34d399;font-weight:700">✓</span>' : '<span style="color:#475569">·</span>';
+        const expBadge  = e.exploited ? '<span style="color:#f87171;font-weight:700">✓</span>' : '<span style="color:#475569">·</span>';
+        tr.innerHTML =
+            td(e.date) +
+            td(e.framework, 'left', '#a5b4fc') +
+            td(e.pkg) +
+            td(e.sev, 'center', sevColor) +
+            td(e.cwes.join(', '), 'left', '#94a3b8') +
+            td(npdiBadge, 'center') +
+            td(expBadge,  'center');
+        tbody.appendChild(tr);
+    });
+}
+// Grouped bar
+new Chart(document.getElementById('postApr1Chart'), {
+    type: 'bar',
+    data: {
+        labels: POST_APR1.labels,
+        datasets: [
+            {label:'All C/H patch events',  data:POST_APR1.all_ch_clusters, backgroundColor:'rgba(239,68,68,.55)', borderColor:'#ef4444', borderWidth:1, borderRadius:4},
+            {label:'NP+DI patch events',    data:POST_APR1.npdi_clusters,   backgroundColor:'rgba(245,158,11,.85)', borderColor:'#f59e0b', borderWidth:1, borderRadius:4},
+            {label:'Exploited (KEV/MSF/EDB)', data:POST_APR1.exploited,     backgroundColor:'rgba(248,113,113,.95)', borderColor:'#7f1d1d', borderWidth:1, borderRadius:4},
+        ]
+    },
+    options: {
+        scales: {
+            y:{beginAtZero:true,ticks:{stepSize:1,precision:0,color:'#94a3b8'},title:{display:true,text:'Patch events / exploits (7-day clustered)',color:'#94a3b8'},grid:{color:'rgba(51,65,85,.3)'}},
+            x:{ticks:{color:'#cbd5e1'},grid:{display:false}}
+        },
+        plugins:{
+            legend:{position:'top',labels:{color:'#e2e8f0',boxWidth:12}},
+            tooltip:{callbacks:{footer:(items)=>{
+                if (!items.length) return '';
+                const fwk = items[0].label;
+                const evts = POST_APR1.events.filter(e =>
+                    (fwk.startsWith('Spring') && e.framework==='Spring') ||
+                    (fwk.startsWith('Node')   && e.framework==='Node')   ||
+                    (fwk.startsWith('Django') && e.framework==='Django') ||
+                    (fwk.startsWith('Netty')  && e.framework==='Netty')
+                );
+                if (!evts.length) return 'no events since 2026-04-01';
+                const dates = [...new Set(evts.map(e=>e.date))].sort();
+                return 'CVE dates: ' + dates.join(', ');
+            }}}
+        }
+    }
+});
 
 // NP+DI Cross-Framework bar chart
 new Chart(document.getElementById('crossFrameworkChart'), {
