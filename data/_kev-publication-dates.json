@@ -2722,6 +2722,10 @@
     "error": "not_found_or_failed",
     "published": null
   },
+  "CVE-2026-41940": {
+    "error": "not_found_or_failed",
+    "published": null
+  },
   "CVE-2026-5281": {
     "error": "not_found_or_failed",
     "published": null

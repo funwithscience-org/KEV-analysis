@@ -3,7 +3,7 @@
 Fetch and cache CVE publication dates for every KEV entry from the
 2021+ window. Required by scripts/compute_tte.py.
 
-Source: KEV snapshot (data/kev-snapshot-2026-04-30.json)
+Source: KEV snapshot (data/kev-snapshot-2026-05-01.json)
 Lookup: OSV API per-CVE GET, with disk cache to avoid re-fetching.
 
 Output: data/_kev-publication-dates.json
@@ -26,7 +26,7 @@ from pathlib import Path
 
 REPO = Path(__file__).resolve().parent.parent
 CACHE_PATH = REPO / "data" / "_kev-publication-dates.json"
-SNAPSHOT_PATH = REPO / "data" / "kev-snapshot-2026-04-30.json"
+SNAPSHOT_PATH = REPO / "data" / "kev-snapshot-2026-05-01.json"
 
 
 def fetch_osv_published(cve: str, timeout: int = 15) -> str | None:

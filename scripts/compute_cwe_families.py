@@ -2,7 +2,7 @@
 """
 Compute the cwe_data field that drives the cweChart on docs/dashboard.html.
 
-Source: data/kev-snapshot-2026-04-30.json (full KEV catalog, 1,579 entries)
+Source: data/kev-snapshot-2026-05-01.json (full KEV catalog, 1,579 entries)
 
 Per the prior AI's Q7 answer:
   - CWE-number → family lookup (memory_corruption, injection, auth, etc.)
@@ -66,7 +66,7 @@ def family_for(cwes: list[str]) -> str:
 
 
 def build() -> dict:
-    snap_path = REPO / "data" / "kev-snapshot-2026-04-30.json"
+    snap_path = REPO / "data" / "kev-snapshot-2026-05-01.json"
     snap = json.load(open(snap_path))
     vulns = snap["vulnerabilities"]
 

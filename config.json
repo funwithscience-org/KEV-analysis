@@ -56,7 +56,7 @@
       "CVE-2026-6757": "Firefox 150 JavaScript invalid pointer \u2014 officially credited to Claude in MFSA 2026-30",
       "CVE-2026-6758": "Firefox 150 JavaScript use-after-free \u2014 officially credited to Claude in MFSA 2026-30"
     },
-    "last_verified": "2026-04-30",
+    "last_verified": "2026-05-01",
     "participants": [
       "AWS",
       "Anthropic",
@@ -182,15 +182,16 @@
       "2026-01": 5143,
       "2026-02": 4808,
       "2026-03": 6304,
-      "2026-04": 5720
+      "2026-04": 5885,
+      "2026-05": 15
     },
-    "monthly_cve_2026_notes": "2026-04 MTD through Apr-29 23:59Z = 5720 (NVD totalResults). Days elapsed 29; extrapolated full-month = 5920 (used as chart anchor in glasswing.html). Q1 average 5418/mo; April pace ~197/day, consistent with steady-state, no Mythos volume shock visible. Counter-argument: NVD publication latency 4-8 weeks, so Mythos disclosures from April may not appear until mid-May. Final April number captured at next refresh once month closes.",
+    "monthly_cve_2026_notes": "April 2026 closed with NVD totalResults = 5885 (final), below the 5651-conservative anchor and well below the 7151-aggressive low. Day-1 of May 2026 = 15 (NVD MTD). Q1 average 5418/mo. Counter-argument: NVD publication latency is 4-8 weeks, so any Mythos disclosure surge from late April may not appear until mid-May. April vs March: 5885 < 6304 (-6.6%). No Mythos volume shock visible in April final number.",
     "weekly_cve_2026": {
       "2026-W14_Mar30_Apr05": 1304,
       "2026-W15_Apr06_Apr12": 1615,
       "2026-W16_Apr13_Apr19": 1178,
       "2026-W17_Apr20_Apr26": 1469,
-      "2026-W18_Apr27_May03_partial": 567
+      "2026-W18_Apr27_May03_partial": 747
     },
     "ms_patch_tuesday": {
       "2025-01": 157,
@@ -223,9 +224,9 @@
       "2026-01": 17,
       "2026-02": 28,
       "2026-03": 26,
-      "2026-04": 30
+      "2026-04": 31
     },
-    "kev_monthly_2026_notes": "April KEV total at 30 (catalogVersion 2026.04.28, released 2026-04-28T17:29Z, total 1585 entries). No KEV catalog change in last 24h; CVE-2024-1708 (ConnectWise ScreenConnect path traversal, CWE-22) and CVE-2026-32202 (Microsoft Windows Shell spoofing, CWE-693, actively exploited) remain the most recent additions from 2026-04-28. Q1-2026 KEV monthly avg = (17+28+26)/3 = 23.7. April 30 entries closes the month above the Q1 mean. Notable April 2026 KEV entries: ConnectWise ScreenConnect 2026-04-28, Windows Shell 2026-04-28, SimpleHelp pair 2026-04-24, Samsung MagicINFO 2026-04-24, D-Link DIR-823X 2026-04-24, Marimo 2026-04-23, Defender BlueHammer 2026-04-22, Cisco SD-WAN cluster 2026-04-20, ActiveMQ 2026-04-16, SharePoint 2026-04-14, Adobe Acrobat 2026-04-13."
+    "kev_monthly_2026_notes": "April 2026 KEV final: 31 entries (last addition CVE-2026-41940 WebPros cPanel/WHM auth bypass on 2026-04-30). Notable Apr additions: ConnectWise ScreenConnect path traversal retro-listing (CVE-2024-1708, 2026-04-28), Win Shell CVE-2026-32202 actively exploited (2026-04-28), Marimo WebSocket CVE-2026-39987, Defender BlueHammer CVE-2026-33825, SharePoint CVE-2026-32201, ActiveMQ CVE-2026-34197, Adobe Acrobat CVE-2026-34621, Cisco Catalyst SD-WAN trio CVE-2026-20122/-20133/-20128. April KEV pace: 31/30 days = ~1.0/day."
   },
   "exploit_watch_list": {
     "description": "HTTP-parsing-adjacent CVEs predicted to be actively exploited. Analyst adds entries; refresh agent checks KEV status.",
@@ -400,7 +401,7 @@
           "notes": "PoC exploits circulating in researcher communities per CSO Online / The Hacker Wire 2026-04-17; not aggregated in public indexes yet"
         },
         "overall_maturity": "poc",
-        "last_checked": "2026-04-22T03:10Z"
+        "last_checked": "2026-05-01T04:09Z"
       },
       "CVE-2026-40478": {
         "exploitdb": {
@@ -417,7 +418,7 @@
           "notes": "Same Thymeleaf cluster as CVE-2026-40477 \u2014 PoCs circulating"
         },
         "overall_maturity": "poc",
-        "last_checked": "2026-04-22T03:10Z"
+        "last_checked": "2026-05-01T04:09Z"
       },
       "CVE-2026-5194": {
         "exploitdb": {
@@ -434,7 +435,7 @@
           "notes": "No dedicated PoC published to major indexes; researchers likely holding to allow patching window"
         },
         "overall_maturity": "none",
-        "last_checked": "2026-04-22T03:10Z"
+        "last_checked": "2026-05-01T04:09Z"
       },
       "CVE-2026-5501": {
         "exploitdb": {
@@ -450,7 +451,7 @@
           "repo_count": 0
         },
         "overall_maturity": "none",
-        "last_checked": "2026-04-22T03:10Z"
+        "last_checked": "2026-05-01T04:09Z"
       },
       "CVE-2026-21858": {
         "exploitdb": {
@@ -467,7 +468,7 @@
           "notes": "Ni8mare: Cyera Research published technical writeup with attack chain; Orca Security, Picus, Upwind all published explainers. Working attack chain in the wild."
         },
         "overall_maturity": "functional",
-        "last_checked": "2026-04-22T03:10Z"
+        "last_checked": "2026-05-01T04:09Z"
       },
       "CVE-2026-39987": {
         "exploitdb": {
@@ -489,7 +490,7 @@
           "catalog_version": "2026.04.23",
           "note": "Moved from watching \u2192 confirmed. CISA KEV-listed 2026-04-23 based on Sysdig Threat Research evidence of 662 exploit events Apr 11-14 delivering NKAbuse variant. Our watch list prediction (flagged 2026-04-19) confirmed."
         },
-        "last_checked": "2026-04-24T03:00Z"
+        "last_checked": "2026-05-01T04:09Z"
       },
       "CVE-2026-20180": {
         "exploitdb": {
@@ -506,7 +507,7 @@
           "notes": "Fresh disclosure, no public PoC surfaced yet"
         },
         "overall_maturity": "none",
-        "last_checked": "2026-04-22T03:10Z",
+        "last_checked": "2026-05-01T04:09Z",
         "notes_addendum": "Tenable Nessus plugin 306554 is a scanner signature, not a Metasploit module or exploit PoC."
       },
       "CVE-2026-20186": {
@@ -524,7 +525,7 @@
           "notes": "Fresh disclosure, no public PoC surfaced yet"
         },
         "overall_maturity": "none",
-        "last_checked": "2026-04-22T03:10Z",
+        "last_checked": "2026-05-01T04:09Z",
         "notes_addendum": "Tenable Nessus plugin 306554 is a scanner signature, not a Metasploit module or exploit PoC."
       },
       "CVE-2026-20147": {
@@ -542,7 +543,7 @@
           "notes": "Fresh disclosure, no public PoC surfaced yet"
         },
         "overall_maturity": "none",
-        "last_checked": "2026-04-22T03:10Z",
+        "last_checked": "2026-05-01T04:09Z",
         "notes_addendum": "Tenable Nessus plugin 306554 is a scanner signature, not a Metasploit module or exploit PoC."
       },
       "CVE-2026-20184": {
@@ -560,7 +561,7 @@
           "notes": "Fresh disclosure, no public PoC surfaced yet"
         },
         "overall_maturity": "none",
-        "last_checked": "2026-04-22T03:10Z"
+        "last_checked": "2026-05-01T04:09Z"
       },
       "CVE-2026-32201": {
         "exploitdb": {
@@ -578,7 +579,7 @@
           "notes": "B1tBit/CVE-2026-32201-exploit GitHub repo published shortly after Patch Tuesday; KEV-listed 2026-04-14 with active zero-day exploitation. Exploit code is now public, not just ITW intelligence."
         },
         "overall_maturity": "weaponized",
-        "last_checked": "2026-04-25T04:05Z"
+        "last_checked": "2026-05-01T04:09Z"
       },
       "CVE-2026-34197": {
         "exploitdb": {
@@ -595,7 +596,7 @@
           "notes": "KEV-listed 2026-04-16; Horizon3.ai Claude-assisted disclosure with full attack-chain walkthrough"
         },
         "overall_maturity": "weaponized",
-        "last_checked": "2026-04-22T03:10Z"
+        "last_checked": "2026-05-01T04:09Z"
       },
       "CVE-2026-34621": {
         "exploitdb": {
@@ -612,7 +613,7 @@
           "notes": "KEV-listed 2026-04-15 \u2014 Adobe Acrobat prototype pollution, actively exploited. Non-Metasploit exploit repo github.com/ercihan/CVE-2026-34621 observed."
         },
         "overall_maturity": "weaponized",
-        "last_checked": "2026-04-22T03:10Z"
+        "last_checked": "2026-05-01T04:09Z"
       },
       "CVE-2026-33825": {
         "exploitdb": {
@@ -636,7 +637,7 @@
           "remediation_due": "2026-05-06",
           "note": "Moved from watching \u2192 confirmed. CISA KEV-listed 2026-04-22 after evidence of first attacks Apr 10, additional activity Apr 16. Our watch list prediction (flagged 2026-04-18) confirmed. RedSun and UnDefend (the two related Defender 0-days) remain unpatched and not yet KEV-listed."
         },
-        "last_checked": "2026-04-24T03:00Z"
+        "last_checked": "2026-05-01T04:09Z"
       },
       "CVE-2026-40966": {
         "exploitdb": {
@@ -653,7 +654,7 @@
           "notes": "Fresh Spring security disclosure batch 2026-04-27/28; no public PoC indexed yet"
         },
         "overall_maturity": "none",
-        "last_checked": "2026-04-30T04:13Z"
+        "last_checked": "2026-05-01T04:09Z"
       },
       "CVE-2026-40967": {
         "exploitdb": {
@@ -670,7 +671,7 @@
           "notes": "Fresh Spring security disclosure batch 2026-04-27/28; no public PoC indexed yet"
         },
         "overall_maturity": "none",
-        "last_checked": "2026-04-30T04:13Z"
+        "last_checked": "2026-05-01T04:09Z"
       },
       "CVE-2026-40978": {
         "exploitdb": {
@@ -687,7 +688,7 @@
           "notes": "Fresh Spring security disclosure batch 2026-04-27/28; no public PoC indexed yet"
         },
         "overall_maturity": "none",
-        "last_checked": "2026-04-30T04:13Z"
+        "last_checked": "2026-05-01T04:09Z"
       },
       "CVE-2026-40979": {
         "exploitdb": {
@@ -704,7 +705,7 @@
           "notes": "Fresh Spring security disclosure batch 2026-04-27/28; no public PoC indexed yet"
         },
         "overall_maturity": "none",
-        "last_checked": "2026-04-30T04:13Z"
+        "last_checked": "2026-05-01T04:09Z"
       },
       "CVE-2026-40980": {
         "exploitdb": {
@@ -721,10 +722,10 @@
           "notes": "Fresh Spring security disclosure batch 2026-04-27/28; no public PoC indexed yet"
         },
         "overall_maturity": "none",
-        "last_checked": "2026-04-30T04:13Z"
+        "last_checked": "2026-05-01T04:09Z"
       }
     },
-    "last_incremental_check": "2026-04-30T04:13:00Z",
+    "last_incremental_check": "2026-05-01T04:09Z",
     "notes_2026_04_28": "Incremental re-check 2026-04-28: no new public exploit code observed for any of the 14 watch list CVEs since the 2026-04-25 full scan and 2026-04-27 incremental. Cisco ISE/Webex (CVE-2026-20180/20186/20147/20184) remain at maturity=none; wolfSSL pair (-5194/-5501) remain none; Thymeleaf pair (-40477/-40478) remain poc; n8n -21858 remains functional (Cyera PoC); five KEV-confirmed CVEs (-39987/-32201/-34197/-34621/-33825) remain weaponized. No KEV catalog change in last 24h (still 2026.04.24 / 1583 entries / 28 April adds).",
     "notes_2026_04_29": "2026-04-29 incremental check: spot-checked CVE-2026-39987 (Marimo, weaponized \u2014 unchanged, ITW exploitation continues per The Hacker News), CVE-2026-20180 (Cisco ISE, no public PoC \u2014 unchanged), CVE-2026-5194 (wolfSSL, no public PoC \u2014 unchanged). No watch list maturity escalations observed in last 24h. ConnectWise ScreenConnect CVE-2024-1708 added to KEV today (NP+DI candidate, not on watch list \u2014 flagged for analyst review). Microsoft confirmed active exploitation of Windows Shell CVE-2026-32202 (auth bypass / spoofing, CWE-693; not NP-applicable, desktop/local).",
     "notes_2026_04_30": "2026-04-30 incremental check: no maturity changes for the 18 watch list CVEs since 2026-04-29 sweep. Spot-checked CVE-2026-39987 (Marimo, weaponized \u2014 ITW exploitation continues per Sysdig threat intel), CVE-2026-20180/20186/20147 (Cisco ISE, no public PoC indexed), CVE-2026-5194 (wolfSSL, no public PoC), Spring AI cluster (-40966/40967/40978/40979/40980, fresh Apr-27/28 disclosures, no public PoC indexed yet). Thymeleaf pair (-40477/-40478) remain at maturity=poc. n8n Ni8mare (-21858) remains functional. Five KEV-confirmed CVEs (-39987/-32201/-34197/-34621/-33825) remain weaponized. ConnectWise ScreenConnect CVE-2024-1708 (added to KEV 2026-04-28) is an NP+DI candidate (CWE-22 path traversal in HTTP file-upload extension handling) but is a 2024 CVE outside the watch list scope; flagged for analyst review. Microsoft Windows Shell CVE-2026-32202 (added to KEV 2026-04-28) is auth-bypass / spoofing (CWE-693) on local desktop, not NP-applicable, no watch list action."

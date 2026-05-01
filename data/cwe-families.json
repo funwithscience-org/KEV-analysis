@@ -1,8 +1,8 @@
 {
-  "generated_at": "2026-04-30T04:14:09Z",
+  "generated_at": "2026-05-01T04:07:47Z",
   "description": "Canonical CWE-family aggregation backing the cweChart on docs/dashboard.html. Counts are over the full KEV catalog, not the 2021+ window.",
   "methodology": {
-    "source": "data/kev-snapshot-2026-04-30.json",
+    "source": "data/kev-snapshot-2026-05-01.json",
     "scope": "full KEV catalog (all entries, all years)",
     "family_mapping": {
       "memory_corruption": [
@@ -53,13 +53,13 @@
     "tie_breaking": "first family match wins (order in CWE_FAMILIES list)"
   },
   "summary": {
-    "total_entries": 1585,
+    "total_entries": 1586,
     "by_family": {
       "other": 517,
       "memory_corruption": 342,
       "injection": 253,
       "unknown": 167,
-      "auth": 108,
+      "auth": 109,
       "path_traversal": 86,
       "deserialization": 61,
       "info_disclosure": 26,
@@ -86,7 +86,7 @@
     },
     {
       "family": "auth",
-      "count": 108
+      "count": 109
     },
     {
       "family": "path_traversal",

@@ -1,22 +1,22 @@
 {
-  "generated_at": "2026-04-30T04:14:06Z",
+  "generated_at": "2026-05-01T04:06:51Z",
   "source": "live:https://www.cisa.gov/sites/default/files/feeds/known_exploited_vulnerabilities.json",
-  "input_sha256_16": "d8ad1188a7d7d2d1",
-  "kev_catalog_version": "2026.04.28",
-  "kev_date_released": "2026-04-28T17:29:22.212Z",
+  "input_sha256_16": "dfe3f1d4cec1b7b4",
+  "kev_catalog_version": "2026.04.30",
+  "kev_date_released": "2026-04-30T16:30:36.316Z",
   "summary": {
-    "total_kev": 1585,
-    "windowed_kev": 893,
+    "total_kev": 1586,
+    "windowed_kev": 894,
     "ransomware_total": 317,
     "ransomware_windowed": 186,
     "layer_counts_windowed": {
+      "cms_webapp": 11,
       "other": 283,
       "os": 252,
       "iot_ics": 23,
       "vpn_network_appliance": 130,
       "email_collab_server": 44,
       "productivity_desktop": 21,
-      "cms_webapp": 10,
       "browser": 56,
       "firmware_hardware": 23,
       "virtualization_container": 14,
@@ -42,6 +42,15 @@
     }
   },
   "classifications": [
+    {
+      "cveID": "CVE-2026-41940",
+      "year": 2026,
+      "layer": "cms_webapp",
+      "isRansomware": false,
+      "vendor": "WebPros",
+      "product": "cPanel & WHM and WP2 (WordPress Squared)",
+      "dateAdded": "2026-04-30"
+    },
     {
       "cveID": "CVE-2024-1708",
       "year": 2024,
