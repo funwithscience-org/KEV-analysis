@@ -124,9 +124,9 @@ details.dash-expand .detail-content{padding:16px;background:#0f172a}
 <!-- HERO KPIs -->
 <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px">
 <div class="kpi-hero">
-<div class="kpi-val">251 days → 11 days</div>
-<div class="kpi-label" style="color:#94a3b8">Median Time-to-Exploit (2021 → 2023)</div>
-<div class="kpi-sub">A 30-day patch SLA is now a 30-day exposure window.</div>
+<div class="kpi-val">10 / 11</div>
+<div class="kpi-label" style="color:#94a3b8">7-year backtest catch (union of NP+DI+DQ ∪ Hacker S+A)</div>
+<div class="kpi-sub"><strong style="color:#a5b4fc">91% effectiveness, 3.2× overhead per real exploit.</strong> Canonical 58-pkg / 194-event Java enterprise manifest, 11 confirmed exploited (KEV ∪ Metasploit ∪ ExploitDB).</div>
 </div>
 <div class="kpi-hero" style="border-color:#f59e0b">
 <div class="kpi-val" style="color:#fbbf24">+35.3% YoY</div>
@@ -137,6 +137,7 @@ details.dash-expand .detail-content{padding:16px;background:#0f172a}
 <!-- SUPPORTING STATS -->
 <div class="kpi-support" style="margin-bottom:32px">
 <div class="kpi-sm"><div class="kpi-val"><span data-kpi="totalKev">…</span></div><div class="kpi-label"><span class="glossary" data-tip="CISA's Known Exploited Vulnerabilities list — the catalog of bugs attackers have actually used">KEV</span> Entries<br>(Total)</div></div>
+<div class="kpi-sm"><div class="kpi-val">251d → 11d</div><div class="kpi-label">Median Time-to-Exploit<br>(2021 → 2023)</div></div>
 <div class="kpi-sm"><div class="kpi-val">3–6×</div><div class="kpi-label">Network-Parser<br>Exploitation Lift</div></div>
 <div class="kpi-sm"><div class="kpi-val"><span data-kpi="windowedKev">…</span></div><div class="kpi-label">KEV in 2021–2026<br>CVE Window</div></div>
 <div class="kpi-sm"><div class="kpi-val">~<span data-kpi="exploitRate">…</span>%</div><div class="kpi-label">Critical/High CVEs<br>Exploited (Windowed)</div></div>
@@ -196,11 +197,38 @@ details.dash-expand .detail-content{padding:16px;background:#0f172a}
 <div class="card"><h3>OS Container Privesc Accumulation</h3><canvas id="chainingChart"></canvas></div>
 </div>
 
+<h3 style="color:#e2e8f0;font-size:1.1em;margin:24px 0 8px">7-year strategy efficiency &mdash; canonical 58-pkg manifest, 11 confirmed exploited</h3>
+<p style="font-size:.88em;color:#94a3b8;margin-bottom:12px">The discrimination story (12-month workload above; 7-year discrimination here). Patch events are 7-day-clustered (consecutive triggers within a week count as one forced march). Effectiveness = exploits caught / 11. Efficiency = patch events / exploits caught.</p>
+<div class="card" style="padding:0">
+<table style="width:100%;font-size:.88em">
+<thead><tr style="background:#0f172a">
+  <th style="padding:10px 14px;text-align:left;color:#a5b4fc;border-bottom:2px solid #334155">Strategy</th>
+  <th style="padding:10px 14px;text-align:right;color:#a5b4fc;border-bottom:2px solid #334155">Patch events (7-day clustered)</th>
+  <th style="padding:10px 14px;text-align:right;color:#a5b4fc;border-bottom:2px solid #334155">Raw triggers</th>
+  <th style="padding:10px 14px;text-align:right;color:#a5b4fc;border-bottom:2px solid #334155">Exploits caught</th>
+  <th style="padding:10px 14px;text-align:right;color:#a5b4fc;border-bottom:2px solid #334155">Effectiveness</th>
+  <th style="padding:10px 14px;text-align:right;color:#a5b4fc;border-bottom:2px solid #334155">Overhead per exploit</th>
+</tr></thead>
+<tbody>
+<tr><td style="padding:8px 14px;color:#cbd5e1">Patch all C+H</td><td style="padding:8px 14px;text-align:right;color:#cbd5e1">83</td><td style="padding:8px 14px;text-align:right;color:#cbd5e1">194</td><td style="padding:8px 14px;text-align:right;color:#cbd5e1">11/11</td><td style="padding:8px 14px;text-align:right;color:#cbd5e1">100%</td><td style="padding:8px 14px;text-align:right;color:#fca5a5">7.5×</td></tr>
+<tr><td style="padding:8px 14px;color:#cbd5e1">Patch criticals only</td><td style="padding:8px 14px;text-align:right;color:#cbd5e1">31</td><td style="padding:8px 14px;text-align:right;color:#cbd5e1">48</td><td style="padding:8px 14px;text-align:right;color:#cbd5e1">7/11</td><td style="padding:8px 14px;text-align:right;color:#cbd5e1">64%</td><td style="padding:8px 14px;text-align:right;color:#fcd34d">4.4×</td></tr>
+<tr><td style="padding:8px 14px;color:#cbd5e1">NP+DI raw</td><td style="padding:8px 14px;text-align:right;color:#cbd5e1">28</td><td style="padding:8px 14px;text-align:right;color:#cbd5e1">40</td><td style="padding:8px 14px;text-align:right;color:#cbd5e1">5/11</td><td style="padding:8px 14px;text-align:right;color:#cbd5e1">45%</td><td style="padding:8px 14px;text-align:right;color:#fcd34d">5.6×</td></tr>
+<tr style="background:rgba(16,185,129,.08)"><td style="padding:8px 14px;color:#a7f3d0;font-weight:600">NP+DI + DQ</td><td style="padding:8px 14px;text-align:right;color:#a7f3d0;font-weight:600">30</td><td style="padding:8px 14px;text-align:right;color:#a7f3d0">43</td><td style="padding:8px 14px;text-align:right;color:#a7f3d0;font-weight:600">8/11</td><td style="padding:8px 14px;text-align:right;color:#a7f3d0;font-weight:600">73%</td><td style="padding:8px 14px;text-align:right;color:#a7f3d0;font-weight:600">3.8×</td></tr>
+<tr style="background:rgba(168,85,247,.08)"><td style="padding:8px 14px;color:#e9d5ff;font-weight:600">Hacker S+A</td><td style="padding:8px 14px;text-align:right;color:#e9d5ff;font-weight:600">11</td><td style="padding:8px 14px;text-align:right;color:#e9d5ff">16</td><td style="padding:8px 14px;text-align:right;color:#e9d5ff;font-weight:600">9/11</td><td style="padding:8px 14px;text-align:right;color:#e9d5ff;font-weight:600">82%</td><td style="padding:8px 14px;text-align:right;color:#e9d5ff;font-weight:600">1.2×</td></tr>
+<tr style="border-top:2px solid #475569;font-weight:700;background:rgba(245,158,11,.06)"><td style="padding:10px 14px;color:#fbbf24">Union (NP+DI+DQ ∪ Hacker S+A)</td><td style="padding:10px 14px;text-align:right;color:#fbbf24">32</td><td style="padding:10px 14px;text-align:right;color:#fbbf24">47</td><td style="padding:10px 14px;text-align:right;color:#fbbf24">10/11</td><td style="padding:10px 14px;text-align:right;color:#fbbf24">91%</td><td style="padding:10px 14px;text-align:right;color:#fbbf24">3.2×</td></tr>
+</tbody>
+</table>
+</div>
+
+<div class="insight" style="margin-top:14px">
+<strong>Read it as:</strong> patch-all-C+H catches everything but 83 forced rebuilds for 11 real exploits is 7.5× overhead. Patch-criticals-only is more efficient (4.4×) but misses 4 exploited highs. NP+DI+DQ catches more (8/11) at 3.8× overhead. Hacker S+A is the most efficient (1.2× — almost no waste) but lower N. <strong>The union is the operational answer:</strong> 91% effectiveness at 3.2× overhead — half the rebuilds of patch-criticals-only with one fewer miss.
+</div>
+
 <div class="grid-2" style="margin-top:20px">
 <div class="card"><h3>EPSS Exploitation Probability</h3><canvas id="epssChart"></canvas></div>
 <div class="card" style="display:flex;flex-direction:column;justify-content:center">
 <div class="insight">
-<strong>What the NP+DI filter does:</strong> Instead of rebuilding your container on every Critical/High CVE disclosure date, filter to only those that are <strong>Network-Parseable</strong> (reachable without local access) <strong>AND</strong> have <strong>Dangerous Impact</strong> (RCE, auth bypass, or data exfil). Across Spring Boot, Node.js/Express, and Django/Python stacks over 12 months, this <strong>reduces rebuild-trigger dates by 64&ndash;86%</strong>. The 12-month sample has only one in-scope exploited CVE (every strategy catches it), so it scores workload not discrimination. Discrimination is scored on the <a href="periodicity.html#seven-year" style="color:#6366f1">7-year canonical 58-package manifest</a>: <strong>10 of 11 actually-exploited events caught directly</strong> (NP+DI+DQ &cup; Hacker S+A); the 1 remaining is absorbed by floor-sweep + threat-intel supplements.
+<strong>EPSS marginal cost on top of the model.</strong> Standalone EPSS at ≥ 0.50 fires on 44 events on this manifest; standalone EPSS at ≥ 0.10 fires on 90. <strong>NP+DI+DQ absorbs 43 of 44 (≥0.50) and 87 of 90 (≥0.10) before EPSS would have triggered</strong> — when an NP+DI rebuild rolls every dependency to latest, adjacent CVEs that have shipped a patch but haven't yet crossed an EPSS threshold get carried along incidentally. EPSS adds 1 marginal patch event on top of NP+DI+DQ at the 0.50 threshold and 3 at 0.10. EPSS isn't a competitor to the structure tests in well-run estates; it's a thin backstop for the floats.
 </div>
 <p style="margin-top:12px;text-align:center">
 <a href="periodicity.html" style="color:#6366f1;text-decoration:none;font-size:.9em;border:1px solid #6366f1;border-radius:6px;padding:6px 16px;display:inline-block;transition:all .15s;margin:4px" onmouseover="this.style.background='#6366f1';this.style.color='#fff'" onmouseout="this.style.background='transparent';this.style.color='#6366f1'">Periodicity Analysis &rarr;</a>
@@ -277,37 +305,6 @@ than CVSS score alone — especially for prioritizing library rebuilds.
 <strong>Accelerating threat:</strong> Median time from CVE publication to active exploitation collapsed from 251 days (2021) to
 11 days (2023). The P25 dropped to 3 days, meaning one quarter of exploited CVEs are weaponized within 72 hours of
 publication. Traditional 30-day patch cycles are now structurally insufficient for high-priority targets.
-</div>
-</div>
-
-<!-- SECTION 4: Survivorship Bias -->
-<div class="section">
-<div class="section-title">Why Most Criticals Don't Get Exploited</div>
-<div class="grid-3">
-<div class="card">
-<h3>Firmware/Hardware</h3>
-<p style="color:#94a3b8;font-size:.9em">3,739 NVD entries, 23 KEV (0.62%). Chipset BIOS, printer firmware, Qualcomm/Arm silicon — high barriers to weaponization, airgapped, update friction.</p>
-</div>
-<div class="card">
-<h3>Linux Kernel Local</h3>
-<p style="color:#94a3b8;font-size:.9em">Many criticals require local access. Attackers prefer remote-first vectors — local privesc is a second stage, not a first.</p>
-</div>
-<div class="card">
-<h3>Consumer IoT</h3>
-<p style="color:#94a3b8;font-size:.9em">Smart home, IP cameras, consumer routers — high CVSS but low strategic value for nation-state/criminal targeting.</p>
-</div>
-<div class="card">
-<h3>Non-Western Ecosystems</h3>
-<p style="color:#94a3b8;font-size:.9em">Products popular in specific regional markets (e.g., Huawei, Tenda) get NVD criticals but limited Western exploitation tracking.</p>
-</div>
-<div class="card">
-<h3>Memory Corruption</h3>
-<p style="color:#94a3b8;font-size:.9em"><em>Developing</em> a heap overflow exploit is hard, but once a PoC drops, weaponization follows in hours. The skill barrier filters discovery, not deployment.</p>
-</div>
-<div class="card">
-<h3>Niche Products</h3>
-<p style="color:#94a3b8;font-size:.9em">Niche products with a single critical CVE and minimal deployment. Not worth exploit development for attackers.</p>
-</div>
 </div>
 </div>
 
@@ -433,6 +430,38 @@ Tracking counter-examples: library/framework CVEs exploited through purely non-n
 <div class="section">
 <div class="section-title">Top Exploited Products</div>
 <div class="card"><canvas id="topProductsChart" style="max-height:450px"></canvas></div>
+</div>
+
+<!-- SECTION 8b: What this filter doesn't cover (formerly hero "Why most criticals don't get exploited") -->
+<div class="section">
+<div class="section-title">What this filter doesn't cover</div>
+<p style="color:#94a3b8;font-size:.95em;margin-bottom:14px">The model targets the network-edge HTTP-parsing surface. Several CVE classes are deliberately out of scope — they have different exploitation dynamics, different threat models, or different patch-routing answers. Surfacing them here so a reader using the dashboard for triage knows what the filter <em>doesn't</em> claim.</p>
+<div class="grid-3">
+<div class="card">
+<h3>Firmware/Hardware</h3>
+<p style="color:#94a3b8;font-size:.9em">3,739 NVD entries, 23 KEV (0.62%). Chipset BIOS, printer firmware, Qualcomm/Arm silicon — high barriers to weaponization, airgapped, update friction. Routed via vendor patch cycles, not the model.</p>
+</div>
+<div class="card">
+<h3>Linux Kernel Local</h3>
+<p style="color:#94a3b8;font-size:.9em">Many criticals require local access. Attackers prefer remote-first vectors — local privesc is a second stage, not a first. Routed via OS patch cadence (per RHEL / Ubuntu errata).</p>
+</div>
+<div class="card">
+<h3>Consumer IoT</h3>
+<p style="color:#94a3b8;font-size:.9em">Smart home, IP cameras, consumer routers — high CVSS but low strategic value for nation-state/criminal targeting. Different operational owner; not in this triage scope.</p>
+</div>
+<div class="card">
+<h3>Non-Western Ecosystems</h3>
+<p style="color:#94a3b8;font-size:.9em">Products popular in specific regional markets (e.g., Huawei, Tenda) get NVD criticals but limited Western exploitation tracking. Coverage gap, not a model claim.</p>
+</div>
+<div class="card">
+<h3>Memory Corruption</h3>
+<p style="color:#94a3b8;font-size:.9em"><em>Developing</em> a heap overflow exploit is hard, but once a PoC drops, weaponization follows in hours. The skill barrier filters discovery, not deployment. Worth watching at PoC publication, not at CVE.</p>
+</div>
+<div class="card">
+<h3>Niche Products</h3>
+<p style="color:#94a3b8;font-size:.9em">Single-critical-CVE products with minimal deployment. Not worth exploit development for attackers. Watch list catches if deployment grows.</p>
+</div>
+</div>
 </div>
 
 <!-- SECTION 9: Searchable Table -->
