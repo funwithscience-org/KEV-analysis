@@ -625,7 +625,7 @@ code{background:var(--code-bg);padding:2px 6px;border-radius:4px;font-size:.88em
 </div>
 
 <div class="callout callout-finding">
-<strong>Where the bugs were introduced — by RHEL era:</strong> Of 14 unique kernel CVEs exploited on RHEL 8 or 9, 79% (11 of 14) were introduced before RHEL 8's kernel (4.18) — mostly in the RHEL 7 era (3.10–4.17). Only 21% (3 of 14) were introduced after 4.18. This means <strong>RHEL 8 and 9 share 64% of their exploited CVEs</strong> (9 of 14). The big generation boundary is between RHEL 7 and 8, not between 8 and 9. The RHEL 9 advantage over RHEL 8 is almost entirely about mitigations, not fewer applicable CVEs.
+<strong>Where the bugs were introduced — by RHEL era:</strong> Of 14 unique kernel CVEs exploited on RHEL 8 or 9, 79% (11 of 14) were introduced before RHEL 8's kernel (4.18) — mostly in the RHEL 7 era (3.10–4.17). Only 21% (3 of 14) were introduced after 4.18. <strong>13 of those 14 (93%) affect both RHEL 8 and RHEL 9</strong> — the only one that doesn't is CVE-2021-3493 (Ubuntu user_ns config; RHEL unaffected by default). The big generation boundary is between RHEL 7 and 8, not between 8 and 9. The RHEL 9 advantage over RHEL 8 is almost entirely about mitigations, not fewer applicable CVEs.
 </div>
 
 <h3>The exploitation test: KEV + Metasploit</h3>
@@ -646,7 +646,7 @@ code{background:var(--code-bg);padding:2px 6px;border-radius:4px;font-size:.88em
 </div>
 
 <div class="callout callout-success">
-<strong>Unlike Java libraries, the kernel has a real evergreening win — but it's between RHEL 6/7 and RHEL 8, not between 8 and 9.</strong> Moving from RHEL 6/7 to RHEL 8+ drops 10 old-gen-only KEV entries. But RHEL 8 and 9 share 64% of their exploited CVEs (9 of 14 unique entries) because most bugs were introduced in the 3.x–4.x kernel era, before either shipped.
+<strong>Unlike Java libraries, the kernel has a real evergreening win — but it's between RHEL 6/7 and RHEL 8, not between 8 and 9.</strong> Moving from RHEL 6/7 to RHEL 8+ drops 10 old-gen-only KEV entries. But RHEL 8 and 9 share 13 of 14 (93%) of their exploited kernel CVEs because most bugs were introduced in the 3.x–4.x kernel era, before either shipped.
 </div>
 
 <h3>Generation span: which RHEL versions share which exploited CVEs?</h3>
@@ -679,7 +679,7 @@ code{background:var(--code-bg);padding:2px 6px;border-radius:4px;font-size:.88em
 <thead><tr><th>Effect</th><th>Boundary</th><th>What happens</th></tr></thead>
 <tbody>
 <tr><td><strong>Surface removal</strong></td><td>RHEL 6/7 → RHEL 8</td><td>10 old-gen KEV entries dropped. Not because old subsystems are removed, but because the <em>buggy code revisions</em> in those subsystems (AF_PACKET 4.14 rework, ptrace 3.16 cred change, ALSA 4.14 locking) postdate kernel 2.6/3.10.</td></tr>
-<tr><td><strong>Exploitation hardening</strong></td><td>RHEL 8 → RHEL 9</td><td>Minimal surface difference (9 of 14 KEV CVEs shared). But SMEP+SMAP+KASLR+CFI make the shared CVEs dramatically harder to weaponize. The value is in mitigations, not in CVE avoidance.</td></tr>
+<tr><td><strong>Exploitation hardening</strong></td><td>RHEL 8 → RHEL 9</td><td>Minimal surface difference (13 of 14 KEV CVEs shared between 8 and 9). But SMEP+SMAP+KASLR+CFI make the shared CVEs dramatically harder to weaponize. The value is in mitigations, not in CVE avoidance.</td></tr>
 </tbody>
 </table>
 </div>
