@@ -29,6 +29,14 @@ strong{color:#0f172a}
 em{color:#1e293b}
 a{color:var(--accent)}
 code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:.9em;background:var(--surface);padding:1px 5px;border-radius:3px}
+pre{background:#f4f1e8;border:1px solid var(--border);border-radius:6px;padding:14px 18px;margin:12px 0;overflow-x:auto;font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:.84em;line-height:1.5;color:#1e293b}
+pre code{background:transparent;padding:0;font-size:1em}
+.example{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:12px 0}
+@media(max-width:900px){.example{grid-template-columns:1fr}}
+.example .label{font-size:.75em;text-transform:uppercase;letter-spacing:.06em;font-weight:700;color:var(--muted);margin-bottom:4px;padding-left:2px}
+.example .label.before{color:var(--red)}
+.example .label.after{color:var(--green)}
+.example pre{margin:0}
 .subtitle{font-family:var(--serif);font-style:italic;color:#475569;font-size:1.2em;line-height:1.55;margin-bottom:32px}
 
 .principle-row{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin:24px 0 32px}
@@ -178,19 +186,163 @@ blockquote p{color:#312e81;margin:4px 0}
 <h4>Action 01 — Pull in dynamic images at each build</h4>
 <p>Base images referenced by moving tags rather than fixed digests in source. <code>FROM company/runtime:current</code> or <code>FROM company/jdk21:lts</code>, not <code>FROM company/runtime:v1.2.3</code>. The image gets resolved at build time. The deployed container is built from a specific resolved digest, captured in the deployment manifest. <strong>Source declares "use the current runtime"; deployment captures "this exact runtime digest as of this build."</strong></p>
 <p>Benefit: kernel patches, base-OS package updates, JDK security updates, runtime-library fixes — they all flow into your applications on the next rebuild without anyone touching application code. Without this, every base-image bump becomes a coordinated PR sweep across every Dockerfile in the org.</p>
+
+<p style="margin-top:14px;font-size:.88em;color:var(--muted)"><strong>What this looks like in practice:</strong></p>
+<div class="example">
+<div>
+<div class="label before">BEFORE — pinned digest in source</div>
+<pre><code># Dockerfile
+FROM eclipse-temurin:21.0.2_13-jre-jammy@sha256:a4b7d9e2…
+COPY target/app.jar /app.jar
+ENTRYPOINT ["java","-jar","/app.jar"]
+</code></pre>
+</div>
+<div>
+<div class="label after">AFTER — moving tag, digest captured at build</div>
+<pre><code># Dockerfile
+FROM company/jdk21:lts
+COPY target/app.jar /app.jar
+ENTRYPOINT ["java","-jar","/app.jar"]
+
+# Build resolves 'lts' → company/jdk21@sha256:e8c…
+# Resolved digest is baked into the deployment
+# manifest, not the Dockerfile.
+</code></pre>
+</div>
+</div>
+<p style="font-size:.85em;color:var(--muted);margin-top:6px">The "after" Dockerfile reads identically a year from now; what changes is which JDK digest the build resolves to. Deployment artifact stays fully pinned via the resolved-digest record kept alongside the build (k8s manifest <code>image: company/jdk21@sha256:…</code> or equivalent).</p>
 </div>
 
 <div class="action">
 <h4>Action 02 — Move declarative libraries to BOM + starter "get best" calls</h4>
 <p>Replace per-version pins in build files with a combination of <em>starter dependencies</em> (which carry their own resolved version sets — Spring Boot starters being the canonical example) and <em>individual library references against a centrally-maintained BOM</em>. The application's <code>pom.xml</code> stops naming versions for most dependencies; the BOM dictates them. When a CVE drops in any library the BOM tracks, the platform team cuts a new BOM revision and every consumer rebuilds against the new versions automatically.</p>
 <p>This is the high-leverage move. One BOM revision propagates across the entire estate; the alternative is N-thousand bot-driven PRs each cycle. <strong>Same outcome, dramatically less mechanical work in steady state.</strong> See the <a href="build-mechanics.html#auto-deps">Operational Model §3</a> for the detailed mechanics of platform BOMs and the hybrid platform-plus-DIY shape that mature portfolios actually run.</p>
+
+<p style="margin-top:14px;font-size:.88em;color:var(--muted)"><strong>What a Spring Boot starter actually is:</strong> a Maven meta-package that declares no logic of its own — it just pulls in the canonical set of dependencies needed to do a thing, all version-aligned by the parent BOM. <code>spring-boot-starter-web</code> looks roughly like:</p>
+<pre><code>&lt;!-- spring-boot-starter-web's own pom.xml (abridged) --&gt;
+&lt;dependencies&gt;
+  &lt;dependency&gt;org.springframework.boot:spring-boot-starter&lt;/dependency&gt;
+  &lt;dependency&gt;org.springframework.boot:spring-boot-starter-json&lt;/dependency&gt;
+  &lt;dependency&gt;org.springframework.boot:spring-boot-starter-tomcat&lt;/dependency&gt;
+  &lt;dependency&gt;org.springframework:spring-web&lt;/dependency&gt;
+  &lt;dependency&gt;org.springframework:spring-webmvc&lt;/dependency&gt;
+  &lt;!-- transitively pulls Tomcat embed-core, Jackson databind/core/annotations,
+       Hibernate Validator, Logback, Micrometer — all version-aligned by
+       spring-boot-dependencies BOM --&gt;
+&lt;/dependencies&gt;
+</code></pre>
+<p style="font-size:.85em;color:var(--muted);margin-top:6px">When you depend on the starter, you don't pick versions for any of its 30+ transitive dependencies — Spring's BOM does. Bumping <em>one</em> Spring Boot version (in your platform BOM) cascades through the entire stack consistently.</p>
+
+<p style="margin-top:14px;font-size:.88em;color:var(--muted)"><strong>What an application's pom.xml looks like before and after:</strong></p>
+<div class="example">
+<div>
+<div class="label before">BEFORE — every version pinned by hand</div>
+<pre><code>&lt;dependencies&gt;
+  &lt;dependency&gt;
+    &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
+    &lt;artifactId&gt;spring-boot-starter-web&lt;/artifactId&gt;
+    &lt;version&gt;3.3.4&lt;/version&gt;
+  &lt;/dependency&gt;
+  &lt;dependency&gt;
+    &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
+    &lt;artifactId&gt;spring-boot-starter-security&lt;/artifactId&gt;
+    &lt;version&gt;3.3.4&lt;/version&gt;
+  &lt;/dependency&gt;
+  &lt;dependency&gt;
+    &lt;groupId&gt;com.fasterxml.jackson.core&lt;/groupId&gt;
+    &lt;artifactId&gt;jackson-databind&lt;/artifactId&gt;
+    &lt;version&gt;2.17.2&lt;/version&gt;
+  &lt;/dependency&gt;
+  &lt;dependency&gt;
+    &lt;groupId&gt;org.postgresql&lt;/groupId&gt;
+    &lt;artifactId&gt;postgresql&lt;/artifactId&gt;
+    &lt;version&gt;42.7.4&lt;/version&gt;
+  &lt;/dependency&gt;
+  &lt;!-- ...20 more pinned dependencies... --&gt;
+&lt;/dependencies&gt;
+</code></pre>
+</div>
+<div>
+<div class="label after">AFTER — BOM imports, no version pins</div>
+<pre><code>&lt;dependencyManagement&gt;
+  &lt;dependencies&gt;
+    &lt;dependency&gt;
+      &lt;groupId&gt;com.yourco&lt;/groupId&gt;
+      &lt;artifactId&gt;platform-bom&lt;/artifactId&gt;
+      &lt;version&gt;2026.05&lt;/version&gt;
+      &lt;type&gt;pom&lt;/type&gt;
+      &lt;scope&gt;import&lt;/scope&gt;
+    &lt;/dependency&gt;
+  &lt;/dependencies&gt;
+&lt;/dependencyManagement&gt;
+
+&lt;dependencies&gt;
+  &lt;dependency&gt;
+    &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
+    &lt;artifactId&gt;spring-boot-starter-web&lt;/artifactId&gt;
+  &lt;/dependency&gt;
+  &lt;dependency&gt;
+    &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
+    &lt;artifactId&gt;spring-boot-starter-security&lt;/artifactId&gt;
+  &lt;/dependency&gt;
+  &lt;dependency&gt;
+    &lt;groupId&gt;com.fasterxml.jackson.core&lt;/groupId&gt;
+    &lt;artifactId&gt;jackson-databind&lt;/artifactId&gt;
+  &lt;/dependency&gt;
+  &lt;dependency&gt;
+    &lt;groupId&gt;org.postgresql&lt;/groupId&gt;
+    &lt;artifactId&gt;postgresql&lt;/artifactId&gt;
+  &lt;/dependency&gt;
+&lt;/dependencies&gt;
+</code></pre>
+</div>
+</div>
+<p style="font-size:.85em;color:var(--muted);margin-top:6px">The "after" pom is shorter, doesn't lie about what version is actually shipping (the BOM revision <em>is</em> the version statement), and absorbs every CVE patch the platform team blesses without touching the application file. When platform-bom 2026.05 → 2026.06, the application gets the new Jackson, the new Postgres driver, the new Spring Security all at once on next rebuild.</p>
 </div>
 
 <div class="action">
 <h4>Action 03 — Enable auto-fix for remaining declarative dependencies</h4>
 <p>For the long tail of build files that haven't been migrated to a BOM (and for genuine one-off dependencies that don't belong in the platform), use Renovate-style functionality to bump pinned versions automatically. We will use <strong>Nexus's built-in version (Sonatype Lifecycle's Automated Pull Requests)</strong> rather than standalone Renovate so the policy lives alongside the artifact governance already in Nexus. Auto-merge gated by green CI, scoped to the security-tracking package set. The bot commits a literal version bump to the source manifest; what you see in source is what you get at build.</p>
 <p>This handles the cases the BOM doesn't reach. The two mechanisms are complementary, not competitive: BOM for the high-volume coordinated dependencies that scale linearly across the estate; auto-fix for the long tail. <strong>Both paths absorb patches in BAU.</strong></p>
+
+<p style="margin-top:14px;font-size:.88em;color:var(--muted)"><strong>What the per-package policy looks like</strong> (Renovate config syntax shown for clarity; the equivalent expressed via Sonatype Lifecycle's policy editor is the same idea — match by package, set range strategy, gate auto-merge):</p>
+<pre><code>{
+  "packageRules": [
+    { "matchPackagePatterns": ["snakeyaml"],
+      "rangeStrategy": "bump", "automerge": true },
+    { "matchPackagePatterns": ["org.springframework.boot:.*"],
+      "matchUpdateTypes": ["patch","minor"], "automerge": true },
+    { "matchPackagePatterns": ["org.springframework.boot:.*"],
+      "matchUpdateTypes": ["major"], "enabled": false },
+    { "matchPackagePatterns": ["org.springframework:spring-web"],
+      "matchUpdateTypes": ["patch"], "automerge": true },
+    { "matchPackagePatterns": ["org.springframework:spring-web"],
+      "matchUpdateTypes": ["minor","major"], "enabled": false }
+  ]
+}
+</code></pre>
+<p style="font-size:.85em;color:var(--muted);margin-top:6px">Reads as: snakeyaml — auto-bump anything; spring-boot-* — auto-merge patch+minor only, never propose majors; spring-web — auto-merge patch only, never minor or major. Each app's per-package SemVer policy expressed in one config file, applied wherever the bot is pointed.</p>
 </div>
+
+<h3 style="margin-top:32px">Common platform examples by ecosystem</h3>
+
+<p>The "BOM + starter" pattern has direct equivalents in every major language ecosystem. Reach for whichever one your stack is in; the principle (developer expresses intent, platform manifest dictates version) is the same.</p>
+
+<table>
+<thead><tr><th>Ecosystem</th><th>Platform-manifest mechanism</th><th>Canonical example</th></tr></thead>
+<tbody>
+<tr><td><strong>Java / Maven</strong></td><td><code>&lt;dependencyManagement&gt;</code> + BOM import (<code>&lt;type&gt;pom&lt;/type&gt;&lt;scope&gt;import&lt;/scope&gt;</code>)</td><td><code>spring-boot-dependencies</code> (~250 libs, version-aligned)</td></tr>
+<tr><td><strong>Java / Gradle</strong></td><td>Version catalog (<code>libs.versions.toml</code>) + <code>platform()</code> import for BOMs</td><td>Same Spring Boot BOM consumed via <code>implementation platform("org.springframework.boot:spring-boot-dependencies:3.3.4")</code></td></tr>
+<tr><td><strong>Node.js / npm</strong></td><td>npm overrides in workspace root, or <strong>dist-tags</strong> on a private registry (<code>"snakeyaml": "blessed"</code>)</td><td>Internal registry maps <code>blessed</code> tag to current safe version; consumers reference by tag, not pin</td></tr>
+<tr><td><strong>Python / pip</strong></td><td><strong>Constraints file</strong> (<code>pip install -r requirements.txt -c constraints.txt</code>); requirements lists names, constraints supplies versions</td><td>pip-tools / Poetry workflow; constraints.txt published by platform team</td></tr>
+<tr><td><strong>Ruby / Bundler</strong></td><td><code>Gemfile</code> uses platform-shared groups; central Gemfile.lock or shared <code>~> X.Y</code> ranges</td><td>Rails edge convention: app Gemfile says <code>gem "rails"</code>, version comes from app generator template + central upgrade tooling</td></tr>
+<tr><td><strong>.NET</strong></td><td><strong>Central Package Management</strong> via <code>Directory.Packages.props</code></td><td>Project files list <code>&lt;PackageReference Include="Newtonsoft.Json" /&gt;</code> with no version; props file dictates <code>&lt;PackageVersion Include="Newtonsoft.Json" Version="13.0.3" /&gt;</code></td></tr>
+<tr><td><strong>Go</strong></td><td>Module <code>replace</code> directives in <code>go.mod</code> for org-internal version pinning; workspace mode for multi-module estates</td><td>Less ergonomic than the others; many shops just use Renovate against the raw <code>go.mod</code> instead</td></tr>
+<tr><td><strong>Rust / Cargo</strong></td><td>Workspace <code>[workspace.dependencies]</code> in root <code>Cargo.toml</code>; member crates inherit via <code>workspace = true</code></td><td><code>[workspace.dependencies] tokio = "1.40"</code> in root; member crate <code>tokio = { workspace = true }</code></td></tr>
+</tbody>
+</table>
+
+<p style="font-size:.85em;color:var(--muted);margin-top:8px">"Starter"-style meta-packages (a single declared dependency that pulls in a curated, version-aligned set) exist as Spring Boot starters, Quarkus extensions, Micronaut features, Rails gems-by-convention, .NET project templates with consolidated package refs. The starter is the runtime/framework story; the BOM/catalog/constraints is the version-pinning story; both layers can be in play simultaneously.</p>
 
 <h3 style="margin-top:32px">Operational-readiness goal — Action 04 (tracked separately)</h3>
 
