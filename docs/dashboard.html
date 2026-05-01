@@ -199,7 +199,8 @@ details.dash-expand .detail-content{padding:16px;background:#0f172a}
   <th style="padding:8px 10px;text-align:left;color:#a5b4fc;border-bottom:2px solid #334155">Package</th>
   <th style="padding:8px 10px;text-align:center;color:#a5b4fc;border-bottom:2px solid #334155">Sev</th>
   <th style="padding:8px 10px;text-align:left;color:#a5b4fc;border-bottom:2px solid #334155">CWE(s)</th>
-  <th style="padding:8px 10px;text-align:center;color:#a5b4fc;border-bottom:2px solid #334155">NP+DI</th>
+  <th style="padding:8px 10px;text-align:center;color:#a5b4fc;border-bottom:2px solid #334155" title="Hacker tier S/A/B/C/D">Hacker</th>
+  <th style="padding:8px 10px;text-align:center;color:#a5b4fc;border-bottom:2px solid #334155" title="NP+DI ∪ Hacker S+A">Model</th>
   <th style="padding:8px 10px;text-align:center;color:#a5b4fc;border-bottom:2px solid #334155">Exploited</th>
 </tr></thead>
 <tbody id="postApr1TBody"></tbody>
@@ -207,10 +208,10 @@ details.dash-expand .detail-content{padding:16px;background:#0f172a}
 </div>
 </div>
 <div class="insight" style="margin-top:14px">
-<strong>Read it as:</strong> the model pushed 1 rebuild on Spring (Tomcat + Thymeleaf coalesced into one 7-day cluster), 0 on Node/Django/Netty, and 1 on the real-world Java enterprise build. Compared to "patch all C/H" (1 / 2 / 1 / 0 / 1) the difference this month is small &mdash; April 2026 is busy. The interesting row is real-world Java: <strong>CVE-2026-34197 (ActiveMQ broker, KEV-listed 2026-04-28)</strong> is the lone April exploit on any of these manifests. NP+DI raw doesn't catch it on its own (CWE-20 is not in the frozen DI set), but the rebuild that NP+DI <em>does</em> trigger on the same week (Tomcat 4/9, Thymeleaf 4/15) sweeps it up incidentally &mdash; the "DQ rescue" / coincident-week effect.
+<strong>Read it as:</strong> the model pushed 1 rebuild on Spring, 1 on Node, 1 on Django, 0 on Netty, and 1 on real-world Java &mdash; vs "patch all C/H" at 1 / 2 / 1 / 0 / 1. April 2026 is a busy month so the gap is narrow on most rows; the one place "patch all" forces a second rebuild that the model collapses is <strong>Node</strong> (lodash 4/1 + fastify 4/15 are out of cluster window, but only lodash &mdash; <code>_.template</code> code injection &mdash; tiers Hacker A, so the model fires once not twice). The lone April exploit, <strong>CVE-2026-34197 (ActiveMQ broker, KEV-listed 2026-04-28)</strong>, is on the real-world Java row and the model catches it on its merit: hacker A &mdash; "Authenticated Jolokia MBean RCE." Not luck of timing, not coincident-week sweep &mdash; it's the discriminator firing.
 </div>
 <div class="insight" style="margin-top:8px;border-left:3px solid #fbbf24;background:#1c1917">
-<strong>Other side of the argument:</strong> the model "catching" CVE-2026-34197 here is partly luck of timing &mdash; if ActiveMQ had popped a quiet week with no concurrent NP+DI Tomcat trigger, NP+DI raw would have said "skip" and the exploit would have landed in the genuine-misses column. This is what the freeze counter above is built to surface honestly. The coincident-week sweep is a real defense mechanism but it isn't the same thing as the structure test discriminating well; the union with hacker S+A is what the 7-year backtest table below leans on for the harder cases.
+<strong>Other side of the argument:</strong> with N=1 actual exploit and 5 manifests, this month is the absolute thinnest possible evidence base. The model and "patch all" disagree on workload by exactly 1 cluster (Node), and the one exploit happens to be tier A in a round we already ran &mdash; so the discriminator firing is partly a function of how thoroughly we've previously covered that package universe. The honest test is what happens when a CVE arrives whose package we haven't pre-scored, in a week with no neighbors. That's what the freeze counter above is built to track.
 </div>
 </div>
 
@@ -764,38 +765,41 @@ new Chart(document.getElementById('topProductsChart'), {
 
 
 // Live tracker (Apr 1, 2026 forward) — embedded snapshot of data/post-apr1-per-framework.json
+// Model = NP+DI ∪ DQ ∪ Hacker S+A. Operational stand-in here uses NP+DI ∪ Hacker S+A
+// since DQ requires per-event AI re-validation (the analyst agent will fold DQ in
+// going forward; for fresh events it's currently null).
 const POST_APR1 = {
     snapshot_through: "2026-04-30",
     labels: ["Spring Boot","Node.js/Express","Django/Python","Netty","Real-world Java"],
     all_ch_clusters: [1, 2, 1, 0, 1],
-    npdi_clusters:   [1, 0, 0, 0, 1],
+    model_clusters:  [1, 1, 1, 0, 1],   // union: NP+DI ∪ Hacker S+A
     exploited:       [0, 0, 0, 0, 1],
     events: [
         // spring
-        {date:"2026-04-09", framework:"Spring", pkg:"tomcat-embed-core", sev:"HIGH",     cwes:["CWE-327"],          npdi:false, exploited:false},
-        {date:"2026-04-09", framework:"Spring", pkg:"tomcat-embed-core", sev:"CRITICAL", cwes:["CWE-287"],          npdi:true,  exploited:false},
-        {date:"2026-04-09", framework:"Spring", pkg:"tomcat-embed-core", sev:"HIGH",     cwes:["CWE-116"],          npdi:true,  exploited:false},
-        {date:"2026-04-09", framework:"Spring", pkg:"tomcat-embed-core", sev:"HIGH",     cwes:["CWE-532"],          npdi:false, exploited:false},
-        {date:"2026-04-15", framework:"Spring", pkg:"thymeleaf",         sev:"CRITICAL", cwes:["CWE-1336","CWE-917"], npdi:true,  exploited:false},
-        {date:"2026-04-15", framework:"Spring", pkg:"thymeleaf",         sev:"CRITICAL", cwes:["CWE-1336","CWE-917"], npdi:true,  exploited:false},
-        {date:"2026-04-15", framework:"Spring", pkg:"thymeleaf-spring6", sev:"CRITICAL", cwes:["CWE-1336","CWE-917"], npdi:true,  exploited:false},
-        {date:"2026-04-15", framework:"Spring", pkg:"thymeleaf-spring6", sev:"CRITICAL", cwes:["CWE-1336","CWE-917"], npdi:true,  exploited:false},
+        {date:"2026-04-09", framework:"Spring", pkg:"tomcat-embed-core", sev:"HIGH",     cwes:["CWE-327"],            npdi:false, hacker:"D", exploited:false, cve:"CVE-2026-29129"},
+        {date:"2026-04-09", framework:"Spring", pkg:"tomcat-embed-core", sev:"CRITICAL", cwes:["CWE-287"],            npdi:true,  hacker:"A", exploited:false, cve:"CVE-2026-29145"},
+        {date:"2026-04-09", framework:"Spring", pkg:"tomcat-embed-core", sev:"HIGH",     cwes:["CWE-116"],            npdi:true,  hacker:"D", exploited:false, cve:"CVE-2026-34483"},
+        {date:"2026-04-09", framework:"Spring", pkg:"tomcat-embed-core", sev:"HIGH",     cwes:["CWE-532"],            npdi:false, hacker:"D", exploited:false, cve:"CVE-2026-34487"},
+        {date:"2026-04-15", framework:"Spring", pkg:"thymeleaf",         sev:"CRITICAL", cwes:["CWE-1336","CWE-917"], npdi:true,  hacker:"A", exploited:false, cve:"CVE-2026-40477"},
+        {date:"2026-04-15", framework:"Spring", pkg:"thymeleaf",         sev:"CRITICAL", cwes:["CWE-1336","CWE-917"], npdi:true,  hacker:"A", exploited:false, cve:"CVE-2026-40478"},
+        {date:"2026-04-15", framework:"Spring", pkg:"thymeleaf-spring6", sev:"CRITICAL", cwes:["CWE-1336","CWE-917"], npdi:true,  hacker:"A", exploited:false, cve:"CVE-2026-40477"},
+        {date:"2026-04-15", framework:"Spring", pkg:"thymeleaf-spring6", sev:"CRITICAL", cwes:["CWE-1336","CWE-917"], npdi:true,  hacker:"A", exploited:false, cve:"CVE-2026-40478"},
         // node
-        {date:"2026-04-01", framework:"Node",   pkg:"lodash",            sev:"HIGH/CRIT",cwes:["CWE-94"],            npdi:false, exploited:false},
-        {date:"2026-04-15", framework:"Node",   pkg:"fastify",           sev:"HIGH/CRIT",cwes:["CWE-1287"],          npdi:false, exploited:false},
+        {date:"2026-04-01", framework:"Node",   pkg:"lodash",            sev:"HIGH/CRIT",cwes:["CWE-94"],             npdi:false, hacker:"A", exploited:false, cve:"CVE-2026-4800"},
+        {date:"2026-04-15", framework:"Node",   pkg:"fastify",           sev:"HIGH/CRIT",cwes:["CWE-1287"],           npdi:false, hacker:"C", exploited:false, cve:"CVE-2026-33806"},
         // django
-        {date:"2026-04-07", framework:"Django", pkg:"django",            sev:"HIGH/CRIT",cwes:["CWE-770"],           npdi:false, exploited:false},
-        {date:"2026-04-07", framework:"Django", pkg:"django",            sev:"HIGH/CRIT",cwes:["CWE-290"],           npdi:false, exploited:false},
-        {date:"2026-04-13", framework:"Django", pkg:"pillow",            sev:"HIGH/CRIT",cwes:["CWE-400","CWE-770"], npdi:false, exploited:false},
+        {date:"2026-04-07", framework:"Django", pkg:"django",            sev:"HIGH/CRIT",cwes:["CWE-770"],            npdi:false, hacker:"B", exploited:false, cve:"CVE-2026-33034"},
+        {date:"2026-04-07", framework:"Django", pkg:"django",            sev:"HIGH/CRIT",cwes:["CWE-290"],            npdi:false, hacker:"A", exploited:false, cve:"CVE-2026-3902"},
+        {date:"2026-04-13", framework:"Django", pkg:"pillow",            sev:"HIGH/CRIT",cwes:["CWE-400","CWE-770"],  npdi:false, hacker:"D", exploited:false, cve:"CVE-2026-40192"},
         // real-world java enterprise (58-pkg, includes ActiveMQ + Camel layered onto Spring Boot starter)
-        {date:"2026-04-07", framework:"RealJava", pkg:"activemq-broker",   sev:"HIGH",     cwes:["CWE-20"],           npdi:false, exploited:true,  cve:"CVE-2026-34197"},
-        {date:"2026-04-09", framework:"RealJava", pkg:"tomcat-embed-core", sev:"HIGH",     cwes:["CWE-327"],          npdi:false, exploited:false, cve:"CVE-2026-29129"},
-        {date:"2026-04-09", framework:"RealJava", pkg:"tomcat-embed-core", sev:"CRITICAL", cwes:["CWE-287"],          npdi:true,  exploited:false, cve:"CVE-2026-29145"},
-        {date:"2026-04-09", framework:"RealJava", pkg:"tomcat-embed-core", sev:"HIGH",     cwes:["CWE-116"],          npdi:true,  exploited:false, cve:"CVE-2026-34483"},
-        {date:"2026-04-09", framework:"RealJava", pkg:"tomcat-embed-core", sev:"HIGH",     cwes:["CWE-532"],          npdi:false, exploited:false, cve:"CVE-2026-34487"},
-        {date:"2026-04-10", framework:"RealJava", pkg:"activemq-broker",   sev:"HIGH",     cwes:["CWE-400"],          npdi:false, exploited:false, cve:"CVE-2026-39304"},
-        {date:"2026-04-15", framework:"RealJava", pkg:"thymeleaf",         sev:"CRITICAL", cwes:["CWE-1336","CWE-917"], npdi:true,  exploited:false, cve:"CVE-2026-40477"},
-        {date:"2026-04-15", framework:"RealJava", pkg:"thymeleaf",         sev:"CRITICAL", cwes:["CWE-1336","CWE-917"], npdi:true,  exploited:false, cve:"CVE-2026-40478"},
+        {date:"2026-04-07", framework:"RealJava", pkg:"activemq-broker",   sev:"HIGH",     cwes:["CWE-20"],             npdi:false, hacker:"A", exploited:true,  cve:"CVE-2026-34197"},
+        {date:"2026-04-09", framework:"RealJava", pkg:"tomcat-embed-core", sev:"HIGH",     cwes:["CWE-327"],            npdi:false, hacker:"D", exploited:false, cve:"CVE-2026-29129"},
+        {date:"2026-04-09", framework:"RealJava", pkg:"tomcat-embed-core", sev:"CRITICAL", cwes:["CWE-287"],            npdi:true,  hacker:"A", exploited:false, cve:"CVE-2026-29145"},
+        {date:"2026-04-09", framework:"RealJava", pkg:"tomcat-embed-core", sev:"HIGH",     cwes:["CWE-116"],            npdi:true,  hacker:"D", exploited:false, cve:"CVE-2026-34483"},
+        {date:"2026-04-09", framework:"RealJava", pkg:"tomcat-embed-core", sev:"HIGH",     cwes:["CWE-532"],            npdi:false, hacker:"D", exploited:false, cve:"CVE-2026-34487"},
+        {date:"2026-04-10", framework:"RealJava", pkg:"activemq-broker",   sev:"HIGH",     cwes:["CWE-400"],            npdi:false, hacker:null,exploited:false, cve:"CVE-2026-39304"},
+        {date:"2026-04-15", framework:"RealJava", pkg:"thymeleaf",         sev:"CRITICAL", cwes:["CWE-1336","CWE-917"], npdi:true,  hacker:"A", exploited:false, cve:"CVE-2026-40477"},
+        {date:"2026-04-15", framework:"RealJava", pkg:"thymeleaf",         sev:"CRITICAL", cwes:["CWE-1336","CWE-917"], npdi:true,  hacker:"A", exploited:false, cve:"CVE-2026-40478"},
     ],
 };
 // Render snapshot date
@@ -810,7 +814,17 @@ document.getElementById('postApr1Through').textContent = POST_APR1.snapshot_thro
         const td = (txt, align='left', color='#cbd5e1') =>
             `<td style="padding:6px 10px;text-align:${align};color:${color}">${txt}</td>`;
         const sevColor = e.sev === 'CRITICAL' ? '#f87171' : e.sev.startsWith('HIGH') ? '#fbbf24' : '#cbd5e1';
-        const npdiBadge = e.npdi ? '<span style="color:#34d399;font-weight:700">&#10003;</span>' : '<span style="color:#475569">&middot;</span>';
+        const inUnion = e.npdi || (e.hacker === 'S' || e.hacker === 'A');
+        const modelBadge = inUnion
+            ? '<span style="color:#34d399;font-weight:700">&#10003;</span>'
+            : '<span style="color:#475569">&middot;</span>';
+        const tierColor = e.hacker === 'S' ? '#f87171'
+                       : e.hacker === 'A' ? '#fbbf24'
+                       : e.hacker === 'B' ? '#a3e635'
+                       : e.hacker ? '#64748b' : '#475569';
+        const tierBadge = e.hacker
+            ? `<span style="color:${tierColor};font-weight:700">${e.hacker}</span>`
+            : '<span style="color:#475569">&middot;</span>';
         const expBadge  = e.exploited ? '<span style="color:#f87171;font-weight:700">KEV</span>' : '<span style="color:#475569">&middot;</span>';
         const fwkLabel = e.framework === 'RealJava' ? 'Real Java' : e.framework;
         tr.innerHTML =
@@ -819,7 +833,8 @@ document.getElementById('postApr1Through').textContent = POST_APR1.snapshot_thro
             td(e.pkg) +
             td(e.sev, 'center', sevColor) +
             td(e.cwes.join(', '), 'left', '#94a3b8') +
-            td(npdiBadge, 'center') +
+            td(tierBadge, 'center') +
+            td(modelBadge, 'center') +
             td(expBadge,  'center');
         tbody.appendChild(tr);
     });
@@ -830,9 +845,9 @@ new Chart(document.getElementById('postApr1Chart'), {
     data: {
         labels: POST_APR1.labels,
         datasets: [
-            {label:'All C/H patch events',  data:POST_APR1.all_ch_clusters, backgroundColor:'rgba(239,68,68,.55)', borderColor:'#ef4444', borderWidth:1, borderRadius:4},
-            {label:'NP+DI patch events',    data:POST_APR1.npdi_clusters,   backgroundColor:'rgba(245,158,11,.85)', borderColor:'#f59e0b', borderWidth:1, borderRadius:4},
-            {label:'Exploited (KEV/MSF/EDB)', data:POST_APR1.exploited,     backgroundColor:'rgba(248,113,113,.95)', borderColor:'#7f1d1d', borderWidth:1, borderRadius:4},
+            {label:'All C/H patch events',     data:POST_APR1.all_ch_clusters, backgroundColor:'rgba(239,68,68,.55)',  borderColor:'#ef4444', borderWidth:1, borderRadius:4},
+            {label:'Model triggers (NP+DI ∪ Hacker S+A)', data:POST_APR1.model_clusters, backgroundColor:'rgba(245,158,11,.85)', borderColor:'#f59e0b', borderWidth:1, borderRadius:4},
+            {label:'Exploited (KEV/MSF/EDB)',  data:POST_APR1.exploited,       backgroundColor:'rgba(248,113,113,.95)', borderColor:'#7f1d1d', borderWidth:1, borderRadius:4},
         ]
     },
     options: {

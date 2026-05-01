@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-05-01T13:16:38Z",
+  "generated_at": "2026-05-01T13:22:05Z",
   "cutoff": "2026-04-01",
   "snapshot_through": "2026-04-30",
   "description": "Live tracker \u2014 events with disclosure date >= 2026-04-01 for the five manifests (4 modeled + 1 real-world Java enterprise), with exploit cross-reference. Patch-event counts use the canonical 7-day clustering rule.",
@@ -56,6 +56,10 @@
       "all_ch_clusters": 1,
       "npdi_event_count": 6,
       "npdi_clusters": 1,
+      "hacker_sa_event_count": 5,
+      "hacker_sa_clusters": 1,
+      "model_union_event_count": 6,
+      "model_union_clusters": 1,
       "exploited_count": 0,
       "exploited_events": [],
       "events": [
@@ -69,6 +73,9 @@
           "severity": "HIGH",
           "is_np": true,
           "is_di": false,
+          "hacker_tier": "D",
+          "hacker_sa": false,
+          "in_union": false,
           "cwes": [
             "CWE-327"
           ],
@@ -84,6 +91,9 @@
           "severity": "CRITICAL",
           "is_np": true,
           "is_di": true,
+          "hacker_tier": "A",
+          "hacker_sa": true,
+          "in_union": true,
           "cwes": [
             "CWE-287"
           ],
@@ -99,6 +109,9 @@
           "severity": "HIGH",
           "is_np": true,
           "is_di": true,
+          "hacker_tier": "D",
+          "hacker_sa": false,
+          "in_union": true,
           "cwes": [
             "CWE-116"
           ],
@@ -114,6 +127,9 @@
           "severity": "HIGH",
           "is_np": true,
           "is_di": false,
+          "hacker_tier": "D",
+          "hacker_sa": false,
+          "in_union": false,
           "cwes": [
             "CWE-532"
           ],
@@ -129,6 +145,9 @@
           "severity": "CRITICAL",
           "is_np": true,
           "is_di": true,
+          "hacker_tier": "A",
+          "hacker_sa": true,
+          "in_union": true,
           "cwes": [
             "CWE-1336",
             "CWE-917"
@@ -145,6 +164,9 @@
           "severity": "CRITICAL",
           "is_np": true,
           "is_di": true,
+          "hacker_tier": "A",
+          "hacker_sa": true,
+          "in_union": true,
           "cwes": [
             "CWE-1336",
             "CWE-917"
@@ -161,6 +183,9 @@
           "severity": "CRITICAL",
           "is_np": true,
           "is_di": true,
+          "hacker_tier": "A",
+          "hacker_sa": true,
+          "in_union": true,
           "cwes": [
             "CWE-1336",
             "CWE-917"
@@ -177,6 +202,9 @@
           "severity": "CRITICAL",
           "is_np": true,
           "is_di": true,
+          "hacker_tier": "A",
+          "hacker_sa": true,
+          "in_union": true,
           "cwes": [
             "CWE-1336",
             "CWE-917"
@@ -191,6 +219,10 @@
       "all_ch_clusters": 2,
       "npdi_event_count": 0,
       "npdi_clusters": 0,
+      "hacker_sa_event_count": 1,
+      "hacker_sa_clusters": 1,
+      "model_union_event_count": 1,
+      "model_union_clusters": 1,
       "exploited_count": 0,
       "exploited_events": [],
       "events": [
@@ -204,6 +236,9 @@
           "severity": "HIGH/CRITICAL",
           "is_np": false,
           "is_di": false,
+          "hacker_tier": "A",
+          "hacker_sa": true,
+          "in_union": true,
           "cwes": [
             "CWE-94"
           ],
@@ -219,6 +254,9 @@
           "severity": "HIGH/CRITICAL",
           "is_np": true,
           "is_di": false,
+          "hacker_tier": "C",
+          "hacker_sa": false,
+          "in_union": false,
           "cwes": [
             "CWE-1287"
           ],
@@ -232,6 +270,10 @@
       "all_ch_clusters": 1,
       "npdi_event_count": 0,
       "npdi_clusters": 0,
+      "hacker_sa_event_count": 1,
+      "hacker_sa_clusters": 1,
+      "model_union_event_count": 1,
+      "model_union_clusters": 1,
       "exploited_count": 0,
       "exploited_events": [],
       "events": [
@@ -245,6 +287,9 @@
           "severity": "HIGH/CRITICAL",
           "is_np": true,
           "is_di": false,
+          "hacker_tier": "B",
+          "hacker_sa": false,
+          "in_union": false,
           "cwes": [
             "CWE-770"
           ],
@@ -260,6 +305,9 @@
           "severity": "HIGH/CRITICAL",
           "is_np": true,
           "is_di": false,
+          "hacker_tier": "A",
+          "hacker_sa": true,
+          "in_union": true,
           "cwes": [
             "CWE-290"
           ],
@@ -275,6 +323,9 @@
           "severity": "HIGH/CRITICAL",
           "is_np": false,
           "is_di": false,
+          "hacker_tier": "D",
+          "hacker_sa": false,
+          "in_union": false,
           "cwes": [
             "CWE-400",
             "CWE-770"
@@ -289,6 +340,10 @@
       "all_ch_clusters": 0,
       "npdi_event_count": 0,
       "npdi_clusters": 0,
+      "hacker_sa_event_count": 0,
+      "hacker_sa_clusters": 0,
+      "model_union_event_count": 0,
+      "model_union_clusters": 0,
       "exploited_count": 0,
       "exploited_events": [],
       "events": []
@@ -299,6 +354,10 @@
       "all_ch_clusters": 1,
       "npdi_event_count": 4,
       "npdi_clusters": 1,
+      "hacker_sa_event_count": 4,
+      "hacker_sa_clusters": 1,
+      "model_union_event_count": 5,
+      "model_union_clusters": 1,
       "exploited_count": 1,
       "exploited_events": [
         {
@@ -310,7 +369,8 @@
           "package": "activemq-broker",
           "in_kev": true,
           "in_msf": false,
-          "in_edb": false
+          "in_edb": false,
+          "hacker_tier": "A"
         }
       ],
       "events": [
@@ -324,6 +384,9 @@
           "severity": "HIGH",
           "is_np": true,
           "is_di": false,
+          "hacker_tier": "A",
+          "hacker_sa": true,
+          "in_union": true,
           "cwes": [
             "CWE-20"
           ],
@@ -339,6 +402,9 @@
           "severity": "HIGH",
           "is_np": true,
           "is_di": false,
+          "hacker_tier": "D",
+          "hacker_sa": false,
+          "in_union": false,
           "cwes": [
             "CWE-327"
           ],
@@ -354,6 +420,9 @@
           "severity": "CRITICAL",
           "is_np": true,
           "is_di": true,
+          "hacker_tier": "A",
+          "hacker_sa": true,
+          "in_union": true,
           "cwes": [
             "CWE-287"
           ],
@@ -369,6 +438,9 @@
           "severity": "HIGH",
           "is_np": true,
           "is_di": true,
+          "hacker_tier": "D",
+          "hacker_sa": false,
+          "in_union": true,
           "cwes": [
             "CWE-116"
           ],
@@ -384,6 +456,9 @@
           "severity": "HIGH",
           "is_np": true,
           "is_di": false,
+          "hacker_tier": "D",
+          "hacker_sa": false,
+          "in_union": false,
           "cwes": [
             "CWE-532"
           ],
@@ -399,6 +474,9 @@
           "severity": "HIGH",
           "is_np": true,
           "is_di": false,
+          "hacker_tier": null,
+          "hacker_sa": false,
+          "in_union": false,
           "cwes": [
             "CWE-400"
           ],
@@ -414,6 +492,9 @@
           "severity": "CRITICAL",
           "is_np": true,
           "is_di": true,
+          "hacker_tier": "A",
+          "hacker_sa": true,
+          "in_union": true,
           "cwes": [
             "CWE-1336",
             "CWE-917"
@@ -430,6 +511,9 @@
           "severity": "CRITICAL",
           "is_np": true,
           "is_di": true,
+          "hacker_tier": "A",
+          "hacker_sa": true,
+          "in_union": true,
           "cwes": [
             "CWE-1336",
             "CWE-917"
@@ -454,10 +538,10 @@
       0,
       1
     ],
-    "npdi_clusters": [
+    "model_union_clusters": [
       1,
-      0,
-      0,
+      1,
+      1,
       0,
       1
     ],
@@ -465,6 +549,20 @@
       0,
       0,
       0,
+      0,
+      1
+    ],
+    "npdi_clusters": [
+      1,
+      0,
+      0,
+      0,
+      1
+    ],
+    "hacker_sa_clusters": [
+      1,
+      1,
+      1,
       0,
       1
     ]

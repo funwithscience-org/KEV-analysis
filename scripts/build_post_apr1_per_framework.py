@@ -132,6 +132,13 @@ def load_alias_cache() -> dict:
     return json.load(open(REPO / "data" / "_osv-alias-cache.json"))
 
 
+def load_hacker_tiers() -> dict:
+    """Returns {cve_id: tier_letter} for events scored in any prior round."""
+    ht = json.load(open(REPO / "data" / "hacker-tiers.json"))
+    return {cve: rec.get("tier") for cve, rec in (ht.get("tiers") or {}).items()
+            if isinstance(rec, dict) and rec.get("tier")}
+
+
 def load_kev_cves() -> set[str]:
     kev = json.load(open(REPO / "data" / "kev-snapshot-2026-05-01.json"))
     return {v["cveID"] for v in kev["vulnerabilities"]}
@@ -179,13 +186,16 @@ def collect_events(framework_label: str, raw_events: list[dict]) -> list[dict]:
 
 
 def summarize(label: str, events: list[dict], alias_cache: dict,
-              kev_cves: set[str], msf_cves: set[str], edb_cves: set[str]) -> dict:
+              kev_cves: set[str], msf_cves: set[str], edb_cves: set[str],
+              hacker_tiers: dict) -> dict:
     all_dates = [e["date"] for e in events]
     npdi_dates = [e["date"] for e in events if _is_npdi(e)]
+    hacker_sa_dates = []
+    union_dates = []
 
-    # For each event, resolve exploit signals. Real-world Java rows arrive
-    # with pre-resolved _in_kev/_in_msf/_in_edb (the seven-year manifest
-    # already did the lookup); GHSA rows go through alias_cache → CVE.
+    # For each event, resolve exploit signals + hacker tier (where known).
+    # Real-world Java rows arrive with pre-resolved _in_kev/_in_msf/_in_edb;
+    # other rows go through alias_cache → CVE.
     exploited = []
     enriched = []
     for e in events:
@@ -199,6 +209,20 @@ def summarize(label: str, events: list[dict], alias_cache: dict,
             kev_hit = any(c in kev_cves for c in cves)
             msf_hit = any(c in msf_cves for c in cves)
             edb_hit = any(c in edb_cves for c in cves)
+        # Hacker tier — pick best (S > A > B > ...) across mapped CVEs
+        tier = None
+        order = ["S", "A", "B", "C", "D"]
+        for c in cves:
+            t = hacker_tiers.get(c)
+            if t and (tier is None or order.index(t) < order.index(tier)):
+                tier = t
+        is_hacker_sa = tier in ("S", "A")
+        is_npdi_e = _is_npdi(e)
+        in_union = is_npdi_e or is_hacker_sa
+        if is_hacker_sa:
+            hacker_sa_dates.append(e["date"])
+        if in_union:
+            union_dates.append(e["date"])
         if kev_hit or msf_hit or edb_hit:
             exploited.append({
                 "date": e["date"],
@@ -208,6 +232,7 @@ def summarize(label: str, events: list[dict], alias_cache: dict,
                 "in_kev": kev_hit,
                 "in_msf": msf_hit,
                 "in_edb": edb_hit,
+                "hacker_tier": tier,
             })
         enriched.append({
             "date": e["date"],
@@ -216,7 +241,10 @@ def summarize(label: str, events: list[dict], alias_cache: dict,
             "package": e["package"],
             "severity": e.get("severity"),
             "is_np": e.get("is_np"),
-            "is_di": _is_npdi(e),
+            "is_di": is_npdi_e,
+            "hacker_tier": tier,
+            "hacker_sa": is_hacker_sa,
+            "in_union": in_union,
             "cwes": e.get("cwes") or [],
             "exploited": kev_hit or msf_hit or edb_hit,
         })
@@ -227,6 +255,10 @@ def summarize(label: str, events: list[dict], alias_cache: dict,
         "all_ch_clusters": _cluster_count(list(set(all_dates))),
         "npdi_event_count": len(npdi_dates),
         "npdi_clusters": _cluster_count(list(set(npdi_dates))),
+        "hacker_sa_event_count": len(hacker_sa_dates),
+        "hacker_sa_clusters": _cluster_count(list(set(hacker_sa_dates))),
+        "model_union_event_count": len(union_dates),
+        "model_union_clusters": _cluster_count(list(set(union_dates))),
         "exploited_count": len(exploited),
         "exploited_events": exploited,
         "events": enriched,
@@ -247,13 +279,14 @@ def main() -> None:
     django_evts = collect_events("Django/Python", multi["django"]["all_events"])
     netty_evts = collect_events("Netty", netty["all_events"])
     real_java_evts = load_real_java()
+    hacker_tiers = load_hacker_tiers()
 
     frameworks = {
-        "spring":    summarize("Spring Boot",        spring_evts,    aliases, kev_cves, msf_cves, edb_cves),
-        "nodejs":    summarize("Node.js/Express",    nodejs_evts,    aliases, kev_cves, msf_cves, edb_cves),
-        "django":    summarize("Django/Python",      django_evts,    aliases, kev_cves, msf_cves, edb_cves),
-        "netty":     summarize("Netty",              netty_evts,     aliases, kev_cves, msf_cves, edb_cves),
-        "real_java": summarize("Real-world Java",    real_java_evts, aliases, kev_cves, msf_cves, edb_cves),
+        "spring":    summarize("Spring Boot",        spring_evts,    aliases, kev_cves, msf_cves, edb_cves, hacker_tiers),
+        "nodejs":    summarize("Node.js/Express",    nodejs_evts,    aliases, kev_cves, msf_cves, edb_cves, hacker_tiers),
+        "django":    summarize("Django/Python",      django_evts,    aliases, kev_cves, msf_cves, edb_cves, hacker_tiers),
+        "netty":     summarize("Netty",              netty_evts,     aliases, kev_cves, msf_cves, edb_cves, hacker_tiers),
+        "real_java": summarize("Real-world Java",    real_java_evts, aliases, kev_cves, msf_cves, edb_cves, hacker_tiers),
     }
 
     out = {
@@ -276,10 +309,13 @@ def main() -> None:
         },
         "frameworks": frameworks,
         "summary": {
-            "labels": [frameworks[k]["label"] for k in ("spring", "nodejs", "django", "netty", "real_java")],
-            "all_ch_clusters":  [frameworks[k]["all_ch_clusters"]  for k in ("spring", "nodejs", "django", "netty", "real_java")],
-            "npdi_clusters":    [frameworks[k]["npdi_clusters"]    for k in ("spring", "nodejs", "django", "netty", "real_java")],
-            "exploited_counts": [frameworks[k]["exploited_count"]  for k in ("spring", "nodejs", "django", "netty", "real_java")],
+            "labels":              [frameworks[k]["label"]                 for k in ("spring", "nodejs", "django", "netty", "real_java")],
+            "all_ch_clusters":     [frameworks[k]["all_ch_clusters"]       for k in ("spring", "nodejs", "django", "netty", "real_java")],
+            "model_union_clusters":[frameworks[k]["model_union_clusters"]  for k in ("spring", "nodejs", "django", "netty", "real_java")],
+            "exploited_counts":    [frameworks[k]["exploited_count"]       for k in ("spring", "nodejs", "django", "netty", "real_java")],
+            # Retained for back-compat / debug; chart now uses model_union_clusters as the operational headline.
+            "npdi_clusters":       [frameworks[k]["npdi_clusters"]         for k in ("spring", "nodejs", "django", "netty", "real_java")],
+            "hacker_sa_clusters":  [frameworks[k]["hacker_sa_clusters"]    for k in ("spring", "nodejs", "django", "netty", "real_java")],
         },
     }
 
