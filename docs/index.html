@@ -177,16 +177,17 @@ details.expandable .detail-content{padding:16px 20px}
 <table style="width:100%;border-collapse:collapse;font-size:.9em">
 <thead><tr style="text-align:left;color:var(--muted);font-size:.85em;font-weight:500"><th style="padding:4px 12px 4px 0;width:28%">If you have…</th><th style="padding:4px 0">Read</th></tr></thead>
 <tbody>
+<tr><td style="padding:6px 12px 6px 0;color:var(--muted)">60 seconds</td><td style="padding:6px 0"><a href="#tldr" style="color:var(--accent)">The TL;DR card below</a> &mdash; the headline numbers and the policy in one box</td></tr>
 <tr><td style="padding:6px 12px 6px 0;color:var(--muted)">5 minutes</td><td style="padding:6px 0">The opener below + <a href="#np-di-filter" style="color:var(--accent)">§3 the model</a></td></tr>
 <tr><td style="padding:6px 12px 6px 0;color:var(--muted)">30 minutes</td><td style="padding:6px 0">The full walkthrough on this page</td></tr>
-<tr><td style="padding:6px 12px 6px 0;color:var(--muted)">You want to verify the work</td><td style="padding:6px 0"><a href="periodicity.html" style="color:var(--accent)">Periodicity Analysis</a> + <a href="cve-reference.html" style="color:var(--accent)">CVE Reference</a></td></tr>
+<tr><td style="padding:6px 12px 6px 0;color:var(--muted)">You want to verify the work</td><td style="padding:6px 0"><a href="periodicity.html" style="color:var(--accent)">Periodicity Analysis</a> + <a href="cve-reference.html" style="color:var(--accent)">CVE Reference</a> + <a href="https://github.com/funwithscience-org/KEV-analysis/blob/main/data/CLASSIFIER.md" style="color:var(--accent)">CLASSIFIER.md</a> (layer classifier methodology) + <a href="https://github.com/funwithscience-org/KEV-analysis/tree/main/tests" style="color:var(--accent)">tests/</a> (numeric regression suite, run via <code>bash tests/run.sh</code>)</td></tr>
 <tr><td style="padding:6px 12px 6px 0;color:var(--muted)">You want the data live</td><td style="padding:6px 0"><a href="dashboard.html" style="color:var(--accent)">Dashboard</a></td></tr>
 <tr><td style="padding:6px 12px 6px 0;color:var(--muted)">You want the build mechanics</td><td style="padding:6px 0"><a href="build-mechanics.html" style="color:var(--accent)">Operational Model</a> (Cat 1/2/3 estate maturity, WAFs as bridge)</td></tr>
 <tr><td style="padding:6px 12px 6px 0;color:var(--muted)">You want the AI angle</td><td style="padding:6px 0"><a href="glasswing.html" style="color:var(--accent)">Mythos</a> (CVE-volume projections + participant intel)</td></tr>
 </tbody></table>
 </div>
 
-<div class="tldr">
+<div class="tldr" id="tldr">
 <h3>The Problem and the Proposal</h3>
 
 <p><strong>The problem.</strong> Vulnerability volume is exploding. Even restricting to "criticals and highs," the count runs into the thousands per year — but <strong>only ~4% of those</strong> ever actually turn into exploits. For third-party packages, updating binaries and rebooting is relatively straightforward. For internally built systems that depend on dozens of open-source libraries, managing the rebuild and release process is substantially more complex.</p>
@@ -866,6 +867,7 @@ The key word is "constrain," not "prevent." It's a seatbelt, not an airbag.
 <table class="data-table">
 <thead><tr><th>CVE</th><th>Product</th><th>CVSS</th><th>Hacker tier</th><th>Rationale</th><th>Status</th></tr></thead>
 <tbody>
+<tr><td><code>CVE-2024-1708</code></td><td>ConnectWise ScreenConnect path traversal</td><td><strong style="color:#dc2626">10.0</strong></td><td><strong style="color:#a855f7">★ S</strong></td><td>CWE-22 path traversal in HTTP file-upload extension handling. SlashAndGrab cluster (paired with CVE-2024-1709 auth bypass) — Black Basta / Bl00dy ransomware Feb 2024. Retro-listed in KEV 2026-04-28; on watch list to retroactively complete the track record.</td><td style="color:#059669;font-weight:600">CONFIRMED -- KEV 2026-04-28</td></tr>
 <tr><td><code>CVE-2026-40477</code></td><td>Thymeleaf SSTI</td><td><strong style="color:#dc2626">9.0</strong></td><td><strong style="color:#a855f7">A</strong></td><td>Unauth RCE via server-side template injection. Repeats Spring4Shell pattern.</td><td style="color:#d97706;font-weight:600">WATCHING</td></tr>
 <tr><td><code>CVE-2026-40478</code></td><td>Thymeleaf Spring5 SSTI</td><td><strong style="color:#dc2626">9.0</strong></td><td><strong style="color:#a855f7">A</strong></td><td>Paired disclosure with -40477, Spring 5 integration.</td><td style="color:#d97706;font-weight:600">WATCHING</td></tr>
 <tr><td><code>CVE-2026-5194</code></td><td>wolfSSL cert validation</td><td><strong style="color:#dc2626">9.1</strong></td><td><strong style="color:#d97706">B</strong></td><td>Forged certs across ECDSA/DSA/Ed25519. Reach gates on wolfSSL being TLS terminator with permissive validation. ~5B affected devices. Mythos-attributed.</td><td style="color:#d97706;font-weight:600">WATCHING</td></tr>

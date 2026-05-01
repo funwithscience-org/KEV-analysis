@@ -839,6 +839,7 @@ renderTable(DATA.table_data);
 // Exploit Watch List — HTTP-parsing-adjacent predictions
 const WATCH_LIST = {
   server: [
+    {cve:"CVE-2024-1708",product:"ConnectWise ScreenConnect path traversal",cvss:10.0,why:"CWE-22 path traversal in HTTP file-upload extension handling. SlashAndGrab cluster (paired with CVE-2024-1709 auth bypass — Black Basta / Bl00dy ransomware exploited Feb 2024). Retro-listed in KEV 2026-04-28; adding to retroactively complete the watch-list record.",added:"2026-05-01",status:"confirmed",kevDate:"2026-04-28"},
     {cve:"CVE-2026-40477",product:"Thymeleaf SSTI",cvss:9.0,why:"Unauth RCE via template injection. HTTP response rendering — classic Spring4Shell pattern.",added:"2026-04-18",status:"watching",kevDate:null},
     {cve:"CVE-2026-40478",product:"Thymeleaf Spring5 SSTI",cvss:9.0,why:"Same root cause as -40477 in Spring integration. Paired disclosure = wider attack surface.",added:"2026-04-18",status:"watching",kevDate:null},
     {cve:"CVE-2026-5194",product:"wolfSSL cert validation",cvss:9.1,why:"Forged certs accepted. Affects TLS termination in NGINX/haproxy/embedded HTTP stacks. ~5B devices.",added:"2026-04-18",status:"watching",kevDate:null},

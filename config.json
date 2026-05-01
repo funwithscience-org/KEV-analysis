@@ -249,6 +249,14 @@
     ],
     "server": [
       {
+        "cve": "CVE-2024-1708",
+        "product": "ConnectWise ScreenConnect path traversal",
+        "status": "confirmed",
+        "added": "2026-05-01",
+        "kevDate": "2026-04-28",
+        "notes": "CWE-22 path traversal in HTTP file-upload extension handling. 2024-vintage CVE retro-listed in KEV 2026-04-28 (originally part of the SlashAndGrab cluster paired with CVE-2024-1709 auth bypass; Black Basta / Bl00dy ransomware exploited Feb 2024). Adding to retroactively complete the watch-list track record — confirmed-on-arrival. NP+DI raw catch."
+      },
+      {
         "cve": "CVE-2026-40477",
         "product": "Thymeleaf SSTI",
         "status": "watching",
