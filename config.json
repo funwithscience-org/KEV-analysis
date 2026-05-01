@@ -148,6 +148,15 @@
       ]
     }
   },
+  "di_cwe_freeze": {
+    "_doc": "The DI CWE set is FROZEN as of the freeze_date below. Going forward, if a confirmed-exploited CVE has a CWE not in this list, it is NOT added — that would be hindsight goalpost-moving. Instead, the hacker discriminator (S+A) is the rescue path; if it doesn't fire, the event is recorded as a genuine miss in the public 'events since freeze' counter. This converts the strongest critique of the project ('you fit the filter to the data') into the strongest forward-validation evidence.",
+    "freeze_date": "2026-05-01",
+    "policy": "no DI CWE additions post-freeze; hacker S+A is the rescue lane; misses are surfaced publicly",
+    "frozen_di_cwes": [22, 23, 35, 73, 74, 77, 78, 79, 89, 90, 91, 93, 94, 95, 96, 97, 113, 116, 287, 289, 306, 345, 444, 502, 611, 693, 776, 863, 917, 918, 1321],
+    "frozen_di_cwe_count": 31,
+    "decision_rationale": "Hacker S+A is the project's primary rescue mechanism, not CWE expansion. The 7-year backtest shows hacker S+A catches 10/11 confirmed-exploited events — better discrimination than NP+DI raw (5/11) or NP+DI+DQ (8/11). Future misses route through hacker tier evaluation, not retroactive DI widening.",
+    "what_changed_pre_freeze": "Pre-freeze widenings included CWE-444 (HTTP smuggling) and CWE-287/289/306/345/693/863/1321 (auth-bypass-via-input-manipulation). Both were principled expansions of the original injection/deserialization/path-traversal core. From freeze date forward, no further CWE additions to this set."
+  },
   "projections": {
     "conservative_monthly_increase": 500,
     "aggressive_monthly_increase_range": [
