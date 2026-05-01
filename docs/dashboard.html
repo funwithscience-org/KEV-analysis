@@ -199,8 +199,9 @@ details.dash-expand .detail-content{padding:16px;background:#0f172a}
   <th style="padding:8px 10px;text-align:left;color:#a5b4fc;border-bottom:2px solid #334155">Package</th>
   <th style="padding:8px 10px;text-align:center;color:#a5b4fc;border-bottom:2px solid #334155">Sev</th>
   <th style="padding:8px 10px;text-align:left;color:#a5b4fc;border-bottom:2px solid #334155">CWE(s)</th>
+  <th style="padding:8px 10px;text-align:center;color:#a5b4fc;border-bottom:2px solid #334155" title="Network-parser AND DI CWE in frozen set">NP+DI</th>
   <th style="padding:8px 10px;text-align:center;color:#a5b4fc;border-bottom:2px solid #334155" title="Hacker tier S/A/B/C/D">Hacker</th>
-  <th style="padding:8px 10px;text-align:center;color:#a5b4fc;border-bottom:2px solid #334155" title="NP+DI ∪ Hacker S+A">Model</th>
+  <th style="padding:8px 10px;text-align:center;color:#a5b4fc;border-bottom:2px solid #334155" title="Covered by NP+DI ∪ Hacker S+A (DQ when scored)">Model</th>
   <th style="padding:8px 10px;text-align:center;color:#a5b4fc;border-bottom:2px solid #334155">Exploited</th>
 </tr></thead>
 <tbody id="postApr1TBody"></tbody>
@@ -815,6 +816,9 @@ document.getElementById('postApr1Through').textContent = POST_APR1.snapshot_thro
             `<td style="padding:6px 10px;text-align:${align};color:${color}">${txt}</td>`;
         const sevColor = e.sev === 'CRITICAL' ? '#f87171' : e.sev.startsWith('HIGH') ? '#fbbf24' : '#cbd5e1';
         const inUnion = e.npdi || (e.hacker === 'S' || e.hacker === 'A');
+        const npdiBadge = e.npdi
+            ? '<span style="color:#34d399;font-weight:700">&#10003;</span>'
+            : '<span style="color:#475569">&middot;</span>';
         const modelBadge = inUnion
             ? '<span style="color:#34d399;font-weight:700">&#10003;</span>'
             : '<span style="color:#475569">&middot;</span>';
@@ -833,6 +837,7 @@ document.getElementById('postApr1Through').textContent = POST_APR1.snapshot_thro
             td(e.pkg) +
             td(e.sev, 'center', sevColor) +
             td(e.cwes.join(', '), 'left', '#94a3b8') +
+            td(npdiBadge, 'center') +
             td(tierBadge, 'center') +
             td(modelBadge, 'center') +
             td(expBadge,  'center');
