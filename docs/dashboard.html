@@ -240,6 +240,9 @@ details.dash-expand .detail-content{padding:16px;background:#0f172a}
 
 <h3 style="color:#e2e8f0;font-size:1.1em;margin:24px 0 8px">7-year strategy efficiency &mdash; canonical 58-pkg manifest, 11 confirmed exploited</h3>
 <p style="font-size:.88em;color:#94a3b8;margin-bottom:12px">The discrimination story (12-month workload above; 7-year discrimination here). Patch events are 7-day-clustered (consecutive triggers within a week count as one forced march). Effectiveness = exploits caught / 11. Efficiency = patch events / exploits caught.</p>
+<div style="background:#1e1b14;border-left:3px solid #fbbf24;border-radius:6px;padding:10px 14px;margin-bottom:12px;font-size:.82em;color:#fde68a">
+<strong style="color:#fbbf24">&#9888; Manifest scope:</strong> The 5/11, 8/11, 9/11, 10/11 fractions below come from a <strong>Java enterprise manifest</strong> (Spring Boot + ActiveMQ + Camel + log4j + xstream). The discrimination ratios should generalize to other ecosystems &mdash; Node, Python, Go all share the NP+DI structure pattern &mdash; but the specific fractions are not yet validated cross-ecosystem at the same N. Treat as Java-specific until we publish parallel 7-year backtests on the Node/Django/Netty manifests.
+</div>
 <div class="card" style="padding:0">
 <table style="width:100%;font-size:.88em">
 <thead><tr style="background:#0f172a">
@@ -775,7 +778,7 @@ new Chart(document.getElementById('topProductsChart'), {
 // since DQ requires per-event AI re-validation (the analyst agent will fold DQ in
 // going forward; for fresh events it's currently null).
 const POST_APR1 = {
-    snapshot_through: "2026-05-01",
+    snapshot_through: "2026-05-02",
     labels: ["Spring Boot", "Node.js/Express", "Django/Python", "Netty", "Real-world Java"],
     all_ch_clusters: [1, 2, 1, 0, 1],
     model_clusters:  [1, 1, 1, 0, 1],   // union: NP+DI ∪ Hacker S+A

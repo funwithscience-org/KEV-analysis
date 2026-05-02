@@ -1,7 +1,7 @@
 {
-  "generated_at": "2026-05-01T14:30:36Z",
+  "generated_at": "2026-05-02T09:20:05Z",
   "cutoff": "2026-04-01",
-  "snapshot_through": "2026-05-01",
+  "snapshot_through": "2026-05-02",
   "description": "Live tracker \u2014 events with disclosure date >= 2026-04-01 for the five manifests (4 modeled + 1 real-world Java enterprise), with exploit cross-reference. Patch-event counts use the canonical 7-day clustering rule. Refreshed daily by scripts/refresh_post_apr1.py via the kev-analysis-refresh scheduled task.",
   "methodology": {
     "cluster_window_days": 7,

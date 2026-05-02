@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-04-28T08:58:00Z",
+  "generated_at": "2026-05-02T09:09:28Z",
   "generator": "scripts/build_hacker_tier_data.py",
   "source_reports": [
     "analyst-reports/2026-04-25-hacker-ranking-v3.md (R3 Java/Spring 175-event)",
@@ -8,7 +8,8 @@
     "analyst-reports/2026-04-26-hacker-ranking-v6-node-netty-12mo.md (R6 Node+Netty 12mo)",
     "analyst-reports/2026-04-26-hacker-ranking-v7-pre2018-backfill.md (R7 pre-2018 backfill)",
     "analyst-reports/2026-04-26-hacker-ranking-v8-os-container.md (R8 OS container)",
-    "analyst-reports/2026-04-27-retrospective-30day-sweep.md (R9-retro canonical anchor add)"
+    "analyst-reports/2026-04-27-retrospective-30day-sweep.md (R9-retro canonical anchor add)",
+    "Spring AI 2026-04-27 5-CVE disclosure batch (watch-list provenance, folded 2026-05-02)"
   ],
   "rounds_in_use_for_integrated_page": [
     "R3",
@@ -24,13 +25,91 @@
       "rationale": "Vendor-appliance management plane (MDM, SD-WAN, EMS, BIG-IP, etc.), unauthenticated or near-default auth, network-edge HTTP/HTTPS surface, primitive-direct RCE via input handling. Tier A."
     }
   },
-  "n_cves": 75,
+  "n_cves": 80,
   "tiers": {
+    "CVE-2013-7285": {
+      "tier": "A",
+      "round": "R7",
+      "package": "xstream",
+      "rationale": "OS command via XML \u2014 pre-1.4.18 unsafe-default era"
+    },
+    "CVE-2017-12615": {
+      "tier": "B",
+      "round": "R7",
+      "package": "tomcat",
+      "rationale": "HTTP PUT JSP upload \u2014 narrow precondition (readonly=false)"
+    },
+    "CVE-2017-12617": {
+      "tier": "B",
+      "round": "R7",
+      "package": "tomcat",
+      "rationale": "HTTP PUT (Win variant) \u2014 same precondition"
+    },
+    "CVE-2019-0232": {
+      "tier": "B",
+      "round": "R3",
+      "package": "tomcat",
+      "rationale": "CGI cmd inj \u2014 narrow precondition (Win + CGI on)"
+    },
+    "CVE-2020-1938": {
+      "tier": "A",
+      "round": "R3",
+      "package": "tomcat",
+      "rationale": "AJP file read (Ghostcat) \u2014 WAF-hostile"
+    },
+    "CVE-2021-39144": {
+      "tier": "S",
+      "round": "R3",
+      "package": "xstream",
+      "rationale": "Unauth deser RCE \u2014 CWE-306 missing-auth co-tag"
+    },
+    "CVE-2021-44228": {
+      "tier": "S",
+      "round": "R3",
+      "package": "log4j-core",
+      "rationale": "JNDI in any logged string \u2014 Log4Shell"
+    },
+    "CVE-2021-45046": {
+      "tier": "S",
+      "round": "R3",
+      "package": "log4j-core",
+      "rationale": "JNDI patch-bypass"
+    },
+    "CVE-2022-1471": {
+      "tier": "S",
+      "round": "R3",
+      "package": "snakeyaml",
+      "rationale": "Constructor deser RCE on default config"
+    },
+    "CVE-2022-22965": {
+      "tier": "A",
+      "round": "R3",
+      "package": "spring-framework",
+      "rationale": "Spring4Shell ClassLoader RCE"
+    },
+    "CVE-2022-42889": {
+      "tier": "A",
+      "round": "R3",
+      "package": "commons-text",
+      "rationale": "${url:} interpolation"
+    },
+    "CVE-2025-14874": {
+      "tier": "D",
+      "round": "R6",
+      "package": "nodemailer",
+      "rationale": "Address parser regex DoS"
+    },
     "CVE-2025-22235": {
       "tier": "A",
       "round": "R3",
       "package": "spring-boot",
       "rationale": "Actuator exposure \u2192 RCE via Jolokia/loggers/env"
+    },
+    "CVE-2025-24813": {
+      "tier": "A",
+      "round": "R3",
+      "package": "tomcat",
+      "rationale": "Partial-PUT chained deser"
     },
     "CVE-2025-27820": {
       "tier": "C",
@@ -56,6 +135,24 @@
       "package": "spring-core",
       "rationale": "Annotation detection auth bypass \u2014 broad reach"
     },
+    "CVE-2025-47935": {
+      "tier": "D",
+      "round": "R6",
+      "package": "multer",
+      "rationale": "DoS via memory leak"
+    },
+    "CVE-2025-47944": {
+      "tier": "D",
+      "round": "R6",
+      "package": "multer",
+      "rationale": "DoS"
+    },
+    "CVE-2025-48379": {
+      "tier": "B",
+      "round": "R4",
+      "package": "pillow",
+      "rationale": "BCn encoding write buffer overflow \u2014 narrow"
+    },
     "CVE-2025-48988": {
       "tier": "D",
       "round": "R3",
@@ -66,6 +163,12 @@
       "tier": "D",
       "round": "R3",
       "package": "tomcat",
+      "rationale": "DoS"
+    },
+    "CVE-2025-48997": {
+      "tier": "D",
+      "round": "R6",
+      "package": "multer",
       "rationale": "DoS"
     },
     "CVE-2025-49146": {
@@ -92,11 +195,90 @@
       "package": "tomcat",
       "rationale": "DoS"
     },
+    "CVE-2025-55163": {
+      "tier": "D",
+      "round": "R6",
+      "package": "netty-codec-http2",
+      "rationale": "MadeYouReset HTTP/2 DDoS"
+    },
     "CVE-2025-55752": {
       "tier": "B",
       "round": "R3",
       "package": "tomcat",
       "rationale": "Path traversal \u2014 encoding bypass; non-default reach"
+    },
+    "CVE-2025-57833": {
+      "tier": "A",
+      "round": "R4",
+      "package": "django",
+      "rationale": "Column aliases SQLi via annotate()/values()"
+    },
+    "CVE-2025-58754": {
+      "tier": "D",
+      "round": "R6",
+      "package": "axios",
+      "rationale": "DoS"
+    },
+    "CVE-2025-59681": {
+      "tier": "A",
+      "round": "R4",
+      "package": "django",
+      "rationale": "Column aliases SQLi \u2014 same shape"
+    },
+    "CVE-2025-64458": {
+      "tier": "D",
+      "round": "R4",
+      "package": "django",
+      "rationale": "DoS"
+    },
+    "CVE-2025-64459": {
+      "tier": "A",
+      "round": "R4",
+      "package": "django",
+      "rationale": "_connector kwarg SQLi \u2014 direct injection"
+    },
+    "CVE-2025-66418": {
+      "tier": "C",
+      "round": "R4",
+      "package": "urllib3",
+      "rationale": "Decompression chain"
+    },
+    "CVE-2025-66471": {
+      "tier": "C",
+      "round": "R4",
+      "package": "urllib3",
+      "rationale": "Decompression bomb \u2014 partial defense bypass"
+    },
+    "CVE-2025-7338": {
+      "tier": "D",
+      "round": "R6",
+      "package": "multer",
+      "rationale": "DoS"
+    },
+    "CVE-2026-1207": {
+      "tier": "B",
+      "round": "R4",
+      "package": "django",
+      "rationale": "SQLi cluster"
+    },
+    "CVE-2026-1287": {
+      "tier": "B",
+      "round": "R4",
+      "package": "django",
+      "rationale": "SQLi cluster \u2014 cluster mean default"
+    },
+    "CVE-2026-1340": {
+      "tier": "A",
+      "round": "R9-retro",
+      "package": "Ivanti EPMM",
+      "rationale": "Edge-appliance auth-bypass + unauth RCE via code injection \u2014 canonical for vendor-appliance management-plane exploitation pattern",
+      "canonical_for": "edge-appliance-auth-bypass-rce"
+    },
+    "CVE-2026-21441": {
+      "tier": "B",
+      "round": "R4",
+      "package": "urllib3",
+      "rationale": "Redirect bypass of decompression safeguard"
     },
     "CVE-2026-22732": {
       "tier": "C",
@@ -104,11 +286,53 @@
       "package": "spring-security",
       "rationale": "Defense-in-depth header weakening"
     },
+    "CVE-2026-2359": {
+      "tier": "D",
+      "round": "R6",
+      "package": "multer",
+      "rationale": "DoS"
+    },
     "CVE-2026-24734": {
       "tier": "D",
       "round": "R3",
       "package": "tomcat",
       "rationale": "Generic input validation; DoS-ish"
+    },
+    "CVE-2026-25223": {
+      "tier": "C",
+      "round": "R6",
+      "package": "fastify",
+      "rationale": "Validation bypass"
+    },
+    "CVE-2026-25639": {
+      "tier": "C",
+      "round": "R6",
+      "package": "axios",
+      "rationale": "Prototype pollution \u2014 server reach limited"
+    },
+    "CVE-2026-25673": {
+      "tier": "D",
+      "round": "R4",
+      "package": "django",
+      "rationale": "DoS"
+    },
+    "CVE-2026-25990": {
+      "tier": "B",
+      "round": "R4",
+      "package": "pillow",
+      "rationale": "PSD OOB write \u2014 narrow reach"
+    },
+    "CVE-2026-26007": {
+      "tier": "B",
+      "round": "R4",
+      "package": "cryptography",
+      "rationale": "SECT curves invalid-curve attack \u2014 gated on usage"
+    },
+    "CVE-2026-27959": {
+      "tier": "B",
+      "round": "R6",
+      "package": "koa",
+      "rationale": "Host header injection"
     },
     "CVE-2026-29129": {
       "tier": "D",
@@ -122,167 +346,11 @@
       "package": "tomcat",
       "rationale": "CLIENT_CERT auth bypass (mTLS minority surface)"
     },
-    "CVE-2026-34483": {
-      "tier": "D",
-      "round": "R3",
-      "package": "tomcat",
-      "rationale": "JSON-error / log injection"
-    },
-    "CVE-2026-34487": {
-      "tier": "D",
-      "round": "R3",
-      "package": "tomcat",
-      "rationale": "Sensitive info into log file"
-    },
-    "CVE-2026-40477": {
+    "CVE-2026-30951": {
       "tier": "A",
-      "round": "R3",
-      "package": "thymeleaf",
-      "rationale": "SSTI primitive when attacker influences template"
-    },
-    "CVE-2026-40478": {
-      "tier": "A",
-      "round": "R3",
-      "package": "thymeleaf",
-      "rationale": "SSTI primitive \u2014 same class as -40477"
-    },
-    "CVE-2026-34197": {
-      "tier": "A",
-      "round": "R3",
-      "package": "activemq-broker",
-      "rationale": "Authenticated Jolokia MBean RCE"
-    },
-    "CVE-2021-39144": {
-      "tier": "S",
-      "round": "R3",
-      "package": "xstream",
-      "rationale": "Unauth deser RCE \u2014 CWE-306 missing-auth co-tag"
-    },
-    "CVE-2021-44228": {
-      "tier": "S",
-      "round": "R3",
-      "package": "log4j-core",
-      "rationale": "JNDI in any logged string \u2014 Log4Shell"
-    },
-    "CVE-2021-45046": {
-      "tier": "S",
-      "round": "R3",
-      "package": "log4j-core",
-      "rationale": "JNDI patch-bypass"
-    },
-    "CVE-2022-22965": {
-      "tier": "A",
-      "round": "R3",
-      "package": "spring-framework",
-      "rationale": "Spring4Shell ClassLoader RCE"
-    },
-    "CVE-2022-42889": {
-      "tier": "A",
-      "round": "R3",
-      "package": "commons-text",
-      "rationale": "${url:} interpolation"
-    },
-    "CVE-2022-1471": {
-      "tier": "S",
-      "round": "R3",
-      "package": "snakeyaml",
-      "rationale": "Constructor deser RCE on default config"
-    },
-    "CVE-2025-24813": {
-      "tier": "A",
-      "round": "R3",
-      "package": "tomcat",
-      "rationale": "Partial-PUT chained deser"
-    },
-    "CVE-2020-1938": {
-      "tier": "A",
-      "round": "R3",
-      "package": "tomcat",
-      "rationale": "AJP file read (Ghostcat) \u2014 WAF-hostile"
-    },
-    "CVE-2019-0232": {
-      "tier": "B",
-      "round": "R3",
-      "package": "tomcat",
-      "rationale": "CGI cmd inj \u2014 narrow precondition (Win + CGI on)"
-    },
-    "CVE-2025-48379": {
-      "tier": "B",
-      "round": "R4",
-      "package": "pillow",
-      "rationale": "BCn encoding write buffer overflow \u2014 narrow"
-    },
-    "CVE-2025-57833": {
-      "tier": "A",
-      "round": "R4",
-      "package": "django",
-      "rationale": "Column aliases SQLi via annotate()/values()"
-    },
-    "CVE-2025-59681": {
-      "tier": "A",
-      "round": "R4",
-      "package": "django",
-      "rationale": "Column aliases SQLi \u2014 same shape"
-    },
-    "CVE-2025-64459": {
-      "tier": "A",
-      "round": "R4",
-      "package": "django",
-      "rationale": "_connector kwarg SQLi \u2014 direct injection"
-    },
-    "CVE-2025-64458": {
-      "tier": "D",
-      "round": "R4",
-      "package": "django",
-      "rationale": "DoS"
-    },
-    "CVE-2025-66471": {
-      "tier": "C",
-      "round": "R4",
-      "package": "urllib3",
-      "rationale": "Decompression bomb \u2014 partial defense bypass"
-    },
-    "CVE-2025-66418": {
-      "tier": "C",
-      "round": "R4",
-      "package": "urllib3",
-      "rationale": "Decompression chain"
-    },
-    "CVE-2026-21441": {
-      "tier": "B",
-      "round": "R4",
-      "package": "urllib3",
-      "rationale": "Redirect bypass of decompression safeguard"
-    },
-    "CVE-2026-1287": {
-      "tier": "B",
-      "round": "R4",
-      "package": "django",
-      "rationale": "SQLi cluster \u2014 cluster mean default"
-    },
-    "CVE-2026-1207": {
-      "tier": "B",
-      "round": "R4",
-      "package": "django",
-      "rationale": "SQLi cluster"
-    },
-    "CVE-2026-26007": {
-      "tier": "B",
-      "round": "R4",
-      "package": "cryptography",
-      "rationale": "SECT curves invalid-curve attack \u2014 gated on usage"
-    },
-    "CVE-2026-25990": {
-      "tier": "B",
-      "round": "R4",
-      "package": "pillow",
-      "rationale": "PSD OOB write \u2014 narrow reach"
-    },
-    "CVE-2026-25673": {
-      "tier": "D",
-      "round": "R4",
-      "package": "django",
-      "rationale": "DoS"
+      "round": "R6",
+      "package": "sequelize",
+      "rationale": "ORM-layer SQLi via JSON column casting"
     },
     "CVE-2026-32274": {
       "tier": "D",
@@ -302,95 +370,29 @@
       "package": "django",
       "rationale": "Content-Length DoS / stacking precondition"
     },
-    "CVE-2026-3902": {
-      "tier": "A",
-      "round": "R4",
-      "package": "django",
-      "rationale": "ASGI header spoof \u2014 direct auth bypass when proxy-trust pattern present"
-    },
-    "CVE-2026-40192": {
-      "tier": "D",
-      "round": "R4",
-      "package": "pillow",
-      "rationale": "DoS / resource exhaustion"
-    },
-    "CVE-2025-47935": {
-      "tier": "D",
-      "round": "R6",
-      "package": "multer",
-      "rationale": "DoS via memory leak"
-    },
-    "CVE-2025-47944": {
-      "tier": "D",
-      "round": "R6",
-      "package": "multer",
-      "rationale": "DoS"
-    },
-    "CVE-2025-48997": {
-      "tier": "D",
-      "round": "R6",
-      "package": "multer",
-      "rationale": "DoS"
-    },
-    "CVE-2025-7338": {
-      "tier": "D",
-      "round": "R6",
-      "package": "multer",
-      "rationale": "DoS"
-    },
-    "CVE-2025-58754": {
-      "tier": "D",
-      "round": "R6",
-      "package": "axios",
-      "rationale": "DoS"
-    },
-    "CVE-2025-14874": {
-      "tier": "D",
-      "round": "R6",
-      "package": "nodemailer",
-      "rationale": "Address parser regex DoS"
-    },
-    "CVE-2026-25223": {
-      "tier": "C",
-      "round": "R6",
-      "package": "fastify",
-      "rationale": "Validation bypass"
-    },
-    "CVE-2026-25639": {
-      "tier": "C",
-      "round": "R6",
-      "package": "axios",
-      "rationale": "Prototype pollution \u2014 server reach limited"
-    },
-    "CVE-2026-27959": {
-      "tier": "B",
-      "round": "R6",
-      "package": "koa",
-      "rationale": "Host header injection"
-    },
-    "CVE-2026-2359": {
-      "tier": "D",
-      "round": "R6",
-      "package": "multer",
-      "rationale": "DoS"
-    },
     "CVE-2026-3304": {
       "tier": "D",
       "round": "R6",
       "package": "multer",
       "rationale": "DoS"
     },
-    "CVE-2026-3520": {
-      "tier": "D",
+    "CVE-2026-33806": {
+      "tier": "C",
       "round": "R6",
-      "package": "multer",
-      "rationale": "DoS"
+      "package": "fastify",
+      "rationale": "Body schema validation bypass"
     },
-    "CVE-2026-30951": {
+    "CVE-2026-33870": {
       "tier": "A",
       "round": "R6",
-      "package": "sequelize",
-      "rationale": "ORM-layer SQLi via JSON column casting"
+      "package": "netty-codec-http",
+      "rationale": "HTTP request smuggling via chunked extension"
+    },
+    "CVE-2026-33871": {
+      "tier": "D",
+      "round": "R6",
+      "package": "netty-codec-http2",
+      "rationale": "HTTP/2 CONTINUATION DoS"
     },
     "CVE-2026-33937": {
       "tier": "A",
@@ -422,60 +424,92 @@
       "package": "handlebars",
       "rationale": "CLI Precompiler \u2014 build-time only"
     },
+    "CVE-2026-34197": {
+      "tier": "A",
+      "round": "R3",
+      "package": "activemq-broker",
+      "rationale": "Authenticated Jolokia MBean RCE"
+    },
+    "CVE-2026-34483": {
+      "tier": "D",
+      "round": "R3",
+      "package": "tomcat",
+      "rationale": "JSON-error / log injection"
+    },
+    "CVE-2026-34487": {
+      "tier": "D",
+      "round": "R3",
+      "package": "tomcat",
+      "rationale": "Sensitive info into log file"
+    },
+    "CVE-2026-3520": {
+      "tier": "D",
+      "round": "R6",
+      "package": "multer",
+      "rationale": "DoS"
+    },
+    "CVE-2026-3902": {
+      "tier": "A",
+      "round": "R4",
+      "package": "django",
+      "rationale": "ASGI header spoof \u2014 direct auth bypass when proxy-trust pattern present"
+    },
+    "CVE-2026-40192": {
+      "tier": "D",
+      "round": "R4",
+      "package": "pillow",
+      "rationale": "DoS / resource exhaustion"
+    },
+    "CVE-2026-40477": {
+      "tier": "A",
+      "round": "R3",
+      "package": "thymeleaf",
+      "rationale": "SSTI primitive when attacker influences template"
+    },
+    "CVE-2026-40478": {
+      "tier": "A",
+      "round": "R3",
+      "package": "thymeleaf",
+      "rationale": "SSTI primitive \u2014 same class as -40477"
+    },
+    "CVE-2026-40966": {
+      "tier": "A",
+      "round": "R9-springai",
+      "package": "spring-ai",
+      "rationale": "Spring AI 2026-04-27 batch \u2014 companion CVE; HTTP-facing injection in PDF or embedding pipeline. Same default-config \u00d7 edge \u00d7 primitive-direct profile as the FilterExpressionConverter cluster.",
+      "anchor_note": "Awaiting individual root-cause confirmation; tier set by parity with -40967/-40978 (same disclosure batch, same CWE-89 family)."
+    },
+    "CVE-2026-40967": {
+      "tier": "A",
+      "round": "R9-springai",
+      "package": "spring-ai",
+      "rationale": "FilterExpressionConverter \u2014 keys/values not escaped before passing to backing-store query language (CWE-89 adjacent). Default-config injection in HTTP-facing vector store endpoint; primitive-direct read of RAG metadata/embeddings."
+    },
+    "CVE-2026-40978": {
+      "tier": "A",
+      "round": "R9-springai",
+      "package": "spring-ai",
+      "rationale": "CosmosDBVectorStore doDelete() SQL injection via crafted document IDs (CWE-89). Same disclosure batch as -40967; default-config \u00d7 edge \u00d7 primitive-direct."
+    },
+    "CVE-2026-40979": {
+      "tier": "A",
+      "round": "R9-springai",
+      "package": "spring-ai",
+      "rationale": "Spring AI 2026-04-27 batch \u2014 vector store cluster companion CVE. Tier set by parity; awaiting individual root-cause confirmation.",
+      "anchor_note": "Awaiting individual classification; treated as A by parity with -40967/-40978."
+    },
+    "CVE-2026-40980": {
+      "tier": "A",
+      "round": "R9-springai",
+      "package": "spring-ai",
+      "rationale": "Spring AI 2026-04-27 batch \u2014 vector store cluster companion CVE. Tier set by parity; awaiting individual root-cause confirmation.",
+      "anchor_note": "Awaiting individual classification; treated as A by parity with -40967/-40978."
+    },
     "CVE-2026-4800": {
       "tier": "A",
       "round": "R6",
       "package": "lodash",
       "rationale": "_.template code injection"
-    },
-    "CVE-2026-33806": {
-      "tier": "C",
-      "round": "R6",
-      "package": "fastify",
-      "rationale": "Body schema validation bypass"
-    },
-    "CVE-2026-33870": {
-      "tier": "A",
-      "round": "R6",
-      "package": "netty-codec-http",
-      "rationale": "HTTP request smuggling via chunked extension"
-    },
-    "CVE-2025-55163": {
-      "tier": "D",
-      "round": "R6",
-      "package": "netty-codec-http2",
-      "rationale": "MadeYouReset HTTP/2 DDoS"
-    },
-    "CVE-2026-33871": {
-      "tier": "D",
-      "round": "R6",
-      "package": "netty-codec-http2",
-      "rationale": "HTTP/2 CONTINUATION DoS"
-    },
-    "CVE-2013-7285": {
-      "tier": "A",
-      "round": "R7",
-      "package": "xstream",
-      "rationale": "OS command via XML \u2014 pre-1.4.18 unsafe-default era"
-    },
-    "CVE-2017-12615": {
-      "tier": "B",
-      "round": "R7",
-      "package": "tomcat",
-      "rationale": "HTTP PUT JSP upload \u2014 narrow precondition (readonly=false)"
-    },
-    "CVE-2017-12617": {
-      "tier": "B",
-      "round": "R7",
-      "package": "tomcat",
-      "rationale": "HTTP PUT (Win variant) \u2014 same precondition"
-    },
-    "CVE-2026-1340": {
-      "tier": "A",
-      "round": "R9-retro",
-      "package": "Ivanti EPMM",
-      "rationale": "Edge-appliance auth-bypass + unauth RCE via code injection \u2014 canonical for vendor-appliance management-plane exploitation pattern",
-      "canonical_for": "edge-appliance-auth-bypass-rce"
     }
   },
   "os_round_summary": {

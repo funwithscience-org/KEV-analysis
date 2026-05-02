@@ -1,0 +1,1054 @@
+{
+  "generated_at": "2026-05-02T09:13:13Z",
+  "description": "Canonical per-framework manifests for the 5 reference builds the KEV-analysis project uses. Read by scripts/refresh_post_apr1.py (daily live tracker), scripts/fetch_netty_osv.py (Netty cache), and the periodicity build pipeline. Role values: 'NP' (network parser / trust-boundary library) or 'OTHER' (everything else).",
+  "schema": {
+    "manifest_id": "string \u2014 short stable id used as a dict key",
+    "label": "string \u2014 human-friendly display name",
+    "packages": "list of {ecosystem, package, role}"
+  },
+  "manifests": {
+    "spring": {
+      "label": "Spring Boot",
+      "description": "Curated Spring Boot starter \u2014 48 packages spanning HTTP framework, template engine, security, persistence, observability.",
+      "packages": [
+        {
+          "ecosystem": "Maven",
+          "package": "org.springframework.boot:spring-boot",
+          "role": "OTHER"
+        },
+        {
+          "ecosystem": "Maven",
+          "package": "org.springframework.boot:spring-boot-autoconfigure",
+          "role": "OTHER"
+        },
+        {
+          "ecosystem": "Maven",
+          "package": "org.springframework:spring-core",
+          "role": "OTHER"
+        },
+        {
+          "ecosystem": "Maven",
+          "package": "org.springframework:spring-context",
+          "role": "OTHER"
+        },
+        {
+          "ecosystem": "Maven",
+          "package": "org.springframework:spring-beans",
+          "role": "OTHER"
+        },
+        {
+          "ecosystem": "Maven",
+          "package": "org.springframework:spring-aop",
+          "role": "OTHER"
+        },
+        {
+          "ecosystem": "Maven",
+          "package": "org.springframework:spring-web",
+          "role": "NP"
+        },
+        {
+          "ecosystem": "Maven",
+          "package": "org.springframework:spring-webmvc",
+          "role": "NP"
+        },
+        {
+          "ecosystem": "Maven",
+          "package": "org.apache.tomcat.embed:tomcat-embed-core",
+          "role": "NP"
+        },
+        {
+          "ecosystem": "Maven",
+          "package": "org.apache.tomcat.embed:tomcat-embed-websocket",
+          "role": "NP"
+        },
+        {
+          "ecosystem": "Maven",
+          "package": "com.fasterxml.jackson.core:jackson-databind",
+          "role": "NP"
+        },
+        {
+          "ecosystem": "Maven",
+          "package": "com.fasterxml.jackson.core:jackson-core",
+          "role": "NP"
+        },
+        {
+          "ecosystem": "Maven",
+          "package": "com.fasterxml.jackson.core:jackson-annotations",
+          "role": "OTHER"
+        },
+        {
+          "ecosystem": "Maven",
+          "package": "com.fasterxml.jackson.datatype:jackson-datatype-jsr310",
+          "role": "OTHER"
+        },
+        {
+          "ecosystem": "Maven",
+          "package": "org.springframework.security:spring-security-core",
+          "role": "NP"
+        },
+        {
+          "ecosystem": "Maven",
+          "package": "org.springframework.security:spring-security-web",
+          "role": "NP"
+        },
+        {
+          "ecosystem": "Maven",
+          "package": "org.springframework.security:spring-security-config",
+          "role": "OTHER"
+        },
+        {
+          "ecosystem": "Maven",
+          "package": "org.springframework.security:spring-security-oauth2-resource-server",
+          "role": "NP"
+        },
+        {
+          "ecosystem": "Maven",
+          "package": "org.springframework:spring-jdbc",
+          "role": "OTHER"
+        },
+        {
+          "ecosystem": "Maven",
+          "package": "org.springframework.data:spring-data-jpa",
+          "role": "OTHER"
+        },
+        {
+          "ecosystem": "Maven",
+          "package": "org.hibernate.orm:hibernate-core",
+          "role": "OTHER"
+        },
+        {
+          "ecosystem": "Maven",
+          "package": "org.postgresql:postgresql",
+          "role": "OTHER"
+        },
+        {
+          "ecosystem": "Maven",
+          "package": "com.zaxxer:HikariCP",
+          "role": "OTHER"
+        },
+        {
+          "ecosystem": "Maven",
+          "package": "org.thymeleaf:thymeleaf",
+          "role": "NP"
+        },
+        {
+          "ecosystem": "Maven",
+          "package": "org.thymeleaf:thymeleaf-spring6",
+          "role": "NP"
+        },
+        {
+          "ecosystem": "Maven",
+          "package": "ch.qos.logback:logback-classic",
+          "role": "OTHER"
+        },
+        {
+          "ecosystem": "Maven",
+          "package": "ch.qos.logback:logback-core",
+          "role": "OTHER"
+        },
+        {
+          "ecosystem": "Maven",
+          "package": "org.slf4j:slf4j-api",
+          "role": "OTHER"
+        },
+        {
+          "ecosystem": "Maven",
+          "package": "org.yaml:snakeyaml",
+          "role": "OTHER"
+        },
+        {
+          "ecosystem": "Maven",
+          "package": "org.hibernate.validator:hibernate-validator",
+          "role": "OTHER"
+        },
+        {
+          "ecosystem": "Maven",
+          "package": "jakarta.validation:jakarta.validation-api",
+          "role": "OTHER"
+        },
+        {
+          "ecosystem": "Maven",
+          "package": "com.google.guava:guava",
+          "role": "OTHER"
+        },
+        {
+          "ecosystem": "Maven",
+          "package": "org.apache.commons:commons-lang3",
+          "role": "OTHER"
+        },
+        {
+          "ecosystem": "Maven",
+          "package": "commons-io:commons-io",
+          "role": "OTHER"
+        },
+        {
+          "ecosystem": "Maven",
+          "package": "org.apache.commons:commons-collections4",
+          "role": "OTHER"
+        },
+        {
+          "ecosystem": "Maven",
+          "package": "org.apache.commons:commons-text",
+          "role": "OTHER"
+        },
+        {
+          "ecosystem": "Maven",
+          "package": "org.apache.httpcomponents.client5:httpclient5",
+          "role": "NP"
+        },
+        {
+          "ecosystem": "Maven",
+          "package": "org.apache.httpcomponents.core5:httpcore5",
+          "role": "NP"
+        },
+        {
+          "ecosystem": "Maven",
+          "package": "com.github.ben-manes.caffeine:caffeine",
+          "role": "OTHER"
+        },
+        {
+          "ecosystem": "Maven",
+          "package": "org.springframework.amqp:spring-amqp",
+          "role": "OTHER"
+        },
+        {
+          "ecosystem": "Maven",
+          "package": "com.rabbitmq:amqp-client",
+          "role": "NP"
+        },
+        {
+          "ecosystem": "Maven",
+          "package": "io.github.resilience4j:resilience4j-spring-boot3",
+          "role": "OTHER"
+        },
+        {
+          "ecosystem": "Maven",
+          "package": "io.micrometer:micrometer-core",
+          "role": "OTHER"
+        },
+        {
+          "ecosystem": "Maven",
+          "package": "org.springframework.boot:spring-boot-actuator",
+          "role": "NP"
+        },
+        {
+          "ecosystem": "Maven",
+          "package": "org.springdoc:springdoc-openapi-starter-webmvc-ui",
+          "role": "OTHER"
+        },
+        {
+          "ecosystem": "Maven",
+          "package": "net.bytebuddy:byte-buddy",
+          "role": "OTHER"
+        },
+        {
+          "ecosystem": "Maven",
+          "package": "org.glassfish.jaxb:jaxb-runtime",
+          "role": "NP"
+        },
+        {
+          "ecosystem": "Maven",
+          "package": "org.bouncycastle:bcprov-jdk18on",
+          "role": "OTHER"
+        }
+      ]
+    },
+    "nodejs": {
+      "label": "Node.js/Express",
+      "description": "Typical Node fat-app \u2014 Express + middleware + ORM + utility libraries (45 packages).",
+      "packages": [
+        {
+          "ecosystem": "npm",
+          "package": "express",
+          "role": "NP"
+        },
+        {
+          "ecosystem": "npm",
+          "package": "koa",
+          "role": "NP"
+        },
+        {
+          "ecosystem": "npm",
+          "package": "fastify",
+          "role": "NP"
+        },
+        {
+          "ecosystem": "npm",
+          "package": "body-parser",
+          "role": "NP"
+        },
+        {
+          "ecosystem": "npm",
+          "package": "multer",
+          "role": "NP"
+        },
+        {
+          "ecosystem": "npm",
+          "package": "cookie-parser",
+          "role": "NP"
+        },
+        {
+          "ecosystem": "npm",
+          "package": "cors",
+          "role": "NP"
+        },
+        {
+          "ecosystem": "npm",
+          "package": "helmet",
+          "role": "NP"
+        },
+        {
+          "ecosystem": "npm",
+          "package": "http-proxy-middleware",
+          "role": "NP"
+        },
+        {
+          "ecosystem": "npm",
+          "package": "node-fetch",
+          "role": "NP"
+        },
+        {
+          "ecosystem": "npm",
+          "package": "axios",
+          "role": "NP"
+        },
+        {
+          "ecosystem": "npm",
+          "package": "ws",
+          "role": "NP"
+        },
+        {
+          "ecosystem": "npm",
+          "package": "socket.io",
+          "role": "NP"
+        },
+        {
+          "ecosystem": "npm",
+          "package": "ejs",
+          "role": "NP"
+        },
+        {
+          "ecosystem": "npm",
+          "package": "pug",
+          "role": "NP"
+        },
+        {
+          "ecosystem": "npm",
+          "package": "handlebars",
+          "role": "NP"
+        },
+        {
+          "ecosystem": "npm",
+          "package": "nunjucks",
+          "role": "NP"
+        },
+        {
+          "ecosystem": "npm",
+          "package": "jsonwebtoken",
+          "role": "NP"
+        },
+        {
+          "ecosystem": "npm",
+          "package": "passport",
+          "role": "NP"
+        },
+        {
+          "ecosystem": "npm",
+          "package": "graphql",
+          "role": "NP"
+        },
+        {
+          "ecosystem": "npm",
+          "package": "apollo-server-express",
+          "role": "NP"
+        },
+        {
+          "ecosystem": "npm",
+          "package": "mongoose",
+          "role": "OTHER"
+        },
+        {
+          "ecosystem": "npm",
+          "package": "sequelize",
+          "role": "OTHER"
+        },
+        {
+          "ecosystem": "npm",
+          "package": "knex",
+          "role": "OTHER"
+        },
+        {
+          "ecosystem": "npm",
+          "package": "pg",
+          "role": "OTHER"
+        },
+        {
+          "ecosystem": "npm",
+          "package": "redis",
+          "role": "OTHER"
+        },
+        {
+          "ecosystem": "npm",
+          "package": "ioredis",
+          "role": "OTHER"
+        },
+        {
+          "ecosystem": "npm",
+          "package": "bull",
+          "role": "OTHER"
+        },
+        {
+          "ecosystem": "npm",
+          "package": "winston",
+          "role": "OTHER"
+        },
+        {
+          "ecosystem": "npm",
+          "package": "morgan",
+          "role": "OTHER"
+        },
+        {
+          "ecosystem": "npm",
+          "package": "dotenv",
+          "role": "OTHER"
+        },
+        {
+          "ecosystem": "npm",
+          "package": "lodash",
+          "role": "OTHER"
+        },
+        {
+          "ecosystem": "npm",
+          "package": "moment",
+          "role": "OTHER"
+        },
+        {
+          "ecosystem": "npm",
+          "package": "uuid",
+          "role": "OTHER"
+        },
+        {
+          "ecosystem": "npm",
+          "package": "bcrypt",
+          "role": "OTHER"
+        },
+        {
+          "ecosystem": "npm",
+          "package": "sharp",
+          "role": "OTHER"
+        },
+        {
+          "ecosystem": "npm",
+          "package": "nodemailer",
+          "role": "OTHER"
+        },
+        {
+          "ecosystem": "npm",
+          "package": "joi",
+          "role": "OTHER"
+        },
+        {
+          "ecosystem": "npm",
+          "package": "yup",
+          "role": "OTHER"
+        },
+        {
+          "ecosystem": "npm",
+          "package": "chalk",
+          "role": "OTHER"
+        },
+        {
+          "ecosystem": "npm",
+          "package": "commander",
+          "role": "OTHER"
+        },
+        {
+          "ecosystem": "npm",
+          "package": "aws-sdk",
+          "role": "OTHER"
+        },
+        {
+          "ecosystem": "npm",
+          "package": "eslint",
+          "role": "OTHER"
+        },
+        {
+          "ecosystem": "npm",
+          "package": "jest",
+          "role": "OTHER"
+        },
+        {
+          "ecosystem": "npm",
+          "package": "supertest",
+          "role": "OTHER"
+        }
+      ]
+    },
+    "django": {
+      "label": "Django/Python",
+      "description": "Typical Django production app \u2014 Django + DRF + Flask + WSGI/ASGI servers + crypto/auth (40 packages).",
+      "packages": [
+        {
+          "ecosystem": "PyPI",
+          "package": "django",
+          "role": "NP"
+        },
+        {
+          "ecosystem": "PyPI",
+          "package": "djangorestframework",
+          "role": "NP"
+        },
+        {
+          "ecosystem": "PyPI",
+          "package": "flask",
+          "role": "NP"
+        },
+        {
+          "ecosystem": "PyPI",
+          "package": "gunicorn",
+          "role": "NP"
+        },
+        {
+          "ecosystem": "PyPI",
+          "package": "uvicorn",
+          "role": "NP"
+        },
+        {
+          "ecosystem": "PyPI",
+          "package": "requests",
+          "role": "NP"
+        },
+        {
+          "ecosystem": "PyPI",
+          "package": "httpx",
+          "role": "NP"
+        },
+        {
+          "ecosystem": "PyPI",
+          "package": "urllib3",
+          "role": "NP"
+        },
+        {
+          "ecosystem": "PyPI",
+          "package": "jinja2",
+          "role": "NP"
+        },
+        {
+          "ecosystem": "PyPI",
+          "package": "pyjwt",
+          "role": "NP"
+        },
+        {
+          "ecosystem": "PyPI",
+          "package": "django-cors-headers",
+          "role": "NP"
+        },
+        {
+          "ecosystem": "PyPI",
+          "package": "channels",
+          "role": "NP"
+        },
+        {
+          "ecosystem": "PyPI",
+          "package": "graphene-django",
+          "role": "NP"
+        },
+        {
+          "ecosystem": "PyPI",
+          "package": "django-oauth-toolkit",
+          "role": "NP"
+        },
+        {
+          "ecosystem": "PyPI",
+          "package": "whitenoise",
+          "role": "NP"
+        },
+        {
+          "ecosystem": "PyPI",
+          "package": "django-ninja",
+          "role": "NP"
+        },
+        {
+          "ecosystem": "PyPI",
+          "package": "celery",
+          "role": "OTHER"
+        },
+        {
+          "ecosystem": "PyPI",
+          "package": "redis",
+          "role": "OTHER"
+        },
+        {
+          "ecosystem": "PyPI",
+          "package": "psycopg2",
+          "role": "OTHER"
+        },
+        {
+          "ecosystem": "PyPI",
+          "package": "sqlalchemy",
+          "role": "OTHER"
+        },
+        {
+          "ecosystem": "PyPI",
+          "package": "boto3",
+          "role": "OTHER"
+        },
+        {
+          "ecosystem": "PyPI",
+          "package": "pillow",
+          "role": "OTHER"
+        },
+        {
+          "ecosystem": "PyPI",
+          "package": "numpy",
+          "role": "OTHER"
+        },
+        {
+          "ecosystem": "PyPI",
+          "package": "pandas",
+          "role": "OTHER"
+        },
+        {
+          "ecosystem": "PyPI",
+          "package": "pyyaml",
+          "role": "OTHER"
+        },
+        {
+          "ecosystem": "PyPI",
+          "package": "cryptography",
+          "role": "NP"
+        },
+        {
+          "ecosystem": "PyPI",
+          "package": "paramiko",
+          "role": "OTHER"
+        },
+        {
+          "ecosystem": "PyPI",
+          "package": "django-debug-toolbar",
+          "role": "OTHER"
+        },
+        {
+          "ecosystem": "PyPI",
+          "package": "django-extensions",
+          "role": "OTHER"
+        },
+        {
+          "ecosystem": "PyPI",
+          "package": "django-filter",
+          "role": "OTHER"
+        },
+        {
+          "ecosystem": "PyPI",
+          "package": "sentry-sdk",
+          "role": "OTHER"
+        },
+        {
+          "ecosystem": "PyPI",
+          "package": "pytest",
+          "role": "OTHER"
+        },
+        {
+          "ecosystem": "PyPI",
+          "package": "pytest-django",
+          "role": "OTHER"
+        },
+        {
+          "ecosystem": "PyPI",
+          "package": "factory-boy",
+          "role": "OTHER"
+        },
+        {
+          "ecosystem": "PyPI",
+          "package": "black",
+          "role": "OTHER"
+        },
+        {
+          "ecosystem": "PyPI",
+          "package": "flake8",
+          "role": "OTHER"
+        },
+        {
+          "ecosystem": "PyPI",
+          "package": "django-storages",
+          "role": "OTHER"
+        },
+        {
+          "ecosystem": "PyPI",
+          "package": "django-redis",
+          "role": "OTHER"
+        },
+        {
+          "ecosystem": "PyPI",
+          "package": "kombu",
+          "role": "OTHER"
+        },
+        {
+          "ecosystem": "PyPI",
+          "package": "python-dateutil",
+          "role": "OTHER"
+        }
+      ]
+    },
+    "netty": {
+      "label": "Netty",
+      "description": "Netty HTTP/HTTP2 stack \u2014 7 packages, mostly NP because Netty is a wire-format library.",
+      "packages": [
+        {
+          "ecosystem": "Maven",
+          "package": "io.netty:netty-codec-http",
+          "role": "NP"
+        },
+        {
+          "ecosystem": "Maven",
+          "package": "io.netty:netty-codec-http2",
+          "role": "NP"
+        },
+        {
+          "ecosystem": "Maven",
+          "package": "io.netty:netty-codec",
+          "role": "NP"
+        },
+        {
+          "ecosystem": "Maven",
+          "package": "io.netty:netty-handler",
+          "role": "NP"
+        },
+        {
+          "ecosystem": "Maven",
+          "package": "io.netty:netty-transport",
+          "role": "OTHER"
+        },
+        {
+          "ecosystem": "Maven",
+          "package": "io.netty:netty-buffer",
+          "role": "OTHER"
+        },
+        {
+          "ecosystem": "Maven",
+          "package": "io.netty:netty-common",
+          "role": "OTHER"
+        }
+      ]
+    },
+    "real_java": {
+      "label": "Real-world Java",
+      "description": "Real-world Java enterprise build = Spring Boot starter + ActiveMQ + Camel + log4j + xstream. 55 packages. The 58-package universe of data/_manifest-osv-cache.json (4 of which are split-Maven-coordinate for the same logical artifact). Backs the 7-year backtest.",
+      "extends": "spring",
+      "extra_packages": [
+        {
+          "ecosystem": "Maven",
+          "package": "org.apache.activemq:activemq-broker",
+          "role": "NP"
+        },
+        {
+          "ecosystem": "Maven",
+          "package": "org.apache.activemq:activemq-client",
+          "role": "OTHER"
+        },
+        {
+          "ecosystem": "Maven",
+          "package": "org.apache.camel:camel-core",
+          "role": "OTHER"
+        },
+        {
+          "ecosystem": "Maven",
+          "package": "org.apache.camel:camel-http",
+          "role": "NP"
+        },
+        {
+          "ecosystem": "Maven",
+          "package": "org.apache.logging.log4j:log4j-core",
+          "role": "NP"
+        },
+        {
+          "ecosystem": "Maven",
+          "package": "org.apache.logging.log4j:log4j-api",
+          "role": "OTHER"
+        },
+        {
+          "ecosystem": "Maven",
+          "package": "com.thoughtworks.xstream:xstream",
+          "role": "NP"
+        }
+      ],
+      "packages": [
+        {
+          "ecosystem": "Maven",
+          "package": "org.springframework.boot:spring-boot",
+          "role": "OTHER"
+        },
+        {
+          "ecosystem": "Maven",
+          "package": "org.springframework.boot:spring-boot-autoconfigure",
+          "role": "OTHER"
+        },
+        {
+          "ecosystem": "Maven",
+          "package": "org.springframework:spring-core",
+          "role": "OTHER"
+        },
+        {
+          "ecosystem": "Maven",
+          "package": "org.springframework:spring-context",
+          "role": "OTHER"
+        },
+        {
+          "ecosystem": "Maven",
+          "package": "org.springframework:spring-beans",
+          "role": "OTHER"
+        },
+        {
+          "ecosystem": "Maven",
+          "package": "org.springframework:spring-aop",
+          "role": "OTHER"
+        },
+        {
+          "ecosystem": "Maven",
+          "package": "org.springframework:spring-web",
+          "role": "NP"
+        },
+        {
+          "ecosystem": "Maven",
+          "package": "org.springframework:spring-webmvc",
+          "role": "NP"
+        },
+        {
+          "ecosystem": "Maven",
+          "package": "org.apache.tomcat.embed:tomcat-embed-core",
+          "role": "NP"
+        },
+        {
+          "ecosystem": "Maven",
+          "package": "org.apache.tomcat.embed:tomcat-embed-websocket",
+          "role": "NP"
+        },
+        {
+          "ecosystem": "Maven",
+          "package": "com.fasterxml.jackson.core:jackson-databind",
+          "role": "NP"
+        },
+        {
+          "ecosystem": "Maven",
+          "package": "com.fasterxml.jackson.core:jackson-core",
+          "role": "NP"
+        },
+        {
+          "ecosystem": "Maven",
+          "package": "com.fasterxml.jackson.core:jackson-annotations",
+          "role": "OTHER"
+        },
+        {
+          "ecosystem": "Maven",
+          "package": "com.fasterxml.jackson.datatype:jackson-datatype-jsr310",
+          "role": "OTHER"
+        },
+        {
+          "ecosystem": "Maven",
+          "package": "org.springframework.security:spring-security-core",
+          "role": "NP"
+        },
+        {
+          "ecosystem": "Maven",
+          "package": "org.springframework.security:spring-security-web",
+          "role": "NP"
+        },
+        {
+          "ecosystem": "Maven",
+          "package": "org.springframework.security:spring-security-config",
+          "role": "OTHER"
+        },
+        {
+          "ecosystem": "Maven",
+          "package": "org.springframework.security:spring-security-oauth2-resource-server",
+          "role": "NP"
+        },
+        {
+          "ecosystem": "Maven",
+          "package": "org.springframework:spring-jdbc",
+          "role": "OTHER"
+        },
+        {
+          "ecosystem": "Maven",
+          "package": "org.springframework.data:spring-data-jpa",
+          "role": "OTHER"
+        },
+        {
+          "ecosystem": "Maven",
+          "package": "org.hibernate.orm:hibernate-core",
+          "role": "OTHER"
+        },
+        {
+          "ecosystem": "Maven",
+          "package": "org.postgresql:postgresql",
+          "role": "OTHER"
+        },
+        {
+          "ecosystem": "Maven",
+          "package": "com.zaxxer:HikariCP",
+          "role": "OTHER"
+        },
+        {
+          "ecosystem": "Maven",
+          "package": "org.thymeleaf:thymeleaf",
+          "role": "NP"
+        },
+        {
+          "ecosystem": "Maven",
+          "package": "org.thymeleaf:thymeleaf-spring6",
+          "role": "NP"
+        },
+        {
+          "ecosystem": "Maven",
+          "package": "ch.qos.logback:logback-classic",
+          "role": "OTHER"
+        },
+        {
+          "ecosystem": "Maven",
+          "package": "ch.qos.logback:logback-core",
+          "role": "OTHER"
+        },
+        {
+          "ecosystem": "Maven",
+          "package": "org.slf4j:slf4j-api",
+          "role": "OTHER"
+        },
+        {
+          "ecosystem": "Maven",
+          "package": "org.yaml:snakeyaml",
+          "role": "OTHER"
+        },
+        {
+          "ecosystem": "Maven",
+          "package": "org.hibernate.validator:hibernate-validator",
+          "role": "OTHER"
+        },
+        {
+          "ecosystem": "Maven",
+          "package": "jakarta.validation:jakarta.validation-api",
+          "role": "OTHER"
+        },
+        {
+          "ecosystem": "Maven",
+          "package": "com.google.guava:guava",
+          "role": "OTHER"
+        },
+        {
+          "ecosystem": "Maven",
+          "package": "org.apache.commons:commons-lang3",
+          "role": "OTHER"
+        },
+        {
+          "ecosystem": "Maven",
+          "package": "commons-io:commons-io",
+          "role": "OTHER"
+        },
+        {
+          "ecosystem": "Maven",
+          "package": "org.apache.commons:commons-collections4",
+          "role": "OTHER"
+        },
+        {
+          "ecosystem": "Maven",
+          "package": "org.apache.commons:commons-text",
+          "role": "OTHER"
+        },
+        {
+          "ecosystem": "Maven",
+          "package": "org.apache.httpcomponents.client5:httpclient5",
+          "role": "NP"
+        },
+        {
+          "ecosystem": "Maven",
+          "package": "org.apache.httpcomponents.core5:httpcore5",
+          "role": "NP"
+        },
+        {
+          "ecosystem": "Maven",
+          "package": "com.github.ben-manes.caffeine:caffeine",
+          "role": "OTHER"
+        },
+        {
+          "ecosystem": "Maven",
+          "package": "org.springframework.amqp:spring-amqp",
+          "role": "OTHER"
+        },
+        {
+          "ecosystem": "Maven",
+          "package": "com.rabbitmq:amqp-client",
+          "role": "NP"
+        },
+        {
+          "ecosystem": "Maven",
+          "package": "io.github.resilience4j:resilience4j-spring-boot3",
+          "role": "OTHER"
+        },
+        {
+          "ecosystem": "Maven",
+          "package": "io.micrometer:micrometer-core",
+          "role": "OTHER"
+        },
+        {
+          "ecosystem": "Maven",
+          "package": "org.springframework.boot:spring-boot-actuator",
+          "role": "NP"
+        },
+        {
+          "ecosystem": "Maven",
+          "package": "org.springdoc:springdoc-openapi-starter-webmvc-ui",
+          "role": "OTHER"
+        },
+        {
+          "ecosystem": "Maven",
+          "package": "net.bytebuddy:byte-buddy",
+          "role": "OTHER"
+        },
+        {
+          "ecosystem": "Maven",
+          "package": "org.glassfish.jaxb:jaxb-runtime",
+          "role": "NP"
+        },
+        {
+          "ecosystem": "Maven",
+          "package": "org.bouncycastle:bcprov-jdk18on",
+          "role": "OTHER"
+        },
+        {
+          "ecosystem": "Maven",
+          "package": "org.apache.activemq:activemq-broker",
+          "role": "NP"
+        },
+        {
+          "ecosystem": "Maven",
+          "package": "org.apache.activemq:activemq-client",
+          "role": "OTHER"
+        },
+        {
+          "ecosystem": "Maven",
+          "package": "org.apache.camel:camel-core",
+          "role": "OTHER"
+        },
+        {
+          "ecosystem": "Maven",
+          "package": "org.apache.camel:camel-http",
+          "role": "NP"
+        },
+        {
+          "ecosystem": "Maven",
+          "package": "org.apache.logging.log4j:log4j-core",
+          "role": "NP"
+        },
+        {
+          "ecosystem": "Maven",
+          "package": "org.apache.logging.log4j:log4j-api",
+          "role": "OTHER"
+        },
+        {
+          "ecosystem": "Maven",
+          "package": "com.thoughtworks.xstream:xstream",
+          "role": "NP"
+        }
+      ]
+    }
+  }
+}

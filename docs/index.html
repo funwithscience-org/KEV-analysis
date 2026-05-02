@@ -8,7 +8,7 @@
 <style>
 /* ===== RESET & BASE ===== */
 *{margin:0;padding:0;box-sizing:border-box}
-:root{--bg:#faf9f5;--fg:#1a1a2e;--muted:#6b6356;--border:#e6e1d3;--accent:#4f46e5;--accent-light:#eef2ff;
+:root{--bg:#faf9f5;--fg:#1a1a2e;--muted:#6b6356;--border:#e6e1d3;--accent:#7d2828;--accent-light:#f5e8e6;
 --sidebar-bg:#f4f1e8;--card-bg:#f4f1e8;--code-bg:#ede8db;--red:#dc2626;--amber:#d97706;--green:#059669}
 body{font-family:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
 color:var(--fg);line-height:1.7;font-size:16px;background:var(--bg)}
@@ -81,7 +81,7 @@ details.expandable summary::before{content:'+ ';color:var(--accent)}
 details.expandable[open] summary::before{content:'- '}
 details.expandable .detail-content{padding:16px 20px}
 .toc-num{color:var(--accent);font-weight:600;margin-right:4px}
-.print-btn{position:fixed;bottom:24px;right:24px;background:var(--accent);color:#fff;border:none;padding:12px 20px;border-radius:8px;cursor:pointer;font-size:.9em;font-weight:600;box-shadow:0 4px 12px rgba(79,70,229,.3);z-index:100;display:flex;align-items:center;gap:8px}
+.print-btn{position:fixed;bottom:24px;right:24px;background:var(--accent);color:#fff;border:none;padding:12px 20px;border-radius:8px;cursor:pointer;font-size:.9em;font-weight:600;box-shadow:0 4px 12px rgba(125,40,40,.3);z-index:100;display:flex;align-items:center;gap:8px}
 .print-btn:hover{background:#4338ca}
 .footer{margin-top:64px;padding-top:24px;border-top:1px solid var(--border);color:var(--muted);font-size:.82em;text-align:center}
 /* ===== CTA LINKS ===== */
@@ -660,7 +660,7 @@ A network-parsing HIGH (7.0-7.9) at 0.89% beats a non-parsing CRITICAL (9.0-9.9)
 <tr style="background:rgba(168,85,247,.05)"><td><strong>Apr 28, 2025</strong></td><td>spring-boot actuator (CVE-2025-22235)</td><td><span class="tag tag-green">7 days</span></td><td>—</td><td><strong style="color:var(--accent)">★ A</strong></td><td>0</td></tr>
 <tr><td><strong>May 21, 2025</strong></td><td>Spring Security auth bypass</td><td><span class="tag tag-green">30 days</span></td><td>●</td><td><strong style="color:var(--accent)">★ A</strong></td><td>3</td></tr>
 <tr><td><strong>Sep 16, 2025</strong></td><td>Spring annotation auth bypass</td><td><span class="tag tag-amber">148 days</span></td><td>●</td><td><strong style="color:var(--accent)">★ A</strong></td><td>9</td></tr>
-<tr style="background:rgba(79,70,229,.05)"><td><strong>Oct 27, 2025</strong></td><td>Tomcat path traversal</td><td><span class="tag tag-amber">189 days</span></td><td>●</td><td>B (no fire)</td><td><strong style="color:var(--red)">11</strong></td></tr>
+<tr style="background:rgba(125,40,40,.05)"><td><strong>Oct 27, 2025</strong></td><td>Tomcat path traversal</td><td><span class="tag tag-amber">189 days</span></td><td>●</td><td>B (no fire)</td><td><strong style="color:var(--red)">11</strong></td></tr>
 <tr><td><strong>Apr 9, 2026</strong></td><td>Tomcat batch (CLIENT_CERT, log encoding)</td><td><span class="tag tag-red">353 days</span></td><td>●</td><td><strong style="color:var(--accent)">★ A</strong></td><td><strong style="color:var(--red)">21</strong></td></tr>
 <tr><td><strong>Apr 15, 2026</strong></td><td>Thymeleaf SSTI cluster (4 CVEs)</td><td><span class="tag tag-red">359 days</span></td><td>●</td><td><strong style="color:var(--accent)">★ A</strong></td><td><strong style="color:var(--red)">21</strong></td></tr>
 </tbody></table>

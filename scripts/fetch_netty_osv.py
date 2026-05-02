@@ -29,16 +29,16 @@ from pathlib import Path
 
 REPO = Path(__file__).resolve().parent.parent
 
-NETTY_MANIFEST: list[tuple[str, str, str]] = [
-    # (eco, package, role)
-    ("Maven", "io.netty:netty-codec-http",  "NP"),
-    ("Maven", "io.netty:netty-codec-http2", "NP"),
-    ("Maven", "io.netty:netty-codec",       "NP"),
-    ("Maven", "io.netty:netty-handler",     "NP"),
-    ("Maven", "io.netty:netty-transport",   "OTHER"),
-    ("Maven", "io.netty:netty-buffer",      "OTHER"),
-    ("Maven", "io.netty:netty-common",      "OTHER"),
-]
+def _load_netty_manifest() -> list[tuple[str, str, str]]:
+    """Read Netty manifest from canonical data/manifests.json."""
+    import json
+    p = REPO / "data" / "manifests.json"
+    raw = json.load(open(p))
+    pkgs = raw["manifests"]["netty"]["packages"]
+    return [(r["ecosystem"], r["package"], r["role"]) for r in pkgs]
+
+
+NETTY_MANIFEST: list[tuple[str, str, str]] = _load_netty_manifest()
 
 NP_PACKAGES = {pkg.split(":")[1] for eco, pkg, role in NETTY_MANIFEST if role == "NP"}
 WINDOW_START = "2025-04-01"

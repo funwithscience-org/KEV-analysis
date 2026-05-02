@@ -63,184 +63,24 @@ DI_CWES = {
 
 
 # ── Manifests ──────────────────────────────────────────────────────────
-# Each entry: (ecosystem, package_name, role)
-# role ∈ {"NP", "OTHER"}; NP = "trust-boundary library" per CLAUDE.md NP rule.
+# Canonical source: data/manifests.json. Read at module import time so a
+# stale on-disk copy fails loud (KeyError on a missing manifest_id) rather
+# than silently using yesterday's package list.
 
-SPRING_MANIFEST = [
-    ("Maven", "org.springframework.boot:spring-boot",                                "OTHER"),
-    ("Maven", "org.springframework.boot:spring-boot-autoconfigure",                  "OTHER"),
-    ("Maven", "org.springframework:spring-core",                                     "OTHER"),
-    ("Maven", "org.springframework:spring-context",                                  "OTHER"),
-    ("Maven", "org.springframework:spring-beans",                                    "OTHER"),
-    ("Maven", "org.springframework:spring-aop",                                      "OTHER"),
-    ("Maven", "org.springframework:spring-web",                                      "NP"),
-    ("Maven", "org.springframework:spring-webmvc",                                   "NP"),
-    ("Maven", "org.apache.tomcat.embed:tomcat-embed-core",                           "NP"),
-    ("Maven", "org.apache.tomcat.embed:tomcat-embed-websocket",                      "NP"),
-    ("Maven", "com.fasterxml.jackson.core:jackson-databind",                         "NP"),
-    ("Maven", "com.fasterxml.jackson.core:jackson-core",                             "NP"),
-    ("Maven", "com.fasterxml.jackson.core:jackson-annotations",                      "OTHER"),
-    ("Maven", "com.fasterxml.jackson.datatype:jackson-datatype-jsr310",              "OTHER"),
-    ("Maven", "org.springframework.security:spring-security-core",                   "NP"),
-    ("Maven", "org.springframework.security:spring-security-web",                    "NP"),
-    ("Maven", "org.springframework.security:spring-security-config",                 "OTHER"),
-    ("Maven", "org.springframework.security:spring-security-oauth2-resource-server", "NP"),
-    ("Maven", "org.springframework:spring-jdbc",                                     "OTHER"),
-    ("Maven", "org.springframework.data:spring-data-jpa",                            "OTHER"),
-    ("Maven", "org.hibernate.orm:hibernate-core",                                    "OTHER"),
-    ("Maven", "org.postgresql:postgresql",                                           "OTHER"),
-    ("Maven", "com.zaxxer:HikariCP",                                                 "OTHER"),
-    ("Maven", "org.thymeleaf:thymeleaf",                                             "NP"),
-    ("Maven", "org.thymeleaf:thymeleaf-spring6",                                     "NP"),
-    ("Maven", "ch.qos.logback:logback-classic",                                      "OTHER"),
-    ("Maven", "ch.qos.logback:logback-core",                                         "OTHER"),
-    ("Maven", "org.slf4j:slf4j-api",                                                 "OTHER"),
-    ("Maven", "org.yaml:snakeyaml",                                                  "OTHER"),
-    ("Maven", "org.hibernate.validator:hibernate-validator",                         "OTHER"),
-    ("Maven", "jakarta.validation:jakarta.validation-api",                           "OTHER"),
-    ("Maven", "com.google.guava:guava",                                              "OTHER"),
-    ("Maven", "org.apache.commons:commons-lang3",                                    "OTHER"),
-    ("Maven", "commons-io:commons-io",                                               "OTHER"),
-    ("Maven", "org.apache.commons:commons-collections4",                             "OTHER"),
-    ("Maven", "org.apache.commons:commons-text",                                     "OTHER"),
-    ("Maven", "org.apache.httpcomponents.client5:httpclient5",                       "NP"),
-    ("Maven", "org.apache.httpcomponents.core5:httpcore5",                           "NP"),
-    ("Maven", "com.github.ben-manes.caffeine:caffeine",                              "OTHER"),
-    ("Maven", "org.springframework.amqp:spring-amqp",                                "OTHER"),
-    ("Maven", "com.rabbitmq:amqp-client",                                            "NP"),
-    ("Maven", "io.github.resilience4j:resilience4j-spring-boot3",                    "OTHER"),
-    ("Maven", "io.micrometer:micrometer-core",                                       "OTHER"),
-    ("Maven", "org.springframework.boot:spring-boot-actuator",                       "NP"),
-    ("Maven", "org.springdoc:springdoc-openapi-starter-webmvc-ui",                   "OTHER"),
-    ("Maven", "net.bytebuddy:byte-buddy",                                            "OTHER"),
-    ("Maven", "org.glassfish.jaxb:jaxb-runtime",                                     "NP"),
-    ("Maven", "org.bouncycastle:bcprov-jdk18on",                                     "OTHER"),
-]
-
-NODE_MANIFEST = [
-    ("npm", "express",                "NP"),
-    ("npm", "koa",                    "NP"),
-    ("npm", "fastify",                "NP"),
-    ("npm", "body-parser",            "NP"),
-    ("npm", "multer",                 "NP"),
-    ("npm", "cookie-parser",          "NP"),
-    ("npm", "cors",                   "NP"),
-    ("npm", "helmet",                 "NP"),
-    ("npm", "http-proxy-middleware",  "NP"),
-    ("npm", "node-fetch",             "NP"),
-    ("npm", "axios",                  "NP"),
-    ("npm", "ws",                     "NP"),
-    ("npm", "socket.io",              "NP"),
-    ("npm", "ejs",                    "NP"),
-    ("npm", "pug",                    "NP"),
-    ("npm", "handlebars",             "NP"),
-    ("npm", "nunjucks",               "NP"),
-    ("npm", "jsonwebtoken",           "NP"),
-    ("npm", "passport",               "NP"),
-    ("npm", "graphql",                "NP"),
-    ("npm", "apollo-server-express",  "NP"),
-    ("npm", "mongoose",               "OTHER"),
-    ("npm", "sequelize",              "OTHER"),
-    ("npm", "knex",                   "OTHER"),
-    ("npm", "pg",                     "OTHER"),
-    ("npm", "redis",                  "OTHER"),
-    ("npm", "ioredis",                "OTHER"),
-    ("npm", "bull",                   "OTHER"),
-    ("npm", "winston",                "OTHER"),
-    ("npm", "morgan",                 "OTHER"),
-    ("npm", "dotenv",                 "OTHER"),
-    ("npm", "lodash",                 "OTHER"),
-    ("npm", "moment",                 "OTHER"),
-    ("npm", "uuid",                   "OTHER"),
-    ("npm", "bcrypt",                 "OTHER"),
-    ("npm", "sharp",                  "OTHER"),
-    ("npm", "nodemailer",             "OTHER"),
-    ("npm", "joi",                    "OTHER"),
-    ("npm", "yup",                    "OTHER"),
-    ("npm", "chalk",                  "OTHER"),
-    ("npm", "commander",              "OTHER"),
-    ("npm", "aws-sdk",                "OTHER"),
-    ("npm", "eslint",                 "OTHER"),
-    ("npm", "jest",                   "OTHER"),
-    ("npm", "supertest",              "OTHER"),
-]
-
-DJANGO_MANIFEST = [
-    ("PyPI", "django",               "NP"),
-    ("PyPI", "djangorestframework",  "NP"),
-    ("PyPI", "flask",                "NP"),
-    ("PyPI", "gunicorn",             "NP"),
-    ("PyPI", "uvicorn",              "NP"),
-    ("PyPI", "requests",             "NP"),
-    ("PyPI", "httpx",                "NP"),
-    ("PyPI", "urllib3",              "NP"),
-    ("PyPI", "jinja2",               "NP"),
-    ("PyPI", "pyjwt",                "NP"),
-    ("PyPI", "django-cors-headers",  "NP"),
-    ("PyPI", "channels",             "NP"),
-    ("PyPI", "graphene-django",      "NP"),
-    ("PyPI", "django-oauth-toolkit", "NP"),
-    ("PyPI", "whitenoise",           "NP"),
-    ("PyPI", "django-ninja",         "NP"),
-    ("PyPI", "celery",               "OTHER"),
-    ("PyPI", "redis",                "OTHER"),
-    ("PyPI", "psycopg2",             "OTHER"),
-    ("PyPI", "sqlalchemy",           "OTHER"),
-    ("PyPI", "boto3",                "OTHER"),
-    ("PyPI", "pillow",               "OTHER"),
-    ("PyPI", "numpy",                "OTHER"),
-    ("PyPI", "pandas",               "OTHER"),
-    ("PyPI", "pyyaml",               "OTHER"),
-    ("PyPI", "cryptography",         "NP"),  # auth-boundary override per CLAUDE.md NP rule
-    ("PyPI", "paramiko",             "OTHER"),
-    ("PyPI", "django-debug-toolbar", "OTHER"),
-    ("PyPI", "django-extensions",    "OTHER"),
-    ("PyPI", "django-filter",        "OTHER"),
-    ("PyPI", "sentry-sdk",           "OTHER"),
-    ("PyPI", "pytest",               "OTHER"),
-    ("PyPI", "pytest-django",        "OTHER"),
-    ("PyPI", "factory-boy",          "OTHER"),
-    ("PyPI", "black",                "OTHER"),
-    ("PyPI", "flake8",               "OTHER"),
-    ("PyPI", "django-storages",      "OTHER"),
-    ("PyPI", "django-redis",         "OTHER"),
-    ("PyPI", "kombu",                "OTHER"),
-    ("PyPI", "python-dateutil",      "OTHER"),
-]
-
-NETTY_MANIFEST = [
-    ("Maven", "io.netty:netty-codec-http",  "NP"),
-    ("Maven", "io.netty:netty-codec-http2", "NP"),
-    ("Maven", "io.netty:netty-codec",       "NP"),
-    ("Maven", "io.netty:netty-handler",     "NP"),
-    ("Maven", "io.netty:netty-transport",   "OTHER"),
-    ("Maven", "io.netty:netty-buffer",      "OTHER"),
-    ("Maven", "io.netty:netty-common",      "OTHER"),
-]
-
-# Real-world Java enterprise: Spring Boot starter + ActiveMQ + Camel +
-# log4j + xstream. Reuses Spring set + the runtime additions that the
-# seven-year manifest covers. Keep in sync with
-# data/_manifest-osv-cache.json (the canonical 58-package universe).
-REAL_JAVA_EXTRA = [
-    ("Maven", "org.apache.activemq:activemq-broker", "NP"),     # Jolokia HTTP-over-JMX is parser surface
-    ("Maven", "org.apache.activemq:activemq-client", "OTHER"),
-    ("Maven", "org.apache.camel:camel-core",         "OTHER"),
-    ("Maven", "org.apache.camel:camel-http",         "NP"),
-    ("Maven", "org.apache.logging.log4j:log4j-core", "NP"),     # JNDI parser surface
-    ("Maven", "org.apache.logging.log4j:log4j-api",  "OTHER"),
-    ("Maven", "com.thoughtworks.xstream:xstream",    "NP"),     # XML deserializer
-]
-REAL_JAVA_MANIFEST = SPRING_MANIFEST + REAL_JAVA_EXTRA
+def _load_manifests() -> list[tuple[str, str, list[tuple[str, str, str]]]]:
+    """Returns [(manifest_id, label, [(eco, pkg, role), ...]), ...] in
+    fixed order: spring, nodejs, django, netty, real_java."""
+    p = REPO / "data" / "manifests.json"
+    raw = json.load(open(p))
+    out = []
+    for key in ("spring", "nodejs", "django", "netty", "real_java"):
+        m = raw["manifests"][key]
+        triples = [(r["ecosystem"], r["package"], r["role"]) for r in m["packages"]]
+        out.append((key, m["label"], triples))
+    return out
 
 
-MANIFESTS = [
-    ("spring",    "Spring Boot",        SPRING_MANIFEST),
-    ("nodejs",    "Node.js/Express",    NODE_MANIFEST),
-    ("django",    "Django/Python",      DJANGO_MANIFEST),
-    ("netty",     "Netty",              NETTY_MANIFEST),
-    ("real_java", "Real-world Java",    REAL_JAVA_MANIFEST),
-]
+MANIFESTS = _load_manifests()
 
 
 # ── Helpers ────────────────────────────────────────────────────────────

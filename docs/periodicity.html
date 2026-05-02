@@ -7,7 +7,7 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
 <style>
 :root{--bg:#faf9f5;--surface:#f4f1e8;--border:#e6e1d3;--text:#334155;--muted:#6b6356;
---accent:#4f46e5;--red:#dc2626;--amber:#d97706;--green:#059669;--cyan:#0891b2;
+--accent:#7d2828;--red:#dc2626;--amber:#d97706;--green:#059669;--cyan:#0891b2;
 --spring:#d97706;--node:#059669;--django:#0891b2;--netty:#7c3aed;--hacker:#a855f7;
 --serif:'Charter','Bitstream Charter','Sitka Text',Cambria,Georgia,serif}
 *{box-sizing:border-box;margin:0;padding:0}
@@ -17,7 +17,7 @@ body{background:var(--bg);color:var(--text);font-family:Inter,-apple-system,Blin
 .sidebar{background:var(--surface);border-right:1px solid var(--border);padding:24px 0;position:sticky;top:50px;height:calc(100vh - 50px);overflow-y:auto}
 .sidebar-title{font-size:1.05em;font-weight:700;padding:0 20px 16px;color:var(--accent);border-bottom:1px solid var(--border);margin-bottom:12px;line-height:1.25}
 .sidebar a{display:block;padding:7px 20px;color:var(--muted);text-decoration:none;font-size:.88em;border-left:3px solid transparent;transition:all .15s}
-.sidebar a:hover,.sidebar a.active{color:var(--accent);background:#eef2ff;border-left-color:var(--accent)}
+.sidebar a:hover,.sidebar a.active{color:var(--accent);background:#f5e8e6;border-left-color:var(--accent)}
 .toc-num{color:var(--accent);font-weight:600;margin-right:4px}
 .main{max-width:1100px;margin:0 auto;padding:24px 32px 48px;counter-reset:section}
 @media(max-width:900px){.page{grid-template-columns:1fr} .sidebar{display:none} .main{padding:16px}}
@@ -58,9 +58,9 @@ tr:hover td{background:var(--surface)}
 .tag-red{background:#fef2f2;color:var(--red)}
 .tag-green{background:#ecfdf5;color:var(--green)}
 .tag-amber{background:#fffbeb;color:var(--amber)}
-.tag-accent{background:#eef2ff;color:var(--accent)}
+.tag-accent{background:#f5e8e6;color:var(--accent)}
 .callout{border-left:4px solid;border-radius:0 8px 8px 0;padding:14px 20px;margin:16px 0}
-.callout-finding{border-color:var(--accent);background:#eef2ff;color:#312e81}
+.callout-finding{border-color:var(--accent);background:#f5e8e6;color:#312e81}
 .callout-warning{border-color:var(--amber);background:#fffbeb;color:#78350f}
 .callout-danger{border-color:var(--red);background:#fef2f2;color:#7f1d1d}
 .callout-good{border-color:var(--green);background:#ecfdf5;color:#064e3b}
@@ -599,7 +599,7 @@ details summary:hover{color:var(--cyan)}
 <tr style="background:#faf5ff"><td><strong>Apr 28, 2025</strong></td><td>spring-boot actuator exposure (CVE-2025-22235)</td><td style="color:var(--green)">7 days</td><td>—</td><td><span style="color:var(--hacker);font-weight:700">★ A</span></td><td>0</td></tr>
 <tr><td><strong>May 21, 2025</strong></td><td>Spring Security auth bypass (CVE-2025-41232)</td><td style="color:var(--green)">30 days</td><td><span class="np">●</span></td><td><span style="color:var(--hacker);font-weight:700">★ A</span></td><td>3</td></tr>
 <tr><td><strong>Sep 16, 2025</strong></td><td>Spring annotation auth bypass cluster</td><td style="color:var(--amber)">148 days</td><td><span class="np">●</span></td><td><span style="color:var(--hacker);font-weight:700">★ A</span></td><td>9</td></tr>
-<tr style="background:#eef2ff"><td><strong>Oct 27, 2025</strong></td><td>Tomcat path traversal (CVE-2025-55752)</td><td style="color:var(--amber)">189 days</td><td><span class="np">●</span></td><td>B (no fire)</td><td style="color:var(--red);font-weight:700">11</td></tr>
+<tr style="background:#f5e8e6"><td><strong>Oct 27, 2025</strong></td><td>Tomcat path traversal (CVE-2025-55752)</td><td style="color:var(--amber)">189 days</td><td><span class="np">●</span></td><td>B (no fire)</td><td style="color:var(--red);font-weight:700">11</td></tr>
 <tr><td><strong>Apr 9, 2026</strong></td><td>Tomcat batch (CLIENT_CERT, log encoding, etc.)</td><td style="color:var(--red)">353 days</td><td><span class="np">●</span></td><td><span style="color:var(--hacker);font-weight:700">★ A</span></td><td style="color:var(--red);font-weight:700">21</td></tr>
 <tr><td><strong>Apr 15, 2026</strong></td><td>Thymeleaf SSTI cluster (4 CVEs)</td><td style="color:var(--red)">359 days</td><td><span class="np">●</span></td><td><span style="color:var(--hacker);font-weight:700">★ A</span></td><td style="color:var(--red);font-weight:700">21</td></tr>
 </tbody>
