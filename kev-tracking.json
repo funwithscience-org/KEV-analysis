@@ -145,5 +145,7 @@
     "osv_api": "ok (29 packages queried, 0 timeouts on retry)",
     "github_api": "ok (PoC-in-GitHub index queried for 19 CVEs)",
     "rhel": "deferred (last update 2026-04-29; no daily refresh today)"
-  }
+  },
+  "commit_sha": "fabf4f8417f9cd5534568d246ede27dae909c2de",
+  "changes_pushed": true
 }
