@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-05-01T04:07:47Z",
+  "generated_at": "2026-05-02T04:18:22Z",
   "description": "Time-to-exploit per CVE-publication year, backing the tteChart on docs/dashboard.html. TTE = dateAdded (CISA KEV) - cve_published_date (NVD/OSV).",
   "methodology": {
     "kev_source": "data/kev-snapshot-2026-05-01.json",

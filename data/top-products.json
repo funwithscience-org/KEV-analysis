@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-05-01T04:07:47Z",
+  "generated_at": "2026-05-02T04:18:16Z",
   "description": "Canonical top-products aggregation backing the topProductsChart on docs/dashboard.html. Counts are over the full KEV catalog, with manual normalization to collapse vendor/product variants.",
   "methodology": {
     "source": "data/kev-snapshot-2026-05-01.json",

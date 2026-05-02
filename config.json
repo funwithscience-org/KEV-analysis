@@ -149,12 +149,44 @@
     }
   },
   "di_cwe_freeze": {
-    "_doc": "The DI CWE set is FROZEN as of the freeze_date below. Going forward, if a confirmed-exploited CVE has a CWE not in this list, it is NOT added — that would be hindsight goalpost-moving. Instead, the hacker discriminator (S+A) is the rescue path; if it doesn't fire, the event is recorded as a genuine miss in the public 'events since freeze' counter. This converts the strongest critique of the project ('you fit the filter to the data') into the strongest forward-validation evidence.",
+    "_doc": "The DI CWE set is FROZEN as of the freeze_date below. Going forward, if a confirmed-exploited CVE has a CWE not in this list, it is NOT added \u2014 that would be hindsight goalpost-moving. Instead, the hacker discriminator (S+A) is the rescue path; if it doesn't fire, the event is recorded as a genuine miss in the public 'events since freeze' counter. This converts the strongest critique of the project ('you fit the filter to the data') into the strongest forward-validation evidence.",
     "freeze_date": "2026-05-01",
     "policy": "no DI CWE additions post-freeze; hacker S+A is the rescue lane; misses are surfaced publicly",
-    "frozen_di_cwes": [22, 23, 35, 73, 74, 77, 78, 79, 89, 90, 91, 93, 94, 95, 96, 97, 113, 116, 287, 289, 306, 345, 444, 502, 611, 693, 776, 863, 917, 918, 1321],
+    "frozen_di_cwes": [
+      22,
+      23,
+      35,
+      73,
+      74,
+      77,
+      78,
+      79,
+      89,
+      90,
+      91,
+      93,
+      94,
+      95,
+      96,
+      97,
+      113,
+      116,
+      287,
+      289,
+      306,
+      345,
+      444,
+      502,
+      611,
+      693,
+      776,
+      863,
+      917,
+      918,
+      1321
+    ],
     "frozen_di_cwe_count": 31,
-    "decision_rationale": "Hacker S+A is the project's primary rescue mechanism, not CWE expansion. The 7-year backtest shows hacker S+A catches 10/11 confirmed-exploited events — better discrimination than NP+DI raw (5/11) or NP+DI+DQ (8/11). Future misses route through hacker tier evaluation, not retroactive DI widening.",
+    "decision_rationale": "Hacker S+A is the project's primary rescue mechanism, not CWE expansion. The 7-year backtest shows hacker S+A catches 10/11 confirmed-exploited events \u2014 better discrimination than NP+DI raw (5/11) or NP+DI+DQ (8/11). Future misses route through hacker tier evaluation, not retroactive DI widening.",
     "what_changed_pre_freeze": "Pre-freeze widenings included CWE-444 (HTTP smuggling) and CWE-287/289/306/345/693/863/1321 (auth-bypass-via-input-manipulation). Both were principled expansions of the original injection/deserialization/path-traversal core. From freeze date forward, no further CWE additions to this set."
   },
   "projections": {
@@ -192,15 +224,15 @@
       "2026-02": 4808,
       "2026-03": 6304,
       "2026-04": 5885,
-      "2026-05": 15
+      "2026-05": 268
     },
-    "monthly_cve_2026_notes": "April 2026 closed with NVD totalResults = 5885 (final), below the 5651-conservative anchor and well below the 7151-aggressive low. Day-1 of May 2026 = 15 (NVD MTD). Q1 average 5418/mo. Counter-argument: NVD publication latency is 4-8 weeks, so any Mythos disclosure surge from late April may not appear until mid-May. April vs March: 5885 < 6304 (-6.6%). No Mythos volume shock visible in April final number.",
+    "monthly_cve_2026_notes": "April 2026 closed with NVD totalResults = 5885 (final), below the 5651-conservative anchor and well below the 7151-aggressive low. Day-1 of May 2026 = 15 (NVD MTD). Q1 average 5418/mo. Counter-argument: NVD publication latency is 4-8 weeks, so any Mythos disclosure surge from late April may not appear until mid-May. April vs March: 5885 < 6304 (-6.6%). No Mythos volume shock visible in April final number. | 2026-05 = 268 MTD through May 2 (NVD pubStartDate=2026-05-01, pubEndDate=2026-05-02).",
     "weekly_cve_2026": {
       "2026-W14_Mar30_Apr05": 1304,
       "2026-W15_Apr06_Apr12": 1615,
       "2026-W16_Apr13_Apr19": 1178,
       "2026-W17_Apr20_Apr26": 1469,
-      "2026-W18_Apr27_May03_partial": 747
+      "2026-W18_Apr27_May03_partial": 1015
     },
     "ms_patch_tuesday": {
       "2025-01": 157,
@@ -233,9 +265,10 @@
       "2026-01": 17,
       "2026-02": 28,
       "2026-03": 26,
-      "2026-04": 31
+      "2026-04": 31,
+      "2026-05": 1
     },
-    "kev_monthly_2026_notes": "April 2026 KEV final: 31 entries (last addition CVE-2026-41940 WebPros cPanel/WHM auth bypass on 2026-04-30). Notable Apr additions: ConnectWise ScreenConnect path traversal retro-listing (CVE-2024-1708, 2026-04-28), Win Shell CVE-2026-32202 actively exploited (2026-04-28), Marimo WebSocket CVE-2026-39987, Defender BlueHammer CVE-2026-33825, SharePoint CVE-2026-32201, ActiveMQ CVE-2026-34197, Adobe Acrobat CVE-2026-34621, Cisco Catalyst SD-WAN trio CVE-2026-20122/-20133/-20128. April KEV pace: 31/30 days = ~1.0/day."
+    "kev_monthly_2026_notes": "April 2026 KEV final: 31 entries (last addition CVE-2026-41940 WebPros cPanel/WHM auth bypass on 2026-04-30). Notable Apr additions: ConnectWise ScreenConnect path traversal retro-listing (CVE-2024-1708, 2026-04-28), Win Shell CVE-2026-32202 actively exploited (2026-04-28), Marimo WebSocket CVE-2026-39987, Defender BlueHammer CVE-2026-33825, SharePoint CVE-2026-32201, ActiveMQ CVE-2026-34197, Adobe Acrobat CVE-2026-34621, Cisco Catalyst SD-WAN trio CVE-2026-20122/-20133/-20128. April KEV pace: 31/30 days = ~1.0/day. | 2026-05 = 1 (CVE-2026-31431 Linux Kernel, dateAdded 2026-05-01)."
   },
   "exploit_watch_list": {
     "description": "HTTP-parsing-adjacent CVEs predicted to be actively exploited. Analyst adds entries; refresh agent checks KEV status.",
@@ -254,7 +287,7 @@
         "status": "confirmed",
         "added": "2026-05-01",
         "kevDate": "2026-04-28",
-        "notes": "CWE-22 path traversal in HTTP file-upload extension handling. 2024-vintage CVE retro-listed in KEV 2026-04-28 (originally part of the SlashAndGrab cluster paired with CVE-2024-1709 auth bypass; Black Basta / Bl00dy ransomware exploited Feb 2024). Adding to retroactively complete the watch-list track record — confirmed-on-arrival. NP+DI raw catch."
+        "notes": "CWE-22 path traversal in HTTP file-upload extension handling. 2024-vintage CVE retro-listed in KEV 2026-04-28 (originally part of the SlashAndGrab cluster paired with CVE-2024-1709 auth bypass; Black Basta / Bl00dy ransomware exploited Feb 2024). Adding to retroactively complete the watch-list track record \u2014 confirmed-on-arrival. NP+DI raw catch."
       },
       {
         "cve": "CVE-2026-40477",
@@ -382,7 +415,8 @@
         "product": "Adobe Acrobat",
         "status": "confirmed",
         "added": "2026-04-15",
-        "kevDate": "2026-04-15"
+        "kevDate": "2026-04-13",
+        "kevdate_correction": "Refresh agent 2026-05-02: prior kevDate 2026-04-15 was off; CISA KEV catalog 2026.05.01 confirms dateAdded 2026-04-13."
       },
       {
         "cve": "CVE-2026-33825",
@@ -401,7 +435,7 @@
       "functional",
       "weaponized"
     ],
-    "last_full_scan": "2026-04-25T04:05Z",
+    "last_full_scan": "2026-05-02T04:15Z",
     "cve_status": {
       "CVE-2026-40477": {
         "exploitdb": {
@@ -418,7 +452,7 @@
           "notes": "PoC exploits circulating in researcher communities per CSO Online / The Hacker Wire 2026-04-17; not aggregated in public indexes yet"
         },
         "overall_maturity": "poc",
-        "last_checked": "2026-05-01T04:09Z"
+        "last_checked": "2026-05-02T04:15Z"
       },
       "CVE-2026-40478": {
         "exploitdb": {
@@ -435,7 +469,7 @@
           "notes": "Same Thymeleaf cluster as CVE-2026-40477 \u2014 PoCs circulating"
         },
         "overall_maturity": "poc",
-        "last_checked": "2026-05-01T04:09Z"
+        "last_checked": "2026-05-02T04:15Z"
       },
       "CVE-2026-5194": {
         "exploitdb": {
@@ -447,12 +481,16 @@
           "last_checked": "2026-04-22T03:40Z"
         },
         "github_poc": {
-          "found": false,
-          "repo_count": 0,
-          "notes": "No dedicated PoC published to major indexes; researchers likely holding to allow patching window"
+          "found": true,
+          "repo_count": 1,
+          "earliest": "2026-04-19",
+          "top_stars": 0,
+          "top_repo": "https://github.com/jenniferreire26/CVE-2026-5194",
+          "notes": "PoC repo indexed in nomi-sec/PoC-in-GitHub as of 2026-05-02 sweep. Created 2026-04-19, 0 stars."
         },
-        "overall_maturity": "none",
-        "last_checked": "2026-05-01T04:09Z"
+        "overall_maturity": "poc",
+        "last_checked": "2026-05-02T04:15Z",
+        "escalation": "none -> poc on 2026-05-02 (PoC-in-GitHub indexed jenniferreire26 repo)"
       },
       "CVE-2026-5501": {
         "exploitdb": {
@@ -468,7 +506,7 @@
           "repo_count": 0
         },
         "overall_maturity": "none",
-        "last_checked": "2026-05-01T04:09Z"
+        "last_checked": "2026-05-02T04:15Z"
       },
       "CVE-2026-21858": {
         "exploitdb": {
@@ -485,7 +523,7 @@
           "notes": "Ni8mare: Cyera Research published technical writeup with attack chain; Orca Security, Picus, Upwind all published explainers. Working attack chain in the wild."
         },
         "overall_maturity": "functional",
-        "last_checked": "2026-05-01T04:09Z"
+        "last_checked": "2026-05-02T04:15Z"
       },
       "CVE-2026-39987": {
         "exploitdb": {
@@ -507,7 +545,7 @@
           "catalog_version": "2026.04.23",
           "note": "Moved from watching \u2192 confirmed. CISA KEV-listed 2026-04-23 based on Sysdig Threat Research evidence of 662 exploit events Apr 11-14 delivering NKAbuse variant. Our watch list prediction (flagged 2026-04-19) confirmed."
         },
-        "last_checked": "2026-05-01T04:09Z"
+        "last_checked": "2026-05-02T04:15Z"
       },
       "CVE-2026-20180": {
         "exploitdb": {
@@ -519,13 +557,17 @@
           "last_checked": "2026-04-22T03:40Z"
         },
         "github_poc": {
-          "found": false,
-          "repo_count": 0,
-          "notes": "Fresh disclosure, no public PoC surfaced yet"
+          "found": true,
+          "repo_count": 1,
+          "earliest": "2026-04-21",
+          "top_stars": 1,
+          "top_repo": "https://github.com/kaleth4/CVE-2026-20180",
+          "notes": "PoC repo indexed in nomi-sec/PoC-in-GitHub as of 2026-05-02 sweep. Created 2026-04-21, 1 star."
         },
-        "overall_maturity": "none",
-        "last_checked": "2026-05-01T04:09Z",
-        "notes_addendum": "Tenable Nessus plugin 306554 is a scanner signature, not a Metasploit module or exploit PoC."
+        "overall_maturity": "poc",
+        "last_checked": "2026-05-02T04:15Z",
+        "notes_addendum": "Tenable Nessus plugin 306554 is a scanner signature, not a Metasploit module or exploit PoC.",
+        "escalation": "none -> poc on 2026-05-02 (PoC-in-GitHub indexed kaleth4 repo)"
       },
       "CVE-2026-20186": {
         "exploitdb": {
@@ -542,7 +584,7 @@
           "notes": "Fresh disclosure, no public PoC surfaced yet"
         },
         "overall_maturity": "none",
-        "last_checked": "2026-05-01T04:09Z",
+        "last_checked": "2026-05-02T04:15Z",
         "notes_addendum": "Tenable Nessus plugin 306554 is a scanner signature, not a Metasploit module or exploit PoC."
       },
       "CVE-2026-20147": {
@@ -560,7 +602,7 @@
           "notes": "Fresh disclosure, no public PoC surfaced yet"
         },
         "overall_maturity": "none",
-        "last_checked": "2026-05-01T04:09Z",
+        "last_checked": "2026-05-02T04:15Z",
         "notes_addendum": "Tenable Nessus plugin 306554 is a scanner signature, not a Metasploit module or exploit PoC."
       },
       "CVE-2026-20184": {
@@ -578,7 +620,7 @@
           "notes": "Fresh disclosure, no public PoC surfaced yet"
         },
         "overall_maturity": "none",
-        "last_checked": "2026-05-01T04:09Z"
+        "last_checked": "2026-05-02T04:15Z"
       },
       "CVE-2026-32201": {
         "exploitdb": {
@@ -596,7 +638,7 @@
           "notes": "B1tBit/CVE-2026-32201-exploit GitHub repo published shortly after Patch Tuesday; KEV-listed 2026-04-14 with active zero-day exploitation. Exploit code is now public, not just ITW intelligence."
         },
         "overall_maturity": "weaponized",
-        "last_checked": "2026-05-01T04:09Z"
+        "last_checked": "2026-05-02T04:15Z"
       },
       "CVE-2026-34197": {
         "exploitdb": {
@@ -613,7 +655,7 @@
           "notes": "KEV-listed 2026-04-16; Horizon3.ai Claude-assisted disclosure with full attack-chain walkthrough"
         },
         "overall_maturity": "weaponized",
-        "last_checked": "2026-05-01T04:09Z"
+        "last_checked": "2026-05-02T04:15Z"
       },
       "CVE-2026-34621": {
         "exploitdb": {
@@ -630,7 +672,7 @@
           "notes": "KEV-listed 2026-04-15 \u2014 Adobe Acrobat prototype pollution, actively exploited. Non-Metasploit exploit repo github.com/ercihan/CVE-2026-34621 observed."
         },
         "overall_maturity": "weaponized",
-        "last_checked": "2026-05-01T04:09Z"
+        "last_checked": "2026-05-02T04:15Z"
       },
       "CVE-2026-33825": {
         "exploitdb": {
@@ -654,7 +696,7 @@
           "remediation_due": "2026-05-06",
           "note": "Moved from watching \u2192 confirmed. CISA KEV-listed 2026-04-22 after evidence of first attacks Apr 10, additional activity Apr 16. Our watch list prediction (flagged 2026-04-18) confirmed. RedSun and UnDefend (the two related Defender 0-days) remain unpatched and not yet KEV-listed."
         },
-        "last_checked": "2026-05-01T04:09Z"
+        "last_checked": "2026-05-02T04:15Z"
       },
       "CVE-2026-40966": {
         "exploitdb": {
@@ -671,7 +713,7 @@
           "notes": "Fresh Spring security disclosure batch 2026-04-27/28; no public PoC indexed yet"
         },
         "overall_maturity": "none",
-        "last_checked": "2026-05-01T04:09Z"
+        "last_checked": "2026-05-02T04:15Z"
       },
       "CVE-2026-40967": {
         "exploitdb": {
@@ -688,7 +730,7 @@
           "notes": "Fresh Spring security disclosure batch 2026-04-27/28; no public PoC indexed yet"
         },
         "overall_maturity": "none",
-        "last_checked": "2026-05-01T04:09Z"
+        "last_checked": "2026-05-02T04:15Z"
       },
       "CVE-2026-40978": {
         "exploitdb": {
@@ -705,7 +747,7 @@
           "notes": "Fresh Spring security disclosure batch 2026-04-27/28; no public PoC indexed yet"
         },
         "overall_maturity": "none",
-        "last_checked": "2026-05-01T04:09Z"
+        "last_checked": "2026-05-02T04:15Z"
       },
       "CVE-2026-40979": {
         "exploitdb": {
@@ -722,7 +764,7 @@
           "notes": "Fresh Spring security disclosure batch 2026-04-27/28; no public PoC indexed yet"
         },
         "overall_maturity": "none",
-        "last_checked": "2026-05-01T04:09Z"
+        "last_checked": "2026-05-02T04:15Z"
       },
       "CVE-2026-40980": {
         "exploitdb": {
@@ -739,7 +781,7 @@
           "notes": "Fresh Spring security disclosure batch 2026-04-27/28; no public PoC indexed yet"
         },
         "overall_maturity": "none",
-        "last_checked": "2026-05-01T04:09Z"
+        "last_checked": "2026-05-02T04:15Z"
       }
     },
     "last_incremental_check": "2026-05-01T04:09Z",
