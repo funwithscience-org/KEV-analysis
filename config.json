@@ -224,7 +224,7 @@
       "2026-02": 4808,
       "2026-03": 6304,
       "2026-04": 5885,
-      "2026-05": 268
+      "2026-05": 345
     },
     "monthly_cve_2026_notes": "April 2026 closed with NVD totalResults = 5885 (final), below the 5651-conservative anchor and well below the 7151-aggressive low. Day-1 of May 2026 = 15 (NVD MTD). Q1 average 5418/mo. Counter-argument: NVD publication latency is 4-8 weeks, so any Mythos disclosure surge from late April may not appear until mid-May. April vs March: 5885 < 6304 (-6.6%). No Mythos volume shock visible in April final number. | 2026-05 = 268 MTD through May 2 (NVD pubStartDate=2026-05-01, pubEndDate=2026-05-02).",
     "weekly_cve_2026": {
@@ -784,7 +784,7 @@
         "last_checked": "2026-05-02T04:15Z"
       }
     },
-    "last_incremental_check": "2026-05-01T04:09Z",
+    "last_incremental_check": "2026-05-03T04:05Z",
     "notes_2026_04_28": "Incremental re-check 2026-04-28: no new public exploit code observed for any of the 14 watch list CVEs since the 2026-04-25 full scan and 2026-04-27 incremental. Cisco ISE/Webex (CVE-2026-20180/20186/20147/20184) remain at maturity=none; wolfSSL pair (-5194/-5501) remain none; Thymeleaf pair (-40477/-40478) remain poc; n8n -21858 remains functional (Cyera PoC); five KEV-confirmed CVEs (-39987/-32201/-34197/-34621/-33825) remain weaponized. No KEV catalog change in last 24h (still 2026.04.24 / 1583 entries / 28 April adds).",
     "notes_2026_04_29": "2026-04-29 incremental check: spot-checked CVE-2026-39987 (Marimo, weaponized \u2014 unchanged, ITW exploitation continues per The Hacker News), CVE-2026-20180 (Cisco ISE, no public PoC \u2014 unchanged), CVE-2026-5194 (wolfSSL, no public PoC \u2014 unchanged). No watch list maturity escalations observed in last 24h. ConnectWise ScreenConnect CVE-2024-1708 added to KEV today (NP+DI candidate, not on watch list \u2014 flagged for analyst review). Microsoft confirmed active exploitation of Windows Shell CVE-2026-32202 (auth bypass / spoofing, CWE-693; not NP-applicable, desktop/local).",
     "notes_2026_04_30": "2026-04-30 incremental check: no maturity changes for the 18 watch list CVEs since 2026-04-29 sweep. Spot-checked CVE-2026-39987 (Marimo, weaponized \u2014 ITW exploitation continues per Sysdig threat intel), CVE-2026-20180/20186/20147 (Cisco ISE, no public PoC indexed), CVE-2026-5194 (wolfSSL, no public PoC), Spring AI cluster (-40966/40967/40978/40979/40980, fresh Apr-27/28 disclosures, no public PoC indexed yet). Thymeleaf pair (-40477/-40478) remain at maturity=poc. n8n Ni8mare (-21858) remains functional. Five KEV-confirmed CVEs (-39987/-32201/-34197/-34621/-33825) remain weaponized. ConnectWise ScreenConnect CVE-2024-1708 (added to KEV 2026-04-28) is an NP+DI candidate (CWE-22 path traversal in HTTP file-upload extension handling) but is a 2024 CVE outside the watch list scope; flagged for analyst review. Microsoft Windows Shell CVE-2026-32202 (added to KEV 2026-04-28) is auth-bypass / spoofing (CWE-693) on local desktop, not NP-applicable, no watch list action."

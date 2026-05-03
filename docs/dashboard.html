@@ -148,7 +148,7 @@ details.dash-expand .detail-content{padding:16px;background:#0f172a}
 <div style="position:absolute;top:0;left:0;right:0;height:4px;background:linear-gradient(90deg,#6366f1,#10b981);border-radius:12px 12px 0 0"></div>
 <div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:12px;flex-wrap:wrap;gap:8px">
   <div style="font-size:1.05em;font-weight:700;color:#f8fafc">DI CWE Set Frozen &mdash; Forward Validation Counter</div>
-  <div style="font-size:.82em;color:#94a3b8">Frozen <span id="freezeDate" style="color:#a5b4fc;font-weight:600">2026-05-01</span> &middot; <span id="freezeDays" style="color:#a5b4fc;font-weight:600">0</span> days since freeze</div>
+  <div style="font-size:.82em;color:#94a3b8">Frozen <span id="freezeDate" style="color:#a5b4fc;font-weight:600">2026-05-01</span> &middot; <span id="freezeDays" style="color:#a5b4fc;font-weight:600">2</span> days since freeze</div>
 </div>
 <p style="font-size:.9em;color:#cbd5e1;margin:8px 0 16px;line-height:1.5">The 31-CWE DI set is locked. From the freeze date forward, no further additions — even when an exploited CVE has a CWE outside the set. The hacker S+A discriminator is the rescue lane; events that neither path catches are recorded here as <em>genuine misses</em>. This is the public track record that converts the "you fit the filter to the data" critique into forward-validation evidence.</p>
 <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:12px">
@@ -778,7 +778,7 @@ new Chart(document.getElementById('topProductsChart'), {
 // since DQ requires per-event AI re-validation (the analyst agent will fold DQ in
 // going forward; for fresh events it's currently null).
 const POST_APR1 = {
-    snapshot_through: "2026-05-02",
+    snapshot_through: "2026-05-03",
     labels: ["Spring Boot", "Node.js/Express", "Django/Python", "Netty", "Real-world Java"],
     all_ch_clusters: [1, 2, 1, 0, 1],
     model_clusters:  [1, 1, 1, 0, 1],   // union: NP+DI ∪ Hacker S+A
