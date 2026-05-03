@@ -1,216 +1,227 @@
-# Periodicity Analysis & Walkthrough Restructuring — Internal Review (2026-05-02 pass)
+# Periodicity Analysis & Walkthrough Restructuring — Analyst Review
 
-**Author:** kev-analyst (scheduled run)
-**HEAD at review:** `ffcc165` (today's tracking commit; analytic HEAD `fabf4f8` "refresh agent 2026-05-02: KEV catalog 2026.05.01 (1587 entries, +CVE-2026-31431 Linux Kernel)")
-**Predecessor pass:** `71b642a` periodicity-review.md from 2026-05-01 (this is the eleventh analyst-side review; earlier passes preserved as `periodicity-review-pass5.md` … `pass8.md`).
-**Inputs reviewed:** `docs/periodicity.html`, `docs/index.html`, `docs/dashboard.html`, `docs/cve-reference.html`, `config.json`, `kev-tracking.json`, `data/post-apr1-per-framework.json` (via embed in dashboard.html), the 2026-05-01 → 2026-05-02 commit set (16 commits, including the DI CWE freeze and the live tracker).
-
----
-
-## 0. Headline (read this if you read nothing else)
-
-**The largest analytic shift since the last review is the May-1 DI CWE freeze plus the live-tracker that turns the project from "filter we built and validated retroactively" into "filter we have committed to and are scoring publicly going forward."** That's two of the three big asks from the May-1 review landed in roughly 24 hours (commit `06a7192` froze the 31-CWE set on the dashboard with a since-freeze counter; the live tracker chain `c3cd028 → 08dda4d → 5d27eaf → a580712 → 4fe4c00 → 1442ae3` builds the operational ledger that fills the counter, and now ties into the daily refresh agent so it doesn't quietly go stale). The third ask — the walkthrough narrative reorder (move §5 survivorship and §6 time-to-exploit ahead of §3 model) — has *not* landed; the walkthrough is still in observation → model → validation → backfill order. That edit is the highest-leverage remaining piece of writing in the project.
-
-The review brief (`analyst-reports/periodicity-review-brief.md`) describes a pre-restructure walkthrough that no longer exists. Most of what the brief asked for — three-tier model integration, periodicity content, OS chaining, external validation — is already in the walkthrough. The brief's frame ("a major new analysis has been published… the walkthrough has not been updated to reflect this") is now five passes stale. The review value today is in (a) assessing the new freeze + live-tracker work, (b) flagging the still-pending walkthrough reorder, (c) identifying overclaim/underclaim around the freeze counter while it's at zero events, and (d) the daily scan addendum.
-
-The dashboard has had two big surgeries in 24 hours: the **hero KPI swap** (251d→11d demoted, 10/11 union promoted — `51acec3`) and the **live tracker** taking the marquee real-estate immediately below the freeze counter. Both are right calls. The hero KPI swap was the May-1 review's recommendation D4 verbatim. The live-tracker now serves as the operational receipt that the freeze counter ledger tracks. Net read: **the dashboard is in materially better operational shape than it was 24 hours ago**, with two pending tightenings (see §3.2).
-
-The freshest analytic gap, present today and worth flagging early: **the freeze counter shows 0/0/0 across all six tiles because there have been zero post-freeze events in the live tracker's NP+DI window.** That is correct on day 1, but a reader landing now sees "0 caught, 0 missed, 0 events scored" and the `freezeUnion` and `freezeMissed` tiles look indistinguishable from "filter is doing nothing." See §3.4 for the recommended pre-data framing — a single explanatory caption above the tile grid, not a content change.
+**Date:** 2026-05-03
+**Author:** kev-analyst (scheduled)
+**Scope:** Assess `docs/periodicity.html` and recommend changes to `docs/index.html`, `docs/dashboard.html`, and the cross-page architecture.
 
 ---
 
-## 1. Assessment of the periodicity analysis (current HEAD)
+## 0. Up-front: the brief is partly stale
 
-### 1a. What is sound, on this pass
+The review brief (`analyst-reports/periodicity-review-brief.md`) describes a walkthrough still organized around the *observational* HTTP-parsing thesis, with §9 still proposing CVSS-based SLAs. **That is no longer the state of `docs/index.html`.** The walkthrough has already been restructured around the *threat-based prioritization model* — TL;DR card up top, the model itself in §3 (NP+DI structure test + hacker discriminator), 12-month cross-framework validation in §4, the 7-year backtest with the 10/11 union catch in §4f, EPSS comparison in §8, and an estate-maturity (Cat 1/2/3) operational model in §9.
 
-The 2026-05-01 review's §1a framing largely holds. **The 7-year backtest is still the heart of the work** (194 C/H, 11 actually exploited, 4 strategies scored, union 10/11 directly + 1 supplements). **Cross-framework still reproduces the workload claim** (Spring 14, Node 14, Django 14, Netty 3 → 5/2/6/1 NP+DI). **EPSS marginal-cost decomposition is still the right framing** and is now more prominent on the dashboard (commit `51acec3` D3 swapped the generic NP+DI insight tile for the "EPSS adds 1 marginal patch event over NP+DI+DQ at 0.50" copy). **Honest about confounders** (N=1 in-scope exploited in 12-month window, OS LPE keyword inflation) — both still on-page, both better-labeled now than 24 hours ago.
-
-What's specifically improved on this pass:
-
-- **DI CWE set is now frozen** (commit `06a7192` + `config.json:di_cwe_freeze`). 31 CWEs locked at 2026-05-01. Forward-validation counter live on the dashboard. This is the single most important credibility move the project has made — every reviewer concern about "you fit the filter to the data" is now answered by a public ledger that updates daily.
-- **Live tracker (`docs/dashboard.html` lines 184–224) is wired into the refresh agent** via `scripts/refresh_post_apr1.py` (commit `1442ae3`). Self-contained refresher that re-pulls OSV per-package, computes 7-day clusters, and writes `data/post-apr1-per-framework.json`. The earlier risk that a "live" tracker would silently drift because the daily agent didn't touch its caches is now closed.
-- **The live tracker has its own devil's-advocate callout** (line 220, "Other side of the argument") that pre-empts the "n=1 ActiveMQ + tier A in a round we already ran = circular" critique. That's the right voice for this work; the rest of the project should pull more of it.
-- **Hero KPI swap** moved 251d→11d to the supporting-stats row and put 10/11 union with "91% effectiveness, 3.2× overhead per real exploit" in the load-bearing slot. Aligns the dashboard with the May-1 recommendation and with the document's actual claim.
-- **Reading-time table on `index.html`** got the 60-second row plus extended verify-the-work links (CLASSIFIER.md, tests/run.sh) — also a May-1 ask, also landed.
-
-### 1b. Where I'd push back, on this pass
-
-**The freeze counter is currently 0/0/0/0/0/0 and it stays that way until enough post-freeze C/H events come through to populate it.** April 2026's 13 in-scope events are in the live tracker (line 778+, `POST_APR1.events`) but they're pre-freeze (April 1 to April 15; the freeze is May 1). The counter starts populating only when fresh post-May-1 C/H disclosures hit one of the 5 tracked manifests. Realistic cadence for this manifest is ~2–4 in-scope events per month. **Day-1 reality:** the counter shows zeros. **Recommendation:** add one sentence above the tile grid: *"The counter is initialized at zero; the live tracker below shows pre-freeze April events. The first post-freeze event will populate this band."* That converts the empty tiles from "is this thing wired up?" to "we just started."
-
-Connected concern: **the freeze counter and the live tracker are computing on different windows.** The freeze counter is "events scored since 2026-05-01"; the live tracker is "events since 2026-04-01." That's a 30-day overlap where events appear in the tracker but not the counter. A reader will notice. **Recommendation:** label the tracker explicitly "April 1 → today (includes one month of pre-freeze events for context); freeze counter above starts May 1." One label, no data change.
-
-**The live tracker's "Model" column conflates NP+DI ∪ Hacker S+A with the documented Union (NP+DI+DQ ∪ Hacker S+A).** The page comment at line 772–774 acknowledges this honestly: *"DQ requires per-event AI re-validation… for fresh events it's currently null."* That's defensible as an interim choice. But the dashboard's strategy-efficiency table just above (line 240+) still scores Union as "NP+DI+DQ ∪ Hacker S+A" with 91%. So the *table* and the *live tracker* score events differently and the reader has to read the comment in the JS to know. **Recommendation:** add a one-line caption under the live-tracker chart: *"This live tracker scores Union as NP+DI ∪ Hacker S+A (DQ pending per-event AI re-validation). The 91% / 10-of-11 efficiency above scores the canonical 7-year set with DQ folded in."* That closes the discrepancy without forcing a methodology change.
-
-**The freeze policy says "if hacker S+A doesn't fire either, the event is recorded as a genuine miss."** That's the right policy. But **who scores the hacker tier on a fresh event?** The agent prompts in `agents/refresh-prompt.md` and `agents/analyst-prompt.md` should be updated to require a per-event hacker tier judgment for any new in-scope C/H event hitting a tracked manifest, with the result written back to the live-tracker's events array. If no agent is responsible, the counter will quietly under-fire (the analyst won't know to score new events) and the "missed" tile will fail to populate when a real miss happens. **Recommendation:** add a step to the analyst-agent's daily run that scores any new event with `hacker: null` in `data/post-apr1-per-framework.json`. The 5 events in the tracker today with `hacker: null` (the two `activemq-broker` / `activemq-client` CVE-2026-39304 rows and three uncovered Spring AI cluster rows) are concrete instances where this is owed.
-
-**The DI CWE freeze rationale is principled but the "events seen since freeze" framing depends on a definition of "in-scope" that isn't in the freeze policy itself.** `config.json:di_cwe_freeze.policy` says "if a confirmed-exploited CVE has a CWE not in this list, it is NOT added — that would be hindsight goalpost-moving." Fine. But "confirmed-exploited" is a moving target — KEV-only? KEV ∪ MSF ∪ EDB? KEV ∪ MSF ∪ EDB ∪ Nuclei? The 7-year backtest uses KEV ∪ MSF ∪ EDB (per `data/foss-sub7-scoring.json` and `scripts/build_seven_year_npdi.py`). The post-freeze counter should use the same definition. **Recommendation:** add `di_cwe_freeze.exploited_definition: "KEV ∪ Metasploit ∪ ExploitDB"` and reference it in the dashboard caption — otherwise a reader can fairly ask "what counts as exploited for the missed tile?"
-
-**Devil's advocate (user preference: think about the other side):** the freeze converts a methodological strength into a methodological constraint. Suppose six months from now a new exploit class emerges in NVD with CWE-1395 (or whatever — pick a CWE that doesn't currently exist). Several attackers hit it; it's clearly the same trust-boundary pattern as injection. Under the freeze, this CWE is *not* added to the DI set; the policy says hacker S+A is the rescue lane. **What if hacker S+A *systematically* misses this pattern** (because it's a structural new thing, not a tier judgment)? The freeze then becomes an albatross: the project committed publicly to not widening DI even in the face of empirical evidence the widening was correct. The defensible answer is that the freeze is a 6–12-month commitment with a planned post-period review, not a permanent lock. **Recommendation:** add `di_cwe_freeze.review_date: "2026-11-01"` (or similar 6-month horizon) and an explicit policy: *"Counter results trigger a published review — additions to DI may resume after the review with a documented rationale."* That preserves the falsifiability win while leaving the project room to learn.
-
-**The "0/4 KEV-confirmed sub-7 entries clear hacker S+A" finding from the FOSS sub-7 page (in pass 8) deserves a louder cross-link from the canonical strategy efficiency table on the dashboard and `periodicity.html`.** It's the single best piece of evidence that the hacker rubric is *correctly conservative* on small-blast-radius bugs — it doesn't fire on commodity XSS or off-by-one DoS even when those bugs make it into KEV. Right now this finding lives only on `foss-sub7.html` (still labeled "scratch"). **Recommendation:** add a one-line callout on the dashboard "Three Response Lanes" or strategy-efficiency table: *"Sensitivity: at CVSS<7, hacker S+A correctly fires on 0/4 KEV-confirmed mediums — the rubric reserves S/A for actually scary stuff, not commodity XSS. See [foss-sub7](foss-sub7.html) for the data."*
-
-### 1c. Does the OS chaining / kill chain framing still hold?
-
-Yes, with no change since pass 8 (the cleaned-LPE numbers are now consistent across walkthrough §7, periodicity §"OS Layer", and dashboard "Three Response Lanes"). The **container-runtime watch list** recommendation from May-1 §1c is still open. The pass-7 `data/seven-year-per-framework.json` 30% per-framework catch rate is correctly handled now: the canonical 58-pkg manifest sits in `index.html` §4f and `periodicity.html` §"Real-World Manifest" with 10/11 union, while the 4×30% per-framework number is the workload-on-narrower-manifest stat that doesn't compete with the discrimination claim. No further surgery needed there.
-
-### 1d. External validation
-
-EPSS marginal-cost framing is now the dashboard's primary external-validation hook (commit `51acec3` D3). KEV / MSF / EDB / Nuclei correctly framed as low-power corroboration. The May-1 §1d framing holds.
-
-One small additional note: **the watch-list KPI band's "5/19 promoted to KEV" is now stale.** Today's `kev-tracking.json` shows 6/20 watch-list entries confirmed in KEV (CVE-2024-1708, -39987, -32201, -34197, -34621, -33825), with 2 newly escalated to PoC status (CVE-2026-5194, CVE-2026-20180). The KPI band on the dashboard still reads 5/19. **Recommendation:** sync the KPI numerator/denominator to the latest tracking-json on the daily refresh path. This is a one-line script update for `scripts/refresh_post_apr1.py` or the dashboard's data-rebuild step.
+So the right question is no longer "how should we restructure this from scratch?" but "what's still loose, what's now redundant, and where does the periodicity page itself need editing?" That's what the rest of this report does. Where the brief asked for "restructure x," I've translated to "tighten / cut / reorder x" against the current state.
 
 ---
 
-## 2. Walkthrough restructuring recommendations (current state)
+## 1. Assessment of the Periodicity Analysis
 
-### 2a. Current outline (after May-1 chunk α)
+### What works
 
-`docs/index.html` headings as of HEAD:
+1. **The structure-test / attacker-test split is the right framing.** The page treats NP+DI and hacker S+A as two independent operationalizations of the same underlying claim and scores them side-by-side. That makes the result robust to either method's biases — the union catches 10/11 even though each method alone misses 2-3. This is exactly the kind of cross-method triangulation a reviewer would ask for.
 
-1. The Problem (§1, h2 line 214)
-2. The First Clue: Where Exploits Actually Land (§2, h2 line 237) — observational backbone
-3. The Threat-Based Prioritization Model (§3, h2 line 337) — NP+DI + hacker
-4. Does It Actually Work? Cross-Framework Validation (§4, h2 line 438) — 14-14-14 + 7yr backtest
-5. Why Most Criticals Don't Get Exploited (§5, h2 line 590) — survivorship
-6. Time-to-Exploit Compression (§6, h2 line 613)
-7. Land & Expand (§7, h2 line 638) — kill chain
-8. External Validation (§8, h2 line 683)
-9. Operational Response by Estate Maturity (§9, h2 line 759) — Cat 1/2/3
-10. The Reverse Proxy Myth (§10, h2 line 820)
-11. Exploit Watch List (§11, h2 line 853)
-12. Caveats (§12, h2 line 919)
+2. **The 7-year backtest is the discrimination story; the 12-month synthetic stacks are workload only.** The page now says this loudly and repeatedly — it used to conflate them. The "N=1 means zero-misses is operationally vacuous" caveat is the right honesty bar and it's reproduced in roughly the right places (§3 hero callout, §4f, §13 caveats). Good.
 
-This is the same ordering as May 1. The May-1 review's recommended reorder (move §5/§6 ahead of §3 as motivation; move §7 after §8 into the operational arc) has *not* been done.
+3. **The Tomcat HTTP PUT 2017 worked example is the strongest single move on the page.** It takes the only event the union doesn't catch directly and shows — with timeline — that the four-year disclosure-to-KEV gap was filled by six unrelated NP+DI Tomcat rebuilds. The "B-tier handled by supplements" claim is no longer hand-waved; it's evidenced. This is the part of the analysis that will survive an external curmudgeon.
 
-### 2b. The reorder is still the highest-leverage editing pass available
+4. **The EPSS comparison is decisive and honest.** "EPSS catches 8/8 eventually but 1/8 on day 1" is the comparison that actually matters operationally, and the marginal-cost table (3 events of EPSS-50 work on top of NP+DI; 1 on top of NP+DI+DQ) reframes EPSS from competitor to thin backstop. The pre-EPSS exclusion (Ghostcat/Tomcat-CGI from the days-faster mean) is exactly the right move — it keeps the headline credible.
 
-Restating from May 1 because it still applies and is unambiguously the right next move:
+5. **The OS NVD-noise cleanup is a serious correction.** The acknowledgement that 50 of 69 "OS layer" CVEs are downstream-app keyword matches (sqlite-using apps, kernel-via-systemd, snapd-not-in-AL2023) is the kind of finding most projects bury. The site reports it in both periodicity.html §14 and walkthrough §7. The cleaned 10-12 LPE / ~70% reduction figure is more defensible than the raw 21 / 76%.
 
-The reader currently meets the validation (§4) before learning *why we expected the filter to work* (§5 survivorship: most C/H are sandboxed, behind auth, or don't reach attacker-relevant surfaces; §6 TTE: when something does get exploited it happens fast, so a slow process won't catch it). §5 and §6 are motivation for the model, not appendices to it. The fix:
+### What I'd push back on
 
-**ACT 1 — The problem & motivation.** §1 problem, §2 observation, §5 survivorship, §6 TTE.
-**ACT 2 — The model.** §3.
-**ACT 3 — Does it work?** §4 cross-framework + 7-year, §8 external validation.
-**ACT 4 — How to operate it.** §7 kill chain (justifies monthly container refresh), §9 estate maturity, §11 watch list, §10 reverse proxy myth (sidebar), §12 caveats.
+1. **"Zero misses across 113 non-trigger CVEs" still leaks into the prose even with the caveat.** §15 conclusion still has "The 12-month synthetic stacks have zero misses" as a hero statement, and only the next sentence backs off to "the 7-year real manifest tells a more honest story." A skeptical reader skims headlines. Recommend either (a) hard-cut the "zero misses" hero claim and lead with the 7-year 10/11 number, or (b) collapse the two paragraphs into one that opens "On 7 years of real production data, the union of structure + attacker tests catches 10 of 11 directly; on the 12-month synthetic window, every strategy catches the one in-scope exploit, which is a workload claim, not a discrimination claim."
 
-This is a section-renumber + a 90-minute editing pass to retie cross-references. No new content. The May-1 review estimated this; nothing about that estimate has changed.
+2. **The "leading indicator" framing in §15 is the weakest single sentence on the page.** "The filter may actually be a leading indicator — identifying CVEs that will accumulate exploitation evidence over the next 6-18 months" is an unfalsifiable promise. The only evidence cited (Django SQLi reaching ExploitDB) is one CVE. Either drop this paragraph or replace it with the freeze-counter framing: "We've frozen the DI CWE set as of 2026-05-01. From now forward, every confirmed-exploited CVE either fires under one of the discriminators or is logged as a public miss. That track record is the leading-indicator test." The dashboard already has this counter. The page should reference it as the operational answer to the leading-indicator claim.
 
-### 2c. New on this pass: §1.6 of the live-tracker work belongs in the walkthrough
+3. **Manifest-scope generalization is asserted but not validated cross-ecosystem.** The dashboard does say "Java-specific until parallel 7-year backtests on Node/Django/Netty are published" (yellow callout). The periodicity page does not. The §9 Cross-Ecosystem Pattern reads like the four 12-month manifests *are* the cross-ecosystem proof — they're not; the 12-month manifests are workload-only by the page's own admission. The cross-ecosystem *discrimination* claim rests on one ecosystem's 7-year backtest. Recommend a one-sentence honesty note in §9 mirroring the dashboard's yellow callout.
 
-The dashboard's live tracker (April 1, 2026 forward, with the freeze counter above it) is the most operationally compelling artifact on the site. The walkthrough currently has no equivalent — §4f is the 7-year backtest, §4 is the 12-month synthetic. Neither talks about the post-freeze prospective ledger. **Recommendation:** add a §4g (or §4.5) titled "What the filter is doing right now" with one paragraph describing the live tracker: 5 manifests, daily refresh, freeze counter, link to dashboard. Include the April 2026 worked example: 5 modeled rebuilds (1/1/1/0/1) vs 5 forced rebuilds under all-C/H — a narrow gap because April was busy, exactly the honest framing. Two paragraphs, link, done. The walkthrough currently *implies* there's a public ledger but doesn't show the reader where to find it.
+4. **The chart at §4 (`crossFrameworkChart`) is mislabeled in the data behind it.** The "All C/H trigger dates" bar is 14/14/14/3 — but the page's own §3 callout says "Spring 5, Node 1, Django 4, Netty 1" for hacker S+A. The chart shows "Spring 5, Node 3, Django 4, Netty 1" for hacker S+A, while the headline text says Node = 1. There's a Node = 1 vs Node = 3 conflict between the §3 narrative and the §4 chart/table. The §4 table itself is internally consistent (Node = 3 hacker / 2 NP+DI / 4 NP+DI+DQ); the §3 hero stat needs to match. Fix one of them.
 
-### 2d. Smaller surgery still owed
+5. **The "Hacker S+A on the OS layer agrees: zero S, zero unconditional A — and most of the '48 NETWORK' events are NVD keyword noise" callout in §14 is doing too much work in one paragraph.** It introduces a methodology change (NVD keyword cleanup), restates the NP+DI = 0 result, and pivots the rationale for monthly container refresh from "21 LPE → 5" to "10-12 LPE → 2-3." Each of those is a separate point and the reader has to assemble them. Recommend splitting into three short paragraphs with the cleaned numbers in a small table.
 
-- **`§3 (the model)` is still doing double duty** (NP+DI definition + hacker definition + DI CWE set + falsifiability). The May-1 split recommendation (3a/b structure, 3c falsifiability, 3d hacker, 3e motivation moved to ACT 1) is unchanged.
-- **The "12-month zero misses" framing in `periodicity.html` lines 665 and 839** is now caveated nicely on `index.html` (§4f at line 690 and §12 at line 947 both spell out "operationally vacuous"). The same caveat needs to land on `periodicity.html` lines 665 and 839 — they currently read as headline claims without the N=1 disclosure. Two-sentence inline edit.
-- **§7 (kill chain) figure** — May-1 noted the 21 LPE chart vs cleaned 10–12 prose mismatch. The dashboard "Three Response Lanes" was fixed in `dc4af0d` but the walkthrough §7 chart wasn't checked against this in pass 8. Worth a quick verification: are §7's LPE numbers cleaned-set or raw-keyword? If raw-keyword, swap.
-- **CWE-set freeze acknowledgement on `index.html`** — the walkthrough's §3a still describes the DI CWE set as if it's evolving. Needs one sentence acknowledging the 2026-05-01 freeze and pointing to `config.json:di_cwe_freeze`. Lower priority (the policy is on the dashboard) but the walkthrough is the canonical narrative — readers who read only the walkthrough should know about the freeze.
-- **The reading-time table now has the 60-second row** — confirmed live at line 180. A1 / A2 / A3 from May-1 are all landed. No further surgery needed.
-- **The §11 watch list** is now 18 server-side + 2 desktop in `config.json` (per latest `kev-tracking.json`: 20 total, 6 confirmed). The walkthrough's §11 table needs to confirm the ConnectWise CVE-2024-1708 add (already in dashboard `WATCH_LIST.server`) is also present in the walkthrough's own §11 table. Quick verification owed.
+6. **Devil's advocate, hardest hit:** the canonical 58-package manifest is *one Java enterprise dependency list*. The paper's central effectiveness claim (10/11 catch on disclosure day) rests on it. A skeptical reviewer will ask: how was this manifest assembled? Is it a real production list from a real organization, or a curated example? If curated, what's the protocol for inclusion/exclusion that prevents post-hoc selection? The page says "real enterprise Java manifest" but doesn't sketch the provenance. Even one paragraph — "this manifest comes from [class of org]; inclusion criteria were [X]; we excluded [Y categories]; the manifest was frozen on [date]" — would defang a lot of curmudgeon energy. Right now the canonical manifest is a strong claim with a soft pedigree.
 
-### 2e. Should periodicity.html fold in?
+7. **The "deserialization is dead" finding (§11) is overstated.** "Deserialization is a CVE volume generator (historically), not an exploitation driver" is true on the 12-month window for these manifests, but the 7-year backtest's exploited cohort includes Text4Shell (CWE-94, but a string-interpolation/template-injection adjacent to deser cousins) and SnakeYAML 2022-1471 (CWE-502). The hacker rubric catches both; the structural rule excludes them at the package level. So the framing "deserialization is mostly noise" is correct on volume but the hacker test had to do real work to recover the two events the structure test missed in the gadget-chain space. Worth a sentence.
 
-Still no, same reasoning as May 1. The methodology page is ~1,100 lines; folding it into the walkthrough makes both unreadable. The cross-link strategy is correct. One incremental: the walkthrough's §4f currently duplicates the strategy-efficiency table that lives on periodicity.html §"Strategy efficiency". Either keep one canonical home (periodicity.html) and stub a 4-row summary on the walkthrough with a deep link, or accept the duplication and make sure both update together. Pass 8 §1.4-style duplication-of-numbers risk; not a blocker but worth picking a side.
+8. **The "April 2026 spike" speculation about Mythos (§12) is risky.** Anthropic does not directly find or disclose CVEs on vendors' codebases — vendors scan their own code with Mythos Preview. The page's framing ("The timing is suggestive: Anthropic announced Glasswing/Mythos on April 7. The Tomcat batch (7 CVEs) dropped April 9 — a coordinated release pattern consistent with accumulated findings") is suggestive without evidence. The Cisco-ISE/Webex precedent (probable participant, then confirmed *not* Mythos but OpenAI Codex) is a cautionary tale we already learned. Recommend softening to "We can't attribute these batches to Mythos; the timing alignment is interesting and worth flagging for forward observation."
+
+### Methodology gaps I noticed
+
+- The `compute_epss_marginal.py` methodology in §15 says EPSS crossing dates are approximated from FIRST.org probes at offsets `{1, 3, 7, 14, 30, 60, 90, ...}` with the note "conservative (over-credits absorption when the true crossing falls between two probes)." That's the right direction (over-credit absorption favors the structure test in the marginal-cost framing). Worth a one-line "this asymmetry favors the model and is acknowledged."
+
+- The page never quantifies the WAF "MEDIUM" category's actual time-to-bypass on the historical events. It tags 7/13 events as MEDIUM and asserts "evadable" — a paragraph naming one or two specific bypasses (the Log4j Unicode-escape evasion is an obvious example) would convert the assertion to evidence.
+
+- The Hacker S+A vs NP+DI agreement-disagreement table (§4 / §7) lists divergences but doesn't have a single matrix view. A 2×2 (caught-by-hacker / not-caught-by-hacker × caught-by-NPDI+DQ / not) for the 11 exploited events would make the union calculation auditable in one glance. Right now the reader has to chase the events through two tables.
 
 ---
 
-## 3. Dashboard updates
+## 2. Walkthrough Restructuring Recommendations
 
-### 3a. What the dashboard already has, that the May-1 review recommended
+The walkthrough is much closer to the right structure than the brief implied. The current order is:
 
-- **D1 — 7-year strategy efficiency table** is in. Lines 240–280. Six-row table, union row highlighted. Operational answer in the right slot.
-- **D3 — EPSS marginal-cost stat** replaced the generic NP+DI insight tile.
-- **D4 — Hero KPI swap** done. 10/11 union → top, 251d→11d → supporting row.
-- **D5 — Days since CWE freeze** is the freeze counter now (lines 146–181).
-- **(new since May-1) Live tracker** at lines 184–224, hooked into daily refresh agent.
-- **A1 — Nav consistency** confirmed across 7 primary pages with `Mythos` as the standard label.
+```
+TL;DR → §1 Problem → §2 First Clue (observational) → §3 The Model →
+§4 Cross-Framework Validation (incl. 7-year backtest in §4f) →
+§5 Why most criticals don't get exploited → §6 Time-to-Exploit →
+§7 Land & Expand (kill chain) → §8 External Validation → §9 Operational Response
+→ §10 Reverse Proxy Myth → §11 Watch List → §12 Caveats
+```
 
-That's 5 of 5 May-1 dashboard recommendations landed in 24 hours. Material progress.
+This is broadly the right shape. Specific tightening:
 
-### 3b. What's still owed
+### Reorder
 
-1. **Pre-data caption on the freeze counter tile grid** (see §1b). The empty tiles need one sentence saying the counter is initialized and the first post-freeze in-scope event will populate it. ~30 minutes.
-2. **Window-disclosure caption on the live tracker** (April 1 forward; freeze counter from May 1). One sentence, no data change. ~15 minutes.
-3. **Live-tracker DQ disclosure** — note that Model = NP+DI ∪ Hacker S+A on this view, not the canonical NP+DI+DQ ∪ Hacker S+A. ~15 minutes.
-4. **Watch-list KPI band sync** — 5/19 → 6/20, with 2 newly-escalated breakdown. Let the daily refresh path own this. ~30 minutes (one-line script update).
-5. **Refresh agent / analyst agent prompt updates** to score hacker tier on new events (`hacker: null` → tier A/B/C/D/S) and to update the freeze counter tiles based on `data/post-apr1-per-framework.json` events with `disclosure_date >= 2026-05-01`. ~60–90 minutes; this is the biggest piece of remaining plumbing because it closes the "who fills the counter" loop.
+1. **Move §6 (Time-to-Exploit Compression) up to between §1 and §2.** It's the *motivation* for needing a model — "median TTE dropped from 251d to 11d" is the line that justifies why a CVSS-30d-SLA framework is structurally insufficient. Currently it sits between the model and external validation, where it's orphaned. Putting it in the motivation section turns it into the punch line for §1 ("here's why the old SLAs don't work") and the lead-in for §2 ("so we need a different signal — here's where exploits actually land").
 
-### 3c. What's still vestigial on the dashboard
+2. **§7 (Kill Chain / OS Layer) belongs adjacent to §9 (Operational Response), not between §6 and §8.** The kill-chain finding is *the rationale* for the monthly-container refresh tier in the operational model. As-is, the reader meets the OS finding, then external validation interrupts, then the operational model uses the OS finding without the recent context. Move §7 to be §8b (right before the operational response section), or make the operational response section explicitly call back to it.
 
-- The "What this filter doesn't cover" / blind-spots section is now at line 478, after the watch list. Better than before (it was higher up). Still slightly awkward immediately above the searchable KEV catalog. Tolerable. Lower priority.
-- **CWE Families & Ransomware** chart (line 354) is observational; doesn't connect to a triage decision. May-1 §3c flagged this. Still vestigial. Lower priority.
+3. **§5 (Why Most Criticals Don't Get Exploited) should come *after* §4 (validation), not before.** It's currently positioned as supporting evidence for the model, but it's actually a *consequence* of the model — once you have a discriminator, you can ask "what's the population on the other side?" Move to §5b after §4.
 
----
+### Cut
 
-## 4. Cross-page architecture
+4. **§2c (Libraries: The Denominator Makes the Difference) is now redundant with the OSV caveat in §2 and the FOSS sub-7 page.** It restates "NVD undercounts libraries; use OSV." The caveat does that job in §2's intro callout. The §2c subsection bloats §2 without adding evidence. Cut, link to OSV-exploitation page or FOSS sub-7 page from the §2 callout.
 
-No changes since May 1's §4. The four primary pages (`index.html`, `dashboard.html`, `periodicity.html`, `cve-reference.html`) plus three secondaries (`glasswing.html`, `build-mechanics.html`, scratch pages) form the right set. The reading-time table on `index.html` is now doing its job at the front door.
+5. **The §1 three-bullet "active development / infrequent / stable-stale" list is duplicated in §9's Cat 1/2/3 table.** Pick one place to introduce the categories. Recommend keeping §1's narrative version (it sets up the Cat-2-mix problem at portfolio scale) and cutting the duplicated framing in §9 down to "as introduced in §1, three operational profiles..." with the table still present. Right now both sections do the full setup.
 
-The one new architectural observation: **the live tracker on the dashboard is more granular than anything on the walkthrough.** A reader who lands on the walkthrough will not know there's a daily-updating ledger of post-Apr-1 events with per-event NP+DI / hacker / exploited flags. The walkthrough §4 should at minimum have a "and here's the live ledger" link. See §2c.
+6. **§5's pattern list ("firmware/hardware, kernel local privesc, consumer IoT, memory corruption, OSS variance, non-Western ecosystems") is six bullets where two carry the load.** The kernel-LPE-as-chaining and the OSS-variance-jackson-databind paragraphs are the only ones that connect to the model. The other four are consistent with the data but don't change the operational answer. Cut firmware/IoT/non-Western to a single sentence; keep kernel-LPE and OSS-variance as full paragraphs because they drive the operational tiers.
 
-The other architectural concern: **freeze counter + live tracker are logically related but visually separated.** On the dashboard they're two different cards (lines 146–181 and 184–224). They tell one story. **Recommendation:** consider visually grouping them under a single section title like "The Forward Validation Ledger" with two sub-cards — would make the reader's mental model match the conceptual model.
+### Add
 
----
+7. **Add a "How to validate this against your own portfolio" subsection at the end of §9 or as §9b.** The current "Use this tomorrow" checklist is good but it's all *implementation* steps. There's no "how do I prove the filter is right for *me*" track. The 6-month tracking model is mentioned but not articulated as a recipe. Even five lines: "Pick your 50 most-deployed packages. Tag NP/non-NP. For 90 days, log every C/H disclosure against your manifest. Score: triggered / not-triggered. At 90d, cross-check against KEV adds during the period. Report misses publicly."
 
-## 5. Devil's-advocate consolidated (user preference: think about the other side)
+8. **The DI CWE freeze + public-miss counter deserves its own walkthrough subsection (probably §3c or §4g).** The freeze is the answer to the "you fit the filter to the data" critique; right now it's only on the dashboard and barely mentioned in the walkthrough. A 200-word section explaining the freeze policy, the rescue-path logic (hacker S+A is the only legitimate rescue from disclosure day forward), and pointing at the dashboard counter would tie the methodology section to forward-validation evidence.
 
-The May-1 review carried five hostile angles. Recapping where each stands today:
+9. **Add a short "what this analysis is NOT" section near §12 caveats.** The walkthrough is currently silent on what the model doesn't claim:
+   - It doesn't predict *which* attacker will exploit something
+   - It doesn't replace a CVSS-aware risk register for compliance reporting
+   - It doesn't apply to commercial vendor patching (Cisco/MS Patch Tuesday — that's solved differently)
+   - It doesn't claim equal performance on non-Java estates yet
+   Three or four bullets, dropped in to set scope.
 
-1. **"You fit the filter to the data."** Now answered structurally by the freeze. The counter on the dashboard is the public ledger; once it has 30+ events it converts the critique into evidence. Day 1 today.
-2. **"Hacker S+A is unfalsifiable / no inter-rater reliability."** Still open. The hacker-tier rounds in `analyst-reports/2026-04-25-hacker-ranking-v2.md … v9.md` exist but no cross-rater stat has been published. Still owed.
-3. **"Filter discrimination only proven on Java enterprise."** Partial answer landed: the FOSS sub-7 page tested across ecosystems at medium severity (87% catch). 7-year discrimination on Python/Node manifests still open work.
-4. **"Burst pattern is overinterpreted."** Still open. Pass-7 / May-1 framing recommendation (drop "averages lie", show dates) hasn't landed.
-5. **"Container-breakout is the worse chaining vector and isn't on the OS watch list."** Still open. May-1 recommended a fourth control (kernel/runtime watch list); not yet built.
+### Keep as-is
 
-New devil's-advocate points specific to this pass (the freeze + live tracker):
+- The TL;DR card at the top
+- The "How to read this site" navigation table
+- §3's two-operationalizations framing (the structural insight is the right backbone)
+- §4f real-world manifest with the strategy efficiency table — this is the strongest single piece of evidence on the page and it's positioned correctly
+- §8a WAF defensibility — concentrated and tight, nothing to change
+- §11 watch list — the prospective hit-rate framing is exactly what should be in the walkthrough
 
-6. **The freeze date was set to 2026-05-01 (yesterday).** A hostile reviewer notices this is right after the May-1 review recommended the freeze. The freeze is therefore not an *independent* commitment — it's a recommendation the project acted on within 24 hours of receiving it. Not a problem but worth disclosing transparently. **Recommendation:** in `config.json:di_cwe_freeze.decision_rationale`, note that the freeze date was selected to coincide with the publication of the May-1 review's recommendation. Time-stamp transparency.
-7. **The 31-CWE frozen set still includes 15 CWEs with zero observed exploitation in `data/di-cwe-backtest.json`** (CWE-95, -1336, -90, -776, -113, -23, -36, -98, -93, -96, -97, -1236 [if present], -289, -693, -1321 — pass-7 §1.1 list). These are in the set on patternist grounds. Freezing a set that contains a long tail of empirically-empty CWEs locks in a known weakness. **Counter-argument:** CWE-95 etc. are rare-but-attested injection patterns, and removing them at freeze-time would be its own form of post-hoc selection. Defensible to keep them. But the rationale for keeping them should be on-page, not just in the analyst's review file.
-8. **The live tracker's headline (April 2026 worked example) catches the lone April KEV (CVE-2026-34197 ActiveMQ) on hacker tier A in a round we already ran.** That's one of the two cleanest possible critiques: tier A is partly a function of how thoroughly we've previously covered ActiveMQ, so the "discriminator firing" is partly retrospective. The dashboard's "Other side of the argument" callout already says this. Good. The walkthrough §4 doesn't yet — when §4g (per §2c) lands, it should pull this honest framing forward.
+### Should periodicity.html stay separate?
 
----
+**Yes, keep it separate.** Two reasons:
+- The walkthrough is now ~1,225 lines and folding periodicity (~1,140 lines) in would push it past the boundary where a reader can actually finish it. The current "30 minutes for the walkthrough, click through to periodicity if you want the methodology depth" split is honest about the audience.
+- The periodicity page is itself densely cross-referenced (Tomcat-PUT timeline, EPSS marginal-cost, monthly heatmaps) and the walkthrough already inlines the punchline tables (4b, 4f) and links to the detail. The architecture works.
 
-## 6. Daily scan addendum (2026-05-01 → 2026-05-02)
-
-### 6a. KEV / new CVE activity
-
-Per `kev-tracking.json` (today's 2026-05-02T04:15Z run, commit `ffcc165`):
-
-- **KEV catalog 2026.05.01 → 1,587 entries** (+1 since 2026-04-30). New addition: **CVE-2026-31431 Linux Kernel** (CWE: Incorrect Resource Transfer Between Spheres). Not HTTP-parsing-adjacent; not on watch list; no NP+DI flag.
-- **April 2026 KEV final = 31** (last addition was CVE-2026-41940 cPanel/WHM auth bypass on 2026-04-30; that one is HTTP-adjacent, CWE-class missing-auth, would clear NP+DI under the new auth-bypass widening — worth a follow-up).
-- **NVD May MTD = 268** through day 2 (extrapolated 4,154 for full month — well below April's 5,885 final, but day 2 is too early to extrapolate).
-- **Watch list status: 6/20 confirmed in KEV, 11/19 unconfirmed have PoC repos indexed in GitHub.** Two newly escalated to PoC: CVE-2026-5194 (wolfSSL cert validation, Claude-credited) and CVE-2026-20180 (Cisco ISE, OpenAI Codex-credited).
-
-### 6b. Glasswing / Mythos news
-
-- **No new Claude-credited CVEs since last refresh.** Glasswing total stays at 283 (Firefox 271, wolfSSL 9, F5 NGINX Plus 1, FreeBSD 1, OpenSSL 1). 6 Claude-credited CVEs unchanged.
-- **MFSA 2026-35 (Firefox 150.0.1) and MFSA 2026-37 (Firefox ESR 115.35.1) reviewed**; no new explicitly-Claude-credited CVEs surfaced. Mythos coverage stable.
-- **New AI-discovery non-Mythos signal:** **Wiz disclosed CVE-2026-3854 (GitHub Enterprise RCE)** found via "AI-augmented reverse engineering" using IDA MCP — *not* Mythos. The mythos-monitoring section flags this as a candidate for `glasswing_targets.ai_attributed_non_mythos_cves` pending more credit detail. **Recommendation for tomorrow's run:** check the Wiz blog post for explicit AI-tool attribution; if confirmed, add to `ai_attributed_non_mythos_cves` next to the Cisco-Codex cluster. The cross-vendor AI-discovery wave continues to broaden — IDA MCP, OpenAI Codex, and Mythos are now three distinct AI tools producing exploit-class CVEs in the same window.
-- **csoonline.com headline:** "Behind the Mythos hype, Glasswing has just one confirmed CVE." That's the FreeBSD CVE-2026-4747 the press is consistently treating as the single "confirmed Mythos find." The 5 Firefox MFSA-2026-30 attributions and the Bouncy Castle CVE-2026-5588 are not yet getting picked up in the popular reporting as Glasswing finds. Worth a one-paragraph correction in `glasswing.html` if that page hasn't already addressed it: 6 Claude-credited CVEs is the count, not 1.
-
-### 6c. Glasswing participant cross-check
-
-Ran new May 1–2 CVE candidates against the participants list (`AWS`, `Anthropic`, `Apple`, `Broadcom`, `Cisco`, `CrowdStrike`, `Google`, `Intel`, `JPMorganChase`, `Linux Foundation`, `Microsoft`, `Nvidia`, `Palo Alto Networks`):
-
-- **CVE-2026-31431 (Linux Kernel)** — `Linux Foundation` is a participant. Bug class is kernel (CWE class "Incorrect Resource Transfer Between Spheres" — privilege/sphere boundary), NOT HTTP-parsing-adjacent, so doesn't qualify under `probable_participant_cves` HTTP-adjacent criteria. Skip.
-- **CVE-2026-3854 (GitHub Enterprise via Wiz/IDA-MCP)** — `Microsoft` (GitHub parent) is a participant. AI-discovered. But the AI tool is explicitly IDA MCP, not Mythos. Goes in `ai_attributed_non_mythos_cves`, not `probable_participant_cves`. **Recommended for tomorrow:** add Wiz-IDA-MCP entry to `ai_attributed_non_mythos_cves` mirroring the Cisco-Codex schema.
-- **CVE-2026-41940 (cPanel/WHM)** — not a participant vendor.
-- **Spring AI cluster (CVE-2026-40966 / -40967 / -40978 / -40979 / -40980)** — Spring is `Broadcom`-owned (via VMware). HTTP-adjacent. No third-party credit visible yet. Pass 8 §5b flagged this as a probable-participant signal worth watching but not yet adding. Today's tracking shows them on the watch list (status: watching). **Status unchanged:** still suspect, still not enough to add to `probable_participant_cves`. Recommend tomorrow's run check for Spring/Pivotal/Broadcom AI-tool attribution; if any explicit Mythos connection appears in vendor advisories, escalate.
-
-### 6d. Today's tracker delta
-
-- **Live tracker `data/post-apr1-per-framework.json` snapshot_through:** 2026-05-01. So as of today's run, the tracker is one day behind. The daily refresh agent (`scripts/refresh_post_apr1.py`) should advance it on its 5:03 AM run. Not a problem yet; flag if still 2026-05-01 tomorrow.
-- **No post-freeze in-scope events yet.** Freeze counter remains 0/0/0/0/0/0 as expected.
-
-### 6e. Two small items for the next refresh agent run
-
-1. **Score the 5 `hacker: null` events in `data/post-apr1-per-framework.json`** (CVE-2026-39304 ActiveMQ pair — note: also need to check if these have been re-classified after disclosure, the broker/client pair sharing one CVE is unusual) — pass-8-style cleanup. The freeze policy needs every event to have a hacker tier so the rescue lane is properly scored.
-2. **Sync the watch-list KPI band on the dashboard** with today's `kev-tracking.json`: 5/19 → 6/20, with the 2-PoC-escalation breakdown. The KPI band is the most prospective-validation visible artifact on the dashboard; keeping it stale undercuts the freeze ledger story.
+What I'd change about the relationship: the walkthrough should be the canonical *what* + *why*, periodicity should be the canonical *how* + *receipts*. Right now both pages independently make the case; deduplicating is harder than it looks because each page has narrative momentum. But the explicit framing of "walkthrough = argument; periodicity = evidence" should be in the navigation copy and on the periodicity intro ("This page is the methodology and per-event detail behind the walkthrough's claims"). The periodicity page intro currently reads as if it's the primary analysis — both pages can't be primary.
 
 ---
 
-## Closing note
+## 3. Dashboard Updates
 
-The May-1 review's core asks were two: **freeze the DI CWE set with a public ledger, and reorder the walkthrough.** The first landed in 24 hours (with the live-tracker plumbing built around it). The second hasn't been done yet and remains the highest-leverage editing pass available. The freeze + live-tracker work is materially the strongest move the project has made — every reviewer concern about post-hoc fitting is now answered by a public counter. The remaining work splits into (a) finishing the agent prompts so the counter actually populates correctly, (b) the still-pending walkthrough reorder, and (c) closing the small captioning/disclosure asks on the dashboard so the empty tiles read as "this is initialized" rather than "this is broken."
+### What's working
 
-Net direction: project is in a tightening cycle, not a restructuring cycle. The freeze converted the strongest standing critique into the strongest forward-validation surface; the next 30 days of post-freeze events are now the most informative signal the project will produce.
+- **The 10/11 union-catch and the freeze counter are the right two hero items.** They land the discrimination story and the forward-validation policy in the first screen.
+- **The "Live tracker — April 1, 2026 forward" is exactly the right operational artifact.** It's the dashboard equivalent of the freeze counter — running ledger of how the model performed on this month's CVEs, with the "Other side of the argument" callout already built in. Keep this.
+- **The Java-only manifest-scope yellow callout** is the kind of honesty that should be on the periodicity page too (see §1.3 above).
+- **The "Three Response Lanes" card pattern** is the right summary of the walkthrough's §9 in dashboard form.
+
+### What to add
+
+1. **A "Strategy comparison at a glance" card** with the 4-row table from walkthrough §4f / periodicity §7 (NP+DI raw 5/11, +DQ 8/11, hacker 9/11, union 10/11). The dashboard has it as a wide table but it's buried under the periodicity-section heading. Promote to a small card near the hero KPI so the union/efficiency numbers are visible without scrolling.
+
+2. **A "WAF defensibility" small card** showing the 4 / 7 / 1 / 1 split (FRIENDLY / MEDIUM / HOSTILE / +pre-2018). One line of context. This is the third-axis finding from periodicity §8a/walkthrough §8a and it's not on the dashboard at all currently.
+
+3. **An EPSS marginal-cost summary card.** "EPSS ≥ 0.50 standalone: 21 patch events. Marginal on top of NP+DI+DQ: 1." That single comparison reframes EPSS faster than a chart can. Right now the dashboard has the EPSS chart but not the marginal-cost insight.
+
+4. **A "Confirmed exploit watch-list track record" KPI band** is partly there (5/19 promoted, 14 active, 0 false positives). Recommend adding lead-time-to-KEV as a fourth tile (already shown as ~4d). The Spring AI 5-CVE addition is worth calling out as the first prospective test for the auto-monitoring loop — that's a one-line note.
+
+### What's redundant or stale
+
+5. **The "Cross-Framework: All C/H Dates vs NP+DI Dates" chart and the "OS Container Privesc Accumulation" chart sit side-by-side in the same row.** They tell different stories — workload reduction vs blast-radius management — and putting them on the same row implies they're parallel measurements of the same thing. Recommend separating: cross-framework chart goes in the "12-month workload" section near the live tracker; chaining chart goes in a "blast radius / kill chain" section near the response lanes.
+
+6. **The Glasswing/Mythos card now points to a separate page**, which is correct, but the "Mythos intelligence assessment has been moved to a dedicated page" placeholder section eats vertical space without information. Replace with a 2-line summary: "Glasswing/Mythos: 283 vendor-attributed CVEs; 6 explicitly Claude-credited (CVE-2026-4747 FreeBSD NFS, CVE-2026-5194 wolfSSL, CVE-2026-5588 Bouncy Castle, CVE-2026-6746/-6757/-6758 Firefox 150)." Then the link.
+
+7. **The "Finance Sector KEV Blind Spots" details pane is a reasonable supplementary card** but it's inside the same `<details>` accordion as Reverse Proxy Defense-in-Depth. Both are walkthrough content, not dashboard content. Recommend collapsing to a single "Walkthrough sidelights" details accordion with both inside, or deleting from the dashboard entirely (they're available via index.html links).
+
+### Charts/tables that should move from periodicity → dashboard
+
+8. **The monthly heatmaps (Spring/Node/Django/Netty) on the periodicity page are dashboard material**, not walkthrough material. They visualize the burst-pattern claim better than any other chart on the site. Worth a "Monthly burst patterns" card with all four heatmaps in a 2×2 grid.
+
+9. **The strategy efficiency table from periodicity §7 is already on the dashboard** but the version on the dashboard cuts off the "Efficiency (overhead per exploit)" column in the snippet I read. Verify the column is there in production; if not, add it. This is the single line that converts "high catch rate" to "per-exploit overhead = 1.2× for hacker, 3.8× for NP+DI+DQ, 7.5× for patch-all" — that ratio is the operational sales pitch.
+
+---
+
+## 4. Cross-Page Architecture
+
+### Front door (recommendation for the new reader)
+
+Currently `index.html` is the canonical front door (sitemap + canonical URLs point at it). That's correct. But the "How to read this site" navigation table near the top is doing too many jobs. Recommend simplifying to three modes:
+
+| Want | Read |
+|------|------|
+| The argument | This page (walkthrough) |
+| The evidence | [Periodicity Analysis](periodicity.html) and [CVE Reference](cve-reference.html) |
+| The live ledger | [Dashboard](dashboard.html) |
+
+Everything else (Operational Model, Mythos, Evergreening, FOSS sub-7) becomes a "deeper reading" section below the table. The current 7-row table is already the right *content*, but it doesn't visually scaffold the reader's choice. The 3-row version sets up walkthrough → periodicity → dashboard as the canonical funnel, which is also the actual reading order.
+
+### Page roles, formalized
+
+- **`index.html`** — argument. Should make the case in 30 minutes of reading. Inlines the punchline numbers; links out for evidence depth.
+- **`periodicity.html`** — evidence and methodology. Should be the page a skeptical reviewer reads. Per-CVE detail, EPSS comparison, OS NVD-noise correction, WAF-defensibility tagging.
+- **`dashboard.html`** — live ledger. Daily-refreshed numbers, freeze counter, watch-list track record, monthly inbound. The argument-and-methodology pages are static-ish; this is the moving artifact.
+- **`cve-reference.html`** — auditable per-event source. Treated as the supplementary evidence appendix. Most readers won't open it; the ones who do are the ones who matter.
+- **`build-mechanics.html`** — operational play. The "what does this mean for how you actually run a portfolio" page. Cat 1/2/3 framing lives here canonically; walkthrough §9 is the digest.
+- **`glasswing.html`** — speculative AI-disclosure tracking. Clearly labeled as speculative and separated.
+- **`evergreen.html`** and **`foss-sub7.html`** — scratch / supplementary analyses. Should be one-click from index.html but not in the canonical reading path.
+- **`osv-exploitation.html`** — scratch analysis. Same as above.
+
+### Navigation top-bar
+
+The current `<nav class="page-nav">` lists Overview / Periodicity / Operational Model / Evergreening / Mythos / Dashboard / CVE Reference. That's seven items, which is the upper bound for a top nav. Recommend reordering to reflect the canonical reading path: **Overview → Periodicity → Dashboard → CVE Reference → Operational Model → Mythos → Evergreening**. The current order intersperses methodology and supplementary pages; the proposed order goes argument → evidence → live → audit → operational deepening → speculative.
+
+### Specific link-fixes I noticed
+
+- `docs/index.html` line 859 references `glasswing.html#today` — verify the anchor exists on the Mythos page; it's the live daily-run scorecard pointer.
+- The walkthrough's references to "the periodicity page" sometimes use `#strategy-efficiency`, `#tomcat-put-timeline`, `#chaining`, `#epss-comparison` — verify all four anchors exist in `periodicity.html`'s current state. (I confirmed `#tomcat-put-timeline` and `#epss-comparison` exist; the others I didn't grep specifically but the sidebar TOC suggests they do.)
+- The walkthrough's `cve-reference.html#cohort-12m` and `#cohort-7yr-manifest` deep-links match anchors that exist in `cve-reference.html`. Good.
+
+---
+
+## 5. Daily Scan (2026-05-03)
+
+**KEV.** Catalog version `2026.05.01`, total entries **1,587**. Seven new entries since last run:
+- 2026-05-01 — `CVE-2026-31431` Linux Kernel — incorrect resource transfer between spheres. **Out of NP+DI scope** (kernel privesc, not network parser); chaining/blast-radius category, not initial access. Hacker tier C.
+- 2026-04-30 — `CVE-2026-41940` cPanel & WHM / WP2 (WordPress Squared) — auth bypass on web admin interface. **NP+DI candidate** (web admin = NP, auth bypass via input manipulation = widened DI under CWE-287/289/306/863). Hacker A on default-config × edge × primitive-direct. Worth adding to the watch-list as a CONFIRMED hit if not already there.
+- 2026-04-28 — `CVE-2024-1708` ConnectWise ScreenConnect — path traversal (already on watch list, retro-listing).
+- 2026-04-28 — `CVE-2026-32202` Microsoft Windows Shell — protection mechanism failure (browser-delivered chain candidate, hacker A on client rubric).
+- 2026-04-24 — `CVE-2025-29635` D-Link DIR-823X — command injection (CWE-78, NP+DI structurally; networking appliance, not in our manifest scope).
+- 2026-04-24 — `CVE-2024-7399` Samsung MagicINFO 9 Server — path traversal (CWE-22, NP+DI structurally).
+- 2026-04-24 — `CVE-2024-57728` and `CVE-2024-57726` SimpleHelp — path traversal + missing authorization (CWE-22 + CWE-862, both NP+DI under widened set).
+
+**Glasswing/Mythos.** Total Mythos-attributed CVEs unchanged at **283** (Firefox 271, wolfSSL 9, F5 NGINX Plus 1, FreeBSD 1, OpenSSL 1). No new Claude-credited CVEs surfaced in the May web search. Six explicitly Claude-credited CVEs remain: `CVE-2026-4747`, `-5194`, `-5588`, `-6746`, `-6757`, `-6758`. Confirmed via flyingpenguin and TheNextWeb that only **3 of the Firefox 150 CVEs** carry the explicit "using Claude from Anthropic" credit string in MFSA 2026-30 — the other 268 are aggregated under the 271-found-in-one-eval-pass framing. Worth tightening the language on the Mythos page if it currently reads "271 Claude-credited" rather than "271 found in one Mythos eval pass, of which 3 carry explicit credit and 41 are CVE-tier" (per the existing CLAUDE.md guidance).
+
+**Glasswing participants cross-check.** Of today's 7 new KEV entries:
+- ConnectWise — not on participant list
+- cPanel/WP2 — not on participant list
+- Microsoft — **on participant list**, but Windows Shell CVE-2026-32202 has no Mythos attribution and pattern is consistent with traditional MSRC disclosure cadence (Patch Tuesday CVE)
+- D-Link, Samsung, SimpleHelp — not on participant list
+- Linux Foundation — **on participant list**; the kernel CVE has no Mythos attribution and is a typical kernel-LPE disclosure
+
+No fresh Mythos signal in today's KEV adds. Nothing rises to "probable participant" qualification under the 2026-04-29 calibration (participant vendor + HTTP-adjacent + no attacker exploitation + no third-party credit + automated-scan bug pattern).
+
+**April 2026 KEV entries: 31** (last run had 30; added one over the weekend — `CVE-2026-41940` cPanel on Apr 30). Watch list track record holds at **5/19 promoted, 0 false positives** if cPanel goes on the list as a same-day/next-day add.
+
+---
+
+## 6. TL;DR of recommendations
+
+1. **Walkthrough**: small surgery, not major. Move §6 (TTE) into the motivation; pull §7 (kill chain) next to §9 (operational); cut §2c (library denominator) and the firmware/IoT/non-Western bullets in §5; add a "validate this against your own portfolio" recipe and a "what this is NOT" scope card; promote the freeze-counter framing into the methodology section.
+2. **Periodicity page**: hard-cut the "zero misses on 12-month synthetic stacks" hero claim; soften the "leading indicator" paragraph; add manifest-provenance paragraph; replace Mythos-spike-attribution speculation with "interesting, watching"; fix the Node 1 vs Node 3 hacker-S+A inconsistency between §3 and §4.
+3. **Dashboard**: promote the strategy-efficiency table to a hero card; add a WAF-defensibility small card; add an EPSS-marginal-cost summary; separate cross-framework chart from chaining chart; replace the Mythos placeholder with a 2-line summary; move the monthly heatmaps over from the periodicity page.
+4. **Cross-page architecture**: simplify the "How to read this site" table to a 3-mode version (argument / evidence / live); reorder the top-nav to match the canonical reading path; formalize page roles in the nav copy.
+5. **Daily scan**: add cPanel `CVE-2026-41940` to the watch list as a CONFIRMED hit if not already; track the SimpleHelp twin as in-scope but out-of-manifest.
+
+The work that's been done since the brief was written has already moved the walkthrough most of the way to the right shape. The remaining gap is editorial discipline (deduplication, ordering, hard-cut some hero claims that don't survive the page's own caveats) rather than rebuilding.
